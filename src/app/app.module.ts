@@ -11,6 +11,7 @@ import {SharedModule} from './shared/shared.module';
 import {MenuItems} from './shared/menu-items/menu-items';
 import {BreadcrumbsComponent} from './layout/admin/breadcrumbs/breadcrumbs.component';
 import { MasterModule } from './master/master.module';
+import { MasterAuthComponent } from "../app/master/master-auth/master-auth.component";
 
 
 @NgModule({

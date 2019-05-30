@@ -6,10 +6,16 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./master-auth.component.scss']
 })
 export class MasterAuthComponent implements OnInit {
+  isMobile:boolean;
 
-  constructor() { }
+  constructor() { 
+    this.isMobile=false;
+  }
 
   ngOnInit() {
+    if (screen.width<780) {
+      this.isMobile=true;
+    }
   }
 
 }
