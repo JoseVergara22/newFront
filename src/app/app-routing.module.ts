@@ -1,19 +1,19 @@
-import { NgModule } from '@angular/core';
+import { NgModule, Component } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import {AdminComponent} from './layout/admin/admin.component';
 import {AuthComponent} from './layout/auth/auth.component';
-import { MasterAuthComponent } from "./master/master-auth/master-auth.component";
+import { MasterAuthComponent } from './master/master-auth/master-auth.component';
+import { MasterAdminComponent } from './master-layout/master-admin/master-admin.component';
+
 
 const routes: Routes = [
-  { 
-    
-
+  {
     path: '',
     component: AdminComponent,
     children: [
       {
         path: '',
-        redirectTo: 'dashboard/default',
+        redirectTo: '/masterauth',
         pathMatch: 'full'
       },
       {
@@ -99,16 +99,30 @@ const routes: Routes = [
         loadChildren: './theme/auth/auth.module#AuthModule'
       },
       {
-        path: 'master',
+        path: 'masterp',
         loadChildren: './master/master.module#MasterModule'
       },
       {
         path: 'maintenance/offline-ui',
         loadChildren: './theme/maintenance/offline-ui/offline-ui.module#OfflineUiModule'
+      },
+      {
+        path: 'masterauth',
+        component: MasterAuthComponent
       }
     ]
   },
-  {path: 'doLogin',component: MasterAuthComponent}
+  {
+    path: '',
+    component: MasterAdminComponent,
+    children: [
+      {
+        path: 'master',
+        loadChildren: './master/master.module#MasterModule'
+      }
+    ]
+  },
+  {path: 'doLogin', component: MasterAuthComponent}
 ];
 
 @NgModule({

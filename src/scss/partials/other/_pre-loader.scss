@@ -146,6 +146,7 @@
     left: calc(50% - 50px);
     animation: spin 1s linear infinite;
     margin: 0 auto;
+    background-color: #333;
 }
 
 #circle-loader2 {
@@ -184,7 +185,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    > div {
+    >div {
         margin: 2px;
         background-color: $primary-color;
         height: 10px;

@@ -1,0 +1,203 @@
+<div class="row">
+    <div class="col-sm-12">
+        <!-- <app-master-spinner></app-master-spinner>  -->
+        <!-- Basic Inputs Validation start -->
+
+
+
+        <app-card [title]="'Registro equipo'" [headerContent]="''" [cardOptionBlock]="true">
+
+
+            <div class="form-group row">
+                <div class="col-sm-6">
+                    <h6>Cliente<span style="color:red;">*</span></h6>
+                    <select class="form-control" name="select">
+                        <option value="2">Cliente1</option> 
+                         <option value="1">Cliente2</option>
+                       </select>
+                </div>
+
+                <div class="col-sm-6">
+                    <h6>Sucursal<span style="color:red;">*</span></h6>
+                    <select class="form-control" name="select">
+                         <option value="1">Sucursal1</option>
+                         <option value="2">Sucursal2</option>
+                       </select>
+                </div>
+            </div>
+            <br>
+            <h5>Información equipo </h5>
+            <br>
+            <div class="form-group row">
+                <div class="col-sm-4">
+                    <h6> Serie <span style="color:red;">*</span></h6>
+                    <input type="text" class="form-control" id="password">
+                </div>
+
+                <div class="col-sm-4">
+                    <h6> Descripción <span style="color:red;">*</span></h6>
+                    <input type="text" class="form-control" id="password">
+                </div>
+
+                <div class="col-sm-4">
+                    <h6>Marca<span style="color:red;">*</span></h6>
+                    <select class="form-control" name="select">
+                         <option value="1">MARCA1</option>
+                         <option value="2">MARCA2</option>
+                       </select>
+                </div>
+
+            </div>
+
+            <div class="form-group row">
+                <div class="col-sm-4">
+                    <h6>Modelo<span style="color:red;">*</span></h6>
+                    <select class="form-control" name="select">
+                         <option value="1">MODELO1</option>
+                         <option value="2">MODELO2</option>
+                       </select>
+                </div>
+
+                <div class="col-sm-4">
+                    <h6>Maquina<span style="color:red;">*</span></h6>
+                    <select class="form-control" name="select">
+                         <option value="1">MAQUINA1</option>
+                         <option value="2">MAQUINA2</option>
+                       </select>
+                </div>
+
+                <div class="col-sm-4">
+                    <h6>Combustible<span style="color:red;">*</span></h6>
+                    <select class="form-control" name="select">
+                         <option value="1">COMBUSTIBLE1</option>
+                         <option value="2">COMBUSTIBLE2</option>
+                       </select>
+                </div>
+
+            </div>
+
+            <div class="form-group row">
+
+
+                <div class="col-sm-4">
+                    <h6>Llantas<span style="color:red;">*</span></h6>
+                    <select class="form-control" name="select">
+                         <option value="1">LLANTAS1</option>
+                         <option value="2">LLANTAS2</option>
+                       </select>
+                </div>
+                <div class="col-sm-4">
+                    <h6> Llantas delanteras </h6>
+                    <input type="text" class="form-control" id="password">
+                </div>
+                <div class="col-sm-4">
+                    <h6> LLantas traseras </h6>
+                    <input type="text" class="form-control" id="password">
+                </div>
+
+            </div>
+            <div class="form-group row">
+                <div class="col-sm-4">
+                    <h6>Toneladas <span style="color:red;">*</span></h6>
+                    <input type="number" class="form-control" id="rpassword">
+                    <!-- <div class="messages text-danger" *ngIf="myForm.controls.rpassword.touched &&  !myForm.controls.rpassword.valid">Este campo es requerido</div>
+                    <div class="messages text-danger" *ngIf="myForm.controls.rpassword.errors?.equalTo">Las contraseñas no coinciden</div> -->
+                </div>
+                <div class="col-sm-4">
+                    <h6>Mastil izado</h6>
+                    <input type="number" class="form-control" id="rpassword">
+                    <!-- <div class="messages text-danger" *ngIf="myForm.controls.rpassword.touched &&  !myForm.controls.rpassword.valid">Este campo es requerido</div>
+                    <div class="messages text-danger" *ngIf="myForm.controls.rpassword.errors?.equalTo">Las contraseñas no coinciden</div> -->
+                </div>
+                <div class="col-sm-4">
+                    <h6>Mastil contraido</h6>
+                    <input type="number" class="form-control" id="rpassword">
+                    <!-- <div class="messages text-danger" *ngIf="myForm.controls.rpassword.touched &&  !myForm.controls.rpassword.valid">Este campo es requerido</div>
+                    <div class="messages text-danger" *ngIf="myForm.controls.rpassword.errors?.equalTo">Las contraseñas no coinciden</div> -->
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <div class="col-sm-4">
+                    <h6>H. inicial <span style="color:red;">*</span></h6>
+                    <input type="number" class="form-control" id="rpassword">
+                    <!-- <div class="messages text-danger" *ngIf="myForm.controls.rpassword.touched &&  !myForm.controls.rpassword.valid">Este campo es requerido</div>
+                    <div class="messages text-danger" *ngIf="myForm.controls.rpassword.errors?.equalTo">Las contraseñas no coinciden</div> -->
+                </div>
+                <div class="col-sm-4">
+                    <h6>H. actual <span style="color:red;">*</span></h6>
+                    <input type="number" class="form-control" id="rpassword">
+                    <!-- <div class="messages text-danger" *ngIf="myForm.controls.rpassword.touched &&  !myForm.controls.rpassword.valid">Este campo es requerido</div>
+                    <div class="messages text-danger" *ngIf="myForm.controls.rpassword.errors?.equalTo">Las contraseñas no coinciden</div> -->
+                </div>
+                <div class="col-sm-4">
+                    <h6>Rutina<span style="color:red;">*</span></h6>
+                    <select class="form-control" name="select">
+                         <option value="1">RUTINA1</option>
+                         <option value="2">RUTINA2</option>
+                       </select>
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-sm-4">
+                    <h6>Generar alarmas</h6>
+                    <ui-switch class="js-single" color="#4680ff" switchColor="#fff" size="medium" checked></ui-switch><br>
+                </div>
+                <div class="col-sm-4">
+                    <h6>Activo</h6>
+                    <ui-switch class="js-single" color="#4680ff" switchColor="#fff" size="medium" checked></ui-switch><br>
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-sm-12">
+                    <h6>Observación</h6>
+
+                    <textarea rows="5" cols="5" class="form-control"></textarea>
+
+                </div>
+            </div>
+            <br>
+
+            <div class="form-group row">
+
+                <div class="col-sm-12">
+                    <h6>Cargar imagen</h6>
+                    <input type="file" class="form-control">
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <div class="col-auto text-center">
+                    <img src="assets/images/blog/blog-r-1.jpg" alt="img" class="img-fluid img-100">
+                    <h6 class="m-t-15 m-b-0">Ejemplo</h6>
+                    <p class="text-muted m-b-0"><small>PNG-100KB</small></p>
+                </div>
+                <div class="col-auto text-center">
+                    <img src="assets/images/blog/blog-r-1.jpg" alt="img" class="img-fluid img-100">
+                    <h6 class="m-t-15 m-b-0">Ejemplo</h6>
+                    <p class="text-muted m-b-0"><small>PNG-100KB</small></p>
+                </div>
+                <div class="col-auto text-center">
+                    <img src="assets/images/blog/blog-r-1.jpg" alt="img" class="img-fluid img-100">
+                    <h6 class="m-t-15 m-b-0">Ejemplo</h6>
+                    <p class="text-muted m-b-0"><small>PNG-100KB</small></p>
+                </div>
+            </div>
+
+
+            <br>
+
+
+
+            <div class="form-group row ">
+                <div class="col-sm-12">
+
+                    <button type="submit " class="btn btn-primary m-b-0 ">Agregar Equipo</button>
+                </div>
+            </div>
+
+
+            <!--   <button type="button " class="btn btn-warning alert-confirm m-b-10 " (click)="openAjaxSwal() ">Confirm</button> -->
+        </app-card>
+    </div>
+</div>

@@ -1,0 +1,149 @@
+<div class="row">
+    <div class="col-sm-12">
+        <!-- <app-master-spinner></app-master-spinner>  -->
+        <!-- Basic Inputs Validation start -->
+
+
+
+        <app-card [title]="'Registrar usuario'" [headerContent]="''" [cardOptionBlock]="true">
+            <form [formGroup]="myForm" (ngSubmit)="sendUser()">
+                <div class="form-group row">
+
+                    <div class="col-sm-6">
+                        <h6>Nombre <span style="color:red;">*</span></h6>
+                        <input type="text" class="form-control" id="name" formControlName="name" [ngClass]="{ 'is-invalid': submitted && checkForm.name.errors }">
+                        <div *ngIf="submitted && checkForm.name.errors" class="invalid-feedback">
+                            <div class="messages text-danger" *ngIf="checkForm.name.errors.required">Este campo es requerido</div>
+                        </div>
+                        <!--      <div class="messages text-danger" *ngIf="myForm.controls.name.touched &&  !myForm.controls.name.valid">Este campo es requerido</div> -->
+                    </div>
+
+                    <div class="col-sm-6">
+                        <h6>Apellidos <span style="color:red;">*</span> </h6>
+                        <input type="text" class="form-control" id="lastname" formControlName="lastname" [ngClass]="{ 'is-invalid': submitted && checkForm.lastname.errors }">
+                        <div *ngIf="submitted && checkForm.lastname.errors" class="invalid-feedback">
+                            <div class="messages text-danger" *ngIf="checkForm.lastname.errors.required">Este campo es requerido</div>
+                        </div>
+                        <!--    <div class="messages text-danger" *ngIf="myForm.controls.lastname.touched &&  !myForm.controls.lastname.valid">Este campo es requerido</div>
+                        <div class="messages text-danger" *ngIf="myForm.controls.lastname.hasError('maxlength')">Este campo debe ser maximo 70 caracteres</div> -->
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <div class="col-sm-6">
+                        <h6>Correo Electrónico <span style="color:red;">*</span></h6>
+                        <input type="text" class="form-control" id="email" formControlName="email" [ngClass]="{ 'is-invalid': submitted && checkForm.email.errors }">
+
+                        <div *ngIf="submitted && checkForm.email.errors" class="invalid-feedback">
+                            <div class="messages text-danger" *ngIf="checkForm.email.errors.required">Este campo es requerido</div>
+                            <div class="messages text-danger" *ngIf="checkForm.email.errors.email">Debe ser un correo válido</div>
+                        </div>
+                        <!--     <div class="messages text-danger" *ngIf="myForm.controls.email.touched && !myForm.controls.email.valid">Este campo es requerido y debe ser un correo valido</div> -->
+
+                    </div>
+
+                    <div class="col-sm-6">
+                        <h6>Documento <span style="color:red;">*</span></h6>
+                        <input type="number" class="form-control" id="identification" formControlName="identification" [ngClass]="{ 'is-invalid': submitted && checkForm.identification.errors }">
+                        <div class="messages text-danger" *ngIf="myForm.controls.identification.touched &&  !myForm.controls.identification.valid">Este campo es requerido</div>
+                        <div *ngIf="submitted && checkForm.name.errors" class="invalid-feedback">
+                            <div class="messages text-danger" *ngIf="checkForm.email.errors.required">Este campo es requerido</div>
+                            <div class="messages text-danger" *ngIf="checkForm.email.errors.email">Debe ser un correo válido</div>
+                        </div>
+                    </div>
+
+
+                </div>
+                <div class="form-group row">
+                    <div class="col-sm-6">
+                        <h6>Usuario <span style="color:red;">*</span></h6>
+                        <input type="text" class="form-control" id="username" formControlName="username" [ngClass]="{ 'is-invalid': submitted && checkForm.username.errors }">
+                        <div *ngIf="submitted && checkForm.username.errors" class="invalid-feedback">
+                            <div class="messages text-danger" *ngIf="checkForm.username.errors.required">Este campo es requerido</div>
+                        </div>
+                        <!---       <div class="messages text-danger" *ngIf="myForm.controls.username.touched &&  !myForm.controls.username.valid">Este campo es requerido</div> -->
+                    </div>
+
+                    <div class="col-sm-6">
+                        <h6>Perfil <span style="color:red;">*</span></h6>
+                        <select name="select" class="form-control" formControlName="profile" [ngClass]="{ 'is-invalid': submitted && checkForm.profile.errors }">
+                             <!--  <option value="0" selected>Seleccionar perfil</option> -->
+                              <option value="1">GERENTE</option>
+                              <option value="2">GESTIÓN COMERCIAL</option>
+                              <option value="3">OPERACIONES</option>
+                              <option value="4">GESTIÓN HUMANA</option>
+                              <option value="5">DIGITADOR</option>
+                              <option value="6">EMPLEADO</option>
+                              <option value="7">TECNICO</option>
+                            </select>
+                        <!-- <div class="messages text-danger" *ngIf="errorProfile">Debes seleccionar un perfil</div> -->
+                        <div *ngIf="submitted && checkForm.profile.errors" class="invalid-feedback">
+                            <div class="messages text-danger" *ngIf="checkForm.profile.errors.required">Este campo es requerido</div>
+                        </div>
+                    </div>
+
+                </div>
+
+
+                <div class="form-group row">
+
+                    <div class="col-sm-6">
+                        <h6>Celular</h6>
+                        <input type="number" class="form-control" id="cellphone" formControlName="cellphone" [ngClass]="{ 'is-invalid': submitted && checkForm.cellphone.errors }">
+                        <div *ngIf="submitted && checkForm.cellphone.errors" class="invalid-feedback">
+                            <div class="messages text-danger" *ngIf="checkForm.cellphone.errors.required">Este campo es requerido</div>
+                        </div>
+                        <!-- <div class="messages text-danger" *ngIf="myForm.controls.cellphone.touched &&  !myForm.controls.cellphone.valid">Este campo es requerido</div> -->
+                    </div>
+                    <div class="col-sm-6">
+                        <h6>Telefono</h6>
+                        <input type="number" class="form-control" id="telephone" formControlName="telephone" [ngClass]="{ 'is-invalid': submitted && checkForm.telephone.errors }">
+                        <div *ngIf="submitted && checkForm.telephone.errors" class="invalid-feedback">
+                            <div class="messages text-danger" *ngIf="checkForm.telephone.errors.required">Este campo es requerido</div>
+                        </div>
+                        <!-- <div class="messages text-danger" *ngIf=" myForm.controls.telephone.touched && !myForm.controls.telephone.valid">Este campo es requerido</div> -->
+                    </div>
+                </div>
+                <div class="form-group row">
+
+                    <div class="col-sm-6">
+                        <h6>Contraseña <span style="color:red;">*</span></h6>
+                        <input type="password" class="form-control" id="password" formControlName="password" [ngClass]="{ 'is-invalid': submitted && checkForm.password.errors }">
+                        <div *ngIf="submitted && checkForm.password.errors" class="invalid-feedback">
+                            <div class="messages text-danger" *ngIf="checkForm.password.errors.required">Este campo es requerido</div>
+                            <div class="messages text-danger" *ngIf="checkForm.password.errors?.minlength">Este campo debe ser mínimo de 6 caracteres</div>
+                        </div>
+                        <!--  <div class="messages text-danger error" *ngIf="myForm.controls.password.touched &&  !myForm.controls.password.valid">Este campo es requerido</div> -->
+                    </div>
+                    <div class="col-sm-6">
+                        <h6>Confirmar Contraseña <span style="color:red;">*</span></h6>
+                        <input type="password" class="form-control" id="rpassword" formControlName="rpassword" [ngClass]="{ 'is-invalid': submitted && checkForm.rpassword.errors }">
+                        <div *ngIf="submitted && checkForm.rpassword.errors" class="invalid-feedback">
+                            <div class="messages text-danger" *ngIf="checkForm.rpassword.errors.required">Este campo es requerido</div>
+                            <div class="messages text-danger" *ngIf="checkForm.rpassword.errors?.equalTo">Las contraseñas no coinciden</div>
+                        </div>
+                        <!-- <div class="messages text-danger" *ngIf="myForm.controls.rpassword.touched &&  !myForm.controls.rpassword.valid">Este campo es requerido</div>
+                        <div class="messages text-danger" *ngIf="myForm.controls.rpassword.errors?.equalTo">Las contraseñas no coinciden</div> -->
+                    </div>
+
+                </div>
+
+                <div class="form-group row">
+                    <div class="col-sm-4">
+                        <h6>Activo</h6>
+                        <ui-switch class="js-single" color="#4680ff" switchColor="#fff" size="medium" checked></ui-switch><br>
+                    </div>
+                </div>
+
+                <div class="form-group row ">
+                    <div class="col-sm-10 ">
+                        <button type="submit " class="btn btn-primary m-b-0 ">Crear usuario</button>
+                    </div>
+                </div>
+            </form>
+
+            <!--   <button type="button " class="btn btn-warning alert-confirm m-b-10 " (click)="openAjaxSwal() ">Confirm</button> -->
+        </app-card>
+    </div>
+</div>
+

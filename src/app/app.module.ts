@@ -8,10 +8,14 @@ import { AdminComponent } from './layout/admin/admin.component';
 import { AuthComponent } from './layout/auth/auth.component';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {SharedModule} from './shared/shared.module';
-import {MenuItems} from './shared/menu-items/menu-items';
 import {BreadcrumbsComponent} from './layout/admin/breadcrumbs/breadcrumbs.component';
 import { MasterModule } from './master/master.module';
-import { MasterAuthComponent } from "../app/master/master-auth/master-auth.component";
+import { MasterAdminComponent } from './master-layout/master-admin/master-admin.component';
+import { MasterSharedModule } from './master-shared/master-shared.module';
+import {MenuItems} from './shared/menu-items/menu-items';
+import { MenuItemsMasterService } from './master-shared/menu-master/menu-items-master.service';
+// import { MasterNewsComponent } from './master/master-news/master-news.component';
+
 
 
 @NgModule({
@@ -19,16 +23,19 @@ import { MasterAuthComponent } from "../app/master/master-auth/master-auth.compo
     AppComponent,
     AdminComponent,
     AuthComponent,
-    BreadcrumbsComponent
+    BreadcrumbsComponent,
+    MasterAdminComponent,
+   // MasterNewsComponent
   ],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
     AppRoutingModule,
     SharedModule,
-    MasterModule
+    MasterModule,
+    MasterSharedModule
   ],
-  providers: [MenuItems],
+  providers: [MenuItems, MenuItemsMasterService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

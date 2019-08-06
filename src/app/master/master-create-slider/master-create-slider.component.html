@@ -1,0 +1,58 @@
+<div class="row">
+    <div class="col-sm-12">
+        <!-- <app-master-spinner></app-master-spinner>  -->
+        <!-- Basic Inputs Validation start -->
+
+
+
+        <app-card [title]="'Crear noticia'" [headerContent]="''" [cardOptionBlock]="true">
+            <form>
+                <div class="form-group row">
+
+
+                    <div class="col-sm-12">
+                        <h6> Titulo</h6>
+                        <input type="text" class="form-control">
+                    </div>
+
+                </div>
+                <div class="form-group row">
+                    <div class="col-auto text-center">
+                        <img src="assets/images/blog/blog-r-1.jpg" alt="img" class="img-fluid img-150">
+                        <h6 class="m-t-15 m-b-0">Ejemplo</h6>
+                        <p class="text-muted m-b-0"><small>PNG-100KB</small></p>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-sm-12">
+                        <h6> Cargar imagen </h6>
+
+                        <input type="file" class="form-control">
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <div class="col-sm-4">
+                        <h6>Activo</h6>
+                        <ui-switch class="js-single" color="#4680ff" switchColor="#fff" size="medium" checked></ui-switch><br>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+
+                    <div class="col-sm-12">
+                        <h6>Información</h6>
+                        <textarea rows="5" cols="5" class="form-control"></textarea>
+                    </div>
+                </div>
+                <div class="form-group row ">
+                    <div class="col-sm-12 ">
+                        <button type="submit " class="btn btn-primary m-b-0 ">Crear noticia</button>
+                    </div>
+                </div>
+            </form>
+
+            <!--   <button type="button " class="btn btn-warning alert-confirm m-b-10 " (click)="openAjaxSwal() ">Confirm</button> -->
+        </app-card>
+    </div>
+</div>
