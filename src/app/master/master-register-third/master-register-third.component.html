@@ -96,7 +96,7 @@
 
                 <div class="col-sm-4">
                     <h6>Departamento <span style="color:red;">*</span></h6>
-                    <select class="form-control" [(ngModel)]="opcionSeleccionado" (change)="getCities();"> 
+                    <select class="form-control" [(ngModel)]="opcionSeleccionado" (change)="getCities($event);"> 
                           
                         <option   *ngFor="let department of departments" [ngValue]="department"> {{department.name}}  </option>
                         <!--  <option value="0" selected>Seleccionar perfil</option> -->

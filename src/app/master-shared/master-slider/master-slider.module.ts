@@ -8,10 +8,10 @@ import 'hammerjs';
 @NgModule({
   imports: [
     CommonModule,
-    NgxCarouselModule,
-    MasterSharedModule
+    NgxCarouselModule
+  //  MasterSharedModule
   ],
-  declarations: [MasterSliderComponent]
+  declarations: []
 })
 export class MasterSliderModule { }
 
