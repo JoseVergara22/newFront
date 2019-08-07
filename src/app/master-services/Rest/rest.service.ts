@@ -43,7 +43,7 @@ return new Promise(resolve => {
         username: username,
         profile_id: profileId
       };
-this.http.post('http://localhost:8000/api/auth/signup', postParams)
+this.http.post('http://34.207.70.171/api/auth/signup', postParams)
 .map(res => res).subscribe(data => {
 resolve(data);
 }, error => {
@@ -69,7 +69,7 @@ createBrand(description: string,  status: number) {
           description: description,
           status: status
         };
-  this.http.post('http://localhost:8000/api/brands', postParams, httpOptions)
+  this.http.post('http://34.207.70.171/api/brands', postParams, httpOptions)
   .map(res => res).subscribe(data => {
 
   resolve(data);
@@ -96,7 +96,7 @@ createBrand(description: string,  status: number) {
                 description: description,
                 status: status
               };
-        this.http.patch('http://localhost:8000/api/brands/' + id, postParams, httpOptions)
+        this.http.patch('http://34.207.70.171/api/brands/' + id, postParams, httpOptions)
         .map(res => res).subscribe(data => {
         resolve(data);
         }, error => {
@@ -121,7 +121,7 @@ createBrand(description: string,  status: number) {
                       };
                       const postParams = {
                       };
-                this.http.delete('http://localhost:8000/api/brands/' + id, httpOptions)
+                this.http.delete('http://34.207.70.171/api/brands/' + id, httpOptions)
                 .map(res => res).subscribe(data => {
                 resolve(data);
                 }, error => {
@@ -146,7 +146,7 @@ headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user'))
                               description: description,
                               status: status
                             };
-                      this.http.post('http://localhost:8000/api/tyres', postParams, httpOptions)
+                      this.http.post('http://34.207.70.171/api/tyres', postParams, httpOptions)
                       .map(res => res).subscribe(data => {
                       resolve(data);
                       }, error => {
@@ -173,7 +173,7 @@ headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user'))
                                       description: description,
                                       status: status
                                     };
-                              this.http.patch('http://localhost:8000/api/tyres/' + id, postParams, httpOptions)
+                              this.http.patch('http://34.207.70.171/api/tyres/' + id, postParams, httpOptions)
                               .map(res => res).subscribe(data => {
                               resolve(data);
                               }, error => {
@@ -198,7 +198,7 @@ headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user'))
                                             };
                                             const postParams = {
                                             };
-                                      this.http.delete('http://localhost:8000/api/tyres/' + id, httpOptions)
+                                      this.http.delete('http://34.207.70.171/api/tyres/' + id, httpOptions)
                                       .map(res => res).subscribe(data => {
                                       resolve(data);
                                       }, error => {
@@ -226,7 +226,7 @@ headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user'))
                       brand_id: brand,
                       status: status
                     };
-              this.http.post('http://localhost:8000/api/models', postParams, httpOptions)
+              this.http.post('http://34.207.70.171/api/models', postParams, httpOptions)
               .map(res => res).subscribe(data => {
 
               resolve(data);
@@ -255,7 +255,7 @@ headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user'))
                               brand_id: brand,
                               status: status
                             };
-                      this.http.patch('http://localhost:8000/api/models/' + id, postParams, httpOptions)
+                      this.http.patch('http://34.207.70.171/api/models/' + id, postParams, httpOptions)
                       .map(res => res).subscribe(data => {
                       resolve(data);
                       }, error => {
@@ -281,7 +281,7 @@ headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user'))
                       type: type,
                       status: status
                     };
-              this.http.post('http://localhost:8000/api/fuels', postParams, httpOptions)
+              this.http.post('http://34.207.70.171/api/fuels', postParams, httpOptions)
               .map(res => res).subscribe(data => {
               resolve(data);
               }, error => {
@@ -309,7 +309,7 @@ headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user'))
                               type: type,
                               status: status
                             };
-                      this.http.patch('http://localhost:8000/api/fuels/' + id, postParams, httpOptions)
+                      this.http.patch('http://34.207.70.171/api/fuels/' + id, postParams, httpOptions)
                       .map(res => res).subscribe(data => {
                       resolve(data);
                       }, error => {
@@ -334,7 +334,7 @@ headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user'))
                                     };
                                     const postParams = {
                                     };
-                              this.http.delete('http://localhost:8000/api/fuels/' + id, httpOptions)
+                              this.http.delete('http://34.207.70.171/api/fuels/' + id, httpOptions)
                               .map(res => res).subscribe(data => {
                               resolve(data);
                               }, error => {
@@ -359,7 +359,7 @@ headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user'))
                                             };
                                             const postParams = {
                                             };
-                                      this.http.delete('http://localhost:8000/api/models/' + id, httpOptions)
+                                      this.http.delete('http://34.207.70.171/api/models/' + id, httpOptions)
                                       .map(res => res).subscribe(data => {
                                       resolve(data);
                                       }, error => {
@@ -385,7 +385,7 @@ headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user'))
                                                     description: description,
                                                     status: status
                                                   };
-                                            this.http.post('http://localhost:8000/api/machines', postParams, httpOptions)
+                                            this.http.post('http://34.207.70.171/api/machines', postParams, httpOptions)
                                             .map(res => res).subscribe(data => {
                                             resolve(data);
                                             }, error => {
@@ -411,7 +411,7 @@ headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user'))
                                                             description: description,
                                                             status: status
                                                           };
-                                                    this.http.patch('http://localhost:8000/api/machines/' + id, postParams, httpOptions)
+                                                    this.http.patch('http://34.207.70.171/api/machines/' + id, postParams, httpOptions)
                                                     .map(res => res).subscribe(data => {
                                                     resolve(data);
                                                     }, error => {
@@ -435,7 +435,7 @@ headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user'))
                                                                   };
                                                                   const postParams = {
                                                                   };
-                                                            this.http.delete('http://localhost:8000/api/machines/' + id, httpOptions)
+                                                            this.http.delete('http://34.207.70.171/api/machines/' + id, httpOptions)
                                                             .map(res => res).subscribe(data => {
                                                             resolve(data);
                                                             }, error => {
@@ -462,7 +462,7 @@ headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user'))
                                   day: day,
                                   status: status
                                 };
-                          this.http.post('http://localhost:8000/api/payment_conditions', postParams, httpOptions)
+                          this.http.post('http://34.207.70.171/api/payment_conditions', postParams, httpOptions)
                           .map(res => res).subscribe(data => {
                           resolve(data);
                           }, error => {
@@ -490,7 +490,7 @@ headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user'))
                                           days: days,
                                           status: status
                                         };
-                                  this.http.patch('http://localhost:8000/api/payment_conditions/' + id, postParams, httpOptions)
+                                  this.http.patch('http://34.207.70.171/api/payment_conditions/' + id, postParams, httpOptions)
                                   .map(res => res).subscribe(data => {
                                   resolve(data);
                                   }, error => {
@@ -515,7 +515,7 @@ headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user'))
                                                 };
                                                 const postParams = {
                                                 };
-                                          this.http.delete('http://localhost:8000/api/payment_conditions/' + id, httpOptions)
+                                          this.http.delete('http://34.207.70.171/api/payment_conditions/' + id, httpOptions)
                                           .map(res => res).subscribe(data => {
                                           resolve(data);
                                           }, error => {
@@ -538,7 +538,7 @@ headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user'))
                                           'Accept': 'application/json'
                                         })
                                       };
-                                this.http.get('http://localhost:8000/api/type_documents', httpOptions)
+                                this.http.get('http://34.207.70.171/api/type_documents', httpOptions)
                                 .map(res => res).subscribe(data => {
                                 console.log(data);
                                 resolve(data);
@@ -564,7 +564,7 @@ headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user'))
                                               description: description,
                                               status: status
                                             };
-                                      this.http.post('http://localhost:8000/api/type_documents', postParams, httpOptions)
+                                      this.http.post('http://34.207.70.171/api/type_documents', postParams, httpOptions)
                                       .map(res => res).subscribe(data => {
                                       resolve(data);
                                       }, error => {
@@ -591,7 +591,7 @@ headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user'))
                                                       description: description,
                                                       status: status
                                                     };
-                                              this.http.patch('http://localhost:8000/api/type_documents/' + id, postParams, httpOptions)
+                                              this.http.patch('http://34.207.70.171/api/type_documents/' + id, postParams, httpOptions)
                                               .map(res => res).subscribe(data => {
                                               resolve(data);
                                               }, error => {
@@ -615,7 +615,7 @@ headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user'))
                                                             };
                                                             const postParams = {
                                                             };
-                                                      this.http.delete('http://localhost:8000/api/type_documents/' + id, httpOptions)
+                                                      this.http.delete('http://34.207.70.171/api/type_documents/' + id, httpOptions)
                                                       .map(res => res).subscribe(data => {
                                                       resolve(data);
                                                       }, error => {
@@ -637,7 +637,7 @@ headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user'))
                                                 'Accept': 'application/json'
                                               })
                                             };
-                                      this.http.get('http://localhost:8000/api/departments', httpOptions)
+                                      this.http.get('http://34.207.70.171/api/departments', httpOptions)
                                       .map(res => res).subscribe(data => {
                                       console.log(data);
                                       resolve(data);
@@ -659,7 +659,7 @@ headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user'))
                                                       'Accept': 'application/json'
                                                     })
                                                   };
-                                            this.http.get('http://localhost:8000/api/cities/' + idDepartamento, httpOptions)
+                                            this.http.get('http://34.207.70.171/api/cities/' + idDepartamento, httpOptions)
                                             .map(res => res).subscribe(data => {
                                             console.log(data);
                                             resolve(data);
@@ -684,7 +684,7 @@ getPriceList() {
             'Accept': 'application/json'
           })
         };
-  this.http.get('http://localhost:8000/api/price_list', httpOptions)
+  this.http.get('http://34.207.70.171/api/price_list', httpOptions)
   .map(res => res).subscribe(data => {
   console.log(data);
   resolve(data);
@@ -708,7 +708,7 @@ getPriceList() {
                   'Accept': 'application/json'
                 })
               };
-        this.http.get('http://localhost:8000/api/brands', httpOptions)
+        this.http.get('http://34.207.70.171/api/brands', httpOptions)
         .map(res => res).subscribe(data => {
         console.log(data);
         resolve(data);
@@ -731,7 +731,7 @@ getPriceList() {
                         'Accept': 'application/json'
                       })
                     };
-              this.http.get('http://localhost:8000/api/fuels', httpOptions)
+              this.http.get('http://34.207.70.171/api/fuels', httpOptions)
               .map(res => res).subscribe(data => {
               console.log(data);
               resolve(data);
@@ -753,7 +753,7 @@ getPriceList() {
                               'Accept': 'application/json'
                             })
                           };
-                    this.http.get('http://localhost:8000/api/tyres', httpOptions)
+                    this.http.get('http://34.207.70.171/api/tyres', httpOptions)
                     .map(res => res).subscribe(data => {
                     console.log(data);
                     resolve(data);
@@ -775,7 +775,7 @@ getPriceList() {
                                     'Accept': 'application/json'
                                   })
                                 };
-                          this.http.get('http://localhost:8000/api/models', httpOptions)
+                          this.http.get('http://34.207.70.171/api/models', httpOptions)
                           .map(res => res).subscribe(data => {
                           console.log(data);
                           resolve(data);
@@ -801,7 +801,7 @@ getPriceList() {
                                                 'Accept': 'application/json'
                                               })
                                             };
-                                      this.http.get('http://localhost:8000/api/payment_conditions', httpOptions)
+                                      this.http.get('http://34.207.70.171/api/payment_conditions', httpOptions)
                                       .map(res => res).subscribe(data => {
                                       console.log(data);
                                       resolve(data);
@@ -825,7 +825,7 @@ getPriceList() {
          'Accept': 'application/json'
              })
               };
-                this.http.get('http://localhost:8000/api/machines', httpOptions)
+                this.http.get('http://34.207.70.171/api/machines', httpOptions)
                                                                               .map(res => res).subscribe(data => {
                                                                               console.log(data);
                                                                               resolve(data);
@@ -861,7 +861,7 @@ const postParams = {
        scope: '*'
      };
    //  alert (postParams.toString());
-     this.http.post('http://localhost:8000/oauth/token', postParams)
+     this.http.post('http://34.207.70.171/oauth/token', postParams)
        .map(res => res)
        .subscribe(data => {
          const ole =  data;
@@ -950,7 +950,7 @@ const postParams = {
       headers.append('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
       headers.append('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
       headers.append('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
-      return this.http.post('http://localhost:8000/api/registrar', params, {headers: headers});
+      return this.http.post('http://34.207.70.171/api/registrar', params, {headers: headers});
     } catch (error) {
       console.log(error);
     }

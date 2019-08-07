@@ -38,7 +38,7 @@ return new Promise(resolve => {
         username: username,
         profile_id: profileId
       };
-this.http.post('http://localhost:8000/api/auth/signup', postParams)
+this.http.post('http://34.207.70.171/api/auth/signup', postParams)
 .map(res => res).subscribe(data => {
 resolve(data);
 }, error => {
@@ -73,7 +73,7 @@ resolve(data);
              scope: '*'
            };
          //  alert (postParams.toString());
-           this.http.post('http://localhost:8000/oauth/token', postParams)
+           this.http.post('http://34.207.70.171/oauth/token', postParams)
              .map(res => res)
              .subscribe(data => {
                const ole =  data;
