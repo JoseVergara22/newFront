@@ -6,8 +6,36 @@ import * as S3 from 'aws-sdk/clients/s3';
 export class UploadService {
 
   constructor() { }
-
   uploadFile(file) {
+      return new Promise(resolve =>{
+        const contentType = file.type;
+        const bucket = new S3(
+              {
+                  accessKeyId: 'AKIAQTIVBK67FU3N4ZPV',
+                  secretAccessKey: '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',
+                  region: 'us-east-1'
+              }
+          );
+          const params = {
+              Bucket: 'masterforklift',
+              Key: 'forklift' + file.name,
+              Body: file,
+              ACL: 'public-read',
+              ContentType: contentType
+          };
+
+          bucket.upload(params).promise().then(resp=>{
+              console.log(resp);
+            resolve(resp);
+          }).catch(error => {
+      console.log(error);
+    });
+
+      })
+    
+     
+}
+ /* uploadFile(file) {
     const contentType = file.type;
     const bucket = new S3(
           {
@@ -42,6 +70,6 @@ export class UploadService {
           console.log('Successfully uploaded file.', data);
           return true;
       });*/
-}
+//}
 
 }

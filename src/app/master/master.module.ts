@@ -31,6 +31,7 @@ import {UiSwitchModule} from 'ng2-ui-switch';
 
 // Servicios
 import { UserService } from '../master-services/User/user.service';
+import { NewService } from '../master-services/new/new.service';
 import { RestService } from '../master-services/Rest/rest.service';
 import { UploadService } from '../master-services/services/upload.service';
 
@@ -68,6 +69,6 @@ import { UploadService } from '../master-services/services/upload.service';
     MasterBranchOfficeComponent,
     MasterForkliftComponent
   ],
-  providers: [RestService, UserService, UploadService]
+  providers: [RestService, UserService, UploadService,NewService]
 })
 export class MasterModule { }

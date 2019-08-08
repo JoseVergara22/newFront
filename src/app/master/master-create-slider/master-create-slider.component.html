@@ -6,53 +6,145 @@
 
 
         <app-card [title]="'Crear noticia'" [headerContent]="''" [cardOptionBlock]="true">
-            <form>
+            <form  [formGroup]="myForm" (ngSubmit)="createNew()" class="md-float-material">
                 <div class="form-group row">
 
 
                     <div class="col-sm-12">
                         <h6> Titulo</h6>
-                        <input type="text" class="form-control">
+                        <input type="text" class="form-control" [ngClass]="{ 'is-invalid': submitted && checkForm.title.errors }" id="title" formControlName="title">
                     </div>
 
                 </div>
-                <div class="form-group row">
-                    <div class="col-auto text-center">
-                        <img src="assets/images/blog/blog-r-1.jpg" alt="img" class="img-fluid img-150">
+                <div class="form-group row " >
+                    
+
+                    <div class="col-sm-12" *ngIf='imgURL==null'>
+                        <img src="assets/images/blog/blog-r-1.jpg" alt="img" class="img-150">
                         <h6 class="m-t-15 m-b-0">Ejemplo</h6>
-                        <p class="text-muted m-b-0"><small>PNG-100KB</small></p>
                     </div>
+
+                    <div class="col-sm-12" *ngIf='imgURL' >
+                            <img [src]="imgURL" alt="img" height="200" >
+                            <h6 class="m-t-15 m-b-0">imagen a subir</h6>
+                    </div>
+
                 </div>
                 <div class="form-group row">
-                    <div class="col-sm-12">
+                    <div class="col-sm-10">
                         <h6> Cargar imagen </h6>
-
-                        <input type="file" class="form-control">
+                        <input #file type="file" accept='image/*' class="form-control" [ngClass]="{ 'is-invalid': submitted && checkForm.image.errors }" (change)="preview(file.files,$event)"  id="image" formControlName="image" />
+                      
                     </div>
-                </div>
-
-                <div class="form-group row">
-                    <div class="col-sm-4">
+                    <div class="col-sm-2">
                         <h6>Activo</h6>
-                        <ui-switch class="js-single" color="#4680ff" switchColor="#fff" size="medium" checked></ui-switch><br>
+                        <ui-switch class="js-single" color="#4680ff" switchColor="#fff" size="medium" checked  id="active" formControlName="active" [ngClass]="{ 'is-invalid': submitted && checkForm.active.errors }"></ui-switch><br>
                     </div>
                 </div>
 
                 <div class="form-group row">
-
+                        <div class="col-sm-12">
+                                <h6>Sub Titulo</h6>
+                                <input type="text" class="form-control" [ngClass]="{ 'is-invalid': submitted && checkForm.title.errors }" id="subtitle" formControlName="subtitle">
+                            </div>
                     <div class="col-sm-12">
                         <h6>Información</h6>
-                        <textarea rows="5" cols="5" class="form-control"></textarea>
+                        <textarea rows="5" cols="5" class="form-control" [ngClass]="{ 'is-invalid': submitted && checkForm.description.errors }"  id="description" formControlName="description" ></textarea>
                     </div>
                 </div>
                 <div class="form-group row ">
                     <div class="col-sm-12 ">
-                        <button type="submit " class="btn btn-primary m-b-0 ">Crear noticia</button>
+                        <button type="submit " class="btn btn-primary m-b-0 col-sm-12">Crear noticia</button>
                     </div>
+                    <button type="button" style="display:none;" id="uploadNew" class="btn btn-primary waves-effect" (click)="modalUpdateNew.show()">Actualizar Noticia</button>
+                    <button type="button" class="btn btn-default waves-effect" id="updateNewHide" (click)="modalUpdateNew.hide()">Cancelar</button>
                 </div>
             </form>
 
             <!--   <button type="button " class="btn btn-warning alert-confirm m-b-10 " (click)="openAjaxSwal() ">Confirm</button> -->
         </app-card>
+
+    <app-card [title]="'Administrar noticia'" [headerContent]="''" [cardOptionBlock]="true">
+        <ngx-datatable #table class="data-table" [rows]="rowsClientN" [columns]="[{name:'Titulo', prop:'title'},{name:'Subtitulo', prop:'subtitle'},
+        {name:'Texto', prop:'text'},{prop:'id'}]" [columnMode]="'force'" [headerHeight]="50" [footerHeight]="50" [rowHeight]="'auto'" [limit]="5">
+
+                <ngx-datatable-column [resizeable]="false" name="Titulo" [sortable]="false" [draggable]="false" prop="title"></ngx-datatable-column>
+                <ngx-datatable-column [resizeable]="false" name="Subtitulo" [sortable]="false" [draggable]="false" prop="subtitle"></ngx-datatable-column>
+                <ngx-datatable-column [resizeable]="false" name="Texto" [sortable]="false" [draggable]="false" prop="text"></ngx-datatable-column>
+                <ngx-datatable-column [resizeable]="false" name="Estado" [sortable]="false" [draggable]="false" prop="status">
+                    <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+                        <label (click)="blockAgents(value)" class="label label-md label-primary" *ngIf="value==1">Activo</label>
+                        <label class="label label-md label-danger" *ngIf="value==0">Inactivo</label>
+                    </ng-template>
+                </ngx-datatable-column>
+                <ngx-datatable-column [resizeable]="false" name="Acciones" [sortable]="false" [draggable]="false" sortable="false" prop="id">
+                    <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+                        <button class="btn btn-primary btn-icon" (click)="showUpdateNew(row)"><i class="icofont icofont-pencil-alt-5"></i></button>
+                        <button  class="btn btn-danger btn-icon" (click)="deleteNew(row)"><i class="icofont icofont-ui-delete"></i></button>
+                    </ng-template>
+                </ngx-datatable-column>
+        </ngx-datatable>
+    </app-card>
     </div>
+
+    <app-modal-basic #modalUpdateNew [dialogClass]="'modal-lg'">
+            <div class="app-modal-header">
+                <h4 class="modal-title">Actualizar noticia</h4>
+            </div>
+            <div *ngIf="currentBrand" class="app-modal-body">
+                    <form  [formGroup]="myFormUpdate" (ngSubmit)="updateNew()" class="md-float-material">
+                            <div class="form-group row">
+            
+            
+                                <div class="col-sm-12">
+                                    <h6> Titulo</h6>
+                                    <input type="text" class="form-control" [ngClass]="{ 'is-invalid': submitted && checkForm.title.errors }" id="titleUpdate" formControlName="titleUpdate">
+                                </div>
+            
+                            </div>
+                            <div class="form-group row " >
+                                
+            
+                                <div class="col-sm-12" *ngIf='imgURL==null'>
+                                    <img src="assets/images/blog/blog-r-1.jpg" alt="img" class="img-150">
+                                    <h6 class="m-t-15 m-b-0">Ejemplo</h6>
+                                </div>
+            
+                                <div class="col-sm-12" *ngIf='imgURL' >
+                                        <img [src]="imgURL" alt="img" height="200" >
+                                        <h6 class="m-t-15 m-b-0">imagen a subir</h6>
+                                </div>
+            
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-sm-10">
+                                    <h6> Cargar imagen </h6>
+                                    <input #file type="file" accept='image/*' class="form-control" [ngClass]="{ 'is-invalid': submitted && checkForm.image.errors }" (change)="preview(file.files,$event)"  id="imageUpdate" formControlName="imageUpdate" />
+                                  
+                                </div>
+                                <div class="col-sm-2">
+                                    <h6>Activo</h6>
+                                    <ui-switch class="js-single" color="#4680ff" switchColor="#fff" size="medium" checked  id="activeUpdate" formControlName="activeUpdate" [ngClass]="{ 'is-invalid': submitted && checkForm.active.errors }"></ui-switch><br>
+                                </div>
+                            </div>
+            
+                            <div class="form-group row">
+                                    <div class="col-sm-12">
+                                            <h6>Sub Titulo</h6>
+                                            <input type="text" class="form-control" [ngClass]="{ 'is-invalid': submitted && checkForm.title.errors }" id="subtitleUpdate" formControlName="subtitleUpdate">
+                                        </div>
+                                <div class="col-sm-12">
+                                    <h6>Información</h6>
+                                    <textarea rows="5" cols="5" class="form-control" [ngClass]="{ 'is-invalid': submitted && checkForm.description.errors }"  id="descriptionUpdate" formControlName="descriptionUpdate" ></textarea>
+                                </div>
+                            </div>
+                            <div class="form-group row ">
+                                <div class="col-sm-12 ">
+                                    <button type="submit " class="btn btn-primary m-b-0 ">Actualizar noticia</button>
+                                </div>
+                            </div>
+                        </form>
+            </div>
+        </app-modal-basic>
+        
 </div>
