@@ -18,13 +18,16 @@ export class MasterCreateSliderComponent implements OnInit {
 
   imgURL: any;
   public imagePath;
+  public newImagePath;
   myForm: FormGroup;
   public message: string;
+  public newMessage: string;
   submitted = false;
   newinfo :any;
   imageinfo:any;
   s3info:any;
   selectedFiles: FileList;
+  newSelectedFiles: FileList;
   rowsClientN: any;
   rowsTempN: any;
   rowStaticN: any;
@@ -34,8 +37,9 @@ export class MasterCreateSliderComponent implements OnInit {
   currentBrand:any;
   myFormUpdate: FormGroup;
   elementDelete: any;
+  lastimage:any;
   enabledUpdated = false;
-
+  newImgURL: any;
   constructor(private newsevice: NewService, 
               private router: Router,
               private uploadService: UploadService) {
@@ -147,6 +151,73 @@ export class MasterCreateSliderComponent implements OnInit {
     });
     }
 
+    async updateImage() {
+      const file = this.newSelectedFiles.item(0);
+      const uuid = UUID.UUID();
+      console.log(uuid);
+      console.log(file.name + '' + file.type);
+      const extension = (file.name.substring(file.name.lastIndexOf('.'))).toLowerCase();
+      console.log(extension);
+      this.uploadService.uploadFile(file).then(res=>{
+        console.log('s3info'+JSON.stringify(res));
+        this.s3info=res;
+        console.log(this.s3info);
+        this.updateImagedb();
+      }).catch(error=> {
+        console.log(error);
+        swal({
+          type: 'error',
+          title: 'oops a currido un error',
+          text:'se ha presentado un error al subir la imagen',
+          allowOutsideClick: false
+        });
+      });
+      }
+
+      updateImagedb(){
+        console.log(
+          'id_new:'+this.currentBrand.id,'url:'+this.s3info.Location,'name:'+this.s3info.ETag,
+          'bucked:'+this.s3info.Bucket,'description:'+this.s3info.Location);
+         console.log(localStorage.getItem('token'));
+        this.newsevice.updateImage(this.currentBrand.image_id,this.currentBrand.id,this.s3info.Location,this.s3info.ETag,this.s3info.Bucket,this.s3info.Location)
+        .then(resp=>{
+          this.imageinfo=resp;
+          if (this.imageinfo.success==true) {
+            console.log(resp);
+            console.log('se inserto correctamente');
+            document.getElementById( 'updateNewHide').click();
+            swal.close();
+            swal({
+              type: 'success',
+              title: 'Se ha guardado la noticia',
+              text:'la noticia ha guardado correctamente',
+              allowOutsideClick: false
+            });
+          } else {
+            console.log(resp);
+            document.getElementById( 'updateNewHide').click();
+            console.log('ocurrio un error');
+            swal.close();
+            swal({
+              type: 'error',
+              title: 'oops a currido un error',
+              text:'se ha presentado un error al guardar la imagen',
+              allowOutsideClick: false
+            });
+          }
+        }).catch(error=> {
+          console.log(error);
+          document.getElementById( 'updateNewHide').click();
+          swal.close();
+          swal({
+            type: 'error',
+            title: 'oops a currido un error',
+            text:'se ha presentado un error al guardar la imagen',
+            allowOutsideClick: false
+          });
+        });
+      }
+
     insertNew(){
       console.log(localStorage.getItem('token'));
       console.log(
@@ -246,6 +317,29 @@ export class MasterCreateSliderComponent implements OnInit {
     }
   }
 
+  newPreview(files,event) {
+    if (files.length === 0) {
+      return console.log('no image');
+    }
+  
+  
+    const mimeType = files[0].type;
+    if (mimeType.match(/image\/*/) == null) {
+      this.newMessage = 'Only images are supported.';
+      return;
+    }
+
+    this.newSelectedFiles = event.target.files;
+    console.log(this.newSelectedFiles);
+
+    const reader = new FileReader();
+    this.newImagePath = files;
+    reader.readAsDataURL(files[0]); 
+    reader.onload = (_event) => { 
+      this.newImgURL = reader.result;
+    }
+  }
+
   get checkForm() { return this.myForm.controls; }
 
   createNew() {
@@ -255,6 +349,7 @@ export class MasterCreateSliderComponent implements OnInit {
     if ( !this.myForm.invalid) {
       this.upload();
      } else {
+      document.getElementById( 'updateNewHide').click();
       swal.close();
       swal({
         title: 'alerta',
@@ -265,8 +360,11 @@ export class MasterCreateSliderComponent implements OnInit {
    }
 
    showUpdateNew(brand) {
+    this.newImgURL=null;
     console.log(brand);
     this.currentBrand = brand;
+    this.lastimage=this.currentBrand.image_url;
+    console.log(this.lastimage);
     console.log( this.currentBrand );
     this.myFormUpdate.get('titleUpdate').setValue(brand.title);
     this.myFormUpdate.get('subtitleUpdate').setValue(brand.subtitle);
@@ -353,28 +451,45 @@ export class MasterCreateSliderComponent implements OnInit {
     'status:'+this.myFormUpdate.controls.activeUpdate.value);
     this.newsevice.updateNew(Number(this.currentBrand.id), this.myFormUpdate.controls.titleUpdate.value,this.myFormUpdate.controls.subtitleUpdate.value,this.myFormUpdate.controls.descriptionUpdate.value,this.myFormUpdate.controls.activeUpdate.value)
     .then(data => {
-      const resp: any = data;
-      console.log(resp);
-      if (resp.success === false) {
-        swal.close();
-        swal({
-          title: 'oops ocurrio un error al actualizar',
-          text: 'Esta marca no se puede actualizar',
-          type: 'error'
-         });
+
+      if (this.newImgURL==null) {
+
+        console.log('entra a actualizar imagen');
+        const resp: any = data;
+        console.log(resp);
+        if (resp.success === false) {
+          document.getElementById( 'updateNewHide').click();
+          swal.close();
+          swal({
+            title: 'oops ocurrio un error al actualizar',
+            text: 'Esta noticia no se puede actualizar',
+            type: 'error'
+           });
+        } else { 
+          document.getElementById( 'updateNewHide').click();
+          swal.close();
+       // this.router.navigateByUrl('master/registerBrand');
+       document.getElementById( 'updateNewHide').click();
+       swal({
+        title: 'Noticia actualizada',
+        type: 'success'
+       });
+      }
+
       } else {
-        swal.close();
-     // this.router.navigateByUrl('master/registerBrand');
-     document.getElementById( 'updateNewHide').click();
-     this.loadingData();
-     swal({
-      title: 'Marca actualizada',
-      type: 'success'
-     });
-    }
+
+        this.updateImage();
+      }
+
     }).catch(error => {
+      document.getElementById( 'updateNewHide').click();
       swal.close();
       console.log(error);
+      swal({
+        title: 'oops ocurrio un error al actualizar',
+        text: 'Esta noticia no se puede actualizar',
+        type: 'error'
+       });
     });
     }
   }

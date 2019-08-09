@@ -213,5 +213,40 @@ export class NewService {
                 });
               });
                   }
+
+        updateImage(
+          image_id:number,
+          news_id: number,
+          url: string,
+          name: string,
+          bucket_name:string,
+          description: string){
+          console.log(status);
+          return new Promise(resolve => {
+            const headers = new HttpHeaders();
+            headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user'))); // 'Bearer ' +
+            headers.append('Content-Type', 'application/json');
+            const httpOptions = {
+              headers: new HttpHeaders({
+                'Content-Type':  'application/json',
+                'Authorization': 'Bearer ' + localStorage.getItem('token_user'),
+                'Accept': 'application/json'
+              })
+            };
+                  const postParams = {
+                    news_id: news_id,
+                    url: url,
+                    bucket_name:bucket_name,
+                    name: name,
+                    description: description
+                  };
+            this.http.patch('http://34.207.70.171/api/image_news/' + image_id, postParams, httpOptions)
+            .map(res => res).subscribe(data => {
+            resolve(data);
+            }, error => {
+                      resolve(error);
+              });
+            });
+                }
 }
 
