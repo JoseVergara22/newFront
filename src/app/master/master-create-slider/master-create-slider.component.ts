@@ -34,7 +34,7 @@ export class MasterCreateSliderComponent implements OnInit {
   rowsClientI: any;
   rowsTempI: any;
   rowStaticI: any;
-  currentBrand:any;
+  currentNew:any;
   myFormUpdate: FormGroup;
   elementDelete: any;
   lastimage:any;
@@ -44,11 +44,6 @@ export class MasterCreateSliderComponent implements OnInit {
               private router: Router,
               private uploadService: UploadService) {
     this.loadingData();
-    const titleUpdate = new FormControl('', Validators.required);
-    const subtitleUpdate = new FormControl('', Validators.required);
-    const imageUpdate = new FormControl('', Validators.required);
-    const activeUpdate = new FormControl(true);
-    const descriptionUpdate = new FormControl('', Validators.required);
 
     const title = new FormControl('', Validators.required);
     const subtitle = new FormControl('', Validators.required);
@@ -63,6 +58,13 @@ export class MasterCreateSliderComponent implements OnInit {
       image:image,
       active:active
     });
+
+    const titleUpdate = new FormControl('', Validators.required);
+    const subtitleUpdate = new FormControl('', Validators.required);
+    const imageUpdate = new FormControl();
+    const activeUpdate = new FormControl(true);
+    const descriptionUpdate = new FormControl('', Validators.required);
+
 
     this.myFormUpdate = new FormGroup({
       titleUpdate: titleUpdate,
@@ -150,73 +152,6 @@ export class MasterCreateSliderComponent implements OnInit {
       });
     });
     }
-
-    async updateImage() {
-      const file = this.newSelectedFiles.item(0);
-      const uuid = UUID.UUID();
-      console.log(uuid);
-      console.log(file.name + '' + file.type);
-      const extension = (file.name.substring(file.name.lastIndexOf('.'))).toLowerCase();
-      console.log(extension);
-      this.uploadService.uploadFile(file).then(res=>{
-        console.log('s3info'+JSON.stringify(res));
-        this.s3info=res;
-        console.log(this.s3info);
-        this.updateImagedb();
-      }).catch(error=> {
-        console.log(error);
-        swal({
-          type: 'error',
-          title: 'oops a currido un error',
-          text:'se ha presentado un error al subir la imagen',
-          allowOutsideClick: false
-        });
-      });
-      }
-
-      updateImagedb(){
-        console.log(
-          'id_new:'+this.currentBrand.id,'url:'+this.s3info.Location,'name:'+this.s3info.ETag,
-          'bucked:'+this.s3info.Bucket,'description:'+this.s3info.Location);
-         console.log(localStorage.getItem('token'));
-        this.newsevice.updateImage(this.currentBrand.image_id,this.currentBrand.id,this.s3info.Location,this.s3info.ETag,this.s3info.Bucket,this.s3info.Location)
-        .then(resp=>{
-          this.imageinfo=resp;
-          if (this.imageinfo.success==true) {
-            console.log(resp);
-            console.log('se inserto correctamente');
-            document.getElementById( 'updateNewHide').click();
-            swal.close();
-            swal({
-              type: 'success',
-              title: 'Se ha guardado la noticia',
-              text:'la noticia ha guardado correctamente',
-              allowOutsideClick: false
-            });
-          } else {
-            console.log(resp);
-            document.getElementById( 'updateNewHide').click();
-            console.log('ocurrio un error');
-            swal.close();
-            swal({
-              type: 'error',
-              title: 'oops a currido un error',
-              text:'se ha presentado un error al guardar la imagen',
-              allowOutsideClick: false
-            });
-          }
-        }).catch(error=> {
-          console.log(error);
-          document.getElementById( 'updateNewHide').click();
-          swal.close();
-          swal({
-            type: 'error',
-            title: 'oops a currido un error',
-            text:'se ha presentado un error al guardar la imagen',
-            allowOutsideClick: false
-          });
-        });
-      }
 
     insertNew(){
       console.log(localStorage.getItem('token'));
@@ -358,20 +293,69 @@ export class MasterCreateSliderComponent implements OnInit {
       });
      }
    }
+   
+   deleteNew(row: any) {
+     swal({
+       title: 'Estás seguro de eliminar este elemento?',
+       type: 'warning',
+       showCancelButton: true,
+       showConfirmButton: true,
+       cancelButtonText: 'No',
+       confirmButtonText: 'Si'
+ 
+     })
+     .then((willDelete) => {
+       swal.showLoading();
+         if (willDelete.value) {
+           this.elementDelete = row;
+           console.log(row);
+           console.log( this.elementDelete);
+           this.newsevice.deleteNew(Number(this.elementDelete.id))
+           .then(data => {
+             swal.showLoading();
+             const resp: any = data;
+             console.log(resp);
+ 
+             if (resp.success === false) {
+               swal({
+                 title: 'Esta noticia presenta problemas',
+                 text: 'Esta noticia no se puede eliminar',
+                 type: 'error'
+                });
+             } else {
+            this.loadingData();
+            swal({
+             title: 'noticia eliminada',
+             type: 'success'
+            });
+           }
+           }).catch(error => {
+             console.log(error);
+           });
+           console.log(this.elementDelete.id);
+         } else {
+          // swal('Fail');
+         }
+       console.log(willDelete);
+     });
+   }
+ 
 
-   showUpdateNew(brand) {
+   get checkFormUpdate() { return this.myFormUpdate.controls; }
+
+   showUpdateNew(row) {
     this.newImgURL=null;
-    console.log(brand);
-    this.currentBrand = brand;
-    this.lastimage=this.currentBrand.image_url;
+    console.log(row);
+    this.currentNew = row;
+    this.lastimage=this.currentNew.image_url;
     console.log(this.lastimage);
-    console.log( this.currentBrand );
-    this.myFormUpdate.get('titleUpdate').setValue(brand.title);
-    this.myFormUpdate.get('subtitleUpdate').setValue(brand.subtitle);
-    this.myFormUpdate.get('descriptionUpdate').setValue(brand.text);
-    this.myFormUpdate.get('imageUpdate').setValue(brand.image);
-    this.myFormUpdate.get('activeUpdate').setValue(brand.status);
-    if (this.currentBrand.status === '0') {
+    console.log( this.currentNew );
+    this.myFormUpdate.get('titleUpdate').setValue(row.title);
+    this.myFormUpdate.get('subtitleUpdate').setValue(row.subtitle);
+    this.myFormUpdate.get('descriptionUpdate').setValue(row.text);
+    this.myFormUpdate.get('imageUpdate').setValue(row.image);
+    this.myFormUpdate.get('activeUpdate').setValue(row.status);
+    if (this.currentNew.status === '0') {
       this.enabledUpdated = true;
     } else {
       this.enabledUpdated = false;
@@ -379,52 +363,6 @@ export class MasterCreateSliderComponent implements OnInit {
   
     document.getElementById( 'uploadNew').click();
   
-  }
-
-  deleteNew(brand: any) {
-    swal({
-      title: 'Estás seguro de eliminar este elemento?',
-      type: 'warning',
-      showCancelButton: true,
-      showConfirmButton: true,
-      cancelButtonText: 'No',
-      confirmButtonText: 'Si'
-
-    })
-    .then((willDelete) => {
-      swal.showLoading();
-        if (willDelete.value) {
-          this.elementDelete = brand;
-          console.log(brand);
-          console.log( this.elementDelete);
-          this.newsevice.deleteNew(Number(this.elementDelete.id))
-          .then(data => {
-            swal.showLoading();
-            const resp: any = data;
-            console.log(resp);
-
-            if (resp.success === false) {
-              swal({
-                title: 'Esta noticia presenta problemas',
-                text: 'Esta noticia no se puede eliminar',
-                type: 'error'
-               });
-            } else {
-           this.loadingData();
-           swal({
-            title: 'noticia eliminada',
-            type: 'success'
-           });
-          }
-          }).catch(error => {
-            console.log(error);
-          });
-          console.log(this.elementDelete.id);
-        } else {
-         // swal('Fail');
-        }
-      console.log(willDelete);
-    });
   }
 
   updateNew() {
@@ -444,12 +382,12 @@ export class MasterCreateSliderComponent implements OnInit {
     } else {
       statusTemp = 1;
     }
-    console.log('id'+this.currentBrand.id,
+    console.log('id'+this.currentNew.id,
     'titulo:'+this.myFormUpdate.controls.titleUpdate.value,
     'subtitulo:'+this.myFormUpdate.controls.subtitleUpdate.value,
     'text:'+this.myFormUpdate.controls.descriptionUpdate.value,
     'status:'+this.myFormUpdate.controls.activeUpdate.value);
-    this.newsevice.updateNew(Number(this.currentBrand.id), this.myFormUpdate.controls.titleUpdate.value,this.myFormUpdate.controls.subtitleUpdate.value,this.myFormUpdate.controls.descriptionUpdate.value,this.myFormUpdate.controls.activeUpdate.value)
+    this.newsevice.updateNew(Number(this.currentNew.id), this.myFormUpdate.controls.titleUpdate.value,this.myFormUpdate.controls.subtitleUpdate.value,this.myFormUpdate.controls.descriptionUpdate.value,this.myFormUpdate.controls.activeUpdate.value)
     .then(data => {
 
       if (this.newImgURL==null) {
@@ -474,6 +412,7 @@ export class MasterCreateSliderComponent implements OnInit {
         title: 'Noticia actualizada',
         type: 'success'
        });
+        this.router.navigateByUrl('createSlider');
       }
 
       } else {
@@ -491,7 +430,82 @@ export class MasterCreateSliderComponent implements OnInit {
         type: 'error'
        });
     });
+    }else{
+      swal({
+        title: 'Debe actualizar por lo menos un campo',
+        type: 'error'
+       });
     }
   }
+
+  updateImagedb(){
+    console.log(
+      'id_new:'+this.currentNew.id,'url:'+this.s3info.Location,'name:'+this.s3info.ETag,
+      'bucked:'+this.s3info.Bucket,'description:'+this.s3info.Location);
+     console.log(localStorage.getItem('token'));
+    this.newsevice.updateImage(this.currentNew.image_id,this.currentNew.id,this.s3info.Location,this.s3info.ETag,this.s3info.Bucket,this.s3info.Location)
+    .then(resp=>{
+      this.imageinfo=resp;
+      if (this.imageinfo.success==true) {
+        console.log(resp);
+        console.log('se inserto correctamente');
+        document.getElementById( 'updateNewHide').click();
+        swal.close();
+        swal({
+          type: 'success',
+          title: 'Se ha guardado la noticia',
+          text:'la noticia ha guardado correctamente',
+          allowOutsideClick: false
+        }).then((willRefresh) => {
+          this.router.navigateByUrl('createSlider');
+        });
+      } else {
+        console.log(resp);
+        document.getElementById( 'updateNewHide').click();
+        console.log('ocurrio un error');
+        swal.close();
+        swal({
+          type: 'error',
+          title: 'oops a currido un error',
+          text:'se ha presentado un error al guardar la imagen',
+          allowOutsideClick: false
+        });
+      }
+    }).catch(error=> {
+      console.log(error);
+      document.getElementById( 'updateNewHide').click();
+      swal.close();
+      swal({
+        type: 'error',
+        title: 'oops a currido un error',
+        text:'se ha presentado un error al guardar la imagen',
+        allowOutsideClick: false
+      });
+    });
+  }
+
+  async updateImage() {
+    const file = this.newSelectedFiles.item(0);
+    const uuid = UUID.UUID();
+    console.log(uuid);
+    console.log(file.name + '' + file.type);
+    const extension = (file.name.substring(file.name.lastIndexOf('.'))).toLowerCase();
+    console.log(extension);
+    this.uploadService.uploadFile(file).then(res=>{
+      console.log('s3info'+JSON.stringify(res));
+      this.s3info=res;
+      console.log(this.s3info);
+      this.updateImagedb();
+    }).catch(error=> {
+      console.log(error);
+      swal({
+        type: 'error',
+        title: 'oops a currido un error',
+        text:'se ha presentado un error al subir la imagen',
+        allowOutsideClick: false
+      });
+    });
+    }
+
 
 }
