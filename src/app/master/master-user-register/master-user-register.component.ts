@@ -9,10 +9,12 @@ import { Router } from '@angular/router';
 @Component({
   selector: 'app-master-user-register',
   templateUrl: './master-user-register.component.html',
-  styleUrls: ['./master-user-register.component.scss']
+  styleUrls: ['./master-user-register.component.scss',
+  '../../../assets/icon/icofont/css/icofont.scss']
 })
 export class MasterUserRegisterComponent implements OnInit {
   myForm: FormGroup;
+  myUpdateForm: FormGroup;
   mynumberForm: FormGroup;
   mytooltipForm: FormGroup;
   checkdropForm: FormGroup;
@@ -23,10 +25,14 @@ export class MasterUserRegisterComponent implements OnInit {
   errorProfile = false;
   userInternal: UserInternalInterface;
   submitted = false;
+  rowsUser: any;
+  currentUser:any;
+  elementDelete:any;
+  enabledUpdated =false;
 
   constructor(private userService: UserService, private router: Router) {
     this.loading = true;
-
+    this.getUser();
     const name = new FormControl('', Validators.required);
     const lastname = new FormControl('', Validators.required);
     const username = new FormControl('', Validators.required);
@@ -48,6 +54,23 @@ export class MasterUserRegisterComponent implements OnInit {
       rpassword: rpassword,
       identification: identification,
       profile: profile
+    });
+
+    const updatename = new FormControl('', Validators.required);
+    const updatelastname = new FormControl('', Validators.required);
+    const updateusername = new FormControl('', Validators.required);
+    const updatecellphone = new FormControl('');
+    const updatetelephone = new FormControl('');
+    const updateemail = new FormControl('', [Validators.required, Validators.email]);
+    const updateprofile = new FormControl('', Validators.required);
+    this.myUpdateForm = new FormGroup({
+       updatename: updatename,
+       updatelastname: updatelastname,
+       updateusername: updateusername,
+       updatecellphone: updatecellphone,
+       updatetelephone: updatetelephone,
+       updateemail: updateemail,
+       updateprofile: updateprofile
     });
 
    /* if (this.load) {
@@ -73,6 +96,37 @@ export class MasterUserRegisterComponent implements OnInit {
   }
 
   ngOnInit() {
+  }
+
+  getUser() {
+    swal({
+      title: 'Obteniendo información ...',
+      allowOutsideClick: false
+    });
+    swal.showLoading();
+    this.userService.getUsers().then(data => {
+      const resp: any = data;
+      if (resp.error) {
+        swal({
+          title:'Error',
+          text: 'Ha ocurrido un error',
+          type: 'error'
+         });
+      } else {
+        console.log(data);
+        swal.close();
+        this.rowsUser = resp.data;
+        console.log( this.rowsUser);
+    }
+    }).catch(error => {
+      swal.close();
+      swal({
+        title:'Error',
+        text: 'Ha ocurrido un error',
+        type: 'error'
+       });
+      console.log(error);
+    });
   }
 
   sendUser() {
@@ -111,6 +165,8 @@ export class MasterUserRegisterComponent implements OnInit {
      swal({
       title: 'Usuario agregado',
       type: 'success'
+     }).then(data=>{
+      this.getUser();
      });
      this.router.navigateByUrl('master');
     }
@@ -122,7 +178,75 @@ export class MasterUserRegisterComponent implements OnInit {
     }
   }
 
+  updateUser() {
+    console.log('info');
+    console.log(
+      this.myUpdateForm.get('updatename').value,
+      this.myUpdateForm.get('updatelastname').value,
+      this.myUpdateForm.get('updatename').value + ' ' + this.myUpdateForm.get('updatelastname').value,
+      this.myUpdateForm.get('updateusername').value,
+      this.myUpdateForm.get('updatecellphone').value,
+      this.myUpdateForm.get('updatetelephone').value,
+      this.myUpdateForm.get('updateemail').value,
+      this.currentUser.id,
+      this.myUpdateForm.get('updateprofile').value);
+    this.submitted = true;
+   if ( !this.myUpdateForm.invalid) {
+    swal({
+      title: 'Validando información ...',
+      allowOutsideClick: false
+    });
+    swal.showLoading();
+    this.errorProfile = false;
+    this.userService.updateUser(
+    this.myUpdateForm.get('updatename').value,
+    this.myUpdateForm.get('updatelastname').value,
+    this.myUpdateForm.get('updatename').value + ' ' + this.myUpdateForm.get('updatelastname').value,
+    this.myUpdateForm.get('updateusername').value,
+    this.myUpdateForm.get('updatecellphone').value,
+    this.myUpdateForm.get('updatetelephone').value,
+    this.myUpdateForm.get('updateemail').value,
+    this.currentUser.id,
+    this.myUpdateForm.get('updateprofile').value).then(data => {
+      const resp: any = data;
+      console.log(resp);
+      if (resp.error) {
+        let msg  = '';
+        console.log( resp.error);
+      if ( resp.error.message == 'The username already exists.') {
+       msg = 'El usuario ya existe';
+      }
+       if(resp.error.message =='The email already exists.') {
+        msg = 'El correo electrónico ya existe';
+      }else{
+        msg = 'ocurrio un error';
+      }
+        swal({
+          title: msg,
+          text: 'Este usuario no se puede actualizar',
+          type: 'error'
+         });
+      } else {
+     swal({
+      title: 'Usuario actualizado',
+      type: 'success'
+     }).then(data=>{
+      this.getUser();
+     });
+     this.router.navigateByUrl('master');
+    }
+    }).catch(error => {
+      console.log(error);
+    });
+    } else {
+      this.errorProfile = true;
+    }
+  }
+
+
   get checkForm() { return this.myForm.controls; }
+
+  get checkUpdateForm() { return this.myUpdateForm.controls; }
 
   public saveEmail(email: string): void {
    console.log('');
@@ -153,6 +277,74 @@ export class MasterUserRegisterComponent implements OnInit {
 
 
 
+  }
+
+  deleteUser(row: any) {
+    swal({
+      title: 'Estás seguro de eliminar este elemento?',
+      type: 'warning',
+      showCancelButton: true,
+      showConfirmButton: true,
+      cancelButtonText: 'No',
+      confirmButtonText: 'Si'
+
+    })
+    .then((willDelete) => {
+      swal.showLoading();
+        if (willDelete.value) {
+          this.elementDelete = row;
+          console.log(row);
+          console.log( this.elementDelete);
+          this.userService.deleteUsers(Number(this.elementDelete.id))
+          .then(data => {
+            swal.showLoading();
+            const resp: any = data;
+            console.log(resp);
+
+            if (resp.success === false) {
+              swal({
+                title: 'Este Usuario presenta problemas',
+                text: 'Este Usuario no se puede eliminar',
+                type: 'error'
+               });
+            } else {
+           swal({
+            title: 'Usuario eliminada',
+            type: 'success'
+           }).then(data=>{
+            this.getUser();
+           });
+          }
+          }).catch(error => {
+            console.log(error);
+          });
+          console.log(this.elementDelete.id);
+        } else {
+         // swal('Fail');
+        }
+      console.log(willDelete);
+    });
+  }
+
+  showUpdateUser(row) {
+    console.log(row);
+    this.currentUser = row;
+    console.log( this.currentUser );
+    this.myUpdateForm.get('updatename').setValue(row.first_name);
+    this.myUpdateForm.get('updatelastname').setValue(row.last_name);
+    this.myUpdateForm.get('updateusername').setValue(row.username);
+    this.myUpdateForm.get('updatecellphone').setValue(row.cellphone);
+    this.myUpdateForm.get('updatetelephone').setValue(row.telephone);
+    this.myUpdateForm.get('updateemail').setValue(row.email);
+    this.myUpdateForm.get('updateprofile').setValue(row.profile_id);
+    if (this.currentUser.status === '0') {
+      this.enabledUpdated = true;
+    } else {
+      this.enabledUpdated = false;
+    }
+  
+    document.getElementById( 'uploadUser').click();
+  
   }
 
   public kilo() {

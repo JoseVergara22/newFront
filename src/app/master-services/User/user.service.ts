@@ -47,6 +47,107 @@ resolve(data);
 });
     }
 
+    updateUser( firstName: string,
+      lastName: string,
+      name: string,
+      username: string,
+      cellphone: string,
+      telephone: string,
+      email: string,
+      id:number,
+      profileId: number) {
+        return new Promise(resolve => {
+          console.log('entra en el servicio');
+          console.log(firstName,
+            lastName,
+            name,
+            username,
+            cellphone,
+            telephone,
+            email,
+            id,
+            profileId);
+          const headers = new HttpHeaders();
+          headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user'))); // 'Bearer ' +
+          headers.append('Content-Type', 'application/json');
+          const httpOptions = {
+            headers: new HttpHeaders({
+              'Content-Type':  'application/json',
+              'Authorization': 'Bearer ' + localStorage.getItem('token_user'),
+              'Accept': 'application/json'
+            })
+          };
+        
+              const patchParams = {
+                first_name: firstName,
+                last_name: lastName,
+                name: name,
+                cellphone: cellphone,
+                telephone: telephone,
+                email: email,
+                username: username,
+                profile_id: profileId
+              };
+              console.log('pasa los headers ');
+        this.http.patch('http://34.207.70.171/api/users/' + id, patchParams, httpOptions)
+        .map(res => res).subscribe(data => {
+          console.log('retorna data');
+          console.log(data);
+           resolve(data);
+          }, error => {
+            console.log('retorna error');
+            console.log(error);
+                    resolve(error);
+            });
+        });
+      }
+
+
+    getUsers() {
+      return new Promise(resolve => {
+        const headers = new HttpHeaders();
+        headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user'))); // 'Bearer ' +
+        headers.append('Content-Type', 'application/json');
+        const httpOptions = {
+          headers: new HttpHeaders({
+            'Content-Type':  'application/json',
+            'Authorization': 'Bearer ' + localStorage.getItem('token_user'),
+            'Accept': 'application/json'
+          })
+        };
+        
+        this.http.get('http://34.207.70.171/api/users', httpOptions)
+        .map(res => res).subscribe(data => {
+        console.log(data);
+        resolve(data);
+        }, error => {
+                  resolve(error);
+          });
+      });
+    }
+
+    deleteUsers(id:number) {
+      return new Promise(resolve => {
+        const headers = new HttpHeaders();
+        headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user'))); // 'Bearer ' +
+        headers.append('Content-Type', 'application/json');
+        const httpOptions = {
+          headers: new HttpHeaders({
+            'Content-Type':  'application/json',
+            'Authorization': 'Bearer ' + localStorage.getItem('token_user'),
+            'Accept': 'application/json'
+          })
+        };
+        
+        this.http.delete('http://34.207.70.171/api/users/' + id, httpOptions)
+        .map(res => res).subscribe(data => {
+        console.log(data);
+        resolve(data);
+        }, error => {
+                  resolve(error);
+          });
+      });
+    }
 
 
     generateToken( email: string,

@@ -93,6 +93,7 @@ export class NewService {
             'Accept': 'application/json'
           })
         };
+        console.log(  'Authorization : Bearer ' + localStorage.getItem('token_user') );
         this.http.get('http://34.207.70.171/api/news', httpOptions)
         .map(res => res).subscribe(data => {
         console.log(data);
