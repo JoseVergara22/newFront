@@ -26,7 +26,8 @@ import { MasterRegisterThirdComponent } from './master-register-third/master-reg
 import { MasterFuelComponent } from './master-fuel/master-fuel.component';
 import { MasterBranchOfficeComponent } from './master-branch-office/master-branch-office.component';
 import { MasterForkliftComponent } from './master-forklift/master-forklift.component';
-
+import { MasterTaskComponent } from "./master-task/master-task.component";
+import { ScheduleModule,RecurrenceEditorModule,DayService,WeekService,WorkWeekService,MonthService,MonthAgendaService } from "@syncfusion/ej2-angular-schedule";
 import {UiSwitchModule} from 'ng2-ui-switch';
 
 // Servicios
@@ -40,6 +41,8 @@ import { UploadService } from '../master-services/services/upload.service';
 @NgModule({
   imports: [
     CommonModule,
+    ScheduleModule,
+    RecurrenceEditorModule,
     MasterRoutingModule,
     FormsModule,
     ReactiveFormsModule,
@@ -67,8 +70,18 @@ import { UploadService } from '../master-services/services/upload.service';
     MasterProfileComponent,
     MasterRegisterThirdComponent,
     MasterBranchOfficeComponent,
-    MasterForkliftComponent
+    MasterForkliftComponent,
+    MasterTaskComponent
   ],
-  providers: [RestService, UserService, UploadService,NewService]
+  providers: [
+    RestService, 
+    UserService, 
+    UploadService,
+    NewService,
+    DayService,
+    WeekService,
+    WorkWeekService,
+    MonthService,
+    MonthAgendaService]
 })
 export class MasterModule { }

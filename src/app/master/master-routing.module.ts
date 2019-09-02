@@ -15,6 +15,7 @@ import { MasterTyreComponent } from './master-tyre/master-tyre.component';
 import { MasterMachineComponent } from './master-machine/master-machine.component';
 import { MasterTypeDocumentComponent } from './master-type-document/master-type-document.component';
 import { MasterPaymentConditionComponent } from './master-payment-condition/master-payment-condition.component';
+import { MasterTaskComponent } from "./master-task/master-task.component";
 
 
 const routes: Routes = [
@@ -45,6 +46,10 @@ const routes: Routes = [
   {
     path: 'registerOffice',
     component: MasterBranchOfficeComponent
+  },
+  {
+    path: 'task',
+    component: MasterTaskComponent
   },
   {
     path: 'registerForklift',

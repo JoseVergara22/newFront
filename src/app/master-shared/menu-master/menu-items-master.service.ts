@@ -84,6 +84,10 @@ const MENUITEMS = [
             name: 'Administrar usuarios'
           },
           {
+            state: 'task',
+            name: 'Administrar tareas'
+          },
+          {
             state: 'createSlider',
             name: 'Administrar noticia'
           },
