@@ -126,6 +126,38 @@ resolve(data);
       });
     }
 
+
+    recoveryPassword(email:string) {
+      return new Promise(resolve => {
+        const headers = new HttpHeaders();
+       // headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user'))); // 'Bearer ' +
+        headers.append('Content-Type', 'application/json');
+        const httpOptions = {
+          headers: new HttpHeaders({
+            'Content-Type':  'application/json',
+            'Authorization': 'Bearer ' + localStorage.getItem('token_user'),
+            'Accept': 'application/json'
+          })
+        };
+        const postParams = {
+          email: email
+        };
+        this.http.post('http://34.207.70.171/api/auth/password/create',postParams, httpOptions)
+        .map(res => res).subscribe(data => {
+        console.log(data);
+        resolve(data);
+        }, error => {
+          console.log('error servicio');
+          if(error.error.message=="No podemos encontrar un usuario con esa dirección de correo electrónico."){
+            resolve ("No podemos encontrar un usuario con esa dirección de correo electrónico.");
+          }else{
+            console.log(error);
+            resolve(error);
+          }
+          });
+      });
+    }
+
     deleteUsers(id:number) {
       return new Promise(resolve => {
         const headers = new HttpHeaders();
