@@ -130,6 +130,190 @@ createBrand(description: string,  status: number) {
                 });
                     }
 
+                    deleteOffice(id: number) {
+                      console.log('ole ole ole');
+                      console.log(status);
+                      return new Promise(resolve => {
+                              const headers = new HttpHeaders();
+                              headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user'))); // 'Bearer ' +
+                              headers.append('Content-Type', 'application/json');
+                              const httpOptions = {
+                                headers: new HttpHeaders({
+                                  'Content-Type':  'application/json',
+                                  'Authorization': 'Bearer ' + localStorage.getItem('token_user'),
+                                  'Accept': 'application/json'
+                                })
+                              };
+                              const postParams = {
+                              };
+                        this.http.delete('http://34.207.70.171/api/branch_offices/' + id, httpOptions)
+                        .map(res => res).subscribe(data => {
+                        resolve(data);
+                        }, error => {
+                                  resolve(error);
+                          });
+                        });
+                            }
+
+
+                    createCustomer(business_name: string,
+                                  type_document_id: number,
+                                  document_id: number,
+                                  telephone: string,
+                                  address: string,
+                                  status: number,
+                                  price_list_id: number,
+                                  payment_condition_id: number,
+                                  city_id: number,
+                                  department_id: number) {
+ console.log(business_name+','+type_document_id+','+ document_id+','+ telephone +
+ ','+ address+','+ status+','+ price_list_id+','+ payment_condition_id+','+ city_id+','+ department_id );
+                      return new Promise(resolve => {
+                            const headers = new HttpHeaders();
+                            headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user'))); // 'Bearer ' +
+                            headers.append('Content-Type', 'application/json');
+                            const httpOptions = {
+                              headers: new HttpHeaders({
+                                'Content-Type':  'application/json',
+                                'Authorization': 'Bearer ' + localStorage.getItem('token_user'),
+                                'Accept': 'application/json'
+                              })
+                            };
+                            const postParams = {
+                              business_name: business_name,
+                              type_document_id: type_document_id,
+                              document_id: document_id,
+                              telephone: telephone,
+                              address: address,
+                              status: status,
+                              price_list_id: price_list_id,
+                              payment_condition_id: payment_condition_id,
+                              city_id: city_id,
+                              department_id: department_id
+                            };
+                      this.http.post('http://34.207.70.171/api/customers ', postParams, httpOptions)
+                      .map(res => res).subscribe(data => {
+                      resolve(data);
+                      }, error => {
+                                resolve(error);
+                        });
+                      });
+                          }
+
+                         updateCustomer(id: number, business_name: string,
+                            type_document_id: number,
+                            document_id: number,
+                            telephone: string,
+                            address: string,
+                            status: number,
+                            price_list_id: number,
+                            payment_condition_id: number,
+                            city_id: number,
+                            department_id: number) {
+console.log(id + ',' + business_name+','+type_document_id+','+ document_id+','+ telephone +
+','+ address+','+ status+','+ price_list_id+','+ payment_condition_id+','+ city_id+','+ department_id );
+                return new Promise(resolve => {
+                      const headers = new HttpHeaders();
+                      headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user'))); // 'Bearer ' +
+                      headers.append('Content-Type', 'application/json');
+                      const httpOptions = {
+                        headers: new HttpHeaders({
+                          'Content-Type':  'application/json',
+                          'Authorization': 'Bearer ' + localStorage.getItem('token_user'),
+                          'Accept': 'application/json'
+                        })
+                      };
+                      const postParams = {
+                        business_name: business_name,
+                        type_document_id: type_document_id,
+                        document_id: document_id,
+                        telephone: telephone,
+                        address: address,
+                        status: status,
+                        price_list_id: price_list_id,
+                        payment_condition_id: payment_condition_id,
+                        city_id: city_id,
+                        department_id: department_id
+                      };
+                this.http.patch('http://34.207.70.171/api/customers/' + id, postParams, httpOptions)
+                .map(res => res).subscribe(data => {
+                console.log(data);
+                resolve(data);
+                }, error => {
+                  console.log(error);
+                  resolve(error);
+                  });
+                });
+                    }
+
+                    deleteCustomer(id: number) {
+                      console.log('ole ole ole');
+                      console.log(status);
+                      return new Promise(resolve => {
+                              const headers = new HttpHeaders();
+                              headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user'))); // 'Bearer ' +
+                              headers.append('Content-Type', 'application/json');
+                              const httpOptions = {
+                                headers: new HttpHeaders({
+                                  'Content-Type':  'application/json',
+                                  'Authorization': 'Bearer ' + localStorage.getItem('token_user'),
+                                  'Accept': 'application/json'
+                                })
+                              };
+                              const postParams = {
+                              };
+                        this.http.delete('http://34.207.70.171/api/customers/' + id, httpOptions)
+                        .map(res => res).subscribe(data => {
+                        resolve(data);
+                        }, error => {
+                                  resolve(error);
+                          });
+                        });
+                            }
+
+
+                    createforklift(serie: string,
+                      customer_id: number,
+                      branch_offices_id: number,
+                      description: string,
+                      brand_id: number,
+                      status: number,
+                      model_id: number,
+                      machine_id: number,
+                      tyre_id: number,
+                      fuel_id: number) {
+          return new Promise(resolve => {
+                const headers = new HttpHeaders();
+                headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user'))); // 'Bearer ' +
+                headers.append('Content-Type', 'application/json');
+                const httpOptions = {
+                  headers: new HttpHeaders({
+                    'Content-Type':  'application/json',
+                    'Authorization': 'Bearer ' + localStorage.getItem('token_user'),
+                    'Accept': 'application/json'
+                  })
+                };
+                const postParams = {
+                  serie: serie,
+                  customer_id: customer_id,
+                  branch_offices_id: branch_offices_id,
+                  description: description,
+                  brand_id: brand_id,
+                  status: status,
+                  model_id: model_id,
+                  machine_id: machine_id,
+                  tyre_id: tyre_id,
+                  fuel_id: fuel_id
+                };
+          this.http.post('http://34.207.70.171/api/forklifts', postParams, httpOptions)
+          .map(res => res).subscribe(data => {
+          resolve(data);
+          }, error => {
+                    resolve(error);
+            });
+          });
+              }
+
                     createTyre(description: string,  status: number) {
                       return new Promise(resolve => {
                             const headers = new HttpHeaders();
@@ -787,6 +971,31 @@ getPriceList() {
 
 
 
+
+                              getBrandModels(id: number) {
+                                return new Promise(resolve => {
+                                      const headers = new HttpHeaders();
+                                      headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user'))); // 'Bearer ' +
+                                      headers.append('Content-Type', 'application/json');
+                                      const httpOptions = {
+                                        headers: new HttpHeaders({
+                                          'Content-Type':  'application/json',
+                                          'Authorization': 'Bearer ' + localStorage.getItem('token_user'),
+                                          'Accept': 'application/json'
+                                        })
+                                      };
+                                this.http.get('http://34.207.70.171/api/brands_model/' + id, httpOptions)
+                                .map(res => res).subscribe(data => {
+                                console.log(data);
+                                resolve(data);
+                                }, error => {
+                                          resolve(error);
+                                  });
+                                });
+                                    }
+
+
+
   // --------------------------
 
   getPaymentConditions() {
@@ -873,6 +1082,171 @@ const postParams = {
        });
    });
     }
+
+    getMastersThird() {
+      return new Promise(resolve => {
+      const headers = new HttpHeaders();
+     headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user'))); // 'Bearer ' +
+          headers.append('Content-Type', 'application/json');
+           const httpOptions = {
+           headers: new HttpHeaders({
+         'Content-Type':  'application/json',
+'Authorization': 'Bearer ' + localStorage.getItem('token_user'),
+      'Accept': 'application/json'
+          })
+           };
+             this.http.get('http://34.207.70.171/api/show_masters', httpOptions)
+                                                                           .map(res => res).subscribe(data => {
+                                                                           console.log(data);
+                                                                           resolve(data);
+                                                                           }, error => {
+                                                                                     resolve(error);
+                                                                             });
+                                                                           });
+                                                                               }
+
+                            getCustomer() {
+                          return new Promise(resolve => {
+                           const headers = new HttpHeaders();
+                          headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user'))); // 'Bearer ' +
+                          headers.append('Content-Type', 'application/json');
+                         const httpOptions = {
+                                                                                     headers: new HttpHeaders({
+                                                                                   'Content-Type':  'application/json',
+                                                                          'Authorization': 'Bearer ' + localStorage.getItem('token_user'),
+                                                                                'Accept': 'application/json'
+                                                                                    })
+                                                                                     };
+                   this.http.get('http://34.207.70.171/api/customers', httpOptions)
+                                                        .map(res => res).subscribe(data => {
+                                               console.log(data);
+                                                  resolve(data);
+                                                       }, error => {
+                                                                 resolve(error);
+                                                                                                 });
+                                                       });
+                                     }
+
+                getCustomerOffice(idCustomer: number) {
+                          return new Promise(resolve => {
+                           const headers = new HttpHeaders();
+                          headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user'))); // 'Bearer ' +
+                          headers.append('Content-Type', 'application/json');
+                         const httpOptions = {
+                                                                                     headers: new HttpHeaders({
+                                                                                   'Content-Type':  'application/json',
+                                                                          'Authorization': 'Bearer ' + localStorage.getItem('token_user'),
+                                                                                'Accept': 'application/json'
+                                                                                    })
+                                                                                     };
+                   this.http.get('http://34.207.70.171/api/customers_branchoffice/' + idCustomer, httpOptions)
+                                                        .map(res => res).subscribe(data => {
+                                               console.log(data);
+                                                  resolve(data);
+                                                       }, error => {
+                                                                 resolve(error);
+                                                                                                 });
+                                                       });
+                                     }
+
+                                                                               getOffices() {
+                                                                                return new Promise(resolve => {
+                                                                                const headers = new HttpHeaders();
+                                        headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user'))); // 'Bearer ' +
+                                                                                    headers.append('Content-Type', 'application/json');
+                                                                                     const httpOptions = {
+                                                                                     headers: new HttpHeaders({
+                                                                                   'Content-Type':  'application/json',
+                                                                          'Authorization': 'Bearer ' + localStorage.getItem('token_user'),
+                                                                                'Accept': 'application/json'
+                                                                                    })
+                                                                                     };
+                                                       this.http.get('http://34.207.70.171/api/branch_offices', httpOptions)
+                                                                              .map(res => res).subscribe(data => {
+                                                                             console.log(data);
+                                                                      resolve(data);
+                                                                       }, error => {
+                                                                        resolve(error);
+                                                                      });
+                                                });
+                                      }
+
+                                      createOffice(customer_id: number,
+                                        branch_name: string,
+                                        address: string,
+                                        telephone: string,
+                                        status: number,
+                                        city_id: number,
+                                        department_id: number
+                                       ) {
+
+                            return new Promise(resolve => {
+                                  const headers = new HttpHeaders();
+                                  headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user'))); // 'Bearer ' +
+                                  headers.append('Content-Type', 'application/json');
+                                  const httpOptions = {
+                                    headers: new HttpHeaders({
+                                      'Content-Type':  'application/json',
+                                      'Authorization': 'Bearer ' + localStorage.getItem('token_user'),
+                                      'Accept': 'application/json'
+                                    })
+                                  };
+                                  const postParams = {
+                                    customer_id: customer_id,
+                                    branch_name: branch_name,
+                                    address: address,
+                                    telephone: telephone,
+                                    city_id: city_id,
+                                   department_id: department_id,
+                                   status: status
+                                  };
+                            this.http.post('http://34.207.70.171/api/branch_offices ', postParams, httpOptions)
+                            .map(res => res).subscribe(data => {
+                            resolve(data);
+                            }, error => {
+                                      resolve(error);
+                              });
+                            });
+                                }
+
+                                updateOffice(id: number,
+                                  customer_id: number,
+                                  branch_name: string,
+                                  address: string,
+                                  telephone: string,
+                                  status: number,
+                                  city_id: number,
+                                  department_id: number
+                                 ) {
+
+                      return new Promise(resolve => {
+                            const headers = new HttpHeaders();
+                            headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user'))); // 'Bearer ' +
+                            headers.append('Content-Type', 'application/json');
+                            const httpOptions = {
+                              headers: new HttpHeaders({
+                                'Content-Type':  'application/json',
+                                'Authorization': 'Bearer ' + localStorage.getItem('token_user'),
+                                'Accept': 'application/json'
+                              })
+                            };
+                            const postParams = {
+                              customer_id: customer_id,
+                              branch_name: branch_name,
+                              address: address,
+                              telephone: telephone,
+                              city_id: city_id,
+                             department_id: department_id,
+                             status: status
+                            };
+                      this.http.patch('http://34.207.70.171/api/branch_ffices/' + id , postParams, httpOptions)
+                      .map(res => res).subscribe(data => {
+                      resolve(data);
+                      }, error => {
+                                resolve(error);
+                        });
+                      });
+                          }
 
     testToken(token: any) {
      return new Promise(resolve => {

@@ -5,15 +5,15 @@ import swal from 'sweetalert2';
 import { Router } from '@angular/router';
 import { UploadService } from '../../master-services/services/upload.service';
 import { UUID } from 'angular2-uuid';
+import { ActivatedRoute, Params } from '@angular/router';
 
 @Component({
-  selector: 'app-master-register-third',
-  templateUrl: './master-register-third.component.html',
-  styleUrls: ['./master-register-third.component.scss',
+  selector: 'app-master-update-customer',
+  templateUrl: './master-update-customer.component.html',
+  styleUrls: ['./master-update-customer.component.scss',
   '../../../assets/icon/icofont/css/icofont.scss']
 })
-export class MasterRegisterThirdComponent implements OnInit {
-// getTypeDocuments
+export class MasterUpdateCustomerComponent implements OnInit {
 
 selectedFiles: FileList;
 dataMasters: any;
@@ -79,10 +79,15 @@ selectedDepartmentIdUpdate: any = 0;
 selectedCityIdUpdate: any = 0;
 
 
-  constructor(private restService: RestService, private router: Router, private uploadService: UploadService) {
+  constructor(private restService: RestService, private router: Router, private uploadService: UploadService, 
+              private rutaActiva: ActivatedRoute) {
+
     this.getMasters(0);
     // this.getOffices();
 
+    this.currentCustomerId = this.rutaActiva.snapshot.params.id;
+
+    this.getOffices(this.currentCustomerId);
     console.log(this.currentCustomerId);
 
     const businessName = new FormControl('', Validators.required);
@@ -511,7 +516,7 @@ updatedOffice() {
 
 console.log('llego');
 
-    this.restService.createOffice(25, this.myFormUpdateOffice.get('nameOfficeUpdate').value.toUpperCase(),
+    this.restService.createOffice(this.currentCustomerId, this.myFormUpdateOffice.get('nameOfficeUpdate').value.toUpperCase(),
      this.myFormUpdateOffice.get('addressOfficeUpdate').value, this.myFormUpdateOffice.get('telephoneOfficeUpdate').value,
      statusTemp, this.selectedCityOfficeIdUpdate, this.selectedDepartmentOfficeIdUpdate)
     .then(data => {
@@ -703,7 +708,22 @@ getOffices(idCustomer: number) {
       const resp: any = data;
       console.log(resp);
       this.dataOffices = resp.data_branchoffices;
+
+    this.myFormUpdateOffice.get('businessNameUpdate').setValue(resp.customer.business_name);
+    this.myFormUpdateOffice.get('documentIdUpdate').setValue(resp.customer.document_id);
+    this.myFormUpdateOffice.get('telephoneUpdate').setValue(resp.customer.telephone);
+    this.myFormUpdateOffice.get('addressUpdate').setValue(resp.customer.address);
+
+    this.selectedTypeDocumentIdUpdate = resp.customer.type_document_id;
+    this.selectedPriceListIdUpdate = resp.customer.price_list_id;
+    this.selectedPaymentConditionIdUpdate = resp.customer.payment_condition_id;
+    this.selectedDepartmentIdUpdate = resp.customer.department_id;
+    this.selectedCityIdUpdate = resp.customer.address.city_id;
+
+    this.getCitiesOfficeUpdate(resp.customer.department_id);
+
    //   this.dataOffices = this.dataOffices.data;
+
       console.log('master');
       swal.close();
      // this.cities = resp.data;

@@ -24,10 +24,10 @@
                     <h6>Departamento<span style="color:red;">*</span></h6>
 
                     <select class="form-control" [(ngModel)]="selectedDepartmentOfficeId" (change)="getCitiesOffice($event)" formControlName="departmentOffice"> 
-                            <option value="0" selected>Seleccionar departamento </option>
-                        <option   *ngFor="let department of departments" [ngValue]="department"> {{department.name}}  </option>
-                        <!--  <option value="0" selected>Seleccionar perfil</option> -->
-                       </select>
+                          <option value="0" selected>Seleccionar departamento </option>
+                      <option   *ngFor="let department of departments" [ngValue]="department"> {{department.name}}  </option>
+                      <!--  <option value="0" selected>Seleccionar perfil</option> -->
+                     </select>
                     <div *ngIf="submittedOffice && checkFormOffice.departmentOffice.errors" class="invalid-feedback">
                         <div class="messages text-danger" *ngIf="checkFormOffice.departmentOffice.errors.required">Este campo es requerido</div>
                     </div>
@@ -38,9 +38,9 @@
                 <div class="col-sm-4">
                     <h6>Ciudad<span style="color:red;">*</span></h6>
                     <select class="form-control" class="form-control" name="select" formControlName="citytOffice" [(ngModel)]="selectedCityOfficeId">
-                                <option value="0" selected>Seleccionar ciudad </option>  
-                            <option  *ngFor="let city of citiesOffice " [ngValue]="city "> {{city.city}} </option>
-                           </select>
+                              <option value="0" selected>Seleccionar ciudad </option>  
+                          <option  *ngFor="let city of citiesOffice " [ngValue]="city "> {{city.city}} </option>
+                         </select>
                     <div *ngIf="submittedOffice && checkFormOffice.citytOffice.errors" class="invalid-feedback">
                         <div class="messages text-danger" *ngIf="checkFormOffice.citytOffice.errors.required">Este campo es requerido</div>
                     </div>
@@ -98,10 +98,10 @@
                     <h6>Departamento<span style="color:red;">*</span></h6>
 
                     <select class="form-control" [(ngModel)]="selectedDepartmentOfficeIdUpdate" (change)="getCitiesOfficeUpdate($event)" formControlName="departmentOfficeUpdate"> 
-                                <option value="0" selected>Seleccionar departamento </option>
-                            <option   *ngFor="let department of departments" [ngValue]="department.id"> {{department.name}}  </option>
-                            <!--  <option value="0" selected>Seleccionar perfil</option> -->
-                           </select>
+                              <option value="0" selected>Seleccionar departamento </option>
+                          <option   *ngFor="let department of departments" [ngValue]="department.id"> {{department.name}}  </option>
+                          <!--  <option value="0" selected>Seleccionar perfil</option> -->
+                         </select>
                     <div *ngIf="submittedOfficeUpdated && checkFormOfficeUpdate.departmentOfficeUpdate.errors" class="invalid-feedback">
                         <div class="messages text-danger" *ngIf="checkFormOfficeUpdate.departmentOfficeUpdate.errors.required">Este campo es requerido</div>
                     </div>
@@ -112,9 +112,9 @@
                 <div class="col-sm-4">
                     <h6>Ciudad<span style="color:red;">*</span></h6>
                     <select class="form-control" class="form-control" name="select" formControlName="citytOfficeUpdate" [(ngModel)]="selectedCityOfficeIdUpdate">
-                                    <option value="0" selected>Seleccionar ciudad </option>  
-                                <option  *ngFor="let city of citiesOfficeUpdate " [ngValue]="city.id "> {{city.city}} </option>
-                               </select>
+                                  <option value="0" selected>Seleccionar ciudad </option>  
+                              <option  *ngFor="let city of citiesOfficeUpdate " [ngValue]="city.id "> {{city.city}} </option>
+                             </select>
                     <div *ngIf="submittedOfficeUpdated && checkFormOfficeUpdate.citytOfficeUpdate.errors" class="invalid-feedback">
                         <div class="messages text-danger" *ngIf="checkFormOfficeUpdate.citytOfficeUpdate.errors.required">Este campo es requerido</div>
                     </div>
@@ -166,191 +166,33 @@
             <h6 *ngIf=" showButtonUpdated == 0">Luego de crear el cliente, puedes crear sucursales</h6>
             <h6 *ngIf=" showButtonUpdated == 1">Ya puedes crear sucursales</h6>
             <br>
-
-
-            <form [formGroup]="myForm" (ngSubmit)="sendCustomer()" *ngIf=" showButtonUpdated == 0">
-                <div class="form-group row">
-                    <div class="col-sm-4">
-                        <h6>Tipo documento <span style="color:red;">*</span></h6>
-                        <select class="form-control" (change)="ChangingValue()" name="select" [(ngModel)]="selectedTypeDocumentId" formControlName="typeDocumentId">
-                              <option value="0" selected>Seleccionar tipo documento</option>
-                              <option  *ngFor="let typeDocument of typeDocuments" [ngValue]="typeDocument"> {{typeDocument.description}} </option>
-                            </select>
-                    </div>
-
-                    <!-- <select *ngIf="car" class="form-control" 
-            [(ngModel)]="selectedDoor" #selectDoor 
-            (change)="getRecDet(selectDoor.value);"  required >
-          <option *ngFor="let oneDoor of car.doors" 
-                  [ngValue]="oneDoor">
-                 {{oneDoor.position}}
-          </option>
-    </select>   -->
-
-                    <div class="col-sm-4">
-                        <!--    <h6>Documento <span style="color:red;">*</span></h6>
-                    <input type="number" class="form-control" id="password">
-                  <div class="messages text-danger error" *ngIf="myForm.controls.password.touched &&  !myForm.controls.password.valid">Este campo es requerido</div> -->
-
-                        <h6>Documento <span style="color:red;">*</span></h6>
-                        <input type="text" class="form-control" formControlName="documentId" [ngClass]="{ 'is-invalid': submitted && checkForm.documentId.errors }">
-                        <div *ngIf="submitted && checkForm.documentId.errors" class="invalid-feedback">
-                            <div class="messages text-danger" *ngIf="checkForm.documentId.errors.required">Este campo es requerido</div>
-                        </div>
-
-
-                    </div>
-                    <div class="col-sm-4">
-                        <!--    <h6>Razón social <span style="color:red;">*</span></h6>
-                    <input type="text" class="form-control" id="rpassword">
-                     <div class="messages text-danger" *ngIf="myForm.controls.rpassword.touched &&  !myForm.controls.rpassword.valid">Este campo es requerido</div>
-                      <div class="messages text-danger" *ngIf="myForm.controls.rpassword.errors?.equalTo">Las contraseñas no coinciden</div> -->
-
-                        <h6>Razón social <span style="color:red;">*</span></h6>
-                        <input type="text" class="form-control" formControlName="businessName" [ngClass]="{ 'is-invalid': submitted && checkForm.businessName.errors }">
-                        <div *ngIf="submitted && checkForm.businessName.errors" class="invalid-feedback">
-                            <div class="messages text-danger" *ngIf="checkForm.businessName.errors.required">Este campo es requerido</div>
-                        </div>
-
-
-
-
-                    </div>
-
-                </div>
-
-                <div class="form-group row">
-                    <div class="col-sm-4">
-                        <!-- <h6>Teléfono <span style="color:red;">*</span></h6>
-                    <input type="text" class="form-control" id="rpassword">-->
-
-                        <h6>Teléfono <span style="color:red;">*</span></h6>
-                        <input type="text" class="form-control" formControlName="telephone" [ngClass]="{ 'is-invalid': submitted && checkForm.telephone.errors }">
-                        <div *ngIf="submitted && checkForm.telephone.errors" class="invalid-feedback">
-                            <div class="messages text-danger" *ngIf="checkForm.telephone.errors.required">Este campo es requerido</div>
-                        </div>
-
-                    </div>
-                    <!--   <div class="col-sm-4">
-                  <h6>Correo electrónico <span style="color:red;">*</span></h6>
-                  <input type="email" class="form-control" id="password">
-              </div> -->
-                    <div class="col-sm-4">
-                        <!--  <h6>Dirección <span style="color:red;">*</span></h6>
-                    <input type="text" class="form-control" id="rpassword">  -->
-
-                        <h6>Dirección <span style="color:red;">*</span></h6>
-                        <input type="text" class="form-control" formControlName="address" [ngClass]="{ 'is-invalid': submitted && checkForm.address.errors }">
-                        <div *ngIf="submitted && checkForm.address.errors" class="invalid-feedback">
-                            <div class="messages text-danger" *ngIf="checkForm.address.errors.required">Este campo es requerido</div>
-                        </div>
-                        <!-- <div class="messages text-danger" *ngIf="myForm.controls.rpassword.touched &&  !myForm.controls.rpassword.valid">Este campo es requerido</div>
-                    <div class="messages text-danger" *ngIf="myForm.controls.rpassword.errors?.equalTo">Las contraseñas no coinciden</div> -->
-                    </div>
-
-
-
-                    <div class="col-sm-4">
-                        <h6>Lista de precios <span style="color:red;">*</span></h6>
-                        <select class="form-control" (change)="ChangingValue()" name="select" formControlName="priceListId" [(ngModel)]="selectedPriceListId">
-                            <option value="0" selected>Seleccionar lista de precios</option>
-                            <option  *ngFor="let priceL of priceList" [ngValue]="priceL"> {{priceL.description}} </option>
-                            </select>
-                    </div>
-
-
-
-                </div>
-
-
-
-                <div class="form-group row">
-
-
-
-                    <div class="col-sm-4">
-                        <h6>Condición de pago<span style="color:red;">*</span></h6>
-                        <select class="form-control" (change)="ChangingValue()" [(ngModel)]="selectedPaymentConditionId" class="form-control" formControlName="paymentConditionId" name="select">
-                        <option value="0" selected>Seleccionar condición pago </option>  
-                              <option  *ngFor="let paymentCondition of paymentConditions" [ngValue]="paymentCondition"> {{paymentCondition.description}} </option>
-                           </select>
-
-                    </div>
-
-
-                    <div class="col-sm-4">
-                        <h6>Departamento <span style="color:red;">*</span></h6>
-
-                        <select class="form-control" (change)="ChangingValue()" [(ngModel)]="selectedDepartmentId" (change)="getCities()" formControlName="departmentId"> 
-                            <option value="0" selected>Seleccionar departamento </option>
-                        <option   *ngFor="let department of departments" [ngValue]="department"> {{department.name}}  </option>
-                        <!--  <option value="0" selected>Seleccionar perfil</option> -->
-                       </select>
-                        <!-- <div class="messages text-danger" *ngIf="myForm.controls.rpassword.touched &&  !myForm.controls.rpassword.valid">Este campo es requerido</div>
-                    <div class="messages text-danger" *ngIf="myForm.controls.rpassword.errors?.equalTo">Las contraseñas no coinciden</div> -->
-                    </div>
-                    <div class="col-sm-4">
-                        <h6>Ciudad<span style="color:red;">*</span></h6>
-                        <select class="form-control" (change)="ChangingValue()" class="form-control" name="select" formControlName="cityId" [(ngModel)]="selectedCityId">
-                            <option value="0" selected>Seleccionar ciudad </option>  
-                        <option  *ngFor="let city of cities " [ngValue]="city "> {{city.city}} </option>
-                       </select>
-                        <!-- <div class="messages text-danger " *ngIf="myForm.controls.rpassword.touched && !myForm.controls.rpassword.valid ">Este campo es requerido</div>
-                    <div class="messages text-danger " *ngIf="myForm.controls.rpassword.errors?.equalTo ">Las contraseñas no coinciden</div> -->
-                    </div>
-                </div>
-
-
-
-                <div class="form-group row ">
-                    <div class="col-sm-4 ">
-                        <h6>Activo</h6>
-                        <ui-switch class="js-single" color="#4680ff" switchColor="#fff" size="medium" (change)="onChangeCreated($event)" [checked]="enabledCreated"></ui-switch><br>
-                    </div>
-                </div>
-                <!--
-            <label class="btn btn-default ">
-                <input type="file " (change)="selectFile($event) " multiple>
-              </label>
-
-            <button class="btn btn-success " [disabled]="!selectedFiles " (click)="upload() ">Upload</button>
- -->
-                <div class="align-buttons">
-                    <button type="submit " class="btn btn-primary m-b-0 ">Agregar Cliente</button>
-                </div>
-
-            </form>
-
-
-
-
             <!--                       //////////////////////////////////                      -->
 
 
-            <form [formGroup]="myFormUpdate" (ngSubmit)="updatedCustomer()" *ngIf=" showButtonUpdated == 1">
+            <form [formGroup]="myFormUpdate" (ngSubmit)="updatedCustomer()">
                 <div class=" form-group row ">
 
                     <div class="col-sm-4 ">
                         <h6>Tipo documento <span style="color:red; ">*</span></h6>
                         <select class="form-control " name="select " [(ngModel)]="selectedTypeDocumentIdUpdate" formControlName="typeDocumentIdUpdate">
-                              <option value="0 " selected>Seleccionar tipo documento</option>
-                              <option  *ngFor="let typeDocument of typeDocuments" [ngValue]="typeDocument.id"> {{typeDocument.description}} </option>
-                            </select>
+                            <option value="0 " selected>Seleccionar tipo documento</option>
+                            <option  *ngFor="let typeDocument of typeDocuments" [ngValue]="typeDocument.id"> {{typeDocument.description}} </option>
+                          </select>
                     </div>
 
                     <!-- <select *ngIf="car " class="form-control " 
-            [(ngModel)]="selectedDoor " #selectDoor 
-            (change)="getRecDet(selectDoor.value); "  required >
-          <option *ngFor="let oneDoor of car.doors " 
-                  [ngValue]="oneDoor ">
-                 {{oneDoor.position}}
-          </option>
-    </select>   -->
+          [(ngModel)]="selectedDoor " #selectDoor 
+          (change)="getRecDet(selectDoor.value); "  required >
+        <option *ngFor="let oneDoor of car.doors " 
+                [ngValue]="oneDoor ">
+               {{oneDoor.position}}
+        </option>
+  </select>   -->
 
                     <div class="col-sm-4 ">
                         <!--    <h6>Documento <span style="color:red; ">*</span></h6>
-                    <input type="number " class="form-control " id="password ">
-                  <div class="messages text-danger error " *ngIf="myForm.controls.password.touched && !myForm.controls.password.valid ">Este campo es requerido</div> -->
+                  <input type="number " class="form-control " id="password ">
+                <div class="messages text-danger error " *ngIf="myForm.controls.password.touched && !myForm.controls.password.valid ">Este campo es requerido</div> -->
 
                         <h6>Documento <span style="color:red; ">*</span></h6>
                         <input type="text " class="form-control " formControlName="documentIdUpdate" [ngClass]="{ 'is-invalid': submittedUpdated && checkFormUpdate.documentIdUpdate.errors } ">
@@ -362,9 +204,9 @@
                     </div>
                     <div class="col-sm-4 ">
                         <!--    <h6>Razón social <span style="color:red; ">*</span></h6>
-                    <input type="text " class="form-control " id="rpassword ">
-                     <div class="messages text-danger " *ngIf="myForm.controls.rpassword.touched && !myForm.controls.rpassword.valid ">Este campo es requerido</div>
-                      <div class="messages text-danger " *ngIf="myForm.controls.rpassword.errors?.equalTo ">Las contraseñas no coinciden</div> -->
+                  <input type="text " class="form-control " id="rpassword ">
+                   <div class="messages text-danger " *ngIf="myForm.controls.rpassword.touched && !myForm.controls.rpassword.valid ">Este campo es requerido</div>
+                    <div class="messages text-danger " *ngIf="myForm.controls.rpassword.errors?.equalTo ">Las contraseñas no coinciden</div> -->
 
                         <h6>Razón social <span style="color:red; ">*</span></h6>
                         <input type="text " class="form-control " formControlName="businessNameUpdate" [ngClass]="{ 'is-invalid': submittedUpdated && checkFormUpdate.businessNameUpdate.errors } ">
@@ -382,7 +224,7 @@
                 <div class="form-group row ">
                     <div class="col-sm-4 ">
                         <!-- <h6>Teléfono <span style="color:red; ">*</span></h6>
-                    <input type="text " class="form-control " id="rpassword ">-->
+                  <input type="text " class="form-control " id="rpassword ">-->
 
                         <h6>Teléfono <span style="color:red; ">*</span></h6>
                         <input type="text " class="form-control " formControlName="telephoneUpdate" [ngClass]="{ 'is-invalid': submittedUpdated && checkFormUpdate.telephoneUpdate.errors } ">
@@ -392,12 +234,12 @@
 
                     </div>
                     <!--   <div class="col-sm-4 ">
-                  <h6>Correo electrónico <span style="color:red; ">*</span></h6>
-                  <input type="email " class="form-control " id="password ">
-              </div> -->
+                <h6>Correo electrónico <span style="color:red; ">*</span></h6>
+                <input type="email " class="form-control " id="password ">
+            </div> -->
                     <div class="col-sm-4 ">
                         <!--  <h6>Dirección <span style="color:red; ">*</span></h6>
-                    <input type="text " class="form-control " id="rpassword ">  -->
+                  <input type="text " class="form-control " id="rpassword ">  -->
 
                         <h6>Dirección <span style="color:red; ">*</span></h6>
                         <input type="text " class="form-control " formControlName="addressUpdate" [ngClass]="{ 'is-invalid': submittedUpdated && checkFormUpdate.addressUpdate.errors } ">
@@ -405,7 +247,7 @@
                             <div class="messages text-danger " *ngIf="checkFormUpdate.addressUpdate.errors.required ">Este campo es requerido</div>
                         </div>
                         <!-- <div class="messages text-danger " *ngIf="myForm.controls.rpassword.touched && !myForm.controls.rpassword.valid ">Este campo es requerido</div>
-                    <div class="messages text-danger " *ngIf="myForm.controls.rpassword.errors?.equalTo ">Las contraseñas no coinciden</div> -->
+                  <div class="messages text-danger " *ngIf="myForm.controls.rpassword.errors?.equalTo ">Las contraseñas no coinciden</div> -->
                     </div>
 
 
@@ -413,9 +255,9 @@
                     <div class="col-sm-4 ">
                         <h6>Lista de precios <span style="color:red; ">*</span></h6>
                         <select class="form-control " name="select " formControlName="priceListIdUpdate" [(ngModel)]="selectedPriceListIdUpdate ">
-                            <option value="0 " selected>Seleccionar lista de precios</option>
-                            <option  *ngFor="let priceL of priceList " [ngValue]="priceL.id"> {{priceL.description}} </option>
-                            </select>
+                          <option value="0 " selected>Seleccionar lista de precios</option>
+                          <option  *ngFor="let priceL of priceList " [ngValue]="priceL.id"> {{priceL.description}} </option>
+                          </select>
                     </div>
 
 
@@ -431,9 +273,9 @@
                     <div class="col-sm-4 ">
                         <h6>Condición de pago<span style="color:red; ">*</span></h6>
                         <select class="form-control " [(ngModel)]="selectedPaymentConditionIdUpdate" class="form-control " formControlName="paymentConditionIdUpdate" name="select ">
-                        <option value="0 " selected>Seleccionar condición pago </option>  
-                              <option  *ngFor="let paymentCondition of paymentConditions" [ngValue]="paymentCondition.id"> {{paymentCondition.description}} </option>
-                           </select>
+                      <option value="0 " selected>Seleccionar condición pago </option>  
+                            <option  *ngFor="let paymentCondition of paymentConditions" [ngValue]="paymentCondition.id"> {{paymentCondition.description}} </option>
+                         </select>
 
                     </div>
 
@@ -442,21 +284,21 @@
                         <h6>Departamento <span style="color:red; ">*</span></h6>
 
                         <select class="form-control " [(ngModel)]="selectedDepartmentIdUpdate" (change)="getCitiesUpdate() " formControlName="departmentIdUpdate"> 
-                            <option value="0 " selected>Seleccionar departamento </option>
-                        <option   *ngFor="let department of departments " [ngValue]="department.id"> {{department.name}}  </option>
-                        <!--  <option value="0 " selected>Seleccionar perfil</option> -->
-                       </select>
+                          <option value="0 " selected>Seleccionar departamento </option>
+                      <option   *ngFor="let department of departments " [ngValue]="department.id"> {{department.name}}  </option>
+                      <!--  <option value="0 " selected>Seleccionar perfil</option> -->
+                     </select>
                         <!-- <div class="messages text-danger " *ngIf="myForm.controls.rpassword.touched && !myForm.controls.rpassword.valid ">Este campo es requerido</div>
-                    <div class="messages text-danger " *ngIf="myForm.controls.rpassword.errors?.equalTo ">Las contraseñas no coinciden</div> -->
+                  <div class="messages text-danger " *ngIf="myForm.controls.rpassword.errors?.equalTo ">Las contraseñas no coinciden</div> -->
                     </div>
                     <div class="col-sm-4 ">
                         <h6>Ciudad<span style="color:red; ">*</span></h6>
                         <select class="form-control " class="form-control " name="select " formControlName="cityIdUpdate" [(ngModel)]="selectedCityIdUpdate">
-                            <option value="0 " selected>Seleccionar ciudad </option>  
-                        <option  *ngFor="let city of cities " [ngValue]="city.id"> {{city.city}} </option>
-                       </select>
+                          <option value="0 " selected>Seleccionar ciudad </option>  
+                      <option  *ngFor="let city of cities " [ngValue]="city.id"> {{city.city}} </option>
+                     </select>
                         <!-- <div class="messages text-danger " *ngIf="myForm.controls.rpassword.touched && !myForm.controls.rpassword.valid ">Este campo es requerido</div>
-                    <div class="messages text-danger " *ngIf="myForm.controls.rpassword.errors?.equalTo ">Las contraseñas no coinciden</div> -->
+                  <div class="messages text-danger " *ngIf="myForm.controls.rpassword.errors?.equalTo ">Las contraseñas no coinciden</div> -->
                     </div>
                 </div>
 
@@ -468,12 +310,12 @@
                     </div>
                 </div>
                 <!--
-            <label class="btn btn-default ">
-                <input type="file " (change)="selectFile($event) " multiple>
-              </label>
+          <label class="btn btn-default ">
+              <input type="file " (change)="selectFile($event) " multiple>
+            </label>
 
-            <button class="btn btn-success " [disabled]="!selectedFiles " (click)="upload() ">Upload</button>
- -->
+          <button class="btn btn-success " [disabled]="!selectedFiles " (click)="upload() ">Upload</button>
+-->
                 <div class="align-buttons">
                     <button type="submit " class="btn btn-primary m-b-0 ">Actualizar Cliente</button>
                 </div>
@@ -483,10 +325,10 @@
 
 
             <!--
-            <h3>Angular 7 Image Preview before Upload:</h3>
-            <span style="color:red; " *ngIf="message ">{{message}}</span>
-            <input #file type="file " accept='image/*' (change)="preview(file.files) " />
-            <img [src]="imgURL " height="200 " *ngIf="imgURL ">
+          <h3>Angular 7 Image Preview before Upload:</h3>
+          <span style="color:red; " *ngIf="message ">{{message}}</span>
+          <input #file type="file " accept='image/*' (change)="preview(file.files) " />
+          <img [src]="imgURL " height="200 " *ngIf="imgURL ">
 -->
             <!--   <button type="button " class="btn btn-warning alert-confirm m-b-10 " (click)="openAjaxSwal() ">Confirm</button> -->
         </app-card>
@@ -526,8 +368,8 @@
                     <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
 
                         <!--<button md-icon-button (click)="blockAgents(value)">
-                                <i class="fa fa-ban"></i>
-                              </button> -->
+                              <i class="fa fa-ban"></i>
+                            </button> -->
 
                         <button (click)="updateBrand(row)" class="btn btn-primary btn-icon"><i class="icofont icofont-pencil-alt-5"></i></button>
                         <button (click)="deleteBrand(row)" class="btn btn-danger btn-icon"><i class="icofont icofont-ui-delete"></i></button>

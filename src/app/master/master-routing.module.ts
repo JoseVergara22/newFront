@@ -15,8 +15,11 @@ import { MasterTyreComponent } from './master-tyre/master-tyre.component';
 import { MasterMachineComponent } from './master-machine/master-machine.component';
 import { MasterTypeDocumentComponent } from './master-type-document/master-type-document.component';
 import { MasterPaymentConditionComponent } from './master-payment-condition/master-payment-condition.component';
-import { MasterTaskComponent } from "./master-task/master-task.component";
-
+import { MasterTaskComponent } from './master-task/master-task.component';
+import { MasterCustomersComponent } from './master-customers/master-customers.component';
+import { MasterUpdateCustomerComponent } from './master-update-customer/master-update-customer.component';
+import { MasterShowForkliftComponent } from './master-show-forklift/master-show-forklift.component';
+import { MasterExternalUserComponent } from './master-external-user/master-external-user.component';
 
 const routes: Routes = [
   {
@@ -82,6 +85,22 @@ const routes: Routes = [
   {
     path: 'registerPaymentCondition',
     component:  MasterPaymentConditionComponent
+  },
+  {
+    path: 'customers',
+    component:  MasterCustomersComponent
+  },
+  {
+    path: 'customersUpdate/:id',
+    component:  MasterUpdateCustomerComponent
+  },
+  {
+    path: 'forkliftShow',
+    component:  MasterShowForkliftComponent
+  },
+  {
+    path: 'externalUser',
+    component:  MasterExternalUserComponent
   }
 ];
 

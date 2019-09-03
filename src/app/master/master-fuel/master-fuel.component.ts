@@ -255,8 +255,8 @@ console.log(this.selectedValueUpdate);
       console.log(resp);
       if (resp.success === false) {
         swal({
-          title: 'Esta marca ya esta registrada',
-          text: 'Esta marca no se puede registrar',
+          title: 'Este combustible ya esta registrado',
+          text: 'Este combustible no se puede registrar',
           type: 'error'
          });
       } else {
@@ -339,8 +339,8 @@ console.log(this.selectedValueUpdate);
       console.log(resp);
       if (resp.success === false) {
         swal({
-          title: 'Esta marca ya esta actualizada',
-          text: 'Esta marca no se puede actualizar',
+          title: 'Este combustible ya esta actualizado',
+          text: 'Este combustible no se puede actualizar',
           type: 'error'
          });
       } else {
@@ -379,7 +379,6 @@ console.log(this.selectedValueUpdate);
       showConfirmButton: true,
       cancelButtonText: 'No',
       confirmButtonText: 'Si'
-
     })
     .then((willDelete) => {
         if (willDelete.value) {
@@ -395,8 +394,8 @@ console.log(this.selectedValueUpdate);
 
             if (resp.success === false) {
               swal({
-                title: 'Esta marca presenta problemas',
-                text: 'Esta marca no se puede eliminar',
+                title: 'Este combustible presenta problemas',
+                text: 'Este combustible no se puede eliminar',
                 type: 'error'
                });
             } else {

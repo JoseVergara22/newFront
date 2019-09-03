@@ -1,5 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import {NgxCarousel} from 'ngx-carousel';
+import { RestService } from '../../master-services/Rest/rest.service';
+import { NewService } from '../../master-services/new/new.service';
+import swal from 'sweetalert2';
+import { Router } from '@angular/router';
+import { SlickCarouselModule } from 'ngx-slick-carousel';
 
 @Component({
   selector: 'app-master-slider',
@@ -11,8 +16,28 @@ import {NgxCarousel} from 'ngx-carousel';
 })
 
 export class MasterSliderComponent implements OnInit {
+
   imgags: string[];
   imgagsBanner: string[];
+  myCarousel: any;
+  currentSlider: any;
+
+  slides = [
+    {img: 'http://placehold.it/350x150/000000'},
+    {img: 'http://placehold.it/350x150/111111'},
+    {img: 'http://placehold.it/350x150/333333'},
+    {img: 'http://placehold.it/350x150/666666'}
+  ];
+  slideConfig = {
+    "slidesToShow": 4,
+    "slidesToScroll": 1,
+    "nextArrow":"<div class='nav-btn next-slide'></div>",
+    "prevArrow":"<div class='nav-btn prev-slide'></div>",
+    "dots":true,
+    "infinite": false
+  };
+
+  newsPhotos: any;
 
   public carouselBannerItems: Array<any> = [];
   public carouselBanner: NgxCarousel;
@@ -25,9 +50,46 @@ export class MasterSliderComponent implements OnInit {
 
   public carouselTileTwoItems: Array<any> = [];
   public carouselTileTwo: NgxCarousel;
+  id;
+  ll;
 
-  constructor() {}
+  constructor(private newService: NewService, private router: Router) {
+    this.loadingData();
+}
 
+  loadingData() {
+    swal({
+      title: 'Validando información ...',
+      allowOutsideClick: false
+    });
+    swal.showLoading();
+    this.newService.getNewsImages().then(data => {
+      const resp: any = data;
+      console.log(data);
+      swal.close();
+      this.newsPhotos = resp.data;
+      console.log(this.newsPhotos[0].id);
+      this.changeSlider(this.newsPhotos[0].id);
+      console.log( this.newsPhotos);
+    }).catch(error => {
+      console.log(error);
+    });
+   }
+
+
+   ole(a: any) {
+console.log(a);
+   }
+
+   changeSlider(slider: any) {
+   console.log(slider);
+
+   // this.currentSlider = this.newsPhotos.filter(val => 'id' === 13);
+   this.currentSlider = this.newsPhotos.filter(current => current.id === Number(slider));
+   this.currentSlider = JSON.parse(JSON.stringify(this.currentSlider));
+   this.currentSlider  =  this.currentSlider[0];
+  // console.log(this.currentSlider[0].id);
+   }
   ngOnInit() {
     this.imgagsBanner = [
       'assets/images/slider/slide4.jpg',
@@ -50,8 +112,8 @@ export class MasterSliderComponent implements OnInit {
     this.carouselBanner = {
       grid: { xs: 1, sm: 1, md: 1, lg: 1, all: 0 },
       slide: 4,
-      speed: 500,
-      interval: 3000,
+     // speed: 500,
+     // interval: 10000,
       point: {
         visible: true,
         pointStyles: `
@@ -96,7 +158,7 @@ export class MasterSliderComponent implements OnInit {
     this.carouselTile = {
       grid: { xs: 1, sm: 2, md: 2, lg: 3, all: 0 },
       speed: 600,
-      interval: 3000,
+      interval: 10000,
       point: {
         visible: true,
         pointStyles: `
@@ -135,7 +197,7 @@ export class MasterSliderComponent implements OnInit {
     this.carouselTileTwo = {
       grid: { xs: 1, sm: 3, md: 4, lg: 6, all: 230 },
       speed: 600,
-      interval: 3000,
+      interval: 10000,
       point: {
         visible: true
       },
@@ -147,7 +209,7 @@ export class MasterSliderComponent implements OnInit {
     this.carouselTileOne = {
       grid: { xs: 1, sm: 2, md: 3, lg: 4, all: 0 },
       speed: 600,
-      interval: 3000,
+      interval: 10000,
       point: {
         visible: true,
         pointStyles: `
@@ -182,7 +244,7 @@ export class MasterSliderComponent implements OnInit {
       loop: true,
       touch: true,
       easing: 'ease',
-      animation: 'lazy'
+      animation: 'lazy',
     };
 
     this.carouselBannerLoad();
@@ -192,7 +254,37 @@ export class MasterSliderComponent implements OnInit {
   }
 
   onmoveFn(data) {
-    // console.log(data);
+     console.log(data);
+
+  }
+
+  onChange(ole: any) {
+  console.log(ole);
+  }
+
+
+  addSlide() {
+    this.slides.push({img: 'http://placehold.it/350x150/777777'});
+  }
+
+  removeSlide() {
+    this.slides.length = this.slides.length - 1;
+  }
+
+  slickInit(e) {
+    console.log('slick initialized');
+  }
+
+  breakpoint(e) {
+    console.log('breakpoint');
+  }
+
+  afterChange(e) {
+    console.log('afterChange');
+  }
+
+  beforeChange(e) {
+    console.log('beforeChange');
   }
 
   public carouselBannerLoad() {
@@ -204,6 +296,7 @@ export class MasterSliderComponent implements OnInit {
         );
       }
     }
+
   }
 
   public carouselTileLoad() {

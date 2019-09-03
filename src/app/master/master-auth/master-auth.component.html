@@ -27,7 +27,7 @@
                             </div>
                             <h6 class="text-left  f-w-600 text-inverse">Contraseña </h6>
                             <div class="input-group">
-                                <input type="text" class="form-control" id="password" formControlName="password" [ngClass]="{ 'is-invalid': submitted && checkForm.password.errors }">
+                                <input type="password" class="form-control" id="password" formControlName="password" [ngClass]="{ 'is-invalid': submitted && checkForm.password.errors }">
                                 <div *ngIf="submitted && checkForm.password.errors" class="text-left invalid-feedback">
                                     <div class="messages text-danger" *ngIf="checkForm.password.errors.required">Este campo es requerido</div>
                                 </div>

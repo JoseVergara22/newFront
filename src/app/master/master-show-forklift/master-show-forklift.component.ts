@@ -4,14 +4,15 @@ import { RestService } from '../../master-services/Rest/rest.service';
 import swal from 'sweetalert2';
 import { Router } from '@angular/router';
 
-
 @Component({
-  selector: 'app-master-machine',
-  templateUrl: './master-machine.component.html',
-  styleUrls: ['./master-machine.component.scss',
+  selector: 'app-master-show-forklift',
+  templateUrl: './master-show-forklift.component.html',
+  styleUrls: ['./master-show-forklift.component.scss',
   '../../../assets/icon/icofont/css/icofont.scss']
 })
-export class MasterMachineComponent implements OnInit {
+export class MasterShowForkliftComponent implements OnInit {
+
+
   myForm: FormGroup;
   myFormUpdate: FormGroup;
   submitted = false;
@@ -23,12 +24,14 @@ export class MasterMachineComponent implements OnInit {
   kilo: any;
   elementDelete: any;
 
+  customers: any;
+
   switchCreate = true;
   switchUpdate = true;
   change = true;
   active = false;
   inactive = false;
-  enabledUpdated = true;
+  enabledUpdated = false;
 
   filterIndicatorText = false;
   filterIndicatorCheck = false;
@@ -37,6 +40,12 @@ export class MasterMachineComponent implements OnInit {
   rowsTempText: any;
 
   currentBrand: any;
+
+  selectedBusinessId: any = 0;
+  selectedOfficeId: any = 0;
+  customerOffices: any = 0;
+
+
 
   constructor(private restService: RestService, private router: Router) {
   /*  swal({
@@ -57,7 +66,7 @@ export class MasterMachineComponent implements OnInit {
       console.log(error);
     });*/
 
-    this.loadingData();
+     this.getCustomers();
 
     const description = new FormControl('', Validators.required);
     const descriptionUpdate = new FormControl('', Validators.required);
@@ -70,9 +79,42 @@ export class MasterMachineComponent implements OnInit {
     this.myFormUpdate = new FormGroup({
       descriptionUpdate: descriptionUpdate
     });
+
    }
 
 
+   getCustomers() {
+    this.restService.getCustomer().then(data => {
+      const resp: any = data;
+      console.log(data);
+      swal.close();
+      this.customers  = resp.data;
+      this.rowsClient = resp.data;
+      this.rowStatic =  resp.data;
+      this.rowsTemp = resp.data;
+      console.log( this.rowsClient);
+    }).catch(error => {
+      console.log(error);
+    });
+   }
+
+   getCustomerOffice() {
+    console.log(this.selectedBusinessId);
+   this.restService. getCustomerOffice(this.selectedBusinessId).then(data => {
+     const resp: any = data;
+     console.log('ole ole');
+     console.log(resp);
+     this.customerOffices = resp.data_branchoffices;
+     swal.close();
+   }).catch(error => {
+     console.log(error);
+   });
+
+  }
+
+  getOfficeForklift() {
+
+  }
    loadingData() {
     swal({
       title: 'Validando información ...',
@@ -80,7 +122,7 @@ export class MasterMachineComponent implements OnInit {
     });
     swal.showLoading();
 
-    this.restService.getMachines().then(data => {
+    this.restService.getCustomer().then(data => {
       const resp: any = data;
       console.log(data);
       swal.close();
@@ -107,7 +149,7 @@ export class MasterMachineComponent implements OnInit {
       this.rowsTemp = this.rowsTempCheck;
     }
     const temp = this.rowsTemp.filter(function(d) {
-      return d.description.toLowerCase().indexOf(val) !== -1 || !val;
+      return d.business_name.toLowerCase().indexOf(val) !== -1 || !val;
     });
 
     if (val !== '') {
@@ -203,8 +245,9 @@ export class MasterMachineComponent implements OnInit {
     }
   }
 
-updateBrand(brand) {
-  console.log(brand);
+updateBrand(customeRow: any) {
+  this.router.navigateByUrl('master/customersUpdate/' + customeRow.id);
+  /*console.log(brand);
   this.currentBrand = brand;
   console.log( this.currentBrand );
   this.myFormUpdate.get('descriptionUpdate').setValue(brand.description);
@@ -215,8 +258,11 @@ updateBrand(brand) {
   }
 
   document.getElementById( 'uploadBrand').click();
+*/
 
 }
+
+
 
    sendBrand() {
     console.log(localStorage.getItem('token'));
@@ -234,13 +280,13 @@ updateBrand(brand) {
     } else {
       statusTemp = 1;
     }
-    this.restService.createMachine(this.myForm.get('description').value.toUpperCase(), statusTemp).then(data => {
+    this.restService.createBrand(this.myForm.get('description').value.toUpperCase(), statusTemp).then(data => {
       const resp: any = data;
       console.log(resp);
       if (resp.success === false) {
         swal({
-          title: 'Esta maquina ya esta registrada',
-          text: 'Esta maquina no se puede registrar',
+          title: 'Esta marca ya esta registrada',
+          text: 'Esta marca no se puede registrar',
           type: 'error'
          });
       } else {
@@ -264,6 +310,10 @@ updateBrand(brand) {
     }
   }
 
+
+  sendForklift() {
+    this.router.navigateByUrl('/master/registerForklift');
+  }
   sendUpdateBrand() {
     console.log(this.myFormUpdate.get('descriptionUpdate'));
     console.log(localStorage.getItem('token'));
@@ -282,14 +332,14 @@ updateBrand(brand) {
       statusTemp = 1;
     }
     console.log(this.myFormUpdate.get('descriptionUpdate').value.toUpperCase() + ' ' + statusTemp);
-    this.restService.updateMachine(Number(this.currentBrand.id), this.myFormUpdate.get('descriptionUpdate').value.toUpperCase(), statusTemp)
+    this.restService.updateBrand(Number(this.currentBrand.id), this.myFormUpdate.get('descriptionUpdate').value.toUpperCase(), statusTemp)
     .then(data => {
       const resp: any = data;
       console.log(resp);
       if (resp.success === false) {
         swal({
-          title: 'Esta maquina ya esta actualizada',
-          text: 'Esta maquina no se puede actualizar',
+          title: 'Esta marca ya esta actualizada',
+          text: 'Esta marca no se puede actualizar',
           type: 'error'
          });
       } else {
@@ -297,7 +347,7 @@ updateBrand(brand) {
      document.getElementById( 'updateBrandHide').click();
      this.loadingData();
      swal({
-      title: 'Maquina actualizada',
+      title: 'Marca actualizada',
       type: 'success'
      });
     }
@@ -311,7 +361,7 @@ updateBrand(brand) {
   get checkFormUpdate() { return this.myFormUpdate.controls; }
 
 
-  deleteBrand(brand: any) {
+  deleteCustomer(brand: any) {
     swal({
       title: 'Estás seguro de eliminar este elemento?',
      // text: 'Once deleted, you will not be able to recover this imaginary file!',
@@ -328,7 +378,7 @@ updateBrand(brand) {
           console.log(brand);
           console.log(    this.elementDelete);
           swal.showLoading();
-          this.restService.deleteMachine(Number(this.elementDelete.id))
+          this.restService.deleteCustomer(Number(this.elementDelete.id))
           .then(data => {
             swal.showLoading();
             const resp: any = data;
@@ -336,15 +386,15 @@ updateBrand(brand) {
 
             if (resp.success === false) {
               swal({
-                title: 'Esta maquina presenta problemas',
-                text: 'Esta maquina no se puede eliminar',
+                title: 'Este cliente presenta problemas',
+                text: 'Este cliente no se puede eliminar',
                 type: 'error'
                });
             } else {
            // this.router.navigateByUrl('master/registerBrand');
            this.loadingData();
            swal({
-            title: 'Maquina eliminada',
+            title: 'Cliente eliminado',
             type: 'success'
            });
           }
@@ -370,3 +420,4 @@ updateBrand(brand) {
   }
 
 }
+

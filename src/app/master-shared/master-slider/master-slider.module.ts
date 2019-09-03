@@ -3,13 +3,15 @@ import { CommonModule } from '@angular/common';
 import { MasterSharedModule } from './../master-shared.module';
 import { MasterSliderComponent } from './../master-slider/master-slider.component';
 import {NgxCarouselModule} from 'ngx-carousel';
+import { SlickCarouselModule } from 'ngx-slick-carousel';
 import 'hammerjs';
 
 @NgModule({
   imports: [
     CommonModule,
-    NgxCarouselModule
-  //  MasterSharedModule
+    NgxCarouselModule,
+  //  MasterSharedModule,
+     SlickCarouselModule
   ],
   declarations: []
 })

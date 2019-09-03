@@ -6,197 +6,255 @@
 
 
         <app-card [title]="'Registro equipo'" [headerContent]="''" [cardOptionBlock]="true">
+            <form [formGroup]="myForm" (ngSubmit)="sendForklift()">
 
+                <div class="form-group row">
+                    <div class="col-sm-6">
+                        <h6>Cliente<span style="color:red;">*</span></h6>
 
-            <div class="form-group row">
-                <div class="col-sm-6">
-                    <h6>Cliente<span style="color:red;">*</span></h6>
-                    <select class="form-control" name="select">
-                        <option value="2">Cliente1</option> 
-                         <option value="1">Cliente2</option>
+                        <select class="form-control" (change)="getCustomerOffice()" [(ngModel)]="selectedBusinessId" formControlName="customer"> 
+                                    <option value="0" selected>Seleccionar cliente </option>
+                                <option   *ngFor="let customer of customers" [ngValue]="customer.id"> {{customer.business_name}}  </option>
+                                <!--  <option value="0" selected>Seleccionar perfil</option> -->
+                               </select>
+                    </div>
+
+                    <div class="col-sm-6">
+                        <h6>Sucursal<span style="color:red;">*</span></h6>
+                        <select class="form-control" [(ngModel)]="selectedOfficeId" formControlName="office"> 
+                            <option value="0" selected>Seleccionar sucursal </option>
+                        <option   *ngFor="let office of customerOffices" [ngValue]="office.id"> {{office.branch_name}}  </option>
+                        <!--  <option value="0" selected>Seleccionar perfil</option> -->
                        </select>
+                    </div>
                 </div>
+                <br>
+                <h5>Información equipo </h5>
+                <br>
+                <div class="form-group row">
+                    <div class="col-sm-4">
+                        <h6> Serie <span style="color:red;">*</span></h6>
+                        <input type="text" class="form-control" formControlName="series" [ngClass]="{ 'is-invalid': submitted && checkForm.series.errors }">
+                        <div *ngIf="submitted && checkForm.series.errors" class="invalid-feedback">
+                            <div class="messages text-danger" *ngIf="checkForm.series.errors.required">Este campo es requerido</div>
+                        </div>
+                    </div>
 
-                <div class="col-sm-6">
-                    <h6>Sucursal<span style="color:red;">*</span></h6>
-                    <select class="form-control" name="select">
-                         <option value="1">Sucursal1</option>
-                         <option value="2">Sucursal2</option>
+                    <div class="col-sm-4">
+                        <h6> Descripción <span style="color:red;">*</span></h6>
+                        <input type="text" class="form-control" formControlName="description" [ngClass]="{ 'is-invalid': submitted && checkForm.description.errors }">
+
+                        <div *ngIf="submitted && checkForm.description.errors" class="invalid-feedback">
+                            <div class="messages text-danger" *ngIf="checkForm.description.errors.required">Este campo es requerido</div>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-4">
+                        <h6>Marca<span style="color:red;">*</span></h6>
+                        <select class="form-control" (change)="getCustomerModel()" [(ngModel)]="selectedBrandId" formControlName="brand"> 
+                            <option value="0" selected>Seleccionar marca </option>
+                        <option   *ngFor="let brand of brands" [ngValue]="brand.id"> {{brand.description}}  </option>
+                        <!--  <option value="0" selected>Seleccionar perfil</option> -->
                        </select>
-                </div>
-            </div>
-            <br>
-            <h5>Información equipo </h5>
-            <br>
-            <div class="form-group row">
-                <div class="col-sm-4">
-                    <h6> Serie <span style="color:red;">*</span></h6>
-                    <input type="text" class="form-control" id="password">
+                    </div>
+
                 </div>
 
-                <div class="col-sm-4">
-                    <h6> Descripción <span style="color:red;">*</span></h6>
-                    <input type="text" class="form-control" id="password">
-                </div>
-
-                <div class="col-sm-4">
-                    <h6>Marca<span style="color:red;">*</span></h6>
-                    <select class="form-control" name="select">
-                         <option value="1">MARCA1</option>
-                         <option value="2">MARCA2</option>
+                <div class="form-group row">
+                    <div class="col-sm-4">
+                        <h6>Modelo<span style="color:red;">*</span></h6>
+                        <select class="form-control" [(ngModel)]="selectedModelId" formControlName="model"> 
+                            <option value="0" selected>Seleccionar modelo </option>
+                        <option   *ngFor="let model of models" [ngValue]="model.id"> {{model.description}}  </option>
+                        <!--  <option value="0" selected>Seleccionar perfil</option> -->
                        </select>
-                </div>
+                    </div>
 
-            </div>
-
-            <div class="form-group row">
-                <div class="col-sm-4">
-                    <h6>Modelo<span style="color:red;">*</span></h6>
-                    <select class="form-control" name="select">
-                         <option value="1">MODELO1</option>
-                         <option value="2">MODELO2</option>
+                    <div class="col-sm-4">
+                        <h6>Maquina<span style="color:red;">*</span></h6>
+                        <select class="form-control" [(ngModel)]="selectedMachineId" formControlName="machine"> 
+                            <option value="0" selected>Seleccionar maquina </option>
+                        <option   *ngFor="let machine of machines" [ngValue]="machine.id"> {{machine.description}}  </option>
+                        <!--  <option value="0" selected>Seleccionar perfil</option> -->
                        </select>
-                </div>
+                    </div>
 
-                <div class="col-sm-4">
-                    <h6>Maquina<span style="color:red;">*</span></h6>
-                    <select class="form-control" name="select">
-                         <option value="1">MAQUINA1</option>
-                         <option value="2">MAQUINA2</option>
+                    <div class="col-sm-4">
+                        <h6>Combustible<span style="color:red;">*</span></h6>
+                        <select class="form-control" [(ngModel)]="selectedFuelId" formControlName="fuel"> 
+                            <option value="0" selected>Seleccionar maquina </option>
+                        <option   *ngFor="let fuel of fuels" [ngValue]="fuel.id"> {{fuel.description}}  </option>
+                        <!--  <option value="0" selected>Seleccionar perfil</option> -->
                        </select>
+                    </div>
+
                 </div>
 
-                <div class="col-sm-4">
-                    <h6>Combustible<span style="color:red;">*</span></h6>
-                    <select class="form-control" name="select">
-                         <option value="1">COMBUSTIBLE1</option>
-                         <option value="2">COMBUSTIBLE2</option>
+                <div class="form-group row">
+
+
+                    <div class="col-sm-4">
+                        <h6>Llantas<span style="color:red;">*</span></h6>
+                        <select class="form-control" [(ngModel)]="selectedtyreId" formControlName="tyre"> 
+                            <option value="0" selected>Seleccionar llantas </option>
+                        <option   *ngFor="let tyre of tyres" [ngValue]="tyre.id"> {{tyre.description}}  </option>
+                        <!--  <option value="0" selected>Seleccionar perfil</option> -->
                        </select>
+                    </div>
+                    <div class="col-sm-4">
+                        <h6> Llantas delanteras </h6>
+                        <input type="text" class="form-control" formControlName="tyreForward" [ngClass]="{ 'is-invalid': submitted && checkForm.tyreForward.errors }">
+
+                        <div *ngIf="submitted && checkForm.tyreForward.errors" class="invalid-feedback">
+                            <div class="messages text-danger" *ngIf="checkForm.tyreForward.errors.required">Este campo es requerido</div>
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <h6> LLantas traseras </h6>
+                        <input type="text" class="form-control" formControlName="tyreSBack" [ngClass]="{ 'is-invalid': submitted && checkForm.tyreSBack.errors }">
+
+                        <div *ngIf="submitted && checkForm.tyreSBack.errors" class="invalid-feedback">
+                            <div class="messages text-danger" *ngIf="checkForm.tyreSBack.errors.required">Este campo es requerido</div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="form-group row">
+                    <div class="col-sm-4">
+                        <h6>Toneladas <span style="color:red;">*</span></h6>
+                        <input type="text" class="form-control" formControlName="tons" [ngClass]="{ 'is-invalid': submitted && checkForm.tons.errors }">
+
+                        <div *ngIf="submitted && checkForm.tons.errors" class="invalid-feedback">
+                            <div class="messages text-danger" *ngIf="checkForm.tons.errors.required">Este campo es requerido</div>
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <h6>Mastil izado</h6>
+                        <input type="text" class="form-control" formControlName="HoistedMast" [ngClass]="{ 'is-invalid': submitted && checkForm.HoistedMast.errors }">
+
+                        <div *ngIf="submitted && checkForm.HoistedMast.errors" class="invalid-feedback">
+                            <div class="messages text-danger" *ngIf="checkForm.HoistedMast.errors.required">Este campo es requerido</div>
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <h6>Mastil contraido</h6>
+                        <input type="text" class="form-control" formControlName="ContractedMast" [ngClass]="{ 'is-invalid': submitted && checkForm.ContractedMast.errors }">
+
+                        <div *ngIf="submitted && checkForm.ContractedMast.errors" class="invalid-feedback">
+                            <div class="messages text-danger" *ngIf="checkForm.ContractedMast.errors.required">Este campo es requerido</div>
+                        </div>
+                    </div>
                 </div>
 
-            </div>
+                <div class="form-group row">
+                    <div class="col-sm-4">
+                        <h6>H. inicial <span style="color:red;">*</span></h6>
+                        <input type="text" class="form-control" formControlName="startTime" [ngClass]="{ 'is-invalid': submitted && checkForm.startTime.errors }">
 
-            <div class="form-group row">
+                        <div *ngIf="submitted && checkForm.startTime.errors" class="invalid-feedback">
+                            <div class="messages text-danger" *ngIf="checkForm.startTime.errors.required">Este campo es requerido</div>
+                        </div>
 
+                    </div>
+                    <div class="col-sm-4">
+                        <h6>H. actual <span style="color:red;">*</span></h6>
+                        <input type="text" class="form-control" formControlName="currentTime" [ngClass]="{ 'is-invalid': submitted && checkForm.currentTime.errors }">
 
-                <div class="col-sm-4">
-                    <h6>Llantas<span style="color:red;">*</span></h6>
-                    <select class="form-control" name="select">
-                         <option value="1">LLANTAS1</option>
-                         <option value="2">LLANTAS2</option>
-                       </select>
-                </div>
-                <div class="col-sm-4">
-                    <h6> Llantas delanteras </h6>
-                    <input type="text" class="form-control" id="password">
-                </div>
-                <div class="col-sm-4">
-                    <h6> LLantas traseras </h6>
-                    <input type="text" class="form-control" id="password">
-                </div>
+                        <div *ngIf="submitted && checkForm.currentTime.errors" class="invalid-feedback">
+                            <div class="messages text-danger" *ngIf="checkForm.currentTime.errors.required">Este campo es requerido</div>
+                        </div>
 
-            </div>
-            <div class="form-group row">
-                <div class="col-sm-4">
-                    <h6>Toneladas <span style="color:red;">*</span></h6>
-                    <input type="number" class="form-control" id="rpassword">
-                    <!-- <div class="messages text-danger" *ngIf="myForm.controls.rpassword.touched &&  !myForm.controls.rpassword.valid">Este campo es requerido</div>
-                    <div class="messages text-danger" *ngIf="myForm.controls.rpassword.errors?.equalTo">Las contraseñas no coinciden</div> -->
-                </div>
-                <div class="col-sm-4">
-                    <h6>Mastil izado</h6>
-                    <input type="number" class="form-control" id="rpassword">
-                    <!-- <div class="messages text-danger" *ngIf="myForm.controls.rpassword.touched &&  !myForm.controls.rpassword.valid">Este campo es requerido</div>
-                    <div class="messages text-danger" *ngIf="myForm.controls.rpassword.errors?.equalTo">Las contraseñas no coinciden</div> -->
-                </div>
-                <div class="col-sm-4">
-                    <h6>Mastil contraido</h6>
-                    <input type="number" class="form-control" id="rpassword">
-                    <!-- <div class="messages text-danger" *ngIf="myForm.controls.rpassword.touched &&  !myForm.controls.rpassword.valid">Este campo es requerido</div>
-                    <div class="messages text-danger" *ngIf="myForm.controls.rpassword.errors?.equalTo">Las contraseñas no coinciden</div> -->
-                </div>
-            </div>
-
-            <div class="form-group row">
-                <div class="col-sm-4">
-                    <h6>H. inicial <span style="color:red;">*</span></h6>
-                    <input type="number" class="form-control" id="rpassword">
-                    <!-- <div class="messages text-danger" *ngIf="myForm.controls.rpassword.touched &&  !myForm.controls.rpassword.valid">Este campo es requerido</div>
-                    <div class="messages text-danger" *ngIf="myForm.controls.rpassword.errors?.equalTo">Las contraseñas no coinciden</div> -->
-                </div>
-                <div class="col-sm-4">
-                    <h6>H. actual <span style="color:red;">*</span></h6>
-                    <input type="number" class="form-control" id="rpassword">
-                    <!-- <div class="messages text-danger" *ngIf="myForm.controls.rpassword.touched &&  !myForm.controls.rpassword.valid">Este campo es requerido</div>
-                    <div class="messages text-danger" *ngIf="myForm.controls.rpassword.errors?.equalTo">Las contraseñas no coinciden</div> -->
-                </div>
-                <div class="col-sm-4">
-                    <h6>Rutina<span style="color:red;">*</span></h6>
-                    <select class="form-control" name="select">
-                         <option value="1">RUTINA1</option>
+                    </div>
+                    <div class="col-sm-4">
+                        <h6>Rutina<span style="color:red;">*</span></h6>
+                        <select class="form-control" name="select" formControlName="routine" [(ngModel)]="selectedRoutineId">
+                            <option value="0" selected>Seleccionar rutina </option>
+                        <option value="1">RUTINA1</option>
                          <option value="2">RUTINA2</option>
                        </select>
+                    </div>
                 </div>
-            </div>
-            <div class="form-group row">
-                <div class="col-sm-4">
-                    <h6>Generar alarmas</h6>
-                    <ui-switch class="js-single" color="#4680ff" switchColor="#fff" size="medium" checked></ui-switch><br>
+                <div class="form-group row">
+                    <div class="col-sm-4">
+                        <h6>Generar alarmas</h6>
+                        <ui-switch class="js-single" color="#4680ff" switchColor="#fff" size="medium" checked (change)="onChangeGenerateAlarms($event)"></ui-switch><br>
+                    </div>
+                    <div class="col-sm-4">
+                        <h6>Activo</h6>
+                        <ui-switch class="js-single" color="#4680ff" switchColor="#fff" size="medium" checked (change)="onChangeActive($event)"></ui-switch><br>
+                    </div>
                 </div>
-                <div class="col-sm-4">
-                    <h6>Activo</h6>
-                    <ui-switch class="js-single" color="#4680ff" switchColor="#fff" size="medium" checked></ui-switch><br>
+                <div class="form-group row">
+                    <div class="col-sm-12">
+                        <h6>Observación</h6>
+
+                        <textarea rows="5" cols="5" class="form-control"></textarea>
+
+                    </div>
                 </div>
-            </div>
-            <div class="form-group row">
-                <div class="col-sm-12">
-                    <h6>Observación</h6>
+                <br>
 
-                    <textarea rows="5" cols="5" class="form-control"></textarea>
-
+                <div class="form-group row">
+                    <div class="col-sm-4">
+                        <h6>Eligir imagenes</h6>
+                        <input type='file' (change)="onSelectFile($event)" multiple>
+                    </div>
                 </div>
-            </div>
-            <br>
 
-            <div class="form-group row">
-
-                <div class="col-sm-12">
-                    <h6>Cargar imagen</h6>
-                    <input type="file" class="form-control">
+                <div class="form-group row">
+                    <div class="col-sm-3" *ngFor='let url of urls'>
+                        <!-- <img src="assets/images/blog/blog-r-1.jpg" alt="img" class="img-fluid img-100"> -->
+                        <img [src]="url" height="200" *ngIf="url" alt="img" class="img-fluid img-100">
+                        <!--  <img [src]="imgURL " height="200 " *ngIf="imgURL " alt="img" class="img-fluid img-100">
+                        <h6 class="m-t-15 m-b-0">Ejemplo</h6>
+                        <p class="text-muted m-b-0"><small>PNG-100KB</small></p> -->
+                    </div>
                 </div>
-            </div>
 
-            <div class="form-group row">
-                <div class="col-auto text-center">
-                    <img src="assets/images/blog/blog-r-1.jpg" alt="img" class="img-fluid img-100">
-                    <h6 class="m-t-15 m-b-0">Ejemplo</h6>
-                    <p class="text-muted m-b-0"><small>PNG-100KB</small></p>
+
+
+
+                <!-- <button class="btn btn-success " [disabled]="!selectedFiles " (click)="upload() ">Upload</button> -->
+
+                <!--   <div class="form-group row">
+                        <div class="col-sm-10">
+                            <h6> Cargar imagen </h6>
+                            <input #file type="file" accept='image/*' class="form-control" [ngClass]="{ 'is-invalid': submitted && checkForm.image.errors }" (change)="preview(file.files,$event)" id="image" formControlName="image" multiple />
+                        </div>
+                    </div>-->
+
+
+                <!-- <div class="form-group row">
+                    <div class="col-auto text-center">
+                        <img src="assets/images/blog/blog-r-1.jpg" alt="img" class="img-fluid img-100">
+                        <h6 class="m-t-15 m-b-0">Ejemplo</h6>
+                        <p class="text-muted m-b-0"><small>PNG-100KB</small></p>
+                    </div>
+                    <div class="col-auto text-center">
+                        <img src="assets/images/blog/blog-r-1.jpg" alt="img" class="img-fluid img-100">
+                        <h6 class="m-t-15 m-b-0">Ejemplo</h6>
+                        <p class="text-muted m-b-0"><small>PNG-100KB</small></p>
+                    </div>
+                    <div class="col-auto text-center">
+                        <img src="assets/images/blog/blog-r-1.jpg" alt="img" class="img-fluid img-100">
+                        <h6 class="m-t-15 m-b-0">Ejemplo</h6>
+                        <p class="text-muted m-b-0"><small>PNG-100KB</small></p>
+                    </div>
+                </div>-->
+
+
+                <br>
+
+
+
+                <div class="form-group row ">
+                    <div class="col-sm-12">
+
+                        <button type="submit " class="btn btn-primary m-b-0 ">Agregar Equipo</button>
+                    </div>
                 </div>
-                <div class="col-auto text-center">
-                    <img src="assets/images/blog/blog-r-1.jpg" alt="img" class="img-fluid img-100">
-                    <h6 class="m-t-15 m-b-0">Ejemplo</h6>
-                    <p class="text-muted m-b-0"><small>PNG-100KB</small></p>
-                </div>
-                <div class="col-auto text-center">
-                    <img src="assets/images/blog/blog-r-1.jpg" alt="img" class="img-fluid img-100">
-                    <h6 class="m-t-15 m-b-0">Ejemplo</h6>
-                    <p class="text-muted m-b-0"><small>PNG-100KB</small></p>
-                </div>
-            </div>
 
-
-            <br>
-
-
-
-            <div class="form-group row ">
-                <div class="col-sm-12">
-
-                    <button type="submit " class="btn btn-primary m-b-0 ">Agregar Equipo</button>
-                </div>
-            </div>
-
-
+            </form>
             <!--   <button type="button " class="btn btn-warning alert-confirm m-b-10 " (click)="openAjaxSwal() ">Confirm</button> -->
         </app-card>
     </div>

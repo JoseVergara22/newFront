@@ -12,7 +12,8 @@ import { JsonPipe } from '@angular/common';
 @Component({
   selector: 'app-master-create-slider',
   templateUrl: './master-create-slider.component.html',
-  styleUrls: ['./master-create-slider.component.scss']
+  styleUrls: ['./master-create-slider.component.scss',
+  '../../../assets/icon/icofont/css/icofont.scss']
 })
 export class MasterCreateSliderComponent implements OnInit {
 
@@ -26,8 +27,8 @@ export class MasterCreateSliderComponent implements OnInit {
   newinfo :any;
   imageinfo:any;
   s3info:any;
-  selectedFiles: FileList;
-  newSelectedFiles: FileList;
+  selectedFiles: FileList = null;
+  newSelectedFiles: FileList = null;
   rowsClientN: any;
   rowsTempN: any;
   rowStaticN: any;
@@ -39,15 +40,19 @@ export class MasterCreateSliderComponent implements OnInit {
   elementDelete: any;
   lastimage:any;
   enabledUpdated = false;
+  enabled = true;
   newImgURL: any;
-  constructor(private newsevice: NewService, 
+  numberPhoto: 0;
+  numberUpdatePhoto: 0;
+
+  constructor(private newsevice: NewService,
               private router: Router,
               private uploadService: UploadService) {
     this.loadingData();
 
     const title = new FormControl('', Validators.required);
     const subtitle = new FormControl('', Validators.required);
-    const image = new FormControl('', Validators.required);
+    const image = new FormControl();
     const active = new FormControl(true);
     const description = new FormControl('', Validators.required);
 
@@ -55,14 +60,14 @@ export class MasterCreateSliderComponent implements OnInit {
       title: title,
       subtitle: subtitle,
       description: description,
-      image:image,
-      active:active
+      image: image,
+      active: active
     });
 
     const titleUpdate = new FormControl('', Validators.required);
     const subtitleUpdate = new FormControl('', Validators.required);
     const imageUpdate = new FormControl();
-    const activeUpdate = new FormControl(true);
+    const activeUpdate = new FormControl();
     const descriptionUpdate = new FormControl('', Validators.required);
 
 
@@ -78,11 +83,20 @@ export class MasterCreateSliderComponent implements OnInit {
 
   ngOnInit() {
   }
-  
+
   ngAfterContentInit (){
   }
 
-  
+  onChangeUpdate(check: any) {
+    console.log(check);
+    this.enabledUpdated = check;
+  }
+
+  onChangeCreate(check: any) {
+     console.log(check);
+     this.enabled = check;
+   }
+
   loadingData() {
     swal({
       title: 'Validando información ...',
@@ -99,7 +113,7 @@ export class MasterCreateSliderComponent implements OnInit {
       this.rowsTempN = resp.data;
       console.log( this.rowsClientN);
 
-      this.newsevice.getNewsImages().then(data => {
+      this.newsevice.getNewsImages().then( data => {
         const resp: any = data;
         console.log(data);
         swal.close();
@@ -153,15 +167,23 @@ export class MasterCreateSliderComponent implements OnInit {
     });
     }
 
-    insertNew(){
+    insertNew() {
+
+      let active = 0;
+
+      if (this.enabled === true) {
+          active = 1;
+      }
+
       console.log(localStorage.getItem('token'));
       console.log(
         'title:'+this.myForm.controls.title.value,'subtitle:'+this.myForm.controls.subtitle.value,'text:'+this.myForm.controls.description.value,'status:'+this.myForm.controls.active.value);
        console.log(localStorage.getItem('token'));
-      this.newsevice.createNew(this.myForm.controls.title.value,this.myForm.controls.subtitle.value,this.myForm.controls.description.value,this.myForm.controls.active.value)
-      .then(resp=>{
-        this.newinfo= resp;
-        if(this.newinfo.success !=true ){
+      this.newsevice.createNew(this.myForm.controls.title.value, this.myForm.controls.subtitle.value,
+                                this.myForm.controls.description.value, active.toString())
+      .then(resp => {
+        this.newinfo = resp;
+        if (this.newinfo.success !== true ) {
           console.log(resp);
           console.log('error al insertar');
           swal.close();
@@ -171,10 +193,20 @@ export class MasterCreateSliderComponent implements OnInit {
             text:'se ha presentado un error al guardar la noticia',
             allowOutsideClick: false
           });
-        }else{
+         } else {
+          document.getElementById( 'createNewHide').click();
           console.log(resp);
+
+        /*  this.myForm.get('title').setValue('');
+          this.myForm.get('subtitle').setValue('');
+          this.myForm.get('description').setValue('');
+          document.getElementById('createNewHide').value = '';*/
+          this.imgURL = null;
+          this.numberPhoto = 0;
+          this.myForm.reset();
           console.log('se inserto correctamente');
           this.insertNewImage();
+          this.loadingData();
         }
       }).catch(error=> {
         console.log(error);
@@ -197,6 +229,7 @@ export class MasterCreateSliderComponent implements OnInit {
       .then(resp=>{
         this.imageinfo=resp;
         if (this.imageinfo.success==true) {
+         // this.loadingData();
           console.log(resp);
           console.log('se inserto correctamente');
           swal.close();
@@ -229,12 +262,14 @@ export class MasterCreateSliderComponent implements OnInit {
       });
     }
 
-  preview(files,event) {
+  preview(files, event) {
+
+    this.numberPhoto = files.length;
+
     if (files.length === 0) {
       return console.log('jaja');
     }
-  
-  
+
     const mimeType = files[0].type;
     if (mimeType.match(/image\/*/) == null) {
       this.message = 'Only images are supported.';
@@ -252,7 +287,8 @@ export class MasterCreateSliderComponent implements OnInit {
     }
   }
 
-  newPreview(files,event) {
+  newPreview(files, event) {
+    this.numberUpdatePhoto = files.length;
     if (files.length === 0) {
       return console.log('no image');
     }
@@ -278,22 +314,40 @@ export class MasterCreateSliderComponent implements OnInit {
   get checkForm() { return this.myForm.controls; }
 
   createNew() {
-    swal.showLoading();
+
     this.submitted = true;
-    console.log(this.myForm.controls);
+  //  console.log(this.newSelectedFiles);
+  //  console.log(this.selectedFiles);
     if ( !this.myForm.invalid) {
-      this.upload();
-     } else {
-      document.getElementById( 'updateNewHide').click();
+        if (this.numberPhoto > 0) {
+         // console.log(this.newSelectedFiles);
+          swal({
+            title: 'Validando información ...',
+            allowOutsideClick: false
+          });
+
+          swal.showLoading();
+          this.upload();
+         // this.numberPhoto = 0;
+        } else {
+          console.log('epa');
+          swal({
+            title: 'Debes cargar una imagen',
+            text: 'Es requerido cargar una imagen',
+            type: 'error'
+           });
+        }
+    } /* else {
+      document.getElementById( 'createNewHide').click();
       swal.close();
       swal({
         title: 'alerta',
         text:'complete los campos sombreados',
         allowOutsideClick: false
       });
-     }
-   }
-   
+   }}*/
+  }
+
    deleteNew(row: any) {
      swal({
        title: 'Estás seguro de eliminar este elemento?',
@@ -315,7 +369,7 @@ export class MasterCreateSliderComponent implements OnInit {
              swal.showLoading();
              const resp: any = data;
              console.log(resp);
- 
+
              if (resp.success === false) {
                swal({
                  title: 'Esta noticia presenta problemas',
@@ -344,10 +398,11 @@ export class MasterCreateSliderComponent implements OnInit {
    get checkFormUpdate() { return this.myFormUpdate.controls; }
 
    showUpdateNew(row) {
+     console.log(row);
     this.newImgURL=null;
     console.log(row);
     this.currentNew = row;
-    this.lastimage=this.currentNew.image_url;
+    this.lastimage = this.currentNew.image_url;
     console.log(this.lastimage);
     console.log( this.currentNew );
     this.myFormUpdate.get('titleUpdate').setValue(row.title);
@@ -369,7 +424,9 @@ export class MasterCreateSliderComponent implements OnInit {
     console.log(this.myFormUpdate.get('descriptionUpdate'));
     console.log(localStorage.getItem('token'));
     this.submitted = true;
+
    if ( !this.myFormUpdate.invalid) {
+    if (this.numberUpdatePhoto > 0) {
     swal({
       title: 'Validando información ...',
       allowOutsideClick: false
@@ -412,7 +469,8 @@ export class MasterCreateSliderComponent implements OnInit {
         title: 'Noticia actualizada',
         type: 'success'
        });
-        this.router.navigateByUrl('createSlider');
+       this.loadingData();
+       // this.router.navigateByUrl('createSlider');
       }
 
       } else {
@@ -430,11 +488,15 @@ export class MasterCreateSliderComponent implements OnInit {
         type: 'error'
        });
     });
-    }else{
-      swal({
-        title: 'Debe actualizar por lo menos un campo',
-        type: 'error'
-       });
+
+  } else {
+    console.log('epa');
+    swal({
+      title: 'Debes cargar una imagen',
+      text: 'Es requerido cargar una imagen',
+      type: 'error'
+     });
+  }
     }
   }
 

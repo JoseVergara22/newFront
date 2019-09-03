@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {NgxCarousel} from 'ngx-carousel';
+import {NgbCarousel, NgbCarouselConfig} from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-carousel',
@@ -12,6 +13,7 @@ import {NgxCarousel} from 'ngx-carousel';
 export class CarouselComponent implements OnInit {
   imgags: string[];
   imgagsBanner: string[];
+  
 
   public carouselBannerItems: Array<any> = [];
   public carouselBanner: NgxCarousel;
@@ -183,7 +185,7 @@ export class CarouselComponent implements OnInit {
       easing: 'ease',
       animation: 'lazy'
     };
-
+  
     this.carouselBannerLoad();
     this.carouselTileLoad();
     this.carouselTileOneLoad();

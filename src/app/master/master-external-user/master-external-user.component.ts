@@ -2,17 +2,19 @@ import { Component, OnInit } from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {CustomValidators} from 'ng2-validation';
 import { UserService } from '../../master-services/User/user.service';
+import { RestService } from '../../master-services/Rest/rest.service';
 import swal from 'sweetalert2';
 import { UserInternalInterface } from '../../master-models/user-internal';
 import { Router } from '@angular/router';
 
+
 @Component({
-  selector: 'app-master-user-register',
-  templateUrl: './master-user-register.component.html',
-  styleUrls: ['./master-user-register.component.scss',
+  selector: 'app-master-external-user',
+  templateUrl: './master-external-user.component.html',
+  styleUrls: ['./master-external-user.component.scss',
   '../../../assets/icon/icofont/css/icofont.scss']
 })
-export class MasterUserRegisterComponent implements OnInit {
+export class MasterExternalUserComponent implements OnInit {
   myForm: FormGroup;
   myUpdateForm: FormGroup;
   mynumberForm: FormGroup;
@@ -25,13 +27,23 @@ export class MasterUserRegisterComponent implements OnInit {
   errorProfile = false;
   userInternal: UserInternalInterface;
   submitted = false;
+  submittedUpload = false;
   rowsUser: any;
-  currentUser:any;
-  elementDelete:any;
-  enabledUpdated =false;
+  currentUser: any;
+  elementDelete:  any;
+  enabledUpdated = true;
+  change = true;
+  selectedProfileId = 0;
+  selectedProfileIdUpdate = 0;
+  showButtonUpdated = 0;
+  customers: any;
+  selectedBusinessId: any;
+  customerOffices: any;
 
-  constructor(private userService: UserService, private router: Router) {
+
+  constructor(private userService: UserService, private router: Router, private restService: RestService) {
     this.loading = true;
+    this. loadingData();
     this.getUser();
     const name = new FormControl('', Validators.required);
     const lastname = new FormControl('', Validators.required);
@@ -95,6 +107,18 @@ export class MasterUserRegisterComponent implements OnInit {
 */
   }
 
+
+  onChangeActive(check: any) {
+    this.change = check;
+    this.enabledUpdated = check;
+    console.log(check);
+  }
+
+  onChangeActiveUpdated(check: any) {
+    this.enabledUpdated = check;
+    console.log(check);
+  }
+
   ngOnInit() {
   }
 
@@ -128,6 +152,19 @@ export class MasterUserRegisterComponent implements OnInit {
       console.log(error);
     });
   }
+
+  loadingData() {
+
+    this.restService.getCustomer().then(data => {
+      const resp: any = data;
+      console.log(data);
+      this.customers = resp.data;
+      swal.close();
+    }).catch(error => {
+      console.log(error);
+    });
+ }
+
 
   sendUser() {
     this.submitted = true;
@@ -165,10 +202,21 @@ export class MasterUserRegisterComponent implements OnInit {
      swal({
       title: 'Usuario agregado',
       type: 'success'
-     }).then(data=>{
-      this.getUser();
+     }).then( data => {
+      // this.getUser();
+
+    this.showButtonUpdated = 1;
+
+    this.myUpdateForm.get('updatename').setValue(this.myForm.get('name').value);
+    this.myUpdateForm.get('updatelastname').setValue(this.myForm.get('lastname').value);
+    this.myUpdateForm.get('updateusername').setValue(this.myForm.get('username').value);
+    this.myUpdateForm.get('updatecellphone').setValue(this.myForm.get('cellphone').value);
+    this.myUpdateForm.get('updatetelephone').setValue(this.myForm.get('telephone').value);
+    this.myUpdateForm.get('updateemail').setValue(this.myForm.get('name').value);
+    this.selectedProfileIdUpdate = Number(this.myForm.get('profile').value);
+
      });
-     this.router.navigateByUrl('master');
+    // this.router.navigateByUrl('master');
     }
     }).catch(error => {
       console.log(error);
@@ -190,7 +238,7 @@ export class MasterUserRegisterComponent implements OnInit {
       this.myUpdateForm.get('updateemail').value,
       this.currentUser.id,
       this.myUpdateForm.get('updateprofile').value);
-    this.submitted = true;
+      this.submittedUpload = true;
    if ( !this.myUpdateForm.invalid) {
     swal({
       title: 'Validando información ...',
@@ -311,7 +359,7 @@ export class MasterUserRegisterComponent implements OnInit {
            swal({
             title: 'Usuario eliminada',
             type: 'success'
-           }).then(data=>{
+           }).then( data => {
             this.getUser();
            });
           }
@@ -342,15 +390,24 @@ export class MasterUserRegisterComponent implements OnInit {
     } else {
       this.enabledUpdated = false;
     }
-
+  
     document.getElementById( 'uploadUser').click();
-
+  
   }
 
-  createdUser() {
-    this.router.navigateByUrl('master/externalUser');
-  }
+  getCustomerOffice() {
+    console.log(this.selectedBusinessId);
+   this.restService.getCustomerOffice(this.selectedBusinessId).then(data => {
+     const resp: any = data;
+     console.log('ole ole');
+     console.log(resp);
+     this.customerOffices = resp.data_branchoffices;
+     swal.close();
+   }).catch(error => {
+     console.log(error);
+   });
 
+  }
 
   public kilo() {
     console.log('kilo');

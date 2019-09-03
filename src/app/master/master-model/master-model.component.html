@@ -1,7 +1,7 @@
 <app-modal-basic #modalRegisterBrand [dialogClass]="'modal-lg'">
     <div class="app-modal-header">
 
-        <h4 class="modal-title">Registrar combustible</h4>
+        <h4 class="modal-title">Registrar modelo</h4>
     </div>
     <div class="app-modal-body">
         <form [formGroup]="myForm" (ngSubmit)="sendModel()">
@@ -46,7 +46,7 @@
 
 <app-modal-basic #modalUpdateBrand [dialogClass]="'modal-lg'">
     <div class="app-modal-header">
-        <h4 class="modal-title">Actualizar combustible</h4>
+        <h4 class="modal-title">Actualizar modelo</h4>
     </div>
     <div *ngIf="currentFuel" class="app-modal-body">
         <form [formGroup]="myFormUpdate" (ngSubmit)="sendUpdateUpdate()">
@@ -60,7 +60,7 @@
                 </div>
                 <!-- [ngClass]="{ 'is-invalid': submitted && checkFormUpdate.typeUpdate.errors }" -->
                 <div class="col-sm-6">
-                    <h6>combustible<span style="color:red;">*</span></h6>
+                    <h6>Modelo<span style="color:red;">*</span></h6>
                     <select class="form-control" (change)="ChangingValue2()" [(ngModel)]="selectedUpdate" class="form-control" formControlName="typeUpdate" name="select">
                         <option value="0" selected>Seleccionar marca</option>  
                         <option  *ngFor="let brand of brands" [value]="brand.id"> {{brand.description}} </option>
@@ -79,7 +79,7 @@
             </div>
             <div class="align-buttons">
                 <button type="button" class="btn btn-default waves-effect" id="updateBrandHide" (click)="modalUpdateBrand.hide()">Cancelar</button>
-                <button type="submit " class="btn btn-primary m-b-0 ">Actualizar combustible</button>
+                <button type="submit " class="btn btn-primary m-b-0 ">Actualizar modelo</button>
             </div>
         </form>
     </div>

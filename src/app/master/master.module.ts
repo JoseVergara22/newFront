@@ -26,8 +26,13 @@ import { MasterRegisterThirdComponent } from './master-register-third/master-reg
 import { MasterFuelComponent } from './master-fuel/master-fuel.component';
 import { MasterBranchOfficeComponent } from './master-branch-office/master-branch-office.component';
 import { MasterForkliftComponent } from './master-forklift/master-forklift.component';
-import { MasterTaskComponent } from "./master-task/master-task.component";
-import { ScheduleModule,RecurrenceEditorModule,DayService,WeekService,WorkWeekService,MonthService,MonthAgendaService } from "@syncfusion/ej2-angular-schedule";
+import { MasterTaskComponent } from './master-task/master-task.component';
+import { MasterCustomersComponent } from './master-customers/master-customers.component';
+import { MasterUpdateCustomerComponent } from './master-update-customer/master-update-customer.component';
+import { MasterShowForkliftComponent } from './master-show-forklift/master-show-forklift.component';
+import { MasterExternalUserComponent } from './master-external-user/master-external-user.component';
+import { ScheduleModule, RecurrenceEditorModule, DayService,WeekService,
+         WorkWeekService,MonthService,MonthAgendaService } from '@syncfusion/ej2-angular-schedule';
 import {UiSwitchModule} from 'ng2-ui-switch';
 
 // Servicios
@@ -71,7 +76,11 @@ import { UploadService } from '../master-services/services/upload.service';
     MasterRegisterThirdComponent,
     MasterBranchOfficeComponent,
     MasterForkliftComponent,
-    MasterTaskComponent
+    MasterTaskComponent,
+    MasterCustomersComponent,
+    MasterUpdateCustomerComponent,
+    MasterShowForkliftComponent,
+    MasterExternalUserComponent
   ],
   providers: [
     RestService, 

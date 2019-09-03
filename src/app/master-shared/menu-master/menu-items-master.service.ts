@@ -96,15 +96,11 @@ const MENUITEMS = [
             name: 'Cambio de contraseña'
           },
           {
-            state: 'registerCustomer',
-            name: 'Administrar terceros'
+            state: 'customers',
+            name: 'Administrar clientes'
           },
           {
-            state: 'registerOffice',
-            name: 'Administrar sucursales'
-          },
-          {
-            state: 'registerForklift',
+            state: 'forkliftShow',
             name: 'Administrar montacargas'
           },
           {
