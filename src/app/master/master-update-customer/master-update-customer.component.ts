@@ -223,8 +223,8 @@ this.myFormUpdateOffice = new FormGroup({
   }
 
 
-  getCitiesOffice() {
-    // console.log(this.opcionSeleccionado);
+  getCitiesOffice(val: any) {
+     console.log(val);
       this.selectedCityOfficeId = 0;
 
       this.restService.getCities(Number(this.selectedDepartmentOfficeId.id)).then(data => {
