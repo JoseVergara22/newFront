@@ -47,10 +47,66 @@ this.http.post('http://34.207.70.171/api/auth/signup', postParams)
 .map(res => res).subscribe(data => {
 resolve(data);
 }, error => {
+  console.log('error al registro');
           resolve(error);
   });
 });
     }
+
+    createRelationshipUserOffices(id_user: number,
+      ids_branch_offices: Array<number>,
+      id_customer: number) {
+      console.log(id_user);
+      console.log(ids_branch_offices);
+      console.log(id_customer);
+  return new Promise(resolve => {
+    const headers = new HttpHeaders();
+    headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user'))); // 'Bearer ' +
+    headers.append('Content-Type', 'application/json');
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type':  'application/json',
+        'Authorization': 'Bearer ' + localStorage.getItem('token_user'),
+        'Accept': 'application/json'
+      })
+    };
+        const postParams = {
+          id_user: id_user,
+          ids_branch_offices: ids_branch_offices,
+          id_customer: id_customer
+        };
+  this.http.post('http://34.207.70.171/api/branch_offices_users', postParams, httpOptions)
+  .map(res => res).subscribe(data => {
+  resolve(data);
+  }, error => {
+    console.log('error al registro');
+            resolve(error);
+    });
+  });
+      }
+
+      getRelationshipUserOffices(idUser: Number) {
+        return new Promise(resolve => {
+              const headers = new HttpHeaders();
+              headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user'))); // 'Bearer ' +
+              headers.append('Content-Type', 'application/json');
+              const httpOptions = {
+                headers: new HttpHeaders({
+                  'Content-Type':  'application/json',
+                  'Authorization': 'Bearer ' + localStorage.getItem('token_user'),
+                  'Accept': 'application/json'
+                })
+              };
+        this.http.get('http://34.207.70.171/api/branch_offices_users?id_user= ' + idUser, httpOptions)
+        .map(res => res).subscribe(data => {
+        console.log(data);
+        resolve(data);
+        }, error => {
+                  resolve(error);
+          });
+        });
+            }
+
 
 createBrand(description: string,  status: number) {
   return new Promise(resolve => {

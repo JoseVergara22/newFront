@@ -77,7 +77,7 @@ resolve(data);
               'Accept': 'application/json'
             })
           };
-        
+
               const patchParams = {
                 first_name: firstName,
                 last_name: lastName,
@@ -126,6 +126,52 @@ resolve(data);
       });
     }
 
+    getUsersCustomer() {
+      return new Promise(resolve => {
+        const headers = new HttpHeaders();
+        headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user'))); // 'Bearer ' +
+        headers.append('Content-Type', 'application/json');
+        const httpOptions = {
+          headers: new HttpHeaders({
+            'Content-Type':  'application/json',
+            'Authorization': 'Bearer ' + localStorage.getItem('token_user'),
+            'Accept': 'application/json'
+          })
+        };
+        this.http.get('http://34.207.70.171/api/all_branch_offices_users', httpOptions)
+        .map(res => res).subscribe(data => {
+        console.log(data);
+        resolve(data);
+        }, error => {
+                  resolve(error);
+          });
+      });
+    }
+
+
+    createUserCustomer( id_user: number,
+      id_customer: number,
+      ids_branch_offices: Array<number>
+      ) {
+  return new Promise(resolve => {
+        const headers = new HttpHeaders();
+        headers.append('Accept', 'application/json');
+        headers.append('Content-Type', 'application/json');
+        const postParams = {
+          id_user: id_user,
+          ids_branch_offices: ids_branch_offices
+        };
+  this.http.post('http://34.207.70.171/api/branch_offices_users', postParams)
+  .map(res => res).subscribe(data => {
+  console.log('ingreso');
+  console.log(data);
+  resolve(data);
+  }, error => {
+    console.log('error al registro');
+            resolve(error);
+    });
+  });
+      }
 
     recoveryPassword(email:string) {
       return new Promise(resolve => {
@@ -142,7 +188,7 @@ resolve(data);
         const postParams = {
           email: email
         };
-        this.http.post('http://34.207.70.171/api/auth/password/create',postParams, httpOptions)
+        this.http.post('http://34.207.70.171/api/auth/password/create', postParams, httpOptions)
         .map(res => res).subscribe(data => {
         console.log(data);
         resolve(data);
