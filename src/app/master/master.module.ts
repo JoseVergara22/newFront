@@ -33,13 +33,17 @@ import { MasterShowForkliftComponent } from './master-show-forklift/master-show-
 import { MasterExternalUserComponent } from './master-external-user/master-external-user.component';
 import { ScheduleModule, RecurrenceEditorModule, DayService,WeekService,
          WorkWeekService,MonthService,MonthAgendaService } from '@syncfusion/ej2-angular-schedule';
+import { DropDownListModule } from "@syncfusion/ej2-angular-dropdowns";
+import { DateTimePickerModule } from "@syncfusion/ej2-angular-calendars";
 import {UiSwitchModule} from 'ng2-ui-switch';
-
+import { MasterRestartPasswordComponent } from './master-restart-password/master-restart-password.component';
+import { MasterWorkDashboardComponent } from "./master-work-dashboard/master-work-dashboard.component";
 // Servicios
 import { UserService } from '../master-services/User/user.service';
 import { NewService } from '../master-services/new/new.service';
 import { RestService } from '../master-services/Rest/rest.service';
 import { UploadService } from '../master-services/services/upload.service';
+import { WorkService } from '../master-services/Work/work.service';
 
 
 
@@ -54,7 +58,9 @@ import { UploadService } from '../master-services/services/upload.service';
     MasterSharedModule,
     SharedModule,
     UiSwitchModule,
-    NgxDatatableModule
+    NgxDatatableModule,
+    DateTimePickerModule,
+    DropDownListModule
   ],
   exports: [
   ],
@@ -80,12 +86,15 @@ import { UploadService } from '../master-services/services/upload.service';
     MasterCustomersComponent,
     MasterUpdateCustomerComponent,
     MasterShowForkliftComponent,
-    MasterExternalUserComponent
+    MasterExternalUserComponent,
+    MasterRestartPasswordComponent,
+    MasterWorkDashboardComponent
   ],
   providers: [
     RestService, 
     UserService, 
     UploadService,
+    WorkService,
     NewService,
     DayService,
     WeekService,

@@ -167,13 +167,19 @@
                     </div>
                     <div class="col-sm-4">
                         <h6>Rutina<span style="color:red;">*</span></h6>
-                        <select class="form-control" name="select" formControlName="routine" [(ngModel)]="selectedRoutineId">
+                        <select class="form-control" (change)="toggleCalendar()" name="select" formControlName="routine" [(ngModel)]="selectedRoutineId">
                             <option value="0" selected>Seleccionar rutina </option>
                         <option value="1">RUTINA1</option>
                          <option value="2">RUTINA2</option>
+                         <option value="3">Por tiempo</option>
                        </select>
                     </div>
                 </div>
+                
+                <app-card *ngIf=(tooglecalendar) [title]="'Calendario'" [headerContent]="''" [cardOptionBlock]="true">
+                    
+                </app-card>
+
                 <div class="form-group row">
                     <div class="col-sm-4">
                         <h6>Generar alarmas</h6>

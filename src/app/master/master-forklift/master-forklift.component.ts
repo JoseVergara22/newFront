@@ -5,15 +5,58 @@ import swal from 'sweetalert2';
 import { Router } from '@angular/router';
 import { UploadService } from '../../master-services/services/upload.service';
 import { UUID } from 'angular2-uuid';
+import { View,EventSettingsModel } from "@syncfusion/ej2-angular-schedule";
+import { DatePipe } from "@angular/common";
+
 
 
 @Component({
   selector: 'app-master-forklift',
   templateUrl: './master-forklift.component.html',
-  styleUrls: ['./master-forklift.component.scss']
+  styleUrls: ['./master-forklift.component.scss'],
+  providers: [DatePipe]
 })
 export class MasterForkliftComponent implements OnInit {
 
+  nothingToshowText:any='Nothing to show'; // "By default" => There are no events scheduled that day. 
+   colors: any = {
+      red: {
+        primary: '#ad2121',
+        secondary: '#FAE3E3'
+      },
+      yellow: {
+        primary: '#e3bc08',
+        secondary: '#FDF1BA'
+      }
+    };
+    actions: any[] = [
+      {
+        label: '<i class="fa fa-fw fa-times"></i>',
+        name: 'delete'
+      },
+      {
+        label: '<i class="fa fa-fw fa-pencil"></i>',
+        name: 'edit'
+      }
+    ];
+    events: any = [
+      {
+        start: new Date(),
+        end: new Date(),
+        title: 'title event 1',
+        color: this.colors.red,
+        actions: this.actions
+      },
+      {
+        start: new Date(),
+        end: new Date(),
+        title: 'title event 2',
+        color: this.colors.yellow,
+        actions: this.actions
+      }
+    ]
+    viewDate: Date = new Date();
+    themecolor: any = '#0a5ab3'
   selectedOfficeId = 0;
   selectedBrandId = 0;
   selectedBusinessId = 0;
@@ -22,7 +65,11 @@ export class MasterForkliftComponent implements OnInit {
   selectedtyreId = 0;
   selectedModelId = 0;
   selectedRoutineId = 0;
+  tooglecalendar:boolean=false;
+  public setView:View='Month';
+  public eventSettings:EventSettingsModel={
 
+  };
   myForm: FormGroup;
   switchCreate = true;
   switchUpdate = true;
@@ -42,16 +89,19 @@ export class MasterForkliftComponent implements OnInit {
   imgURL1: any;
   imgURL2: any;
   selectedFiles: any;
-
   generateAlarms: true;
   active: true;
-
+  myDate = new Date();
+  year=parseInt(this.datePipe.transform(this.myDate,'yyyy'))+1;
+  month=parseInt(this.datePipe.transform(this.myDate,'MM'));
+  day=parseInt(this.datePipe.transform(this.myDate,'dd'));
+  public setDate:Date=new Date(this.year,this.day,this.month);
   name = 'Angular 4';
   urls = [];
 
 
 
-  constructor(private restService: RestService, private router: Router, private uploadService: UploadService) {
+  constructor(private restService: RestService,private datePipe: DatePipe, private router: Router, private uploadService: UploadService) {
 
     this.loadingData();
 
@@ -96,10 +146,24 @@ export class MasterForkliftComponent implements OnInit {
 
    }
 
+   eventClicked(event) {
+    console.log(event);
+  }
+   actionClicked(event) {
+    console.log('action',event.action)
+    console.log('event',event.event)
+  }
+
    sendBrand() {
       this.submitted = true;
    }
-
+   toggleCalendar(){
+    if(this.selectedRoutineId.valueOf()==3){
+      this.tooglecalendar=true;
+    }else{
+      this.tooglecalendar=false;
+    }
+   }
 
    onChangeGenerateAlarms(check: any) {
     this.generateAlarms = check;

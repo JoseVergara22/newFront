@@ -102,6 +102,29 @@ resolve(data);
         });
       }
 
+      findToken(token:any){
+      return new Promise(resolve => {
+        const httpOptions = {
+          headers: new HttpHeaders({
+            'Content-Type':  'application/json',
+            'Accept': 'application/json'
+          })
+        };
+        
+        this.http.get('http://34.207.70.171/api/auth/password/find/'+token, httpOptions)
+        .map(res => res).subscribe(data => {
+        console.log(data);
+        resolve(data);
+        }, error => {
+            if(error.error.message=="Este token de restablecimiento de contraseña no es válido."){
+              resolve ("Este token de restablecimiento de contraseña no es válido.");
+            }else{
+              console.log(error);
+              resolve(error);
+            }
+          });
+      });
+      }
 
     getUsers() {
       return new Promise(resolve => {
@@ -126,6 +149,33 @@ resolve(data);
       });
     }
 
+    changePassword(email:string,password:string,token:string,rpassword:string) {
+      return new Promise(resolve => {
+        const httpOptions = {
+          headers: new HttpHeaders({
+            'Content-Type':  'application/json',
+            'Accept': 'application/json'
+          })
+        };
+        const postParams = {
+          email: email,
+          password:password,
+          c_password: rpassword,
+          token:token
+        };
+        console.log(postParams);
+        this.http.post('http://34.207.70.171/api/auth/password/reset',postParams, httpOptions)
+        .map(res => res).subscribe(data => {
+        console.log(data);
+        resolve(data);
+        }, error => {
+            console.log('error servicio');
+            console.log(error);
+            resolve(error);
+          
+          });
+      });
+    }
 
     recoveryPassword(email:string) {
       return new Promise(resolve => {
@@ -135,7 +185,6 @@ resolve(data);
         const httpOptions = {
           headers: new HttpHeaders({
             'Content-Type':  'application/json',
-            'Authorization': 'Bearer ' + localStorage.getItem('token_user'),
             'Accept': 'application/json'
           })
         };

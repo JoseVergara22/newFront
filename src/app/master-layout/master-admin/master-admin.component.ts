@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import {animate, AUTO_STYLE, state, style, transition, trigger} from '@angular/animations';
 import { MenuItems } from '../../shared/menu-items/menu-items';
 import { MenuItemsMasterService } from '../../master-shared/menu-master/menu-items-master.service';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -123,7 +124,7 @@ export class MasterAdminComponent  implements OnInit {
 
   public config: any;
 
-  constructor(public menuItems: MenuItemsMasterService) {
+  constructor(public menuItems: MenuItemsMasterService, private router: Router) {
     this.navType = 'st2';
     this.themeLayout = 'vertical';
     this.verticalPlacement = 'left';
@@ -192,6 +193,11 @@ export class MasterAdminComponent  implements OnInit {
   ngOnInit() {
     this.setBackgroundPattern('pattern1');
     /*document.querySelector('body').classList.remove('dark');*/
+  }
+
+  logOut(){
+    localStorage.clear();
+    this.router.navigateByUrl('/');
   }
 
   onResize(event) {

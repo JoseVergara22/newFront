@@ -20,11 +20,21 @@ import { MasterCustomersComponent } from './master-customers/master-customers.co
 import { MasterUpdateCustomerComponent } from './master-update-customer/master-update-customer.component';
 import { MasterShowForkliftComponent } from './master-show-forklift/master-show-forklift.component';
 import { MasterExternalUserComponent } from './master-external-user/master-external-user.component';
+import { MasterRestartPasswordComponent } from "./master-restart-password/master-restart-password.component";
+import { MasterWorkDashboardComponent } from "./master-work-dashboard/master-work-dashboard.component";
 
 const routes: Routes = [
   {
     path: 'register',
     component: MasterUserRegisterComponent
+  },
+  {
+    path:'work_dashboard',
+    component: MasterWorkDashboardComponent
+  },
+  {
+    path: 'restartPassword/:token',
+    component: MasterRestartPasswordComponent
   },
   {
     path: '',

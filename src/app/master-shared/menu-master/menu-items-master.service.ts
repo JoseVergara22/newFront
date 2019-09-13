@@ -80,6 +80,10 @@ const MENUITEMS = [
         icon: 'ti-pulse',
         children: [
           {
+            state:'work_dashboard',
+            name:'Administrar rutinas'
+          },
+          {
             state: 'register',
             name: 'Administrar usuarios'
           },

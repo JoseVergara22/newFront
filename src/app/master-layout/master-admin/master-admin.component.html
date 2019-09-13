@@ -111,10 +111,8 @@
                                         <i class="ti-lock"></i> Lock Screen
                                     </a>
                                 </li>-->
-                                <li>
-                                    <a [routerLink]="['/authentication/login/']">
+                                <li (click)="logOut()">
                                         <i class="ti-layout-sidebar-left"></i> Salir
-                                    </a>
                                 </li>
                             </ul>
                         </li>
