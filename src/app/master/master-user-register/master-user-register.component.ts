@@ -33,6 +33,7 @@ export class MasterUserRegisterComponent implements OnInit {
   constructor(private userService: UserService, private router: Router) {
     this.loading = true;
     this.getUser();
+    this.getUserCustomer();
     const name = new FormControl('', Validators.required);
     const lastname = new FormControl('', Validators.required);
     const username = new FormControl('', Validators.required);
@@ -129,6 +130,37 @@ export class MasterUserRegisterComponent implements OnInit {
     });
   }
 
+
+  getUserCustomer() {
+    swal({
+      title: 'Obteniendo información ...',
+      allowOutsideClick: false
+    });
+    swal.showLoading();
+    this.userService.getUsersCustomer().then(data => {
+      const resp: any = data;
+      if (resp.error) {
+        swal({
+          title:'Error',
+          text: 'Ha ocurrido un error',
+          type: 'error'
+         });
+      } else {
+        console.log(data);
+        swal.close();
+        this.rowsUser = resp.data;
+        console.log( this.rowsUser);
+    }
+    }).catch(error => {
+      swal.close();
+      swal({
+        title:'Error',
+        text: 'Ha ocurrido un error',
+        type: 'error'
+       });
+      console.log(error);
+    });
+  }
   sendUser() {
     this.submitted = true;
    if ( !this.myForm.invalid) {

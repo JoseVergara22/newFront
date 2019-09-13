@@ -3,7 +3,7 @@
 
         <h4 class="modal-title">Relacionar con empresas</h4>
     </div>
-    <div class="app-modal-body">
+    <div class="app-modal-body" *ngIf="customers">
 
         <div class="form-group row">
             <div class="col-sm-6">
@@ -20,14 +20,46 @@
 
                 <ul class="list-group">
                     <li class="list-group-item" *ngFor="let item of customerOffices">
-                        <input type="checkbox" name="list_name" value="{{item.id}}" /> {{item.branch_name}}
+                        <input type="checkbox" (click)="selectOffices(item)" name="list_name" value="{{item.id}}" /> {{item.branch_name}}
                     </li>
                 </ul>
             </div>
         </div>
         <div class="align-buttons">
             <button type="button" class="btn btn-default waves-effect" id="createBrandHide" (click)="modalRegisterRelationCompany.hide()">Cancelar</button>
-            <button class="btn btn-primary m-b-0 ">Crear Relación</button>
+            <button class="btn btn-primary m-b-0 " (click)="relationshipUserOffice()">Crear Relación</button>
+
+        </div>
+
+    </div>
+</app-modal-basic>
+
+<app-modal-basic #modalRegisterRelationUpdate [dialogClass]="'modal-lg'">
+    <div class="app-modal-header">
+
+        <h4 class="modal-title">Relacionar con empresas</h4>
+    </div>
+    <div class="app-modal-body">
+
+        <div class="form-group row" *ngIf="currentCustomer">
+            <div class="col-sm-6">
+                <h6>Clientes <span style="color:red;">*</span></h6>
+                <h4>{{ currentCustomer.business_name }}</h4>
+            </div>
+
+            <div class="col-sm-6">
+                <h6>Sucursales <span style="color:red;">*</span></h6>
+
+                <ul class="list-group">
+                    <li class="list-group-item" *ngFor="let item of customerOfficesUpdate" (onCreate)="changeCheckUpdate(item)">
+                        <input type="checkbox" (click)="selectOffices(item)" name="list_name" value="{{item.id}}" /> {{item.branch_name}}
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="align-buttons">
+            <button type="button" class="btn btn-default waves-effect" id="createBrandHide" (click)="modalRegisterRelationUpdate.hide()">Cancelar</button>
+            <button class="btn btn-primary m-b-0 " (click)="relationshipUserOffice()">Crear Relación</button>
 
         </div>
 
@@ -308,11 +340,34 @@
     </div>
 </div>
 
-<div class="row" *ngIf=" showButtonUpdated == 1">
+<div class="row">
 
     <div class="col-sm-12">
         <app-card [title]="'Actualizar usuario'" [headerContent]="''" [cardOptionBlock]="true">
-            <button class="btn btn-primary m-b-0 " (click)="modalRegisterRelationCompany.show()">Relacionar con empresas</button>
+            <button class="btn btn-primary m-b-0 " id="relationShipCustomer" (click)="modalRegisterRelationCompany.show()">Relacionar con empresas</button>
+            <br>
+            <button class="btn btn-primary m-b-0 " style="display:none;" id="relationShipUpdate" (click)="modalRegisterRelationUpdate.show()">Relacionar con empresas</button>
+
+            <ngx-datatable #table class="data-table" [rows]="rowsClient" [columns]="[{name:'Descripción', prop:'description'},{name:'Estado', prop:'status'},{prop:'id'}]" [columnMode]="'force'" [headerHeight]="50" [footerHeight]="50" [rowHeight]="'auto'" [limit]="5">
+
+                <ngx-datatable-column [resizeable]="false" name="Cliente" [sortable]="false" [draggable]="false" prop="business_name"></ngx-datatable-column>
+                <ngx-datatable-column [resizeable]="false" name="Acciones" [sortable]="false" [draggable]="false" sortable="false" prop="id">
+
+                    <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+
+                        <!--<button md-icon-button (click)="blockAgents(value)">
+                                <i class="fa fa-ban"></i>
+                              </button> -->
+
+                        <button (click)="updateCustomerOffices(row)" class="btn btn-primary btn-icon"><i class="icofont icofont-pencil-alt-5"></i></button>
+                        <button (click)="deleteBrand(row)" class="btn btn-danger btn-icon"><i class="icofont icofont-ui-delete"></i></button>
+                    </ng-template>
+                </ngx-datatable-column>
+
+            </ngx-datatable>
         </app-card>
     </div>
+
+
+
 </div>

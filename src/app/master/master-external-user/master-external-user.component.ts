@@ -7,6 +7,13 @@ import swal from 'sweetalert2';
 import { UserInternalInterface } from '../../master-models/user-internal';
 import { Router } from '@angular/router';
 
+interface UserOfficesInterface {
+  id?: number;
+  officeName?: string;
+  status?: boolean;
+}
+
+
 
 @Component({
   selector: 'app-master-external-user',
@@ -15,6 +22,8 @@ import { Router } from '@angular/router';
   '../../../assets/icon/icofont/css/icofont.scss']
 })
 export class MasterExternalUserComponent implements OnInit {
+
+
   myForm: FormGroup;
   myUpdateForm: FormGroup;
   mynumberForm: FormGroup;
@@ -26,6 +35,8 @@ export class MasterExternalUserComponent implements OnInit {
   load = true;
   errorProfile = false;
   userInternal: UserInternalInterface;
+  officesUpdated: Array <UserOfficesInterface> = [];
+  officesTemp: UserOfficesInterface;
   submitted = false;
   submittedUpload = false;
   rowsUser: any;
@@ -39,7 +50,12 @@ export class MasterExternalUserComponent implements OnInit {
   customers: any;
   selectedBusinessId: any;
   customerOffices: any;
-
+  customerOfficesUpdate: any;
+  idBranchOffices = [1];
+  userId;
+  rowsClient: any;
+  currentCustomer: any;
+  nameCustomer: any;
 
   constructor(private userService: UserService, private router: Router, private restService: RestService) {
     this.loading = true;
@@ -157,6 +173,7 @@ export class MasterExternalUserComponent implements OnInit {
 
     this.restService.getCustomer().then(data => {
       const resp: any = data;
+      console.log('epa');
       console.log(data);
       this.customers = resp.data;
       swal.close();
@@ -185,6 +202,7 @@ export class MasterExternalUserComponent implements OnInit {
     this.myForm.get('rpassword').value,
     this.myForm.get('email').value,
     this.myForm.get('profile').value).then(data => {
+    console.log(data);
       const resp: any = data;
       if (resp.error) {
         let msg  = '';
@@ -202,9 +220,11 @@ export class MasterExternalUserComponent implements OnInit {
      swal({
       title: 'Usuario agregado',
       type: 'success'
-     }).then( data => {
+     }).then( varAlert => {
       // this.getUser();
 
+    console.log(data);
+    this.currentUser = data;
     this.showButtonUpdated = 1;
 
     this.myUpdateForm.get('updatename').setValue(this.myForm.get('name').value);
@@ -236,7 +256,7 @@ export class MasterExternalUserComponent implements OnInit {
       this.myUpdateForm.get('updatecellphone').value,
       this.myUpdateForm.get('updatetelephone').value,
       this.myUpdateForm.get('updateemail').value,
-      this.currentUser.id,
+      this.currentUser.data.id,
       this.myUpdateForm.get('updateprofile').value);
       this.submittedUpload = true;
    if ( !this.myUpdateForm.invalid) {
@@ -254,7 +274,7 @@ export class MasterExternalUserComponent implements OnInit {
     this.myUpdateForm.get('updatecellphone').value,
     this.myUpdateForm.get('updatetelephone').value,
     this.myUpdateForm.get('updateemail').value,
-    this.currentUser.id,
+    this.currentUser.data.id,
     this.myUpdateForm.get('updateprofile').value).then(data => {
       const resp: any = data;
       console.log(resp);
@@ -327,6 +347,11 @@ export class MasterExternalUserComponent implements OnInit {
 
   }
 
+  changeCheckUpdate(item: any) {
+
+    console.log(item);
+  }
+
   deleteUser(row: any) {
     swal({
       title: 'Estás seguro de eliminar este elemento?',
@@ -385,6 +410,9 @@ export class MasterExternalUserComponent implements OnInit {
     this.myUpdateForm.get('updatetelephone').setValue(row.telephone);
     this.myUpdateForm.get('updateemail').setValue(row.email);
     this.myUpdateForm.get('updateprofile').setValue(row.profile_id);
+
+    // Hay que un for y llenar el array para mostrar
+
     if (this.currentUser.status === '0') {
       this.enabledUpdated = true;
     } else {
@@ -395,8 +423,39 @@ export class MasterExternalUserComponent implements OnInit {
   
   }
 
+  selectOffices(event: any) {
+    const search = this.idBranchOffices.indexOf(event.id);
+    if (search == -1) {
+   
+      this.idBranchOffices.push(event.id);
+    } else {
+      console.log('entro');
+      const pos = this.idBranchOffices.indexOf(event.id);
+      console.log(pos);
+      this.idBranchOffices.splice(pos, 1);
+    }
+    console.log(event);
+    console.log(this.idBranchOffices);
+  }
+
+
+  relationshipUserOffice() {
+    console.log(this.selectedBusinessId);
+    this.idBranchOffices.splice(0, 1);
+   this.restService.createRelationshipUserOffices(this.currentUser.data.id,   this.idBranchOffices, this.selectedBusinessId).then(data => {
+     const resp: any = data;
+     this.getRelationshipUserOffices();
+     console.log('ole ole');
+     console.log(resp);
+     // this.idBranchOffices
+     swal.close();
+   }).catch(error => {
+     console.log(error);
+   });
+  }
   getCustomerOffice() {
     console.log(this.selectedBusinessId);
+    this.idBranchOffices = [1];
    this.restService.getCustomerOffice(this.selectedBusinessId).then(data => {
      const resp: any = data;
      console.log('ole ole');
@@ -407,6 +466,71 @@ export class MasterExternalUserComponent implements OnInit {
      console.log(error);
    });
 
+  }
+
+
+updateCustomerOffices(customer) {
+    console.log(customer);
+    this.currentCustomer = customer;
+
+      console.log(this.selectedBusinessId);
+      this.idBranchOffices = [1];
+     this.restService.getCustomerOffice( this.currentCustomer.id).then(data => {
+       const resp: any = data;
+       console.log('ole ole');
+       console.log(resp);
+       this.customerOfficesUpdate = resp.data_branchoffices;
+
+       this.officesTemp = {
+        id: 1,
+        officeName : 'Medellin',
+        status: true
+       };
+
+       this.officesUpdated.push(this.officesTemp);
+       console.log(this.officesUpdated);
+
+       swal.close();
+     }).catch(error => {
+       console.log(error);
+     });
+     
+    console.log( this.currentCustomer );
+    document.getElementById( 'relationShipUpdate').click();
+  }
+
+  getRelationshipUserOffices() {
+    swal({
+      title: 'Obteniendo información ...',
+      allowOutsideClick: false
+    });
+    swal.showLoading();
+    this.restService.getRelationshipUserOffices(this.currentUser.data.id).then(data => {
+      const resp: any = data;
+      if (resp.error) {
+        swal({
+          title: 'Error',
+          text: 'Ha ocurrido un error',
+          type: 'error'
+         });
+      } else {
+        console.log('info de userOffices');
+        this.rowsClient = resp.data.customers;
+        console.log('customer');
+        console.log(resp.data.customers);
+        swal.close();
+
+        console.log( resp.data);
+    }
+    }).catch(error => {
+      swal.close();
+      swal({
+        title:'Error',
+        text: 'Ha ocurrido un error',
+        type: 'error'
+       });
+      console.log(error);
+    });
   }
 
   public kilo() {
