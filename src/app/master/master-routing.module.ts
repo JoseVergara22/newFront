@@ -22,6 +22,7 @@ import { MasterShowForkliftComponent } from './master-show-forklift/master-show-
 import { MasterExternalUserComponent } from './master-external-user/master-external-user.component';
 import { MasterRestartPasswordComponent } from "./master-restart-password/master-restart-password.component";
 import { MasterWorkDashboardComponent } from "./master-work-dashboard/master-work-dashboard.component";
+import { MasterRoutineDetailsComponent } from './master-routine-details/master-routine-details.component';
 
 const routes: Routes = [
   {
@@ -111,6 +112,10 @@ const routes: Routes = [
   {
     path: 'externalUser',
     component:  MasterExternalUserComponent
+  },
+  {
+    path: 'detailRoutine',
+    component:  MasterRoutineDetailsComponent
   }
 ];
 
