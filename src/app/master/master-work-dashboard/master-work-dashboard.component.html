@@ -2,8 +2,9 @@
 
 
 
-      <app-card [title]="'Administrar rutinas'" [headerContent]="''" [cardOptionBlock]="true">
+    <app-card [title]="'Administrar rutinas'" [headerContent]="''" [cardOptionBlock]="true">
 
+<<<<<<< HEAD
           <div class="align-buttons">
               <button type="button" id="uploadNew" class="btn btn-primary" (click)="redirecttodetails()" >Crear rutina</button>
           </div>
@@ -19,5 +20,22 @@
               </ngx-datatable-column>
           </ngx-datatable>
       </app-card>
+=======
+        <div class="align-buttons">
+            <button type="button" id="uploadNew" class="btn btn-primary" routerLink="/master/detailRoutine">Crear rutina</button>
+        </div>
+        <br>
+        <ngx-datatable #table class="data-table" [rows]="rowsWork" [columns]="[{name:'Descripcion', prop:'title'},{prop:'id'}]" [columnMode]="'force'" [headerHeight]="50" [footerHeight]="50" [rowHeight]="'auto'" [limit]="5">
 
-  </div>
+            <ngx-datatable-column [resizeable]="false" name="Descripcion" [sortable]="false" [draggable]="false" prop="title"></ngx-datatable-column>
+            <ngx-datatable-column [resizeable]="false" name="Acciones" [sortable]="false" [draggable]="false" sortable="false" prop="id">
+                <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+                    <button class="btn btn-primary btn-icon"><i class="icofont icofont-pencil-alt-5"></i></button>
+                    <button class="btn btn-danger btn-icon"><i class="icofont icofont-ui-delete"></i></button>
+                </ng-template>
+            </ngx-datatable-column>
+        </ngx-datatable>
+    </app-card>
+>>>>>>> 9c4e66ee1e990313571f76892fb8bb2a3879bd94
+
+</div>
