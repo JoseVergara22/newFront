@@ -38,6 +38,7 @@ import { DateTimePickerModule } from "@syncfusion/ej2-angular-calendars";
 import {UiSwitchModule} from 'ng2-ui-switch';
 import { MasterRestartPasswordComponent } from './master-restart-password/master-restart-password.component';
 import { MasterWorkDashboardComponent } from "./master-work-dashboard/master-work-dashboard.component";
+import { MasterWorkDetailsComponent } from './master-work-details/master-work-details.component';
 // Servicios
 import { UserService } from '../master-services/User/user.service';
 import { NewService } from '../master-services/new/new.service';
@@ -88,7 +89,8 @@ import { WorkService } from '../master-services/Work/work.service';
     MasterShowForkliftComponent,
     MasterExternalUserComponent,
     MasterRestartPasswordComponent,
-    MasterWorkDashboardComponent
+    MasterWorkDashboardComponent,
+    MasterWorkDetailsComponent
   ],
   providers: [
     RestService, 

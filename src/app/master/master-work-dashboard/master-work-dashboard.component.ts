@@ -10,17 +10,22 @@ import { Router } from '@angular/router';
 @Component({
   selector: 'app-master-work-dashboard',
   templateUrl: './master-work-dashboard.component.html',
-  styleUrls: ['./master-work-dashboard.component.scss']
+  styleUrls: ['./master-work-dashboard.component.scss',
+  '../../../assets/icon/icofont/css/icofont.scss']
 })
 export class MasterWorkDashboardComponent implements OnInit {
 
   rowsWork: any;
-  constructor(private workService:WorkService) { }
+  constructor(private workService:WorkService,
+              private router:Router
+            ) {
+              this.getWorks();
+            }
 
   ngOnInit() {
   }
 
-  getUser() {
+  getWorks() {
     swal({
       title: 'Obteniendo información ...',
       allowOutsideClick: false
@@ -50,6 +55,9 @@ export class MasterWorkDashboardComponent implements OnInit {
       console.log(error);
     });
   }
-
+  
+  redirecttodetails(){
+    this.router.navigateByUrl('master/work_details');
+  }
 
 }

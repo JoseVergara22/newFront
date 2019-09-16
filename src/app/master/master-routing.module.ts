@@ -22,11 +22,16 @@ import { MasterShowForkliftComponent } from './master-show-forklift/master-show-
 import { MasterExternalUserComponent } from './master-external-user/master-external-user.component';
 import { MasterRestartPasswordComponent } from "./master-restart-password/master-restart-password.component";
 import { MasterWorkDashboardComponent } from "./master-work-dashboard/master-work-dashboard.component";
+import { MasterWorkDetailsComponent } from "./master-work-details/master-work-details.component";
 
 const routes: Routes = [
   {
     path: 'register',
     component: MasterUserRegisterComponent
+  },
+  {
+    path: 'work_details',
+    component: MasterWorkDetailsComponent
   },
   {
     path:'work_dashboard',
