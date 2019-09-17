@@ -23,10 +23,11 @@ export class MasterWorkDetailsComponent implements OnInit {
   
   showButtonUpdated:boolean;
   detailform: FormGroup;
-  detailupdateform: FormGroup;
+  updatedetailform: FormGroup;
   headerinfo:any;
   submitted = false;
   indice:number=0;
+  updateindice:number=0;
   rowsWorkDetails: any;
   elementDelete:any;
   constructor(
@@ -49,6 +50,22 @@ export class MasterWorkDetailsComponent implements OnInit {
       work:work,
       comment:comment
     });
+
+    
+    const updatesystem = new FormControl('',Validators.required);
+    const updatework = new FormControl('',Validators.required);
+    const updatecomment = new FormControl('');
+    this.updatedetailform= this.formbuilder.group({
+      updatesystem:updatesystem,
+      updateparts:this.formbuilder.array([
+        this.formbuilder.group({
+          updatepart:['']
+        })
+      ]),
+      updatework:updatework,
+      updatecomment:updatecomment
+    });
+
   }
 
   ngOnInit() {
@@ -61,6 +78,7 @@ export class MasterWorkDetailsComponent implements OnInit {
         title: 'Obteniendo información ...',
         allowOutsideClick: false
       });
+      swal.showLoading();
       this.workservice.storeWorkHeader(1,this.title1,this.hours1,this.observation1).then(data=>{
         const resp:any=data;
         this.headerinfo=resp.data;
@@ -106,6 +124,7 @@ export class MasterWorkDetailsComponent implements OnInit {
         title: 'Obteniendo información ...',
         allowOutsideClick: false
       });
+      swal.showLoading();
       this.workservice.updateWorkHeader(this.headerinfo.id,1,this.title2,this.hours2,this.observation2).then(data=>{
         const resp:any=data;
         this.headerinfo=resp.data;
@@ -142,7 +161,7 @@ export class MasterWorkDetailsComponent implements OnInit {
      const control= <FormArray>this.detailform.controls['parts'];
 
       let lastvalue=control.at(this.indice).value;
-      console.log(lastvalue.part)
+      console.log(lastvalue.part);
         if ((((lastvalue.part)==null))||((lastvalue.part)=="")) {
           this.generalAlert('No se puede agregar','El campo parte debe contener un valor','error')
         } else {
@@ -165,11 +184,42 @@ export class MasterWorkDetailsComponent implements OnInit {
     }
   }
 
+  get getUpdateParts(){
+    return this.updatedetailform.get('updateparts') as FormArray;
+  }
+
+  addUpdatePart(){
+    console.log(this.updateindice);
+     const control= <FormArray>this.updatedetailform.controls['updateparts'];
+
+      let lastvalue=control.at(this.updateindice).value;
+      console.log(lastvalue.updatepart);
+        if ((((lastvalue.updatepart)==null))||((lastvalue.updatepart)=="")) {
+          this.generalAlert('No se puede agregar','El campo parte debe contener un valor','error')
+        } else {
+          control.push(this.formbuilder.group({
+            updatepart:[]
+          }));
+          this.updateindice++;
+        }
+  }
+
+  deleteUpdatePart(index:number){
+    if (this.updateindice==0) {
+      this.generalAlert('No se puede borrar','debe contener almenos un valor','error');
+    } else {
+      const control =<FormArray>this.updatedetailform.controls['updateparts'];
+      control.removeAt(index);
+      this.updateindice--;
+    }
+  }
+
   storageDetail(formValue:any){
     swal({
       title: 'Obteniendo información ...',
       allowOutsideClick: false
     });
+    swal.showLoading();
     const parts=formValue.parts;
     const system=formValue.system;
     const comment=formValue.comment;
@@ -224,7 +274,6 @@ export class MasterWorkDetailsComponent implements OnInit {
           console.log( this.elementDelete);
           this.workservice.deleteWorkDetail(Number(this.elementDelete.id))
           .then(data => {
-            swal.showLoading();
             const resp: any = data;
             console.log(resp);
 
@@ -244,6 +293,10 @@ export class MasterWorkDetailsComponent implements OnInit {
         }
       console.log(willDelete);
     });
+  }
+
+  updateWorkDetail(row:any){
+    console.log(row);
   }
 
 }

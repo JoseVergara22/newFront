@@ -35,13 +35,9 @@ import { ScheduleModule, RecurrenceEditorModule, DayService, WeekService,
          WorkWeekService, MonthService,MonthAgendaService } from '@syncfusion/ej2-angular-schedule';
 import {UiSwitchModule} from 'ng2-ui-switch';
 import { MasterRestartPasswordComponent } from './master-restart-password/master-restart-password.component';
-<<<<<<< HEAD
-import { MasterWorkDashboardComponent } from "./master-work-dashboard/master-work-dashboard.component";
 import { MasterWorkDetailsComponent } from './master-work-details/master-work-details.component';
-=======
 import { MasterWorkDashboardComponent } from './master-work-dashboard/master-work-dashboard.component';
 import { MasterRoutineDetailsComponent } from './master-routine-details/master-routine-details.component';
->>>>>>> 9c4e66ee1e990313571f76892fb8bb2a3879bd94
 // Servicios
 import { UserService } from '../master-services/User/user.service';
 import { NewService } from '../master-services/new/new.service';
@@ -92,11 +88,8 @@ import { WorkService } from '../master-services/Work/work.service';
     MasterExternalUserComponent,
     MasterRestartPasswordComponent,
     MasterWorkDashboardComponent,
-<<<<<<< HEAD
-    MasterWorkDetailsComponent
-=======
+    MasterWorkDetailsComponent,
     MasterRoutineDetailsComponent
->>>>>>> 9c4e66ee1e990313571f76892fb8bb2a3879bd94
   ],
   providers: [
     RestService, 

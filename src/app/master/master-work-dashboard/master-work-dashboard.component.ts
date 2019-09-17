@@ -16,6 +16,7 @@ import { Router } from '@angular/router';
 export class MasterWorkDashboardComponent implements OnInit {
 
   rowsWork: any;
+  rowtodelete:any;
   constructor(private workService:WorkService,
               private router:Router
             ) {
@@ -58,6 +59,54 @@ export class MasterWorkDashboardComponent implements OnInit {
   
   redirecttodetails(){
     this.router.navigateByUrl('master/work_details');
+  }
+
+  deleteWorkHeader(workrow:any){
+    swal({
+      title:"Confirmacion",
+      text:"esta seguro que desea borrar este elememto?",
+      cancelButtonText:"No",
+      confirmButtonText:"Si",
+      showCancelButton:true,
+      showConfirmButton:true
+    }).then(goingtodelete=>{
+      if (goingtodelete.value) {
+        this.loader();
+        this.rowtodelete=workrow;
+        console.log(this.rowtodelete);
+        this.workService.deleteWorkHeader(this.rowtodelete.id).then(data=>{
+          const resp:any=data;
+          if (resp.success==false){
+            this.generalAlert('Error','ocurrio un error durante el procesado',"error");
+          }else{
+            this.generalAlert("Proceso exitoso","El proceso ha sido completado correctamente","success");
+            this.getWorks();
+          }
+        }).catch(err=>{
+          console.log(err);
+          this.generalAlert('Error','ocurrio un error durante el procesado',"error");
+        });
+      } else {
+        console.log("proceso cancelado");
+      }
+    })
+  }
+
+  generalAlert(title:string,text:string,type:any){
+    swal({
+      title:title,
+      text:text,
+      type:type
+    })
+  }
+  
+  loader(){
+    swal({
+      title:"procesando informacion",
+      allowEscapeKey:false,
+      allowOutsideClick:false
+    });
+    swal.showLoading();
   }
 
 }
