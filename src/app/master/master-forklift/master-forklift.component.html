@@ -175,10 +175,31 @@
                        </select>
                     </div>
                 </div>
-                
+
                 <app-card *ngIf=(tooglecalendar) [title]="'Calendario'" [headerContent]="''" [cardOptionBlock]="true">
-                    
+                    <!-- <ngb-datepicker [markDisabled]="isDisabled" navigation="none" (select)="onDateChange($event)" [dayTemplate]="customDay"></ngb-datepicker>
+                    <ng-template #customDay let-date="date" let-currentMonth="currentMonth" let-currentYear="currentYear" let-selected="selected">
+                        <span class="custom-day" [class.workday]="hasJobs(date)" [class.bg-primary]="selected">
+                          {{ date.day }}
+                        </span>
+                    </ng-template>
+
+                    <ngb-datepicker [(ngModel)]="allDatesModel" [minDate]="pickerMinDate" [maxDate]="pickerMaxDate" ngbDatepicker [displayMonths]="4" [navigation]="'select'" [dayTemplate]="customDay"></ngb-datepicker>
+
+
+
+
+                    <ngb-datepicker #dp [displayMonths]="2" [dayTemplate]="t">
+                    </ngb-datepicker> -->
+
+                    <p>Example of multi-select date-picker</p>
+                    <p>If you want to select a range, use Ctrl Key</p>
+                    <app-master-multi-date-picker [datesSelected]="datesSelected" (datesSelectedChange)="change($event)"></app-master-multi-date-picker>
+                    <hr>
+                    <pre>DateSelected: {{ datesSelected | json }} </pre>
+
                 </app-card>
+
 
                 <div class="form-group row">
                     <div class="col-sm-4">
@@ -265,3 +286,6 @@
         </app-card>
     </div>
 </div>
+
+
+<app-master-multi-date-picker [datesSelected]="datesSelected" (datesSelectedChange)="change($event)"></app-master-multi-date-picker>

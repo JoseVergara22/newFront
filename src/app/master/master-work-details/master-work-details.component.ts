@@ -104,9 +104,11 @@ export class MasterWorkDetailsComponent implements OnInit {
   getWorkDetails(){
     this.workservice.getWorksDetails(this.headerinfo.id).then(data=>{
       const resp:any=data;
+      console.log('carga de detalles');
+      console.log(this.headerinfo.id);
       console.log(resp);
       if (resp.success==true) {
-        const details=resp.data.routine_details;
+        const details=resp.data.routine_works;
         console.log(details);
         this.rowsWorkDetails=details;
       } else {
@@ -230,20 +232,23 @@ export class MasterWorkDetailsComponent implements OnInit {
     console.log(parts[0].part);
     if ((parts[0].part!=null)&&(parts[0].part!="")&&(comment!=null)&&(comment!="")&&(system!=null)&&(system!="")) {
       console.log((parts));
-    let array="["
+    let array=""
     parts.forEach(part => {
       if(part.part!=null){
-        array+=part.part+",";
+        array+=part.part+"<br><br>";
       }
     });
-    array+="]";
+    array+="";
     array=array.replace(",]","]");
     console.log(array);
     this.workservice.storeWorkDetail(this.headerinfo.id,comment,array,system).then(data=>{
       const resp:any=data;
+      console.log(data);
       console.log(resp);
       if (resp.success==1) {
         this.generalAlert('Proceso exitoso','Se ha guardado el detalle correctamente','success');
+        this.getWorkDetails();
+        document.getElementById('storageDetailHide').click();
       } else {
         this.generalAlert('No se puede guardar','Debe Completar todos los campos obligatorios','error');
       }

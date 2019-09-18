@@ -1,24 +1,40 @@
 import { Component, OnInit } from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
+import {NgbCalendar, NgbDateParserFormatter, NgbDateStruct} from '@ng-bootstrap/ng-bootstrap';
+import {ColorPickerService} from 'ngx-color-picker';
 import { RestService } from '../../master-services/Rest/rest.service';
 import swal from 'sweetalert2';
 import { Router } from '@angular/router';
 import { UploadService } from '../../master-services/services/upload.service';
 import { UUID } from 'angular2-uuid';
-import { View,EventSettingsModel } from "@syncfusion/ej2-angular-schedule";
-import { DatePipe } from "@angular/common";
+// import { View,EventSettingsModel } from "@syncfusion/ej2-angular-schedule";
+// import { DatePipe } from "@angular/common";
 
+const equals = (one: NgbDateStruct, two: NgbDateStruct) =>
+  one && two && two.year === one.year && two.month === one.month && two.day === one.day;
 
+const before = (one: NgbDateStruct, two: NgbDateStruct) =>
+  !one || !two ? false : one.year === two.year ? one.month === two.month ? one.day === two.day
+    ? false : one.day < two.day : one.month < two.month : one.year < two.year;
+
+const after = (one: NgbDateStruct, two: NgbDateStruct) =>
+  !one || !two ? false : one.year === two.year ? one.month === two.month ? one.day === two.day
+    ? false : one.day > two.day : one.month > two.month : one.year > two.year;
+
+    const now = new Date();
+
+    export class Cmyk {
+      constructor(public c: number, public m: number, public y: number, public k: number) { }
+    }
 
 @Component({
   selector: 'app-master-forklift',
   templateUrl: './master-forklift.component.html',
-  styleUrls: ['./master-forklift.component.scss'],
-  providers: [DatePipe]
+  styleUrls: ['./master-forklift.component.scss']
 })
 export class MasterForkliftComponent implements OnInit {
-
-  nothingToshowText:any='Nothing to show'; // "By default" => There are no events scheduled that day. 
+  datesSelected:NgbDateStruct[]=[]; 
+  nothingToshowText: any = 'Nothing to show'; // "By default" => There are no events scheduled that day. 
    colors: any = {
       red: {
         primary: '#ad2121',
@@ -65,11 +81,11 @@ export class MasterForkliftComponent implements OnInit {
   selectedtyreId = 0;
   selectedModelId = 0;
   selectedRoutineId = 0;
-  tooglecalendar:boolean=false;
-  public setView:View='Month';
-  public eventSettings:EventSettingsModel={
+  tooglecalendar: boolean = false;
+  // public setView: View = 'Month';
+  // public eventSettings: EventSettingsModel={
 
-  };
+  // };
   myForm: FormGroup;
   switchCreate = true;
   switchUpdate = true;
@@ -92,16 +108,70 @@ export class MasterForkliftComponent implements OnInit {
   generateAlarms: true;
   active: true;
   myDate = new Date();
-  year=parseInt(this.datePipe.transform(this.myDate,'yyyy'))+1;
-  month=parseInt(this.datePipe.transform(this.myDate,'MM'));
-  day=parseInt(this.datePipe.transform(this.myDate,'dd'));
-  public setDate:Date=new Date(this.year,this.day,this.month);
+  // year=parseInt(this.datePipe.transform(this.myDate,'yyyy'))+1;
+  // month=parseInt(this.datePipe.transform(this.myDate,'MM'));
+  // day=parseInt(this.datePipe.transform(this.myDate,'dd'));
+  // public setDate:Date=new Date(this.year,this.day,this.month);
   name = 'Angular 4';
   urls = [];
 
+  public model: any;
+  modelCustomDay: any;
+
+  displayMonths = 1;
+  navigation = 'select';
+
+  hoveredDate: NgbDateStruct;
+  fromDate: NgbDateStruct;
+  toDate: NgbDateStruct;
+
+  disabled = true;
 
 
-  constructor(private restService: RestService,private datePipe: DatePipe, private router: Router, private uploadService: UploadService) {
+
+  toggle = false;
+  public lastColor: string;
+  public rgbaText: string;
+
+  public color = '#2889e9';
+  public color2 = 'hsla(300,82%,52%)';
+  public color3 = '#fff500';
+  public color4 = 'rgb(236,64,64)';
+  public color5 = 'rgba(45,208,45,1)';
+
+  public color13 = 'rgba(0, 255, 0, 0.5)';
+  public color14 = 'rgb(0, 255, 255)';
+  public color15 = '#a51ad633';
+
+  public basicColor = '#4099ff';
+  public showColorCode = '#db968d';
+  public showColorCodeHSAL = 'hsl(149,27%,65%)';
+  public showColorCodeRGBA = 'rgb(221,14,190)';
+  public changeMeColor = '#523698';
+
+  public arrayColors: any = {};
+  public selectedColor = 'color';
+
+  modelPopup: NgbDateStruct;
+  public date: {year: number, month: number};
+
+  modelDisabled: NgbDateStruct = {
+    year: now.getFullYear(), month: now.getMonth() + 1, day: now.getDate()
+  };
+
+  public cmyk: Cmyk = new Cmyk(0, 0, 0, 0);
+
+  isWeekend(date: NgbDateStruct) {
+    const d = new Date(date.year, date.month - 1, date.day);
+    return d.getDay() === 0 || d.getDay() === 6;
+  }
+
+  isDisabled(date: NgbDateStruct, current: {month: number}) {
+    return date.month !== current.month;
+  }
+
+  constructor(private restService: RestService, private router: Router, private uploadService: UploadService,
+    public parserFormatter: NgbDateParserFormatter, public calendar: NgbCalendar, public cpService: ColorPickerService) {
 
     this.loadingData();
 
@@ -244,7 +314,10 @@ export class MasterForkliftComponent implements OnInit {
     });
 
    }
-
+   change(value: NgbDateStruct[])
+   {
+     this.datesSelected = value;
+   }
 
    getCustomerModel() {
     console.log(this.selectedBusinessId);
@@ -388,6 +461,45 @@ this.selectedFuelId);
     }
 
   ngOnInit() {
+  }
+  selectToday() {
+    this.modelPopup = {year: now.getFullYear(), month: now.getMonth() + 1, day: now.getDate()};
+  }
+
+  onDateChange(date: NgbDateStruct) {
+    console.log(date);
+    if (!this.fromDate && !this.toDate) {
+      this.fromDate = date;
+    } else if (this.fromDate && !this.toDate && after(date, this.fromDate)) {
+      this.toDate = date;
+    } else {
+      this.toDate = null;
+      this.fromDate = date;
+    }
+  }
+
+
+  hasJobs(date: NgbDateStruct) {
+    for (let i = 0; i < this.customers.length; i++) {
+      const taskDate = new Date(this.customers[i].due_date);
+      const day: number = taskDate.getDate();
+      const month: number = taskDate.getMonth() + 1;
+      const year: number = taskDate.getFullYear();
+      console.log(this.customers[i].due_date);
+      if (day === date.day && month === date.month && year === date.year) {
+        return true;
+      }
+    }
+}
+
+  isHovered = date => this.fromDate && !this.toDate && this.hoveredDate && after(date, this.fromDate) && before(date, this.hoveredDate);
+  isInside = date => after(date, this.fromDate) && before(date, this.toDate);
+  isFrom = date => equals(date, this.fromDate);
+  isTo = date => equals(date, this.toDate);
+
+
+  onChangeColorHex8(color: string): string {
+    return this.cpService.outputFormat(this.cpService.stringToHsva(color, true), 'rgba', null);
   }
 
   get checkForm() { return this.myForm.controls; }

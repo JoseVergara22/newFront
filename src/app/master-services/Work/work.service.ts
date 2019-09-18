@@ -186,14 +186,15 @@ export class WorkService {
           'Accept': 'application/json'
         })
       };
-      const postParams={
-        id_rutines:id_rutines,
-        comment:comment,
-        parts:parts,
-        system:system
-      }
+      const postParams = {
+        id_routine: id_rutines,
+        works: comment,
+        part: parts,
+        system: system,
+        status: 0
+      };
       
-      this.http.post('http://34.207.70.171/api/routine_details', postParams,httpOptions)
+      this.http.post('http://34.207.70.171/api/routine_works', postParams, httpOptions)
       .map(res => res).subscribe(data => {
         console.log("a mostrar data");
       console.log(data);

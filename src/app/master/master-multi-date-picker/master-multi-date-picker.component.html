@@ -1,0 +1,32 @@
+<!-- <div *ngFor="let item of dateInitials">
+    {{ item | json }} {{ole}}
+    <ngb-datepicker #dp [displayMonths]="1" [navigation]="'none'" [dayTemplate]="t" [markDisabled]="isDisabled" outsideDays="hidden" [minDate]="{year: 2010, month: 1, day: 1}" [maxDate]="{year: 2010, month: 1, day: 31}">
+    </ngb-datepicker>
+</div>
+
+
+
+<ngb-datepicker #dp2 [displayMonths]="1" [startDate]="{year: 1994, month: 10}" [navigation]="'none'" [dayTemplate]="t" [markDisabled]="isDisabled" outsideDays="hidden">
+</ngb-datepicker>
+
+<ng-template #t let-date="date" let-focused="focused">
+    <span class="custom-day" (click)="onDateSelection($event,date)" [class.focused]="focused" [class.range]="isFrom(date) || isTo(date) || isInside(date) || isHovered(date)" [class.faded]="isHovered(date) || isInside(date)" [class.selected]="isDateSelected(date)"
+        (mouseenter)="hoveredDate = date" (mouseleave)="hoveredDate = null">
+    {{ date.day }}
+  </span>
+</ng-template>-->
+
+<div id="ole">
+    <ngb-datepicker #dp [displayMonths]="2" [navigation]="'none'" [dayTemplate]="t">
+    </ngb-datepicker>
+</div>
+
+<ngb-datepicker #dp [displayMonths]="1" [navigation]="'none'" outsideDays="visible" [dayTemplate]="t"></ngb-datepicker>
+
+
+<ng-template #t let-date="date" let-focused="focused">
+    <span class="custom-day" (click)="onDateSelection($event,date)" [class.focused]="focused" [class.range]="isFrom(date) || isTo(date) || isInside(date) || isHovered(date)" [class.faded]="isHovered(date) || isInside(date)" [class.selected]="isDateSelected(date)"
+        (mouseenter)="hoveredDate = date" (mouseleave)="hoveredDate = null">
+    {{ date.day }}
+  </span>
+</ng-template>

@@ -44,7 +44,8 @@ import { NewService } from '../master-services/new/new.service';
 import { RestService } from '../master-services/Rest/rest.service';
 import { UploadService } from '../master-services/services/upload.service';
 import { WorkService } from '../master-services/Work/work.service';
-
+import { ColorPickerService } from 'ngx-color-picker';
+import { MasterMultiDatePickerComponent } from './master-multi-date-picker/master-multi-date-picker.component';
 
 
 
@@ -89,11 +90,12 @@ import { WorkService } from '../master-services/Work/work.service';
     MasterRestartPasswordComponent,
     MasterWorkDashboardComponent,
     MasterWorkDetailsComponent,
-    MasterRoutineDetailsComponent
+    MasterRoutineDetailsComponent,
+    MasterMultiDatePickerComponent
   ],
   providers: [
-    RestService, 
-    UserService, 
+    RestService,
+    UserService,
     UploadService,
     WorkService,
     NewService,
@@ -101,6 +103,7 @@ import { WorkService } from '../master-services/Work/work.service';
     WeekService,
     WorkWeekService,
     MonthService,
-    MonthAgendaService]
+    MonthAgendaService,
+    ColorPickerService]
 })
 export class MasterModule { }
