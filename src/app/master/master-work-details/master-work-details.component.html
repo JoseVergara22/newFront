@@ -49,10 +49,11 @@
                             <button (click)="updateheader()" type="submit"  class="btn btn-primary m-b-0"  *ngIf="showButtonUpdated == true">Actualizar encabezado <i class="icofont icofont-pencil-alt-5"></i></button>
                         </div>
                     </div>     
-                    <!-- <button class="btn btn-primary m-b-0" (click)="modalDetail.show()">Crear detalle</button> -->
+                     <!-- <button class="btn btn-primary m-b-0" (click)="modalDetail.show()">Crear detalle</button>  -->
                     <div class="form-group row align-buttons">
                         <div class="col-sm-12">
                             <button (click)="registerheader()" type="submit"  class="btn btn-primary m-b-0"  *ngIf="showButtonUpdated == false">Agregar encabezado</button>
+                            <button type="button" class="btn btn-default waves-effect" id="showmodalbutton" hidden (click)="modalUpdateDetail.show()">Cancelar</button>
                         </div>
                     </div>        
           </app-card>
@@ -64,12 +65,12 @@
               <br>
               <ngx-datatable #table class="data-table" [rows]="rowsWorkDetails" [columns]="[{name:'Trabajo a realizar', prop:'comment'},{name:'Partes', prop:'parts'},{name:'Sistema', prop:'system'},{prop:'id'}]" [columnMode]="'force'" [headerHeight]="50" [footerHeight]="50" [rowHeight]="'auto'" [limit]="5">
 
-                  <ngx-datatable-column [resizeable]="false" name="Trabajo a realizar" [sortable]="false" [draggable]="false" prop="comment"></ngx-datatable-column>
-                  <ngx-datatable-column [resizeable]="false" name="Partes" [sortable]="false" [draggable]="false" prop="parts"></ngx-datatable-column>
                   <ngx-datatable-column [resizeable]="false" name="Sistema" [sortable]="false" [draggable]="false" prop="system"></ngx-datatable-column>
+                  <ngx-datatable-column [resizeable]="false" name="Partes" [sortable]="false" [draggable]="false" prop="parts"></ngx-datatable-column>
+                  <ngx-datatable-column [resizeable]="false" name="Trabajo a realizar" [sortable]="false" [draggable]="false" prop="comment"></ngx-datatable-column>
                   <ngx-datatable-column [resizeable]="false" name="Acciones" [sortable]="false" [draggable]="false" sortable="false" prop="id">
                       <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
-                          <button class="btn btn-primary btn-icon" (click)="updateWorkDetail(row)"><i class="icofont icofont-pencil-alt-5"></i></button>
+                          <button class="btn btn-primary btn-icon" (click)="showModalUpdate(row)"><i class="icofont icofont-pencil-alt-5"></i></button>
                           <button class="btn btn-danger btn-icon" (click)="deleteWorkDetail(row)"><i class="icofont icofont-ui-delete"></i></button>
                       </ng-template>
                   </ngx-datatable-column>
@@ -87,7 +88,7 @@
     <div class="app-modal-body">
             <form [formGroup]="detailform">
                     <div class="form-group row">
-                        <div class="col-sm-6">
+                        <div class="col-sm-12">
                             <h6>Sistema <span style="color:red;">*</span></h6>
                             <input type="text" class="form-control" id="system" formControlName="system" >
                             <!-- <div *ngIf="submitted && detailform.system.errors" class="invalid-feedback">
@@ -126,12 +127,26 @@
                             
                         </div> -->
                         <div class="col-sm-12">
-                            <h6>Parte <span style="color:red;">*</span></h6>
-                            <button class="btn btn-warning btn-icon" (click)="addPart()"><i class="icofont icofont-ui-add"></i></button>
+                            <div class="row">
+                                <div class="col-sm-11">
+                                    <h6>Parte <span style="color:red;">*</span></h6>
+                                </div>
+                                <div class="col-sm-1" style="margin-top: -0.5%">
+                                    <button class="btn btn-warning btn-icon" (click)="addPart()" ><i class="icofont icofont-ui-add"></i></button>
+                                </div>
+                            </div>
+                            <br>
                             <div formArrayName="parts">
                                 <div *ngFor="let part of getParts.controls;let pointIdex=index" [formGroupName]="pointIdex">
-                                    <input type="text" class="form-control col-sm-10" formControlName="part">
-                                    <button class="btn btn-default btn-icon col-sm-2" (click)="deletePart(pointIdex)"><i class="icofont icofont-ui-remove"></i></button>
+                                    <div class="row">
+                                        <div class="col-sm-11">
+                                            <input type="text" class="form-control " formControlName="part">
+                                        </div>
+                                        <div class="col-sm-1" style="margin-top: -0.5%">
+                                            <button class="btn btn-default btn-icon " (click)="deletePart(pointIdex)"><i class="icofont icofont-ui-remove"></i></button>
+                                        </div>
+                                    </div>
+                                    <br>
                                     <!-- <div *ngIf="submitted && detailform.part.errors" class="invalid-feedback">
                                         <div class="messages text-danger" *ngIf="detailform.part.errors.required">Este campo es requerido</div>
                                     </div> -->
@@ -141,8 +156,8 @@
                         </div>
                         <div class="form-group row">
                             <div class="col-sm-12">
-                                <h6>Comentario <span style="color:red;">*</span></h6>
-                                <textarea type="text" class="form-control" id="comment" formControlName="comment"></textarea>
+                                <h6>Trabajo a realizar <span style="color:red;">*</span></h6>
+                                <textarea type="text" rows="5" class="form-control" id="comment" formControlName="comment"></textarea>
                             </div>
                         </div>
                     <div class="align-buttons">
@@ -161,19 +176,33 @@
     <div class="app-modal-body">
             <form [formGroup]="updatedetailform">
                     <div class="form-group row">
-                        <div class="col-sm-6">
+                        <div class="col-sm-12">
                             <h6>Sistema <span style="color:red;">*</span></h6>
-                            <input type="text" class="form-control" id="system" formControlName="updatesystem" >
+                            <input type="text" class="form-control" id="updatesystem" formControlName="updatesystem" >
                         </div>
                     </div>
                     <div class="form-group row">
                         <div class="col-sm-12">
-                            <h6>Parte <span style="color:red;">*</span></h6>
-                            <button class="btn btn-warning btn-icon" (click)="addUpdatePart()"><i class="icofont icofont-ui-add"></i></button>
+                            <div class="row">
+                                <div class="col-sm-11">
+                                    <h6>Parte <span style="color:red;">*</span></h6>
+                                </div>
+                                <div class="col-sm-1" style="margin-top: -0.5%">
+                                    <button class="btn btn-warning btn-icon" (click)="addUpdatePart()"><i class="icofont icofont-ui-add"></i></button>
+                                </div>
+                            </div>
+                            <br>
                             <div formArrayName="updateparts">
                                 <div *ngFor="let updatepart of getUpdateParts.controls;let updatePointIdex=index" [formGroupName]="updatePointIdex">
-                                    <input type="text" class="form-control col-sm-10" formControlName="updatepart">
-                                    <button class="btn btn-default btn-icon col-sm-2" (click)="deleteUpdatePart(updatePointIdex)"><i class="icofont icofont-ui-remove"></i></button>
+                                    <div class="row">
+                                            <div class="col-sm-11">
+                                                <input type="text" class="form-control col-sm-10" formControlName="updatepart">
+                                            </div>
+                                            <div class="col-sm-1" style="margin-top: -0.5%">
+                                                <button class="btn btn-default btn-icon col-sm-2" (click)="deleteUpdatePart(updatePointIdex)"><i class="icofont icofont-ui-remove"></i></button>
+                                            </div>
+                                    </div>
+                                    <br>
                                 </div>
                             </div>
                         </div>
@@ -181,13 +210,12 @@
                         <div class="form-group row">
                             <div class="col-sm-12">
                                 <h6>Comentario <span style="color:red;">*</span></h6>
-                                <textarea type="text" class="form-control" id="comment" formControlName="updatecomment"></textarea>
+                                <textarea type="text" rows="5" class="form-control" id="updatecomment" formControlName="updatecomment"></textarea>
                             </div>
                         </div>
                     <div class="align-buttons">
-                        <button type="button" class="btn btn-default waves-effect" id="storageDetailHide" (click)="modalDetail.hide()">Cancelar</button>
-                        <button type="button" class="btn btn-default waves-effect" id="storageDetailHide" hidden (click)="modalDetail.hide()">Cancelar</button>
-                        <button type="submit " class="btn btn-primary m-b-0 " (click)="updateDetail(updatedetailform.value)">Crear Detalle</button>
+                        <button type="button" class="btn btn-default waves-effect" id="storageDetailHide" (click)="modalUpdateDetail.hide()">Cancelar</button>
+                        <button type="submit " class="btn btn-primary m-b-0 " (click)="UpdateWorkDetail(updatedetailform.value)">Actualizar Detalle</button>
         
                     </div>
                 </form>

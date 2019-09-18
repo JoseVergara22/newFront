@@ -30,6 +30,7 @@ export class MasterWorkDetailsComponent implements OnInit {
   updateindice:number=0;
   rowsWorkDetails: any;
   elementDelete:any;
+  currentdetail:any;
   constructor(
     private workservice: WorkService,
     private router: Router,
@@ -295,8 +296,75 @@ export class MasterWorkDetailsComponent implements OnInit {
     });
   }
 
-  updateWorkDetail(row:any){
+  showModalUpdate(row:any){
     console.log(row);
+    this.currentdetail=row;
+    this.updatedetailform.get('updatesystem').setValue(this.currentdetail.system);
+    this.updatedetailform.get('updatecomment').setValue(this.currentdetail.comment);
+    let parts=this.currentdetail.parts;
+    console.log(parts);
+    if(parts!=null){
+      let partsarray= parts.replace("[","");
+      partsarray=partsarray.replace("]","");
+      partsarray=partsarray.split(',');
+      const control= <FormArray>this.updatedetailform.controls['updateparts'];
+      if (partsarray[0]!=null) {
+        control.removeAt(0);
+      }
+      partsarray.forEach(part => {
+  
+            control.push(this.formbuilder.group({
+              updatepart:[part]
+            }));
+            this.updateindice++;
+          
+      });
+      console.log(partsarray);
+    }
+    document.getElementById('showmodalbutton').click();
+  }
+
+  UpdateWorkDetail(formValue:any){
+    swal({
+      title: 'Obteniendo información ...',
+      allowOutsideClick: false
+    });
+    swal.showLoading();
+    const parts=formValue.updateparts;
+    const system=formValue.updatesystem;
+    const comment=formValue.updatecomment;
+    console.log(system);
+    console.log(comment);
+    console.log("parte");
+    console.log(parts[0].updatepart);
+    if ((parts[0].updatepart!=null)&&(parts[0].updatepart!="")&&(comment!=null)&&(comment!="")&&(system!=null)&&(system!="")) {
+      console.log((parts));
+    let array="["
+    parts.forEach(part => {
+      if(part.updatepart!=null){
+        array+=part.updatepart+",";
+      }
+    });
+    array+="]";
+    array=array.replace(",]","]");
+    console.log(array);
+    this.workservice.updateWorkDetail(this.currentdetail.id,comment,array,system).then(data=>{
+      const resp:any=data;
+      console.log(resp);
+      if (resp.success==1) {
+        this.generalAlert('Proceso exitoso','Se ha guardado el detalle correctamente','success');
+        this.getWorkDetails();
+      } else {
+        this.generalAlert('No se puede guardar','Debe Completar todos los campos obligatorios','error');
+      }
+     
+    }).catch(error=>{
+      console.log(error);
+      this.generalAlert('No se puede guardar','Ha ocurrido un error en la ejecucion','error')
+    });
+    }else{
+      this.generalAlert('No se puede guardar','Debe Completar todos los campos obligatorios','error')
+    }
   }
 
 }
