@@ -35,6 +35,10 @@ const routes: Routes = [
     component: MasterWorkDetailsComponent
   },
   {
+    path: 'work_detailsUpdate/:name',
+    component: MasterWorkDetailsComponent
+  },
+  {
     path:'work_dashboard',
     component: MasterWorkDashboardComponent
   },

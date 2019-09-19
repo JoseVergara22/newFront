@@ -31,12 +31,14 @@ export class MasterWorkDetailsComponent implements OnInit {
   rowsWorkDetails: any;
   elementDelete:any;
   currentdetail:any;
+  name: any;
   constructor(
     private workservice: WorkService,
     private router: Router,
     private activatedroute: ActivatedRoute,
     private formbuilder:FormBuilder
   ) { 
+
     this.showButtonUpdated=false;
     const system = new FormControl('',Validators.required);
     const work = new FormControl('',Validators.required);
@@ -70,8 +72,20 @@ export class MasterWorkDetailsComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.activatedroute.paramMap.subscribe(data=>{
+       this.name=data.get('name');
+      console.log(this.name);
+      if (this.name) {
+        this.hours1=0;
+        this.title1=this.name;
+        this.observation1="nada";
+      }
+    });
   }
 
+  ngAfterContentInit() {
+    document.getElementById('storeheaderbutton2').click();
+  }
   registerheader(){
     console.log(this.title1);
     if ((this.title1!=null) || (this.title1!="") || (this.hours1==null)) {
@@ -192,10 +206,9 @@ export class MasterWorkDetailsComponent implements OnInit {
   }
 
   addUpdatePart(){
-    console.log(this.updateindice);
      const control= <FormArray>this.updatedetailform.controls['updateparts'];
-
-      let lastvalue=control.at(this.updateindice).value;
+     console.log("valor en : "+(this.updateindice-1)+" es: "+control.at(this.updateindice-1));
+      let lastvalue=control.at(this.updateindice-1).value;
       console.log(lastvalue.updatepart);
         if ((((lastvalue.updatepart)==null))||((lastvalue.updatepart)=="")) {
           this.generalAlert('No se puede agregar','El campo parte debe contener un valor','error')
@@ -212,6 +225,7 @@ export class MasterWorkDetailsComponent implements OnInit {
       this.generalAlert('No se puede borrar','debe contener almenos un valor','error');
     } else {
       const control =<FormArray>this.updatedetailform.controls['updateparts'];
+      console.log("valor en : "+ index+" es: "+control.at(index));
       control.removeAt(index);
       this.updateindice--;
     }
@@ -238,8 +252,6 @@ export class MasterWorkDetailsComponent implements OnInit {
         array+=part.part+"<br><br>";
       }
     });
-    array+="";
-    array=array.replace(",]","]");
     console.log(array);
     this.workservice.storeWorkDetail(this.headerinfo.id,comment,array,system).then(data=>{
       const resp:any=data;
@@ -248,6 +260,7 @@ export class MasterWorkDetailsComponent implements OnInit {
       if (resp.success==1) {
         this.generalAlert('Proceso exitoso','Se ha guardado el detalle correctamente','success');
         this.getWorkDetails();
+        this.resetCreateForm();
         document.getElementById('storageDetailHide').click();
       } else {
         this.generalAlert('No se puede guardar','Debe Completar todos los campos obligatorios','error');
@@ -259,6 +272,14 @@ export class MasterWorkDetailsComponent implements OnInit {
     });
     }else{
       this.generalAlert('No se puede guardar','Debe Completar todos los campos obligatorios','error')
+    }
+  }
+  resetCreateForm(){
+    this.detailform.reset();
+    for (let index = this.indice; index > 0; index--) {
+      const control =<FormArray>this.detailform.controls['parts'];
+      control.removeAt(index);
+      this.indice--;
     }
   }
 
@@ -302,27 +323,27 @@ export class MasterWorkDetailsComponent implements OnInit {
   }
 
   showModalUpdate(row:any){
+    this.updateindice=0;
     console.log(row);
     this.currentdetail=row;
     this.updatedetailform.get('updatesystem').setValue(this.currentdetail.system);
-    this.updatedetailform.get('updatecomment').setValue(this.currentdetail.comment);
-    let parts=this.currentdetail.parts;
+    this.updatedetailform.get('updatecomment').setValue(this.currentdetail.works);
+    let parts=this.currentdetail.part;
     console.log(parts);
     if(parts!=null){
-      let partsarray= parts.replace("[","");
-      partsarray=partsarray.replace("]","");
-      partsarray=partsarray.split(',');
+      let partsarray= parts;
+      partsarray=partsarray.split('<br><br>');
       const control= <FormArray>this.updatedetailform.controls['updateparts'];
       if (partsarray[0]!=null) {
         control.removeAt(0);
       }
       partsarray.forEach(part => {
-  
-            control.push(this.formbuilder.group({
-              updatepart:[part]
-            }));
-            this.updateindice++;
-          
+        if (part) {
+          control.push(this.formbuilder.group({
+            updatepart:[part]
+          }));
+          this.updateindice++;
+        }
       });
       console.log(partsarray);
     }
@@ -344,20 +365,19 @@ export class MasterWorkDetailsComponent implements OnInit {
     console.log(parts[0].updatepart);
     if ((parts[0].updatepart!=null)&&(parts[0].updatepart!="")&&(comment!=null)&&(comment!="")&&(system!=null)&&(system!="")) {
       console.log((parts));
-    let array="["
-    parts.forEach(part => {
-      if(part.updatepart!=null){
-        array+=part.updatepart+",";
-      }
+      let array=""
+      parts.forEach(part => {
+        if(part.updatepart!=null){
+          array+=part.updatepart+"<br><br>";
+        }
     });
-    array+="]";
-    array=array.replace(",]","]");
     console.log(array);
     this.workservice.updateWorkDetail(this.currentdetail.id,comment,array,system).then(data=>{
       const resp:any=data;
       console.log(resp);
       if (resp.success==1) {
         this.generalAlert('Proceso exitoso','Se ha guardado el detalle correctamente','success');
+        document.getElementById('updateDetailHide').click();
         this.getWorkDetails();
       } else {
         this.generalAlert('No se puede guardar','Debe Completar todos los campos obligatorios','error');

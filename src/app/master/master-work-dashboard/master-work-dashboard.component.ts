@@ -61,6 +61,10 @@ export class MasterWorkDashboardComponent implements OnInit {
     this.router.navigateByUrl('master/work_details');
   }
 
+  goToTpdateView(workrow:any){
+    console.log(workrow.description);
+    this.router.navigateByUrl('master/work_detailsUpdate/'+workrow.description);
+  }
   deleteWorkHeader(workrow:any){
     swal({
       title:"Confirmacion",

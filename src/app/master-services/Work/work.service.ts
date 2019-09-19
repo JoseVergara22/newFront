@@ -65,7 +65,7 @@ export class WorkService {
         })
       };
       
-      this.http.delete('http://34.207.70.171/api/routines_details/'+id, httpOptions)
+      this.http.delete('http://34.207.70.171/api/routine_works/'+id, httpOptions)
       .map(res => res).subscribe(data => {
         console.log("a mostrar data");
       console.log(data);
@@ -207,6 +207,8 @@ export class WorkService {
   }
 
   updateWorkDetail(id:number,comment:string,parts:string,system:string){
+    console.log("en servicio");
+    console.log(parts);
     return new Promise(resolve => {
       const httpOptions = {
         headers: new HttpHeaders({
@@ -216,12 +218,13 @@ export class WorkService {
         })
       };
       const postParams={
-        comment:comment,
-        parts:parts,
-        system:system
+        works:comment,
+        part:parts,
+        system:system,
+        status: 0
       }
       
-      this.http.patch('http://34.207.70.171/api/routine_details/'+id, postParams,httpOptions)
+      this.http.patch('http://34.207.70.171/api/routine_works/'+id, postParams,httpOptions)
       .map(res => res).subscribe(data => {
         console.log("a mostrar data");
       console.log(data);

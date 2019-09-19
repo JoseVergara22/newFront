@@ -17,7 +17,7 @@
                     </div>
                     <div class="col-sm-8" *ngIf="showButtonUpdated == true">
                         <h6>Nombre de la Rutina <span style="color:red;">*</span></h6>
-                        <input type="text" class="form-control" [(ngModel)]="title2" #ctrl="ngModel" id="uworktitle2" required>
+                        <input type="text" class="form-control" [(ngModel)]="title2" #ctrl="ngModel" id="worktitle2" required>
                     </div>
                     <!-- <div class="col-sm-1 editicon" *ngIf="showButtonUpdated == true">
                             <button (click)="updateheader(title2.value)" class="btn btn-primary btn-icon"><i class="icofont icofont-pencil-alt-5"></i></button>
@@ -36,11 +36,11 @@
                 <div class="form-group row">
                     <div class="col-sm-12" *ngIf="showButtonUpdated == false">
                         <h6>Observacion de la Rutina <span style="color:red;"></span></h6>
-                        <textarea type="text" class="form-control" [(ngModel)]="observation1" #ctrl="ngModel" id="workobsertvation" required></textarea>
+                        <textarea type="text" class="form-control" [(ngModel)]="observation1" #ctrl="ngModel" id="workobservation" required></textarea>
                     </div>
                     <div class="col-sm-12" *ngIf="showButtonUpdated == true">
                         <h6>Observacion de la Rutina <span style="color:red;"></span></h6>
-                        <textarea type="text" class="form-control" [(ngModel)]="observation2" #ctrl="ngModel" id="workobsertvation2" required></textarea>
+                        <textarea type="text" class="form-control" [(ngModel)]="observation2" #ctrl="ngModel" id="workobservation2" required></textarea>
                     </div>
                 </div>
 
@@ -52,8 +52,10 @@
                 <!-- <button class="btn btn-primary m-b-0" (click)="modalDetail.show()">Crear detalle</button>  -->
                 <div class="form-group row align-buttons">
                     <div class="col-sm-12">
-                        <button (click)="registerheader()" type="submit" class="btn btn-primary m-b-0" *ngIf="showButtonUpdated == false">Agregar encabezado</button>
+                        <button type="button" class="btn btn-primary m-b-0 waves-effect" id="storeheaderbutton" (click)="registerheader()" *ngIf="showButtonUpdated == false">Agregar encabezado</button>
+                        <!-- <button (click)="registerheader()" id="registerHeader" type="submit" class="btn btn-primary m-b-0" *ngIf="showButtonUpdated == false">Agregar encabezado</button> -->
                         <button type="button" class="btn btn-default waves-effect" id="showmodalbutton" hidden (click)="modalUpdateDetail.show()">Cancelar</button>
+                        <button type="button" class="btn btn-default waves-effect" id="storeheaderbutton2" hidden (click)="registerheader()">Cancelar</button>
                     </div>
                 </div>
             </app-card>
@@ -197,10 +199,10 @@
                         <div *ngFor="let updatepart of getUpdateParts.controls;let updatePointIdex=index" [formGroupName]="updatePointIdex">
                             <div class="row">
                                 <div class="col-sm-11">
-                                    <input type="text" class="form-control col-sm-10" formControlName="updatepart">
+                                    <input type="text" class="form-control" formControlName="updatepart">
                                 </div>
                                 <div class="col-sm-1" style="margin-top: -0.5%">
-                                    <button class="btn btn-default btn-icon col-sm-2" (click)="deleteUpdatePart(updatePointIdex)"><i class="icofont icofont-ui-remove"></i></button>
+                                    <button class="btn btn-default btn-icon" (click)="deleteUpdatePart(updatePointIdex)"><i class="icofont icofont-ui-remove"></i></button>
                                 </div>
                             </div>
                             <br>
@@ -215,7 +217,7 @@
                 </div>
             </div>
             <div class="align-buttons">
-                <button type="button" class="btn btn-default waves-effect" id="storageDetailHide" (click)="modalUpdateDetail.hide()">Cancelar</button>
+                <button type="button" class="btn btn-default waves-effect" id="updateDetailHide" (click)="modalUpdateDetail.hide()">Cancelar</button>
                 <button type="submit " class="btn btn-primary m-b-0 " (click)="UpdateWorkDetail(updatedetailform.value)">Actualizar Detalle</button>
 
             </div>
