@@ -86,7 +86,6 @@ selectedCityIdUpdate: any = 0;
     // this.getOffices();
 
     this.currentCustomerId = this.rutaActiva.snapshot.params.id;
-
     this.getOffices(this.currentCustomerId);
     console.log(this.currentCustomerId);
 
@@ -172,6 +171,9 @@ this.myFormUpdateOffice = new FormGroup({
   ngOnInit() {
   }
 
+  ngAfterContentInit() {
+    this.getCustomer(this.currentCustomerId);
+  }
 
   updateBrand(brand) {
     console.log(brand);
@@ -270,6 +272,27 @@ getCities(val: any) {
   });
 }
 
+getCustomer(id:number){
+  this.restService.getSpecificCustomer(id).then((data:any) => {
+    const resp: any = data.data;
+    console.log("datos");
+    console.log(resp.telephone);
+    this.myFormUpdate.get('typeDocumentIdUpdate').setValue(resp.type_document_id);
+    this.myFormUpdate.get('documentIdUpdate').setValue(resp.document_id);
+    this.myFormUpdate.get('businessNameUpdate').setValue(resp.business_name);
+    this.myFormUpdate.get('telephoneUpdate').setValue(resp.telephone);
+    this.myFormUpdate.get('addressUpdate').setValue(resp.address);
+    this.myFormUpdate.get('priceListIdUpdate').setValue(resp.price_list_id);
+    this.myFormUpdate.get('paymentConditionIdUpdate').setValue(resp.payment_condition_id);
+    this.myFormUpdate.get('departmentIdUpdate').setValue(resp.department_id);
+    this.myFormUpdate.get('cityIdUpdate').setValue(resp.city_id);
+
+  }).catch(error => {
+    this.messageError();
+    console.log(error);
+  });
+}
+
 
 getCitiesUpdate(val: any) {
   // console.log(this.opcionSeleccionado);
@@ -287,187 +310,6 @@ getCitiesUpdate(val: any) {
   }
 
 
-sendCustomer() {
-  console.log('Ole ole ole');
-  console.log(this.selectedTypeDocumentId);
-  console.log(this.selectedPaymentConditionId);
-  console.log(this.selectedDepartmentId);
-  console.log(this.selectedCityId);
-  console.log(this.selectedPriceListId);
-
-  if (   Number(this.selectedTypeDocumentId) !== 0  &&  Number(this.selectedPaymentConditionId) !== 0 
-     && Number(this.selectedPriceListId) !==0
-  &&  Number(this.selectedDepartmentId) !== 0 && Number(this.selectedCityId) !== 0) {
-    this.submitted = true;
-   if ( !this.myForm.invalid) {
-    swal({
-      title: 'Validando información ...',
-      allowOutsideClick: false
-    });
-    swal.showLoading();
-
-    let statusTemp = 0;
-    console.log( this.switchUpdate);
-    if ( this.switchUpdate === true) {
-
-      statusTemp = 0;
-    } else {
-      statusTemp = 1;
-    }
-
-    console.log(this.selectedPaymentConditionId.id);
-
-    this.restService.createCustomer(this.myForm.get('businessName').value.toUpperCase(),
-     this.selectedTypeDocumentId.id, this.myForm.get('documentId').value,
-    this.myForm.get('telephone').value,   this.myForm.get('address').value,
-     statusTemp, this.selectedPriceListId.id,
-     this.selectedPaymentConditionId.id, this.selectedCityId.id, this.selectedDepartmentId.id)
-    .then(data => {
-      const resp: any = data;
-      console.log(resp);
-      console.log('id customer' + resp.data.id);
-      this.currentCustomerId =  resp.data.id;
-      if (resp.success === false) {
-        swal({
-          title: 'Este tercero ya esta registrado',
-          text: 'Este tercero no se puede registrar',
-          type: 'error'
-         });
-      } else {
-
-        this.getMasters(1);
-        // this.getOffices();
-
-        this.showButtonUpdated = 1;
-        console.log('oleole');
-        console.log(this.myForm.get('documentId').value);
-
-        this.myFormUpdate.get('documentIdUpdate').setValue(this.myForm.get('documentId').value);
-        this.myFormUpdate.get('businessNameUpdate').setValue(this.myForm.get('businessName').value.toUpperCase());
-        this.myFormUpdate.get('telephoneUpdate').setValue(this.myForm.get('telephone').value);
-        this.myFormUpdate.get('addressUpdate').setValue(this.myForm.get('address').value);
-        this.idCustomerCreated = resp.data.id;
-        console.log('Cambio');
-     /*swal({
-      title: 'tercero agregada',
-      type: 'success'
-     });*/
-   //   this.router.navigateByUrl('master/registerBrand');
-
-   // document.getElementById( 'createBrandHide').click();
-   // this.loadingData();
-   swal({
-    title: 'Tercero agregado',
-    type: 'success'
-   });
-    }
-    }).catch(error => {
-      console.log(error);
-    });
-    }
-  } else {
-    swal({
-      title: 'Debe seleccionar todos los campos obligatorios',
-      text: 'Debe seleccionar todos los campos obligatorios',
-      type: 'error'
-     });
-  }
-}
-
-sendOffice() {
-
-
-  try {
-  console.log('Ole ole ole');
-
-  /*console.log('Ole ole ole');
-  console.log(this.selectedTypeDocumentId);
-  console.log(this.selectedPaymentConditionId);
-  console.log(this.selectedDepartmentId);
-  console.log(this.selectedCityId);
-  console.log(this.selectedPriceListId);*/
-
-  console.log(this.selectedDepartmentOfficeId.id + ',' + this.selectedCityOfficeId.id);
-  console.log(this.myFormCreateOffice.get('nameOffice').hasError('required'));
-  console.log(this.myFormCreateOffice.get('telephoneOffice').hasError('required'));
-  console.log(this.myFormCreateOffice.get('departmentOffice').hasError('required'));
-  console.log(this.myFormCreateOffice.get('citytOffice').hasError('required'));
-  console.log(this.myFormCreateOffice.get('addressOffice').hasError('required'));
-  console.log(this.myFormCreateOffice.get('addressOffice').errors);
-
-  if ( Number(this.selectedDepartmentOfficeId.id) !== 0 && Number(this.selectedCityOfficeId.id) !== 0) {
-    this.submittedOffice = true;
-    console.log(this.myFormCreateOffice.errors);
-
-   if ( !this.myFormCreateOffice.invalid) {
-    swal({
-      title: 'Validando información ...',
-      allowOutsideClick: false
-    });
-    swal.showLoading();
-
-    let statusTemp = 0;
-    console.log( this.switchUpdate);
-    if ( this.switchUpdate === true) {
-
-      statusTemp = 0;
-    } else {
-      statusTemp = 1;
-    }
-
-console.log('llego');
-
-
-    this.restService.createOffice(this.currentCustomerId, this.myFormCreateOffice.get('nameOffice').value.toUpperCase(),
-     this.myFormCreateOffice.get('addressOffice').value, this.myFormCreateOffice.get('telephoneOffice').value,
-     statusTemp, this.selectedCityOfficeId.id, this.selectedDepartmentOfficeId.id)
-    .then(data => {
-      const resp: any = data;
-      console.log(resp);
-      if (resp.success === false) {
-        swal({
-          title: 'Este sucursal ya esta registrado',
-          text: 'Este sucursal no se puede registrar',
-          type: 'error'
-         });
-      } else {
-
-       // this.getMasters(1);
-      //  this.getOffices();
-
-
-     /*swal({
-      title: 'sucursal agregada',
-      type: 'success'
-     });*/
-   //   this.router.navigateByUrl('master/registerBrand');
-
-   // document.getElementById( 'createBrandHide').click();
-   // this.loadingData();
-   this.myFormCreateOffice.reset();
-   document.getElementById( 'createBrandHide').click();
-   this.getOffices(this.currentCustomerId);
-   swal({
-    title: 'Sucursal agregado',
-    type: 'success'
-   });
-    }
-    }).catch(error => {
-      console.log(error);
-    });
-    }
-  } else {
-    console.log('llegod');
-    swal({
-      title: 'Debe seleccionar todos los campos obligatorios',
-      text: 'Debe seleccionar todos los campos obligatorios',
-      type: 'error'
-     });
-  }
-} catch (error) {
-console.log(error);
-}
-}
 
 
 messageError() {
@@ -701,38 +543,29 @@ onChangeCreated(check: any) {
 
 }
 
-getOffices(idCustomer: number) {
-  // console.log(this.opcionSeleccionado);
-    this.restService.getCustomerOffice( idCustomer).then(data => {
-      console.log('que mas ps');
-      const resp: any = data;
-      console.log(resp);
-      this.dataOffices = resp.data_branchoffices;
-
-    this.myFormUpdateOffice.get('businessNameUpdate').setValue(resp.customer.business_name);
-    this.myFormUpdateOffice.get('documentIdUpdate').setValue(resp.customer.document_id);
-    this.myFormUpdateOffice.get('telephoneUpdate').setValue(resp.customer.telephone);
-    this.myFormUpdateOffice.get('addressUpdate').setValue(resp.customer.address);
-
-    this.selectedTypeDocumentIdUpdate = resp.customer.type_document_id;
-    this.selectedPriceListIdUpdate = resp.customer.price_list_id;
-    this.selectedPaymentConditionIdUpdate = resp.customer.payment_condition_id;
-    this.selectedDepartmentIdUpdate = resp.customer.department_id;
-    this.selectedCityIdUpdate = resp.customer.address.city_id;
-
-    this.getCitiesOfficeUpdate(resp.customer.department_id);
-
-   //   this.dataOffices = this.dataOffices.data;
-
-      console.log('master');
-      swal.close();
-     // this.cities = resp.data;
-      console.log( this.dataOffices);
-    }).catch(error => {
-      console.log(error);
-    });
-
-}
+ getOffices(idCustomer: number) {
+   // console.log(this.opcionSeleccionado);
+     this.restService.getCustomerOffice( idCustomer).then(data => {
+       console.log('que mas ps');
+       const resp: any = data;
+       console.log(resp);
+       this.dataOffices = resp.data_branchoffices;
+     this.selectedTypeDocumentIdUpdate = resp.customer.type_document_id;
+     this.selectedPriceListIdUpdate = resp.customer.price_list_id;
+     this.selectedPaymentConditionIdUpdate = resp.customer.payment_condition_id;
+     this.selectedDepartmentIdUpdate = resp.customer.department_id;
+     this.selectedCityIdUpdate = resp.data_branchoffices.city_id;
+     console.log("antes de consulta "+resp.data_branchoffices[0].department_id);
+     this.getCitiesOfficeUpdate(resp.data_branchoffices.department_id);
+    //   this.dataOffices = this.dataOffices.data;
+       console.log('master');
+       swal.close();
+      // this.cities = resp.data;
+       console.log( this.dataOffices);
+     }).catch(error => {
+       console.log(error);
+     });
+ }
 
 
 deleteBrand(brand: any) {

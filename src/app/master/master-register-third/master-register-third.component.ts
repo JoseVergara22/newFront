@@ -31,6 +31,8 @@ elementDelete: any;
 currentOffice: any;
 currentCustomerId: any = 0;
 
+currentUpdateOffice: any;
+currentUpdateCustomerId: any = 0;
 
 myForm: FormGroup;
 myFormUpdate: FormGroup;
@@ -474,24 +476,13 @@ messageError() {
 }
 
 
-updatedOffice() {
-
-
+updatedOffice(oficcerow:any) {
+  this.currentUpdateOffice=oficcerow;
+  console.log("cosa a actualizar");
+  console.log(this.currentUpdateOffice);
   try {
-  console.log('Ole ole ole');
-
-  /*console.log('Ole ole ole');
-  console.log(this.selectedTypeDocumentId);
-  console.log(this.selectedPaymentConditionId);
-  console.log(this.selectedDepartmentId);
-  console.log(this.selectedCityId);
-  console.log(this.selectedPriceListId);*/
-
-
-
   if ( Number(this.selectedDepartmentOfficeIdUpdate) !== 0 && Number(this.selectedCityOfficeIdUpdate) !== 0) {
     this.submittedOfficeUpdated = true;
-    console.log(this.myFormUpdateOffice.errors);
 
    if ( !this.myFormUpdateOffice.invalid) {
     swal({
@@ -501,17 +492,13 @@ updatedOffice() {
     swal.showLoading();
 
     let statusTemp = 0;
-    console.log( this.switchUpdate);
     if ( this.switchUpdate === true) {
-
       statusTemp = 0;
     } else {
       statusTemp = 1;
     }
 
-console.log('llego');
-
-    this.restService.createOffice(25, this.myFormUpdateOffice.get('nameOfficeUpdate').value.toUpperCase(),
+    this.restService.updateOffice(this.currentUpdateOffice.id,25, this.myFormUpdateOffice.get('nameOfficeUpdate').value.toUpperCase(),
      this.myFormUpdateOffice.get('addressOfficeUpdate').value, this.myFormUpdateOffice.get('telephoneOfficeUpdate').value,
      statusTemp, this.selectedCityOfficeIdUpdate, this.selectedDepartmentOfficeIdUpdate)
     .then(data => {
@@ -524,19 +511,6 @@ console.log('llego');
           type: 'error'
          });
       } else {
-
-       // this.getMasters(1);
-      //  this.getOffices();
-
-
-     /*swal({
-      title: 'tercero agregada',
-      type: 'success'
-     });*/
-   //   this.router.navigateByUrl('master/registerBrand');
-
-   // document.getElementById( 'createBrandHide').click();
-   // this.loadingData();
    swal({
     title: 'Tercero agregado',
     type: 'success'

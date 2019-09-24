@@ -84,7 +84,9 @@ export class MasterWorkDetailsComponent implements OnInit {
   }
 
   ngAfterContentInit() {
-    document.getElementById('storeheaderbutton2').click();
+    if (this.name) {
+      document.getElementById('storeheaderbutton2').click();
+    }
   }
   registerheader(){
     console.log(this.title1);
