@@ -6,6 +6,7 @@ import { Router } from '@angular/router';
 import { UploadService } from '../../master-services/services/upload.service';
 import { UUID } from 'angular2-uuid';
 import { ActivatedRoute, Params } from '@angular/router';
+import { getElement } from '@syncfusion/ej2-base';
 
 @Component({
   selector: 'app-master-update-customer',
@@ -77,6 +78,7 @@ selectedPriceListIdUpdate: any = 0;
 selectedPaymentConditionIdUpdate: any = 0;
 selectedDepartmentIdUpdate: any = 0;
 selectedCityIdUpdate: any = 0;
+  customer: any;
 
 
   constructor(private restService: RestService, private router: Router, private uploadService: UploadService, 
@@ -190,9 +192,8 @@ this.myFormUpdateOffice = new FormGroup({
 
     this.myFormUpdateOffice.get('addressOfficeUpdate').setValue(this.currentOffice.address);
 
-     this.selectedDepartmentOfficeIdUpdate = 1;
-      this.getCitiesOfficeUpdate(1);
-    this.selectedCityOfficeIdUpdate = 3;
+     this.selectedDepartmentOfficeIdUpdate = this.currentOffice.department_id;
+    this.selectedCityOfficeIdUpdate = this.currentOffice.city_id;
 
     document.getElementById( 'uploadBrand').click();
   }
@@ -275,6 +276,7 @@ getCities(val: any) {
 getCustomer(id:number){
   this.restService.getSpecificCustomer(id).then((data:any) => {
     const resp: any = data.data;
+    this.customer=resp;
     console.log("datos");
     console.log(resp.telephone);
     this.myFormUpdate.get('typeDocumentIdUpdate').setValue(resp.type_document_id);
@@ -285,8 +287,8 @@ getCustomer(id:number){
     this.myFormUpdate.get('priceListIdUpdate').setValue(resp.price_list_id);
     this.myFormUpdate.get('paymentConditionIdUpdate').setValue(resp.payment_condition_id);
     this.myFormUpdate.get('departmentIdUpdate').setValue(resp.department_id);
-    this.myFormUpdate.get('cityIdUpdate').setValue(resp.city_id);
-
+    this.getCitiesOfficeUpdate(resp.department_id);
+    this.getCitiesUpdate();
   }).catch(error => {
     this.messageError();
     console.log(error);
@@ -294,16 +296,18 @@ getCustomer(id:number){
 }
 
 
-getCitiesUpdate(val: any) {
+getCitiesUpdate() {
   // console.log(this.opcionSeleccionado);
     this.selectedCityIdUpdate = 0;
-
+    console.log("id:"+(Number(this.selectedDepartmentIdUpdate)));
     this.restService.getCities(Number(this.selectedDepartmentIdUpdate)).then(data => {
       const resp: any = data;
       console.log(data);
       swal.close();
       this.cities = resp.data;
       console.log( this.cities);
+      this.myFormUpdate.get('cityIdUpdate').setValue(this.customer.city_id);
+      console.log("se asigno");
     }).catch(error => {
       console.log(error);
     });
@@ -319,107 +323,6 @@ messageError() {
     type: 'error'
    });
 }
-
-
-updatedOffice() {
-
-
-  try {
-  console.log('Ole ole ole');
-
-  /*console.log('Ole ole ole');
-  console.log(this.selectedTypeDocumentId);
-  console.log(this.selectedPaymentConditionId);
-  console.log(this.selectedDepartmentId);
-  console.log(this.selectedCityId);
-  console.log(this.selectedPriceListId);*/
-
-
-
-  if ( Number(this.selectedDepartmentOfficeIdUpdate) !== 0 && Number(this.selectedCityOfficeIdUpdate) !== 0) {
-    this.submittedOfficeUpdated = true;
-    console.log(this.myFormUpdateOffice.errors);
-
-   if ( !this.myFormUpdateOffice.invalid) {
-    swal({
-      title: 'Validando información ...',
-      allowOutsideClick: false
-    });
-    swal.showLoading();
-
-    let statusTemp = 0;
-    console.log( this.switchUpdate);
-    if ( this.switchUpdate === true) {
-
-      statusTemp = 0;
-    } else {
-      statusTemp = 1;
-    }
-
-console.log('llego');
-
-    this.restService.createOffice(this.currentCustomerId, this.myFormUpdateOffice.get('nameOfficeUpdate').value.toUpperCase(),
-     this.myFormUpdateOffice.get('addressOfficeUpdate').value, this.myFormUpdateOffice.get('telephoneOfficeUpdate').value,
-     statusTemp, this.selectedCityOfficeIdUpdate, this.selectedDepartmentOfficeIdUpdate)
-    .then(data => {
-      const resp: any = data;
-      console.log(resp);
-      if (resp.success === false) {
-        swal({
-          title: 'Este tercero ya esta registrado',
-          text: 'Este tercero no se puede registrar',
-          type: 'error'
-         });
-      } else {
-
-       // this.getMasters(1);
-      //  this.getOffices();
-
-
-     /*swal({
-      title: 'tercero agregada',
-      type: 'success'
-     });*/
-   //   this.router.navigateByUrl('master/registerBrand');
-
-   // document.getElementById( 'createBrandHide').click();
-   // this.loadingData();
-   swal({
-    title: 'Tercero agregado',
-    type: 'success'
-   });
-    }
-    }).catch(error => {
-      console.log(error);
-    });
-    }
-  } else {
-    console.log('llegod');
-    swal({
-      title: 'Debe seleccionar todos los campos obligatorios',
-      text: 'Debe seleccionar todos los campos obligatorios',
-      type: 'error'
-     });
-  }
-} catch (error) {
-console.log(error);
-}
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 updatedCustomer() {
   console.log(this.showButtonUpdated);
@@ -451,7 +354,7 @@ updatedCustomer() {
     }
     console.log('kakakaka');
 
-    this.restService.updateCustomer(Number(this.idCustomerCreated), this.myFormUpdate.get('businessNameUpdate').value.toUpperCase(),
+    this.restService.updateCustomer(Number(this.customer.id), this.myFormUpdate.get('businessNameUpdate').value.toUpperCase(),
      this.selectedTypeDocumentIdUpdate, this.myFormUpdate.get('documentIdUpdate').value,
     this.myFormUpdate.get('telephoneUpdate').value,   this.myFormUpdate.get('addressUpdate').value,
      statusTemp, this.selectedPriceListIdUpdate,
@@ -556,7 +459,6 @@ onChangeCreated(check: any) {
      this.selectedDepartmentIdUpdate = resp.customer.department_id;
      this.selectedCityIdUpdate = resp.data_branchoffices.city_id;
      console.log("antes de consulta "+resp.data_branchoffices[0].department_id);
-     this.getCitiesOfficeUpdate(resp.data_branchoffices.department_id);
     //   this.dataOffices = this.dataOffices.data;
        console.log('master');
        swal.close();
@@ -589,7 +491,7 @@ deleteBrand(brand: any) {
           swal.showLoading();
           const resp: any = data;
           console.log(resp);
-
+          this.getOffices(this.currentCustomerId);
           if (resp.success === false) {
             swal({
               title: 'Esta marca presenta problemas',
@@ -638,6 +540,161 @@ preview(files) {
   reader.onload = (_event) => {
     this.imgURL = reader.result;
   };
+}
+
+
+updatedOffice() {
+  console.log("datos a actualizar");
+  console.log(this.currentOffice.id);
+  console.log(this.currentCustomerId);
+  console.log(this.myFormUpdateOffice.get('nameOfficeUpdate').value);
+  console.log(this.myFormUpdateOffice.get('telephoneOfficeUpdate').value);
+  console.log(this.myFormUpdateOffice.get('addressOfficeUpdate').value);
+  console.log(this.selectedDepartmentOfficeIdUpdate);
+  console.log(this.selectedCityOfficeIdUpdate);
+
+     try {
+    if ( Number(this.selectedDepartmentOfficeIdUpdate.id) !== 0 && Number(this.selectedCityOfficeIdUpdate.id) !== 0) {
+      this.submittedOffice = true;
+      console.log(this.myFormCreateOffice.errors);  
+     if ( !this.myFormUpdateOffice.invalid) {
+      swal({
+        title: 'Validando información ...',
+        allowOutsideClick: false
+      });
+      swal.showLoading(); 
+      let statusTemp = 0;
+      console.log( this.switchUpdate);
+      if ( this.switchUpdate === true) {  
+        statusTemp = 0;
+      } else {
+        statusTemp = 1;
+      } 
+  console.log('llego'); 
+      this.restService.updateOffice(this.currentOffice.id,this.currentCustomerId, this.myFormUpdateOffice.get('nameOfficeUpdate').value.toUpperCase(),
+      this.myFormUpdateOffice.get('addressOfficeUpdate').value, this.myFormUpdateOffice.get('telephoneOfficeUpdate').value,
+       statusTemp, this.selectedCityOfficeIdUpdate, this.selectedDepartmentOfficeIdUpdate)
+      .then(data => {
+        const resp: any = data;
+        console.log(resp);
+        if (resp.success === false) {
+          swal({
+            title: 'Este sucursal ya esta registrado',
+            text: 'Este sucursal no se puede registrar',
+            type: 'error'
+           });
+        } else {
+     this.myFormCreateOffice.reset();
+     document.getElementById( 'createBrandHide').click();
+     this.getOffices(this.currentCustomerId);
+     document.getElementById('updateBrandHide').click();
+     swal({
+      title: 'Sucursal Actualizado',
+      type: 'success'
+     });
+      }
+      }).catch(error => {
+        console.log(error);
+      });
+      }
+    } else {
+      console.log('llegod');
+      swal({
+        title: 'Debe seleccionar todos los campos obligatorios',
+        text: 'Debe seleccionar todos los campos obligatorios',
+        type: 'error'
+       });
+    }
+  } catch (error) {
+  console.log(error);
+  }
+}
+
+sendOffice() {
+
+
+  try {
+  console.log('Ole ole ole');
+  console.log(this.selectedDepartmentOfficeId.id + ',' + this.selectedCityOfficeId.id);
+  console.log(this.myFormCreateOffice.get('nameOffice').hasError('required'));
+  console.log(this.myFormCreateOffice.get('telephoneOffice').hasError('required'));
+  console.log(this.myFormCreateOffice.get('departmentOffice').hasError('required'));
+  console.log(this.myFormCreateOffice.get('citytOffice').hasError('required'));
+  console.log(this.myFormCreateOffice.get('addressOffice').hasError('required'));
+  console.log(this.myFormCreateOffice.get('addressOffice').errors);
+
+  if ( Number(this.selectedDepartmentOfficeId.id) !== 0 && Number(this.selectedCityOfficeId.id) !== 0) {
+    this.submittedOffice = true;
+    console.log(this.myFormCreateOffice.errors);
+
+   if ( !this.myFormCreateOffice.invalid) {
+    swal({
+      title: 'Validando información ...',
+      allowOutsideClick: false
+    });
+    swal.showLoading();
+
+    let statusTemp = 0;
+    console.log( this.switchUpdate);
+    if ( this.switchUpdate === true) {
+
+      statusTemp = 0;
+    } else {
+      statusTemp = 1;
+    }
+
+console.log('llego');
+
+
+    this.restService.createOffice(this.currentCustomerId, this.myFormCreateOffice.get('nameOffice').value.toUpperCase(),
+     this.myFormCreateOffice.get('addressOffice').value, this.myFormCreateOffice.get('telephoneOffice').value,
+     statusTemp, this.selectedCityOfficeId.id, this.selectedDepartmentOfficeId.id)
+    .then(data => {
+      const resp: any = data;
+      console.log(resp);
+      if (resp.success === false) {
+        swal({
+          title: 'Este sucursal ya esta registrado',
+          text: 'Este sucursal no se puede registrar',
+          type: 'error'
+         });
+      } else {
+
+       // this.getMasters(1);
+      //  this.getOffices();
+
+
+     /*swal({
+      title: 'sucursal agregada',
+      type: 'success'
+     });*/
+   //   this.router.navigateByUrl('master/registerBrand');
+
+   // document.getElementById( 'createBrandHide').click();
+   // this.loadingData();
+   this.myFormCreateOffice.reset();
+   document.getElementById( 'createBrandHide').click();
+   this.getOffices(this.currentCustomerId);
+   swal({
+    title: 'Sucursal agregado',
+    type: 'success'
+   });
+    }
+    }).catch(error => {
+      console.log(error);
+    });
+    }
+  } else {
+    console.log('llegod');
+    swal({
+      title: 'Debe seleccionar todos los campos obligatorios',
+      text: 'Debe seleccionar todos los campos obligatorios',
+      type: 'error'
+     });
+  }
+} catch (error) {
+console.log(error);
+}
 }
 
 get checkForm() { return this.myForm.controls; }

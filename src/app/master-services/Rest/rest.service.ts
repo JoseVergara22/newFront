@@ -1296,11 +1296,17 @@ export class RestService {
     city_id: number,
     department_id: number
   ) {
+    console.log("en servicio");
+    console.log(id);
+    console.log(customer_id);
+    console.log(branch_name);
+    console.log(address);
+    console.log(telephone);
+    console.log(status);
+    console.log(city_id);
+    console.log(department_id);
 
     return new Promise(resolve => {
-      const headers = new HttpHeaders();
-      headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user'))); // 'Bearer ' +
-      headers.append('Content-Type', 'application/json');
       const httpOptions = {
         headers: new HttpHeaders({
           'Content-Type': 'application/json',
@@ -1317,7 +1323,7 @@ export class RestService {
         department_id: department_id,
         status: status
       };
-      this.http.patch('http://34.207.70.171/api/branch_ffices/' + id, postParams, httpOptions)
+      this.http.patch('http://34.207.70.171/api/branch_offices/' + id, postParams, httpOptions)
         .map(res => res).subscribe(data => {
           resolve(data);
         }, error => {
