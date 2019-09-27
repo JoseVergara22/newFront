@@ -189,7 +189,7 @@ this.myFormUpdateOffice = new FormGroup({
       this.getCitiesOfficeUpdate(1);
     this.selectedCityOfficeIdUpdate = 3;
 
-    document.getElementById( 'uploadBrand').click();
+    document.getElementById('uploadBrand').click();
   }
 
 
@@ -357,6 +357,8 @@ sendCustomer() {
     title: 'Tercero agregado',
     type: 'success'
    });
+   
+   this.router.navigateByUrl('master/customersUpdate/' +this.idCustomerCreated);
     }
     }).catch(error => {
       console.log(error);

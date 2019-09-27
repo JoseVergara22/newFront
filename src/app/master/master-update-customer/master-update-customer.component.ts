@@ -242,12 +242,12 @@ this.myFormUpdateOffice = new FormGroup({
     }
 
 
-    getCitiesOfficeUpdate(val: any) {
+    getCitiesOfficeUpdate() {
       // console.log(this.opcionSeleccionado);
         this.selectedCityOfficeIdUpdate = 0;
-        console.log('oleole');
+        console.log('oleole23'+this.selectedDepartmentOfficeIdUpdate);
 
-        this.restService.getCities(Number(val)).then(data => {
+        this.restService.getCities(this.selectedDepartmentOfficeIdUpdate).then(data => {
           const resp: any = data;
           console.log(data);
           swal.close();
@@ -287,7 +287,7 @@ getCustomer(id:number){
     this.myFormUpdate.get('priceListIdUpdate').setValue(resp.price_list_id);
     this.myFormUpdate.get('paymentConditionIdUpdate').setValue(resp.payment_condition_id);
     this.myFormUpdate.get('departmentIdUpdate').setValue(resp.department_id);
-    this.getCitiesOfficeUpdate(resp.department_id);
+    this.getCitiesOfficeUpdate();
     this.getCitiesUpdate();
   }).catch(error => {
     this.messageError();

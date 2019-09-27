@@ -97,7 +97,7 @@
                 <div class="col-sm-4">
                     <h6>Departamento<span style="color:red;">*</span></h6>
 
-                    <select class="form-control" [(ngModel)]="selectedDepartmentOfficeIdUpdate" (change)="getCitiesOfficeUpdate($event)" formControlName="departmentOfficeUpdate"> 
+                    <select class="form-control" [(ngModel)]="selectedDepartmentOfficeIdUpdate" (change)="getCitiesOfficeUpdate()" formControlName="departmentOfficeUpdate"> 
                               <option value="0" selected>Seleccionar departamento </option>
                           <option   *ngFor="let department of departments" [ngValue]="department.id"> {{department.name}}  </option>
                           <!--  <option value="0" selected>Seleccionar perfil</option> -->
