@@ -635,7 +635,7 @@ export class RestService {
   }
   updateMachine(id: number, description: string, status: number) {
     console.log('ole ole ole');
-    console.log(status);
+    console.log(localStorage.getItem('token_user'));
     return new Promise(resolve => {
       const headers = new HttpHeaders();
       headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user'))); // 'Bearer ' +
@@ -647,14 +647,15 @@ export class RestService {
           'Accept': 'application/json'
         })
       };
-      const postParams = {
+      const patchParams = {
         description: description,
         status: status
       };
-      this.http.patch('http://34.207.70.171/api/machines/' + id, postParams, httpOptions)
+      this.http.patch('http://34.207.70.171/api/machines/' + id, patchParams,httpOptions)
         .map(res => res).subscribe(data => {
           resolve(data);
         }, error => {
+          console.log('error en el servicio');
           resolve(error);
         });
     });

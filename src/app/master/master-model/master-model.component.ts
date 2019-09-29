@@ -37,6 +37,8 @@ export class MasterModelComponent implements OnInit {
   rowsTempText: any;
 
   currentFuel: any;
+  currentmachine:any;
+  currentstatus:number;
   selectedValueTemp = '0';
   selectedValueUpdate: any;
   selectedValue: any;
@@ -159,6 +161,12 @@ export class MasterModelComponent implements OnInit {
 
   onChangeCreate(check: any) {
    this.change = check;
+   if (this.change) {
+    this.currentstatus=1;
+   } else {
+    this.currentstatus=0;
+   }
+    console.log(this.currentstatus);
     console.log(check);
   }
 
@@ -226,24 +234,11 @@ export class MasterModelComponent implements OnInit {
   }
 
 updateFuel(fuel) {
-
+  this.currentmachine=fuel;
   console.log(fuel);
   this.currentFuel = fuel;
   console.log( this.currentFuel );
   this.myFormUpdate.get('descriptionUpdate').setValue(this.currentFuel.model);
-
-
-
- /* console.log(fuel);
-if (fuel.type === 'COMBUSTION') {
-  this.selectedValueUpdate = 1;
-} else if (fuel.type === 'ELECTRICA') {
-  this.selectedValueUpdate = 2;
-} else {
-  this.selectedValueUpdate = 3;
-}
-*/
-
 
   if (this.currentFuel.status === '0') {
     this.enabledUpdated = true;
@@ -329,7 +324,7 @@ sendModel() {
    // console.log(this.selectedValueUpdate);
     if (Number(this.selectedUpdate) !== 0) {
     console.log(this.myFormUpdate.get('descriptionUpdate'));
-    console.log(localStorage.getItem('token'));
+    console.log(this.change);
     this.submitted = true;
    if ( !this.myFormUpdate.invalid) {
     swal({
@@ -338,31 +333,10 @@ sendModel() {
     });
     swal.showLoading();
 
-    let statusTemp = 1;
-
-    if (this.change  === true) {
-      statusTemp = 0;
-    } else {
-      statusTemp = 1;
-    }
-
-    /*let descriptionType;
-
-    if (Number(this.selectedValueUpdate) === 1) {
-    descriptionType = 'COMBUSTION';
-    console.log('Entroaaa');
-    } else if (Number(this.selectedValueUpdate) === 2) {
-    descriptionType = 'ELECTRICA';
-    console.log('Entrosss');
-    } else {
-    descriptionType = 'POR DEFINIR';
-    console.log('Entrodddd');
-    }*/
-
-
-    console.log(this.myFormUpdate.get('descriptionUpdate').value.toUpperCase() + ' ' + statusTemp);
-    this.restService.updateModel(Number(this.currentFuel.id),
-     this.myFormUpdate.get('descriptionUpdate').value.toUpperCase(), Number(this.selectedUpdate), statusTemp)
+    let description=this.myFormUpdate.get('descriptionUpdate').value.toUpperCase();
+    
+    console.log(description);
+    this.restService.updateMachine(this.currentmachine.id,description,this.currentstatus)
     .then(data => {
       const resp: any = data;
       console.log(resp);
@@ -382,6 +356,7 @@ sendModel() {
      });
     }
     }).catch(error => {
+      console.log("error en el consumo");
       console.log(error);
     });
     }
