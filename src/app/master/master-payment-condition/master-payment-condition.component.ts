@@ -213,6 +213,7 @@ updateBrand(brand) {
   this.currentBrand = brand;
   console.log( this.currentBrand );
   this.myFormUpdate.get('descriptionUpdate').setValue(brand.description);
+  this.myFormUpdate.get('dayUpdate').setValue(brand.day);
   if (this.currentBrand.status === '0') {
     this.enabledUpdated = true;
   } else {
@@ -224,7 +225,8 @@ updateBrand(brand) {
 }
 
    sendBrand() {
-    console.log(localStorage.getItem('token'));
+    console.log(this.myForm.get('day').value);
+    console.log(this.myForm.get('description').value);
     this.submitted = true;
    if ( !this.myForm.invalid) {
     swal({
@@ -240,7 +242,7 @@ updateBrand(brand) {
       statusTemp = 1;
     }
     this.restService.createPayCondition(this.myForm.get('description').value.toUpperCase(),
-     Number(this.myForm.get('days').value), statusTemp).then(data => {
+     Number(this.myForm.get('day').value), statusTemp).then(data => {
       const resp: any = data;
       console.log(resp);
       if (resp.success === false) {
@@ -251,12 +253,6 @@ updateBrand(brand) {
          });
       } else {
         this.myForm.get('description').setValue('');
-     /*swal({
-      title: 'Marca agregada',
-      type: 'success'
-     });*/
-   //   this.router.navigateByUrl('master/registerBrand');
-
    document.getElementById( 'createBrandHide').click();
    this.loadingData();
    swal({
@@ -272,7 +268,6 @@ updateBrand(brand) {
 
   sendUpdateBrand() {
     console.log(this.myFormUpdate.get('descriptionUpdate'));
-    console.log(localStorage.getItem('token'));
     this.submitted = true;
    if ( !this.myFormUpdate.invalid) {
     swal({
@@ -287,16 +282,16 @@ updateBrand(brand) {
     } else {
       statusTemp = 1;
     }
-    console.log(this.myFormUpdate.get('descriptionUpdate').value.toUpperCase() + ' ' + statusTemp);
+    console.log(this.myFormUpdate.get('dayUpdate').value);
     this.restService.updatePayCondition(Number(this.currentBrand.id), this.myFormUpdate.get('descriptionUpdate').value.toUpperCase(),
-    Number(this.myForm.get('days').value), statusTemp)
+    Number(this.myFormUpdate.get('dayUpdate').value), statusTemp)
     .then(data => {
       const resp: any = data;
       console.log(resp);
       if (resp.success === false) {
         swal({
-          title: 'Esta marca ya esta actualizada',
-          text: 'Esta marca no se puede actualizar',
+          title: 'Error',
+          text: 'Este metodo de pago no se puede actualizar',
           type: 'error'
          });
       } else {
@@ -304,13 +299,19 @@ updateBrand(brand) {
      document.getElementById( 'updateBrandHide').click();
      this.loadingData();
      swal({
-      title: 'Marca actualizada',
+      title: 'Metodo de pago actualizado',
       type: 'success'
      });
     }
     }).catch(error => {
       console.log(error);
     });
+    }else{
+      swal({
+        title: 'Error',
+        text: 'Este metodo de pago no se puede actualizar',
+        type: 'error'
+       });
     }
   }
 
@@ -332,8 +333,7 @@ updateBrand(brand) {
     .then((willDelete) => {
         if (willDelete.value) {
           this.elementDelete = brand;
-          console.log(brand);
-          console.log(    this.elementDelete);
+          console.log(this.elementDelete);
           swal.showLoading();
           this.restService.deletePayCondition(Number(this.elementDelete.id))
           .then(data => {

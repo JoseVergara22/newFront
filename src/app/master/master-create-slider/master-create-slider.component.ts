@@ -426,7 +426,6 @@ export class MasterCreateSliderComponent implements OnInit {
     this.submitted = true;
 
    if ( !this.myFormUpdate.invalid) {
-    if (this.numberUpdatePhoto > 0) {
     swal({
       title: 'Validando información ...',
       allowOutsideClick: false
@@ -488,15 +487,6 @@ export class MasterCreateSliderComponent implements OnInit {
         type: 'error'
        });
     });
-
-  } else {
-    console.log('epa');
-    swal({
-      title: 'Debes cargar una imagen',
-      text: 'Es requerido cargar una imagen',
-      type: 'error'
-     });
-  }
     }
   }
 

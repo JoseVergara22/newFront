@@ -58,18 +58,16 @@ export class MasterTypeDocumentComponent implements OnInit {
     this.loadingData();
 
     const description = new FormControl('', Validators.required);
-    const day = new FormControl('', Validators.required);
+    //const day = new FormControl('', Validators.required);
     const descriptionUpdate = new FormControl('', Validators.required);
-    const dayUpdate = new FormControl('', Validators.required);
+    //const dayUpdate = new FormControl('', Validators.required);
 
     this.myForm = new FormGroup({
-      description: description,
-      day: day
+      description: description
     });
 
     this.myFormUpdate = new FormGroup({
-      descriptionUpdate: descriptionUpdate,
-      dayUpdate: dayUpdate
+      descriptionUpdate: descriptionUpdate
     });
    }
 
@@ -220,7 +218,7 @@ updateBrand(brand) {
 }
 
    sendBrand() {
-    console.log(localStorage.getItem('token'));
+    console.log(this.myForm.get('description'));
     this.submitted = true;
    if ( !this.myForm.invalid) {
     swal({
@@ -246,12 +244,6 @@ updateBrand(brand) {
          });
       } else {
         this.myForm.get('description').setValue('');
-     /*swal({
-      title: 'tipo documento agregada',
-      type: 'success'
-     });*/
-   //   this.router.navigateByUrl('master/registerBrand');
-
    document.getElementById( 'createBrandHide').click();
    this.loadingData();
    swal({
@@ -267,7 +259,6 @@ updateBrand(brand) {
 
   sendUpdateBrand() {
     console.log(this.myFormUpdate.get('descriptionUpdate'));
-    console.log(localStorage.getItem('token'));
     this.submitted = true;
    if ( !this.myFormUpdate.invalid) {
     swal({

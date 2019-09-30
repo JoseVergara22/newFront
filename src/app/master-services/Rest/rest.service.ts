@@ -712,7 +712,7 @@ export class RestService {
     });
   }
 
-  updatePayCondition(id: number, description: string, days: number, status: number) {
+  updatePayCondition(id: number, description: string, day: number, status: number) {
     console.log('ole ole ole');
     console.log(status);
     return new Promise(resolve => {
@@ -728,7 +728,7 @@ export class RestService {
       };
       const postParams = {
         description: description,
-        days: days,
+        day: day,
         status: status
       };
       this.http.patch('http://34.207.70.171/api/payment_conditions/' + id, postParams, httpOptions)
@@ -744,9 +744,6 @@ export class RestService {
     console.log('ole ole ole');
     console.log(status);
     return new Promise(resolve => {
-      const headers = new HttpHeaders();
-      headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user'))); // 'Bearer ' +
-      headers.append('Content-Type', 'application/json');
       const httpOptions = {
         headers: new HttpHeaders({
           'Content-Type': 'application/json',
@@ -754,12 +751,13 @@ export class RestService {
           'Accept': 'application/json'
         })
       };
-      const postParams = {
-      };
       this.http.delete('http://34.207.70.171/api/payment_conditions/' + id, httpOptions)
         .map(res => res).subscribe(data => {
+          console.log("mostrar data");
+          console.log(data);
           resolve(data);
         }, error => {
+          console.log("error en el servicio");
           resolve(error);
         });
     });
@@ -807,8 +805,11 @@ export class RestService {
       };
       this.http.post('http://34.207.70.171/api/type_documents', postParams, httpOptions)
         .map(res => res).subscribe(data => {
+          console.log("datos");
+          console.log(data);
           resolve(data);
         }, error => {
+          console.log("error en el servicio");
           resolve(error);
         });
     });

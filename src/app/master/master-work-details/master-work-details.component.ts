@@ -99,6 +99,7 @@ export class MasterWorkDetailsComponent implements OnInit {
       this.workservice.storeWorkHeader(1,this.title1,this.hours1,this.observation1).then(data=>{
         const resp:any=data;
         this.headerinfo=resp.data;
+        console.log("header information");
         console.log(this.headerinfo)
         this.generalAlert("Proceso completado","Proceso completado correctamente!","success");
         this.showButtonUpdated=true;
@@ -137,8 +138,8 @@ export class MasterWorkDetailsComponent implements OnInit {
   }
 
   updateheader(){
-    console.log(this.title1);
-    if ((this.title1!=null) || (this.title1!="") || (this.hours1==null)) {
+    console.log(this.title2);
+    if ((this.title2!=null) || (this.title2!="") || (this.hours2==null)) {
       swal({
         title: 'Obteniendo información ...',
         allowOutsideClick: false
@@ -147,7 +148,8 @@ export class MasterWorkDetailsComponent implements OnInit {
       this.workservice.updateWorkHeader(this.headerinfo.id,1,this.title2,this.hours2,this.observation2).then(data=>{
         const resp:any=data;
         this.headerinfo=resp.data;
-        console.log(resp)
+        console.log("header information");
+        console.log(this.headerinfo);
         this.generalAlert("Proceso completado","Proceso completado correctamente!","success");
         this.hours2=this.headerinfo.hours;
         this.title2=this.headerinfo.description;

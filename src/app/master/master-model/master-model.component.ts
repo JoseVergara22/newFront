@@ -399,8 +399,8 @@ sendModel() {
 
             if (resp.success === false) {
               swal({
-                title: 'Esta modelo presenta problemas',
-                text: 'Esta modelo no se puede eliminar',
+                title: 'Este modelo presenta problemas',
+                text: 'Este modelo no se puede eliminar',
                 type: 'error'
                });
             } else {

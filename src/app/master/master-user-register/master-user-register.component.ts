@@ -33,7 +33,7 @@ export class MasterUserRegisterComponent implements OnInit {
   constructor(private userService: UserService, private router: Router) {
     this.loading = true;
     this.getUser();
-    this.getUserCustomer();
+    //this.getUserCustomer();
     const name = new FormControl('', Validators.required);
     const lastname = new FormControl('', Validators.required);
     const username = new FormControl('', Validators.required);

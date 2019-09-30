@@ -150,6 +150,12 @@ export class WorkService {
   }
 
   updateWorkHeader(id:number,status:number,description:string,hours:number,observation:string){
+    console.log("data to send");
+    console.log("id "+id);
+    console.log("status "+status);
+    console.log("description "+description);
+    console.log("hours "+hours);
+    console.log("observation "+observation);
     return new Promise(resolve => {
       const httpOptions = {
         headers: new HttpHeaders({
@@ -159,8 +165,8 @@ export class WorkService {
         })
       };
       const patchParams={
-        status:status,
         description:description,
+        status:status,
         hours:hours,
         observation:observation
       }
