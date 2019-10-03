@@ -1,0 +1,53 @@
+
+<div class="row">
+
+  <div class="col-sm-12">
+      <app-card>
+          <h5>Administrar Horometro</h5>
+          <br>
+
+          <ngx-datatable #table class="data-table" [rows]="rowsForklift" [columns]="[
+                                                                                      {name:'Modelo', prop:'model_description'},
+                                                                                      {name:'Serie', prop:'serie'},
+                                                                                      {name:'Marca', prop:'branch_name'},
+                                                                                      {name:'Desc. marca', prop:'brand_description'},
+                                                                                      {name:'H. inicial', prop:'h_initial'},
+                                                                                      {name:'H. actual', prop:'h_current'},
+                                                                                      {prop:'customer_id'},
+                                                                                      {prop:'branch_offices_id'},
+                                                                                      {prop:'description'},
+                                                                                      {prop:'brand_id'},
+                                                                                      {prop:'model_id'},
+                                                                                      {prop:'machine_id'},
+                                                                                      {prop:'tyre_id'},
+                                                                                      {prop:'fuel_id'},
+                                                                                      {prop:'id'}
+                                                                                      ]"
+              [columnMode]="'force'" [headerHeight]="50" [footerHeight]="50" [rowHeight]="'auto'" [limit]="5">
+
+              <ngx-datatable-column [resizeable]="false" name="Modelo" [sortable]="false" [draggable]="false" prop="model_description"></ngx-datatable-column>
+              <ngx-datatable-column [resizeable]="false" name="Serie" [sortable]="false" [draggable]="false" prop="serie"></ngx-datatable-column>
+              <ngx-datatable-column [resizeable]="false" name="Marca" [sortable]="false" [draggable]="false" prop="branch_name"></ngx-datatable-column>
+              <ngx-datatable-column [resizeable]="false" name="Desc. marca" [sortable]="false" [draggable]="false" prop="brand_description"></ngx-datatable-column>
+              <ngx-datatable-column [resizeable]="false" name="H. inicial" [sortable]="false" [draggable]="false" prop="h_initial"></ngx-datatable-column>
+             <!-- <ngx-datatable-column [resizeable]="false" name="" [sortable]="false" [draggable]="false" prop="h_current"></ngx-datatable-column>
+
+               <ngx-datatable-column [resizeable]="false" name="Estado" [sortable]="false" [draggable]="false" prop="status">
+                  <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+                      <label (click)="blockAgents(value)" class="label label-md label-primary" *ngIf="value==0">Activo</label>
+                      <label class="label label-md label-danger" *ngIf="value==1">Inactivo</label>
+                  </ng-template>
+              </ngx-datatable-column> -->
+              <ngx-datatable-column [resizeable]="false" name="H. actual" [sortable]="false" [draggable]="false" sortable="false" prop="h_current">
+                  <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+                      <input type="number" (change)="actualizarhorometro()" style="width: 100%;">
+                      <!-- <button (click)="updateBrand(row)" class="btn btn-primary btn-icon"><i class="icofont icofont-pencil-alt-5"></i></button>
+                      <button (click)="deleteCustomer(row)" class="btn btn-danger btn-icon"><i class="icofont icofont-ui-delete"></i></button> -->
+                  </ng-template>
+              </ngx-datatable-column>
+
+
+          </ngx-datatable>
+      </app-card>
+  </div>
+</div>

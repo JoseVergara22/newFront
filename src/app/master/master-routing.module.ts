@@ -24,11 +24,16 @@ import { MasterRestartPasswordComponent } from "./master-restart-password/master
 import { MasterWorkDashboardComponent } from "./master-work-dashboard/master-work-dashboard.component";
 import { MasterWorkDetailsComponent } from "./master-work-details/master-work-details.component";
 import { MasterRoutineDetailsComponent } from './master-routine-details/master-routine-details.component';
+import { MasterHorometroComponent } from "./master-horometro/master-horometro.component";
 
 const routes: Routes = [
   {
     path: 'register',
     component: MasterUserRegisterComponent
+  },
+  {
+    path:'horometro',
+    component:MasterHorometroComponent
   },
   {
     path: 'work_details',

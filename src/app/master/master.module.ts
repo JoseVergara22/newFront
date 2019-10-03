@@ -38,6 +38,8 @@ import { MasterRestartPasswordComponent } from './master-restart-password/master
 import { MasterWorkDetailsComponent } from './master-work-details/master-work-details.component';
 import { MasterWorkDashboardComponent } from './master-work-dashboard/master-work-dashboard.component';
 import { MasterRoutineDetailsComponent } from './master-routine-details/master-routine-details.component';
+import { MasterMultiDatePickerComponent } from './master-multi-date-picker/master-multi-date-picker.component';
+import { MasterHorometroComponent } from './master-horometro/master-horometro.component';
 // Servicios
 import { UserService } from '../master-services/User/user.service';
 import { NewService } from '../master-services/new/new.service';
@@ -45,7 +47,7 @@ import { RestService } from '../master-services/Rest/rest.service';
 import { UploadService } from '../master-services/services/upload.service';
 import { WorkService } from '../master-services/Work/work.service';
 import { ColorPickerService } from 'ngx-color-picker';
-import { MasterMultiDatePickerComponent } from './master-multi-date-picker/master-multi-date-picker.component';
+import { HorometroService } from "../master-services/horometro/horometro.service";
 
 
 
@@ -91,7 +93,8 @@ import { MasterMultiDatePickerComponent } from './master-multi-date-picker/maste
     MasterWorkDashboardComponent,
     MasterWorkDetailsComponent,
     MasterRoutineDetailsComponent,
-    MasterMultiDatePickerComponent
+    MasterMultiDatePickerComponent,
+    MasterHorometroComponent
   ],
   providers: [
     RestService,
@@ -104,6 +107,7 @@ import { MasterMultiDatePickerComponent } from './master-multi-date-picker/maste
     WorkWeekService,
     MonthService,
     MonthAgendaService,
-    ColorPickerService]
+    ColorPickerService,
+    HorometroService]
 })
 export class MasterModule { }

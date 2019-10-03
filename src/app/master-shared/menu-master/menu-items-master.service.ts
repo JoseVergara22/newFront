@@ -108,6 +108,10 @@ const MENUITEMS = [
             name: 'Administrar montacargas'
           },
           {
+            state:'horometro',
+            name:'Administrar Horometro'
+          },
+          {
             state: 'registerBrand',
             name: 'Administrar Marcas'
           },
