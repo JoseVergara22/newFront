@@ -44,4 +44,9 @@ export class MasterHorometroComponent implements OnInit {
     });
   }
 
+  updatehorometro(toupdate:any,value:any){
+    console.log (toupdate);
+    console.log(value);
+  }
+
 }

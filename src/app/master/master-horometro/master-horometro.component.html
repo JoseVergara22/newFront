@@ -30,19 +30,9 @@
               <ngx-datatable-column [resizeable]="false" name="Marca" [sortable]="false" [draggable]="false" prop="branch_name"></ngx-datatable-column>
               <ngx-datatable-column [resizeable]="false" name="Desc. marca" [sortable]="false" [draggable]="false" prop="brand_description"></ngx-datatable-column>
               <ngx-datatable-column [resizeable]="false" name="H. inicial" [sortable]="false" [draggable]="false" prop="h_initial"></ngx-datatable-column>
-             <!-- <ngx-datatable-column [resizeable]="false" name="" [sortable]="false" [draggable]="false" prop="h_current"></ngx-datatable-column>
-
-               <ngx-datatable-column [resizeable]="false" name="Estado" [sortable]="false" [draggable]="false" prop="status">
+              <ngx-datatable-column [resizeable]="false" name="H. actual" [sortable]="false" [draggable]="false" sortable="false">
                   <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
-                      <label (click)="blockAgents(value)" class="label label-md label-primary" *ngIf="value==0">Activo</label>
-                      <label class="label label-md label-danger" *ngIf="value==1">Inactivo</label>
-                  </ng-template>
-              </ngx-datatable-column> -->
-              <ngx-datatable-column [resizeable]="false" name="H. actual" [sortable]="false" [draggable]="false" sortable="false" prop="h_current">
-                  <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
-                      <input type="number" (change)="actualizarhorometro()" style="width: 100%;">
-                      <!-- <button (click)="updateBrand(row)" class="btn btn-primary btn-icon"><i class="icofont icofont-pencil-alt-5"></i></button>
-                      <button (click)="deleteCustomer(row)" class="btn btn-danger btn-icon"><i class="icofont icofont-ui-delete"></i></button> -->
+                      <input type="number" (change)="updatehorometro(row,this)" style="width: 100%;">
                   </ng-template>
               </ngx-datatable-column>
 
