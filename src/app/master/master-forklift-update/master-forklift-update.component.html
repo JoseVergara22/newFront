@@ -6,7 +6,7 @@
 
 
         <app-card [title]="'Registro equipo'" [headerContent]="''" [cardOptionBlock]="true">
-            <form [formGroup]="myForm" (ngSubmit)="sendForklift()">
+            <form [formGroup]="myForm" (ngSubmit)="sendUpdateForklift()">
 
                 <div class="form-group row">
                     <div class="col-sm-6">
@@ -196,8 +196,8 @@
 
                     <app-master-multi-date-picker [datesSelected]="datesSelected" [currentDateRoutines]="currentDateRoutines" (currentDateRoutinesChange)="change($event)" (datesSelectedChange)="change($event)"></app-master-multi-date-picker>
                     <hr>
-                  <!--   <pre>DateSelected: {{ datesSelected | json }} </pre>
-                    <pre>DateSelected: {{ currentDateRoutines | json }} </pre>-->
+                    <!--  <pre>DateSelected: {{ datesSelected | json }} </pre>
+                    <pre>DateSelected: {{ currentDateRoutines | json }} </pre> -->
                 </app-card>
 
 
@@ -221,12 +221,12 @@
                 </div>
                 <br>
 
-                <div class="form-group row">
+              <!--  <div class="form-group row">
                     <div class="col-sm-4">
                         <h6>Eligir imagenes</h6>
                         <input type='file' (change)="onSelectFile($event)" >
                     </div>
-                </div>
+                </div> -->
 
             <!--  <div class="form-group row">
                     <div class="col-sm-3" *ngFor='let url of urls'> -->  
@@ -276,6 +276,7 @@
 
 
                 <div class="form-group row ">
+
                     <div class="col-sm-6">
 
 <!-- <app-card [title]="'Lista de imagenes'" [classHeader]="true" [blockClass]="'table-border-style'"> -->
@@ -285,32 +286,33 @@
           <thead>
           <tr>
             <th>Imagen</th>
-            <th>Acción</th>
+           <!-- <th>Acción</th>  -->
           </tr>
           </thead>
-          <tbody  class="col-sm-3" *ngFor='let url of urls; let i = index'>
+          <tbody  class="col-sm-3" *ngFor='let url of ForkliftImages; let i = index'>
         <td>
                         <!-- <img src="assets/images/blog/blog-r-1.jpg" alt="img" class="img-fluid img-100"> -->
-          <img [src]="url" height="200" *ngIf="url" alt="img" class="img-fluid img-100"> 
+          <img [src]="url.name" height="400" *ngIf="url" alt="img" class="img-fluid img-100"> 
                         <!--  <img [src]="imgURL " height="200 " *ngIf="imgURL " alt="img" class="img-fluid img-100">
                         <h6 class="m-t-15 m-b-0">Ejemplo</h6>
                         <p class="text-muted m-b-0"><small>PNG-100KB</small></p> -->
         </td>
-        <td>
-     <button (click)="deleteImage(i)" class="btn btn-danger btn-icon"><i class="icofont icofont-ui-delete"></i></button>
+      <!--   <td> -->
+     <!-- <button (click)="deleteImage(i)" class="btn btn-danger btn-icon"><i class="icofont icofont-ui-delete"></i></button> -->
    
-        </td>
+      <!--  </td> -->
           </tbody>
         </table>
       </div>
    <!-- </app-card> -->
 
-
+  
                     </div>
                 </div>
- <div class="align-buttons">
-                        <button type="submit " class="btn btn-primary m-b-0 ">Agregar Equipo</button>
-   </div>
+                 <div class="align-buttons">
+                        <button type="submit " class="btn btn-primary m-b-0 ">Actualizar Equipo</button>
+       </div>
+
             </form>
 
      

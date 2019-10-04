@@ -1,11 +1,13 @@
 import { Injectable } from '@angular/core';
+import { WorkService } from '../../master-services/Work/work.service';
 import * as AWS from 'aws-sdk/global';
 import * as S3 from 'aws-sdk/clients/s3';
+import { UUID } from 'angular2-uuid';
 
 @Injectable()
 export class UploadService {
 
-  constructor() { }
+  constructor(private workService:WorkService) { }
   uploadFile(file) {
       return new Promise(resolve =>{
         const contentType = file.type;
@@ -16,9 +18,16 @@ export class UploadService {
                   region: 'us-east-1'
               }
           );
+          const uuid = UUID.UUID();
+          console.log(uuid);
+          console.log(file.name + '' + file.type);
+          const extension = (file.name.substring(file.name.lastIndexOf('.'))).toLowerCase();
+          console.log(extension);
+          let nameFile =uuid +''+ extension;
+          console.log(nameFile);
           const params = {
               Bucket: 'masterforklift',
-              Key: 'forklift' + file.name,
+              Key: 'forklift' + nameFile,
               Body: file,
               ACL: 'public-read',
               ContentType: contentType
@@ -27,6 +36,7 @@ export class UploadService {
           bucket.upload(params).promise().then(resp=>{
               console.log(resp);
             resolve(resp);
+
           }).catch(error => {
       console.log(error);
     });
@@ -34,6 +44,54 @@ export class UploadService {
       })
     
      
+}
+
+
+uploadFileForklift(file, idForlift:number ) {
+    return new Promise(resolve =>{
+      const contentType = file.type;
+      const bucket = new S3(
+            {
+                accessKeyId: 'AKIAQTIVBK67FU3N4ZPV',
+                secretAccessKey: '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',
+                region: 'us-east-1'
+            }
+        );
+        const uuid = UUID.UUID();
+        console.log(uuid);
+        console.log(file.name + '' + file.type);
+        const extension = (file.name.substring(file.name.lastIndexOf('.'))).toLowerCase();
+        console.log(extension);
+        let nameFile ='https://masterforklift.s3.amazonaws.com/forklift'+uuid +''+ extension;
+        console.log(nameFile);
+        const params = {
+            Bucket: 'masterforklift',
+            Key: 'forklift' + nameFile,
+            Body: file,
+            ACL: 'public-read',
+            ContentType: contentType
+        };
+
+        bucket.upload(params).promise().then(resp=>{
+            console.log(resp);
+          resolve(resp);
+
+          this.workService.storeImageForklift(idForlift, nameFile).then(data => {
+              const resp: any = data;
+              console.log(data);
+             // swal.close();
+              console.log(resp);
+            }).catch(error => {
+              console.log(error);
+            });
+
+        }).catch(error => {
+    console.log(error);
+  });
+
+    })
+  
+   
 }
  /* uploadFile(file) {
     const contentType = file.type;

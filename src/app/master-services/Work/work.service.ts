@@ -242,4 +242,61 @@ export class WorkService {
     });
   }
 
+  
+  storeWorkDetailForklift(id_rutines:string,id_forklift:number,date:string){
+    return new Promise(resolve => {
+      const httpOptions = {
+        headers: new HttpHeaders({
+          'Content-Type':  'application/json',
+          'Authorization': 'Bearer ' + localStorage.getItem('token_user'),
+          'Accept': 'application/json'
+        })
+      };
+      const postParams = {
+        id_routines: id_rutines,
+        id_forklift: id_forklift,
+        date: date,
+        status: 0
+      };
+      
+      this.http.post('http://34.207.70.171/api/routine_details', postParams, httpOptions)
+      .map(res => res).subscribe(data => {
+        console.log("a mostrar data");
+      console.log(data);
+      resolve(data);
+      }, error => {
+        console.log("error en servicio");
+                resolve(error);
+        });
+    });
+  }
+
+
+  storeImageForklift(id_forklift:number, name:string){
+    return new Promise(resolve => {
+      const httpOptions = {
+        headers: new HttpHeaders({
+          'Content-Type':  'application/json',
+          'Authorization': 'Bearer ' + localStorage.getItem('token_user'),
+          'Accept': 'application/json'
+        })
+      };
+      const postParams = {
+        fork_lift_id: id_forklift,
+        name: name
+      };
+      
+      this.http.post('http://34.207.70.171/api/image_forklift', postParams, httpOptions)
+      .map(res => res).subscribe(data => {
+        console.log("a mostrar data");
+      console.log(data);
+      resolve(data);
+      }, error => {
+        console.log("error en servicio");
+                resolve(error);
+        });
+    });
+  }
+
+
 }

@@ -25,6 +25,7 @@ import { MasterWorkDashboardComponent } from "./master-work-dashboard/master-wor
 import { MasterWorkDetailsComponent } from "./master-work-details/master-work-details.component";
 import { MasterRoutineDetailsComponent } from './master-routine-details/master-routine-details.component';
 import { MasterHorometroComponent } from "./master-horometro/master-horometro.component";
+import { MasterForkliftUpdateComponent } from './master-forklift-update/master-forklift-update.component';
 
 const routes: Routes = [
   {
@@ -130,6 +131,10 @@ const routes: Routes = [
   {
     path: 'detailRoutine',
     component:  MasterRoutineDetailsComponent
+  },
+  {
+    path: 'forkliftUpdate/:id',
+    component:  MasterForkliftUpdateComponent
   }
 ];
 

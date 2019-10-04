@@ -332,12 +332,23 @@ export class RestService {
     customer_id: number,
     branch_offices_id: number,
     description: string,
-    brand_id: number,
     status: number,
+    brand_id: number,
     model_id: number,
     machine_id: number,
     tyre_id: number,
-    fuel_id: number) {
+    tyre_forward: number,
+    tyre_sback: number,
+    fuel_id: number,
+    routine_id: number,
+    tonne: number,
+    mastil_izado: number,
+    mastil_contract: number,
+    h_initial: number,
+    h_current: number,
+    alarm: number,
+    observation: string
+    ) {
     return new Promise(resolve => {
       const headers = new HttpHeaders();
       headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user'))); // 'Bearer ' +
@@ -350,7 +361,7 @@ export class RestService {
         })
       };
       const postParams = {
-        serie: serie,
+       /* serie: serie,
         customer_id: customer_id,
         branch_offices_id: branch_offices_id,
         description: description,
@@ -359,7 +370,28 @@ export class RestService {
         model_id: model_id,
         machine_id: machine_id,
         tyre_id: tyre_id,
-        fuel_id: fuel_id
+        fuel_id: fuel_id*/
+
+        serie: serie,
+    customer_id: customer_id,
+    branch_offices_id: branch_offices_id,
+    description: description,
+    status: status,
+    brand_id: brand_id,
+    model_id: model_id,
+    machine_id: machine_id,
+    tyre_id: tyre_id,
+    tyre_forward: tyre_forward,
+    tyre_sback: tyre_sback,
+    fuel_id: fuel_id,
+    routine_id: routine_id,
+    tonne: tonne,
+    mastil_izado: mastil_izado,
+    mastil_contract: mastil_contract,
+    h_initial: h_initial,
+    h_current: h_current,
+    alarm: alarm,
+    observation: observation
       };
       this.http.post('http://34.207.70.171/api/forklifts', postParams, httpOptions)
         .map(res => res).subscribe(data => {
@@ -369,6 +401,82 @@ export class RestService {
         });
     });
   }
+
+  updateforklift(idForlift:number,
+    serie: string,
+    customer_id: number,
+    branch_offices_id: number,
+    description: string,
+    status: number,
+    brand_id: number,
+    model_id: number,
+    machine_id: number,
+    tyre_id: number,
+    tyre_forward: number,
+    tyre_sback: number,
+    fuel_id: number,
+    routine_id: number,
+    tonne: number,
+    mastil_izado: number,
+    mastil_contract: number,
+    h_initial: number,
+    h_current: number,
+    alarm: number,
+    observation: string
+    ) {
+    return new Promise(resolve => {
+      const headers = new HttpHeaders();
+      headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user'))); // 'Bearer ' +
+      headers.append('Content-Type', 'application/json');
+      const httpOptions = {
+        headers: new HttpHeaders({
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + localStorage.getItem('token_user'),
+          'Accept': 'application/json'
+        })
+      };
+      const postParams = {
+       /* serie: serie,
+        customer_id: customer_id,
+        branch_offices_id: branch_offices_id,
+        description: description,
+        brand_id: brand_id,
+        status: status,
+        model_id: model_id,
+        machine_id: machine_id,
+        tyre_id: tyre_id,
+        fuel_id: fuel_id*/
+
+    serie: serie,
+    customer_id: customer_id,
+    branch_offices_id: branch_offices_id,
+    description: description,
+    status: status,
+    brand_id: brand_id,
+    model_id: model_id,
+    machine_id: machine_id,
+    tyre_id: tyre_id,
+    tyre_forward: tyre_forward,
+    tyre_sback: tyre_sback,
+    fuel_id: fuel_id,
+    routine_id: routine_id,
+    tonne: tonne,
+    mastil_izado: mastil_izado,
+    mastil_contract: mastil_contract,
+    h_initial: h_initial,
+    h_current: h_current,
+    alarm: alarm,
+    observation: observation
+      };
+      this.http.patch('http://34.207.70.171/api/forklifts/'+idForlift, postParams, httpOptions)
+        .map(res => res).subscribe(data => {
+          resolve(data);
+        }, error => {
+          resolve(error);
+        });
+    });
+  }
+
 
   createTyre(description: string, status: number) {
     return new Promise(resolve => {

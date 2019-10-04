@@ -40,6 +40,7 @@ import { MasterWorkDashboardComponent } from './master-work-dashboard/master-wor
 import { MasterRoutineDetailsComponent } from './master-routine-details/master-routine-details.component';
 import { MasterMultiDatePickerComponent } from './master-multi-date-picker/master-multi-date-picker.component';
 import { MasterHorometroComponent } from './master-horometro/master-horometro.component';
+import { MasterForkliftUpdateComponent } from './master-forklift-update/master-forklift-update.component';
 // Servicios
 import { UserService } from '../master-services/User/user.service';
 import { NewService } from '../master-services/new/new.service';
@@ -48,7 +49,7 @@ import { UploadService } from '../master-services/services/upload.service';
 import { WorkService } from '../master-services/Work/work.service';
 import { ColorPickerService } from 'ngx-color-picker';
 import { HorometroService } from "../master-services/horometro/horometro.service";
-
+import { ForkliftService } from '../master-services/Forklift/forklift.service';
 
 
 @NgModule({
@@ -94,7 +95,8 @@ import { HorometroService } from "../master-services/horometro/horometro.service
     MasterWorkDetailsComponent,
     MasterRoutineDetailsComponent,
     MasterMultiDatePickerComponent,
-    MasterHorometroComponent
+    MasterHorometroComponent,
+    MasterForkliftUpdateComponent
   ],
   providers: [
     RestService,
@@ -108,6 +110,7 @@ import { HorometroService } from "../master-services/horometro/horometro.service
     MonthService,
     MonthAgendaService,
     ColorPickerService,
-    HorometroService]
+    HorometroService,
+    ForkliftService]
 })
 export class MasterModule { }

@@ -20,6 +20,10 @@
     background-color: rgba(255, 255, 0, .5);
 }
 
+[ngbDatepickerDayView].outside {
+    opacity: .5;
+}
+
 .input-group {
     &.datepicker-right {
         ngb-datepicker {
@@ -28,7 +32,7 @@
         }
     }
 }
-
+/*
 ngb-datepicker {
     border: 1px solid #dfdfdf;
     border-radius: .25rem;
@@ -81,4 +85,4 @@ ngb-datepicker {
             padding-bottom: .25rem;
         }
     }
-}
+}*/

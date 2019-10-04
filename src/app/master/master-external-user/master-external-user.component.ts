@@ -441,7 +441,7 @@ export class MasterExternalUserComponent implements OnInit {
 
   relationshipUserOffice() {
     console.log(this.selectedBusinessId);
-    this.idBranchOffices.splice(0, 1);
+   this.idBranchOffices.splice(0, 1);
    this.restService.createRelationshipUserOffices(this.currentUser.data.id,   this.idBranchOffices, this.selectedBusinessId).then(data => {
      const resp: any = data;
      this.getRelationshipUserOffices();

@@ -16,14 +16,37 @@
   </span>
 </ng-template>-->
 
-<div id="ole">
-    <ngb-datepicker #dp [displayMonths]="2" [navigation]="'none'" [dayTemplate]="t">
-    </ngb-datepicker>
+
+ <div class="row">
+
+         <button type="button" class="btn btn-default waves-effect"  id="routineButton" style="display:none;" (click)="modalDefault.show()">Rutinas</button>
+           <button type="button" class="btn btn-default waves-effect"  id="routineButtonCancel" style="display:none;" (click)="modalDefault.hide()">ocultar</button>
+
+          <app-modal-basic #modalDefault>
+            <div class="app-modal-header">
+              <h5 class="modal-title">{{dateShow}}</h5> 
+           
+      <!--   <button type="button" class="close basic-close" (click)="modalDefault.hide()"> 
+                <span aria-hidden="true">&times;</span> 
+              </button>-->
+            </div>
+            <div class="app-modal-body">
+            <div   *ngFor="let item of routineSelecteds">
+            <h5><input type="checkbox" [(ngModel)]="item.select"  data-md-icheck /> {{item.item}}</h5> <br><br>
+            </div>
+            </div>
+            <div class="app-modal-footer">
+              <button type="button" class="btn btn-default waves-effect"  (click)="addCancelDate()"  >Cerrar</button>
+              <button type="button" class="btn btn-primary waves-effect waves-light "   (click)="addDateRoutine()" >Guardar</button>
+            </div>
+          </app-modal-basic>
+<div *ngFor="let item of dateInitials">
+ <div class="col-3">
+    <ngb-datepicker #dp [displayMonths]="1" [navigation]="'none'"  [minDate]="{year: item.year, month: item.month, day: 1}"  [maxDate]="{year: item.year, month: item.month, day: 31}" [startDate]="{year: item.year, month: item.month}" outsideDays="hidden" [dayTemplate]="t"></ngb-datepicker>
+ </div>
+ <hr>
 </div>
-
-<ngb-datepicker #dp [displayMonths]="1" [navigation]="'none'" outsideDays="visible" [dayTemplate]="t"></ngb-datepicker>
-
-
+</div>
 <ng-template #t let-date="date" let-focused="focused">
     <span class="custom-day" (click)="onDateSelection($event,date)" [class.focused]="focused" [class.range]="isFrom(date) || isTo(date) || isInside(date) || isHovered(date)" [class.faded]="isHovered(date) || isInside(date)" [class.selected]="isDateSelected(date)"
         (mouseenter)="hoveredDate = date" (mouseleave)="hoveredDate = null">

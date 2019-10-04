@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import { RestService } from '../../master-services/Rest/rest.service';
+import { ForkliftService } from '../../master-services/Forklift/forklift.service';
 import swal from 'sweetalert2';
 import { Router } from '@angular/router';
 
@@ -24,8 +25,6 @@ export class MasterShowForkliftComponent implements OnInit {
   kilo: any;
   elementDelete: any;
 
-  customers: any;
-
   switchCreate = true;
   switchUpdate = true;
   change = true;
@@ -41,13 +40,13 @@ export class MasterShowForkliftComponent implements OnInit {
 
   currentBrand: any;
 
+  customers: any;
+  
   selectedBusinessId: any = 0;
   selectedOfficeId: any = 0;
   customerOffices: any = 0;
 
-
-
-  constructor(private restService: RestService, private router: Router) {
+  constructor(private restService: RestService, private router: Router,private forkliftService: ForkliftService) {
   /*  swal({
       title: 'Validando información ...',
       allowOutsideClick: false
@@ -66,7 +65,8 @@ export class MasterShowForkliftComponent implements OnInit {
       console.log(error);
     });*/
 
-     this.getCustomers();
+    this.loadingData();
+    this.getCustomers();
 
     const description = new FormControl('', Validators.required);
     const descriptionUpdate = new FormControl('', Validators.required);
@@ -79,42 +79,9 @@ export class MasterShowForkliftComponent implements OnInit {
     this.myFormUpdate = new FormGroup({
       descriptionUpdate: descriptionUpdate
     });
-
    }
 
 
-   getCustomers() {
-    this.restService.getCustomer().then(data => {
-      const resp: any = data;
-      console.log(data);
-      swal.close();
-      this.customers  = resp.data;
-      this.rowsClient = resp.data;
-      this.rowStatic =  resp.data;
-      this.rowsTemp = resp.data;
-      console.log( this.rowsClient);
-    }).catch(error => {
-      console.log(error);
-    });
-   }
-
-   getCustomerOffice() {
-    console.log(this.selectedBusinessId);
-   this.restService. getCustomerOffice(this.selectedBusinessId).then(data => {
-     const resp: any = data;
-     console.log('ole ole');
-     console.log(resp);
-     this.customerOffices = resp.data_branchoffices;
-     swal.close();
-   }).catch(error => {
-     console.log(error);
-   });
-
-  }
-
-  getOfficeForklift() {
-
-  }
    loadingData() {
     swal({
       title: 'Validando información ...',
@@ -122,7 +89,7 @@ export class MasterShowForkliftComponent implements OnInit {
     });
     swal.showLoading();
 
-    this.restService.getCustomer().then(data => {
+    this.forkliftService.getForklifts().then(data => {
       const resp: any = data;
       console.log(data);
       swal.close();
@@ -149,7 +116,7 @@ export class MasterShowForkliftComponent implements OnInit {
       this.rowsTemp = this.rowsTempCheck;
     }
     const temp = this.rowsTemp.filter(function(d) {
-      return d.business_name.toLowerCase().indexOf(val) !== -1 || !val;
+      return d.serie.toLowerCase().indexOf(val) !== -1 || !val;
     });
 
     if (val !== '') {
@@ -189,6 +156,70 @@ export class MasterShowForkliftComponent implements OnInit {
     this.rowsClient = temp;
   }
 
+   getCustomers() {
+    this.restService.getCustomer().then(data => {
+      const resp: any = data;
+      console.log(data);
+      swal.close();
+      this.customers  = resp.data;
+      // this.rowsClient = resp.data;
+      // this.rowStatic =  resp.data;
+      // this.rowsTemp = resp.data;
+      // console.log( this.rowsClient);
+    }).catch(error => {
+      console.log(error);
+    });
+   }
+
+    getCustomersForklift(idCustomer:number) {
+    this.forkliftService.getForkliftsCustomer(idCustomer).then(data => {
+      const resp: any = data;
+      console.log('forklifts');
+      console.log(data);
+      swal.close();
+      this.rowsClient = resp.data;
+      this.rowStatic =  resp.data;
+      this.rowsTemp = resp.data;
+      console.log( this.rowsClient);
+    }).catch(error => {
+      console.log(error);
+    });
+   }
+
+
+   getBranchOfficeForklift(idBranch:number) {
+    this.forkliftService.getForkliftsBranch(idBranch).then(data => {
+      const resp: any = data;
+      console.log('forklifts branch');
+      console.log(data);
+     swal.close();
+      this.rowsClient = resp.data;
+      this.rowStatic =  resp.data;
+      this.rowsTemp = resp.data;
+      console.log( this.rowsClient);
+    }).catch(error => {
+      console.log(error);
+    });
+   }
+
+   getCustomerOffice() {
+    console.log(this.selectedBusinessId);
+    this.getCustomersForklift(this.selectedBusinessId);
+    this.restService. getCustomerOffice(this.selectedBusinessId).then(data => {
+     const resp: any = data;
+     console.log('ole ole');
+     console.log(resp);
+     this.customerOffices = resp.data_branchoffices;
+     swal.close();
+   }).catch(error => {
+     console.log(error);
+   });
+
+  }
+
+  getOfficeForklift() {
+   this.getBranchOfficeForklift(this.selectedOfficeId);
+  }
 
   onChangeCreate(check: any) {
    this.change = check;
@@ -245,24 +276,10 @@ export class MasterShowForkliftComponent implements OnInit {
     }
   }
 
-updateBrand(customeRow: any) {
-  this.router.navigateByUrl('master/customersUpdate/' + customeRow.id);
-  /*console.log(brand);
-  this.currentBrand = brand;
-  console.log( this.currentBrand );
-  this.myFormUpdate.get('descriptionUpdate').setValue(brand.description);
-  if (this.currentBrand.status === '0') {
-    this.enabledUpdated = true;
-  } else {
-    this.enabledUpdated = false;
-  }
-
-  document.getElementById( 'uploadBrand').click();
-*/
-
+updateForklift(forklift:any) {
+  console.log(forklift);
+  this.router.navigateByUrl('master/forkliftUpdate/' + forklift.id);
 }
-
-
 
    sendBrand() {
     console.log(localStorage.getItem('token'));
@@ -310,10 +327,6 @@ updateBrand(customeRow: any) {
     }
   }
 
-
-  sendForklift() {
-    this.router.navigateByUrl('/master/registerForklift');
-  }
   sendUpdateBrand() {
     console.log(this.myFormUpdate.get('descriptionUpdate'));
     console.log(localStorage.getItem('token'));
@@ -361,7 +374,7 @@ updateBrand(customeRow: any) {
   get checkFormUpdate() { return this.myFormUpdate.controls; }
 
 
-  deleteCustomer(brand: any) {
+  deleteBrand(brand: any) {
     swal({
       title: 'Estás seguro de eliminar este elemento?',
      // text: 'Once deleted, you will not be able to recover this imaginary file!',
@@ -378,7 +391,7 @@ updateBrand(customeRow: any) {
           console.log(brand);
           console.log(    this.elementDelete);
           swal.showLoading();
-          this.restService.deleteCustomer(Number(this.elementDelete.id))
+          this.restService.deleteBrand(Number(this.elementDelete.id))
           .then(data => {
             swal.showLoading();
             const resp: any = data;
@@ -386,15 +399,15 @@ updateBrand(customeRow: any) {
 
             if (resp.success === false) {
               swal({
-                title: 'Este cliente presenta problemas',
-                text: 'Este cliente no se puede eliminar',
+                title: 'Esta marca presenta problemas',
+                text: 'Esta marca no se puede eliminar',
                 type: 'error'
                });
             } else {
            // this.router.navigateByUrl('master/registerBrand');
            this.loadingData();
            swal({
-            title: 'Cliente eliminado',
+            title: 'Marca eliminada',
             type: 'success'
            });
           }
@@ -412,6 +425,11 @@ updateBrand(customeRow: any) {
 
   }
 
+
+  sendForklift() {
+    this.router.navigateByUrl('/master/registerForklift');
+  }
+  
   ngOnInit() {
   }
 
@@ -420,4 +438,3 @@ updateBrand(customeRow: any) {
   }
 
 }
-

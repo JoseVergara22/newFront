@@ -8,6 +8,8 @@ import { Router } from '@angular/router';
 import { UploadService } from '../../master-services/services/upload.service';
 import { UUID } from 'angular2-uuid';
 import { WorkService } from '../../master-services/Work/work.service';
+import { ActivatedRoute, Params } from '@angular/router';
+import { ForkliftService } from '../../master-services/Forklift/forklift.service';
 // import { View,EventSettingsModel } from "@syncfusion/ej2-angular-schedule";
 // import { DatePipe } from "@angular/common";
 const I18N_VALUES = {
@@ -27,6 +29,12 @@ interface itemSelectInterface {// item para mostrar selccionados
 interface currentDateInterface {// vector seleccionado
   date?: number;
   item?: string;
+}
+
+interface putDateInterface {// vector seleccionado
+  year: number;
+  month: number;
+  day: number;
 }
 
 
@@ -56,17 +64,21 @@ const after = (one: NgbDateStruct, two: NgbDateStruct) =>
     }
 
 @Component({
-  selector: 'app-master-forklift',
-  templateUrl: './master-forklift.component.html',
-  styleUrls: ['./master-forklift.component.scss',
+  selector: 'app-master-forklift-update',
+  templateUrl: './master-forklift-update.component.html',
+  styleUrls: ['./master-forklift-update.component.scss',
   '../../../assets/icon/icofont/css/icofont.scss'],
-  providers: [I18n, {provide: NgbDatepickerI18n, useClass: MasterForkliftComponent}]
+  providers: [I18n, {provide: NgbDatepickerI18n, useClass: MasterForkliftUpdateComponent}]
 })
-export class MasterForkliftComponent extends NgbDatepickerI18n {
- // @Input() currentDateRoutines: Array <currentDateInterface> = [];
+export class MasterForkliftUpdateComponent extends NgbDatepickerI18n {
+
+  // @Input() currentDateRoutines: Array <currentDateInterface> = [];
 
   datesSelected:NgbDateStruct[]=[]; 
   currentDateRoutines: Array <currentDateInterface> = [];
+  daysForklift:putDateInterface;
+  currentDayItem:currentDateInterface;
+
   nothingToshowText: any = 'Nothing to show'; // "By default" => There are no events scheduled that day. 
    colors: any = {
       red: {
@@ -104,8 +116,8 @@ export class MasterForkliftComponent extends NgbDatepickerI18n {
         actions: this.actions
       }
     ]
-    viewDate: Date = new Date();
-    themecolor: any = '#0a5ab3'
+  viewDate: Date = new Date();
+  themecolor: any = '#0a5ab3'
   selectedOfficeId = 0;
   selectedBrandId = 0;
   selectedBusinessId = 0;
@@ -118,6 +130,8 @@ export class MasterForkliftComponent extends NgbDatepickerI18n {
   filesImageForlift;
   switchAlarm = true;
   switchStatus = true;
+  currentForkId;
+  ForkliftImages:any;
 
   // public setView: View = 'Month';
   // public eventSettings: EventSettingsModel={
@@ -146,6 +160,7 @@ export class MasterForkliftComponent extends NgbDatepickerI18n {
   active: true;
   myDate = new Date();
   s3info:any;
+  forkliftRoutine: any;
   // year=parseInt(this.datePipe.transform(this.myDate,'yyyy'))+1;
   // month=parseInt(this.datePipe.transform(this.myDate,'MM'));
   // day=parseInt(this.datePipe.transform(this.myDate,'dd'));
@@ -164,6 +179,7 @@ export class MasterForkliftComponent extends NgbDatepickerI18n {
   toDate: NgbDateStruct;
 
   disabled = true;
+  forkliftCurrent: any;
 
 
 
@@ -209,11 +225,14 @@ export class MasterForkliftComponent extends NgbDatepickerI18n {
   }
 
   constructor(private _i18n: I18n, private restService: RestService, private router: Router, private uploadService: UploadService,
-    public parserFormatter: NgbDateParserFormatter, public calendar: NgbCalendar, public cpService: ColorPickerService, private workService:WorkService) {
+    public parserFormatter: NgbDateParserFormatter, public calendar: NgbCalendar, public cpService: ColorPickerService, private workService:WorkService,
+    private rutaActiva: ActivatedRoute, private forkliftService: ForkliftService) {
 
       super();
+    this.currentForkId = this.rutaActiva.snapshot.params.id;
     this.loadingData();
-
+    console.log( this.rutaActiva.snapshot.params.id);
+ 
     const customer = new FormControl('', Validators.required);
     const office = new FormControl('', Validators.required);
     const series = new FormControl('', Validators.required);
@@ -354,6 +373,114 @@ export class MasterForkliftComponent extends NgbDatepickerI18n {
       console.log(error);
     });
 
+      this.forkliftService.getForklift(Number(this.currentForkId)).then(data => {
+      const resp: any = data;
+      this.forkliftCurrent = data;
+       this.forkliftCurrent= this.forkliftCurrent.data;
+      this.initialForklift();
+      console.log('información');
+      console.log(data);
+      swal.close();
+    }).catch(error => {
+      console.log(error);
+    });
+
+    
+
+   }
+
+
+   initialForklift(){
+   
+    this.selectedBrandId  =  Number(this.forkliftCurrent.brand_id);
+    this.selectedBusinessId =  Number(this.forkliftCurrent.customer_id);
+    this.selectedMachineId =  Number(this.forkliftCurrent.machine_id);
+    this.getCustomerOffice();
+    this.getCustomerModel();
+    this.selectedOfficeId = Number(this.forkliftCurrent.branch_offices_id);
+    this.selectedMachineId = 
+    this.selectedModelId =  Number(this.forkliftCurrent.model_id);
+    this.selectedFuelId =  Number(this.forkliftCurrent.fuel_id);
+    this.selectedtyreId =  Number(this.forkliftCurrent.tyre_id); 
+    this.selectedRoutineId = Number(this.forkliftCurrent.routine_id); 
+
+    this.myForm.get('series').setValue(this.forkliftCurrent.serie);
+    this.myForm.get('description').setValue(this.forkliftCurrent.description);
+    this.myForm.get('tyreForward').setValue(this.forkliftCurrent.tyre_forward);
+    this.myForm.get('tyreSBack').setValue(this.forkliftCurrent.tyre_sback);
+    this.myForm.get('tonne').setValue(this.forkliftCurrent.tonne);
+    this.myForm.get('hoistedMast').setValue(this.forkliftCurrent.mastil_izado);
+    this.myForm.get('contractedMast').setValue(this.forkliftCurrent.mastil_contract);
+    this.myForm.get('startTime').setValue(this.forkliftCurrent.h_initial);
+    this.myForm.get('currentTime').setValue(this.forkliftCurrent.h_current);
+    this.myForm.get('observation').setValue(this.forkliftCurrent.observation);
+
+  if(Number(this.forkliftCurrent.status)!==0){
+    this.switchStatus = false;
+  }
+
+  if(Number(this.forkliftCurrent.alarm)!==0){
+   this.switchAlarm = false;
+  }
+
+  if(this.forkliftCurrent.routine_id===3){
+     this.tooglecalendar=true;
+  }
+
+
+ 
+
+
+    this.forkliftService.getDetailsForkliftRoutine(Number(this.currentForkId)).then(data => {
+      const resp: any = data;
+      this.forkliftRoutine = data;
+       this.forkliftRoutine = this.forkliftRoutine.data;
+       console.log('aaaaaaaaaaaaaaaa');
+       console.log( this.forkliftRoutine);
+
+      for (let forkliftRou of this.forkliftRoutine) {
+        let year= parseInt(forkliftRou.date.toString().substring(0,4));
+        let month= parseInt(forkliftRou.date.toString().substring(5,7));
+        let day= parseInt(forkliftRou.date.toString().substring(8,10));
+
+         this.daysForklift={
+         'year': year,
+         'month': month,
+         'day': day
+         };
+        
+        let dateCurrentComplete =day+''+month+''+year;
+        let dateFinal=Number(dateCurrentComplete);
+        this.datesSelected.push(this.daysForklift);
+
+         this.currentDayItem={
+            'date': dateFinal,
+            'item': forkliftRou.id_routines
+         }
+        
+        this.currentDateRoutines.push(this.currentDayItem);
+     
+      }
+      console.log('información BHHHHH');
+      console.log(data);
+      swal.close();
+    }).catch(error => {
+      console.log(error);
+    });
+
+    
+    
+      this.forkliftService.getForkliftImage(Number(this.currentForkId)).then(data => {
+      const resp: any = data;
+      this.ForkliftImages = data;
+       this.ForkliftImages= this.ForkliftImages.data;
+    
+      console.log('información  fffffffff');
+      console.log(data);
+      swal.close();
+    }).catch(error => {
+      console.log(error);
+    });
    }
 
 
@@ -424,7 +551,7 @@ export class MasterForkliftComponent extends NgbDatepickerI18n {
     }
 
 
-    sendForklift() {
+   sendUpdateForklift() {
       console.log('Ole ole ole');
     
 
@@ -502,7 +629,7 @@ this.selectedFuelId);
       status=1;
     }
 
-        this.restService.createforklift(this.myForm.get('series').value,
+        this.restService.updateforklift(this.currentForkId, this.myForm.get('series').value,
         this.selectedBusinessId, this.selectedOfficeId, this.myForm.get('description').value.toUpperCase(), status,
         this.selectedBrandId, this.selectedModelId, this.selectedMachineId, this.selectedtyreId, this.myForm.get('tyreForward').value,
         this.myForm.get('tyreSBack').value,this.selectedFuelId, this.selectedRoutineId, this.myForm.get('tonne').value, this.myForm.get('hoistedMast').value,
@@ -525,12 +652,12 @@ this.selectedFuelId);
               this.sendRoutinesForklift( resp.data.id);
             }
          
-            if(this.urls.length>0){
+            /*if(this.urls.length>0){
               this.upload(resp.data.id);
-            }
+            }*/
          
        swal({
-        title: 'Equipo agregado',
+        title: 'Equipo actualizado',
         type: 'success'
        });
        this.router.navigateByUrl('/master/forkliftShow');
