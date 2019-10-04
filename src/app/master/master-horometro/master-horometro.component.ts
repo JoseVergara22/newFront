@@ -15,6 +15,7 @@ export class MasterHorometroComponent implements OnInit {
 
   rowsForklift:any;
   currentrow:any;
+  tableinputs:any=Array();
   constructor(private forkliftservice:HorometroService) { }
 
   ngOnInit() {
@@ -45,8 +46,10 @@ export class MasterHorometroComponent implements OnInit {
   }
 
   updatehorometro(toupdate:any,value:any){
+    console.log("hola");
     console.log (toupdate);
-    console.log(value);
+    console.log("hola");
+    console.log(this.tableinputs);
   }
 
 }

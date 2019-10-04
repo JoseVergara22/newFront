@@ -34,7 +34,8 @@ export class HorometroService {
     });
   }
 
-  updateForklift(id:number,serie:number,customer_id:string,branch_offices_id:number,description:string,brand_id:string,model_id:string,machine_id:number,tyre_id:number,fuel_id:number){
+  updateForklift(id:number,serie:number,customer_id:string,branch_offices_id:number,description:string,
+    brand_id:string,model_id:string,machine_id:number,tyre_id:number,fuel_id:number,h_current:number){
     console.log("data to send");
     return new Promise(resolve => {
       const httpOptions = {
@@ -53,7 +54,8 @@ export class HorometroService {
         model_id:model_id,
         machine_id:machine_id,
         tyre_id:tyre_id,
-        fuel_id:fuel_id
+        fuel_id:fuel_id,
+        h_current:h_current
       }
 
       this.http.patch('http://34.207.70.171/api/forklifts/'+id, patchParams,httpOptions)
