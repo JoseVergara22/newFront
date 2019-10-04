@@ -78,7 +78,8 @@
         <h4 class="modal-title">Actualizar sucursal</h4>
     </div>
     <div class="app-modal-body">
-        <form [formGroup]="myFormUpdateOffice" (ngSubmit)="updatedOffice()">
+    <!-- No se que llama debo organizalo YC-->
+        <form [formGroup]="myFormUpdateOffice" (ngSubmit)="updatedOfficePro()">
             <div class="form-group row">
                 <div class="col-sm-4">
                     <h6>Nombre de sucursal <span style="color:red;">*</span></h6>
@@ -100,7 +101,7 @@
                     <select class="form-control" [(ngModel)]="selectedDepartmentOfficeIdUpdate" (change)="getCitiesOfficeUpdate($event)" formControlName="departmentOfficeUpdate"> 
                                 <option value="0" selected>Seleccionar departamento </option>
                             <option   *ngFor="let department of departments" [ngValue]="department.id"> {{department.name}}  </option>
-                            <!--  <option value="0" selected>Seleccionar perfil</option> -->
+                       
                            </select>
                     <div *ngIf="submittedOfficeUpdated && checkFormOfficeUpdate.departmentOfficeUpdate.errors" class="invalid-feedback">
                         <div class="messages text-danger" *ngIf="checkFormOfficeUpdate.departmentOfficeUpdate.errors.required">Este campo es requerido</div>

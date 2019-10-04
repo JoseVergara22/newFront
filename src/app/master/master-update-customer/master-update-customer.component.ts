@@ -315,7 +315,6 @@ getCitiesUpdate() {
 
 
 
-
 messageError() {
   swal({
     title: 'Debe crear un cliente',

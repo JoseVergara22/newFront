@@ -282,8 +282,8 @@
 
                     <div class="col-sm-4 ">
                         <h6>Departamento <span style="color:red; ">*</span></h6>
-
-                        <select class="form-control " [(ngModel)]="selectedDepartmentIdUpdate" (change)="getCitiesUpdate($event) " formControlName="departmentIdUpdate"> 
+                        <!-- $event juan jose metodo sin parametro en el ts-->
+                        <select class="form-control " [(ngModel)]="selectedDepartmentIdUpdate" (change)="getCitiesUpdate()" formControlName="departmentIdUpdate"> 
                           <option value="0 " selected>Seleccionar departamento </option>
                       <option   *ngFor="let department of departments " [ngValue]="department.id"> {{department.name}}  </option>
                       <!--  <option value="0 " selected>Seleccionar perfil</option> -->
