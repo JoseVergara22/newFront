@@ -27,11 +27,6 @@ export class MasterWorkDashboardComponent implements OnInit {
   }
 
   getWorks() {
-    swal({
-      title: 'Obteniendo información ...',
-      allowOutsideClick: false
-    });
-    swal.showLoading();
     this.workService.getWorks().then(data => {
       const resp: any = data;
       if (resp.error) {
@@ -42,12 +37,10 @@ export class MasterWorkDashboardComponent implements OnInit {
          });
       } else {
         console.log(data);
-        swal.close();
         this.rowsWork = resp.data;
         console.log( this.rowsWork);
     }
     }).catch(error => {
-      swal.close();
       swal({
         title:'Error',
         text: 'Ha ocurrido un error',
@@ -56,7 +49,7 @@ export class MasterWorkDashboardComponent implements OnInit {
       console.log(error);
     });
   }
-  
+
   redirecttodetails(){
     this.router.navigateByUrl('master/work_details');
   }
@@ -68,7 +61,7 @@ export class MasterWorkDashboardComponent implements OnInit {
   deleteWorkHeader(workrow:any){
     swal({
       title:"Confirmacion",
-      text:"esta seguro que desea borrar este elememto?",
+      text:"esta seguro que desea borrar este elemento?",
       cancelButtonText:"No",
       confirmButtonText:"Si",
       showCancelButton:true,
@@ -83,7 +76,7 @@ export class MasterWorkDashboardComponent implements OnInit {
           if (resp.success==false){
             this.generalAlert('Error','ocurrio un error durante el procesado',"error");
           }else{
-            this.generalAlert("Proceso exitoso","El proceso ha sido completado correctamente","success");
+            this.generalAlert('Rutina eliminada','Rutina eliminada correctamente','success');
             this.getWorks();
           }
         }).catch(err=>{
@@ -93,7 +86,7 @@ export class MasterWorkDashboardComponent implements OnInit {
       } else {
         console.log("proceso cancelado");
       }
-    })
+    });
   }
 
   generalAlert(title:string,text:string,type:any){
@@ -103,7 +96,7 @@ export class MasterWorkDashboardComponent implements OnInit {
       type:type
     })
   }
-  
+
   loader(){
     swal({
       title:"procesando informacion",

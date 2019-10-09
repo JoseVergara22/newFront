@@ -32,6 +32,24 @@ export interface Menu {
 
 const MENUITEMS = [
   {
+    label: 'Inicio',
+    main: [
+      {
+        state: 'master',
+        short_label: 'I',
+        name: 'Inicio',
+        type: 'sub',
+        icon: 'ti-home',
+        children: [
+          {
+            state: 'master',
+            name: 'Inicio'
+          }
+        ]
+      }
+    ]
+  },
+  {
     label: 'Modulos',
     main: [
       {

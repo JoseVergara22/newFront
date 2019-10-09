@@ -20,7 +20,7 @@ export class MasterWorkDetailsComponent implements OnInit {
   title2:string;
   hours2:number;
   observation2:string;
-  
+
   showButtonUpdated:boolean;
   detailform: FormGroup;
   updatedetailform: FormGroup;
@@ -37,7 +37,7 @@ export class MasterWorkDetailsComponent implements OnInit {
     private router: Router,
     private activatedroute: ActivatedRoute,
     private formbuilder:FormBuilder
-  ) { 
+  ) {
 
     this.showButtonUpdated=false;
     const system = new FormControl('',Validators.required);
@@ -54,7 +54,7 @@ export class MasterWorkDetailsComponent implements OnInit {
       comment:comment
     });
 
-    
+
     const updatesystem = new FormControl('',Validators.required);
     const updatework = new FormControl('',Validators.required);
     const updatecomment = new FormControl('');
@@ -101,7 +101,7 @@ export class MasterWorkDetailsComponent implements OnInit {
         this.headerinfo=resp.data;
         console.log("header information");
         console.log(this.headerinfo)
-        this.generalAlert("Proceso completado","Proceso completado correctamente!","success");
+        swal.close();
         this.showButtonUpdated=true;
         this.hours2=this.headerinfo.hours;
         this.title2=this.headerinfo.description;
@@ -191,8 +191,8 @@ export class MasterWorkDetailsComponent implements OnInit {
           }));
           this.indice++;
         }
-    
-    
+
+
   }
 
   deletePart(index:number){
@@ -267,9 +267,9 @@ export class MasterWorkDetailsComponent implements OnInit {
         this.resetCreateForm();
         document.getElementById('storageDetailHide').click();
       } else {
-        this.generalAlert('No se puede guardar','Debe Completar todos los campos obligatorios','error');
+        this.generalAlert('No se puede guardar','Ha ocurrido un error en la ejecucion','error');
       }
-     
+
     }).catch(error=>{
       console.log(error);
       this.generalAlert('No se puede guardar','Ha ocurrido un error en la ejecucion','error')
@@ -311,7 +311,7 @@ export class MasterWorkDetailsComponent implements OnInit {
             if (resp.success === false) {
               this.generalAlert('Este Detalle presenta problemas','Este Detalle no se puede eliminar','error');
             } else {
-              this.generalAlert('Usuario eliminada','Detalle eliminado correstamente','success');
+              this.generalAlert('Detalle eliminado','Detalle eliminado correctamente','success');
               this.getWorkDetails();
           }
           }).catch(error => {
@@ -386,7 +386,7 @@ export class MasterWorkDetailsComponent implements OnInit {
       } else {
         this.generalAlert('No se puede guardar','Debe Completar todos los campos obligatorios','error');
       }
-     
+
     }).catch(error=>{
       console.log(error);
       this.generalAlert('No se puede guardar','Ha ocurrido un error en la ejecucion','error')

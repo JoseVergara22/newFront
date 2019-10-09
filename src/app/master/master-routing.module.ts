@@ -5,6 +5,7 @@ import { MasterNewsComponent } from './master-news/master-news.component';
 import { MasterForgetPasswordComponent } from './master-forget-password/master-forget-password.component';
 import { MasterChangePasswordComponent } from './master-change-password/master-change-password.component';
 import { MasterCreateSliderComponent } from './master-create-slider/master-create-slider.component';
+import { MasterSliderComponent } from "../master-shared/master-slider/master-slider.component";
 import { MasterRegisterThirdComponent } from './master-register-third/master-register-third.component';
 import { MasterBranchOfficeComponent } from './master-branch-office/master-branch-office.component';
 import { MasterForkliftComponent } from './master-forklift/master-forklift.component';
@@ -28,6 +29,10 @@ import { MasterHorometroComponent } from "./master-horometro/master-horometro.co
 import { MasterForkliftUpdateComponent } from './master-forklift-update/master-forklift-update.component';
 
 const routes: Routes = [
+  {
+    path: 'master',
+    component: MasterSliderComponent
+  },
   {
     path: 'register',
     component: MasterUserRegisterComponent
