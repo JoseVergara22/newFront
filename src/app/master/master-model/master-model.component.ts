@@ -39,10 +39,12 @@ export class MasterModelComponent implements OnInit {
   currentFuel: any;
   currentmachine:any;
   currentstatus:number;
+  currentupdatestatus:number;
   selectedValueTemp = '0';
   selectedValueUpdate: any;
   selectedValue: any;
   selectedUpdate: any;
+  changeupdate:any;
   brands: any;
 
   constructor(private restService: RestService, private router: Router) {
@@ -173,6 +175,14 @@ export class MasterModelComponent implements OnInit {
   onChangeUpdate(check: any) {
     this.switchUpdate = check;
     this.enabledUpdated = check;
+    this.changeupdate = check;
+    if (this.changeupdate) {
+     this.currentupdatestatus=1;
+    } else {
+     this.currentupdatestatus=0;
+    }
+     console.log(this.currentstatus);
+     console.log(check);
 
     console.log(check);
   }
@@ -239,13 +249,13 @@ updateFuel(fuel) {
   this.currentFuel = fuel;
   console.log( this.currentFuel );
   this.myFormUpdate.get('descriptionUpdate').setValue(this.currentFuel.model);
-
+  this.currentupdatestatus=this.currentmachine.status;
   if (this.currentFuel.status === '0') {
     this.enabledUpdated = true;
   } else {
     this.enabledUpdated = false;
   }
-
+  this.currentupdatestatus=this.currentmachine.status;
  document.getElementById( 'uploadBrand').click();
  this.loadingBrand();
 
@@ -334,9 +344,9 @@ sendModel() {
     swal.showLoading();
 
     let description=this.myFormUpdate.get('descriptionUpdate').value.toUpperCase();
-    
+
     console.log(description);
-    this.restService.updateMachine(this.currentmachine.id,description,this.currentstatus)
+    this.restService.updateModel(this.currentmachine.id,description, Number(this.selectedUpdate),this.currentupdatestatus)
     .then(data => {
       const resp: any = data;
       console.log(resp);

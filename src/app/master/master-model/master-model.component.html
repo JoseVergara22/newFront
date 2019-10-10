@@ -18,7 +18,7 @@
                 <div class="col-sm-6">
                     <h6>Marca<span style="color:red;">*</span></h6>
                     <select class="form-control" (change)="ChangingValue()" [(ngModel)]="selectedValue" class="form-control" formControlName="type" name="select" [ngClass]="{ 'is-invalid': submitted && checkForm.type.errors }">
-                        <option value="0" selected>Seleccionar marca</option>  
+                        <option value="0" selected>Seleccionar marca</option>
                               <option  *ngFor="let brand of brands" [ngValue]="brand"> {{brand.description}} </option>
                            </select>
 
@@ -62,7 +62,7 @@
                 <div class="col-sm-6">
                     <h6>Modelo<span style="color:red;">*</span></h6>
                     <select class="form-control" (change)="ChangingValue2()" [(ngModel)]="selectedUpdate" class="form-control" formControlName="typeUpdate" name="select">
-                        <option value="0" selected>Seleccionar marca</option>  
+                        <option value="0" selected>Seleccionar marca</option>
                         <option  *ngFor="let brand of brands" [value]="brand.id"> {{brand.description}} </option>
                                </select>
                     <div *ngIf="submitted && checkFormUpdate.typeUpdate.errors" class="invalid-feedback">
@@ -74,7 +74,7 @@
             <div class="form-group row">
                 <div class="col-sm-6">
                     <h6>Activo</h6>
-                    <ui-switch class="js-single" color="#4680ff" switchColor="#fff" size="medium" (change)="onChangeCreate($event)" [checked]="enabledUpdated"></ui-switch><br>
+                    <ui-switch class="js-single" color="#4680ff" switchColor="#fff" size="medium" (change)="onChangeUpdate($event)" [checked]="enabledUpdated"></ui-switch><br>
                 </div>
             </div>
             <div class="align-buttons">

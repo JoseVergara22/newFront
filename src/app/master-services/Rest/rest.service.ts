@@ -598,12 +598,12 @@ export class RestService {
           'Accept': 'application/json'
         })
       };
-      const postParams = {
+      const patchParams = {
         description: description,
         brand_id: brand,
         status: status
       };
-      this.http.patch('http://34.207.70.171/api/models/' + id, postParams, httpOptions)
+      this.http.patch('http://34.207.70.171/api/models/' + id, patchParams, httpOptions)
         .map(res => res).subscribe(data => {
           resolve(data);
         }, error => {
@@ -743,6 +743,10 @@ export class RestService {
   }
   updateMachine(id: number, description: string, status: number) {
     console.log('ole ole ole');
+    if(!status){
+      status=0;
+    }
+    console.log('id:'+id+"desc:"+description+"status:"+status);
     console.log(localStorage.getItem('token_user'));
     return new Promise(resolve => {
       const headers = new HttpHeaders();
