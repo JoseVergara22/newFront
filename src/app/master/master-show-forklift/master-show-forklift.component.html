@@ -68,7 +68,7 @@
                 <div class="col-sm-6">
                     <h6>Cliente</h6>
 
-                    <select class="form-control" (change)="getCustomerOffice()" [(ngModel)]="selectedBusinessId"> 
+                    <select class="form-control" (change)="getCustomerOffice()" [(ngModel)]="selectedBusinessId">
                                 <option value="0" selected>Seleccionar cliente </option>
                             <option   *ngFor="let customer of customers" [ngValue]="customer.id"> {{customer.business_name}}  </option>
                             <!--  <option value="0" selected>Seleccionar perfil</option> -->
@@ -77,7 +77,7 @@
 
                 <div class="col-sm-6">
                     <h6>Sucursal</h6>
-                    <select class="form-control" [(ngModel)]="selectedOfficeId" (change)="getOfficeForklift()"> 
+                    <select class="form-control" [(ngModel)]="selectedOfficeId" (change)="getOfficeForklift()">
                         <option value="0" selected>Seleccionar sucursal </option>
                     <option   *ngFor="let office of customerOffices" [ngValue]="office.id"> {{office.branch_name}}  </option>
                     <!--  <option value="0" selected>Seleccionar perfil</option> -->
@@ -125,8 +125,8 @@
                                            <ngx-datatable-column [resizeable]="false" name="Horometro" [sortable]="false" [draggable]="false" prop="h_current"></ngx-datatable-column>
         <ngx-datatable-column [resizeable]="false" name="Estado" [sortable]="false" [draggable]="false" prop="status">
                     <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
-                        <label (click)="blockAgents(value)" class="label label-md label-primary" *ngIf="value==0">Activo</label>
-                        <label class="label label-md label-danger" *ngIf="value==1">Inactivo</label>
+                        <label (click)="blockAgents(value)" class="label label-md label-danger" *ngIf="value==0">Inactivo</label>
+                        <label class="label label-md label-primary" *ngIf="value==1">Activo</label>
                     </ng-template>
                 </ngx-datatable-column>
                 <ngx-datatable-column [resizeable]="false" name="Acciones" [sortable]="false" [draggable]="false" sortable="false" prop="id">
