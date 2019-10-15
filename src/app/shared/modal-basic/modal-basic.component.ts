@@ -31,7 +31,7 @@ export class ModalBasicComponent implements OnInit {
 
   public onContainerClicked(event: MouseEvent): void {
     if ((<HTMLElement>event.target).classList.contains('modal')) {
-      this.hide();
+     // this.hide(); para evitar que se cierren modales
     }
   }
 

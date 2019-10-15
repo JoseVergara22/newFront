@@ -22,7 +22,7 @@
             </div>
             <div class="align-buttons">
                 <button type="button" class="btn btn-default waves-effect" id="createBrandHide" (click)="modalRegisterBrand.hide()">Cancelar</button>
-                <button type="submit " class="btn btn-primary m-b-0 ">Crear marca</button>
+                <button type="submit " class="btn btn-primary m-b-0 ">Crear Equipo</button>
 
             </div>
         </form>
@@ -31,7 +31,7 @@
 
 <app-modal-basic #modalUpdateBrand [dialogClass]="'modal-lg'">
     <div class="app-modal-header">
-        <h4 class="modal-title">Actualizar marca</h4>
+        <h4 class="modal-title">Actualizar Equipo</h4>
     </div>
     <div *ngIf="currentBrand" class="app-modal-body">
         <form [formGroup]="myFormUpdate" (ngSubmit)="sendUpdateBrand()">
@@ -50,7 +50,7 @@
             </div>
             <div class="align-buttons">
                 <button type="button" class="btn btn-default waves-effect" id="updateBrandHide" (click)="modalUpdateBrand.hide()">Cancelar</button>
-                <button type="submit " class="btn btn-primary m-b-0 ">Actualizar marca</button>
+                <button type="submit " class="btn btn-primary m-b-0 ">Actualizar Equipo</button>
             </div>
         </form>
     </div>
@@ -68,7 +68,7 @@
                 <div class="col-sm-6">
                     <h6>Cliente</h6>
 
-                    <select class="form-control" (change)="getCustomerOffice()" [(ngModel)]="selectedBusinessId">
+                    <select class="form-control" (change)="getCustomerOffice()" [(ngModel)]="selectedBusinessId"> 
                                 <option value="0" selected>Seleccionar cliente </option>
                             <option   *ngFor="let customer of customers" [ngValue]="customer.id"> {{customer.business_name}}  </option>
                             <!--  <option value="0" selected>Seleccionar perfil</option> -->
@@ -77,7 +77,7 @@
 
                 <div class="col-sm-6">
                     <h6>Sucursal</h6>
-                    <select class="form-control" [(ngModel)]="selectedOfficeId" (change)="getOfficeForklift()">
+                    <select class="form-control" [(ngModel)]="selectedOfficeId" (change)="getOfficeForklift()"> 
                         <option value="0" selected>Seleccionar sucursal </option>
                     <option   *ngFor="let office of customerOffices" [ngValue]="office.id"> {{office.branch_name}}  </option>
                     <!--  <option value="0" selected>Seleccionar perfil</option> -->
@@ -86,8 +86,10 @@
             </div>
             <br>
             <div class="row">
+           
                 <div class="col-sm-6">
-                    <input type="text" class="form-control" placeholder="Filtrar" (keyup)="updateFilter($event)">
+                 <h6>Marca</h6>
+                    <input type="text" class="form-control" placeholder="Filtrar marca" (keyup)="updateFilter($event)">
                     <!--  <input type="text" style="padding:8px;margin:15px auto;width:30%;" placeholder="Type to filter the name column..." (keyup)="updateFilter($event)" /> -->
                 </div>
                 <div class="col-sm-3">
@@ -106,7 +108,7 @@
                 </div>
                 <div class="col-sm-3">
                     <div class="align-buttons">
-                        <button type="button" style="display:none;" id="uploadBrand" class="btn btn-primary waves-effect" (click)="modalUpdateBrand.show()">Crear marca</button>
+                        <button type="button" style="display:none;" id="uploadBrand" class="btn btn-primary waves-effect" (click)="modalUpdateBrand.show()">Crear Equipo</button>
                          <button type="button" id="registerBrand" class="btn btn-primary waves-effect" (click)="sendForklift()">Crear equipo</button>
                     </div>
                 </div>
@@ -125,7 +127,8 @@
                                            <ngx-datatable-column [resizeable]="false" name="Horometro" [sortable]="false" [draggable]="false" prop="h_current"></ngx-datatable-column>
         <ngx-datatable-column [resizeable]="false" name="Estado" [sortable]="false" [draggable]="false" prop="status">
                     <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
-                        <label (click)="blockAgents(value)" class="label label-md label-danger" *ngIf="value==0">Inactivo</label>
+            
+						 <label (click)="blockAgents(value)" class="label label-md label-danger" *ngIf="value==0">Inactivo</label>
                         <label class="label label-md label-primary" *ngIf="value==1">Activo</label>
                     </ng-template>
                 </ngx-datatable-column>

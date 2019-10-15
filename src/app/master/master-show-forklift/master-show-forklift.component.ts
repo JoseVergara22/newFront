@@ -116,7 +116,7 @@ export class MasterShowForkliftComponent implements OnInit {
       this.rowsTemp = this.rowsTempCheck;
     }
     const temp = this.rowsTemp.filter(function(d) {
-      return d.serie.toLowerCase().indexOf(val) !== -1 || !val;
+      return d.brand_description.toLowerCase().indexOf(val) !== -1 || !val;
     });
 
     if (val !== '') {
@@ -302,14 +302,14 @@ updateForklift(forklift:any) {
       console.log(resp);
       if (resp.success === false) {
         swal({
-          title: 'Esta marca ya esta registrada',
-          text: 'Esta marca no se puede registrar',
+          title: 'Este equipo ya esta registrado',
+          text: 'Este equipo no se puede registrar',
           type: 'error'
          });
       } else {
         this.myForm.get('description').setValue('');
      /*swal({
-      title: 'Marca agregada',
+      title: 'equipo agregada',
       type: 'success'
      });*/
    //   this.router.navigateByUrl('master/registerBrand');
@@ -317,7 +317,7 @@ updateForklift(forklift:any) {
    document.getElementById( 'createBrandHide').click();
    this.loadingData();
    swal({
-    title: 'Marca agregada',
+    title: 'equipo agregado',
     type: 'success'
    });
     }
@@ -351,8 +351,8 @@ updateForklift(forklift:any) {
       console.log(resp);
       if (resp.success === false) {
         swal({
-          title: 'Esta marca ya esta actualizada',
-          text: 'Esta marca no se puede actualizar',
+          title: 'Esta equipo ya esta actualizado',
+          text: 'Esta equipo no se puede actualizar',
           type: 'error'
          });
       } else {
@@ -360,7 +360,7 @@ updateForklift(forklift:any) {
      document.getElementById( 'updateBrandHide').click();
      this.loadingData();
      swal({
-      title: 'Marca actualizada',
+      title: 'equipo actualizado',
       type: 'success'
      });
     }
@@ -399,15 +399,15 @@ updateForklift(forklift:any) {
 
             if (resp.success === false) {
               swal({
-                title: 'Esta marca presenta problemas',
-                text: 'Esta marca no se puede eliminar',
+                title: 'Esta equipo presenta problemas',
+                text: 'Esta equipo no se puede eliminar',
                 type: 'error'
                });
             } else {
            // this.router.navigateByUrl('master/registerBrand');
            this.loadingData();
            swal({
-            title: 'Marca eliminada',
+            title: 'equipo eliminado',
             type: 'success'
            });
           }

@@ -631,8 +631,12 @@ this.selectedFuelId);
         type: 'error'
        });
     }
-  }{
-    console.log('oleoleole error');
+  }else{
+    swal({
+      title: 'El formato del archivo, no es correcto',
+      text: 'Se permiten solo estas extensiones jpg, jpeg, png',
+      type: 'error'
+     });
   }
 
 
