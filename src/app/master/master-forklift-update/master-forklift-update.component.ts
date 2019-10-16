@@ -657,11 +657,15 @@ this.selectedFuelId);
             console.log('id montacarga ' + resp.data.id);
             // En este caso se manda guardar las imagenes y rutinas
             if(this.tooglecalendar){
+              this.deleteAllRoutinesForlift(this.currentForkId); //Borrar rutinas y poner las nuevas
               this.sendRoutinesForklift( this.currentForkId);
             }
          
             if(this.urls.length>0){
+              this.deleteAllImagesForlift(this.currentForkId); //Borrar imagenes y poner las nuevas
               this.upload(this.currentForkId);
+            }else{
+              this.deleteAllImagesForlift(this.currentForkId); //Borrar imagenes
             }
          
        swal({
@@ -778,6 +782,35 @@ this.selectedFuelId);
   selectToday() {
     this.modelPopup = {year: now.getFullYear(), month: now.getMonth() + 1, day: now.getDate()};
   }
+
+
+  deleteAllImagesForlift(idForklift:number){
+    
+       this.forkliftService.deleteImagesForklift(idForklift).then(data => {
+              const resp: any = data;
+              console.log(data);
+             // swal.close();
+              console.log(resp);
+            }).catch(error => {
+              console.log(error);
+            });
+  }
+
+
+  deleteAllRoutinesForlift(idForklift:number){
+    
+    this.forkliftService.deleteRoutinesForklift(idForklift).then(data => {
+           const resp: any = data;
+           console.log(data);
+          // swal.close();
+           console.log(resp);
+         }).catch(error => {
+           console.log(error);
+         });
+}
+
+
+
 
   onDateChange(date: NgbDateStruct) {
     console.log(date);

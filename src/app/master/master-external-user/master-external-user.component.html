@@ -38,7 +38,7 @@
 <app-modal-basic #modalRegisterRelationUpdate [dialogClass]="'modal-lg'">
     <div class="app-modal-header">
 
-        <h4 class="modal-title">Relacionar con empresas</h4>
+        <h4 class="modal-title">Actualizar relaciones con empresas</h4>
     </div>
     <div class="app-modal-body">
 
@@ -53,15 +53,15 @@
 
                 <ul class="list-group">
                     <li class="list-group-item" *ngFor="let item of userOfficeRelationShipsUpdate">
-                        <input type="checkbox" (click)="selectOffices(item)" name="list_name" value="{{item.id}}"  [checked]="item.status"  /> {{item.officeName}}
+                        <input type="checkbox" (click)="selectOfficesUpdate(item)" name="list_name" value="{{item.id}}"  [checked]="item.status"  /> {{item.officeName}}
                    
                     </li>
                 </ul>
             </div>
         </div>
         <div class="align-buttons">
-            <button type="button" class="btn btn-default waves-effect" id="createBrandHide" (click)="modalRegisterRelationUpdate.hide()">Cancelar</button>
-            <button class="btn btn-primary m-b-0 " (click)="relationshipUserOffice()">Actualizar Relación</button>
+            <button type="button" class="btn btn-default waves-effect" id="updateBranchHide" (click)="modalRegisterRelationUpdate.hide()">Cancelar</button>
+            <button class="btn btn-primary m-b-0 " (click)="relationshipUserOfficeUpdate()">Actualizar Relación</button>
 
         </div>
 
@@ -367,7 +367,7 @@
                               </button> -->
 
                         <button (click)="updateCustomerOffices(row)" class="btn btn-primary btn-icon"><i class="icofont icofont-pencil-alt-5"></i></button>
-                        <button (click)="deleteBrand(row)" class="btn btn-danger btn-icon"><i class="icofont icofont-ui-delete"></i></button>
+                        <button (click)="deleteCustomerOffices(row)" class="btn btn-danger btn-icon"><i class="icofont icofont-ui-delete"></i></button>
                     </ng-template>
                 </ngx-datatable-column>
 

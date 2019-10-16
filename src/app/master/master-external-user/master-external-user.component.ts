@@ -60,6 +60,7 @@ export class MasterExternalUserComponent implements OnInit {
   userOfficeRelationShips: Array <UserOfficesInterface> = []; // Enfocado a las suscursales
   clientOfficeRelationShips: Array <UserOfficesClienteInterface> = []; // Enfocado a los clientes y sucursales
   clientOfficeRelationShip: UserOfficesClienteInterface;
+  clientOfficeRelationShipUpdate: UserOfficesClienteInterface;
   officesTemp: UserOfficesInterface;
   officesTempUpdate:UserOfficesInterfaceUpdate;
   userOfficeRelationShipsUpdate: Array <UserOfficesInterfaceUpdate> = [];
@@ -78,12 +79,14 @@ export class MasterExternalUserComponent implements OnInit {
   customerOffices: any;
   customerOfficesUpdate: any;
   idBranchOffices = [1];
+  idBranchOfficesUpdate = [1];
   idUserBranchOffice : any;
   userId;
   rowsClient: any;
   currentCustomer: any;
   nameCustomer: any;
   statusTempUpdate;
+  currentCustomerUpdated;
 
   constructor(private userService: UserService, private router: Router, private restService: RestService) {
     this.loading = true;
@@ -488,6 +491,42 @@ export class MasterExternalUserComponent implements OnInit {
   }
 
 
+  selectOfficesUpdate(event: any) {
+    console.log(event);
+
+    console.log(event);
+
+        this.userOfficeRelationShipsUpdate.map(function(dato){
+
+       console.log(dato.id+'ole'+event.id);
+        if(Number(dato.id) === Number(event.id)){
+          if( dato.status === false){
+          dato.status = true;
+          console.log('hacer cambio');
+          }else{
+          dato.status = false;
+          console.log('hacer cambio');
+          }
+        }
+        console.log(dato);
+        return dato;
+      });
+
+    console.log('Revisar cambios');
+    const search = this.idBranchOfficesUpdate.indexOf(event.id);
+    if (search == -1) {
+      this.idBranchOfficesUpdate.push(event.id);
+    } else {
+      console.log('entro');
+      const pos = this.idBranchOfficesUpdate.indexOf(event.id);
+      console.log(pos);
+      this.idBranchOfficesUpdate.splice(pos, 1);
+    }
+    console.log(event);
+    console.log('oficinas seleccionadas');
+    console.log(this.idBranchOfficesUpdate);
+  }
+
   relationshipUserOffice() {
     console.log(this.selectedBusinessId);
    
@@ -544,6 +583,95 @@ export class MasterExternalUserComponent implements OnInit {
     this.userOfficeRelationShips = [];
   }
 
+
+  relationshipUserOfficeUpdate() {
+    console.log(this.selectedBusinessId);
+   
+  /* 
+   this.restService.createRelationshipUserOffices(this.currentUser.data.id,   this.idBranchOffices, this.selectedBusinessId).then(data => {
+     const resp: any = data;
+     this.getRelationshipUserOffices();
+     console.log('ole ole');
+     console.log(resp);
+     // this.idBranchOffices
+     swal.close();
+   }).catch(error => {
+     console.log(error);
+   });*/
+
+   this.idBranchOfficesUpdate=[1];
+   console.log(this.idBranchOfficesUpdate);
+
+
+   for (let office of  this.userOfficeRelationShipsUpdate) {
+    
+    if( office.status === true){
+    this.idBranchOfficesUpdate.push(office.id);
+    }
+
+  }
+ 
+   this.idBranchOfficesUpdate.splice(0, 1);
+ console.log('Oficinas definitivas');
+   console.log(this.idBranchOfficesUpdate);
+
+   let itemsOffice =  this.idBranchOfficesUpdate.toString();
+
+   this.clientOfficeRelationShipUpdate = {
+    idClient : this.currentCustomerUpdated,
+    idBranchs : itemsOffice
+    }
+
+   console.log('crear relaciones de actualizar');
+    console.log(this.clientOfficeRelationShipUpdate);
+    // this.clientOfficeRelationShips.push(this.clientOfficeRelationShip);
+    // console.log(this.clientOfficeRelationShips);
+
+    let numOffices =  this.clientOfficeRelationShipUpdate.idBranchs.split(',');
+    let branchOfficesNumbeUpdate=[1]; 
+
+    if(numOffices.length>0){
+      for (let branch of numOffices) {
+         branchOfficesNumbeUpdate.push(Number(branch));
+      }
+    }
+
+    branchOfficesNumbeUpdate.splice(0,1);
+   //Borrar sucursales y volver agregar
+   console.log('definitivas '+ branchOfficesNumbeUpdate);
+   this.deleteAllOfficesBranchUser(this.currentUser.data.id, this.currentCustomerUpdated, branchOfficesNumbeUpdate);
+
+  /*  if(branchOfficesNumbeUpdate.length>0){
+      this.restService.createRelationshipUserOffices(this.currentUser.data.id,  branchOfficesNumbeUpdate,  this.currentCustomerUpdated).then(data => {
+      const resp: any = data;
+      swal({
+        title: 'Sucursales actualizadas',
+        type: 'success'
+       })
+     // this.getRelationshipUserOffices();
+      console.log('ole ole');
+      console.log(resp);
+      // this.idBranchOffices
+      swal.close();
+    }).catch(error => {
+      swal({
+        title: 'Error',
+        text: 'Alguna de las relaciones que quieres crear, ya esta creada',
+        type: 'error'
+       });
+
+      console.log(error);
+    });
+  }
+
+
+  document.getElementById( 'updateBranchHide').click();
+
+
+
+    this.selectedBusinessId=0;
+    this.idBranchOfficesUpdate = [];*/
+  }
 
   getCustomerOffice() {
     console.log(this.selectedBusinessId);
@@ -663,7 +791,7 @@ updateCustomerOffices(customer) {
           
         this.customerOfficesUpdate = resp.data_branchoffices;
         console.log(this.customerOfficesUpdate);
-     
+        this.currentCustomerUpdated=resp.customer.id;
         let idbranchOfficesTemp=[1];
         this.userOfficeRelationShipsUpdate=[];
         let globalOfficeBranch:any;
@@ -692,12 +820,14 @@ updateCustomerOffices(customer) {
         }
       }
       console.log(this.statusTempUpdate);
+      console.log('');
       this.officesTempUpdate = {
         id: customerOffices.id,
          officeName : customerOffices.branch_name,
          status: this.statusTempUpdate
       }  
       this.userOfficeRelationShipsUpdate.push(this.officesTempUpdate);
+
       console.log( this.userOfficeRelationShipsUpdate);
       }
      
@@ -719,12 +849,6 @@ updateCustomerOffices(customer) {
         console.log(error);
       });
 
-    
-
-
-
-
-
     console.log( this.currentCustomer );
     document.getElementById( 'relationShipUpdate').click();
   }
@@ -735,6 +859,7 @@ updateCustomerOffices(customer) {
       allowOutsideClick: false
     });
     swal.showLoading();
+    console.log('iduser'+ this.currentUser.data.id);
     this.restService.getRelationshipUserOffices(this.currentUser.data.id).then(data => {
       const resp: any = data;
       if (resp.error) {
@@ -773,8 +898,6 @@ updateCustomerOffices(customer) {
 
   closeModalRelationship() {
     document.getElementById( 'createBrandHide').click();
-    
-
     // poner vector con numeros enteros  
         for (let clientOffice of this.clientOfficeRelationShips) {
      
@@ -789,7 +912,8 @@ updateCustomerOffices(customer) {
       }
 
       branchOfficesNumber.splice(0,1);
-  
+
+    
       if(branchOfficesNumber.length>0){
         this.restService.createRelationshipUserOffices(this.currentUser.data.id,  branchOfficesNumber, clientOffice.idClient).then(data => {
         const resp: any = data;
@@ -797,7 +921,7 @@ updateCustomerOffices(customer) {
         console.log('ole ole');
         console.log(resp);
         // this.idBranchOffices
-        swal.close();
+       // swal.close();
       }).catch(error => {
         swal({
           title: 'Error',
@@ -839,6 +963,53 @@ updateCustomerOffices(customer) {
     document.getElementById( 'relationShipCustomer').click();
   }
 
+  }
+
+
+  deleteAllOfficesBranchUser(idUser:number, idCustomer:number, branchOfficesNumbeUpdate: Array<number>){
+    
+    this.userService.deleteOfficesBranchUser(idUser,idCustomer).then(data => {
+           const resp: any = data;
+
+           if(branchOfficesNumbeUpdate.length>0){
+            this.restService.createRelationshipUserOffices(this.currentUser.data.id,  branchOfficesNumbeUpdate,  this.currentCustomerUpdated).then(data => {
+            const resp: any = data;
+            swal({
+              title: 'Sucursales actualizadas',
+              type: 'success'
+             })
+           // this.getRelationshipUserOffices();
+            console.log('ole ole');
+            console.log(resp);
+            // this.idBranchOffices
+            swal.close();
+          }).catch(error => {
+            swal({
+              title: 'Error',
+              text: 'Alguna de las relaciones que quieres crear, ya esta creada',
+              type: 'error'
+             });
+      
+            console.log(error);
+          });
+        }
+      
+      
+        document.getElementById( 'updateBranchHide').click();
+      
+      
+      
+          this.selectedBusinessId=0;
+          this.idBranchOfficesUpdate = [];
+
+         }).catch(error => {
+           console.log(error);
+         });
+}
+
+
+  deleteCustomerOffices(customer){
+   console.log(customer);
   }
 
   }
