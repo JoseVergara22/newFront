@@ -122,6 +122,9 @@ export class MasterMultiDatePickerComponent implements OnInit {
  //  currentDateRoutines: Array <currentDateInterface> = [];
 
   constructor(calendar: NgbCalendar, private workService:WorkService) {
+
+  console.log('Importante data de fechas');
+  console.log(this.currentDateRoutines);
   const dateDay = new Date();
   
   this.datesSelected=[];

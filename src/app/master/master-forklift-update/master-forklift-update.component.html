@@ -269,54 +269,48 @@
                     </div>
                 </div>-->
 
+<div class="form-group row">
+                    <div class="col-sm-4">
+                        <h6>Eligir imagenes</h6>
+                        <input type='file' (change)="onSelectFile($event)" >
+                    </div>
+                </div>
+
 
                 <br>
 
 
+            
+ <div class="align-buttons">
+                        <button type="submit " class="btn btn-primary m-b-0 ">Actualizar Equipo</button>
+   </div>
+            </form>
 
 
                 <div class="form-group row ">
-
                     <div class="col-sm-6">
-
-<!-- <app-card [title]="'Lista de imagenes'" [classHeader]="true" [blockClass]="'table-border-style'"> -->
-     <!--  <span class="code-header">use class <code>table</code> inside table element</span> -->
       <div class="table-responsive">
         <table class="table">
           <thead>
           <tr>
             <th>Imagen</th>
-           <!-- <th>Acción</th>  -->
+            <th>Acción</th>
           </tr>
           </thead>
-          <tbody  class="col-sm-3" *ngFor='let url of ForkliftImages; let i = index'>
+          <tbody  class="col-sm-3" *ngFor='let url of urls; let i = index'>
         <td>
-                        <!-- <img src="assets/images/blog/blog-r-1.jpg" alt="img" class="img-fluid img-100"> -->
-          <img [src]="url.name" height="400" *ngIf="url" alt="img" class="img-fluid img-100"> 
-                        <!--  <img [src]="imgURL " height="200 " *ngIf="imgURL " alt="img" class="img-fluid img-100">
-                        <h6 class="m-t-15 m-b-0">Ejemplo</h6>
-                        <p class="text-muted m-b-0"><small>PNG-100KB</small></p> -->
+          <img [src]="url" height="200" *ngIf="url" alt="img" class="img-fluid img-100"> 
         </td>
-      <!--   <td> -->
-     <!-- <button (click)="deleteImage(i)" class="btn btn-danger btn-icon"><i class="icofont icofont-ui-delete"></i></button> -->
+        <td>
+     <button (click)="deleteImage(i)" class="btn btn-danger btn-icon"><i class="icofont icofont-ui-delete"></i></button>
    
-      <!--  </td> -->
+        </td>
           </tbody>
         </table>
       </div>
-   <!-- </app-card> -->
 
-  
                     </div>
                 </div>
-                 <div class="align-buttons">
-                        <button type="submit " class="btn btn-primary m-b-0 ">Actualizar Equipo</button>
-       </div>
-
-            </form>
-
-     
-
        
         </app-card>
     </div>

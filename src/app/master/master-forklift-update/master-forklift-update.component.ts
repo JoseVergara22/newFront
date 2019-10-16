@@ -131,7 +131,7 @@ export class MasterForkliftUpdateComponent extends NgbDatepickerI18n {
   switchAlarm = true;
   switchStatus = true;
   currentForkId;
-  ForkliftImages:any;
+  forkliftImages:any;
 
   // public setView: View = 'Month';
   // public eventSettings: EventSettingsModel={
@@ -167,6 +167,8 @@ export class MasterForkliftUpdateComponent extends NgbDatepickerI18n {
   // public setDate:Date=new Date(this.year,this.day,this.month);
   name = 'Angular 4';
   urls = [];
+  contImages=0;
+  guideImagesInitial=[99];
 
   public model: any;
   modelCustomDay: any;
@@ -472,9 +474,15 @@ export class MasterForkliftUpdateComponent extends NgbDatepickerI18n {
     
       this.forkliftService.getForkliftImage(Number(this.currentForkId)).then(data => {
       const resp: any = data;
-      this.ForkliftImages = data;
-       this.ForkliftImages= this.ForkliftImages.data;
-    
+      this.forkliftImages = data;
+       this.forkliftImages= this.forkliftImages.data;
+       let i=0;
+        for (let forkliftImage of  this.forkliftImages) {
+         this.urls.push(forkliftImage.name);
+         this.guideImagesInitial.push(i);// guia para saber que imagenes estan en amazon
+         i=i+1;
+        }
+      this.contImages =  this.urls.length;  
       console.log('información  fffffffff');
       console.log(data);
       swal.close();
@@ -649,12 +657,12 @@ this.selectedFuelId);
             console.log('id montacarga ' + resp.data.id);
             // En este caso se manda guardar las imagenes y rutinas
             if(this.tooglecalendar){
-              this.sendRoutinesForklift( resp.data.id);
+              this.sendRoutinesForklift( this.currentForkId);
             }
          
-            /*if(this.urls.length>0){
-              this.upload(resp.data.id);
-            }*/
+            if(this.urls.length>0){
+              this.upload(this.currentForkId);
+            }
          
        swal({
         title: 'Equipo actualizado',
@@ -784,7 +792,15 @@ this.selectedFuelId);
   }
 
   deleteImage(i: number){
-   this.urls.splice(i-1,1);
+     console.log('resultado sin borrar: '+  this.guideImagesInitial) ;
+   this.urls.splice(i,1);
+
+   for (let j = 0; j < this.guideImagesInitial.length; j++) {
+  if( this.guideImagesInitial[j]===i){
+      this.guideImagesInitial.splice(j,1);
+  }
+}
+  console.log('resultado: '+   this.guideImagesInitial) ;
   }
 
 
@@ -809,8 +825,14 @@ this.selectedFuelId);
 
    upload(idForklift: number) {
   
-
+    let i=0;
     for (let file of this.selectedFiles) {
+    console.log('Importante valores de busqueda: '+ this.guideImagesInitial);  
+    let result=this.guideImagesInitial.indexOf(i);
+    console.log('Resultado de busqueda: '+ result);  
+    if(result===-1){
+
+    console.log('longitud de archivos: '+this.selectedFiles.length);
     const fileole = file[0];
     console.log(fileole);
     const uuid = UUID.UUID();
@@ -818,7 +840,7 @@ this.selectedFuelId);
     console.log(fileole.name + '' + fileole.type);
     const extension = (fileole.name.substring(fileole.name.lastIndexOf('.'))).toLowerCase();
     console.log(extension);
-    this.uploadService.uploadFileForklift(fileole, idForklift).then(res=>{
+    this.uploadService.uploadFileForkliftUpdate(fileole, idForklift).then(res=>{
       console.log('s3info'+JSON.stringify(res));
       this.s3info=res;
       console.log(this.s3info);
@@ -832,8 +854,33 @@ this.selectedFuelId);
         allowOutsideClick: false
       });
     });
-
+  }else{
+    //Solo agregar en base de datos, por que borramos todo
+         this.workService.storeImageForklift(idForklift,  this.urls[0]).then(data => {
+              const resp: any = data;
+              console.log(data);
+             // swal.close();
+              console.log(resp);
+            }).catch(error => {
+              console.log(error);
+            });
   }
+  i=i+1;
+    }
+
+   if(this.selectedFiles.length<=0){
+   for (let url of  this.urls) {
+       this.workService.storeImageForklift(idForklift, url).then(data => {
+              const resp: any = data;
+              console.log(data);
+             // swal.close();
+              console.log(resp);
+            }).catch(error => {
+              console.log(error);
+            });
+   }
+   }
+
 
     }
 
