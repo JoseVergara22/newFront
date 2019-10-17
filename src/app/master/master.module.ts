@@ -41,6 +41,7 @@ import { MasterRoutineDetailsComponent } from './master-routine-details/master-r
 import { MasterMultiDatePickerComponent } from './master-multi-date-picker/master-multi-date-picker.component';
 import { MasterHorometroComponent } from './master-horometro/master-horometro.component';
 import { MasterForkliftUpdateComponent } from './master-forklift-update/master-forklift-update.component';
+import { MasterExternalUserUpdateComponent } from './master-external-user-update/master-external-user-update.component';
 // Servicios
 import { UserService } from '../master-services/User/user.service';
 import { NewService } from '../master-services/new/new.service';
@@ -96,7 +97,8 @@ import { ForkliftService } from '../master-services/Forklift/forklift.service';
     MasterRoutineDetailsComponent,
     MasterMultiDatePickerComponent,
     MasterHorometroComponent,
-    MasterForkliftUpdateComponent
+    MasterForkliftUpdateComponent,
+    MasterExternalUserUpdateComponent
   ],
   providers: [
     RestService,

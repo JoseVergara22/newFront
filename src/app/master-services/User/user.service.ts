@@ -148,6 +148,31 @@ resolve(data);
           });
       });
     }
+
+
+    getUser(id:number) {
+      return new Promise(resolve => {
+        const headers = new HttpHeaders();
+        headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user'))); // 'Bearer ' +
+        headers.append('Content-Type', 'application/json');
+        const httpOptions = {
+          headers: new HttpHeaders({
+            'Content-Type':  'application/json',
+            'Authorization': 'Bearer ' + localStorage.getItem('token_user'),
+            'Accept': 'application/json'
+          })
+        };
+        
+        this.http.get('http://34.207.70.171/api/users/'+id, httpOptions)
+        .map(res => res).subscribe(data => {
+        console.log(data);
+        resolve(data);
+        }, error => {
+                  resolve(error);
+          });
+      });
+    }
+
     changePassword(email:string,password:string,token:string,rpassword:string) {
       return new Promise(resolve => {
 										  
@@ -202,6 +227,28 @@ resolve(data);
       });
     }
 
+
+    getUsersCustomerUpdate(idUser:number) {
+      return new Promise(resolve => {
+        const headers = new HttpHeaders();
+        headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user'))); // 'Bearer ' +
+        headers.append('Content-Type', 'application/json');
+        const httpOptions = {
+          headers: new HttpHeaders({
+            'Content-Type':  'application/json',
+            'Authorization': 'Bearer ' + localStorage.getItem('token_user'),
+            'Accept': 'application/json'
+          })
+        };
+        this.http.get('http://34.207.70.171/api/branch_offices_users?id_user='+idUser, httpOptions)
+        .map(res => res).subscribe(data => {
+        console.log(data);
+        resolve(data);
+        }, error => {
+                  resolve(error);
+          });
+      });
+    }
 
     createUserCustomer( id_user: number,
       id_customer: number,
