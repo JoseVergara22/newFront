@@ -71,4 +71,29 @@ export class HorometroService {
     });
   }
 
+  updateHorometer(id:number,h_current){
+    return new Promise(resolve => {
+      const httpOptions = {
+        headers: new HttpHeaders({
+          'Content-Type':  'application/json',
+          'Authorization': 'Bearer ' + localStorage.getItem('token_user'),
+          'Accept': 'application/json'
+        })
+      };
+      const patchParams={
+        h_current:h_current
+      }
+      this.http.patch('http://34.207.70.171/api/updateHorometer/'+id, patchParams,httpOptions)
+      .map(res => res).subscribe(data => {
+        console.log("a mostrar data");
+      console.log(data);
+      resolve(data);
+      }, error => {
+        console.log("error en servicio");
+        console.log(error);
+                resolve(error);
+        });
+    });
+  }
+
 }

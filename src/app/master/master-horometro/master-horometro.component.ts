@@ -1,9 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit,Input } from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import { RestService } from '../../master-services/Rest/rest.service';
+import { HorometroService } from "../../master-services/horometro/horometro.service";
 import { ForkliftService } from '../../master-services/Forklift/forklift.service';
 import swal from 'sweetalert2';
 import { Router } from '@angular/router';
+import { inputs } from '@syncfusion/ej2-angular-schedule/src/recurrence-editor/recurrenceeditor.component';
 
 
 @Component({
@@ -14,7 +16,6 @@ import { Router } from '@angular/router';
 })
 export class MasterHorometroComponent implements OnInit {
 
-  myForm: FormGroup;
   myFormUpdate: FormGroup;
   submitted = false;
   rowsClient: any;
@@ -24,14 +25,14 @@ export class MasterHorometroComponent implements OnInit {
   a: any = 5;
   kilo: any;
   elementDelete: any;
-
+  currentrow:any;
   switchCreate = true;
   switchUpdate = true;
   change = true;
   active = false;
   inactive = false;
   enabledUpdated = false;
-  horometroCurrent=0;
+
   filterIndicatorText = false;
   filterIndicatorCheck = false;
 
@@ -41,12 +42,13 @@ export class MasterHorometroComponent implements OnInit {
   currentBrand: any;
 
   customers: any;
-  
+
   selectedBusinessId: any = 0;
   selectedOfficeId: any = 0;
   customerOffices: any = 0;
-
-  constructor(private restService: RestService, private router: Router,private forkliftService: ForkliftService) {
+  @Input()
+  public  horometroCurrent=0;;
+  constructor(private restService: RestService, private router: Router,private forkliftService: ForkliftService, private horometroservice:HorometroService) {
   /*  swal({
       title: 'Validando información ...',
       allowOutsideClick: false
@@ -68,23 +70,18 @@ export class MasterHorometroComponent implements OnInit {
     this.loadingData();
     this.getCustomers();
 
-    const description = new FormControl('', Validators.required);
-    const descriptionUpdate = new FormControl('', Validators.required);
+    const horometroUpdate = new FormControl('', Validators.required);
 
-
-    this.myForm = new FormGroup({
-      description: description
-    });
 
     this.myFormUpdate = new FormGroup({
-      descriptionUpdate: descriptionUpdate
+      horometroUpdate: horometroUpdate
     });
    }
 
 
    loadingData() {
     swal({
-      title: 'Validando información ...',
+      title: 'Obteniendo información ...',
       allowOutsideClick: false
     });
     swal.showLoading();
@@ -281,155 +278,15 @@ updateForklift(forklift:any) {
   this.router.navigateByUrl('master/forkliftUpdate/' + forklift.id);
 }
 
-   sendBrand() {
-    console.log(localStorage.getItem('token'));
-    this.submitted = true;
-   if ( !this.myForm.invalid) {
-    swal({
-      title: 'Validando información ...',
-      allowOutsideClick: false
-    });
-    swal.showLoading();
 
-    let statusTemp = 0;
-    if (this.enabledUpdated === true) {
-      statusTemp = 0;
-    } else {
-      statusTemp = 1;
-    }
-    this.restService.createBrand(this.myForm.get('description').value.toUpperCase(), statusTemp).then(data => {
-      const resp: any = data;
-      console.log(resp);
-      if (resp.success === false) {
-        swal({
-          title: 'Esta marca ya esta registrada',
-          text: 'Esta marca no se puede registrar',
-          type: 'error'
-         });
-      } else {
-        this.myForm.get('description').setValue('');
-     /*swal({
-      title: 'Marca agregada',
-      type: 'success'
-     });*/
-   //   this.router.navigateByUrl('master/registerBrand');
 
-   document.getElementById( 'createBrandHide').click();
-   this.loadingData();
-   swal({
-    title: 'Marca agregada',
-    type: 'success'
-   });
-    }
-    }).catch(error => {
-      console.log(error);
-    });
-    }
-  }
-
-  sendUpdateBrand() {
-    console.log(this.myFormUpdate.get('descriptionUpdate'));
-    console.log(localStorage.getItem('token'));
-    this.submitted = true;
-   if ( !this.myFormUpdate.invalid) {
-    swal({
-      title: 'Validando información ...',
-      allowOutsideClick: false
-    });
-    swal.showLoading();
-
-    let statusTemp = 1;
-    if (this.enabledUpdated === true) {
-      statusTemp = 0;
-    } else {
-      statusTemp = 1;
-    }
-    console.log(this.myFormUpdate.get('descriptionUpdate').value.toUpperCase() + ' ' + statusTemp);
-    this.restService.updateBrand(Number(this.currentBrand.id), this.myFormUpdate.get('descriptionUpdate').value.toUpperCase(), statusTemp)
-    .then(data => {
-      const resp: any = data;
-      console.log(resp);
-      if (resp.success === false) {
-        swal({
-          title: 'Esta marca ya esta actualizada',
-          text: 'Esta marca no se puede actualizar',
-          type: 'error'
-         });
-      } else {
-     // this.router.navigateByUrl('master/registerBrand');
-     document.getElementById( 'updateBrandHide').click();
-     this.loadingData();
-     swal({
-      title: 'Marca actualizada',
-      type: 'success'
-     });
-    }
-    }).catch(error => {
-      console.log(error);
-    });
-    }
-  }
-
-  get checkForm() { return this.myForm.controls; }
   get checkFormUpdate() { return this.myFormUpdate.controls; }
-
-
-  deleteBrand(brand: any) {
-    swal({
-      title: 'Estás seguro de eliminar este elemento?',
-     // text: 'Once deleted, you will not be able to recover this imaginary file!',
-      type: 'warning',
-      showCancelButton: true,
-      showConfirmButton: true,
-      cancelButtonText: 'No',
-      confirmButtonText: 'Si'
-
-    })
-    .then((willDelete) => {
-        if (willDelete.value) {
-          this.elementDelete = brand;
-          console.log(brand);
-          console.log(    this.elementDelete);
-          swal.showLoading();
-          this.restService.deleteBrand(Number(this.elementDelete.id))
-          .then(data => {
-            swal.showLoading();
-            const resp: any = data;
-            console.log(resp);
-
-            if (resp.success === false) {
-              swal({
-                title: 'Esta marca presenta problemas',
-                text: 'Esta marca no se puede eliminar',
-                type: 'error'
-               });
-            } else {
-           // this.router.navigateByUrl('master/registerBrand');
-           this.loadingData();
-           swal({
-            title: 'Marca eliminada',
-            type: 'success'
-           });
-          }
-          }).catch(error => {
-            console.log(error);
-          });
-          console.log(this.elementDelete.id);
-        } else {
-         // swal('Fail');
-        }
-      console.log(willDelete);
-    });
-
-
-
-  }
 
 
   sendForklift() {
     this.router.navigateByUrl('/master/registerForklift');
   }
-  
+
   ngOnInit() {
   }
 
@@ -439,9 +296,44 @@ updateForklift(forklift:any) {
 
 
   updateHorometro(row:any){
+    this.currentrow=row;
     this.horometroCurrent=row.h_current;
     document.getElementById('uploadHorometro').click();
   }
-  
+
+  updatehorometroCurrent(valor:number,row: any){
+    console.log(this.myFormUpdate.get('horometroUpdate'));
+    this.submitted = true;
+   if ( !this.myFormUpdate.invalid) {
+    swal({
+      title: 'Validando información ...',
+      allowOutsideClick: false
+    });
+    swal.showLoading();
+
+    this.horometroservice.updateHorometer(this.currentrow.id, this.myFormUpdate.get('horometroUpdate').value)
+    .then(data => {
+      const resp: any = data;
+      console.log(resp);
+      if (resp.success === false) {
+        swal({
+          title: 'Error',
+          text: 'Este horometro no se puede actualizar',
+          type: 'error'
+         });
+      } else {
+     document.getElementById( 'createBrandHide').click();
+     this.loadingData();
+     swal({
+      title: 'Horometro actualizado',
+      type: 'success'
+     });
+    }
+    }).catch(error => {
+      console.log(error);
+    });
+    }
+  }
+
 
 }

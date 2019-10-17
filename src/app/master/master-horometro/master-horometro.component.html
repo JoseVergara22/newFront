@@ -3,46 +3,31 @@
 
         <h4 class="modal-title">Actualizar Horometro</h4>
     </div>
-    <div class="app-modal-body">
-            <div class="form-group row">
+    <div class="app-modal-body" *ngIf="currentrow">
+            <!-- <div class="form-group row">
                 <div class="col-sm-12">
                     <h6>Horometro Actual </h6>
-                    <input type="text" class="form-control" [ngModel]="horometroCurrent">
+                    <input type="text" class="form-control" [ngModel]="horometroCurrent" #horometroCurrent>
                 </div>
             </div>
             <div class="align-buttons">
                 <button type="button" class="btn btn-default waves-effect" id="createBrandHide" (click)="modalUpdatedHorometro.hide()">Cancelar</button>
-                <button type="button " class="btn btn-primary m-b-0 ">Actualizar</button>
-            </div>
+                <button type="button " class="btn btn-primary m-b-0 " (click)="updatehorometroCurrent(horometroCurrent,row)">Actualizar</button>
+            </div> -->
+            <form [formGroup]="myFormUpdate" (ngSubmit)="updatehorometroCurrent()">
+              <div class="form-group row">
+                  <div class="col-sm-6">
+                      <h6>Horometro Actual</h6>
+                      <input type="text" class="form-control" formControlName="horometroUpdate" value={{currentrow.h_current}}>
+                  </div>
+              </div>
+              <div class="align-buttons">
+                <button type="button" class="btn btn-default waves-effect" id="createBrandHide" (click)="modalUpdatedHorometro.hide()">Cancelar</button>
+                  <button type="submit " class="btn btn-primary m-b-0 ">Actualizar marca</button>
+              </div>
+          </form>
     </div>
 </app-modal-basic>
-
-<!-- <app-modal-basic #modalUpdateBrand [dialogClass]="'modal-lg'">
-    <div class="app-modal-header">
-        <h4 class="modal-title">Actualizar marca</h4>
-    </div>
-    <div *ngIf="currentBrand" class="app-modal-body">
-        <form [formGroup]="myFormUpdate" (ngSubmit)="sendUpdateBrand()">
-            <div class="form-group row">
-                <div class="col-sm-6">
-                    <h6>Descripción </h6>
-                    <input type="text" class="form-control" formControlName="descriptionUpdate" value={{currentBrand.description}} [ngClass]="{ 'is-invalid': submitted && checkFormUpdate.descriptionUpdate.errors }">
-                    <div *ngIf="submitted && checkFormUpdate.descriptionUpdate.errors" class="invalid-feedback">
-                        <div class="messages text-danger" *ngIf="checkFormUpdate.descriptionUpdate.errors.required">Este campo es requerido</div>
-                    </div>
-                </div>
-                <div class="col-sm-6">
-                    <h6>Activo</h6>
-                    <ui-switch class="js-single" color="#4680ff" switchColor="#fff" size="medium" (change)="onChangeUpdate($event)" [checked]="enabledUpdated"></ui-switch><br>
-                </div>
-            </div>
-            <div class="align-buttons">
-                <button type="button" class="btn btn-default waves-effect" id="updateBrandHide" (click)="modalUpdateBrand.hide()">Cancelar</button>
-                <button type="submit " class="btn btn-primary m-b-0 ">Actualizar marca</button>
-            </div>
-        </form>
-    </div>
-</app-modal-basic>-->
  <button type="button" style="display:none;" id="uploadHorometro" class="btn btn-primary waves-effect" (click)="modalUpdatedHorometro.show()">Actualizar horometro</button>
 
 
@@ -56,7 +41,7 @@
                 <div class="col-sm-6">
                     <h6>Cliente</h6>
 
-                    <select class="form-control" (change)="getCustomerOffice()" [(ngModel)]="selectedBusinessId"> 
+                    <select class="form-control" (change)="getCustomerOffice()" [(ngModel)]="selectedBusinessId">
                                 <option value="0" selected>Seleccionar cliente </option>
                             <option   *ngFor="let customer of customers" [ngValue]="customer.id"> {{customer.business_name}}  </option>
                             <!--  <option value="0" selected>Seleccionar perfil</option> -->
@@ -65,7 +50,7 @@
 
                 <div class="col-sm-6">
                     <h6>Sucursal</h6>
-                    <select class="form-control" [(ngModel)]="selectedOfficeId" (change)="getOfficeForklift()"> 
+                    <select class="form-control" [(ngModel)]="selectedOfficeId" (change)="getOfficeForklift()">
                         <option value="0" selected>Seleccionar sucursal </option>
                     <option   *ngFor="let office of customerOffices" [ngValue]="office.id"> {{office.branch_name}}  </option>
                     <!--  <option value="0" selected>Seleccionar perfil</option> -->
@@ -74,7 +59,7 @@
             </div>
             <br>
             <div class="row">
-          
+
                 <div class="col-sm-6">
                     <h6>Marca</h6>
                     <input type="text" class="form-control" placeholder="Filtrar marca" (keyup)="updateFilter($event)">
@@ -131,7 +116,6 @@
                               </button> -->
 
                         <button (click)="updateHorometro(row)" class="btn btn-primary btn-icon"><i class="icofont icofont-pencil-alt-5"></i></button>
-                        <!-- <button (click)="deleteBrand(row)" class="btn btn-danger btn-icon"><i class="icofont icofont-ui-delete"></i></button>-->
                     </ng-template>
                 </ngx-datatable-column>
 
