@@ -50,6 +50,8 @@ submittedOffice = false;
 submittedOfficeUpdated = false;
 
 enabledCreated = true;
+enabledCreatedOffice =true;
+enabledCreatedOfficeUpdate=true;
 public imagePath;
 imgURL: any;
 public message: string;
@@ -194,6 +196,13 @@ this.myFormUpdateOffice = new FormGroup({
 
      this.selectedDepartmentOfficeIdUpdate = this.currentOffice.department_id;
      
+
+     if(this.currentOffice.status==='1'){
+      this.enabledCreatedOfficeUpdate=false;
+     }
+     
+    
+
      this.getCitiesOfficeUpdate();
     this.selectedCityOfficeIdUpdate = this.currentOffice.city_id;
 
@@ -347,10 +356,7 @@ updatedCustomer() {
 
     let statusTemp = 0;
     console.log( this.switchUpdate);
-    if ( this.switchUpdate === true) {
-
-      statusTemp = 0;
-    } else {
+    if ( this.enabledUpdated === false) {
       statusTemp = 1;
     }
     console.log('kakakaka');
@@ -403,6 +409,11 @@ updatedCustomer() {
   }
 }
 
+/*onChangeCreated(check: any) {
+  this.switchUpdate = check;
+  this.enabledCreated = check;
+  this.enabledUpdated = this.enabledCreated ;
+    }
 
 
 
@@ -410,11 +421,29 @@ onChangeCreated(check: any) {
   this.switchUpdate = check;
   this.enabledCreated = check;
   this.enabledUpdated = this.enabledCreated ;
-    }
+    }*/
 
+
+    
+onChangeCreated(check: any) {
+  // this.switchUpdate = check;
+   this.enabledCreated = check;
+  // this.enabledUpdated = this.enabledCreated ;
+     }
+ 
+ 
+     onChangeCreatedOfficeUpdate(check: any) {
+       this.enabledCreatedOfficeUpdate = check;
+         }
+ 
+     onChangeCreatedOffice(check: any) {
+       this.enabledCreatedOffice = check;
+    
+         }
+ 
 
     onChangeUpdated(check: any) {
-      this.switchUpdate = check;
+     //  this.switchUpdate = check;
       this.enabledUpdated = check;
         }
   getMasters(indice: number) {
@@ -454,6 +483,9 @@ onChangeCreated(check: any) {
        const resp: any = data;
        console.log(resp);
        this.dataOffices = resp.data_branchoffices;
+
+       console.log('Importante ver la info');
+       console.log( this.dataOffices);
     // this.selectedTypeDocumentIdUpdate = resp.customer.type_document_id;
     // this.selectedPriceListIdUpdate = resp.customer.price_list_id;
     // this.selectedPaymentConditionIdUpdate = resp.customer.payment_condition_id;
@@ -566,9 +598,7 @@ updatedOffice() {
       swal.showLoading(); 
       let statusTemp = 0;
       console.log( this.switchUpdate);
-      if ( this.switchUpdate === true) {  
-        statusTemp = 0;
-      } else {
+      if ( this.enabledCreatedOfficeUpdate === false) {  
         statusTemp = 1;
       } 
   console.log('llego'); 
@@ -636,11 +666,8 @@ sendOffice() {
     swal.showLoading();
 
     let statusTemp = 0;
-    console.log( this.switchUpdate);
-    if ( this.switchUpdate === true) {
-
-      statusTemp = 0;
-    } else {
+    console.log( this.enabledCreatedOffice);
+    if ( this.enabledCreatedOffice === false) {
       statusTemp = 1;
     }
 

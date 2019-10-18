@@ -538,97 +538,72 @@ console.log(error);
 }
 }
 
-
-
-
-/*updatedOfficePro(){
-
-}*/
-
 updatedOfficePro() {
+  console.log("datos a actualizar");
+  console.log(this.currentOffice.id);
+  console.log(this.currentCustomerId);
+  console.log(this.myFormUpdateOffice.get('nameOfficeUpdate').value);
+  console.log(this.myFormUpdateOffice.get('telephoneOfficeUpdate').value);
+  console.log(this.myFormUpdateOffice.get('addressOfficeUpdate').value);
+  console.log(this.selectedDepartmentOfficeIdUpdate);
+  console.log(this.selectedCityOfficeIdUpdate);
 
-
-  try {
-  console.log('Ole ole ole');
-
-
-
-  
-  
-
-  if ( Number(this.selectedDepartmentOfficeIdUpdate.id) !== 0 && Number(this.selectedCityOfficeIdUpdate.id) !== 0) {
-    this.submittedOffice = true;
-  
-
-   if ( !this.myFormUpdateOffice.invalid) {
-    swal({
-      title: 'Validando información ...',
-      allowOutsideClick: false
-    });
-    swal.showLoading();
-
-    let statusTemp = 0;
-    console.log( this.switchUpdate);
-    if ( this.enabledCreatedOfficeUpdate === false) {
-      statusTemp = 1;
-    }
-
-console.log('llego');
-
-
-    this.restService.createOffice(this.currentCustomerId, this.myFormCreateOffice.get('nameOffice').value.toUpperCase(),
-     this.myFormCreateOffice.get('addressOffice').value, this.myFormCreateOffice.get('telephoneOffice').value,
-     statusTemp, this.selectedCityOfficeId.id, this.selectedDepartmentOfficeId.id)
-    .then(data => {
-      const resp: any = data;
-      console.log(resp);
-      if (resp.success === false) {
-        swal({
-          title: 'Este sucursal ya esta registrado',
-          text: 'Este sucursal no se puede registrar',
-          type: 'error'
-         });
+     try {
+    if ( Number(this.selectedDepartmentOfficeIdUpdate.id) !== 0 && Number(this.selectedCityOfficeIdUpdate.id) !== 0) {
+      this.submittedOffice = true;
+      console.log(this.myFormCreateOffice.errors);  
+     if ( !this.myFormUpdateOffice.invalid) {
+      swal({
+        title: 'Validando información ...',
+        allowOutsideClick: false
+      });
+      swal.showLoading(); 
+      let statusTemp = 0;
+      console.log( this.switchUpdate);
+      if ( this.switchUpdate === true) {  
+        statusTemp = 0;
       } else {
-
-       // this.getMasters(1);
-      //  this.getOffices();
-
-
-     /*swal({
-      title: 'sucursal agregada',
+        statusTemp = 1;
+      } 
+  console.log('llego'); 
+      this.restService.updateOffice(this.currentOffice.id,this.currentCustomerId, this.myFormUpdateOffice.get('nameOfficeUpdate').value.toUpperCase(),
+      this.myFormUpdateOffice.get('addressOfficeUpdate').value, this.myFormUpdateOffice.get('telephoneOfficeUpdate').value,
+       statusTemp, this.selectedCityOfficeIdUpdate, this.selectedDepartmentOfficeIdUpdate)
+      .then(data => {
+        const resp: any = data;
+        console.log(resp);
+        if (resp.success === false) {
+          swal({
+            title: 'Este sucursal ya esta registrado',
+            text: 'Este sucursal no se puede registrar',
+            type: 'error'
+           });
+        } else {
+     this.myFormCreateOffice.reset();
+     document.getElementById( 'createBrandHide').click();
+     this.getOffices(this.currentCustomerId);
+     document.getElementById('updateBrandHide').click();
+     swal({
+      title: 'Sucursal Actualizado',
       type: 'success'
-     });*/
-   //   this.router.navigateByUrl('master/registerBrand');
-
-   // document.getElementById( 'createBrandHide').click();
-   // this.loadingData();
-   this.myFormCreateOffice.reset();
-   document.getElementById( 'createBrandHide').click();
-   this.getOffices(this.currentCustomerId);
-   swal({
-    title: 'Sucursal agregado',
-    type: 'success'
-   });
-    }
-    }).catch(error => {
-      console.log(error);
-    });
-    }
-  } else {
-    console.log('llegod');
-    swal({
-      title: 'Debe seleccionar todos los campos obligatorios',
-      text: 'Debe seleccionar todos los campos obligatorios',
-      type: 'error'
      });
+      }
+      }).catch(error => {
+        console.log(error);
+      });
+      }
+    } else {
+      console.log('llegod');
+      swal({
+        title: 'Debe seleccionar todos los campos obligatorios',
+        text: 'Debe seleccionar todos los campos obligatorios',
+        type: 'error'
+       });
+    }
+  } catch (error) {
+  console.log(error);
   }
-} catch (error) {
-console.log(error);
 }
-}
-
-
-
 
 
 

@@ -37,18 +37,19 @@ export class MasterFuelComponent implements OnInit {
   rowsTempCheck: any;
   rowsTempText: any;
 
+ 
   currentFuel: any;
   selectedValueTemp = '0';
-  selectedValueUpdate;
-  selectedValue: any;
+  selectedValueUpdate=1;
+  selectedValue: any=1;
 
   constructor(private restService: RestService, private router: Router) {
 
     this.loadingData();
     const description = new FormControl('', Validators.required);
     const descriptionUpdate = new FormControl('', Validators.required);
-    const type = new FormControl('', Validators.required);
-    const typeUpdate = new FormControl('', Validators.required);
+    const type = new FormControl('');
+    const typeUpdate = new FormControl('');
 
     this.myForm = new FormGroup({
       description: description,
@@ -249,7 +250,7 @@ console.log(this.selectedValueUpdate);
     } else {
       statusTemp = 1;
     }
-    this.restService.createFuel(this.myForm.get('description').value.toUpperCase(), this.selectedValue, statusTemp)
+    this.restService.createFuel(this.myForm.get('description').value.toUpperCase(), '1', statusTemp)
     .then(data => {
       const resp: any = data;
       console.log(resp);
@@ -262,7 +263,7 @@ console.log(this.selectedValueUpdate);
       } else {
 
         this.myForm.get('description').setValue('');
-        this.selectedValue = '0';
+        this.selectedValue = '1';
      /*swal({
       title: 'Combustible agregada',
       type: 'success'
@@ -290,11 +291,12 @@ console.log(this.selectedValueUpdate);
   }
 
   onChangeSelect() {
-    this.selectedValueTemp = '0';
-    this.selectedValue = '0';
+    this.selectedValueTemp = '1';
+    this.selectedValue = '1';
     console.log('cambio');
     this.enabledCreated = true;
   }
+
   sendUpdateUpdate() {
     console.log(this.selectedValueUpdate);
     if (Number(this.selectedValueUpdate) !== 0) {
@@ -333,7 +335,7 @@ console.log(this.selectedValueUpdate);
 
     console.log(this.myFormUpdate.get('descriptionUpdate').value.toUpperCase() + ' ' + statusTemp);
     this.restService.updateFuel(Number(this.currentFuel.id),
-     this.myFormUpdate.get('descriptionUpdate').value.toUpperCase(), descriptionType, statusTemp)
+     this.myFormUpdate.get('descriptionUpdate').value.toUpperCase(), '1', statusTemp)
     .then(data => {
       const resp: any = data;
       console.log(resp);

@@ -16,8 +16,8 @@
                     </div>
                 </div>
                 <div class="col-sm-6">
-                    <h6>Tipo<span style="color:red;">*</span></h6>
-                    <select class="form-control" (change)="ChangingValue()" [value]="selectedValueTemp" [(ngModel)]="selectedValue" class="form-control" formControlName="type" name="select" [ngClass]="{ 'is-invalid': submitted && checkForm.type.errors }">
+                    <h6 style="display:none;">Tipo<span style="color:red;">*</span></h6>
+                    <select style="display:none;" class="form-control" (change)="ChangingValue()" [value]="selectedValueTemp" [(ngModel)]="selectedValue" class="form-control" formControlName="type" name="select" [ngClass]="{ 'is-invalid': submitted && checkForm.type.errors }">
                               <option value="0" selected>Seleccionar tipo</option>
                              <option value="COMBUSTION">COMBUSTIÓN</option>
                              <option value="ELECTRICA">ELÉCTRICA</option>
@@ -61,8 +61,8 @@
                 </div>
                 <!-- [ngClass]="{ 'is-invalid': submitted && checkFormUpdate.typeUpdate.errors }" -->
                 <div class="col-sm-6">
-                    <h6>combustible<span style="color:red;">*</span></h6>
-                    <select class="form-control" (change)="ChangingValue2()" [value]="selectedValueUpdate" [(ngModel)]="selectedValue" class="form-control" formControlName="typeUpdate" name="select">
+                    <h6 style="display:none;">combustible<span style="color:red;">*</span></h6>
+                    <select class="form-control"  style="display:none;" (change)="ChangingValue2()" [value]="selectedValueUpdate" [(ngModel)]="selectedValue" class="form-control" formControlName="typeUpdate" name="select">
                                 <option value="0" selected>Seleccionar tipo</option>
                                 <option value="1">COMBUSTIÓN</option>
                                 <option value="2">ELÉCTRICA</option>
@@ -128,11 +128,11 @@
                 [limit]="5">
 
                 <ngx-datatable-column [resizeable]="false" name="Descripción" [sortable]="false" [draggable]="false" prop="description"></ngx-datatable-column>
-                <ngx-datatable-column [resizeable]="false" name="Tipo" [sortable]="false" [draggable]="false" prop="type"></ngx-datatable-column>
+               <!--  <ngx-datatable-column [resizeable]="false" name="Tipo" [sortable]="false" [draggable]="false" prop="type"></ngx-datatable-column> -->
                 <ngx-datatable-column [resizeable]="false" name="Estado" [sortable]="false" [draggable]="false" prop="status">
                     <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
-                        <label (click)="blockAgents(value)" class="label label-md label-danger" *ngIf="value==0">Inactivo</label>
-                        <label class="label label-md label-primary" *ngIf="value==1">Activo</label>
+                        <label (click)="blockAgents(value)" class="label label-md label-danger" *ngIf="value==1">Inactivo</label>
+                        <label class="label label-md label-primary" *ngIf="value==0">Activo</label>
                     </ng-template>
                 </ngx-datatable-column>
                 <ngx-datatable-column [resizeable]="false" name="Acciones" [sortable]="false" [draggable]="false" sortable="false" prop="id">

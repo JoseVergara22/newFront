@@ -925,6 +925,10 @@ this.selectedFuelId);
     return this.cpService.outputFormat(this.cpService.stringToHsva(color, true), 'rgba', null);
   }
 
+  goAdminForklifts(){
+    this.router.navigateByUrl('master/forkliftShow');
+  }
 
+  
   get checkForm() { return this.myForm.controls; }
 }

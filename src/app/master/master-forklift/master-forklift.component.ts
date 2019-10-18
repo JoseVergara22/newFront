@@ -715,6 +715,9 @@ this.selectedFuelId);
     }
 
 
+  goAdminForklifts(){
+      this.router.navigateByUrl('master/forkliftShow');
+    }
 
   onChangeColorHex8(color: string): string {
     return this.cpService.outputFormat(this.cpService.stringToHsva(color, true), 'rgba', null);
