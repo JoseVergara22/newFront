@@ -46,6 +46,14 @@ export class MasterShowForkliftComponent implements OnInit {
   selectedOfficeId: any = 0;
   customerOffices: any = 0;
 
+  columns = [
+    { name: 'Estado', prop: 'status'}
+  ];
+
+  columnWidths = [
+    {column: "status", width: 200}
+  ];
+
   constructor(private restService: RestService, private router: Router,private forkliftService: ForkliftService) {
   /*  swal({
       title: 'Validando información ...',
@@ -426,11 +434,22 @@ updateForklift(forklift:any) {
   }
 
 
+  showForklift(forklift:any){
+    console.log(forklift);
+    this.router.navigateByUrl('master/forkliftShow/' + forklift.id);
+  }
+
   sendForklift() {
     this.router.navigateByUrl('/master/registerForklift');
   }
   
   ngOnInit() {
+    this.columns.forEach((col: any) => {
+      const colWidth = this.columnWidths.find(colWidth => colWidth.column === col.prop);
+      if (colWidth) {
+        col.width = colWidth.width;
+      }
+    });
   }
 
   blockAgents( vadr: any) {

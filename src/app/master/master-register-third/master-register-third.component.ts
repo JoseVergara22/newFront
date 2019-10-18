@@ -51,6 +51,9 @@ submittedOffice = false;
 submittedOfficeUpdated = false;
 
 enabledCreated = true;
+enabledCreatedOffice = true;
+
+enabledCreatedOfficeUpdate = true;
 public imagePath;
 imgURL: any;
 public message: string;
@@ -305,10 +308,7 @@ sendCustomer() {
 
     let statusTemp = 0;
     console.log( this.switchUpdate);
-    if ( this.switchUpdate === true) {
-
-      statusTemp = 0;
-    } else {
+    if ( this.enabledCreated === false) {
       statusTemp = 1;
     }
 
@@ -332,6 +332,12 @@ sendCustomer() {
          });
       } else {
 
+    
+        this.selectedTypeDocumentIdUpdate = this.selectedTypeDocumentId.id;
+        this.selectedPriceListIdUpdate = this.selectedPriceListId.id;
+        this.selectedPaymentConditionIdUpdate = this.selectedPaymentConditionId.id;
+        this.selectedDepartmentIdUpdate = this.selectedDepartmentId.id;
+        this.selectedCityIdUpdate = this.selectedCityId.id;
         this.getMasters(1);
         // this.getOffices();
 
@@ -407,10 +413,7 @@ sendOffice() {
 
     let statusTemp = 0;
     console.log( this.switchUpdate);
-    if ( this.switchUpdate === true) {
-
-      statusTemp = 0;
-    } else {
+    if ( this.enabledCreatedOffice === false) {
       statusTemp = 1;
     }
 
@@ -538,8 +541,90 @@ console.log(error);
 
 
 
-updatedOfficePro(){
+/*updatedOfficePro(){
 
+}*/
+
+updatedOfficePro() {
+
+
+  try {
+  console.log('Ole ole ole');
+
+
+
+  
+  
+
+  if ( Number(this.selectedDepartmentOfficeIdUpdate.id) !== 0 && Number(this.selectedCityOfficeIdUpdate.id) !== 0) {
+    this.submittedOffice = true;
+  
+
+   if ( !this.myFormUpdateOffice.invalid) {
+    swal({
+      title: 'Validando información ...',
+      allowOutsideClick: false
+    });
+    swal.showLoading();
+
+    let statusTemp = 0;
+    console.log( this.switchUpdate);
+    if ( this.enabledCreatedOfficeUpdate === false) {
+      statusTemp = 1;
+    }
+
+console.log('llego');
+
+
+    this.restService.createOffice(this.currentCustomerId, this.myFormCreateOffice.get('nameOffice').value.toUpperCase(),
+     this.myFormCreateOffice.get('addressOffice').value, this.myFormCreateOffice.get('telephoneOffice').value,
+     statusTemp, this.selectedCityOfficeId.id, this.selectedDepartmentOfficeId.id)
+    .then(data => {
+      const resp: any = data;
+      console.log(resp);
+      if (resp.success === false) {
+        swal({
+          title: 'Este sucursal ya esta registrado',
+          text: 'Este sucursal no se puede registrar',
+          type: 'error'
+         });
+      } else {
+
+       // this.getMasters(1);
+      //  this.getOffices();
+
+
+     /*swal({
+      title: 'sucursal agregada',
+      type: 'success'
+     });*/
+   //   this.router.navigateByUrl('master/registerBrand');
+
+   // document.getElementById( 'createBrandHide').click();
+   // this.loadingData();
+   this.myFormCreateOffice.reset();
+   document.getElementById( 'createBrandHide').click();
+   this.getOffices(this.currentCustomerId);
+   swal({
+    title: 'Sucursal agregado',
+    type: 'success'
+   });
+    }
+    }).catch(error => {
+      console.log(error);
+    });
+    }
+  } else {
+    console.log('llegod');
+    swal({
+      title: 'Debe seleccionar todos los campos obligatorios',
+      text: 'Debe seleccionar todos los campos obligatorios',
+      type: 'error'
+     });
+  }
+} catch (error) {
+console.log(error);
+}
 }
 
 
@@ -574,10 +659,7 @@ updatedCustomer() {
 
     let statusTemp = 0;
     console.log( this.switchUpdate);
-    if ( this.switchUpdate === true) {
-
-      statusTemp = 0;
-    } else {
+    if ( this.switchUpdate === false) {
       statusTemp = 1;
     }
     console.log('kakakaka');
@@ -634,11 +716,20 @@ updatedCustomer() {
 
 
 onChangeCreated(check: any) {
-  this.switchUpdate = check;
+ // this.switchUpdate = check;
   this.enabledCreated = check;
-  this.enabledUpdated = this.enabledCreated ;
+ // this.enabledUpdated = this.enabledCreated ;
     }
 
+
+    onChangeCreatedOfficeUpdate(check: any) {
+      this.enabledCreatedOfficeUpdate = check;
+        }
+
+    onChangeCreatedOffice(check: any) {
+      this.enabledCreatedOffice = check;
+   
+        }
 
     onChangeUpdated(check: any) {
       this.switchUpdate = check;
@@ -648,11 +739,21 @@ onChangeCreated(check: any) {
     // console.log(this.opcionSeleccionado);
       this.restService.getMastersThird().then(data => {
         const resp: any = data;
+        console.log('Info de getMaster');
+        console.log('---------------------');
+        console.log(resp);
         this.dataMasters = data;
         this.paymentConditions = this.dataMasters.payment_condition;
         this.typeDocuments = this.dataMasters.documents;
         this.departments = this.dataMasters.department;
         this.priceList = this.dataMasters.price_list;
+
+        this.selectedTypeDocumentIdUpdate= this.dataMasters.documents;
+        this.selectedPriceListIdUpdate = this.dataMasters.price_list;
+        this.selectedPaymentConditionIdUpdate=this.dataMasters.payment_condition;
+        this.selectedDepartmentIdUpdate= this.dataMasters.department;
+        //this.selectedCityIdUpdate: any = 0;
+
         console.log('master');
         console.log(data);
         swal.close();
@@ -763,6 +864,10 @@ preview(files) {
   reader.onload = (_event) => {
     this.imgURL = reader.result;
   };
+}
+
+goAdminCustomer(){
+  this.router.navigateByUrl('master/customers');
 }
 
 get checkForm() { return this.myForm.controls; }

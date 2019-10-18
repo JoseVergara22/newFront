@@ -193,6 +193,8 @@ this.myFormUpdateOffice = new FormGroup({
     this.myFormUpdateOffice.get('addressOfficeUpdate').setValue(this.currentOffice.address);
 
      this.selectedDepartmentOfficeIdUpdate = this.currentOffice.department_id;
+     
+     this.getCitiesOfficeUpdate();
     this.selectedCityOfficeIdUpdate = this.currentOffice.city_id;
 
     document.getElementById( 'uploadBrand').click();
@@ -452,11 +454,11 @@ onChangeCreated(check: any) {
        const resp: any = data;
        console.log(resp);
        this.dataOffices = resp.data_branchoffices;
-     this.selectedTypeDocumentIdUpdate = resp.customer.type_document_id;
-     this.selectedPriceListIdUpdate = resp.customer.price_list_id;
-     this.selectedPaymentConditionIdUpdate = resp.customer.payment_condition_id;
-     this.selectedDepartmentIdUpdate = resp.customer.department_id;
-     this.selectedCityIdUpdate = resp.data_branchoffices.city_id;
+    // this.selectedTypeDocumentIdUpdate = resp.customer.type_document_id;
+    // this.selectedPriceListIdUpdate = resp.customer.price_list_id;
+    // this.selectedPaymentConditionIdUpdate = resp.customer.payment_condition_id;
+    // this.selectedDepartmentIdUpdate = resp.customer.department_id;
+    // this.selectedCityIdUpdate = resp.data_branchoffices.city_id;
      console.log("antes de consulta "+resp.data_branchoffices[0].department_id);
     //   this.dataOffices = this.dataOffices.data;
        console.log('master');
@@ -694,6 +696,10 @@ console.log('llego');
 } catch (error) {
 console.log(error);
 }
+}
+
+goAdminCustomer(){
+  this.router.navigateByUrl('master/customers');
 }
 
 get checkForm() { return this.myForm.controls; }

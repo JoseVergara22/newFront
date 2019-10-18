@@ -28,6 +28,7 @@ import { MasterRoutineDetailsComponent } from './master-routine-details/master-r
 import { MasterHorometroComponent } from "./master-horometro/master-horometro.component";
 import { MasterForkliftUpdateComponent } from './master-forklift-update/master-forklift-update.component';
 import { MasterExternalUserUpdateComponent } from './master-external-user-update/master-external-user-update.component';
+import { MasterForkliftShowComponent } from './master-forklift-show/master-forklift-show.component';
 
 const routes: Routes = [
   {
@@ -142,9 +143,13 @@ const routes: Routes = [
     path: 'forkliftUpdate/:id',
     component:  MasterForkliftUpdateComponent
   },{
-    path: 'externalUserUpdate',
+    path: 'externalUserUpdate/:id',
     component:  MasterExternalUserUpdateComponent
+  },{
+    path: 'forkliftShow/:id',
+    component:  MasterForkliftShowComponent
   }
+
 ];
 
 

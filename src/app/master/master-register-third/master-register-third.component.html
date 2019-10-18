@@ -56,7 +56,7 @@
 
                 <div class="col-sm-4">
                     <h6>Activo</h6>
-                    <ui-switch class="js-single" color="#4680ff" switchColor="#fff" size="medium" (change)="onChangeCreated($event)" checked></ui-switch><br>
+                    <ui-switch class="js-single" color="#4680ff" switchColor="#fff" size="medium" (change)="onChangeCreatedOffice($event)" [checked]="enabledCreatedOffice"></ui-switch><br>
                 </div>
 
 
@@ -131,7 +131,7 @@
 
                 <div class="col-sm-4">
                     <h6>Activo</h6>
-                    <ui-switch class="js-single" color="#4680ff" switchColor="#fff" size="medium" (change)="onChangeCreated($event)" checked></ui-switch><br>
+                    <ui-switch class="js-single" color="#4680ff" switchColor="#fff" size="medium" (change)="onChangeCreatedOfficeUpdate($event)" [checked]="enabledCreatedOfficeUpdate"></ui-switch><br>
                 </div>
 
 
@@ -413,7 +413,7 @@
 
                     <div class="col-sm-4 ">
                         <h6>Lista de precios <span style="color:red; ">*</span></h6>
-                        <select class="form-control " name="select " formControlName="priceListIdUpdate" [(ngModel)]="selectedPriceListIdUpdate ">
+                        <select class="form-control " name="select " formControlName="priceListIdUpdate" [(ngModel)]="selectedPriceListIdUpdate">
                             <option value="0 " selected>Seleccionar lista de precios</option>
                             <option  *ngFor="let priceL of priceList " [ngValue]="priceL.id"> {{priceL.description}} </option>
                             </select>
@@ -534,7 +534,11 @@
                         <button (click)="deleteBrand(row)" class="btn btn-danger btn-icon"><i class="icofont icofont-ui-delete"></i></button>
                     </ng-template>
                 </ngx-datatable-column>
-
+                 <br>
+               <br>
+         <div class="align-buttons">
+            <button class="btn btn-primary m-b-0 " (click)="goAdminCustomer()">Volver Administración Clientes</button>
+        </div>
 
             </ngx-datatable>
         </app-card>

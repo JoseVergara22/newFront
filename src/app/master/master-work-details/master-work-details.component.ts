@@ -396,4 +396,8 @@ export class MasterWorkDetailsComponent implements OnInit {
     }
   }
 
+  goAdminRoutines(){
+    this.router.navigateByUrl('master/work_dashboard');
+  }
+
 }

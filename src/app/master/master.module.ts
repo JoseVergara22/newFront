@@ -42,6 +42,8 @@ import { MasterMultiDatePickerComponent } from './master-multi-date-picker/maste
 import { MasterHorometroComponent } from './master-horometro/master-horometro.component';
 import { MasterForkliftUpdateComponent } from './master-forklift-update/master-forklift-update.component';
 import { MasterExternalUserUpdateComponent } from './master-external-user-update/master-external-user-update.component';
+import { MasterForkliftShowComponent } from './master-forklift-show/master-forklift-show.component';
+import { MasterMultiDatePickerShowComponent } from './master-multi-date-picker-show/master-multi-date-picker-show.component';
 // Servicios
 import { UserService } from '../master-services/User/user.service';
 import { NewService } from '../master-services/new/new.service';
@@ -98,7 +100,9 @@ import { ForkliftService } from '../master-services/Forklift/forklift.service';
     MasterMultiDatePickerComponent,
     MasterHorometroComponent,
     MasterForkliftUpdateComponent,
-    MasterExternalUserUpdateComponent
+    MasterExternalUserUpdateComponent,
+    MasterForkliftShowComponent,
+    MasterMultiDatePickerShowComponent
   ],
   providers: [
     RestService,

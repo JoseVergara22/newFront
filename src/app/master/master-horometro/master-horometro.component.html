@@ -16,15 +16,19 @@
             </div> -->
             <form [formGroup]="myFormUpdate" (ngSubmit)="updatehorometroCurrent()">
               <div class="form-group row">
-                  <div class="col-sm-6">
+                  <div class="col-sm-10">
                       <h6>Horometro Actual</h6>
                       <input type="text" class="form-control" formControlName="horometroUpdate" value={{currentrow.h_current}}>
                   </div>
               </div>
+            <div class="form-group row">
+            
               <div class="align-buttons">
                 <button type="button" class="btn btn-default waves-effect" id="createBrandHide" (click)="modalUpdatedHorometro.hide()">Cancelar</button>
                   <button type="submit " class="btn btn-primary m-b-0 ">Actualizar marca</button>
               </div>
+            
+           </div>
           </form>
     </div>
 </app-modal-basic>

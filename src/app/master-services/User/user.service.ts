@@ -20,7 +20,8 @@ export class UserService {
     password: string,
     rpassword: string,
     email: string,
-    profileId: number) {
+    profileId: number,
+    active: number) {
 return new Promise(resolve => {
       const headers = new HttpHeaders();
       headers.append('Accept', 'application/json');
@@ -36,7 +37,8 @@ return new Promise(resolve => {
         password: password,
         c_password: rpassword,
         username: username,
-        profile_id: profileId
+        profile_id: profileId,
+        active: active
       };
 this.http.post('http://34.207.70.171/api/auth/signup', postParams)
 .map(res => res).subscribe(data => {
@@ -55,18 +57,11 @@ resolve(data);
       telephone: string,
       email: string,
       id:number,
-      profileId: number) {
+      profileId: number,
+      active: number) {
         return new Promise(resolve => {
           console.log('entra en el servicio');
-          console.log(firstName,
-            lastName,
-            name,
-            username,
-            cellphone,
-            telephone,
-            email,
-            id,
-            profileId);
+          console.log(active);
           const headers = new HttpHeaders();
           headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user'))); // 'Bearer ' +
           headers.append('Content-Type', 'application/json');
@@ -86,7 +81,8 @@ resolve(data);
                 telephone: telephone,
                 email: email,
                 username: username,
-                profile_id: profileId
+                profile_id: profileId,
+                active:active
               };
               console.log('pasa los headers ');
         this.http.patch('http://34.207.70.171/api/users/' + id, patchParams, httpOptions)

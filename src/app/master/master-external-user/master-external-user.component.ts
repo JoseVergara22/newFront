@@ -223,6 +223,13 @@ export class MasterExternalUserComponent implements OnInit {
     });
     swal.showLoading();
     this.errorProfile = false;
+
+    let active = 0;
+
+   if(  this.change===false){
+    active=1;
+   }
+
     this.userService.createUserInternal(this.myForm.get('name').value,
     this.myForm.get('lastname').value,
     this.myForm.get('name').value + ' ' + this.myForm.get('lastname').value,
@@ -232,7 +239,8 @@ export class MasterExternalUserComponent implements OnInit {
     this.myForm.get('password').value,
     this.myForm.get('rpassword').value,
     this.myForm.get('email').value,
-    this.myForm.get('profile').value).then(data => {
+    this.myForm.get('profile').value,
+    active).then(data => {
     console.log(data);
       const resp: any = data;
       if (resp.error) {
@@ -297,6 +305,13 @@ export class MasterExternalUserComponent implements OnInit {
     });
     swal.showLoading();
     this.errorProfile = false;
+
+    let active = 0;
+
+   if( this.enabledUpdated===false){
+    active=1;
+   }
+
     this.userService.updateUser(
     this.myUpdateForm.get('updatename').value,
     this.myUpdateForm.get('updatelastname').value,
@@ -306,7 +321,8 @@ export class MasterExternalUserComponent implements OnInit {
     this.myUpdateForm.get('updatetelephone').value,
     this.myUpdateForm.get('updateemail').value,
     this.currentUser.data.id,
-    this.myUpdateForm.get('updateprofile').value).then(data => {
+    this.myUpdateForm.get('updateprofile').value,
+    active).then(data => {
       const resp: any = data;
       console.log(resp);
       if (resp.error) {
@@ -332,7 +348,7 @@ export class MasterExternalUserComponent implements OnInit {
      }).then(data=>{
       this.getUser();
      });
-     this.router.navigateByUrl('master');
+    // this.router.navigateByUrl('master');
     }
     }).catch(error => {
       console.log(error);
@@ -751,6 +767,10 @@ export class MasterExternalUserComponent implements OnInit {
 
   }
 
+
+  goAdminUsers(){
+    this.router.navigateByUrl('master/register');
+  }
 
 updateCustomerOffices(customer) {
     console.log(customer);

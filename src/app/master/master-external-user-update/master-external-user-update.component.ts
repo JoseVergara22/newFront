@@ -4,6 +4,7 @@ import {CustomValidators} from 'ng2-validation';
 import { UserService } from '../../master-services/User/user.service';
 import { RestService } from '../../master-services/Rest/rest.service';
 import swal from 'sweetalert2';
+import { ActivatedRoute, Params } from '@angular/router';
 import { UserInternalInterface } from '../../master-models/user-internal';
 import { Router } from '@angular/router';
 
@@ -39,7 +40,8 @@ interface UserOfficesClienteInterface {
 @Component({
   selector: 'app-master-external-user-update',
   templateUrl: './master-external-user-update.component.html',
-  styleUrls: ['./master-external-user-update.component.scss']
+  styleUrls: ['./master-external-user-update.component.scss',
+  '../../../assets/icon/icofont/css/icofont.scss']
 })
 export class MasterExternalUserUpdateComponent implements OnInit {
 
@@ -87,12 +89,14 @@ export class MasterExternalUserUpdateComponent implements OnInit {
   statusTempUpdate;
   currentCustomerUpdated;
   userCurrentUpdate:any;
+  currentUserIdParam;
 
-  constructor(private userService: UserService, private router: Router, private restService: RestService) {
+  constructor(private userService: UserService, private router: Router, private restService: RestService,  private rutaActiva: ActivatedRoute) {
     this.loading = true;
+    this.currentUserIdParam = this.rutaActiva.snapshot.params.id;
     this. loadingData();
-    let idUser=285;
-    this.getUser(idUser);
+   // let idUser=285;
+    this.getUser(this.currentUserIdParam);
     const name = new FormControl('', Validators.required);
     const lastname = new FormControl('', Validators.required);
     const username = new FormControl('', Validators.required);
@@ -215,9 +219,11 @@ export class MasterExternalUserUpdateComponent implements OnInit {
         }).catch(error => {
           console.log(error);
         });*/
-
+        console.log(id);
         this.restService.getRelationshipUserOffices(id).then(data => {
           const resp: any = data;
+          console.log('Info');
+          console.log(resp);
           if (resp.error) {
             swal({
               title: 'Error',
@@ -225,10 +231,14 @@ export class MasterExternalUserUpdateComponent implements OnInit {
               type: 'error'
              });
           } else {
-            console.log('info de userOffices');
-            this.rowsClient = resp.data.customers;
-            console.log('customer');
+            console.log('info de userOffices para update');
             console.log(resp.data.customers);
+            if(resp.data.customers){
+              this.rowsClient = resp.data.customers;
+            }
+
+            console.log('customer');
+            console.log(resp.data);
             swal.close();
     
             console.log( resp.data);
@@ -282,6 +292,12 @@ export class MasterExternalUserUpdateComponent implements OnInit {
     });
     swal.showLoading();
     this.errorProfile = false;
+    let active = 0;
+
+    if(  this.change===false){
+     active=1;
+    }
+
     this.userService.createUserInternal(this.myForm.get('name').value,
     this.myForm.get('lastname').value,
     this.myForm.get('name').value + ' ' + this.myForm.get('lastname').value,
@@ -291,7 +307,8 @@ export class MasterExternalUserUpdateComponent implements OnInit {
     this.myForm.get('password').value,
     this.myForm.get('rpassword').value,
     this.myForm.get('email').value,
-    this.myForm.get('profile').value).then(data => {
+    this.myForm.get('profile').value,
+    active).then(data => {
     console.log(data);
       const resp: any = data;
       if (resp.error) {
@@ -346,7 +363,7 @@ export class MasterExternalUserUpdateComponent implements OnInit {
       this.myUpdateForm.get('updatecellphone').value,
       this.myUpdateForm.get('updatetelephone').value,
       this.myUpdateForm.get('updateemail').value,
-      this.currentUser.data.id,
+      this.currentUserIdParam,
       this.myUpdateForm.get('updateprofile').value);
       this.submittedUpload = true;
    if ( !this.myUpdateForm.invalid) {
@@ -356,6 +373,16 @@ export class MasterExternalUserUpdateComponent implements OnInit {
     });
     swal.showLoading();
     this.errorProfile = false;
+
+   let active = 0;
+
+   if( this.enabledUpdated===false){
+    console.log('------');
+    console.log(this.enabledUpdated);
+    console.log();
+    active=1;
+   }
+    
     this.userService.updateUser(
     this.myUpdateForm.get('updatename').value,
     this.myUpdateForm.get('updatelastname').value,
@@ -364,8 +391,9 @@ export class MasterExternalUserUpdateComponent implements OnInit {
     this.myUpdateForm.get('updatecellphone').value,
     this.myUpdateForm.get('updatetelephone').value,
     this.myUpdateForm.get('updateemail').value,
-    this.currentUser.data.id,
-    this.myUpdateForm.get('updateprofile').value).then(data => {
+    this.currentUserIdParam,
+    this.myUpdateForm.get('updateprofile').value,
+    active).then(data => {
       const resp: any = data;
       console.log(resp);
       if (resp.error) {
@@ -391,7 +419,7 @@ export class MasterExternalUserUpdateComponent implements OnInit {
      }).then(data=>{
     //  this.getUser();
      });
-     this.router.navigateByUrl('master');
+     // this.router.navigateByUrl('master');
     }
     }).catch(error => {
       console.log(error);
@@ -434,12 +462,16 @@ export class MasterExternalUserUpdateComponent implements OnInit {
     });
 
 
-
   }
 
   changeCheckUpdate(item: any) {
 
     console.log(item);
+  }
+
+
+  goAdminUsers(){
+    this.router.navigateByUrl('master/register');
   }
 
   deleteUser(row: any) {
@@ -698,7 +730,7 @@ export class MasterExternalUserUpdateComponent implements OnInit {
     branchOfficesNumbeUpdate.splice(0,1);
    //Borrar sucursales y volver agregar
    console.log('definitivas '+ branchOfficesNumbeUpdate);
-   this.deleteAllOfficesBranchUser(this.currentUser.data.id, this.currentCustomerUpdated, branchOfficesNumbeUpdate);
+   this.deleteAllOfficesBranchUser(this.currentUserIdParam, this.currentCustomerUpdated, branchOfficesNumbeUpdate);
 
   /*  if(branchOfficesNumbeUpdate.length>0){
       this.restService.createRelationshipUserOffices(this.currentUser.data.id,  branchOfficesNumbeUpdate,  this.currentCustomerUpdated).then(data => {
@@ -812,10 +844,11 @@ export class MasterExternalUserUpdateComponent implements OnInit {
 
 
 updateCustomerOffices(customer) {
+  console.log('Importante información ');
     console.log(customer);
     this.currentCustomer = customer;
 
-      console.log(this.selectedBusinessId);
+    //console.log(this.selectedBusinessId);
       this.idBranchOffices = [1];
 
 
@@ -824,7 +857,7 @@ updateCustomerOffices(customer) {
         allowOutsideClick: false
       });
       swal.showLoading();
-      this.restService.getRelationshipUserOffices(this.currentUser.data.id).then(data => {
+      this.restService.getRelationshipUserOffices(this.currentUserIdParam).then(data => {
         const resp: any = data;
         if (resp.error) {
           swal({
@@ -918,8 +951,8 @@ updateCustomerOffices(customer) {
       allowOutsideClick: false
     });
     swal.showLoading();
-    console.log('iduser'+ this.currentUser.data.id);
-    this.restService.getRelationshipUserOffices(this.currentUser.data.id).then(data => {
+    console.log('iduser'+ this.currentUserIdParam);
+    this.restService.getRelationshipUserOffices(this.currentUserIdParam).then(data => {
       const resp: any = data;
       if (resp.error) {
         swal({
@@ -974,7 +1007,7 @@ updateCustomerOffices(customer) {
 
     
       if(branchOfficesNumber.length>0){
-        this.restService.createRelationshipUserOffices(this.currentUser.data.id,  branchOfficesNumber, clientOffice.idClient).then(data => {
+        this.restService.createRelationshipUserOffices(this.currentUserIdParam,  branchOfficesNumber, clientOffice.idClient).then(data => {
         const resp: any = data;
         this.getRelationshipUserOffices();
         console.log('ole ole');
@@ -1012,15 +1045,15 @@ updateCustomerOffices(customer) {
   }
 
   showClient() {
-  if ( this.showButtonUpdated === 0) {
+  /*if ( this.showButtonUpdated === 0) {
     swal({
       title: 'Error',
       text: 'Debes crear un usuario',
       type: 'error'
      });
-  } else {
+  } else {*/
     document.getElementById( 'relationShipCustomer').click();
-  }
+  //}
 
   }
 
@@ -1031,7 +1064,7 @@ updateCustomerOffices(customer) {
            const resp: any = data;
 
            if(branchOfficesNumbeUpdate.length>0){
-            this.restService.createRelationshipUserOffices(this.currentUser.data.id,  branchOfficesNumbeUpdate,  this.currentCustomerUpdated).then(data => {
+            this.restService.createRelationshipUserOffices(idUser,  branchOfficesNumbeUpdate,  this.currentCustomerUpdated).then(data => {
             const resp: any = data;
             swal({
               title: 'Sucursales actualizadas',
@@ -1069,6 +1102,57 @@ updateCustomerOffices(customer) {
 
   deleteCustomerOffices(customer){
    console.log(customer);
+   this.userService.deleteOfficesBranchUser(this.currentUserIdParam,customer.id).then(data => {
+    const resp: any = data;
+    console.log('Parametros para borrar');
+    console.log(this.currentUserIdParam, customer.id);
+    console.log('respuesta de info');
+    console.log(resp);
+
+    this.restService.getRelationshipUserOffices(this.currentUserIdParam).then(data => {
+      const resp: any = data;
+      console.log('Info');
+      console.log(resp);
+      if (resp.error) {
+        swal({
+          title: 'Error',
+          text: 'Ha ocurrido un error',
+          type: 'error'
+         });
+      } else {
+
+        console.log('info de userOffices para update');
+        console.log(resp.data.customers);
+        if(resp.data.customers){
+          this.rowsClient = resp.data.customers;
+        }
+        
+         swal({
+          title: 'Relación eliminada',
+          text: 'Se ha eliminado correctamente',
+          type: 'success'
+         });
+
+        console.log('customer');
+        console.log(resp.data);
+  
+
+        console.log( resp.data);
+    }
+    }).catch(error => {
+      
+      swal({
+        title:'Error',
+        text: 'Ha ocurrido un error',
+        type: 'error'
+       });
+      console.log(error);
+    });
+
+  }).catch(error => {
+    console.log(error);
+  });
+
   }
 
   }

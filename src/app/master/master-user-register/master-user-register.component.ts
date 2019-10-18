@@ -179,7 +179,7 @@ export class MasterUserRegisterComponent implements OnInit {
     this.myForm.get('password').value,
     this.myForm.get('rpassword').value,
     this.myForm.get('email').value,
-    this.myForm.get('profile').value).then(data => {
+    this.myForm.get('profile').value,0).then(data => {
       const resp: any = data;
       if (resp.error) {
         let msg  = '';
@@ -230,6 +230,7 @@ export class MasterUserRegisterComponent implements OnInit {
     });
     swal.showLoading();
     this.errorProfile = false;
+    
     this.userService.updateUser(
     this.myUpdateForm.get('updatename').value,
     this.myUpdateForm.get('updatelastname').value,
@@ -239,7 +240,7 @@ export class MasterUserRegisterComponent implements OnInit {
     this.myUpdateForm.get('updatetelephone').value,
     this.myUpdateForm.get('updateemail').value,
     this.currentUser.id,
-    this.myUpdateForm.get('updateprofile').value).then(data => {
+    this.myUpdateForm.get('updateprofile').value, 0).then(data => {
       const resp: any = data;
       console.log(resp);
       if (resp.error) {
@@ -359,7 +360,8 @@ export class MasterUserRegisterComponent implements OnInit {
   }
 
   showUpdateUser(row) {
-    console.log(row);
+
+  /*  console.log(row);
     this.currentUser = row;
     console.log( this.currentUser );
     this.myUpdateForm.get('updatename').setValue(row.first_name);
@@ -375,7 +377,9 @@ export class MasterUserRegisterComponent implements OnInit {
       this.enabledUpdated = false;
     }
 
-    document.getElementById( 'uploadUser').click();
+    document.getElementById( 'uploadUser').click();*/
+    console.log(row);
+    this.router.navigateByUrl('master/externalUserUpdate/' + row.id);
 
   }
 

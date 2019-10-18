@@ -366,6 +366,7 @@ updateBrand(brand) {
   ngOnInit() {
   }
 
+
   blockAgents( vadr: any) {
    console.log(vadr);
   }
