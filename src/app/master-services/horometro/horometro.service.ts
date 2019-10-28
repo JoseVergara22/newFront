@@ -4,10 +4,13 @@ import { RequestOptions } from '@angular/http';
 import { map, catchError, tap } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { Observable} from 'rxjs/Observable';
+import { environment } from './../../../environments/environment';
 import 'rxjs/add/operator/map';
 
 @Injectable()
 export class HorometroService {
+
+apiEndPoint = environment.apiBaseUrl;
 
   constructor(private http: HttpClient, private router: Router) { }
 
@@ -21,7 +24,7 @@ export class HorometroService {
         })
       };
 
-      this.http.get('http://34.207.70.171/api/forklifts', httpOptions)
+      this.http.get(this.apiEndPoint+'api/forklifts', httpOptions)
       .map(res => res).subscribe(data => {
         console.log("a mostrar data");
       console.log(data);
@@ -58,7 +61,7 @@ export class HorometroService {
         h_current:h_current
       }
 
-      this.http.patch('http://34.207.70.171/api/forklifts/'+id, patchParams,httpOptions)
+      this.http.patch(this.apiEndPoint+'api/forklifts/'+id, patchParams,httpOptions)
       .map(res => res).subscribe(data => {
         console.log("a mostrar data");
         console.log(data);
@@ -83,7 +86,7 @@ export class HorometroService {
       const patchParams={
         h_current:h_current
       }
-      this.http.patch('http://34.207.70.171/api/updateHorometer/'+id, patchParams,httpOptions)
+      this.http.patch(this.apiEndPoint+'api/updateHorometer/'+id, patchParams,httpOptions)
       .map(res => res).subscribe(data => {
         console.log("a mostrar data");
       console.log(data);

@@ -4,10 +4,12 @@ import { RequestOptions } from '@angular/http';
 import { map, catchError, tap } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { Observable} from 'rxjs/Observable';
+import { environment } from './../../../environments/environment';
 import 'rxjs/add/operator/map';
 
 @Injectable()
 export class ForkliftService {
+apiEndPoint = environment.apiBaseUrl;
 
 constructor(private http: HttpClient, private router: Router) { }
 
@@ -20,7 +22,7 @@ constructor(private http: HttpClient, private router: Router) { }
           'Accept': 'application/json'
         })
       };
-      this.http.get('http://34.207.70.171/api/forklifts', httpOptions)
+      this.http.get(this.apiEndPoint+'api/forklifts', httpOptions)
       .map(res => res).subscribe(data => {
       console.log("a mostrar data");
       console.log(data);
@@ -41,7 +43,7 @@ constructor(private http: HttpClient, private router: Router) { }
           'Accept': 'application/json'
         })
       };
-      this.http.get('http://34.207.70.171/api/forklifts_customer/'+idCustomer, httpOptions)
+      this.http.get(this.apiEndPoint+'api/forklifts_customer/'+idCustomer, httpOptions)
       .map(res => res).subscribe(data => {
       console.log("a mostrar data");
       console.log(data);
@@ -63,7 +65,7 @@ constructor(private http: HttpClient, private router: Router) { }
           'Accept': 'application/json'
         })
       };
-      this.http.get('http://34.207.70.171/api/forklifts_branch/'+idBranch, httpOptions)
+      this.http.get(this.apiEndPoint+'api/forklifts_branch/'+idBranch, httpOptions)
       .map(res => res).subscribe(data => {
       console.log("a mostrar data");
       console.log(data);
@@ -85,7 +87,7 @@ getForklift(id: number){
           'Accept': 'application/json'
         })
       };
-      this.http.get('http://34.207.70.171/api/forklifts/'+id, httpOptions)
+      this.http.get(this.apiEndPoint+'api/forklifts/'+id, httpOptions)
       .map(res => res).subscribe(data => {
       console.log("a mostrar data");
       console.log(data);
@@ -107,7 +109,7 @@ getDetailsForkliftRoutine(id: number){
           'Accept': 'application/json'
         })
       };
-      this.http.get('http://34.207.70.171/api/forklift_routine_details/'+id, httpOptions)
+      this.http.get(this.apiEndPoint+'api/forklift_routine_details/'+id, httpOptions)
       .map(res => res).subscribe(data => {
       console.log("a mostrar data");
       console.log(data);
@@ -130,7 +132,7 @@ getForkliftImage(id: number){
           'Accept': 'application/json'
         })
       };
-      this.http.get('http://34.207.70.171/api/forklift_images/'+id, httpOptions)
+      this.http.get(this.apiEndPoint+'api/forklift_images/'+id, httpOptions)
       .map(res => res).subscribe(data => {
       console.log("a mostrar data");
       console.log(data);
@@ -152,7 +154,7 @@ getForkliftImage(id: number){
           'Accept': 'application/json'
         })
       };
-      this.http.delete('http://34.207.70.171/api/delete_all_forklift_images?fork_lift_id='+forklift_id,httpOptions)
+      this.http.delete(this.apiEndPoint+'api/delete_all_forklift_images?fork_lift_id='+forklift_id,httpOptions)
       .map(res => res).subscribe(data => {
         console.log("a mostrar data");
         console.log(data);
@@ -175,7 +177,7 @@ getForkliftImage(id: number){
           'Accept': 'application/json'
         })
       };
-      this.http.delete('http://34.207.70.171/api/forklift_routine_details?fork_lift_id='+forklift_id,httpOptions)
+      this.http.delete(this.apiEndPoint+'api/forklift_routine_details?fork_lift_id='+forklift_id,httpOptions)
       .map(res => res).subscribe(data => {
         console.log("a mostrar data");
         console.log(data);

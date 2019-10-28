@@ -4,9 +4,12 @@ import { RequestOptions } from '@angular/http';
 import { map, catchError, tap } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
+import { environment } from './../../../environments/environment';
 import 'rxjs/add/operator/map';
 @Injectable()
 export class RestService {
+
+apiEndPoint = environment.apiBaseUrl;
 
   constructor(private http: HttpClient, private router: Router) { }
 
@@ -43,7 +46,7 @@ export class RestService {
         username: username,
         profile_id: profileId
       };
-      this.http.post('http://34.207.70.171/api/auth/signup', postParams)
+      this.http.post(this.apiEndPoint+'api/auth/signup', postParams)
         .map(res => res).subscribe(data => {
           resolve(data);
         }, error => {
@@ -75,7 +78,7 @@ export class RestService {
         ids_branch_offices: ids_branch_offices,
         id_customer: id_customer
       };
-      this.http.post('http://34.207.70.171/api/branch_offices_users', postParams, httpOptions)
+      this.http.post(this.apiEndPoint+'api/branch_offices_users', postParams, httpOptions)
         .map(res => res).subscribe(data => {
           resolve(data);
         }, error => {
@@ -97,7 +100,7 @@ export class RestService {
           'Accept': 'application/json'
         })
       };
-      this.http.get('http://34.207.70.171/api/branch_offices_users?id_user= ' + idUser, httpOptions)
+      this.http.get(this.apiEndPoint+'api/branch_offices_users?id_user= ' + idUser, httpOptions)
         .map(res => res).subscribe(data => {
           console.log(data);
           resolve(data);
@@ -125,7 +128,7 @@ export class RestService {
         description: description,
         status: status
       };
-      this.http.post('http://34.207.70.171/api/brands', postParams, httpOptions)
+      this.http.post(this.apiEndPoint+'api/brands', postParams, httpOptions)
         .map(res => res).subscribe(data => {
 
           resolve(data);
@@ -152,7 +155,7 @@ export class RestService {
         description: description,
         status: status
       };
-      this.http.patch('http://34.207.70.171/api/brands/' + id, postParams, httpOptions)
+      this.http.patch(this.apiEndPoint+'api/brands/' + id, postParams, httpOptions)
         .map(res => res).subscribe(data => {
           resolve(data);
         }, error => {
@@ -177,7 +180,7 @@ export class RestService {
       };
       const postParams = {
       };
-      this.http.delete('http://34.207.70.171/api/brands/' + id, httpOptions)
+      this.http.delete(this.apiEndPoint+'api/brands/' + id, httpOptions)
         .map(res => res).subscribe(data => {
           resolve(data);
         }, error => {
@@ -202,7 +205,7 @@ export class RestService {
       };
       const postParams = {
       };
-      this.http.delete('http://34.207.70.171/api/branch_offices/' + id, httpOptions)
+      this.http.delete(this.apiEndPoint+'api/branch_offices/' + id, httpOptions)
         .map(res => res).subscribe(data => {
           resolve(data);
         }, error => {
@@ -247,7 +250,7 @@ export class RestService {
         city_id: city_id,
         department_id: department_id
       };
-      this.http.post('http://34.207.70.171/api/customers ', postParams, httpOptions)
+      this.http.post(this.apiEndPoint+'api/customers ', postParams, httpOptions)
         .map(res => res).subscribe(data => {
           resolve(data);
         }, error => {
@@ -291,7 +294,7 @@ export class RestService {
         city_id: city_id,
         department_id: department_id
       };
-      this.http.patch('http://34.207.70.171/api/customers/' + id, postParams, httpOptions)
+      this.http.patch(this.apiEndPoint+'api/customers/' + id, postParams, httpOptions)
         .map(res => res).subscribe(data => {
           console.log(data);
           resolve(data);
@@ -318,7 +321,7 @@ export class RestService {
       };
       const postParams = {
       };
-      this.http.delete('http://34.207.70.171/api/customers/' + id, httpOptions)
+      this.http.delete(this.apiEndPoint+'api/customers/' + id, httpOptions)
         .map(res => res).subscribe(data => {
           resolve(data);
         }, error => {
@@ -393,7 +396,7 @@ export class RestService {
     alarm: alarm,
     observation: observation
       };
-      this.http.post('http://34.207.70.171/api/forklifts', postParams, httpOptions)
+      this.http.post(this.apiEndPoint+'api/forklifts', postParams, httpOptions)
         .map(res => res).subscribe(data => {
           resolve(data);
         }, error => {
@@ -468,7 +471,7 @@ export class RestService {
     alarm: alarm,
     observation: observation
       };
-      this.http.patch('http://34.207.70.171/api/forklifts/'+idForlift, postParams, httpOptions)
+      this.http.patch(this.apiEndPoint+'api/forklifts/'+idForlift, postParams, httpOptions)
         .map(res => res).subscribe(data => {
           resolve(data);
         }, error => {
@@ -494,7 +497,7 @@ export class RestService {
         description: description,
         status: status
       };
-      this.http.post('http://34.207.70.171/api/tyres', postParams, httpOptions)
+      this.http.post(this.apiEndPoint+'api/tyres', postParams, httpOptions)
         .map(res => res).subscribe(data => {
           resolve(data);
         }, error => {
@@ -521,7 +524,7 @@ export class RestService {
         description: description,
         status: status
       };
-      this.http.patch('http://34.207.70.171/api/tyres/' + id, postParams, httpOptions)
+      this.http.patch(this.apiEndPoint+'api/tyres/' + id, postParams, httpOptions)
         .map(res => res).subscribe(data => {
           resolve(data);
         }, error => {
@@ -546,7 +549,7 @@ export class RestService {
       };
       const postParams = {
       };
-      this.http.delete('http://34.207.70.171/api/tyres/' + id, httpOptions)
+      this.http.delete(this.apiEndPoint+'api/tyres/' + id, httpOptions)
         .map(res => res).subscribe(data => {
           resolve(data);
         }, error => {
@@ -574,7 +577,7 @@ export class RestService {
         brand_id: brand,
         status: status
       };
-      this.http.post('http://34.207.70.171/api/models', postParams, httpOptions)
+      this.http.post(this.apiEndPoint+'api/models', postParams, httpOptions)
         .map(res => res).subscribe(data => {
 
           resolve(data);
@@ -603,7 +606,7 @@ export class RestService {
         brand_id: brand,
         status: status
       };
-      this.http.patch('http://34.207.70.171/api/models/' + id, patchParams, httpOptions)
+      this.http.patch(this.apiEndPoint+'api/models/' + id, patchParams, httpOptions)
         .map(res => res).subscribe(data => {
           resolve(data);
         }, error => {
@@ -629,7 +632,7 @@ export class RestService {
         type: type,
         status: status
       };
-      this.http.post('http://34.207.70.171/api/fuels', postParams, httpOptions)
+      this.http.post(this.apiEndPoint+'api/fuels', postParams, httpOptions)
         .map(res => res).subscribe(data => {
           resolve(data);
         }, error => {
@@ -657,7 +660,7 @@ export class RestService {
         type: type,
         status: status
       };
-      this.http.patch('http://34.207.70.171/api/fuels/' + id, postParams, httpOptions)
+      this.http.patch(this.apiEndPoint+'api/fuels/' + id, postParams, httpOptions)
         .map(res => res).subscribe(data => {
           resolve(data);
         }, error => {
@@ -682,7 +685,7 @@ export class RestService {
       };
       const postParams = {
       };
-      this.http.delete('http://34.207.70.171/api/fuels/' + id, httpOptions)
+      this.http.delete(this.apiEndPoint+'api/fuels/' + id, httpOptions)
         .map(res => res).subscribe(data => {
           resolve(data);
         }, error => {
@@ -707,7 +710,7 @@ export class RestService {
       };
       const postParams = {
       };
-      this.http.delete('http://34.207.70.171/api/models/' + id, httpOptions)
+      this.http.delete(this.apiEndPoint+'api/models/' + id, httpOptions)
         .map(res => res).subscribe(data => {
           resolve(data);
         }, error => {
@@ -733,7 +736,7 @@ export class RestService {
         description: description,
         status: status
       };
-      this.http.post('http://34.207.70.171/api/machines', postParams, httpOptions)
+      this.http.post(this.apiEndPoint+'api/machines', postParams, httpOptions)
         .map(res => res).subscribe(data => {
           resolve(data);
         }, error => {
@@ -763,7 +766,7 @@ export class RestService {
         description: description,
         status: status
       };
-      this.http.patch('http://34.207.70.171/api/machines/' + id, patchParams,httpOptions)
+      this.http.patch(this.apiEndPoint+'api/machines/' + id, patchParams,httpOptions)
         .map(res => res).subscribe(data => {
           resolve(data);
         }, error => {
@@ -788,7 +791,7 @@ export class RestService {
       };
       const postParams = {
       };
-      this.http.delete('http://34.207.70.171/api/machines/' + id, httpOptions)
+      this.http.delete(this.apiEndPoint+'api/machines/' + id, httpOptions)
         .map(res => res).subscribe(data => {
           resolve(data);
         }, error => {
@@ -815,7 +818,7 @@ export class RestService {
         day: day,
         status: status
       };
-      this.http.post('http://34.207.70.171/api/payment_conditions', postParams, httpOptions)
+      this.http.post(this.apiEndPoint+'api/payment_conditions', postParams, httpOptions)
         .map(res => res).subscribe(data => {
           resolve(data);
         }, error => {
@@ -843,7 +846,7 @@ export class RestService {
         day: day,
         status: status
       };
-      this.http.patch('http://34.207.70.171/api/payment_conditions/' + id, postParams, httpOptions)
+      this.http.patch(this.apiEndPoint+'api/payment_conditions/' + id, postParams, httpOptions)
         .map(res => res).subscribe(data => {
           resolve(data);
         }, error => {
@@ -863,7 +866,7 @@ export class RestService {
           'Accept': 'application/json'
         })
       };
-      this.http.delete('http://34.207.70.171/api/payment_conditions/' + id, httpOptions)
+      this.http.delete(this.apiEndPoint+'api/payment_conditions/' + id, httpOptions)
         .map(res => res).subscribe(data => {
           console.log("mostrar data");
           console.log(data);
@@ -889,7 +892,7 @@ export class RestService {
           'Accept': 'application/json'
         })
       };
-      this.http.get('http://34.207.70.171/api/type_documents', httpOptions)
+      this.http.get(this.apiEndPoint+'api/type_documents', httpOptions)
         .map(res => res).subscribe(data => {
           console.log(data);
           resolve(data);
@@ -915,7 +918,7 @@ export class RestService {
         description: description,
         status: status
       };
-      this.http.post('http://34.207.70.171/api/type_documents', postParams, httpOptions)
+      this.http.post(this.apiEndPoint+'api/type_documents', postParams, httpOptions)
         .map(res => res).subscribe(data => {
           console.log("datos");
           console.log(data);
@@ -945,7 +948,7 @@ export class RestService {
         description: description,
         status: status
       };
-      this.http.patch('http://34.207.70.171/api/type_documents/' + id, postParams, httpOptions)
+      this.http.patch(this.apiEndPoint+'api/type_documents/' + id, postParams, httpOptions)
         .map(res => res).subscribe(data => {
           resolve(data);
         }, error => {
@@ -969,7 +972,7 @@ export class RestService {
       };
       const postParams = {
       };
-      this.http.delete('http://34.207.70.171/api/type_documents/' + id, httpOptions)
+      this.http.delete(this.apiEndPoint+'api/type_documents/' + id, httpOptions)
         .map(res => res).subscribe(data => {
           resolve(data);
         }, error => {
@@ -991,7 +994,7 @@ export class RestService {
           'Accept': 'application/json'
         })
       };
-      this.http.get('http://34.207.70.171/api/departments', httpOptions)
+      this.http.get(this.apiEndPoint+'api/departments', httpOptions)
         .map(res => res).subscribe(data => {
           console.log(data);
           resolve(data);
@@ -1013,7 +1016,7 @@ export class RestService {
           'Accept': 'application/json'
         })
       };
-      this.http.get('http://34.207.70.171/api/cities/' + idDepartamento, httpOptions)
+      this.http.get(this.apiEndPoint+'api/cities/' + idDepartamento, httpOptions)
         .map(res => res).subscribe(data => {
           console.log(data);
           resolve(data);
@@ -1038,7 +1041,7 @@ export class RestService {
           'Accept': 'application/json'
         })
       };
-      this.http.get('http://34.207.70.171/api/price_list', httpOptions)
+      this.http.get(this.apiEndPoint+'api/price_list', httpOptions)
         .map(res => res).subscribe(data => {
           console.log(data);
           resolve(data);
@@ -1062,7 +1065,7 @@ export class RestService {
           'Accept': 'application/json'
         })
       };
-      this.http.get('http://34.207.70.171/api/brands', httpOptions)
+      this.http.get(this.apiEndPoint+'api/brands', httpOptions)
         .map(res => res).subscribe(data => {
           console.log(data);
           resolve(data);
@@ -1085,7 +1088,7 @@ export class RestService {
           'Accept': 'application/json'
         })
       };
-      this.http.get('http://34.207.70.171/api/fuels', httpOptions)
+      this.http.get(this.apiEndPoint+'api/fuels', httpOptions)
         .map(res => res).subscribe(data => {
           console.log(data);
           resolve(data);
@@ -1107,7 +1110,7 @@ export class RestService {
           'Accept': 'application/json'
         })
       };
-      this.http.get('http://34.207.70.171/api/tyres', httpOptions)
+      this.http.get(this.apiEndPoint+'api/tyres', httpOptions)
         .map(res => res).subscribe(data => {
           console.log(data);
           resolve(data);
@@ -1129,7 +1132,7 @@ export class RestService {
           'Accept': 'application/json'
         })
       };
-      this.http.get('http://34.207.70.171/api/models', httpOptions)
+      this.http.get(this.apiEndPoint+'api/models', httpOptions)
         .map(res => res).subscribe(data => {
           console.log(data);
           resolve(data);
@@ -1154,7 +1157,7 @@ export class RestService {
           'Accept': 'application/json'
         })
       };
-      this.http.get('http://34.207.70.171/api/brands_model/' + id, httpOptions)
+      this.http.get(this.apiEndPoint+'api/brands_model/' + id, httpOptions)
         .map(res => res).subscribe(data => {
           console.log(data);
           resolve(data);
@@ -1180,7 +1183,7 @@ export class RestService {
           'Accept': 'application/json'
         })
       };
-      this.http.get('http://34.207.70.171/api/payment_conditions', httpOptions)
+      this.http.get(this.apiEndPoint+'api/payment_conditions', httpOptions)
         .map(res => res).subscribe(data => {
           console.log(data);
           resolve(data);
@@ -1204,7 +1207,7 @@ export class RestService {
           'Accept': 'application/json'
         })
       };
-      this.http.get('http://34.207.70.171/api/machines', httpOptions)
+      this.http.get(this.apiEndPoint+'api/machines', httpOptions)
         .map(res => res).subscribe(data => {
           console.log(data);
           resolve(data);
@@ -1240,7 +1243,7 @@ export class RestService {
         scope: '*'
       };
       //  alert (postParams.toString());
-      this.http.post('http://34.207.70.171/oauth/token', postParams)
+      this.http.post(this.apiEndPoint+'oauth/token', postParams)
         .map(res => res)
         .subscribe(data => {
           const ole = data;
@@ -1265,7 +1268,7 @@ export class RestService {
           'Accept': 'application/json'
         })
       };
-      this.http.get('http://34.207.70.171/api/show_masters', httpOptions)
+      this.http.get(this.apiEndPoint+'api/show_masters', httpOptions)
         .map(res => res).subscribe(data => {
           console.log(data);
           resolve(data);
@@ -1287,7 +1290,7 @@ export class RestService {
           'Accept': 'application/json'
         })
       };
-      this.http.get('http://34.207.70.171/api/customers', httpOptions)
+      this.http.get(this.apiEndPoint+'api/customers', httpOptions)
         .map(res => res).subscribe(data => {
           console.log(data);
           resolve(data);
@@ -1309,7 +1312,7 @@ export class RestService {
           'Accept': 'application/json'
         })
       };
-      this.http.get('http://34.207.70.171/api/customers/'+id, httpOptions)
+      this.http.get(this.apiEndPoint+'api/customers/'+id, httpOptions)
         .map(res => res).subscribe(data => {
           console.log(data);
           resolve(data);
@@ -1331,7 +1334,7 @@ export class RestService {
           'Accept': 'application/json'
         })
       };
-      this.http.get('http://34.207.70.171/api/customers_branchoffice/' + idCustomer, httpOptions)
+      this.http.get(this.apiEndPoint+'api/customers_branchoffice/' + idCustomer, httpOptions)
         .map(res => res).subscribe(data => {
           console.log(data);
           resolve(data);
@@ -1353,7 +1356,7 @@ export class RestService {
           'Accept': 'application/json'
         })
       };
-      this.http.get('http://34.207.70.171/api/branch_offices', httpOptions)
+      this.http.get(this.apiEndPoint+'api/branch_offices', httpOptions)
         .map(res => res).subscribe(data => {
           console.log(data);
           resolve(data);
@@ -1392,7 +1395,7 @@ export class RestService {
         department_id: department_id,
         status: status
       };
-      this.http.post('http://34.207.70.171/api/branch_offices ', postParams, httpOptions)
+      this.http.post(this.apiEndPoint+'api/branch_offices ', postParams, httpOptions)
         .map(res => res).subscribe(data => {
           resolve(data);
         }, error => {
@@ -1437,7 +1440,7 @@ export class RestService {
         department_id: department_id,
         status: status
       };
-      this.http.patch('http://34.207.70.171/api/branch_offices/' + id, postParams, httpOptions)
+      this.http.patch(this.apiEndPoint+'api/branch_offices/' + id, postParams, httpOptions)
         .map(res => res).subscribe(data => {
           resolve(data);
         }, error => {
@@ -1522,7 +1525,7 @@ export class RestService {
       headers.append('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
       headers.append('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
       headers.append('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
-      return this.http.post('http://34.207.70.171/api/registrar', params, { headers: headers });
+      return this.http.post(this.apiEndPoint+'api/registrar', params, { headers: headers });
     } catch (error) {
       console.log(error);
     }

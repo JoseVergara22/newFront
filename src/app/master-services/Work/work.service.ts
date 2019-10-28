@@ -3,11 +3,13 @@ import { HttpClient, HttpHeaders, HttpErrorResponse, HttpHeaderResponse} from '@
 import { RequestOptions } from '@angular/http';
 import { map, catchError, tap } from 'rxjs/operators';
 import { Router } from '@angular/router';
+import { environment } from './../../../environments/environment';
 import { Observable} from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
 
 @Injectable()
 export class WorkService {
+  apiEndPoint = environment.apiBaseUrl;
 
   constructor(private http: HttpClient, private router: Router) { }
 
@@ -21,7 +23,7 @@ export class WorkService {
         })
       };
       
-      this.http.get('http://34.207.70.171/api/routines', httpOptions)
+      this.http.get(this.apiEndPoint+'api/routines', httpOptions)
       .map(res => res).subscribe(data => {
         console.log("a mostrar data");
       console.log(data);
@@ -43,7 +45,7 @@ export class WorkService {
         })
       };
       
-      this.http.get('http://34.207.70.171/api/routines/'+id, httpOptions)
+      this.http.get(this.apiEndPoint+'api/routines/'+id, httpOptions)
       .map(res => res).subscribe(data => {
         console.log("a mostrar data");
       console.log(data);
@@ -65,7 +67,7 @@ export class WorkService {
         })
       };
       
-      this.http.delete('http://34.207.70.171/api/routine_works/'+id, httpOptions)
+      this.http.delete(this.apiEndPoint+'api/routine_works/'+id, httpOptions)
       .map(res => res).subscribe(data => {
         console.log("a mostrar data");
       console.log(data);
@@ -87,7 +89,7 @@ export class WorkService {
         })
       };
       
-      this.http.delete('http://34.207.70.171/api/routines/'+id, httpOptions)
+      this.http.delete(this.apiEndPoint+'api/routines/'+id, httpOptions)
       .map(res => res).subscribe(data => {
         console.log("a mostrar data");
       console.log(data);
@@ -115,7 +117,7 @@ export class WorkService {
         observation:observation
       }
       console.log(postParams);
-      this.http.post('http://34.207.70.171/api/routines', postParams,httpOptions)
+      this.http.post(this.apiEndPoint+'api/routines', postParams,httpOptions)
       .map(res => res).subscribe(data => {
         console.log("a mostrar data");
       console.log(data);
@@ -137,7 +139,7 @@ export class WorkService {
         })
       };
       
-      this.http.get('http://34.207.70.171/api/routines/'+id, httpOptions)
+      this.http.get(this.apiEndPoint+'api/routines/'+id, httpOptions)
       .map(res => res).subscribe(data => {
         console.log("a mostrar data");
       console.log(data);
@@ -171,7 +173,7 @@ export class WorkService {
         observation:observation
       }
       
-      this.http.patch('http://34.207.70.171/api/routines/'+id, patchParams,httpOptions)
+      this.http.patch(this.apiEndPoint+'api/routines/'+id, patchParams,httpOptions)
       .map(res => res).subscribe(data => {
         console.log("a mostrar data");
       console.log(data);
@@ -200,7 +202,7 @@ export class WorkService {
         status: 0
       };
       
-      this.http.post('http://34.207.70.171/api/routine_works', postParams, httpOptions)
+      this.http.post(this.apiEndPoint+'api/routine_works', postParams, httpOptions)
       .map(res => res).subscribe(data => {
         console.log("a mostrar data");
       console.log(data);
@@ -230,7 +232,7 @@ export class WorkService {
         status: 0
       }
       
-      this.http.patch('http://34.207.70.171/api/routine_works/'+id, postParams,httpOptions)
+      this.http.patch(this.apiEndPoint+'api/routine_works/'+id, postParams,httpOptions)
       .map(res => res).subscribe(data => {
         console.log("a mostrar data");
       console.log(data);
@@ -259,7 +261,7 @@ export class WorkService {
         status: 0
       };
       
-      this.http.post('http://34.207.70.171/api/routine_details', postParams, httpOptions)
+      this.http.post(this.apiEndPoint+'api/routine_details', postParams, httpOptions)
       .map(res => res).subscribe(data => {
         console.log("a mostrar data");
       console.log(data);
@@ -286,7 +288,7 @@ export class WorkService {
         name: name
       };
       
-      this.http.post('http://34.207.70.171/api/image_forklift', postParams, httpOptions)
+      this.http.post(this.apiEndPoint+'api/image_forklift', postParams, httpOptions)
       .map(res => res).subscribe(data => {
         console.log("a mostrar data");
       console.log(data);

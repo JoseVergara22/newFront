@@ -5,9 +5,14 @@ import { map, catchError, tap } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { Observable} from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
+import { environment } from './../../../environments/environment';
+
+
 
 @Injectable()
 export class UserService {
+  
+apiEndPoint = environment.apiBaseUrl;
 
   constructor(private http: HttpClient, private router: Router ) { }
 
@@ -40,7 +45,7 @@ return new Promise(resolve => {
         profile_id: profileId,
         active: active
       };
-this.http.post('http://34.207.70.171/api/auth/signup', postParams)
+this.http.post(this.apiEndPoint+'api/auth/signup', postParams)
 .map(res => res).subscribe(data => {
 resolve(data);
 }, error => {
@@ -85,7 +90,7 @@ resolve(data);
                 active:active
               };
               console.log('pasa los headers ');
-        this.http.patch('http://34.207.70.171/api/users/' + id, patchParams, httpOptions)
+        this.http.patch(this.apiEndPoint+'api/users/' + id, patchParams, httpOptions)
         .map(res => res).subscribe(data => {
           console.log('retorna data');
           console.log(data);
@@ -107,7 +112,7 @@ resolve(data);
           })
         };
         
-        this.http.get('http://34.207.70.171/api/auth/password/find/'+token, httpOptions)
+        this.http.get(this.apiEndPoint+'api/auth/password/find/'+token, httpOptions)
         .map(res => res).subscribe(data => {
         console.log(data);
         resolve(data);
@@ -135,7 +140,7 @@ resolve(data);
           })
         };
         
-        this.http.get('http://34.207.70.171/api/users', httpOptions)
+        this.http.get(this.apiEndPoint+'api/users', httpOptions)
         .map(res => res).subscribe(data => {
         console.log(data);
         resolve(data);
@@ -159,7 +164,7 @@ resolve(data);
           })
         };
         
-        this.http.get('http://34.207.70.171/api/users/'+id, httpOptions)
+        this.http.get(this.apiEndPoint+'api/users/'+id, httpOptions)
         .map(res => res).subscribe(data => {
         console.log(data);
         resolve(data);
@@ -188,7 +193,7 @@ resolve(data);
           token:token
         };
         console.log(postParams);
-        this.http.post('http://34.207.70.171/api/auth/password/reset',postParams, httpOptions)
+        this.http.post(this.apiEndPoint+'api/auth/password/reset',postParams, httpOptions)
         .map(res => res).subscribe(data => {
         console.log(data);
         resolve(data);
@@ -213,7 +218,7 @@ resolve(data);
             'Accept': 'application/json'
           })
         };
-        this.http.get('http://34.207.70.171/api/all_branch_offices_users', httpOptions)
+        this.http.get(this.apiEndPoint+'api/all_branch_offices_users', httpOptions)
         .map(res => res).subscribe(data => {
         console.log(data);
         resolve(data);
@@ -236,7 +241,7 @@ resolve(data);
             'Accept': 'application/json'
           })
         };
-        this.http.get('http://34.207.70.171/api/branch_offices_users?id_user='+idUser, httpOptions)
+        this.http.get(this.apiEndPoint+'api/branch_offices_users?id_user='+idUser, httpOptions)
         .map(res => res).subscribe(data => {
         console.log(data);
         resolve(data);
@@ -258,7 +263,7 @@ resolve(data);
           id_user: id_user,
           ids_branch_offices: ids_branch_offices
         };
-  this.http.post('http://34.207.70.171/api/branch_offices_users', postParams)
+  this.http.post(this.apiEndPoint+'api/branch_offices_users', postParams)
   .map(res => res).subscribe(data => {
   console.log('ingreso');
   console.log(data);
@@ -284,7 +289,7 @@ resolve(data);
         const postParams = {
           email: email
         };
-        this.http.post('http://34.207.70.171/api/auth/password/create', postParams, httpOptions)
+        this.http.post(this.apiEndPoint+'api/auth/password/create', postParams, httpOptions)
         .map(res => res).subscribe(data => {
         console.log(data);
         resolve(data);
@@ -313,7 +318,7 @@ resolve(data);
           })
         };
         
-        this.http.delete('http://34.207.70.171/api/users/' + id, httpOptions)
+        this.http.delete(this.apiEndPoint+'api/users/' + id, httpOptions)
         .map(res => res).subscribe(data => {
         console.log(data);
         resolve(data);
@@ -348,7 +353,9 @@ resolve(data);
              scope: '*'
            };
          //  alert (postParams.toString());
-           this.http.post('http://34.207.70.171/oauth/token', postParams)
+         console.log('llamando el servicio');
+         console.log(this.apiEndPoint);
+           this.http.post(this.apiEndPoint+'oauth/token', postParams)
              .map(res => res)
              .subscribe(data => {
                const ole =  data;
@@ -371,7 +378,7 @@ resolve(data);
                   'Accept': 'application/json'
                 })
               };
-              this.http.delete('http://34.207.70.171/api/delete_all_branch_offices_users?id_user='+idUser+'&id_customer='+idCustomer,httpOptions)
+              this.http.delete(this.apiEndPoint+'api/delete_all_branch_offices_users?id_user='+idUser+'&id_customer='+idCustomer,httpOptions)
               .map(res => res).subscribe(data => {
                 console.log("a mostrar data");
                 console.log(data);

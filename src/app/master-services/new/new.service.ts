@@ -4,10 +4,13 @@ import { RequestOptions } from '@angular/http';
 import { map, catchError, tap } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { Observable} from 'rxjs/Observable';
+import { environment } from './../../../environments/environment';
 import 'rxjs/add/operator/map';
 
 @Injectable()
 export class NewService {
+  
+apiEndPoint = environment.apiBaseUrl;
 
   constructor(private http: HttpClient, 
               private router: Router) { }
@@ -37,7 +40,7 @@ export class NewService {
               name: name,
               description: description
             };
-      this.http.post('http://34.207.70.171/api/image_news', postParams,httpOptions)
+      this.http.post(this.apiEndPoint+'api/image_news', postParams,httpOptions)
       .map(res => res).subscribe(data => {
       resolve(data);
       }, error => {
@@ -71,7 +74,7 @@ export class NewService {
             name: name,
             description: description
           };
-    this.http.post('http://34.207.70.171/api/image_news', postParams,httpOptions)
+    this.http.post(this.apiEndPoint+'api/image_news', postParams,httpOptions)
     .map(res => res).subscribe(data => {
     resolve(data);
     }, error => {
@@ -94,7 +97,7 @@ export class NewService {
           })
         };
         console.log(  'Authorization : Bearer ' + localStorage.getItem('token_user') );
-        this.http.get('http://34.207.70.171/api/news', httpOptions)
+        this.http.get(this.apiEndPoint+'api/news', httpOptions)
         .map(res => res).subscribe(data => {
         console.log(data);
         resolve(data);
@@ -116,7 +119,7 @@ export class NewService {
             'Accept': 'application/json'
           })
         };
-        this.http.get('http://34.207.70.171/api/image_news', httpOptions)
+        this.http.get(this.apiEndPoint+'api/image_news', httpOptions)
         .map(res => res).subscribe(data => {
         console.log(data);
         resolve(data);
@@ -149,7 +152,7 @@ export class NewService {
             text:text,
             status: status
           };
-          this.http.post('http://34.207.70.171/api/news', postParams,httpOptions)
+          this.http.post(this.apiEndPoint+'api/news', postParams,httpOptions)
           .map(res => res).subscribe(data => {
           resolve(data);
           }, error => {
@@ -174,7 +177,7 @@ export class NewService {
                 };
                 const postParams = {
                 };
-          this.http.delete('http://34.207.70.171/api/news/' + id, httpOptions)
+          this.http.delete(this.apiEndPoint+'api/news/' + id, httpOptions)
           .map(res => res).subscribe(data => {
           resolve(data);
           }, error => {
@@ -206,7 +209,7 @@ export class NewService {
                       text:text,
                       status: status
                     };
-              this.http.patch('http://34.207.70.171/api/news/' + id, postParams, httpOptions)
+              this.http.patch(this.apiEndPoint+'api/news/' + id, postParams, httpOptions)
               .map(res => res).subscribe(data => {
               resolve(data);
               }, error => {
@@ -241,7 +244,7 @@ export class NewService {
                     name: name,
                     description: description
                   };
-            this.http.patch('http://34.207.70.171/api/image_news/' + image_id, postParams, httpOptions)
+            this.http.patch(this.apiEndPoint+'api/image_news/' + image_id, postParams, httpOptions)
             .map(res => res).subscribe(data => {
             resolve(data);
             }, error => {
