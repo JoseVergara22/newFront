@@ -33,6 +33,7 @@ export class MasterHorometroComponent implements OnInit {
   inactive = false;
   enabledUpdated = false;
 
+  // ejemplo
   filterIndicatorText = false;
   filterIndicatorCheck = false;
 
