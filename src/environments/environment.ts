@@ -6,5 +6,7 @@
 export const environment = {
   production: false,
   name:"(DEV)",
-  apiBaseUrl:"http://34.207.70.171/"
+  apiBaseUrl:"http://34.207.70.171/",
+  clientId: '1',
+  clientSecret: 'TyG8pFzcGI7nTIt31FzFCwnvF0E8t70OSAIyrwWT',
 };

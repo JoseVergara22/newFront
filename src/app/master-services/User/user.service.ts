@@ -13,7 +13,9 @@ import { environment } from './../../../environments/environment';
 export class UserService {
   
 apiEndPoint = environment.apiBaseUrl;
-
+apiClientId = environment.clientId;
+apiClientSecret = environment.clientSecret;
+             
   constructor(private http: HttpClient, private router: Router ) { }
 
   createUserInternal( firstName: string,
@@ -346,8 +348,8 @@ resolve(data);
 
       const postParams = {
        grant_type: 'password',
-             client_id: '1',
-             client_secret: 'TyG8pFzcGI7nTIt31FzFCwnvF0E8t70OSAIyrwWT',
+             client_id: this.apiClientId,
+             client_secret: this.apiClientSecret,
              username: email,
              password: password,
              scope: '*'
