@@ -29,8 +29,8 @@ export class MasterPaymentConditionComponent implements OnInit {
   change = true;
   active = false;
   inactive = false;
-  enabledUpdated = false;
-
+  enabledUpdated ;
+  enabledcreated =true;
   filterIndicatorText = false;
   filterIndicatorCheck = false;
 
@@ -154,14 +154,12 @@ export class MasterPaymentConditionComponent implements OnInit {
 
 
   onChangeCreate(check: any) {
-   this.change = check;
+   this.enabledcreated = check;
     console.log(check);
   }
 
   onChangeUpdate(check: any) {
-    this.switchUpdate = check;
     this.enabledUpdated = check;
-
     console.log(check);
   }
 
@@ -235,11 +233,9 @@ updateBrand(brand) {
     });
     swal.showLoading();
 
-    let statusTemp = 0;
-    if (this.enabledUpdated === true) {
+    let statusTemp = 1;
+    if (this.enabledcreated) {
       statusTemp = 0;
-    } else {
-      statusTemp = 1;
     }
     this.restService.createPayCondition(this.myForm.get('description').value.toUpperCase(),
      Number(this.myForm.get('day').value), statusTemp).then(data => {
@@ -277,10 +273,8 @@ updateBrand(brand) {
     swal.showLoading();
 
     let statusTemp = 1;
-    if (this.enabledUpdated === true) {
+    if (this.enabledUpdated) {
       statusTemp = 0;
-    } else {
-      statusTemp = 1;
     }
     console.log(this.myFormUpdate.get('dayUpdate').value);
     this.restService.updatePayCondition(Number(this.currentBrand.id), this.myFormUpdate.get('descriptionUpdate').value.toUpperCase(),

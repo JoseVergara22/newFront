@@ -9,10 +9,10 @@ import 'rxjs/add/operator/map';
 
 @Injectable()
 export class NewService {
-  
+
 apiEndPoint = environment.apiBaseUrl;
 
-  constructor(private http: HttpClient, 
+  constructor(private http: HttpClient,
               private router: Router) { }
 
               createNewImage( news_id: number,
@@ -21,7 +21,7 @@ apiEndPoint = environment.apiBaseUrl;
                 bucket_name:string,
                 description: string) {
       return new Promise(resolve => {
-        
+
         const headers = new HttpHeaders();
         headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user'))); // 'Bearer ' +
         headers.append('Content-Type', 'application/json');
@@ -32,7 +32,7 @@ apiEndPoint = environment.apiBaseUrl;
             'Accept': 'application/json'
           })
         };
-  
+
             const postParams = {
               news_id: news_id,
               url: url,
@@ -55,7 +55,7 @@ apiEndPoint = environment.apiBaseUrl;
               bucket_name:string,
               description: string) {
     return new Promise(resolve => {
-      
+
       const headers = new HttpHeaders();
       headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user'))); // 'Bearer ' +
       headers.append('Content-Type', 'application/json');
@@ -190,7 +190,7 @@ apiEndPoint = environment.apiBaseUrl;
                     title: string,
                     subtitle: string,
                     text: string,
-                    status:string) {
+                    status:number) {
             console.log(status);
             return new Promise(resolve => {
                     const headers = new HttpHeaders();

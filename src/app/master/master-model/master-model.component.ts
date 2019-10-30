@@ -173,18 +173,8 @@ export class MasterModelComponent implements OnInit {
   }
 
   onChangeUpdate(check: any) {
-    this.switchUpdate = check;
     this.enabledUpdated = check;
-    this.changeupdate = check;
-    if (this.changeupdate) {
-     this.currentupdatestatus=1;
-    } else {
-     this.currentupdatestatus=0;
-    }
-     console.log(this.currentstatus);
      console.log(check);
-
-    console.log(check);
   }
 
 
@@ -331,7 +321,6 @@ sendModel() {
     this.loadingBrand();
   }
   sendUpdateUpdate() {
-   // console.log(this.selectedValueUpdate);
     if (Number(this.selectedUpdate) !== 0) {
     console.log(this.myFormUpdate.get('descriptionUpdate'));
     console.log(this.change);
@@ -344,9 +333,12 @@ sendModel() {
     swal.showLoading();
 
     let description=this.myFormUpdate.get('descriptionUpdate').value.toUpperCase();
-
+    let status=1;
+    if (this.enabledUpdated) {
+      status=0;
+    }
     console.log(description);
-    this.restService.updateModel(this.currentmachine.id,description, Number(this.selectedUpdate),this.currentupdatestatus)
+    this.restService.updateModel(this.currentmachine.id,description, Number(this.selectedUpdate),status)
     .then(data => {
       const resp: any = data;
       console.log(resp);

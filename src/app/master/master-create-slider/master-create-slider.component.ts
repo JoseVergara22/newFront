@@ -39,7 +39,7 @@ export class MasterCreateSliderComponent implements OnInit {
   myFormUpdate: FormGroup;
   elementDelete: any;
   lastimage:any;
-  enabledUpdated = false;
+  enabledUpdated;
   enabled = true;
   newImgURL: any;
   numberPhoto: 0;
@@ -281,8 +281,8 @@ export class MasterCreateSliderComponent implements OnInit {
 
     const reader = new FileReader();
     this.imagePath = files;
-    reader.readAsDataURL(files[0]); 
-    reader.onload = (_event) => { 
+    reader.readAsDataURL(files[0]);
+    reader.onload = (_event) => {
       this.imgURL = reader.result;
     }
   }
@@ -292,8 +292,8 @@ export class MasterCreateSliderComponent implements OnInit {
     if (files.length === 0) {
       return console.log('no image');
     }
-  
-  
+
+
     const mimeType = files[0].type;
     if (mimeType.match(/image\/*/) == null) {
       this.newMessage = 'Only images are supported.';
@@ -305,8 +305,8 @@ export class MasterCreateSliderComponent implements OnInit {
 
     const reader = new FileReader();
     this.newImagePath = files;
-    reader.readAsDataURL(files[0]); 
-    reader.onload = (_event) => { 
+    reader.readAsDataURL(files[0]);
+    reader.onload = (_event) => {
       this.newImgURL = reader.result;
     }
   }
@@ -356,7 +356,7 @@ export class MasterCreateSliderComponent implements OnInit {
        showConfirmButton: true,
        cancelButtonText: 'No',
        confirmButtonText: 'Si'
- 
+
      })
      .then((willDelete) => {
        swal.showLoading();
@@ -393,7 +393,7 @@ export class MasterCreateSliderComponent implements OnInit {
        console.log(willDelete);
      });
    }
- 
+
 
    get checkFormUpdate() { return this.myFormUpdate.controls; }
 
@@ -410,14 +410,14 @@ export class MasterCreateSliderComponent implements OnInit {
     this.myFormUpdate.get('descriptionUpdate').setValue(row.text);
     this.myFormUpdate.get('imageUpdate').setValue(row.image);
     this.myFormUpdate.get('activeUpdate').setValue(row.status);
-    if (this.currentNew.status === '0') {
+    if (this.currentNew.status == 0) {
       this.enabledUpdated = true;
     } else {
       this.enabledUpdated = false;
     }
-  
+
     document.getElementById( 'uploadNew').click();
-  
+
   }
 
   updateNew() {
@@ -433,17 +433,17 @@ export class MasterCreateSliderComponent implements OnInit {
     swal.showLoading();
 
     let statusTemp = 1;
-    if (this.enabledUpdated === true) {
+    if (this.enabledUpdated) {
       statusTemp = 0;
-    } else {
-      statusTemp = 1;
     }
     console.log('id'+this.currentNew.id,
     'titulo:'+this.myFormUpdate.controls.titleUpdate.value,
     'subtitulo:'+this.myFormUpdate.controls.subtitleUpdate.value,
     'text:'+this.myFormUpdate.controls.descriptionUpdate.value,
     'status:'+this.myFormUpdate.controls.activeUpdate.value);
-    this.newsevice.updateNew(Number(this.currentNew.id), this.myFormUpdate.controls.titleUpdate.value,this.myFormUpdate.controls.subtitleUpdate.value,this.myFormUpdate.controls.descriptionUpdate.value,this.myFormUpdate.controls.activeUpdate.value)
+    this.newsevice.updateNew(Number(this.currentNew.id), this.myFormUpdate.controls.titleUpdate.value,
+    this.myFormUpdate.controls.subtitleUpdate.value,this.myFormUpdate.controls.descriptionUpdate.value,
+    statusTemp)
     .then(data => {
 
       if (this.newImgURL==null) {
@@ -459,7 +459,7 @@ export class MasterCreateSliderComponent implements OnInit {
             text: 'Esta noticia no se puede actualizar',
             type: 'error'
            });
-        } else { 
+        } else {
           document.getElementById( 'updateNewHide').click();
           swal.close();
        // this.router.navigateByUrl('master/registerBrand');
