@@ -23,7 +23,7 @@
                 <div class="col-sm-4">
                     <h6>Departamento<span style="color:red;">*</span></h6>
 
-                    <select class="form-control" [(ngModel)]="selectedDepartmentOfficeId" (change)="getCitiesOffice($event)" formControlName="departmentOffice"> 
+                    <select class="form-control" [(ngModel)]="selectedDepartmentOfficeId" (change)="getCitiesOffice($event)" formControlName="departmentOffice">
                           <option value="0" selected>Seleccionar departamento </option>
                       <option   *ngFor="let department of departments" [ngValue]="department"> {{department.name}}  </option>
                       <!--  <option value="0" selected>Seleccionar perfil</option> -->
@@ -38,7 +38,7 @@
                 <div class="col-sm-4">
                     <h6>Ciudad<span style="color:red;">*</span></h6>
                     <select class="form-control" class="form-control" name="select" formControlName="citytOffice" [(ngModel)]="selectedCityOfficeId">
-                              <option value="0" selected>Seleccionar ciudad </option>  
+                              <option value="0" selected>Seleccionar ciudad </option>
                           <option  *ngFor="let city of citiesOffice " [ngValue]="city "> {{city.city}} </option>
                          </select>
                     <div *ngIf="submittedOffice && checkFormOffice.citytOffice.errors" class="invalid-feedback">
@@ -97,7 +97,7 @@
                 <div class="col-sm-4">
                     <h6>Departamento<span style="color:red;">*</span></h6>
 
-                    <select class="form-control" [(ngModel)]="selectedDepartmentOfficeIdUpdate" (change)="getCitiesOfficeUpdate()" formControlName="departmentOfficeUpdate"> 
+                    <select class="form-control" [(ngModel)]="selectedDepartmentOfficeIdUpdate" (change)="getCitiesOfficeUpdate()" formControlName="departmentOfficeUpdate">
                               <option value="0" selected>Seleccionar departamento </option>
                           <option   *ngFor="let department of departments" [ngValue]="department.id"> {{department.name}}  </option>
                           <!--  <option value="0" selected>Seleccionar perfil</option> -->
@@ -112,7 +112,7 @@
                 <div class="col-sm-4">
                     <h6>Ciudad<span style="color:red;">*</span></h6>
                     <select class="form-control" class="form-control" name="select" formControlName="citytOfficeUpdate" [(ngModel)]="selectedCityOfficeIdUpdate">
-                                  <option value="0" selected>Seleccionar ciudad </option>  
+                                  <option value="0" selected>Seleccionar ciudad </option>
                               <option  *ngFor="let city of citiesOfficeUpdate " [ngValue]="city.id "> {{city.city}} </option>
                              </select>
                     <div *ngIf="submittedOfficeUpdated && checkFormOfficeUpdate.citytOfficeUpdate.errors" class="invalid-feedback">
@@ -180,10 +180,10 @@
                           </select>
                     </div>
 
-                    <!-- <select *ngIf="car " class="form-control " 
-          [(ngModel)]="selectedDoor " #selectDoor 
+                    <!-- <select *ngIf="car " class="form-control "
+          [(ngModel)]="selectedDoor " #selectDoor
           (change)="getRecDet(selectDoor.value); "  required >
-        <option *ngFor="let oneDoor of car.doors " 
+        <option *ngFor="let oneDoor of car.doors "
                 [ngValue]="oneDoor ">
                {{oneDoor.position}}
         </option>
@@ -273,7 +273,7 @@
                     <div class="col-sm-4 ">
                         <h6>Condición de pago<span style="color:red; ">*</span></h6>
                         <select class="form-control " [(ngModel)]="selectedPaymentConditionIdUpdate" class="form-control " formControlName="paymentConditionIdUpdate" name="select ">
-                      <option value="0 " selected>Seleccionar condición pago </option>  
+                      <option value="0 " selected>Seleccionar condición pago </option>
                             <option  *ngFor="let paymentCondition of paymentConditions" [ngValue]="paymentCondition.id"> {{paymentCondition.description}} </option>
                          </select>
 
@@ -283,7 +283,7 @@
                     <div class="col-sm-4 ">
                         <h6>Departamento <span style="color:red; ">*</span></h6>
                         <!-- $event juan jose metodo sin parametro en el ts-->
-                        <select class="form-control " [(ngModel)]="selectedDepartmentIdUpdate" (change)="getCitiesUpdate()" formControlName="departmentIdUpdate"> 
+                        <select class="form-control " [(ngModel)]="selectedDepartmentIdUpdate" (change)="getCitiesUpdate()" formControlName="departmentIdUpdate">
                           <option value="0 " selected>Seleccionar departamento </option>
                       <option   *ngFor="let department of departments " [ngValue]="department.id"> {{department.name}}  </option>
                       <!--  <option value="0 " selected>Seleccionar perfil</option> -->
@@ -294,7 +294,7 @@
                     <div class="col-sm-4 ">
                         <h6>Ciudad<span style="color:red; ">*</span></h6>
                         <select class="form-control " class="form-control " name="select " formControlName="cityIdUpdate" [(ngModel)]="selectedCityIdUpdate">
-                          <option value="0 " selected>Seleccionar ciudad </option>  
+                          <option value="0 " selected>Seleccionar ciudad </option>
                       <option  *ngFor="let city of cities " [ngValue]="city.id"> {{city.city}} </option>
                      </select>
                         <!-- <div class="messages text-danger " *ngIf="myForm.controls.rpassword.touched && !myForm.controls.rpassword.valid ">Este campo es requerido</div>
@@ -306,7 +306,7 @@
                 <div class="form-group row ">
                     <div class="col-sm-4 ">
                         <h6>Activo</h6>
-                        <ui-switch class="js-single" color="#4680ff" switchColor="#fff" size="medium" (change)="onChangeUpdated($event)" [checked]="enabledUpdated"></ui-switch><br>
+                        <ui-switch class="js-single" color="#4680ff" switchColor="#fff" size="medium" (change)="onChangeCreatedOfficeUpdate($event)" [checked]="enabledCreatedOfficeUpdate"></ui-switch><br>
                     </div>
                 </div>
                 <!--
@@ -375,7 +375,7 @@
                         <button (click)="deleteBrand(row)" class="btn btn-danger btn-icon"><i class="icofont icofont-ui-delete"></i></button>
                     </ng-template>
                 </ngx-datatable-column>
-            
+
             </ngx-datatable>
                <br>
                <br>

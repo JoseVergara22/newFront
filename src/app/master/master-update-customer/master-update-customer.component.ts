@@ -51,7 +51,7 @@ submittedOfficeUpdated = false;
 
 enabledCreated = true;
 enabledCreatedOffice =true;
-enabledCreatedOfficeUpdate=true;
+enabledCreatedOfficeUpdate:boolean;
 public imagePath;
 imgURL: any;
 public message: string;
@@ -83,7 +83,7 @@ selectedCityIdUpdate: any = 0;
   customer: any;
 
 
-  constructor(private restService: RestService, private router: Router, private uploadService: UploadService, 
+  constructor(private restService: RestService, private router: Router, private uploadService: UploadService,
               private rutaActiva: ActivatedRoute) {
 
     this.getMasters(0);
@@ -195,13 +195,15 @@ this.myFormUpdateOffice = new FormGroup({
     this.myFormUpdateOffice.get('addressOfficeUpdate').setValue(this.currentOffice.address);
 
      this.selectedDepartmentOfficeIdUpdate = this.currentOffice.department_id;
-     
 
-     if(this.currentOffice.status==='1'){
+
+     if(this.currentOffice.status==0){
+      this.enabledCreatedOfficeUpdate=true;
+     }else{
       this.enabledCreatedOfficeUpdate=false;
      }
-     
-    
+
+
 
      this.getCitiesOfficeUpdate();
     this.selectedCityOfficeIdUpdate = this.currentOffice.city_id;
@@ -287,6 +289,8 @@ getCities(val: any) {
 getCustomer(id:number){
   this.restService.getSpecificCustomer(id).then((data:any) => {
     const resp: any = data.data;
+    console.log("datos");
+    console.log(resp);
     this.customer=resp;
     console.log("datos");
     console.log(resp.telephone);
@@ -298,6 +302,11 @@ getCustomer(id:number){
     this.myFormUpdate.get('priceListIdUpdate').setValue(resp.price_list_id);
     this.myFormUpdate.get('paymentConditionIdUpdate').setValue(resp.payment_condition_id);
     this.myFormUpdate.get('departmentIdUpdate').setValue(resp.department_id);
+    if(resp.status==0){
+      this.enabledCreatedOfficeUpdate=true;
+    }else{
+      this.enabledCreatedOfficeUpdate=false;
+    }
     this.getCitiesOfficeUpdate();
     this.getCitiesUpdate();
   }).catch(error => {
@@ -342,6 +351,7 @@ updatedCustomer() {
   console.log(this.selectedDepartmentIdUpdate);
   console.log(this.selectedCityIdUpdate);
   console.log(this.selectedPriceListIdUpdate);
+  console.log(this.enabledCreatedOfficeUpdate);
 
   if (   Number(this.selectedTypeDocumentIdUpdate) !== 0  &&  Number(this.selectedPaymentConditionIdUpdate) !== 0
   && Number(this.selectedPriceListIdUpdate) !== 0 &&  Number(this.selectedDepartmentIdUpdate) !== 0
@@ -354,10 +364,10 @@ updatedCustomer() {
     });
     swal.showLoading();
 
-    let statusTemp = 0;
+    let statusTemp = 1;
     console.log( this.switchUpdate);
-    if ( this.enabledUpdated === false) {
-      statusTemp = 1;
+    if ( this.enabledCreatedOfficeUpdate) {
+      statusTemp = 0;
     }
     console.log('kakakaka');
 
@@ -424,23 +434,24 @@ onChangeCreated(check: any) {
     }*/
 
 
-    
+
 onChangeCreated(check: any) {
   // this.switchUpdate = check;
    this.enabledCreated = check;
   // this.enabledUpdated = this.enabledCreated ;
      }
- 
- 
+
+
      onChangeCreatedOfficeUpdate(check: any) {
+       console.log(check);
        this.enabledCreatedOfficeUpdate = check;
          }
- 
+
      onChangeCreatedOffice(check: any) {
        this.enabledCreatedOffice = check;
-    
+
          }
- 
+
 
     onChangeUpdated(check: any) {
      //  this.switchUpdate = check;
@@ -589,19 +600,19 @@ updatedOffice() {
      try {
     if ( Number(this.selectedDepartmentOfficeIdUpdate.id) !== 0 && Number(this.selectedCityOfficeIdUpdate.id) !== 0) {
       this.submittedOffice = true;
-      console.log(this.myFormCreateOffice.errors);  
+      console.log(this.myFormCreateOffice.errors);
      if ( !this.myFormUpdateOffice.invalid) {
       swal({
         title: 'Validando información ...',
         allowOutsideClick: false
       });
-      swal.showLoading(); 
+      swal.showLoading();
       let statusTemp = 0;
       console.log( this.switchUpdate);
-      if ( this.enabledCreatedOfficeUpdate === false) {  
+      if ( this.enabledCreatedOfficeUpdate === false) {
         statusTemp = 1;
-      } 
-  console.log('llego'); 
+      }
+  console.log('llego');
       this.restService.updateOffice(this.currentOffice.id,this.currentCustomerId, this.myFormUpdateOffice.get('nameOfficeUpdate').value.toUpperCase(),
       this.myFormUpdateOffice.get('addressOfficeUpdate').value, this.myFormUpdateOffice.get('telephoneOfficeUpdate').value,
        statusTemp, this.selectedCityOfficeIdUpdate, this.selectedDepartmentOfficeIdUpdate)
