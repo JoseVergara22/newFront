@@ -98,7 +98,9 @@ selectedCityIdUpdate: any = 0;
     const documentId = new FormControl('', Validators.required);
     const telephone = new FormControl('', Validators.required);
     const address = new FormControl('', Validators.required);
-    const priceListId = new FormControl('', Validators.required);
+     const priceMargin = new FormControl('', Validators.required);
+  // const priceListId = new FormControl('', Validators.required);
+
     const paymentConditionId = new FormControl('', Validators.required);
     const departmentId = new FormControl('', Validators.required);
     const cityId = new FormControl('', Validators.required);
@@ -108,7 +110,8 @@ selectedCityIdUpdate: any = 0;
     const documentIdUpdate  = new FormControl('', Validators.required);
     const telephoneUpdate  = new FormControl('', Validators.required);
     const addressUpdate  = new FormControl('', Validators.required);
-    const priceListIdUpdate  = new FormControl('', Validators.required);
+    const priceMarginUpdate  = new FormControl('', Validators.required);
+  //  const priceListIdUpdate  = new FormControl('', Validators.required);
     const paymentConditionIdUpdate  = new FormControl('', Validators.required);
     const departmentIdUpdate  = new FormControl('', Validators.required);
     const cityIdUpdate  = new FormControl('', Validators.required);
@@ -132,7 +135,8 @@ this.myFormCreateOffice = new FormGroup({
   telephoneOffice: telephoneOffice,
   departmentOffice: departmentOffice,
   citytOffice: citytOffice,
-  addressOffice: addressOffice
+  addressOffice: addressOffice,
+  priceMargin: priceMargin
 });
 
 this.myFormUpdateOffice = new FormGroup({
@@ -140,7 +144,8 @@ this.myFormUpdateOffice = new FormGroup({
   telephoneOfficeUpdate: telephoneOfficeUpdate,
   departmentOfficeUpdate: departmentOfficeUpdate,
   citytOfficeUpdate: citytOfficeUpdate,
-  addressOfficeUpdate: addressOfficeUpdate
+  addressOfficeUpdate: addressOfficeUpdate,
+  priceMarginUpdate: priceMarginUpdate
 });
 
 
@@ -150,7 +155,7 @@ this.myFormUpdateOffice = new FormGroup({
       documentId: documentId,
       telephone: telephone,
       address: address,
-      priceListId: priceListId,
+      priceMargin: priceMargin,
       paymentConditionId: paymentConditionId,
       departmentId: departmentId,
       cityId: cityId
@@ -162,7 +167,7 @@ this.myFormUpdateOffice = new FormGroup({
       documentIdUpdate: documentIdUpdate,
       telephoneUpdate: telephoneUpdate,
       addressUpdate: addressUpdate,
-      priceListIdUpdate: priceListIdUpdate,
+      priceMarginUpdate: priceMarginUpdate,
       paymentConditionIdUpdate: paymentConditionIdUpdate,
       departmentIdUpdate: departmentIdUpdate,
       cityIdUpdate: cityIdUpdate
@@ -230,7 +235,7 @@ this.myFormUpdateOffice = new FormGroup({
 
   ChangingValue() {
   this.selectedTypeDocumentIdUpdate = this.selectedTypeDocumentId.id;
-  this.selectedPriceListIdUpdate = this.selectedPriceListId.id;
+ //  this.selectedPriceListIdUpdate = this.selectedPriceListId.id;
   this.selectedPaymentConditionIdUpdate = this.selectedPaymentConditionId.id;
   this.selectedDepartmentIdUpdate = this.selectedDepartmentId.id;
   this.selectedCityIdUpdate = this.selectedCityId.id;
@@ -289,17 +294,18 @@ getCities(val: any) {
 getCustomer(id:number){
   this.restService.getSpecificCustomer(id).then((data:any) => {
     const resp: any = data.data;
-    console.log("datos");
+    console.log("datosfffffffff");
     console.log(resp);
     this.customer=resp;
-    console.log("datos");
+    console.log("importar datos");
     console.log(resp.telephone);
     this.myFormUpdate.get('typeDocumentIdUpdate').setValue(resp.type_document_id);
     this.myFormUpdate.get('documentIdUpdate').setValue(resp.document_id);
     this.myFormUpdate.get('businessNameUpdate').setValue(resp.business_name);
     this.myFormUpdate.get('telephoneUpdate').setValue(resp.telephone);
     this.myFormUpdate.get('addressUpdate').setValue(resp.address);
-    this.myFormUpdate.get('priceListIdUpdate').setValue(resp.price_list_id);
+    this.myFormUpdate.get('priceMarginUpdate').setValue(resp.price_margin);
+  //  this.myFormUpdate.get('priceListIdUpdate').setValue(resp.price_list_id);
     this.myFormUpdate.get('paymentConditionIdUpdate').setValue(resp.payment_condition_id);
     this.myFormUpdate.get('departmentIdUpdate').setValue(resp.department_id);
     if(resp.status==0){
@@ -350,11 +356,11 @@ updatedCustomer() {
   console.log(this.selectedPaymentConditionIdUpdate);
   console.log(this.selectedDepartmentIdUpdate);
   console.log(this.selectedCityIdUpdate);
-  console.log(this.selectedPriceListIdUpdate);
+ // console.log(this.selectedPriceListIdUpdate);
   console.log(this.enabledCreatedOfficeUpdate);
 
   if (   Number(this.selectedTypeDocumentIdUpdate) !== 0  &&  Number(this.selectedPaymentConditionIdUpdate) !== 0
-  && Number(this.selectedPriceListIdUpdate) !== 0 &&  Number(this.selectedDepartmentIdUpdate) !== 0
+  &&  Number(this.selectedDepartmentIdUpdate) !== 0
   && Number(this.selectedCityIdUpdate) !== 0) {
     this.submittedUpdated = true;
    if ( !this.myFormUpdate.invalid) {
@@ -374,7 +380,7 @@ updatedCustomer() {
     this.restService.updateCustomer(Number(this.customer.id), this.myFormUpdate.get('businessNameUpdate').value.toUpperCase(),
      this.selectedTypeDocumentIdUpdate, this.myFormUpdate.get('documentIdUpdate').value,
     this.myFormUpdate.get('telephoneUpdate').value,   this.myFormUpdate.get('addressUpdate').value,
-     statusTemp, this.selectedPriceListIdUpdate,
+     statusTemp, this.myFormUpdate.get('priceMarginUpdate').value,
      this.selectedPaymentConditionIdUpdate, this.selectedCityIdUpdate, this.selectedDepartmentIdUpdate)
     .then(data => {
       const resp: any = data;
@@ -465,7 +471,7 @@ onChangeCreated(check: any) {
         this.paymentConditions = this.dataMasters.payment_condition;
         this.typeDocuments = this.dataMasters.documents;
         this.departments = this.dataMasters.department;
-        this.priceList = this.dataMasters.price_list;
+      //  this.priceList = this.dataMasters.price_list;
         console.log('master');
         console.log(data);
         swal.close();

@@ -64,6 +64,7 @@ export class MasterAuthComponent implements OnInit {
           type: 'error'
          });
       } else {
+     console.log(resp);   
      localStorage.setItem('token_user', resp.access_token);
     // localStorage.setItem('user', JSON.stringify(infoUser.success));
      swal.close();

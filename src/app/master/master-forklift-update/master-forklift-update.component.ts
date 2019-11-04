@@ -167,6 +167,7 @@ export class MasterForkliftUpdateComponent extends NgbDatepickerI18n {
   // public setDate:Date=new Date(this.year,this.day,this.month);
   name = 'Angular 4';
   urls = [];
+  urlsInitial =[];
   contImages=0;
   guideImagesInitial=[99];
 
@@ -400,7 +401,6 @@ export class MasterForkliftUpdateComponent extends NgbDatepickerI18n {
     this.getCustomerOffice();
     this.getCustomerModel();
     this.selectedOfficeId = Number(this.forkliftCurrent.branch_offices_id);
-    this.selectedMachineId = 
     this.selectedModelId =  Number(this.forkliftCurrent.model_id);
     this.selectedFuelId =  Number(this.forkliftCurrent.fuel_id);
     this.selectedtyreId =  Number(this.forkliftCurrent.tyre_id); 
@@ -477,8 +477,13 @@ export class MasterForkliftUpdateComponent extends NgbDatepickerI18n {
       this.forkliftImages = data;
        this.forkliftImages= this.forkliftImages.data;
        let i=0;
+        console.log('nombres de imagenes');
+        
         for (let forkliftImage of  this.forkliftImages) {
+         console.log(forkliftImage.name);
+         console.log('Jajajajaja');
          this.urls.push(forkliftImage.name);
+         this.urlsInitial.push(forkliftImage.name);
          this.guideImagesInitial.push(i);// guia para saber que imagenes estan en amazon
          i=i+1;
         }
@@ -672,7 +677,7 @@ this.selectedFuelId);
         title: 'Equipo actualizado',
         type: 'success'
        });
-       this.router.navigateByUrl('/master/forkliftShow');
+       // this.router.navigateByUrl('/master/forkliftShow');
         }
         }).catch(error => {
           console.log(error);
@@ -764,6 +769,7 @@ this.selectedFuelId);
           }
       }
     }else{
+      this.selectedFiles.splice( this.selectedFiles.length-1,1);
       swal({
         title: 'El numero maximo de imagenes son 3',
         text: 'No se pueden cargar mas de 3 imagenes',
@@ -826,11 +832,19 @@ this.selectedFuelId);
 
   deleteImage(i: number){
      console.log('resultado sin borrar: '+  this.guideImagesInitial) ;
-   this.urls.splice(i,1);
+     this.urls.splice(i,1);
+     this.urlsInitial.splice(i,1);
+
+     if(this.selectedFiles.length>0){
+        let ind = this.urls.length;
+        this.selectedFiles.splice(ind-1,1);
+     }
+
 
    for (let j = 0; j < this.guideImagesInitial.length; j++) {
   if( this.guideImagesInitial[j]===i){
       this.guideImagesInitial.splice(j,1);
+     // this.urls.splice(j,1);
   }
 }
   console.log('resultado: '+   this.guideImagesInitial) ;
@@ -856,17 +870,29 @@ this.selectedFuelId);
   isTo = date => equals(date, this.toDate);
 
 
+test(){
+this.upload(this.currentForkId)
+}
+
+
    upload(idForklift: number) {
   
     let i=0;
+    console.log('dddddddddddd');
+    console.log(this.selectedFiles);
+    console.log('longitud de archivos: '+this.selectedFiles.length);
+
     for (let file of this.selectedFiles) {
+    
     console.log('Importante valores de busqueda: '+ this.guideImagesInitial);  
+  
     let result=this.guideImagesInitial.indexOf(i);
     console.log('Resultado de busqueda: '+ result);  
-    if(result===-1){
+  
+   // if(result===-1){
 
     console.log('longitud de archivos: '+this.selectedFiles.length);
-    const fileole = file[0];
+    const fileole = file[0];//[i];
     console.log(fileole);
     const uuid = UUID.UUID();
     console.log(uuid);
@@ -887,9 +913,13 @@ this.selectedFuelId);
         allowOutsideClick: false
       });
     });
-  }else{
+ // }
+  /*else{
     //Solo agregar en base de datos, por que borramos todo
-         this.workService.storeImageForklift(idForklift,  this.urls[0]).then(data => {
+    console.log('imagenes para insertar');
+    console.log(this.urls[i]);
+     let nameFileFinal='https://masterforklift.s3.amazonaws.com/'+ this.urls[i];
+         this.workService.storeImageForklift(idForklift,  nameFileFinal).then(data => {
               const resp: any = data;
               console.log(data);
              // swal.close();
@@ -897,12 +927,15 @@ this.selectedFuelId);
             }).catch(error => {
               console.log(error);
             });
-  }
+  }*/
   i=i+1;
+
     }
 
-   if(this.selectedFiles.length<=0){
-   for (let url of  this.urls) {
+   //If(this.selectedFiles.length<=0){
+   // Solo va guardar las iniciales que se mantengan  
+   for (let url of  this.urlsInitial) {
+  
        this.workService.storeImageForklift(idForklift, url).then(data => {
               const resp: any = data;
               console.log(data);
@@ -912,7 +945,7 @@ this.selectedFuelId);
               console.log(error);
             });
    }
-   }
+   // }*/
 
 
     }

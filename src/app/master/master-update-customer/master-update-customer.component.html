@@ -253,11 +253,18 @@
 
 
                     <div class="col-sm-4 ">
-                        <h6>Lista de precios <span style="color:red; ">*</span></h6>
+                        <!-- <h6>Lista de precios <span style="color:red; ">*</span></h6>
                         <select class="form-control " name="select " formControlName="priceListIdUpdate" [(ngModel)]="selectedPriceListIdUpdate ">
                           <option value="0 " selected>Seleccionar lista de precios</option>
                           <option  *ngFor="let priceL of priceList " [ngValue]="priceL.id"> {{priceL.description}} </option>
-                          </select>
+                          </select> -->
+
+                             <h6>Margen de precios <span style="color:red; ">*</span></h6>
+                        <input type="text " class="form-control " formControlName="priceMarginUpdate" [ngClass]="{ 'is-invalid': submittedUpdated && checkFormUpdate.priceMarginUpdate.errors } ">
+                        <div *ngIf="submittedUpdated && checkFormUpdate.priceMarginUpdate.errors " class="invalid-feedback ">
+                            <div class="messages text-danger " *ngIf="checkFormUpdate.priceMarginUpdate.errors.required ">Este campo es requerido</div>
+                        </div>
+
                     </div>
 
 

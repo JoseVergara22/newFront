@@ -27,7 +27,7 @@ export class UploadService {
           console.log(nameFile);
           const params = {
               Bucket: 'masterforklift',
-              Key: 'forklift' + nameFile,
+              Key:  nameFile,
               Body: file,
               ACL: 'public-read',
               ContentType: contentType
@@ -62,11 +62,12 @@ uploadFileForklift(file, idForlift:number ) {
         console.log(file.name + '' + file.type);
         const extension = (file.name.substring(file.name.lastIndexOf('.'))).toLowerCase();
         console.log(extension);
-        let nameFile ='https://masterforklift.s3.amazonaws.com/forklift'+uuid +''+ extension;
+        // let nameFile ='https://masterforklift.s3.amazonaws.com/'+uuid +''+ extension;
+        let nameFile =uuid +''+ extension;
         console.log(nameFile);
         const params = {
             Bucket: 'masterforklift',
-            Key: 'forklift' + nameFile,
+            Key: nameFile,
             Body: file,
             ACL: 'public-read',
             ContentType: contentType
@@ -75,8 +76,8 @@ uploadFileForklift(file, idForlift:number ) {
         bucket.upload(params).promise().then(resp=>{
             console.log(resp);
           resolve(resp);
-
-          this.workService.storeImageForklift(idForlift, nameFile).then(data => {
+          let nameFileFinal='https://masterforklift.s3.amazonaws.com/'+nameFile;
+          this.workService.storeImageForklift(idForlift, nameFileFinal).then(data => {
               const resp: any = data;
               console.log(data);
              // swal.close();

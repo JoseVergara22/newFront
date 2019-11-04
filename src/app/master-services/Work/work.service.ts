@@ -275,6 +275,8 @@ export class WorkService {
 
 
   storeImageForklift(id_forklift:number, name:string){
+    console.log(id_forklift);
+    console.log(name);
     return new Promise(resolve => {
       const httpOptions = {
         headers: new HttpHeaders({
@@ -294,7 +296,7 @@ export class WorkService {
       console.log(data);
       resolve(data);
       }, error => {
-        console.log("error en servicio");
+        console.log(error);
                 resolve(error);
         });
     });

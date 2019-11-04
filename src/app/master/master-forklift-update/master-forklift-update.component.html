@@ -298,7 +298,9 @@
             <th>Acción</th>
           </tr>
           </thead>
-          <tbody  class="col-sm-3" *ngFor='let url of urls; let i = index'>
+          <tbody  class="col-sm-3">
+          <tr  *ngFor='let url of urls; let i = index'>
+         
         <td>
           <img [src]="url" height="200" *ngIf="url" alt="img" class="img-fluid img-100"> 
         </td>
@@ -306,6 +308,7 @@
      <button (click)="deleteImage(i)" class="btn btn-danger btn-icon"><i class="icofont icofont-ui-delete"></i></button>
    
         </td>
+         </tr>
           </tbody>
         </table>
       </div>
@@ -316,7 +319,9 @@
                 
                 <div class="align-buttons">
                         <button class="btn btn-primary m-b-0 " (click)="goAdminForklifts()">Volver Administración Equipos</button>
+                <button class="btn btn-primary m-b-0 " (click)="test()">test</button>
                 </div>
+               
                     
        
         </app-card>

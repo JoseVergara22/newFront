@@ -66,7 +66,7 @@ switchCreate = true;
 switchUpdate = true;
 
 selectedTypeDocumentId: any = 0;
-selectedPriceListId: any = 0;
+// selectedPriceListId: any = 0;
 selectedPaymentConditionId: any = 0;
 selectedDepartmentId: any = 0;
 selectedCityId: any = 0;
@@ -78,7 +78,7 @@ selectedDepartmentOfficeIdUpdate: any = 0;
 selectedCityOfficeIdUpdate: any = 0;
 
 selectedTypeDocumentIdUpdate: any = 0;
-selectedPriceListIdUpdate: any = 0;
+// selectedPriceListIdUpdate: any = 0;
 selectedPaymentConditionIdUpdate: any = 0;
 selectedDepartmentIdUpdate: any = 0;
 selectedCityIdUpdate: any = 0;
@@ -95,7 +95,8 @@ selectedCityIdUpdate: any = 0;
     const documentId = new FormControl('', Validators.required);
     const telephone = new FormControl('', Validators.required);
     const address = new FormControl('', Validators.required);
-    const priceListId = new FormControl('', Validators.required);
+    const priceMargin = new FormControl('', Validators.required);
+    // const priceListId = new FormControl('', Validators.required);
     const paymentConditionId = new FormControl('', Validators.required);
     const departmentId = new FormControl('', Validators.required);
     const cityId = new FormControl('', Validators.required);
@@ -105,7 +106,8 @@ selectedCityIdUpdate: any = 0;
     const documentIdUpdate  = new FormControl('', Validators.required);
     const telephoneUpdate  = new FormControl('', Validators.required);
     const addressUpdate  = new FormControl('', Validators.required);
-    const priceListIdUpdate  = new FormControl('', Validators.required);
+    const priceMarginUpdate  = new FormControl('', Validators.required);
+    // const priceListIdUpdate  = new FormControl('', Validators.required);
     const paymentConditionIdUpdate  = new FormControl('', Validators.required);
     const departmentIdUpdate  = new FormControl('', Validators.required);
     const cityIdUpdate  = new FormControl('', Validators.required);
@@ -147,7 +149,7 @@ this.myFormUpdateOffice = new FormGroup({
       documentId: documentId,
       telephone: telephone,
       address: address,
-      priceListId: priceListId,
+      priceMargin: priceMargin,
       paymentConditionId: paymentConditionId,
       departmentId: departmentId,
       cityId: cityId
@@ -159,7 +161,7 @@ this.myFormUpdateOffice = new FormGroup({
       documentIdUpdate: documentIdUpdate,
       telephoneUpdate: telephoneUpdate,
       addressUpdate: addressUpdate,
-      priceListIdUpdate: priceListIdUpdate,
+      priceMarginUpdate:priceMarginUpdate,
       paymentConditionIdUpdate: paymentConditionIdUpdate,
       departmentIdUpdate: departmentIdUpdate,
       cityIdUpdate: cityIdUpdate
@@ -214,7 +216,7 @@ this.myFormUpdateOffice = new FormGroup({
 
   ChangingValue() {
   this.selectedTypeDocumentIdUpdate = this.selectedTypeDocumentId.id;
-  this.selectedPriceListIdUpdate = this.selectedPriceListId.id;
+  // this.selectedPriceListIdUpdate = this.selectedPriceListId.id;
   this.selectedPaymentConditionIdUpdate = this.selectedPaymentConditionId.id;
   this.selectedDepartmentIdUpdate = this.selectedDepartmentId.id;
   this.selectedCityIdUpdate = this.selectedCityId.id;
@@ -293,10 +295,9 @@ sendCustomer() {
   console.log(this.selectedPaymentConditionId);
   console.log(this.selectedDepartmentId);
   console.log(this.selectedCityId);
-  console.log(this.selectedPriceListId);
+  // console.log(this.selectedPriceListId);
 
   if (   Number(this.selectedTypeDocumentId) !== 0  &&  Number(this.selectedPaymentConditionId) !== 0 
-     && Number(this.selectedPriceListId) !==0
   &&  Number(this.selectedDepartmentId) !== 0 && Number(this.selectedCityId) !== 0) {
     this.submitted = true;
    if ( !this.myForm.invalid) {
@@ -317,7 +318,7 @@ sendCustomer() {
     this.restService.createCustomer(this.myForm.get('businessName').value.toUpperCase(),
      this.selectedTypeDocumentId.id, this.myForm.get('documentId').value,
     this.myForm.get('telephone').value,   this.myForm.get('address').value,
-     statusTemp, this.selectedPriceListId.id,
+     statusTemp,this.myForm.get('priceMargin').value,
      this.selectedPaymentConditionId.id, this.selectedCityId.id, this.selectedDepartmentId.id)
     .then(data => {
       const resp: any = data;
@@ -334,7 +335,7 @@ sendCustomer() {
 
     
         this.selectedTypeDocumentIdUpdate = this.selectedTypeDocumentId.id;
-        this.selectedPriceListIdUpdate = this.selectedPriceListId.id;
+       // this.selectedPriceListIdUpdate = this.selectedPriceListId.id;
         this.selectedPaymentConditionIdUpdate = this.selectedPaymentConditionId.id;
         this.selectedDepartmentIdUpdate = this.selectedDepartmentId.id;
         this.selectedCityIdUpdate = this.selectedCityId.id;
@@ -619,11 +620,10 @@ updatedCustomer() {
   console.log(this.selectedPaymentConditionIdUpdate);
   console.log(this.selectedDepartmentIdUpdate);
   console.log(this.selectedCityIdUpdate);
-  console.log(this.selectedPriceListIdUpdate);
+ // console.log(this.selectedPriceListIdUpdate);
 
   if (   Number(this.selectedTypeDocumentIdUpdate) !== 0  &&  Number(this.selectedPaymentConditionIdUpdate) !== 0
-  && Number(this.selectedPriceListIdUpdate) !== 0 &&  Number(this.selectedDepartmentIdUpdate) !== 0
-  && Number(this.selectedCityIdUpdate) !== 0) {
+  &&  Number(this.selectedDepartmentIdUpdate) !== 0 && Number(this.selectedCityIdUpdate) !== 0) {
     this.submittedUpdated = true;
    if ( !this.myFormUpdate.invalid) {
     swal({
@@ -642,7 +642,7 @@ updatedCustomer() {
     this.restService.updateCustomer(Number(this.idCustomerCreated), this.myFormUpdate.get('businessNameUpdate').value.toUpperCase(),
      this.selectedTypeDocumentIdUpdate, this.myFormUpdate.get('documentIdUpdate').value,
     this.myFormUpdate.get('telephoneUpdate').value,   this.myFormUpdate.get('addressUpdate').value,
-     statusTemp, this.selectedPriceListIdUpdate,
+     statusTemp, this.myFormUpdate.get('priceMarginUpdate').value,
      this.selectedPaymentConditionIdUpdate, this.selectedCityIdUpdate, this.selectedDepartmentIdUpdate)
     .then(data => {
       const resp: any = data;
@@ -724,7 +724,7 @@ onChangeCreated(check: any) {
         this.priceList = this.dataMasters.price_list;
 
         this.selectedTypeDocumentIdUpdate= this.dataMasters.documents;
-        this.selectedPriceListIdUpdate = this.dataMasters.price_list;
+      //  this.selectedPriceListIdUpdate = this.dataMasters.price_list;
         this.selectedPaymentConditionIdUpdate=this.dataMasters.payment_condition;
         this.selectedDepartmentIdUpdate= this.dataMasters.department;
         //this.selectedCityIdUpdate: any = 0;

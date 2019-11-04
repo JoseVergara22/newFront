@@ -402,7 +402,6 @@ export class MasterForkliftShowComponent extends NgbDatepickerI18n {
     this.getCustomerOffice();
     this.getCustomerModel();
     this.selectedOfficeId = Number(this.forkliftCurrent.branch_offices_id);
-    this.selectedMachineId = 
     this.selectedModelId =  Number(this.forkliftCurrent.model_id);
     this.selectedFuelId =  Number(this.forkliftCurrent.fuel_id);
     this.selectedtyreId =  Number(this.forkliftCurrent.tyre_id); 

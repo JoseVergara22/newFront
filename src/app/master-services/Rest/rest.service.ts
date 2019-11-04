@@ -221,12 +221,12 @@ apiEndPoint = environment.apiBaseUrl;
     telephone: string,
     address: string,
     status: number,
-    price_list_id: number,
+    margin_price: number,
     payment_condition_id: number,
     city_id: number,
     department_id: number) {
     console.log(business_name + ',' + type_document_id + ',' + document_id + ',' + telephone +
-      ',' + address + ',' + status + ',' + price_list_id + ',' + payment_condition_id + ',' + city_id + ',' + department_id);
+      ',' + address + ',' + status + ',' + margin_price + ',' + payment_condition_id + ',' + city_id + ',' + department_id);
     return new Promise(resolve => {
       const headers = new HttpHeaders();
       headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user'))); // 'Bearer ' +
@@ -245,7 +245,7 @@ apiEndPoint = environment.apiBaseUrl;
         telephone: telephone,
         address: address,
         status: status,
-        price_list_id: price_list_id,
+        price_margin: margin_price,
         payment_condition_id: payment_condition_id,
         city_id: city_id,
         department_id: department_id
@@ -265,12 +265,12 @@ apiEndPoint = environment.apiBaseUrl;
     telephone: string,
     address: string,
     status: number,
-    price_list_id: number,
+    margin_price: number,
     payment_condition_id: number,
     city_id: number,
     department_id: number) {
     console.log(id + ',' + business_name + ',' + type_document_id + ',' + document_id + ',' + telephone +
-      ',' + address + ',' + status + ',' + price_list_id + ',' + payment_condition_id + ',' + city_id + ',' + department_id);
+      ',' + address + ',' + status + ',' + margin_price + ',' + payment_condition_id + ',' + city_id + ',' + department_id);
     return new Promise(resolve => {
       const headers = new HttpHeaders();
       headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user'))); // 'Bearer ' +
@@ -289,7 +289,7 @@ apiEndPoint = environment.apiBaseUrl;
         telephone: telephone,
         address: address,
         status: status,
-        price_list_id: price_list_id,
+        price_margin: margin_price,
         payment_condition_id: payment_condition_id,
         city_id: city_id,
         department_id: department_id
