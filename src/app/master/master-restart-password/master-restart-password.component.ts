@@ -126,7 +126,8 @@ export class MasterRestartPasswordComponent implements OnInit {
               allowOutsideClick:false
             })
           } else {
-            this.userService.changePassword(this.info.email,password,confirmpassword,this.tokeninfo).then(data=>{
+            // email:string,password:string,token:string,rpassword:string
+            this.userService.changePassword(this.info.email, password, this.tokeninfo, confirmpassword).then(data=>{
               const resp:any=data;
               if (resp.error) {
                 swal.close();
