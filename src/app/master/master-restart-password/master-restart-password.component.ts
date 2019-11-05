@@ -143,6 +143,7 @@ export class MasterRestartPasswordComponent implements OnInit {
                   text: 'Se ha cambiado sucontraseña correctamente!',
                   type: 'success'
                 });
+             this.router.navigateByUrl('masterauth');
               }
               console.log(resp);
             }).catch(error=>{
