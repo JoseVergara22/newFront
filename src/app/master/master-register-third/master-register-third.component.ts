@@ -401,9 +401,15 @@ sendOffice() {
   console.log(this.myFormCreateOffice.get('addressOffice').hasError('required'));
   console.log(this.myFormCreateOffice.get('addressOffice').errors);
 
+  console.log('aqui');
+
   if ( Number(this.selectedDepartmentOfficeId.id) !== 0 && Number(this.selectedCityOfficeId.id) !== 0) {
     this.submittedOffice = true;
     console.log(this.myFormCreateOffice.errors);
+
+    console.log('oleole');
+
+    console.log(this.myFormCreateOffice.invalid);
 
    if ( !this.myFormCreateOffice.invalid) {
     swal({

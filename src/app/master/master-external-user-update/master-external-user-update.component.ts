@@ -103,7 +103,7 @@ export class MasterExternalUserUpdateComponent implements OnInit {
     const cellphone = new FormControl('');
     const telephone = new FormControl('');
     const password = new FormControl('', [Validators.required, Validators.minLength(6)]);
-    const identification = new FormControl('', Validators.required);
+    // const identification = new FormControl('', Validators.required);
     const email = new FormControl('', [Validators.required, Validators.email]);
     const profile = new FormControl('', Validators.required);
     const rpassword = new FormControl('', [Validators.required, CustomValidators.equalTo(password)]);
@@ -116,7 +116,7 @@ export class MasterExternalUserUpdateComponent implements OnInit {
       email: email,
       password: password,
       rpassword: rpassword,
-      identification: identification,
+     //  identification: identification,
       profile: profile
     });
 

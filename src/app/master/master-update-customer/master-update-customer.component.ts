@@ -135,8 +135,8 @@ this.myFormCreateOffice = new FormGroup({
   telephoneOffice: telephoneOffice,
   departmentOffice: departmentOffice,
   citytOffice: citytOffice,
-  addressOffice: addressOffice,
-  priceMargin: priceMargin
+  addressOffice: addressOffice
+  
 });
 
 this.myFormUpdateOffice = new FormGroup({
@@ -144,8 +144,7 @@ this.myFormUpdateOffice = new FormGroup({
   telephoneOfficeUpdate: telephoneOfficeUpdate,
   departmentOfficeUpdate: departmentOfficeUpdate,
   citytOfficeUpdate: citytOfficeUpdate,
-  addressOfficeUpdate: addressOfficeUpdate,
-  priceMarginUpdate: priceMarginUpdate
+  addressOfficeUpdate: addressOfficeUpdate
 });
 
 
@@ -663,6 +662,7 @@ sendOffice() {
 
   try {
   console.log('Ole ole ole');
+  console.log('Como fue');
   console.log(this.selectedDepartmentOfficeId.id + ',' + this.selectedCityOfficeId.id);
   console.log(this.myFormCreateOffice.get('nameOffice').hasError('required'));
   console.log(this.myFormCreateOffice.get('telephoneOffice').hasError('required'));
@@ -671,9 +671,15 @@ sendOffice() {
   console.log(this.myFormCreateOffice.get('addressOffice').hasError('required'));
   console.log(this.myFormCreateOffice.get('addressOffice').errors);
 
+
+  console.log(this.selectedDepartmentOfficeId.id);
+  console.log(this.selectedCityOfficeId.id);
+
   if ( Number(this.selectedDepartmentOfficeId.id) !== 0 && Number(this.selectedCityOfficeId.id) !== 0) {
     this.submittedOffice = true;
     console.log(this.myFormCreateOffice.errors);
+    console.log(this.myFormCreateOffice.invalid);
+    console.log('---------------');
 
    if ( !this.myFormCreateOffice.invalid) {
     swal({
