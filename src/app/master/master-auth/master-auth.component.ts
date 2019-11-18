@@ -64,12 +64,42 @@ export class MasterAuthComponent implements OnInit {
           type: 'error'
          });
       } else {
-     console.log(resp);   
+     console.log('ole ole ole ');
+     console.log(resp);
      localStorage.setItem('token_user', resp.access_token);
-    // localStorage.setItem('user', JSON.stringify(infoUser.success));
+    // localStorage.setItem('email', this.myForm.get('email').value);
      swal.close();
     // console.log('Miralo ps' + localStorage.getItem('token'));
-     this.router.navigateByUrl('master');
+     
+    
+    this.userService.getUserInformation(this.myForm.get('email').value)
+    .then(data => {
+      const resp: any = data;
+   
+      localStorage.setItem('email', resp.data[0].email);
+      localStorage.setItem('username', resp.data[0].username);
+      localStorage.setItem('userid', resp.data[0].id);
+      localStorage.setItem('user', resp.data[0]);
+      console.log('------------------');
+      console.log(resp.data[0].status);
+      console.log('------------------');
+
+      if(Number(resp.data[0].status)===0){
+        this.router.navigateByUrl('resetPasswordLogin'); // es poner la pagina para cambiar la contraseña
+      }else{
+        this.router.navigateByUrl('master');
+      }
+   
+    }).catch(error => {
+      console.log(error);
+    });
+
+    
+   
+
+
+
+
     }
      }).catch(error => {
        console.log(error);

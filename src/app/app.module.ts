@@ -15,7 +15,10 @@ import { MasterSharedModule } from './master-shared/master-shared.module';
 import {MenuItems} from './shared/menu-items/menu-items';
 import { MenuItemsMasterService } from './master-shared/menu-master/menu-items-master.service';
 
+
+
 // import { MasterNewsComponent } from './master/master-news/master-news.component';
+
 
 
 @NgModule({

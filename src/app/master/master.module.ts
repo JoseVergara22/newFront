@@ -44,6 +44,9 @@ import { MasterForkliftUpdateComponent } from './master-forklift-update/master-f
 import { MasterExternalUserUpdateComponent } from './master-external-user-update/master-external-user-update.component';
 import { MasterForkliftShowComponent } from './master-forklift-show/master-forklift-show.component';
 import { MasterMultiDatePickerShowComponent } from './master-multi-date-picker-show/master-multi-date-picker-show.component';
+import { MasterResetPasswordLoginComponent } from './master-reset-password-login/master-reset-password-login.component';
+import { MasterEstimateCountriesComponent } from './master-estimate-countries/master-estimate-countries.component';
+import { MasterPriceCountriesDhlComponent } from './master-price-countries-dhl/master-price-countries-dhl.component';
 // Servicios
 import { UserService } from '../master-services/User/user.service';
 import { NewService } from '../master-services/new/new.service';
@@ -53,7 +56,7 @@ import { WorkService } from '../master-services/Work/work.service';
 import { ColorPickerService } from 'ngx-color-picker';
 import { HorometroService } from "../master-services/horometro/horometro.service";
 import { ForkliftService } from '../master-services/Forklift/forklift.service';
-
+import { EstimateService } from '../master-services/estimate/estimate.service';
 
 @NgModule({
   imports: [
@@ -102,7 +105,10 @@ import { ForkliftService } from '../master-services/Forklift/forklift.service';
     MasterForkliftUpdateComponent,
     MasterExternalUserUpdateComponent,
     MasterForkliftShowComponent,
-    MasterMultiDatePickerShowComponent
+    MasterMultiDatePickerShowComponent,
+    MasterResetPasswordLoginComponent,
+    MasterEstimateCountriesComponent,
+    MasterPriceCountriesDhlComponent
   ],
   providers: [
     RestService,
@@ -117,6 +123,7 @@ import { ForkliftService } from '../master-services/Forklift/forklift.service';
     MonthAgendaService,
     ColorPickerService,
     HorometroService,
-    ForkliftService]
+    ForkliftService,
+    EstimateService]
 })
 export class MasterModule { }

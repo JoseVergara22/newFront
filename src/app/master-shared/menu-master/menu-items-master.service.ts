@@ -156,6 +156,14 @@ const MENUITEMS = [
           {
             state: 'registerPaymentCondition',
             name:  'Administrar condiciones de pago'
+          },
+          {
+            state: 'estimateCountries',
+            name:  'Administrar paises cotización'
+          },
+          {
+            state: 'priceCountriesDhl',
+            name:  'Administrar tabla DHL'
           }
         ]
       }

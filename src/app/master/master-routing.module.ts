@@ -29,6 +29,9 @@ import { MasterHorometroComponent } from "./master-horometro/master-horometro.co
 import { MasterForkliftUpdateComponent } from './master-forklift-update/master-forklift-update.component';
 import { MasterExternalUserUpdateComponent } from './master-external-user-update/master-external-user-update.component';
 import { MasterForkliftShowComponent } from './master-forklift-show/master-forklift-show.component';
+import { MasterResetPasswordLoginComponent } from './master-reset-password-login/master-reset-password-login.component';
+import { MasterEstimateCountriesComponent } from './master-estimate-countries/master-estimate-countries.component';
+import { MasterPriceCountriesDhlComponent } from './master-price-countries-dhl/master-price-countries-dhl.component';
 
 const routes: Routes = [
   {
@@ -148,6 +151,15 @@ const routes: Routes = [
   },{
     path: 'forkliftShow/:id',
     component:  MasterForkliftShowComponent
+  },{
+    path: 'resetPasswordLogin',
+    component:   MasterResetPasswordLoginComponent
+  },{
+    path: 'estimateCountries',
+    component:   MasterEstimateCountriesComponent
+  },{
+    path: 'priceCountriesDhl',
+    component:   MasterPriceCountriesDhlComponent
   }
 
 ];

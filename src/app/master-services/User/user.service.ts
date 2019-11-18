@@ -176,20 +176,45 @@ resolve(data);
       });
     }
 
-    changePassword(email:string,password:string,token:string,rpassword:string) {
+    getUserInformation(email: string) {
       return new Promise(resolve => {
-										  
-																										 
-														   
+        const headers = new HttpHeaders();
+        headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user'))); // 'Bearer ' +
+        headers.append('Content-Type', 'application/json');
         const httpOptions = {
           headers: new HttpHeaders({
             'Content-Type':  'application/json',
-																			
+            'Authorization': 'Bearer ' + localStorage.getItem('token_user'),
             'Accept': 'application/json'
           })
         };
+
+        this.http.get(this.apiEndPoint+'api/user_information?email='+ email, httpOptions)
+        .map(res => res).subscribe(data => {
+        console.log(data);
+        resolve(data);
+        }, error => {
+                  resolve(error);
+          });
+      });
+    }
+
+    changePassword(email:string,password:string,token:string,rpassword:string) {
+        return new Promise(resolve => {
+          const headers = new HttpHeaders();
+          headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user'))); // 'Bearer ' +
+          headers.append('Content-Type', 'application/json');
+          const httpOptions = {
+            headers: new HttpHeaders({
+              'Content-Type':  'application/json',
+              'Authorization': 'Bearer ' + localStorage.getItem('token_user'),
+              'Accept': 'application/json'
+            })
+          };
+  
         const postParams = {
           email: email,
+          status:1,
           password:password,
           c_password: rpassword,
           token:token
@@ -204,6 +229,57 @@ resolve(data);
             console.log(error);
             resolve(error);
           
+          });
+      });
+    }
+
+   /* changePasswordLogin(idUser: number, password: string) {
+      return new Promise(resolve => {
+
+        const httpOptions = {
+          headers: new HttpHeaders({
+            'Content-Type':  'application/json',
+            'Accept': 'application/json'
+          })
+        };
+        const patchParams = {
+          password:password,
+        };
+        console.log(patchParams);
+        this.http.patch(this.apiEndPoint+'api/change_password/changePassword/'+idUser,patchParams, httpOptions)
+        .map(res => res).subscribe(data => {
+        console.log(data);
+        resolve(data);
+        }, error => {
+            console.log('error servicio');
+            console.log(error);
+            resolve(error);
+          
+          });
+      });
+    }*/
+
+    changePasswordLogin(idUser: number, password: string) {
+      return new Promise(resolve => {
+        const httpOptions = {
+          headers: new HttpHeaders({
+            'Content-Type':  'application/json',
+            'Authorization': 'Bearer ' + localStorage.getItem('token_user'),
+            'Accept': 'application/json'
+          })
+        };
+        
+        const patchParams = {
+          password:password,
+        };
+        this.http.patch(this.apiEndPoint+'api/change_password/changePassword/'+idUser,patchParams, httpOptions)
+        .map(res => res).subscribe(data => {
+          console.log("a mostrar data");
+        console.log(data);
+        resolve(data);
+        }, error => {
+          console.log("error en servicio");
+                  resolve(error);
           });
       });
     }
