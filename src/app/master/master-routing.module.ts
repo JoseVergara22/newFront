@@ -32,6 +32,7 @@ import { MasterForkliftShowComponent } from './master-forklift-show/master-forkl
 import { MasterResetPasswordLoginComponent } from './master-reset-password-login/master-reset-password-login.component';
 import { MasterEstimateCountriesComponent } from './master-estimate-countries/master-estimate-countries.component';
 import { MasterPriceCountriesDhlComponent } from './master-price-countries-dhl/master-price-countries-dhl.component';
+import { MasterEstimateCustomerComponent } from './master-estimate-customer/master-estimate-customer.component';
 
 const routes: Routes = [
   {
@@ -160,6 +161,9 @@ const routes: Routes = [
   },{
     path: 'priceCountriesDhl',
     component:   MasterPriceCountriesDhlComponent
+  },{
+    path: 'estimateCustomer',
+    component:   MasterEstimateCustomerComponent
   }
 
 ];

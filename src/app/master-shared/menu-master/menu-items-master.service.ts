@@ -164,6 +164,10 @@ const MENUITEMS = [
           {
             state: 'priceCountriesDhl',
             name:  'Administrar tabla DHL'
+          },
+          {
+            state: 'estimateCustomer',
+            name:  'Cotizaciones'
           }
         ]
       }

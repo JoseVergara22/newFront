@@ -47,6 +47,8 @@ import { MasterMultiDatePickerShowComponent } from './master-multi-date-picker-s
 import { MasterResetPasswordLoginComponent } from './master-reset-password-login/master-reset-password-login.component';
 import { MasterEstimateCountriesComponent } from './master-estimate-countries/master-estimate-countries.component';
 import { MasterPriceCountriesDhlComponent } from './master-price-countries-dhl/master-price-countries-dhl.component';
+import { MasterEstimateCustomerComponent } from './master-estimate-customer/master-estimate-customer.component';
+ 
 // Servicios
 import { UserService } from '../master-services/User/user.service';
 import { NewService } from '../master-services/new/new.service';
@@ -108,7 +110,8 @@ import { EstimateService } from '../master-services/estimate/estimate.service';
     MasterMultiDatePickerShowComponent,
     MasterResetPasswordLoginComponent,
     MasterEstimateCountriesComponent,
-    MasterPriceCountriesDhlComponent
+    MasterPriceCountriesDhlComponent,
+    MasterEstimateCustomerComponent
   ],
   providers: [
     RestService,

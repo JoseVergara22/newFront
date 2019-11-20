@@ -1,0 +1,341 @@
+<app-modal-basic #modalRegisterCountry [dialogClass]="'modal-lg'">
+    <div class="app-modal-header">
+
+        <h4 class="modal-title">Registrar Item</h4>
+    </div>
+    <div class="app-modal-body">
+        <div>
+            <div class="row">
+                <div class="col-sm-6">
+                    <h6>Código </h6>
+                    <input type="text" [(ngModel)]="code" class="form-control">
+                </div>
+                <div class="col-sm-6">
+                    <h6>Descripción </h6>
+                    <input type="text" [(ngModel)]="description" class="form-control">
+                </div>
+
+            </div>
+            <br>
+
+            <div class="row">
+                <div class="col-sm-3">
+                    <h6>Cantidad</h6>
+                    <input type="number" [(ngModel)]="quantity" (blur)="calculateFreightValues()" class="form-control">
+                </div>
+                <div class="col-sm-3">
+                    <h6>Costo Unitario </h6>
+                    <input type="number" [(ngModel)]="unitCost" (blur)="calculateFreightValues()" class="form-control">
+                </div>
+                <div class="col-sm-3">
+                    <h6>Peso</h6>
+                    <input type="number" [(ngModel)]="weight" (blur)="calculateFreightValues()" class="form-control">
+                </div>
+                <div class="col-sm-3">
+                    <h6>Lista Tipo Peso </h6>
+                    <select class="form-control" [(ngModel)]="weightTypeList" (blur)="calculateFreightValues()">
+                                <option value="0" selected>Seleccionar peso</option>
+                                <option value="1">LB </option>
+                                <option value="2">KL </option>
+                              </select>
+
+                </div>
+            </div>
+
+            <br>
+            <div class="row">
+                <div class="col-sm-3">
+                    <h6>Lista precio </h6>
+                    <select class="form-control" [(ngModel)]="priceList" (blur)="calculateFreightValues()">
+                            <option value="0" selected>Seleccionar país</option>
+                            <option value="2">USA </option>
+                            <option value="3">ESPAÑA </option>
+                            <option value="4">BELGICA </option>
+                          </select>
+
+                </div>
+                <div class="col-sm-3">
+                    <h6>Precio sugerido </h6>
+                    <input type="number" [(ngModel)]="suggestedPrice" class="form-control">
+                </div>
+                <div class="col-sm-3">
+                    <h6>Precio </h6>
+                    <input type="number" [(ngModel)]="price" class="form-control">
+                </div>
+                <div class="col-sm-3">
+                    <h6>Subtotal </h6>
+                    <input type="number" [(ngModel)]="subtotal" class="form-control">
+                </div>
+            </div>
+
+            <br>
+
+            <div class="row">
+
+
+                <div class="col-sm-4">
+                    <h6>Entrega </h6>
+                    <input type="text" class="form-control">
+                </div>
+
+                 <div class="col-sm-4">
+                   
+                </div>
+
+                 <div class="col-sm-4">
+                    <h6 *ngIf="salePrice">COSTO DE TOTAL:  {{costTotalGlobal}} usd </h6>
+                    <br>
+                    <h6 *ngIf="salePrice">COSTO DE PESOS:  {{costPesosGlobal}} </h6>
+                    <br>
+                    <h6 *ngIf="salePrice">PRECIO DE VENTA:  {{salePrice}} </h6>
+                    <br>
+
+                </div>
+               
+
+            </div>
+            <br>
+            <div class="align-buttons">
+                <button type="button" class="btn btn-default waves-effect" id="createCountryHide" (click)="modalRegisterCountry.hide()">Cancelar</button>
+                <button type="submit " class="btn btn-primary m-b-0 ">Crear condición</button>
+
+            </div>
+
+
+        </div>
+
+
+
+
+
+        <!--       <form [formGroup]="myForm" (ngSubmit)="sendPriceCountries()">
+            <div class="form-group row">
+                <div class="col-sm-6">
+                    <h6>Peso </h6>
+                    <input type="text" class="form-control" formControlName="weight" [ngClass]="{ 'is-invalid': submitted && checkForm.weight.errors }">
+                    <div *ngIf="submitted && checkForm.weight.errors" class="invalid-feedback">
+                        <div class="messages text-danger" *ngIf="checkForm.weight.errors.required">Este campo es requerido</div>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <h6>Precio </h6>
+                    <input type="text" class="form-control" formControlName="price" [ngClass]="{ 'is-invalid': submitted && checkForm.price.errors }">
+                    <div *ngIf="submitted && checkForm.price.errors" class="invalid-feedback">
+                        <div class="messages text-danger" *ngIf="checkForm.price.errors.required">Este campo es requerido</div>
+                    </div>
+                </div>
+            </div>
+            <div class="align-buttons">
+                <button type="button" class="btn btn-default waves-effect" id="createCountryHide" (click)="modalRegisterCountry.hide()">Cancelar</button>
+                <button type="submit " class="btn btn-primary m-b-0 ">Crear condición</button>
+
+            </div>
+        </form>-->
+    </div>
+</app-modal-basic>
+
+<app-modal-basic #modalUpdateCountry [dialogClass]="'modal-lg'">
+    <div class="app-modal-header">
+        <h4 class="modal-title">Actualizar condición DHL</h4>
+    </div>
+    <div *ngIf="currentCountry" class="app-modal-body">
+        <form [formGroup]="myFormUpdate" (ngSubmit)="sendUpdatePriceCountries()">
+            <div class="form-group row">
+                <div class="col-sm-6">
+                    <h6>Peso </h6>
+                    <input type="text" class="form-control" formControlName="weightUpdate" value={{currentCountry.weight}} [ngClass]="{ 'is-invalid': submittedUpdate && checkFormUpdate.weightUpdate.errors }">
+                    <div *ngIf="submittedUpdate && checkFormUpdate.weightUpdate.errors" class="invalid-feedback">
+                        <div class="messages text-danger" *ngIf="checkFormUpdate.weightUpdate.errors.required">Este campo es requerido</div>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <h6>Precio </h6>
+                    <input type="text" class="form-control" formControlName="priceUpdate" value={{currentCountry.price}} [ngClass]="{ 'is-invalid': submittedUpdate && checkFormUpdate.priceUpdate.errors }">
+                    <div *ngIf="submittedUpdate && checkFormUpdate.priceUpdate.errors" class="invalid-feedback">
+                        <div class="messages text-danger" *ngIf="checkFormUpdate.priceUpdate.errors.required">Este campo es requerido</div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="align-buttons">
+                <button type="button" class="btn btn-default waves-effect" id="updateCountryHide" (click)="modalUpdateCountry.hide()">Cancelar</button>
+                <button type="submit " class="btn btn-primary m-b-0 ">Actualizar condición</button>
+            </div>
+        </form>
+    </div>
+</app-modal-basic>
+
+
+
+<div class="row">
+
+    <div class="col-sm-12">
+        <app-card>
+            <h5>Registrar condición Item </h5>
+            <br>
+          <div class="row">
+                <div class="col-sm-4">
+                    <h6>Cot Num. </h6>
+                    <input type="text"  class="form-control">
+                </div>
+                <div class="col-sm-4">
+                    <h6>Fecha cotización </h6>
+                    <input type="text"  class="form-control">
+                </div>
+                  <div class="col-sm-4">
+                    <h6>Usuario </h6>
+                    <input type="text"  class="form-control">
+                </div>
+            </div>
+            <br>
+             <div class="row">
+                <div class="col-sm-6">
+                      <h6>Datos de empresa </h6>
+                    <select class="form-control" [(ngModel)]="priceList" (blur)="calculateFreightValues()">
+                            <option value="0" selected>Seleccionar cliente</option>
+                            <option value="2">Cliente1 </option>
+                            <option value="3">Cliente2 </option>
+                            <option value="4">Cliente3 </option>
+                          </select>
+                </div>
+                <div class="col-sm-6">
+                    <h6>Datos de maquina </h6>
+                     <select class="form-control" [(ngModel)]="priceList" (blur)="calculateFreightValues()">
+                            <option value="0" selected>Seleccionar maquina</option>
+                            <option value="2">Maquina1 </option>
+                            <option value="3">Maquina2 </option>
+                            <option value="4">Maquina3 </option>
+                          </select>
+                </div>
+            </div>
+<br>
+              <div class="row">
+                <div class="col-sm-4">
+                    <h6>Documento </h6>
+                    <input type="text"  class="form-control">
+                       </div>
+
+                 <div class="col-sm-4">
+                    <h6>Cliente </h6>
+                    <input type="text"  class="form-control">
+                       </div>
+
+                           <div class="col-sm-4">
+                    <h6>Equipo </h6>
+                    <input type="text"  class="form-control">
+                       </div>
+            </div>
+<br>
+        <div class="row">
+                <div class="col-sm-4">
+                   <h6>Ciudad</h6>
+                     <select class="form-control" [(ngModel)]="priceList" (blur)="calculateFreightValues()">
+                            <option value="0" selected>Seleccionar Ciudad</option>
+                            <option value="2">Ciudad1 </option>
+                            <option value="3">Ciudad2 </option>
+                            <option value="4">Ciudad3 </option>
+                          </select>
+                 </div>
+
+                 <div class="col-sm-4">
+                    <h6>Contacto </h6>
+                    <input type="text"  class="form-control">
+                </div>
+
+                <div class="col-sm-2">
+                    <h6>Forma de pago </h6>
+                    <input type="text"  class="form-control">
+                </div>
+                <div class="col-sm-2">
+                    <h6>Garantia </h6>
+                    <input type="text"  class="form-control">
+                 </div>
+        </div>
+
+
+<br>
+              <div class="row">
+                <div class="col-sm-4">
+                 <h6>Telefono </h6>
+                    <input type="text"  class="form-control">
+                       </div>
+              
+                   <div class="col-sm-4">
+                 <h6>Correo </h6>
+                    <input type="text"  class="form-control">
+                       </div>
+            
+
+                    <div class="col-sm-2">
+                    <h6>Validez</h6>
+                    <input type="text"  class="form-control">
+                    </div>
+                        <div class="col-sm-2">
+                    <h6>TRM </h6>
+                   
+                
+                       </div>
+            </div>
+                <!-- <div class="col-sm-6"> -->
+                   <!--  <h6>País<span style="color:red;">*</span></h6>
+                    <select class="form-control" (change)="ChangingValue()" name="select" [(ngModel)]="selectedEstimateCountryId">
+                            <option value="0" selected>Seleccionar país</option>
+                            <option  *ngFor="let estimateCountry of estimateCountries" [ngValue]="estimateCountry"> {{estimateCountry.name}} </option>
+                          </select> -->
+                    <!--  <input type="text" class="form-control" placeholder="Filtrar" (keyup)="updateFilter($event)"> -->
+                    <!--  <input type="text" style="padding:8px;margin:15px auto;width:30%;" placeholder="Type to filter the name column..." (keyup)="updateFilter($event)" /> -->
+             <!--   </div> -->
+              <!--  <div class="col-sm-3"> -->
+                    <!--     <div class="checkbox-color checkbox-primary">
+                    <input id="checkbox18" type="checkbox" (change)="onChangeActive($event)">
+                    <label for="checkbox18">
+                           Activo
+                          </label>
+                </div>
+                <div class="checkbox-color checkbox-danger">
+                    <input id="checkbox16" type="checkbox" (change)="onChangeInactive($event)">
+                    <label for="checkbox16">
+                                Inactivo
+                              </label>
+                </div>-->
+             <br>
+               
+                    <div class="align-buttons">
+                        <button type="button" style="display:none;" id="uploadCountry" class="btn btn-primary waves-effect" (click)="modalUpdateCountry.show()">Crear item</button>
+                        <button type="button" id="registerCountry" class="btn btn-primary waves-effect" (click)="modalRegisterCountry.show()">Crear item</button>
+                    </div>
+                
+            
+            <br>
+
+            <ngx-datatable #table class="data-table" [rows]="rowsClient" [columns]="[{name:'Peso (kilos)', prop:'weight'},{name:'Precio x Kilo (usd)', prop:'price'},{prop:'id'}]" [columnMode]="'force'" [headerHeight]="50" [footerHeight]="50" [rowHeight]="'auto'"
+                [limit]="5">
+
+                <ngx-datatable-column [resizeable]="false" name="Código" [sortable]="false" [draggable]="false" prop="weight"></ngx-datatable-column>
+                <ngx-datatable-column [resizeable]="false" name="Descripción" [sortable]="false" [draggable]="false" prop="price"></ngx-datatable-column>
+                 <ngx-datatable-column [resizeable]="false" name="Cantidad" [sortable]="false" [draggable]="false" prop="price"></ngx-datatable-column>
+               <ngx-datatable-column [resizeable]="false" name="Cto Unit" [sortable]="false" [draggable]="false" prop="price"></ngx-datatable-column>
+                  <ngx-datatable-column [resizeable]="false" name="Precio sugerido" [sortable]="false" [draggable]="false" prop="price"></ngx-datatable-column>
+                    <ngx-datatable-column [resizeable]="false" name="Precio" [sortable]="false" [draggable]="false" prop="price"></ngx-datatable-column>
+                      <ngx-datatable-column [resizeable]="false" name="Subtotal" [sortable]="false" [draggable]="false" prop="price"></ngx-datatable-column>
+                        <ngx-datatable-column [resizeable]="false" name="Entrega" [sortable]="false" [draggable]="false" prop="price"></ngx-datatable-column>
+                <ngx-datatable-column [resizeable]="false" name="Acciones" [sortable]="false" [draggable]="false" sortable="false" prop="id">
+
+
+
+                    <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+
+                        <!--<button md-icon-button (click)="blockAgents(value)">
+                          <i class="fa fa-ban"></i>
+                        </button> -->
+
+                        <button (click)="updatePriceCountry(row)" class="btn btn-primary btn-icon"><i class="icofont icofont-pencil-alt-5"></i></button>
+                        <button (click)="deletePriceCountry(row)" class="btn btn-danger btn-icon"><i class="icofont icofont-ui-delete"></i></button>
+                    </ng-template>
+                </ngx-datatable-column>
+
+
+            </ngx-datatable>
+        </app-card>
+    </div>
+</div>
