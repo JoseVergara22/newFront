@@ -97,7 +97,7 @@
             <br>
             <div class="align-buttons">
                 <button type="button" class="btn btn-default waves-effect" id="createCountryHide" (click)="modalRegisterCountry.hide()">Cancelar</button>
-                <button type="submit " class="btn btn-primary m-b-0 ">Crear condición</button>
+                <button type="submit " class="btn btn-primary m-b-0 ">Crear Item</button>
 
             </div>
 
@@ -303,9 +303,11 @@
                     <div class="align-buttons">
                         <button type="button" style="display:none;" id="uploadCountry" class="btn btn-primary waves-effect" (click)="modalUpdateCountry.show()">Crear item</button>
                         <button type="button" id="registerCountry" class="btn btn-primary waves-effect" (click)="modalRegisterCountry.show()">Crear item</button>
+
+                        <button type="button"  class="btn btn-primary waves-effect" (click)=  "downloadPdf()">Crear pdf</button>
                     </div>
                 
-            
+                  
             <br>
 
             <ngx-datatable #table class="data-table" [rows]="rowsClient" [columns]="[{name:'Peso (kilos)', prop:'weight'},{name:'Precio x Kilo (usd)', prop:'price'},{prop:'id'}]" [columnMode]="'force'" [headerHeight]="50" [footerHeight]="50" [rowHeight]="'auto'"
@@ -337,5 +339,14 @@
 
             </ngx-datatable>
         </app-card>
+        
+        <div class="row">
+            <div class="col-md-4" *ngFor="let img of images;let i=index">
+               <img id="img{{i}}" class="img-fluid" crossOrigin="Anonymous" [src]="img.url">
+           </div> 
+           <div class="col-md-12 mt-3">
+               <button (click)="download()" class="btn btn-primary">Download PDF</button>
+           </div>
+       </div>
     </div>
 </div>
