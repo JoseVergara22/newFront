@@ -166,8 +166,16 @@ const MENUITEMS = [
             name:  'Administrar tabla DHL'
           },
           {
-            state: 'estimateCustomer',
+            state: 'estimateAll',
             name:  'Cotizaciones'
+          },
+          {
+            state: 'estimateCustomer',
+            name:  'Crear Cotizacion'
+          },
+          {
+            state: 'estimateConfiguration',
+            name:  'Configuración de cotizaciones'
           }
         ]
       }

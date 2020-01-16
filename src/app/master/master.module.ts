@@ -9,7 +9,7 @@ import { SharedModule } from './../shared/shared.module';
 import { MasterSharedModule } from '../master-shared/master-shared.module';
 
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
-
+import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import { MasterForgetPasswordComponent } from './master-forget-password/master-forget-password.component';
 import { MasterChangePasswordComponent } from './master-change-password/master-change-password.component';
 import { MasterCreateSliderComponent } from './master-create-slider/master-create-slider.component';
@@ -48,7 +48,12 @@ import { MasterResetPasswordLoginComponent } from './master-reset-password-login
 import { MasterEstimateCountriesComponent } from './master-estimate-countries/master-estimate-countries.component';
 import { MasterPriceCountriesDhlComponent } from './master-price-countries-dhl/master-price-countries-dhl.component';
 import { MasterEstimateCustomerComponent } from './master-estimate-customer/master-estimate-customer.component';
- 
+import { MasterEstimateAllComponent } from './master-estimate-all/master-estimate-all.component';
+import { MasterEstimateConfigurationComponent } from './master-estimate-configuration/master-estimate-configuration.component';
+import { MasterUpdateEstimateCustomerComponent } from './master-update-estimate-customer/master-update-estimate-customer.component';
+import { MasterCopyEstimateCustomerComponent } from './master-copy-estimate-customer/master-copy-estimate-customer.component';
+// import { MasterAdminComponent } from '../master-layout/master-admin/master-admin.component';
+
 // Servicios
 import { UserService } from '../master-services/User/user.service';
 import { NewService } from '../master-services/new/new.service';
@@ -59,6 +64,10 @@ import { ColorPickerService } from 'ngx-color-picker';
 import { HorometroService } from "../master-services/horometro/horometro.service";
 import { ForkliftService } from '../master-services/Forklift/forklift.service';
 import { EstimateService } from '../master-services/estimate/estimate.service';
+import { FilexcelService } from '../master-services/FileExcel/filexcel.service';
+
+
+
 
 @NgModule({
   imports: [
@@ -71,7 +80,8 @@ import { EstimateService } from '../master-services/estimate/estimate.service';
     MasterSharedModule,
     SharedModule,
     UiSwitchModule,
-    NgxDatatableModule
+    NgxDatatableModule,
+    NgbModule
   ],
   exports: [
   ],
@@ -111,7 +121,12 @@ import { EstimateService } from '../master-services/estimate/estimate.service';
     MasterResetPasswordLoginComponent,
     MasterEstimateCountriesComponent,
     MasterPriceCountriesDhlComponent,
-    MasterEstimateCustomerComponent
+    MasterEstimateCustomerComponent,
+    MasterEstimateAllComponent,
+    MasterEstimateConfigurationComponent,
+    MasterUpdateEstimateCustomerComponent,
+    MasterCopyEstimateCustomerComponent
+   // MasterAdminComponent
   ],
   providers: [
     RestService,
@@ -127,6 +142,7 @@ import { EstimateService } from '../master-services/estimate/estimate.service';
     ColorPickerService,
     HorometroService,
     ForkliftService,
-    EstimateService]
+    EstimateService,
+    FilexcelService]
 })
 export class MasterModule { }

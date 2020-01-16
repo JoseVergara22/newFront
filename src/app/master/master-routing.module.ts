@@ -33,6 +33,10 @@ import { MasterResetPasswordLoginComponent } from './master-reset-password-login
 import { MasterEstimateCountriesComponent } from './master-estimate-countries/master-estimate-countries.component';
 import { MasterPriceCountriesDhlComponent } from './master-price-countries-dhl/master-price-countries-dhl.component';
 import { MasterEstimateCustomerComponent } from './master-estimate-customer/master-estimate-customer.component';
+import { MasterEstimateAllComponent } from './master-estimate-all/master-estimate-all.component';
+import { MasterEstimateConfigurationComponent } from './master-estimate-configuration/master-estimate-configuration.component';
+import { MasterUpdateEstimateCustomerComponent } from './master-update-estimate-customer/master-update-estimate-customer.component';
+import { MasterCopyEstimateCustomerComponent } from './master-copy-estimate-customer/master-copy-estimate-customer.component';
 
 const routes: Routes = [
   {
@@ -164,6 +168,19 @@ const routes: Routes = [
   },{
     path: 'estimateCustomer',
     component:   MasterEstimateCustomerComponent
+  },{
+    path: 'estimateAll',
+    component:   MasterEstimateAllComponent
+    
+  },{
+    path: 'estimateConfiguration',
+    component:    MasterEstimateConfigurationComponent
+  },{
+    path: 'estimateCustomerUpdate/:id',
+    component:    MasterUpdateEstimateCustomerComponent
+  },{
+    path: 'estimateCustomerCopy/:id',
+    component:    MasterCopyEstimateCustomerComponent
   }
 
 ];

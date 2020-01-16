@@ -1,33 +1,35 @@
 import { Component, ViewChild, ElementRef, OnInit, Inject, Input } from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
+
+import { Router } from '@angular/router';
+import { ActivatedRoute, Params } from '@angular/router';
+import swal from 'sweetalert2';
+
 import { RestService } from '../../master-services/Rest/rest.service';
 import { FilexcelService } from '../../master-services/FileExcel/filexcel.service';
 import { WorkService } from '../../master-services/Work/work.service';
 import { UploadService } from '../../master-services/services/upload.service';
 import { EstimateService } from '../../master-services/estimate/estimate.service';
 import { ForkliftService } from '../../master-services/Forklift/forklift.service';
+
 import * as jsPDF from 'jspdf';
 import 'jspdf-autotable';
 import { UserOptions } from 'jspdf-autotable';
-
-
-
-
-import swal from 'sweetalert2';
-import { Router } from '@angular/router';
 
 interface jsPDFWithPlugin extends jsPDF {
   autoTable: (options: UserOptions) => jsPDF;
 }
 
 
+
+
 @Component({
-  selector: 'app-master-estimate-customer',
-  templateUrl: './master-estimate-customer.component.html',
-  styleUrls: ['./master-estimate-customer.component.scss',
+  selector: 'app-master-copy-estimate-customer',
+  templateUrl: './master-copy-estimate-customer.component.html',
+  styleUrls: ['./master-copy-estimate-customer.component.scss',
   '../../../assets/icon/icofont/css/icofont.scss']
 })
-export class MasterEstimateCustomerComponent implements OnInit {
+export class MasterCopyEstimateCustomerComponent implements OnInit {
 
   data: any = [{
     eid: 'e101',
@@ -65,8 +67,6 @@ export class MasterEstimateCustomerComponent implements OnInit {
   submitted = false;
   submittedUpdate = false;
   rowsItems: any;
-  rowsItemsWorkforce: any;
-  rowsItemsparts: any;
   rowsTemp: any;
   rowStatic: any;
   rows: any;
@@ -81,7 +81,7 @@ export class MasterEstimateCustomerComponent implements OnInit {
   active = false;
   inactive = false;
   enabledUpdated = false;
-  selectedDepartmentId = 0;
+  selectedDepartmentId;
   selectedCityId = 0;
 
   filterIndicatorText = false;
@@ -98,8 +98,6 @@ export class MasterEstimateCustomerComponent implements OnInit {
   currentCountryText:any;
   s3info:any;
   fileTest:any;
-
-  forkliftText: any;
 
   quantity = 1;
   unitCost  = 0;
@@ -126,7 +124,6 @@ export class MasterEstimateCustomerComponent implements OnInit {
   descriptionUpdate='';
   deliveryUpdate:any;
 
- 
   now:any;
   user:any;
   customers:any;
@@ -141,13 +138,8 @@ export class MasterEstimateCustomerComponent implements OnInit {
   operationItemResult=0;
   conditionValidation=0;
   salePrice=0;
-  salePriceUpdate=0;
   costTotalGlobal=0;
   costPesosGlobal=0;
-
-  costTotalGlobalUpdate=0;
-  costPesosGlobalUpdate=0;
-
   documentCustomer:any;
   nameCustomer:any;
   cellphone:any;
@@ -161,21 +153,12 @@ export class MasterEstimateCustomerComponent implements OnInit {
   departments: any;
   cities: any;
   observation:any;
-  selectedBusinessId:any=0;
+  selectedBusinessId;
   estimateId=null;
-  showEstimateId=true;
-  showCreateItem=false;
-  lowPrice : any=0;
-  higherPrice : any=0;
-
-  lowPriceUpdate : any=0;
-  higherPriceUpdate : any=0;
-
-  daysUpdate:any;
-
-  emails;  
-  emailBody;
-  emailSubject; 
+  showEstimateId = true;
+  showCreateItem = false;
+  currentEstimateId:any;
+  currentEstimate:any;
 
   //Varaibles de configuración validación
   suggestedMaximum:any;
@@ -186,35 +169,18 @@ export class MasterEstimateCustomerComponent implements OnInit {
   conditionTrmUsa:any;
   conditionTrmEsp:any;
 
-  blobGlobal:any;
-
-  workforceCode: any;
-  workforceService: any;
-  workforcequantity: any;
-  workforceHourValue: any;
-  workforceSubtotal: any;
-  workforceDelivery: any;
-
-  workforceCodeUpdate: any;
-  workforceServiceUpdate: any;
-  workforcequantityUpdate: any;
-  workforceHourValueUpdate: any;
-  workforceSubtotalUpdate: any;
-  workforceDeliveryUpdate: any;
-  workforceDetailIdUpdate: any;
-
-  idCustomerCreated:any;
-  itemEnd = [];
-
-  observationUpdate:any;
-  validityUpdate:any;
-
-  idDetail:any;
-
   @ViewChild('content') content: ElementRef;
   
-  constructor(private restService: RestService, private router: Router, private estimateService: EstimateService, private excelService:FilexcelService,  private workService:WorkService,  private uploadService: UploadService, private forkliftService: ForkliftService) {
+  constructor(private restService: RestService, private router: Router, private estimateService: EstimateService, private excelService:FilexcelService,  private workService:WorkService,  private uploadService: UploadService, private forkliftService: ForkliftService,  private rutaActiva: ActivatedRoute) {
+
+  
+    this.currentEstimateId = this.rutaActiva.snapshot.params.id;
+    this.getEstimateSpecific(this.currentEstimateId);
   console.log('------------------');
+
+  console.log(this.currentEstimateId);
+
+ 
     this.showShippingCountriesDhlInitial();
     // this.showCountryWeight();
 
@@ -224,23 +190,17 @@ export class MasterEstimateCustomerComponent implements OnInit {
     this.getConfigEstimatesInitial();
     this.getConfigTrmInitial();
 
-    this.getCustomers();
+   
+    
+   
+
     this.getDepartments();
     this.getTrmCurrent();
 
-
+   
     var date = new Date();
-
-    // poner los 0
-
-    var day = (date.getDate() < 10 ? '0' : '') + date.getDate();
-    // 01, 02, 03, ... 10, 11, 12
-    let month = ((date.getMonth() + 1) < 10 ? '0' : '') + (date.getMonth() + 1);
-    // 1970, 1971, ... 2015, 2016, ...
-    var year = date.getFullYear();
-
-
-    this.now = year +'-'+ month+'-'+ day;
+    let month=date.getMonth()+1;
+    this.now = date.getFullYear()+'-'+ month+'-'+date.getDate();
     this.user = localStorage.getItem('username');
 
     const weight = new FormControl('', Validators.required);
@@ -260,6 +220,8 @@ export class MasterEstimateCustomerComponent implements OnInit {
       weightUpdate: weightUpdate,
       priceUpdate:priceUpdate
     });
+
+  
    }
 
   
@@ -271,13 +233,8 @@ export class MasterEstimateCustomerComponent implements OnInit {
       swal.close();
       this.consecutive  = resp.data;
       var date = new Date();
-     
+      let month=date.getMonth()+1;
       let now = date.getFullYear();
-
-     
-      // 01, 02, 03, ... 10, 11, 12
-      let month = ((date.getMonth() + 1) < 10 ? '0' : '') + (date.getMonth() + 1);
-
       
       let yearCosecutive=date.getFullYear().toString().substring(2,4);
       this.consecutive= Number(this.consecutive.consecutive)+1;
@@ -295,6 +252,42 @@ export class MasterEstimateCustomerComponent implements OnInit {
    }
 
 
+   getEstimateSpecific(id:number) {
+   
+    this.estimateService.getEstimateSpecific(id).then(data => { 
+      const resp: any = data;      
+      this.currentEstimate=resp.data;      
+
+      this.getCustomers();
+     // this.now =(this.currentEstimate.create_at).substring(0,10);
+     // this.consecutive= this.currentEstimate.estimate_consecutive;
+     // this.selectedBusinessId = Number(this.currentEstimate.customer_id);
+      //this.selectedForkliftId = this.currentEstimate.forklift_id;
+      this.documentCustomer =  this.currentEstimate.customer_document;
+      this.nameCustomer =  this.currentEstimate.customer.business_name;
+   //   this.selectedDepartmentId =  this.currentEstimate.department_id;
+   //   this.selectedCityId = this.currentEstimate.city_id;
+      this.days = this.currentEstimate.payment_method;
+      this.guaranty = this.currentEstimate.guaranty;
+      this.contact = this.currentEstimate.contact;
+      this.email = this.currentEstimate.email;
+      this.validity = this.currentEstimate.validity;
+      this.cellphone = this.currentEstimate.telephone;
+      this.observation = this.currentEstimate.observation;
+    
+     //  this.user= this.currentEstimate.elaborate_user.username;
+      this.rowsItems=this.currentEstimate.estimate_details;
+
+
+      
+    }).catch(error => {
+      console.log(error);
+    });
+   }
+
+   
+
+
    
 
    getEstimateDetails() {
@@ -303,73 +296,6 @@ export class MasterEstimateCustomerComponent implements OnInit {
       this.estimateService.getEstimateDetails(this.estimateId).then(data => {
         const resp: any = data;
         this.rowsItems=resp.data;
-      
-        for (let i = 0; i < this.rowsItems.length; i++) {
-          this.itemEnd.push(+i+1+','+ this.rowsItems[i].code+','+this.rowsItems[i].description+','+this.rowsItems[i].quantity+','+this.rowsItems[i].unit_cost+','+this.rowsItems[i].price+','+this.rowsItems[i].delivery);
-        }
-
-
-
-        console.log('INFO PARA VER ITEMS PARA EL PDF');
-        console.log('Importante');
-        console.log(this.itemEnd.toString());
-        console.log('------------'+ this.itemEnd[0]);
-      
-        console.log(data);
-      }).catch(error => {
-        console.log(error);
-      });
-  
-    }
-  
-   }
-
-
-
-   getEstimateWorkforce() {
-   
-    if(this.estimateId){
-      this.estimateService.getEstimateDetailsWorkforce(this.estimateId).then(data => {
-        const resp: any = data;
-        this.rowsItemsWorkforce=resp.data;
-      
-        /*for (let i = 0; i < this.rowsItems.length; i++) {
-          this.itemEnd.push(+i+1+','+ this.rowsItems[i].code+','+this.rowsItems[i].description+','+this.rowsItems[i].quantity+','+this.rowsItems[i].unit_cost+','+this.rowsItems[i].price+','+this.rowsItems[i].delivery);
-        }*/
-
-        console.log('INFO PARA VER ITEMS PARA EL PDF');
-        console.log('Importante');
-        console.log(this.itemEnd.toString());
-        console.log('------------'+ this.itemEnd[0]);
-      
-        console.log(data);
-      }).catch(error => {
-        console.log(error);
-      });
-  
-    }
-  
-   }
-
-
-   getEstimateParts() {
-   
-    if(this.estimateId){
-      this.estimateService.getEstimateDetailsParts(this.estimateId).then(data => {
-        const resp: any = data;
-        this.rowsItemsparts=resp.data;
-      
-     /*   for (let i = 0; i < this.rowsItems.length; i++) {
-          this.itemEnd.push(+i+1+','+ this.rowsItems[i].code+','+this.rowsItems[i].description+','+this.rowsItems[i].quantity+','+this.rowsItems[i].unit_cost+','+this.rowsItems[i].price+','+this.rowsItems[i].delivery);
-        }*/
-
-
-
-        console.log('INFO PARA VER ITEMS PARA EL PDF');
-        console.log('Importante');
-        console.log(this.itemEnd.toString());
-        console.log('------------'+ this.itemEnd[0]);
-      
         console.log(data);
       }).catch(error => {
         console.log(error);
@@ -388,8 +314,8 @@ export class MasterEstimateCustomerComponent implements OnInit {
       
       //asignar valores customer;
      
-    
-
+      this.selectedBusinessId = Number(this.currentEstimate.customer_id);
+      this.getForklifs();
       // this.rowsClient = resp.data;
       // this.rowStatic =  resp.data;
       // this.rowsTemp = resp.data;
@@ -445,14 +371,13 @@ this.trmGeneralUsa= inputTrm.value.replace(/[^\d\.]*/g,'');
 
    getCities() {
       console.log('oleole');
-      console.log(this.selectedDepartmentId);
-      this.restService.getCities(this.selectedDepartmentId).then(data => {
+      this.restService.getCities(this.currentEstimate.department_id).then(data => {
         const resp: any = data;
         console.log(data);
         swal.close();
         this.cities = resp.data;
-        if(this.selectedBusinessId.city_id){
-          this.selectedCityId=this.selectedBusinessId.city_id;
+        if(this.currentEstimate.city_id){
+          this.selectedCityId=this.currentEstimate.city_id;
         }
         console.log( this.cities);
       }).catch(error => {
@@ -470,6 +395,11 @@ this.trmGeneralUsa= inputTrm.value.replace(/[^\d\.]*/g,'');
       // this.rowStatic =  resp.data;
       // this.rowsTemp = resp.data;
       // console.log( this.rowsClient);
+      //this.selectedDepartmentId=1;
+
+      this.selectedDepartmentId =  Number(this.currentEstimate.department_id);
+
+      this.getCities();
     }).catch(error => {
       console.log(error);
     });
@@ -479,20 +409,19 @@ this.trmGeneralUsa= inputTrm.value.replace(/[^\d\.]*/g,'');
    
     console.log('valor de selección');
     
-    console.log(this.selectedBusinessId.document_id);
 
-    this.documentCustomer = this.selectedBusinessId.document_id;
+  /*  this.documentCustomer = this.selectedBusinessId.document_id;
     this.nameCustomer = this.selectedBusinessId.business_name;
     this.cellphone = this.selectedBusinessId.telephone;
     this.contact =  this.selectedBusinessId.name+''+ this.selectedBusinessId.last_name;
     this.email =  this.selectedBusinessId.email;
     this.days = this.selectedBusinessId.day;
     this.selectedDepartmentId = this.selectedBusinessId.department_id;
-   
-    this.getCities();
 
-    if(this.selectedBusinessId.id!=0){
-    this.forkliftService.getForkliftsCustomerFull(this.selectedBusinessId.id).then(data => {
+    this.getCities();
+*/
+    if(this.selectedBusinessId!=0){
+    this.forkliftService.getForkliftsCustomerFull(this.selectedBusinessId).then(data => {
       const resp: any = data;
       console.log(data);
       swal.close();
@@ -503,6 +432,9 @@ this.trmGeneralUsa= inputTrm.value.replace(/[^\d\.]*/g,'');
       // this.rowStatic =  resp.data;
       // this.rowsTemp = resp.data;
       // console.log( this.rowsClient);
+
+      this.selectedForkliftId=this.currentEstimate.forklift_id;
+
     }).catch(error => {
       console.log(error);
     });
@@ -534,11 +466,7 @@ this.trmGeneralUsa= inputTrm.value.replace(/[^\d\.]*/g,'');
       allowOutsideClick: false
     });
     swal.showLoading();
-
-     // console.log(this.lowPrice+ '--' +this.price+ '--'+ this.higherPrice);
-
-     if(this.price >= this.lowPrice && this.price <= this.higherPrice){
-
+    
      let estimateIdDetailTemp= this.estimateId;
      let codeTemp= this.code;
      let descriptionTemp= this.description;
@@ -555,32 +483,18 @@ this.trmGeneralUsa= inputTrm.value.replace(/[^\d\.]*/g,'');
      let statusTemp = 0;
      let subtotalTemp = this.subtotal;
      let typeServiceTemp = 0;
-     let weightTypeList = this.weightTypeList;
-
  
      this.estimateService.createEstimateDetails(estimateIdDetailTemp,codeTemp,descriptionTemp,
       quantityTemp, unitCostTemp, priceListTemp, priceSuggestTemp, weightTemp,
-      priceTemp, subtotalTemp, deliveryTemp, totalTemp,statusTemp, typeServiceTemp, weightTypeList).then(data => {
+      priceTemp, subtotalTemp, deliveryTemp, totalTemp,statusTemp, typeServiceTemp,0).then(data => {
        const resp: any = data;
        swal({
         title: 'Item creado',
         type: 'success'
        });
+       
        document.getElementById( 'createItemHide').click();
-       this.code='';
-       this.description='';
-       this.quantity=1;
-       this.unitCost=0;
-       this.weight=0;
-       this.weightTypeList=0;
-       this.priceList=0;
-       this.suggestedPrice=0;
-       this.price=0;
-       this.subtotal=0;
-       this.delivery=0;
-      // this.getEstimateDetails();
-       this.getEstimateWorkforce();
-       this.getEstimateParts();
+       this.getEstimateDetails();
 
        console.log(resp);
      }).catch(error => {
@@ -592,131 +506,8 @@ this.trmGeneralUsa= inputTrm.value.replace(/[^\d\.]*/g,'');
 
        console.log(error);
      });
-    }else{
-      swal({
-        title: 'Se presentó un problema',
-        text: 'El precio asignado está por debajo del sugerido o está por encima del porcentaje permitido',
-        type: 'error'
-       });
-    }
-
    }
-
-   updateEstimateDetail(){
-    swal({
-      title: 'Validando información ...',
-      allowOutsideClick: false
-    });
-    swal.showLoading();
-
-     // console.log(this.lowPrice+ '--' +this.price+ '--'+ this.higherPrice);
-
-     if(this.priceUpdate >= this.lowPriceUpdate && this.priceUpdate <= this.higherPriceUpdate){
-
-     let estimateIdDetailTemp= this.idDetail;
-     let codeTemp= this.codeUpdate;
-     let descriptionTemp= this.descriptionUpdate;
-     let quantityTemp = this.quantityUpdate;
-     let unitCostTemp = this.unitCostUpdate;
-     let priceListTemp = this.priceListUpdate;
-     let priceSuggestTemp = this.suggestedPriceUpdate;
-     let daysTemp = this.daysUpdate;
-     let priceTemp = this.priceUpdate;
-     let deliveryTemp = this.validityUpdate;
-     let weightTemp = this.weightUpdate;
-     let totalTemp = this.subtotalUpdate;
-     let observationTemp = this.observationUpdate;
-     let statusTemp = 0;
-     let subtotalTemp = this.subtotalUpdate;
-     let typeServiceTemp = 0;
-
-     let weightTypeTemp = this.weightTypeListUpdate;
-
- 
-     this.estimateService.updateEstimateDetails(estimateIdDetailTemp,codeTemp,descriptionTemp,
-      quantityTemp, unitCostTemp, priceListTemp, priceSuggestTemp, weightTemp,
-      priceTemp, subtotalTemp, deliveryTemp, totalTemp,statusTemp, typeServiceTemp,weightTypeTemp).then(data => {
-       const resp: any = data;
-       swal({
-        title: 'Item actualizado',
-        type: 'success'
-       });
-       
-       document.getElementById( 'updateItemHide').click();
-      // this.getEstimateDetails();
-       this.getEstimateWorkforce();
-       this.getEstimateParts();
-
-       console.log(resp);
-     }).catch(error => {
-
-      swal({
-        title: 'Se presento un problema, para guardar este item',
-        type: 'error'
-       });
-
-       console.log(error);
-     });
-    }else{
-      swal({
-        title: 'Se presentó un problema',
-        text: 'El precio asignado está por debajo del sugerido o está por encima del porcentaje permitido',
-        type: 'error'
-       });
-    }
-   }
-
-
-   // 
-
-   updateEstimateDetailWorkforce(){
-    swal({
-      title: 'Validando información ...',
-      allowOutsideClick: false
-    });
-    swal.showLoading();
-
-     // console.log(this.lowPrice+ '--' +this.price+ '--'+ this.higherPrice);
-     let estimateIdDetailTemp= this.workforceDetailIdUpdate;
-     let codeTemp= this.workforceCodeUpdate;
-     let serviceTemp= this.workforceServiceUpdate;
-     let quantityTemp = this.workforcequantityUpdate;
-     let hourValueTemp = this.workforceHourValueUpdate;
-     let subtotalTemp = this.workforceSubtotalUpdate;
-     let deliveryTemp = this.workforceDeliveryUpdate;
-     let statusTemp = 0;
-     let typeServiceTemp = 1;
-
- 
-     this.estimateService.updateEstimateDetailWorkforce(estimateIdDetailTemp,codeTemp,serviceTemp,
-      quantityTemp, hourValueTemp, subtotalTemp, deliveryTemp, subtotalTemp,statusTemp, typeServiceTemp).then(data => {
-       const resp: any = data;
-       swal({
-        title: 'Item actualizado',
-        type: 'success'
-       });
-       
-       document.getElementById( 'updateItemHideDetailWorkforce').click();
-      // this.getEstimateDetails();
-       this.getEstimateWorkforce();
-       this.getEstimateParts();
-
-       console.log(resp);
-     }).catch(error => {
-
-      swal({
-        title: 'Se presento un problema, para guardar este item',
-        type: 'error'
-       });
-
-       console.log(error);
-     });
    
-   }
-
-
-
-
    sendPriceCountries() {
     console.log(localStorage.getItem('token'));
     this.submitted = true;
@@ -826,10 +617,8 @@ this.trmGeneralUsa= inputTrm.value.replace(/[^\d\.]*/g,'');
 
 
   updateItems(item:any) {
-  
-console.log('-----------------------');
-console.log(item);
-this.idDetail = item.id;
+
+let idDetail = item.estimate_id;
 this.codeUpdate= item.code;
 this.descriptionUpdate= item.description;
 this.quantityUpdate= item.quantity;
@@ -840,31 +629,12 @@ this.priceUpdate = item.price;
 this.subtotalUpdate = item.subtotal;
 this.deliveryUpdate =  item.delivery;
 this.weightUpdate = item.weight;
-this.weightTypeListUpdate = item.weight_type;
 
     console.log(item);
     document.getElementById( 'uploadItem').click();
   }
 
-
-  updateWorkForceItems(item:any) {
-  
-    this.workforceDetailIdUpdate = item.id;
-    this.workforceCodeUpdate = item.code;
-    this.workforceServiceUpdate = item.service;
-    this.workforcequantityUpdate = item.quantity;
-    this.workforceHourValueUpdate = item.hour_value;
-    this.workforceSubtotalUpdate = item.subtotal;
-    this.workforceDeliveryUpdate = item.delivery;
-
-        console.log(item);
-        document.getElementById( 'uploadWorkforceItem').click();
-      }
-
-
-
-
-  deletePriceCountry(item: any) {
+  deletePriceCountry(country: any) {
     swal({
       title: 'Estás seguro de eliminar este elemento?',
      // text: 'Once deleted, you will not be able to recover this imaginary file!',
@@ -877,8 +647,8 @@ this.weightTypeListUpdate = item.weight_type;
     })
     .then((willDelete) => {
         if (willDelete.value) {
-          this.elementDelete = item;
-          console.log(item);
+          this.elementDelete = country;
+          console.log(country);
           console.log(    this.elementDelete);
           swal.showLoading();
           this.estimateService.deletePriceCountries(Number(this.elementDelete.id))
@@ -910,60 +680,10 @@ this.weightTypeListUpdate = item.weight_type;
         }
       console.log(willDelete);
     });
+
+
+
   }
-
-
-
-  deleteEstimateDetail(item: any) {
-    swal({
-      title: 'Estás seguro de eliminar este elemento?',
-     // text: 'Once deleted, you will not be able to recover this imaginary file!',
-      type: 'warning',
-      showCancelButton: true,
-      showConfirmButton: true,
-      cancelButtonText: 'No',
-      confirmButtonText: 'Si'
-
-    })
-    .then((willDelete) => {
-        if (willDelete.value) {
-          this.elementDelete = item;
-          console.log(item);
-          console.log(    this.elementDelete);
-          swal.showLoading();
-          this.estimateService.deleteEstimateDetail(Number(this.elementDelete.id))
-          .then(data => {
-            swal.showLoading();
-            const resp: any = data;
-            console.log(resp);
-
-            if (resp.success === false) {
-              swal({
-                title: 'Este peso presenta problemas',
-                text: 'Este peso no se puede eliminar',
-                type: 'error'
-               });
-            } else {
-           // this.router.navigateByUrl('master/registerBrand');
-           this.ChangingValue();
-           swal({
-            title: 'Elemento eliminado',
-            type: 'success'
-           });
-           this.getEstimateWorkforce();
-           this.getEstimateParts(); 
-          }
-          }).catch(error => {
-            console.log(error);
-          });
-          console.log(this.elementDelete.id);
-        } else {
-         // swal('Fail');
-        }
-      console.log(willDelete);
-    });
-  }
-
 
 calculateFreight(weight: number, price: number) {
 
@@ -1022,7 +742,7 @@ if ( price < 1000 && weight < 45) {
 
 console.log('condición final: '+this.conditionValidation);
 this.finalWeight=weight;
-this.showShippingCountriesDhl(this.conditionValidation,this.priceList, weight,0);// create
+this.showShippingCountriesDhl(this.conditionValidation,this.priceList, weight);
 console.log('Importante informacion: '+ this.conditionValidation);
  }
 
@@ -1084,7 +804,7 @@ this.conditionValidation = 3;
 
 console.log('condición final: '+this.conditionValidation);
 this.finalWeight=weight;
-this.showShippingCountriesDhl(this.conditionValidation,this.priceListUpdate, weight,1);// update
+this.showShippingCountriesDhl(this.conditionValidation,this.priceList, weight);
 console.log('Importante informacion: '+ this.conditionValidation);
 }
 
@@ -1174,9 +894,7 @@ console.log('Importante informacion: '+ this.conditionValidation);
   }
 
 
-  getForkliftText(){
-    this.forkliftText=this.selectedForkliftId.full_name;
-  }
+
   
   
 
@@ -1203,7 +921,7 @@ console.log('Importante informacion: '+ this.conditionValidation);
   }
 
 
-showShippingCountriesDhl(conditionValidation:number ,country:number,weight: number, ind:number){ // ind 0:create, 1:update
+showShippingCountriesDhl(conditionValidation:number ,country:number,weight: number){
   console.log(conditionValidation);
   console.log(country);
    let priceTemp=0;
@@ -1227,26 +945,20 @@ console.log(country+'-'+item.estimate_countries_id+'-'+item.conexion_id_validati
 
     if(priceTemp==0){
     console.log('Toca buscar el valor en tabla: '+country+'-------'+weight);
-    this.showCountryWeight(country,weight,ind);
+    this.showCountryWeight(country,weight);
 
     }else{
       console.log('este es el valor: '+priceTemp);
       this.freightGeneral=priceTemp;
        console.log( this.freightGeneral);
-
-       if(ind==0){
         this.finalOperation(country);
-       }else{
-        this.finalOperationUpdate(country);
-       }
-       
     }
 
 
    }
 
 
-  showCountryWeight(country:number, weight: number, ind: number){
+  showCountryWeight(country:number, weight: number){
 
     console.log('-------ole ole---'+weight);
     this.estimateService.showCountryWeight(country, weight).then(data => {
@@ -1254,11 +966,7 @@ console.log(country+'-'+item.estimate_countries_id+'-'+item.conexion_id_validati
       console.log(data);
        this.freightGeneral = resp.data[0].price;
        console.log('Este es el flete:'+ this.freightGeneral);
-       if(ind==0){
-        this.finalOperation(country);
-       }else{
-        this.finalOperationUpdate(country);
-       }
+       this.finalOperation(country);
       swal.close();
     }).catch(error => {
       console.log(error);
@@ -1269,87 +977,21 @@ console.log(country+'-'+item.estimate_countries_id+'-'+item.conexion_id_validati
     console.log('jajajajaj');
     console.log(this.unitCost+'-'+ this.weight+'-'+ this.weightTypeList+'-'+  this.priceList);
     if(this.unitCost!==0 && this.weight!==0 && this.weightTypeList!==0 && this.priceList!==0 && this.quantity!==0){
-
-    if(this.priceList==5 || this.priceList==6){
-      console.log('calculo diferente');
-      if(this.priceList==5 ){
-        this.suggestedPrice =Number(Number(this.unitCost/this.thirdService).toFixed(2));
-        this.price =   this.suggestedPrice;
-        this.subtotal=  this.suggestedPrice*this.quantity;
-      }else if (this.priceList==6) {
-        this.suggestedPrice =Number(Number(this.unitCost/ this.nationalService).toFixed(2));
-        this.price =   this.suggestedPrice;
-        this.subtotal=  this.suggestedPrice*this.quantity;
-      } 
-    }else{
-      console.log('ingreso');
+     console.log('ingreso');
       this.calculateFreight(this.weight, this.unitCost);
-    }
-    }
-
-    if(this.unitCost!==0 && this.priceList!==0 && this.quantity!==0){
-      if(this.priceList==5 || this.priceList==6){
-        console.log('calculo diferente');
-        if(this.priceList==5 ){
-          this.suggestedPrice = Number(Number(this.unitCost/this.thirdService).toFixed(2));
-          this.price =   this.suggestedPrice;
-          this.subtotal=  this.suggestedPrice*this.quantity;
-        }else if (this.priceList==6) {
-          this.suggestedPrice =Number(Number(this.unitCost/ this.nationalService).toFixed(2));
-          this.price =   this.suggestedPrice;
-          this.subtotal=  this.suggestedPrice*this.quantity;
-        } 
-      }
-
     }
     console.log(this.weight);
   }
 
 
   calculateFreightValuesUpdate(){
-   
-    if( this.unitCostUpdate!==0 && this.weightUpdate!==0 && this.weightTypeListUpdate!==0 && this.priceListUpdate!==0 && this.quantityUpdate!==0){
-
-    if(this.priceListUpdate==5 || this.priceListUpdate==6){
-      console.log('calculo diferente');
-      if(this.priceListUpdate==5 ){
-        this.suggestedPrice =Number(Number(this.unitCostUpdate/this.thirdService).toFixed(2));
-        this.priceUpdate =   this.suggestedPriceUpdate;
-        this.subtotalUpdate =  this.suggestedPriceUpdate*this.quantityUpdate;
-      }else if (this.priceListUpdate==6) {
-        this.suggestedPriceUpdate =Number(Number(this.unitCostUpdate/ this.nationalService).toFixed(2));
-        this.priceUpdate =   this.suggestedPriceUpdate;
-        this.subtotalUpdate =  this.suggestedPriceUpdate*this.quantityUpdate;
-      } 
-    }else{
-      console.log('ingreso');
-      this.calculateFreightUpdate(this.weightUpdate, this.unitCostUpdate);
-    }
-    }
-
-    if(this.unitCostUpdate!==0 && this.priceListUpdate!==0 && this.quantity!==0){
-      if(this.priceListUpdate==5 || this.priceListUpdate==6){
-        console.log('calculo diferente');
-        if(this.priceListUpdate==5 ){
-          this.suggestedPriceUpdate = Number(Number(this.unitCostUpdate/this.thirdService).toFixed(2));
-          this.priceUpdate =   this.suggestedPriceUpdate;
-          this.subtotalUpdate =  this.suggestedPriceUpdate*this.quantityUpdate;
-        }else if (this.priceListUpdate==6) {
-          this.suggestedPriceUpdate =Number(Number(this.unitCostUpdate/ this.nationalService).toFixed(2));
-          this.priceUpdate =   this.suggestedPriceUpdate;
-          this.subtotalUpdate =  this.suggestedPriceUpdate*this.quantityUpdate;
-        } 
-      }
-
-    }
-  
-    /* console.log('jajajajaj');
+    console.log('jajajajaj');
     console.log(this.unitCostUpdate+'-'+ this.weightUpdate+'-'+ this.weightTypeListUpdate+'-'+  this.priceListUpdate);
     if(this.unitCostUpdate!==0 && this.weightUpdate!==0 && this.weightTypeListUpdate!==0 && this.priceListUpdate!==0 && this.quantityUpdate!==0){
      console.log('ingreso');
       this.calculateFreight(this.weightUpdate, this.unitCostUpdate);
     }
-    console.log(this.weight);*/
+    console.log(this.weight);
   }
 
 
@@ -1422,93 +1064,9 @@ finalOperation(country:number){
   // llamar api para cada usuario y configurar clientes que no existan
   this.salePrice=costPesos/(1-margin);
   this.suggestedPrice=((Number(this.salePrice)).toFixed(2));
-  this.lowPrice = this.suggestedPrice;
-  this.higherPrice = Number(this.suggestedPrice *(1+(this.suggestedMaximum/100))).toFixed(2);
-
-  console.log( this.lowPrice +'-----'+ this.higherPrice);
-
   this.price=Number(this.salePrice).toFixed(2)
   this.subtotal=(Number(this.salePrice)*Number(this.quantity)).toFixed(2);
 }
-
-
-finalOperationUpdate(country:number){
-
-  //Variables necesarias para  el calculo
-  // this.freightGeneral  this.managementVariables this.finalWeight
-  console.log('Ingreso hasta aquí');
-   let drivingCost=0;
-
-  if(this.conditionValidation==3){
-    drivingCost=this.managementVariables;
-    console.log('costo de manejo');
-    console.log(drivingCost);
-   
-  }else{
-    if(country==4){
-      drivingCost=this.unitCostUpdate*Number(this.managementVariables)+this.unitCostUpdate*(Number(this.managmentTariff)/100);//10
-    }else{
-      drivingCost=this.unitCostUpdate*Number(this.managementVariables);
-    }
-   
-  }
-
-  let operationFreight=0;
-
-  if(this.conditionValidation==2){
-     operationFreight = Number(Number(this.freightGeneral).toFixed(2))*1;
-  }else{
-     operationFreight = Number(Number(this.freightGeneral).toFixed(2))*this.finalWeight;
-  }
-
-  console.log('driving '+drivingCost);
-  // let operationFreight = this.freightGeneral*this.finalWeight;
-  console.log('operation '+ this.freightGeneral);
-
-  this.costTotalGlobalUpdate=  Number(this.unitCostUpdate) +  Number(operationFreight) +  Number(drivingCost);
-  console.log(this.costTotalGlobalUpdate);
-  console.log('Costo total '+ this.unitCostUpdate+'-'+operationFreight+'-'+drivingCost);
- 
-  let dolar; //llamar api medata
-  if(country==3){
-    dolar=this.trmGeneralEsp;
-  }else{
-    dolar=this.trmGeneralUsa;
-  }
-
-  console.log(this.costTotalGlobalUpdate+'--------------------'+dolar);
-  let costPesos=this.costTotalGlobalUpdate*dolar;
-  this.costPesosGlobalUpdate= costPesos;
-
-
-  console.log( this.costPesosGlobal);
-
-  let margin;
-  if(this.selectedBusinessId){
-    if(this.selectedBusinessId.price_margin){
-        margin= (Number(this.selectedBusinessId.price_margin))/100;
-    }else{
-      margin=Number(this.newCustomerMargin)/100
-    }
-  }else{
-    margin=Number(this.newCustomerMargin)/100
-  }
-
-  console.log('margin');
-
-
-  // llamar api para cada usuario y configurar clientes que no existan
-  this.salePriceUpdate=costPesos/(1-margin);
-  this.suggestedPriceUpdate=((Number(this.salePriceUpdate)).toFixed(2));
-  this.lowPriceUpdate = this.suggestedPriceUpdate;
-  this.higherPriceUpdate = Number(this.suggestedPriceUpdate *(1+(this.suggestedMaximum/100))).toFixed(2);
-
-  console.log( this.lowPriceUpdate +'-----'+ this.higherPriceUpdate);
-
-  this.priceUpdate=Number(this.salePriceUpdate).toFixed(2)
-  this.subtotalUpdate=(Number(this.salePriceUpdate)*Number(this.quantityUpdate)).toFixed(2);
-}
-
 
 
 
@@ -1618,7 +1176,7 @@ doc.autoTable({
   columnStyles:{2: { cellWidth:50, fontSize:8,   fillColor: null},  1: {cellWidth:140,fontSize:8, halign: 'left',fillColor: null},  0: {cellWidth:250,fontSize:8, halign: 'left', fillColor: null} },
   alternateRowStyles:{fontSize:9},
   margin: { left: 15},
-  body: [['Jueves, 26 de diciembre de 2019','', '1 de 1' ]]
+  body: [['viernes, 29 de noviembre de 2019','', '1 de 1' ]]
 
 });
 
@@ -1641,7 +1199,7 @@ doc.autoTable({
   columnStyles:{0: { cellWidth:180, fontSize:9,  fillColor: null},  1: {fontSize:12, halign: 'center', fillColor: null, textColor:[255, 0, 0] }},
   alternateRowStyles:{fontSize:9},
   margin: {top: 60, right: 15, bottom: 0, left: 135},
-  body: [ ['Creado Por: '+ this.user,'No. ' + this.consecutive ]]
+  body: [ ['Creado Por: DEISY VEGA CASALLAS','No. 1234567898']]
 });
 
 doc.autoTable({
@@ -1659,7 +1217,7 @@ doc.autoTable({
   styles: {fillColor: [215,215,215],lineColor:[4,1,0],lineWidth:0.2},
   columnStyles: {0: { cellWidth:235, fontSize:9,  fillColor: null},  1: {fontSize:9, halign: 'left', fillColor: null, cellWidth:180}},
   margin: { left: 15},
-  body: [['Nit: ' + this.documentCustomer+' '+this.nameCustomer, 'Contacto: '+ this.contact]]
+  body: [['Sweden', 'Japan']]
 });
 
 doc.autoTable({
@@ -1668,7 +1226,7 @@ doc.autoTable({
   styles: {fillColor: [215,215,215],lineColor:[4,1,0],lineWidth:0.2},
   columnStyles: {0: { cellWidth:100, fontSize:9,  fillColor: null},  1: {fontSize:9, halign: 'left', fillColor: null, cellWidth:100},  2: {fontSize:9, halign: 'left', fillColor: null, cellWidth:214}},
   margin: { left: 15},
-  body: [['Telefono: '+ this.cellphone, 'Ciudad: '+ 'Medellín', 'Maquina: '+  'CHEVROLEJTL CHR3566987893 123456543345'  ]]
+  body: [['Telefono', 'Ciudad', 'Maquina']]
 });
 
 doc.autoTable({
@@ -1697,41 +1255,68 @@ doc.autoTable({
   margin: {top: 60, right: 15, bottom: 0, left: 15},
   body: [['REPUESTOS']]
 });
-let a=[];
-a =['1','HNYUCW-0021','LOCKOFF - eaef','1','$385.000','$385.000','5 DIAS'],
-['1','HNYUCW-00122','LOCKOFF - efe','1','$385.000','$385.000','5 DIAS'],
-['1','HNYUCW-00122','LOCKOFF - ee','1','$385.000','$385.000','5 DIAS']
-;
-
-let ss=['ITEM','CÓDIGO','DESCRIPCIÓN','CANT.','VLR. UNIT.','TOTAL','ENTREGA'];
-var body_table = [];
- body_table = ['David', 'david@example.com', 'Sweden'], ['David', 'david@example.com', 'Sweden'],['David', 'david@example.com', 'Sweden'];
-
-
-let y = 195;
-for (let i = 0; i < this.rowsItemsparts.length; i++) {
-
-  body_table = [i+1, this.rowsItemsparts[i].code, this.rowsItemsparts[i].description, this.rowsItemsparts[i].quantity, this.rowsItemsparts[i].unit_cost, this.rowsItemsparts[i].price,
-  this.rowsItemsparts[i].delivery];
-  
-  doc.autoTable({
-    startY: y,
-    theme:'grid',
-    styles: {fillColor: null,lineColor:[4,1,0],lineWidth:0.2},
-    columnStyles: {0: {halign: 'center', fontSize:8, cellWidth:23}, 1: {halign: 'center', fontSize:8, cellWidth:55},2: {halign: 'left', fontSize:8, cellWidth:185},3: {halign: 'center', fontSize:8, cellWidth:27},4: {halign: 'center', fontSize:8, cellWidth:40}, 5: {halign: 'center', fontSize:8, cellWidth:39}, 6: {halign: 'center', fontSize:8, cellWidth:42}  },
-    margin: { left: 15},
-    body: [ body_table ]
-  });
-  y=y+15;
-}
 
 doc.autoTable({
-  startY: y,
+  startY: 195,
+  theme:'grid',
+  styles: {fillColor: null,lineColor:[4,1,0],lineWidth:0.2},
+  columnStyles: {0: {halign: 'center', fontSize:8, cellWidth:23}, 1: {halign: 'center', fontSize:8, cellWidth:55},2: {halign: 'left', fontSize:8, cellWidth:185},3: {halign: 'center', fontSize:8, cellWidth:27},4: {halign: 'center', fontSize:8, cellWidth:40}, 5: {halign: 'center', fontSize:8, cellWidth:39}, 6: {halign: 'center', fontSize:8, cellWidth:42}  },
+  margin: { left: 15},
+  body: [['1','HNYUCW-00128','LOCKOFF - 12 VOLT','1','$385.000','$385.000','5 DIAS'],
+  ['1','HNYUCW-00128','LOCKOFF - 12 VOLT','1','$385.000','$385.000','5 DIAS'],
+  ['1','HNYUCW-00128','LOCKOFF - 12 VOLT','1','$385.000','$385.000','5 DIAS'],
+  ['1','HNYUCW-00128','LOCKOFF - 12 VOLT','1','$385.000','$385.000','5 DIAS'],
+  ['1','HNYUCW-00128','LOCKOFF - 12 VOLT','1','$385.000','$385.000','5 DIAS'],
+  ['1','HNYUCW-00128','LOCKOFF - 12 VOLT','1','$385.000','$385.000','5 DIAS'],
+  ['1','HNYUCW-00128','LOCKOFF - 12 VOLT','1','$385.000','$385.000','5 DIAS'],
+  ['1','HNYUCW-00128','LOCKOFF - 12 VOLT','1','$385.000','$385.000','5 DIAS'],
+  ['1','HNYUCW-00128','LOCKOFF - 12 VOLT','1','$385.000','$385.000','5 DIAS'],
+  ['1','HNYUCW-00128','LOCKOFF - 12 VOLT','1','$385.000','$385.000','5 DIAS'],
+  ['1','HNYUCW-00128','LOCKOFF - 12 VOLT','1','$385.000','$385.000','5 DIAS'],
+  ['1','HNYUCW-00128','LOCKOFF - 12 VOLT','1','$385.000','$385.000','5 DIAS'],
+  ['1','HNYUCW-00128','LOCKOFF - 12 VOLT','1','$385.000','$385.000','5 DIAS'],
+  ['1','HNYUCW-00128','LOCKOFF - 12 VOLT','1','$385.000','$385.000','5 DIAS'],
+  ['1','HNYUCW-00128','LOCKOFF - 12 VOLT','1','$385.000','$385.000','5 DIAS'],
+  ['1','HNYUCW-00128','LOCKOFF - 12 VOLT','1','$385.000','$385.000','5 DIAS'],
+  ['1','HNYUCW-00128','LOCKOFF - 12 VOLT','1','$385.000','$385.000','5 DIAS'],
+  ['1','HNYUCW-00128','LOCKOFF - 12 VOLT','1','$385.000','$385.000','5 DIAS'],
+  ['1','HNYUCW-00128','LOCKOFF - 12 VOLT','1','$385.000','$385.000','5 DIAS'],
+  ['1','HNYUCW-00128','LOCKOFF - 12 VOLT','1','$385.000','$385.000','5 DIAS'],
+  ['1','HNYUCW-00128','LOCKOFF - 12 VOLT','1','$385.000','$385.000','5 DIAS'],
+  ['1','HNYUCW-00128','LOCKOFF - 12 VOLT','1','$385.000','$385.000','5 DIAS'],
+  ['1','HNYUCW-00128','LOCKOFF - 12 VOLT','1','$385.000','$385.000','5 DIAS'],
+  ['1','HNYUCW-00128','LOCKOFF - 12 VOLT','1','$385.000','$385.000','5 DIAS'],
+  ['1','HNYUCW-00128','LOCKOFF - 12 VOLT','1','$385.000','$385.000','5 DIAS'],
+  ['1','HNYUCW-00128','LOCKOFF - 12 VOLT','1','$385.000','$385.000','5 DIAS'],
+  ['1','HNYUCW-00128','LOCKOFF - 12 VOLT','1','$385.000','$385.000','5 DIAS'],
+  ['1','HNYUCW-00128','LOCKOFF - 12 VOLT','1','$385.000','$385.000','5 DIAS'],
+  ['1','HNYUCW-00128','LOCKOFF - 12 VOLT','1','$385.000','$385.000','5 DIAS'],
+  ['1','HNYUCW-00128','LOCKOFF - 12 VOLT','1','$385.000','$385.000','5 DIAS'],
+  ['1','HNYUCW-00128','LOCKOFF - 12 VOLT','1','$385.000','$385.000','5 DIAS'],
+  ['1','HNYUCW-00128','LOCKOFF - 12 VOLT','1','$385.000','$385.000','5 DIAS'],
+  ['1','HNYUCW-00128','LOCKOFF - 12 VOLT','1','$385.000','$385.000','5 DIAS'],
+  ['1','HNYUCW-00128','LOCKOFF - 12 VOLT','1','$385.000','$385.000','5 DIAS'],
+  ['1','HNYUCW-00128','LOCKOFF - 12 VOLT','1','$385.000','$385.000','5 DIAS'],
+  ['1','HNYUCW-00128','LOCKOFF - 12 VOLT','1','$385.000','$385.000','5 DIAS'],
+  ['1','HNYUCW-00128','LOCKOFF - 12 VOLT','1','$385.000','$385.000','5 DIAS'],
+  ['1','HNYUCW-00128','LOCKOFF - 12 VOLT','1','$385.000','$385.000','5 DIAS'],
+  ['1','HNYUCW-00128','LOCKOFF - 12 VOLT','1','$385.000','$385.000','5 DIAS'],
+  ['1','HNYUCW-00128','LOCKOFF - 12 VOLT','1','$385.000','$385.000','5 DIAS'],
+  ['1','HNYUCW-00128','LOCKOFF - 12 VOLT','1','$385.000','$385.000','5 DIAS'],
+  ['1','HNYUCW-00128','LOCKOFF - 12 VOLT','1','$385.000','$385.000','5 DIAS'],
+  ['1','HNYUCW-00128','LOCKOFF - 12 VOLT','1','$385.000','$385.000','5 DIAS'],
+  ['1','HNYUCW-00128','LOCKOFF - 12 VOLT','1','$385.000','$385.000','5 DIAS'],
+  ['1','HNYUCW-00128','LOCKOFF - 12 VOLT','1','$385.000','$385.000','5 DIAS']]
+});
+
+
+doc.autoTable({
+  startY: 276,
   theme:'grid',
   styles: {fillColor: null,lineColor:[4,1,0],lineWidth:0.2},
   columnStyles: {0: {halign: 'center', fontSize:8, cellWidth:85}, 1: {halign: 'center', fontSize:8, cellWidth:86},2: {halign: 'left', fontSize:8, cellWidth:81},3: {halign: 'center', fontSize:8, cellWidth:80},4: {halign: 'center', fontSize:8, cellWidth:80} },
   margin: { left: 15},
-  body: [
+  body: [['1','HNYUCW-00128','LOCKOFF - 12 VOLT','1','$385.000'],
   [{content: 'HNYUCW-00128', colSpan: 3, rowSpan: 3, styles: {halign: 'center'}},'Subtotal Mano de Obra','0'],
    ['Total','89000'],
    [{content: 'HNYUCW-00128', colSpan: 2,  styles: {halign: 'center'}}]]
@@ -1767,16 +1352,32 @@ doc.autoTable({
 
 
 doc.save('FirstPdf.pdf');
-
-this.blobGlobal = doc.output('blob');
-this.upload();
 }
 
 
-upload() {
- 
+upload(idForklift: number) {
+  
+  const doc = new jsPDF('portrait', 'px', 'a4') as jsPDFWithPlugin;
 
-  this.uploadService.uploadFileForkliftUpdate3(this.blobGlobal).then(res=>{
+   doc.autoTable({
+   head: [['Name', 'Email', 'Country']],
+   body: [
+     ['David', 'david@example.com', 'Sweden'],
+     ['Castille', 'castille@example.com', 'Norway']
+   ]
+ });
+
+ doc.save('oleole');
+ 
+ this.fileTest= doc.save('oleole.pdf');
+
+  const fileole = doc;
+  console.log(fileole);
+  const uuid = 'aaaaaaaaaaa123';
+  console.log(uuid);
+  const extension = 'pdf';
+  console.log(extension);
+  this.uploadService.uploadFileForkliftUpdate2(this.fileTest).then(res=>{
     console.log('s3info'+JSON.stringify(res));
     this.s3info=res;
     console.log(this.s3info);
@@ -1786,21 +1387,11 @@ upload() {
     swal({
       type: 'error',
       title: 'oops a currido un error',
-      text: error,
+      text:'se ha presentado un error al subir la imagen',
       allowOutsideClick: false
     });
   });
   }
-
-  createEstimateCondition(){
-    if(this.selectedBusinessId.id){
-       this.createEstimate();
-    }else{
-      this.createNewCustomer();
-    }
-  }
-  
-  
 
   createEstimate() {
    
@@ -1812,35 +1403,24 @@ upload() {
     //estimate_consecutive: number, custmer_id: number, customer_document: string, department_id: number, city_id: number, forklift_id: number, contact: string, payment_method: number, guaranty: number, validity: number, telephone: string, observation: string, total: number, status: number
     
     let consecutiveTemp= Number(this.consecutive);
-
-    let customerIdTemp;
-
-    if(this.selectedBusinessId.id){
-       customerIdTemp= Number(this.selectedBusinessId.id);
-    }else{
-      customerIdTemp= Number(this.idCustomerCreated);
-    }
-    
-    
+    let customerIdTemp= Number(this.selectedBusinessId.id);
     let documentCustomerTemp= this.documentCustomer;
     let nameCustomerTemp = this.nameCustomer;
     let idDepartmentTemp = this.selectedDepartmentId;
     let selectedCityTemp = this.selectedCityId;
-    let selectedForkliftIdTemp = this.selectedForkliftId.id;
+    let selectedForkliftIdTemp = this.selectedForkliftId;
     let contactTemp = this.contact;
     let daysTemp = this.days;
     let guarantyTemp = this.guaranty;
     let validityTemp = this.validity;
     let cellphoneTemp = this.cellphone;
     let observationTemp = this.observation;
-    let forkliftTextTemp=  this. forkliftText;
-
+    let forkliftTextTemp=  'test';
 console.log();
     this.estimateService.createEstimate(consecutiveTemp,customerIdTemp,documentCustomerTemp,
       idDepartmentTemp, selectedCityTemp, selectedForkliftIdTemp,
-      contactTemp, daysTemp, guarantyTemp, validityTemp, cellphoneTemp, observationTemp,0,this.email,0, forkliftTextTemp).then(data => {
+      contactTemp, daysTemp, guarantyTemp, validityTemp, cellphoneTemp, observationTemp,0,this.email,0,forkliftTextTemp).then(data => {
       const resp: any = data;
-      console.log(resp);
       this.estimateId= resp.data.id;
       this.showEstimateId = false;
       this.showCreateItem = true;
@@ -1860,8 +1440,6 @@ console.log();
           type: 'success'
          });
 
-         console.log('llego hasta aqui');
-
         // swal.close();
         // this.rowsClient = resp.data;
         // this.rowStatic =  resp.data;
@@ -1882,251 +1460,6 @@ console.log();
       console.log(error);
     });
    }
-   
-   createEstimateDetailWorkforce(){
-    swal({
-      title: 'Validando información ...',
-      allowOutsideClick: false
-    });
-    swal.showLoading();
 
-
-    let estimateIdTemp= this.estimateId;
-    let codeTemp = this.workforceCode;
-    let serviceTemp = this.workforceService;
-    let quantityTemp = this.workforcequantity;
-    let hourValueTemp = this.workforceHourValue;
-    let subtotalTemp = this.workforceSubtotal;
-    let deliveryTemp = this.workforceDelivery;
-    let typeService = 1 ; 
-    let statusTemp = 0;
-   
-     this.estimateService.createEstimateDetailWorkforce(estimateIdTemp,codeTemp,serviceTemp,
-      quantityTemp, hourValueTemp, subtotalTemp, deliveryTemp, subtotalTemp,statusTemp, typeService).then(data => {
-       const resp: any = data;
-       swal({
-        title: 'Item creado',
-        type: 'success'
-       });
-       
-       this.workforceCode = '';
-      this.workforceService = '';
-      this.workforcequantity = 1;
-       this.workforceHourValue = 0;
-      this.workforceSubtotal = 0;
-      this.workforceDelivery = 0;
-
-       
-       document.getElementById( 'createItemHideDetailWorkforce').click();
-      // this.getEstimateDetails();
-       this.getEstimateParts();
-       this.getEstimateWorkforce();
-
-       console.log(resp);
-     }).catch(error => {
-
-      swal({
-        title: 'Se presento un problema, para guardar este item',
-        type: 'error'
-       });
-
-       console.log(error);
-     });
-   }
-
-   sendEmailEstimate(){
-    
-    this.estimateService.sendEstimateEmail(
-      this.estimateId, this.emails, 107, this.emailBody, this.emailSubject).then(data => {
-      const resp: any = data;
-     
-      console.log('envio');
-      console.log(resp);
-
-
-      swal({
-        title: 'Item creado',
-        type: 'success'
-       });
-       
-       document.getElementById( 'sendHide').click();
-      // this.rowsClient = resp.data;
-      // this.rowStatic =  resp.data;
-      // this.rowsTemp = resp.data;
-      // console.log( this.rowsClient);
-
-      
-    }).catch(error => {
-      console.log(error);
-    });
-   }
-
-   calculateSubtotalWork(){
-    this.workforceSubtotal = this.workforcequantity*this.workforceHourValue;
-   }
-
-
-   createNewCustomer() {
-      swal({
-        title: 'Validando información ...',
-        allowOutsideClick: false
-      });
-      swal.showLoading();
-
-      let margin=Number(this.newCustomerMargin)/100;
-
-      this.restService.createCustomer(this.nameCustomer,3, this.documentCustomer,
-      this.cellphone, 'Sin Dirección', 0,margin,1,  this.selectedCityId, this.selectedDepartmentId)
-      .then(data => {
-        const resp: any = data;
-        console.log(resp);
-        console.log('id customer' + resp.data.id);
-        if (resp.success === false) {
-          swal({
-            title: 'Este tercero ya esta registrado',
-            text: 'Este tercero no se puede registrar',
-            type: 'error'
-           });
-        } else {
-          this.idCustomerCreated = resp.data.id;
-          console.log('Cambio');
-
-          this.createEstimate();
-     /*swal({
-      title: 'Tercero agregado',
-      type: 'success'
-     });*/
-  }
-      }).catch(error => {
-        console.log(error);
-      });
-  }
-
-
-
-
-  updateNewCustomer() {
-    swal({
-      title: 'Validando información ...',
-      allowOutsideClick: false
-    });
-    swal.showLoading();
-
-    let margin=Number(this.newCustomerMargin)/100;
-
-    this.restService.createCustomer(this.nameCustomer,3, this.documentCustomer,
-    this.cellphone, 'Sin Dirección', 0,margin,1,  this.selectedCityId, this.selectedDepartmentId)
-    .then(data => {
-      const resp: any = data;
-      console.log(resp);
-      console.log('id customer' + resp.data.id);
-      if (resp.success === false) {
-        swal({
-          title: 'Este tercero ya esta registrado',
-          text: 'Este tercero no se puede registrar',
-          type: 'error'
-         });
-      } else {
-        this.idCustomerCreated = resp.data.id;
-        console.log('Cambio');
-
-        this.updateEstimate();
-   /*swal({
-    title: 'Tercero agregado',
-    type: 'success'
-   });*/
-}
-    }).catch(error => {
-      console.log(error);
-    });
-}
-
-
-  updateEstimateCondition(){
-    if(this.selectedBusinessId.id){
-      this.updateEstimate();
-   }else{
-     this.updateNewCustomer();
-   }
-  }
-
-
-  updateEstimate() {
-   
-    swal({
-      title: 'Validando información ...',
-      allowOutsideClick: false
-    });
-    swal.showLoading();
-    //estimate_consecutive: number, custmer_id: number, customer_document: string, department_id: number, city_id: number, forklift_id: number, contact: string, payment_method: number, guaranty: number, validity: number, telephone: string, observation: string, total: number, status: number
-    
-    let consecutiveTemp= Number(this.consecutive);
-
-    let customerIdTemp;
-
-    if(this.selectedBusinessId.id){
-       customerIdTemp= Number(this.selectedBusinessId.id);
-    }else{
-      customerIdTemp= Number(this.idCustomerCreated);
-    }
-    
-    let documentCustomerTemp= this.documentCustomer;
-    let nameCustomerTemp = this.nameCustomer;
-    let idDepartmentTemp = this.selectedDepartmentId;
-    let selectedCityTemp = this.selectedCityId;
-    let selectedForkliftIdTemp = this.selectedForkliftId.id;
-    let contactTemp = this.contact;
-    let daysTemp = this.days;
-    let guarantyTemp = this.guaranty;
-    let validityTemp = this.validity;
-    let cellphoneTemp = this.cellphone;
-    let observationTemp = this.observation;
-    let forkliftTextTemp=  this.forkliftText;
-
-    console.log('Ole'+forkliftTextTemp);
-    this.estimateService.updateEstimate(this.estimateId, customerIdTemp,documentCustomerTemp,
-      idDepartmentTemp, selectedCityTemp, selectedForkliftIdTemp,
-      contactTemp, daysTemp, guarantyTemp, validityTemp, cellphoneTemp, observationTemp,0,this.email,0,
-      forkliftTextTemp).then(data => {
-      const resp: any = data;
-      this.estimateId= resp.data.id;
-      this.showEstimateId = false;
-      this.showCreateItem = true;
-
-     
-      console.log('estimate para crear items');
-      console.log(this.estimateId);
-      console.log('crear cotización');
-      console.log(data);
-      
-      this.estimateService.updateConsecutive().then(data => {
-        const resp: any = data;
-        console.log(data);
-        
-        swal({
-          title: 'encabezado actualizado',
-          type: 'success'
-         });
-
-        // swal.close();
-        // this.rowsClient = resp.data;
-        // this.rowStatic =  resp.data;
-        // this.rowsTemp = resp.data;
-        // console.log( this.rowsClient);
-      }).catch(error => {
-        swal({
-          title: 'Se presento un problema, para guardar este encabezado cotización',
-          type: 'error'
-         });
-        console.log(error);
-      });
-      // this.rowsClient = resp.data;
-      // this.rowStatic =  resp.data;
-      // this.rowsTemp = resp.data;
-      // console.log( this.rowsClient);
-    }).catch(error => {
-      console.log(error);
-    });
-   }
 
 }

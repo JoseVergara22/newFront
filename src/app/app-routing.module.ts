@@ -6,6 +6,7 @@ import { MasterAuthComponent } from './master/master-auth/master-auth.component'
 import { MasterAdminComponent } from './master-layout/master-admin/master-admin.component';
 
 
+
 const routes: Routes = [
   {
     path: '',

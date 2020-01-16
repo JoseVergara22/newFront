@@ -1,0 +1,307 @@
+<app-modal-basic #modalRegisterBrand [dialogClass]="'modal-lg'">
+  <div class="app-modal-header">
+
+      <h4 class="modal-title">Registrar E</h4>
+  </div>
+  <div class="app-modal-body">
+      <form [formGroup]="myForm" (ngSubmit)="sendBrand()">
+          <div class="form-group row">
+              <div class="col-sm-6">
+                  <h6>Descripción </h6>
+
+                  <input type="text" class="form-control" formControlName="description" [ngClass]="{ 'is-invalid': submitted && checkForm.description.errors }">
+
+                  <div *ngIf="submitted && checkForm.description.errors" class="invalid-feedback">
+                      <div class="messages text-danger" *ngIf="checkForm.description.errors.required">Este campo es requerido</div>
+                  </div>
+              </div>
+              <div class="col-sm-6">
+                  <h6>Activo</h6>
+                  <ui-switch class="js-single" color="#4680ff" switchColor="#fff" size="medium" (change)="onChangeCreate($event)" checked></ui-switch><br>
+              </div>
+          </div>
+          <div class="align-buttons">
+              <button type="button" class="btn btn-default waves-effect" id="createBrandHide" (click)="modalRegisterBrand.hide()">Cancelar</button>
+              <button type="submit " class="btn btn-primary m-b-0 ">Crear Equipo</button>
+
+          </div>
+      </form>
+  </div>
+</app-modal-basic>
+
+
+<app-modal-basic #modalSendEmail [dialogClass]="'modal-lg'">
+    <div class="app-modal-header">
+
+        <h4 class="modal-title">Enviar cotización</h4>
+    </div>
+    <div class="app-modal-body">
+        <div>
+
+            <div class="row">
+    
+                <div class="col-sm-6">
+                    <h6>Asunto</h6>
+                    <input type="text" [(ngModel)]="subject" class="form-control">
+                </div>
+                <div class="col-sm-6">
+                    <h6>Mensaje </h6>
+                    <input type="text" [(ngModel)]="message"  class="form-control">
+                </div>
+            </div>
+               <br>
+               <br>
+            <div class="row">
+                <br>
+            <div class="col-sm-12">
+                <h6>emails</h6>
+                <input type="text"   [(ngModel)]="emails"  class="form-control">
+            </div>
+        </div>
+        <br>
+        <div class="row">
+            <br>
+            <br>
+        <div class="col-sm-12">
+            <input type="checkbox" name="Ocultar codigo de repuesto" value="" />
+            <label>Ocultar codigo de repuesto</label>
+        </div>
+    </div>
+            <br>
+            
+            <div class="align-buttons">
+                <button type="button" class="btn btn-default waves-effect" id="sendEmail" (click)="modalSendEmail.hide()">Cancelar</button>
+                <button type="submit " class="btn btn-primary m-b-0 "  (click)="sendEmailEstimate()">Enviar Correo</button>
+
+            </div>
+        </div>
+    </div>
+</app-modal-basic>
+
+<app-modal-basic #modalUpdateBrand [dialogClass]="'modal-lg'">
+  <div class="app-modal-header">
+      <h4 class="modal-title">Actualizar Equipo</h4>
+  </div>
+  <div *ngIf="currentBrand" class="app-modal-body">
+      <form [formGroup]="myFormUpdate" (ngSubmit)="sendUpdateBrand()">
+          <div class="form-group row">
+              <div class="col-sm-6">
+                  <h6>Descripción </h6>
+                  <input type="text" class="form-control" formControlName="descriptionUpdate" value={{currentBrand.description}} [ngClass]="{ 'is-invalid': submitted && checkFormUpdate.descriptionUpdate.errors }">
+                  <div *ngIf="submitted && checkFormUpdate.descriptionUpdate.errors" class="invalid-feedback">
+                      <div class="messages text-danger" *ngIf="checkFormUpdate.descriptionUpdate.errors.required">Este campo es requerido</div>
+                  </div>
+              </div>
+              <div class="col-sm-6">
+                  <h6>Activo</h6>
+                  <ui-switch class="js-single" color="#4680ff" switchColor="#fff" size="medium" (change)="onChangeUpdate($event)" [checked]="enabledUpdated"></ui-switch><br>
+              </div>
+          </div>
+          <div class="align-buttons">
+              <button type="button" class="btn btn-default waves-effect" id="updateBrandHide" (click)="modalUpdateBrand.hide()">Cancelar</button>
+              <button type="submit " class="btn btn-primary m-b-0 ">Actualizar Equipo</button>
+          </div>
+      </form>
+  </div>
+</app-modal-basic>
+
+<div class="row">
+
+  <div class="col-sm-12">
+      <app-card>
+          <h5>Registrar Cotizaciones </h5>
+          <br>
+
+      
+   <!-- <ngb-datepicker #dp [displayMonths]="1" [dayTemplate]="t"></ngb-datepicker> --> 
+<div class="form-group row">
+<div class="col-4">
+    <h6>Desde:</h6>
+ <div class="input-group" dir="ltr">
+  <input class="form-control" placeholder="dd-mm-yyyy"   [readonly]="true" 
+           name="fd" [(ngModel)]="fromDate" ngbDatepicker  #dFrom="ngbDatepicker"    (dateSelect)="onDateSelectionFrom($event)">
+      <button type="button"  class="btn btn-primary waves-effect"  (click)="dFrom.toggle()"><i class="icofont icofont-ui-calendar"></i></button>
+ </div>
+</div>
+<div class="col-4">
+    <h6>Hasta:</h6>
+    <div class="input-group" dir="ltr">
+     <input class="form-control" placeholder="dd-mm-yyyy"   [readonly]="true" 
+              name="ud" [(ngModel)]="untilDate" ngbDatepicker  #dUntil="ngbDatepicker"    (dateSelect)="onDateSelectionUntil($event)">
+         <button type="button"  class="btn btn-primary waves-effect"  (click)="dUntil.toggle()"><i class="icofont icofont-ui-calendar"></i></button>
+    </div>
+   </div>
+   <div class="col-md-4">
+      <input type="checkbox" name="vehicle1" value="Bike"  [checked]="considerDate" (change)="changeConsiderDate($event)" >Tener en cuenta fechas?<br>
+     
+</div>
+
+  </div>
+               <div class="form-group row">
+
+                  <div class="col-sm-5">
+                      <h6>Cliente</h6>
+                  
+                      <select class="form-control" (change)="getForklifs()" [(ngModel)]="selectedBusinessId"> 
+                                  <option value="0" selected>Seleccionar cliente </option>
+                              <option   *ngFor="let customer of customers" [ngValue]="customer.id"> {{customer.business_name}}  </option>
+                              <!--  <option value="0" selected>Seleccionar perfil</option> -->
+                             </select>
+                  </div>
+
+                
+
+              <div class="col-sm-4">
+                  <h6>Equipo</h6>
+
+                  <select class="form-control" [(ngModel)]="selectedForkliftId" > 
+                              <option value="0" selected>Seleccionar equipo </option>
+                              <option   *ngFor="let forklift of forklifts" [ngValue]="forklift.id"> {{forklift.full_name}}  </option>
+                          <!--  <option value="0" selected>Seleccionar perfil</option> -->
+                         </select>
+              </div>
+
+              <div class="col-sm-3">
+                  <h6>Usuario</h6>
+                  <select class="form-control" [(ngModel)]="selectedUserId" > 
+                      <option value="0" selected>Seleccionar usuario </option>
+                  <option   *ngFor="let user of rowsUser" [ngValue]="user.id"> {{user.username}}  </option>
+                  <!--  <option value="0" selected>Seleccionar perfil</option> -->
+                 </select>
+              </div>
+          </div>
+          <br>
+          <div class="row">
+         
+              <div class="col-sm-4">
+               <h6>Repuestos</h6>
+                  <input type="text" [(ngModel)]="part" class="form-control" placeholder="Filtrar repuestos">
+                  <!--  <input type="text" style="padding:8px;margin:15px auto;width:30%;" placeholder="Type to filter the name column..." (keyup)="updateFilter($event)" /> -->
+              </div>
+              
+              <div class="col-sm-3">
+                <h6>Num. Cotización</h6>
+                   <input type="text"  [(ngModel)]="numberEstimate" class="form-control" placeholder="Filtrar num cotización">
+                   <!--  <input type="text" style="padding:8px;margin:15px auto;width:30%;" placeholder="Type to filter the name column..." (keyup)="updateFilter($event)" /> -->
+               </div>
+
+              <div class="col-sm-2">
+                  <ul>
+                      <li class="list-status" *ngFor="let item of checklist">
+                        <input type="checkbox" [(ngModel)]="item.isSelected" name="list_name" value="{{item.id}}" (change)="selectStatus(item)"/>
+                        {{item.value}}
+                      </li>
+                    </ul>
+              </div>
+              <div class="col-sm-3">
+                  <div >
+                    <button type="button" style="display:none;" id="showSendEmail" class="btn btn-primary waves-effect" (click)="modalSendEmail.show()">Crear Equipo</button>
+                     <!--     <button type="button" id="registerBrand" class="btn btn-primary waves-effect" (click)="sendForklift()">Crear equipo</button>-->
+                       <button class="btn btn-primary" (click)="getEstimateFilters()"><i class="icofont icofont-search" ></i>Buscar</button>
+                      </div>
+              </div>
+          </div>
+          <br>
+          <div class="form-group row">
+              <div class="col-4">
+          </div>
+          <div class="col-4">
+            </div>
+            <div class="col-4">
+                <div class="align-buttons">
+                  <button class="btn btn-primary" (click)="createEstimate()">Crear Cotización</button>
+              </div>
+              </div>
+        </div>
+        <ngx-datatable #table class="data-table" [rows]="rowsClient"  [columns]="[{name:'Descripción', prop:'description'},{name:'Estado', prop:'status'},{prop:'id'}]" [columnMode]="'standard'" [headerHeight]="50" [footerHeight]="50" [rowHeight]="'auto'" [limit]="20">
+
+            <ngx-datatable-column  [width]="40" [sortable]="false" [resizeable]="false" [canAutoResize]="false" name="PDF"   prop="serie" >
+                <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+                    <label class="link" (click)="downloadPdf(row)">PDF</label>
+                  </ng-template>     
+            </ngx-datatable-column>
+              <ngx-datatable-column [width]="72" [sortable]="false" [resizeable]="false"  name="Nro" [sortable]="false"  prop="estimate_consecutive"></ngx-datatable-column>
+              <ngx-datatable-column  [width]="90" [sortable]="false" [resizeable]="false"   name="Fecha" [sortable]="false"  prop="create_at"></ngx-datatable-column>
+              <ngx-datatable-column   [width]="85" name="Estado" [sortable]="false"  sortable="false" [width]="200" prop="status">
+
+
+
+                <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+
+                    <!--<button md-icon-button (click)="blockAgents(value)">
+                            <i class="fa fa-ban"></i>
+                          </button> -->
+                <div class="statusLabel" *ngIf="value==0">
+                   GENERADO
+                </div>
+
+                <div *ngIf="value==1">
+                   ENVIADO
+                </div>
+               
+                <div *ngIf="value==2">  
+                  APROBADO
+                </div>
+               
+                <div *ngIf="value==5">
+                    RECHAZADO
+                </div>
+                   
+                </ng-template>
+            </ngx-datatable-column>
+
+
+              <!-- <ngx-datatable-column [width]="90" [sortable]="false" [resizeable]="false"   name="Documento " [sortable]="false"  prop="customer_document"></ngx-datatable-column> -->
+               <ngx-datatable-column [width]="110" [sortable]="false" [resizeable]="false"   name="Cliente" [sortable]="false"  prop="customer.business_name"></ngx-datatable-column>
+               <ngx-datatable-column [width]="100" [sortable]="false" [resizeable]="false"   name="Contacto " [sortable]="false"  prop="contact"></ngx-datatable-column>
+               <ngx-datatable-column [width]="70" [sortable]="false" [resizeable]="false"   name="Teléfono " [sortable]="false"  prop="telephone"></ngx-datatable-column>
+               <ngx-datatable-column [width]="90" [sortable]="false" [resizeable]="false"   name="Ciudad " [sortable]="false"  prop="city.name"></ngx-datatable-column>
+                 <ngx-datatable-column  [width]="80" [sortable]="false" [resizeable]="false"  name="Sbt.Horas" [sortable]="false"  prop="subtotal"></ngx-datatable-column>
+                <ngx-datatable-column  [width]="100" [sortable]="false" [resizeable]="false"  name="Sbt.Repuestos" [sortable]="false"  prop="subtotal"></ngx-datatable-column>
+                <ngx-datatable-column  [width]="80" [sortable]="false" [resizeable]="false"  name="Total" [sortable]="false"  prop="total"></ngx-datatable-column>
+          <!--   <ngx-datatable-column  [width]="80" [sortable]="false" [resizeable]="false"  name="Observaciones" [sortable]="false"  prop="machine_description"></ngx-datatable-column> -->
+            <ngx-datatable-column   [width]="100" name="Acciones" [sortable]="false"  sortable="false" [width]="200" prop="status">
+
+
+
+                <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+
+                    <!--<button md-icon-button (click)="blockAgents(value)">
+                            <i class="fa fa-ban"></i>
+                          </button> -->
+                <div *ngIf="value==0">
+                 <label class="link" (click)="updateEstimate(row)">Editar</label>
+                 <label class="link" (click)="copyEstimate(row)">Copiar</label>
+                 <label class="link" (click)="sendEstimateEmail(row)" >Enviar</label>
+            <!-- <label class="link" (click)="modalSendEmail.show()" >Enviar</label>  -->  
+                 <label class="link" (click)="showEstimateLink(row)">Aprobar</label>
+                 <label class="link" (click)="showEstimateLink(row)">Rechazar</label>
+                </div>
+
+                <div *ngIf="value==1">
+                    <label class="link" (click)="copyEstimate(row)">Copiar</label>
+                    <label class="link" (click)="sendEstimateEmail(row)" >Enviar</label>
+               <!-- <label class="link" (click)="modalSendEmail.show()" >Enviar</label>  -->  
+                    <label class="link" (click)="showEstimateLink(row)">Aprobar</label>
+                    <label class="link" (click)="showEstimateLink(row)">Rechazar</label>
+                </div>
+               
+                <div *ngIf="value==2">  
+                    <label class="link" (click)="copyEstimate(row)">Copiar</label>
+                    <label class="link" (click)="sendEstimateEmail(row)" >Enviar</label>
+                </div>
+               
+                <div *ngIf="value==5">
+                    <label class="link" (click)="copyEstimate(row)">Copiar</label>
+                </div>
+                   
+                </ng-template>
+            </ngx-datatable-column>
+
+
+        </ngx-datatable>
+
+      
+      </app-card>
+  </div>
+</div>

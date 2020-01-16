@@ -131,6 +131,8 @@ export class EstimateService {
     });
   }
 
+
+
   deleteEstimateCountries(id: number) {
     console.log('ole ole ole');
     console.log(status);
@@ -148,6 +150,29 @@ export class EstimateService {
       const postParams = {
       };
       this.http.delete(this.apiEndPoint+'api/estimateCountries/' + id, httpOptions)
+        .map(res => res).subscribe(data => {
+          resolve(data);
+        }, error => {
+          resolve(error);
+        });
+    });
+  }
+
+  updateConsecutive() {
+    return new Promise(resolve => {
+      const headers = new HttpHeaders();
+      headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user'))); // 'Bearer ' +
+      headers.append('Content-Type', 'application/json');
+      const httpOptions = {
+        headers: new HttpHeaders({
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + localStorage.getItem('token_user'),
+          'Accept': 'application/json'
+        })
+      };
+      const postParams = {
+      };
+      this.http.patch(this.apiEndPoint+'api/update_estimate_consecutive',postParams, httpOptions)
         .map(res => res).subscribe(data => {
           resolve(data);
         }, error => {
@@ -183,6 +208,39 @@ export class EstimateService {
     });
   }
 
+
+  sendEstimateEmail(idEstimate: number, emails: string, idCustomer: number, emailBody: string, emailSubject: string) {
+    return new Promise(resolve => {
+      const headers = new HttpHeaders();
+      headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user'))); // 'Bearer ' +
+      headers.append('Content-Type', 'application/json');
+      const httpOptions = {
+        headers: new HttpHeaders({
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + localStorage.getItem('token_user'),
+          'Accept': 'application/json'
+        })
+      };
+
+
+
+      const postParams = {
+        id_estimate: 156,
+        emails: emails,
+        id_customer: idCustomer,
+        email_body: emailBody,
+        email_subject:emailSubject,
+        estimate_filename:'Cotizacion191258.pdf'
+      };
+
+      this.http.post(this.apiEndPoint+'api/estimate/pdf', postParams, httpOptions)
+        .map(res => res).subscribe(data => {
+          resolve(data);
+        }, error => {
+          resolve(error);
+        });
+    });
+  }
   updatePriceCountries(id: number, weight: number, price: number) {
     console.log(id +','+weight +','+price);
     return new Promise(resolve => {
@@ -201,6 +259,30 @@ export class EstimateService {
         price: price
       };
       this.http.patch(this.apiEndPoint+'api/priceCountriesDhl/' + id, postParams, httpOptions)
+        .map(res => res).subscribe(data => {
+          resolve(data);
+        }, error => {
+          resolve(error);
+        });
+    });
+  }
+
+  updateEstimateStatus(id:number, status:number) {
+    return new Promise(resolve => {
+      const headers = new HttpHeaders();
+      headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user'))); // 'Bearer ' +
+      headers.append('Content-Type', 'application/json');
+      const httpOptions = {
+        headers: new HttpHeaders({
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + localStorage.getItem('token_user'),
+          'Accept': 'application/json'
+        })
+      };
+      const postParams = {
+        status: status
+      };
+      this.http.patch(this.apiEndPoint+'api/update_estimates_status/' + id, postParams, httpOptions)
         .map(res => res).subscribe(data => {
           resolve(data);
         }, error => {
@@ -235,6 +317,33 @@ export class EstimateService {
     });
   }
 
+
+  deleteEstimateDetail(id: number) {
+    console.log('ole ole ole');
+    console.log(status);
+    return new Promise(resolve => {
+      const headers = new HttpHeaders();
+      headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user'))); // 'Bearer ' +
+      headers.append('Content-Type', 'application/json');
+      const httpOptions = {
+        headers: new HttpHeaders({
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + localStorage.getItem('token_user'),
+          'Accept': 'application/json'
+        })
+      };
+      const postParams = {
+      };
+      this.http.delete(this.apiEndPoint+'api/delete_estimate_details/' + id, httpOptions)
+        .map(res => res).subscribe(data => {
+          resolve(data);
+        }, error => {
+          resolve(error);
+        });
+    });
+  }
+
+
   showShippingCountriesDhl() { // Falta implementar desde el backend
     return new Promise(resolve => {
       const headers = new HttpHeaders();
@@ -256,6 +365,121 @@ export class EstimateService {
         });
     });
   }
+
+
+  
+  getConfigEstimates() { // Falta implementar desde el backend
+    return new Promise(resolve => {
+      const headers = new HttpHeaders();
+      headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user'))); // 'Bearer ' +
+      headers.append('Content-Type', 'application/json');
+      const httpOptions = {
+        headers: new HttpHeaders({
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + localStorage.getItem('token_user'),
+          'Accept': 'application/json'
+        })
+      };
+      this.http.get(this.apiEndPoint+'api/config_estimates', httpOptions)
+        .map(res => res).subscribe(data => {
+          console.log(data);
+          resolve(data);
+        }, error => {
+          resolve(error);
+        });
+    });
+  }
+
+
+  getEstimateSpecific(id:number) { // Falta implementar desde el backend
+    return new Promise(resolve => {
+      const headers = new HttpHeaders();
+      headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user'))); // 'Bearer ' +
+      headers.append('Content-Type', 'application/json');
+      const httpOptions = {
+        headers: new HttpHeaders({
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + localStorage.getItem('token_user'),
+          'Accept': 'application/json'
+        })
+      };
+      this.http.get(this.apiEndPoint+'api/estimates/'+ id, httpOptions)
+        .map(res => res).subscribe(data => {
+          console.log(data);
+          resolve(data);
+        }, error => {
+          resolve(error);
+        });
+    });
+  }
+
+  getConfigTrm() { // Falta implementar desde el backend
+    return new Promise(resolve => {
+      const headers = new HttpHeaders();
+      headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user'))); // 'Bearer ' +
+      headers.append('Content-Type', 'application/json');
+      const httpOptions = {
+        headers: new HttpHeaders({
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + localStorage.getItem('token_user'),
+          'Accept': 'application/json'
+        })
+      };
+      this.http.get(this.apiEndPoint+'api/config_trms_active?active=1', httpOptions)
+        .map(res => res).subscribe(data => {
+          console.log(data);
+          resolve(data);
+        }, error => {
+          resolve(error);
+        });
+    });
+  }
+
+  
+  showShippingCountriesDhlConfig(countryId:number) { // Falta implementar desde el backend
+    return new Promise(resolve => {
+      const headers = new HttpHeaders();
+      headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user'))); // 'Bearer ' +
+      headers.append('Content-Type', 'application/json');
+      const httpOptions = {
+        headers: new HttpHeaders({
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + localStorage.getItem('token_user'),
+          'Accept': 'application/json'
+        })
+      };
+      this.http.get(this.apiEndPoint+'api/shippingPriceRanges/showShippingCountriesDhlConfig?estimate_countries_id='+countryId, httpOptions)
+        .map(res => res).subscribe(data => {
+          console.log(data);
+          resolve(data);
+        }, error => {
+          resolve(error);
+        });
+    });
+  }
+
+  showVariableEstimateConfig() { // Falta implementar desde el backend
+    return new Promise(resolve => {
+      const headers = new HttpHeaders();
+      headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user'))); // 'Bearer ' +
+      headers.append('Content-Type', 'application/json');
+      const httpOptions = {
+        headers: new HttpHeaders({
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + localStorage.getItem('token_user'),
+          'Accept': 'application/json'
+        })
+      };
+      this.http.get(this.apiEndPoint+'api/config_estimates', httpOptions)
+        .map(res => res).subscribe(data => {
+          console.log(data);
+          resolve(data);
+        }, error => {
+          resolve(error);
+        });
+    });
+  }
+
 
   showCountryWeight(idCountry: number, weight: number) { // Falta implementar desde el backend
     return new Promise(resolve => {
@@ -280,4 +504,508 @@ export class EstimateService {
   }
 
 
+  // -------------------------------- APIS ESTIMATE
+
+  showEstimateFilter(paramsFilter: string) { // Falta implementar desde el backend
+    return new Promise(resolve => {
+      const headers = new HttpHeaders();
+      headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user'))); // 'Bearer ' +
+      headers.append('Content-Type', 'application/json');
+      const httpOptions = {
+        headers: new HttpHeaders({
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + localStorage.getItem('token_user'),
+          'Accept': 'application/json'
+        })
+      };
+      this.http.get(this.apiEndPoint+'api/show_estimates?' + paramsFilter, httpOptions)
+        .map(res => res).subscribe(data => {
+          console.log(data);
+          resolve(data);
+        }, error => {
+          resolve(error);
+        });
+    });
+  }
+
+  showEstimateConsecutive() { // Falta implementar desde el backend
+    return new Promise(resolve => {
+      const headers = new HttpHeaders();
+      headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user'))); // 'Bearer ' +
+      headers.append('Content-Type', 'application/json');
+      const httpOptions = {
+        headers: new HttpHeaders({
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + localStorage.getItem('token_user'),
+          'Accept': 'application/json'
+        })
+      };
+      this.http.get(this.apiEndPoint+'api/estimate_consecutive', httpOptions)
+        .map(res => res).subscribe(data => {
+          console.log(data);
+          resolve(data);
+        }, error => {
+          resolve(error);
+        });
+    });
+  }
+
+  showTrmCurrent() { // Falta implementar desde el backend
+    return new Promise(resolve => {
+      const headers = new HttpHeaders();
+      headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user'))); // 'Bearer ' +
+      headers.append('Content-Type', 'application/json');
+      const httpOptions = {
+        headers: new HttpHeaders({
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        })
+      };
+      var date = new Date();
+     
+    
+
+    var day = (date.getDate() < 10 ? '0' : '') + date.getDate();
+    // 01, 02, 03, ... 10, 11, 12
+    let month = ((date.getMonth() + 1) < 10 ? '0' : '') + (date.getMonth() + 1);
+    // 1970, 1971, ... 2015, 2016, ...
+    var year = date.getFullYear();
+
+    let now = year+'-'+ month+'-'+day;
+
+      this.http.get('https://trm-colombia.makaw-dev.now.sh/?date='+now)
+        .map(res => res).subscribe(data => {
+          console.log('TRM TRM TRM');
+          console.log(data);
+          resolve(data);
+        }, error => {
+          resolve(error);
+        });
+    });
+  }
+
+  showConfigTrm(estimate_countries_id: number) { // Falta implementar desde el backend
+    return new Promise(resolve => {
+      const headers = new HttpHeaders();
+      headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user'))); // 'Bearer ' +
+      headers.append('Content-Type', 'application/json');
+      const httpOptions = {
+        headers: new HttpHeaders({
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + localStorage.getItem('token_user'),
+          'Accept': 'application/json'
+        })
+      };
+      this.http.get(this.apiEndPoint+'api/config_trms?estimate_countries_id='+ estimate_countries_id, httpOptions)
+        .map(res => res).subscribe(data => {
+          console.log(data);
+          resolve(data);
+        }, error => {
+          resolve(error);
+        });
+    });
+  }
+
+  createEstimate(estimate_consecutive: number, customer_id: number, customer_document: string,
+                 department_id: number, city_id: number, forklift_id: number, contact: string,
+                 payment_method: number, guaranty: number, validity: number, telephone: string,
+                 observation: string, total: number, email:string, status:number, forklift_text:string) {
+    return new Promise(resolve => {
+      const headers = new HttpHeaders();
+      headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user'))); // 'Bearer ' +
+      headers.append('Content-Type', 'application/json');
+      const httpOptions = {
+        headers: new HttpHeaders({
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + localStorage.getItem('token_user'),
+          'Accept': 'application/json'
+        })
+      };
+
+      console.log( localStorage.getItem('userid'));
+      const postParams = {
+        elaborate_user_id:  localStorage.getItem('userid'),
+        estimate_consecutive: estimate_consecutive,
+        customer_id: customer_id,
+        customer_document: customer_document,
+        department_id: department_id,
+        city_id: city_id,
+        forklift_id: forklift_id,
+        contact: contact,
+        payment_method: payment_method,
+        guaranty: guaranty,
+        validity: validity,
+        telephone: telephone,
+        observation: observation,
+        total: total,
+        email:email,
+        status:status,
+        forklift_text:forklift_text
+      };
+
+   
+      this.http.post(this.apiEndPoint+'api/create_estimate', postParams, httpOptions)
+        .map(res => res).subscribe(data => {
+
+          resolve(data);
+        }, error => {
+          resolve(error);
+        });
+    });
+  }
+
+
+  updateEstimate(id:number, customer_id: number, customer_document: string,
+    department_id: number, city_id: number, forklift_id: number, contact: string,
+    payment_method: number, guaranty: number, validity: number, telephone: string,
+    observation: string, total: number, email:string, status:number, forklift_text:string ) {
+      return new Promise(resolve => {
+      const headers = new HttpHeaders();
+      headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user'))); // 'Bearer ' +
+      headers.append('Content-Type', 'application/json');
+      const httpOptions = {
+      headers: new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ' + localStorage.getItem('token_user'),
+      'Accept': 'application/json'
+      })
+      };
+      const postParams = {
+      customer_id: customer_id,
+      customer_document: customer_document,
+      department_id: department_id,
+      city_id: city_id,
+      forklift_id: forklift_id,
+      contact: contact,
+      payment_method: payment_method,
+      guaranty: guaranty,
+      validity: validity,
+      telephone: telephone,
+      observation: observation,
+      total: total,
+      email:email,
+      status:status,
+      forklift_text:forklift_text
+      };
+
+
+this.http.patch(this.apiEndPoint+'api/update_estimates/'+id, postParams, httpOptions)
+.map(res => res).subscribe(data => {
+
+resolve(data);
+}, error => {
+resolve(error);
+});
+});
 }
+
+createEstimateDetails(estimate_id: number, code: string, description: string,
+          quantity: number, unit_cost: number, price_list: number, price_suggest: number, weight: number,
+          price: number, subtotal: number, delivery: number, total: string,
+          status: number, type_service: number, weight_type: number) {
+          console.log('info de detalle');
+          console.log(estimate_id+'-'+ code+'-'+ description+'-'+
+            quantity+'-'+ unit_cost+'-'+ price_list+'-'+ price_suggest+'-'+
+            price+'-'+ delivery+'-'+ total+'-'+
+            status)
+      return new Promise(resolve => {
+      const headers = new HttpHeaders();
+      headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user'))); // 'Bearer ' +
+      headers.append('Content-Type', 'application/json');
+      const httpOptions = {
+      headers: new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ' + localStorage.getItem('token_user'),
+      'Accept': 'application/json'
+      })
+      };
+      const postParams = {
+      estimate_id:estimate_id,
+      code: code,
+      description: description,
+      quantity: quantity,
+      unit_cost: unit_cost,
+      price_list: price_list,
+      price_suggest: price_suggest,
+      weight:weight,
+      price: price,
+      subtotal: subtotal,
+      delivery: delivery,
+      total: total,
+      status:status,
+      type_service:type_service,
+      weight_type:weight_type
+      };
+      this.http.post(this.apiEndPoint+'api/create_estimate_detail', postParams, httpOptions)
+      .map(res => res).subscribe(data => {
+      resolve(data);
+      }, error => {
+      resolve(error);
+      });
+      });
+      }
+// Organizar api de actualizacion;
+     updateEstimateDetails(estimate_detail_id: number, code: string, description: string,
+        quantity: number, unit_cost: number, price_list: number, price_suggest: number, weight: number,
+        price: number, subtotal: number, delivery: number, total: string,
+        status: number, type_service: number, weight_type: number) {
+        console.log('info de detalle');
+        console.log(estimate_detail_id+'-'+ code+'-'+ description+'-'+
+          quantity+'-'+ unit_cost+'-'+ price_list+'-'+ price_suggest+'-'+
+          price+'-'+ delivery+'-'+ total+'-'+
+          status)
+    return new Promise(resolve => {
+    const headers = new HttpHeaders();
+    headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user'))); // 'Bearer ' +
+    headers.append('Content-Type', 'application/json');
+    const httpOptions = {
+    headers: new HttpHeaders({
+    'Content-Type': 'application/json',
+    'Authorization': 'Bearer ' + localStorage.getItem('token_user'),
+    'Accept': 'application/json'
+    })
+    };
+    const postParams = {
+    code: code,
+    description: description,
+    quantity: quantity,
+    unit_cost: unit_cost,
+    price_list: price_list,
+    price_suggest: price_suggest,
+    weight:weight,
+    price: price,
+    subtotal: subtotal,
+    delivery: delivery,
+    total: total,
+    status:status,
+    type_service:type_service,
+    weight_type:weight_type
+    };
+    this.http.patch(this.apiEndPoint+'api/update_estimate_details/'+estimate_detail_id, postParams, httpOptions)
+    .map(res => res).subscribe(data => {
+    resolve(data);
+    }, error => {
+    resolve(error);
+    });
+    });
+    }
+      createEstimateDetailWorkforce(estimate_id: number, code: string, service: string,
+        quantity: number, hour_value: number, subtotal: number, delivery: number, total: string,
+        status: number, type_service: number) {
+        console.log('info de detalle');
+    return new Promise(resolve => {
+    const headers = new HttpHeaders();
+    headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user'))); // 'Bearer ' +
+    headers.append('Content-Type', 'application/json');
+    const httpOptions = {
+    headers: new HttpHeaders({
+    'Content-Type': 'application/json',
+    'Authorization': 'Bearer ' + localStorage.getItem('token_user'),
+    'Accept': 'application/json'
+    })
+    };
+    const postParams = {
+    estimate_id:estimate_id,
+    code: code,
+    quantity: quantity,
+    service:service,
+    hour_value: hour_value,
+    subtotal: subtotal,
+    delivery: delivery,
+    total: total,
+    status:status,
+    type_service:type_service
+    };
+    this.http.post(this.apiEndPoint+'api/create_estimate_detail', postParams, httpOptions)
+    .map(res => res).subscribe(data => {
+    resolve(data);
+    }, error => {
+    resolve(error);
+    });
+    });
+    }
+
+
+   updateEstimateDetailWorkforce(estimate_detail_id: number, code: string, service: string,
+      quantity: number, hour_value: number, subtotal: number, delivery: number, total: string,
+      status: number, type_service: number) {
+      console.log('info de detalle');
+  return new Promise(resolve => {
+  const headers = new HttpHeaders();
+  headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user'))); // 'Bearer ' +
+  headers.append('Content-Type', 'application/json');
+  const httpOptions = {
+  headers: new HttpHeaders({
+  'Content-Type': 'application/json',
+  'Authorization': 'Bearer ' + localStorage.getItem('token_user'),
+  'Accept': 'application/json'
+  })
+  };
+  const postParams = {
+  code: code,
+  quantity: quantity,
+  service:service,
+  hour_value: hour_value,
+  subtotal: subtotal,
+  delivery: delivery,
+  total: total,
+  status:status,
+  type_service:type_service
+  };
+  this.http.patch(this.apiEndPoint+'api/update_estimate_details/'+estimate_detail_id, postParams, httpOptions)
+  .map(res => res).subscribe(data => {
+  resolve(data);
+  }, error => {
+  resolve(error);
+  });
+  });
+  }
+      updateConfigTrmFull(params:string) {
+        console.log(params);
+        return new Promise(resolve => {
+          const headers = new HttpHeaders();
+          headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user'))); // 'Bearer ' +
+          headers.append('Content-Type', 'application/json');
+          const httpOptions = {
+            headers: new HttpHeaders({
+              'Content-Type': 'application/json',
+              'Authorization': 'Bearer ' + localStorage.getItem('token_user'),
+              'Accept': 'application/json'
+            })
+          };
+          const postParams = {
+            params: params
+          };
+          this.http.patch(this.apiEndPoint+'api/update_config_estimate_trm', postParams, httpOptions)
+            .map(res => res).subscribe(data => {
+              resolve(data);
+            }, error => {
+              resolve(error);
+            });
+        });
+      }
+
+
+      updateConfigVariablesFull(params:string) {
+        console.log(params);
+        return new Promise(resolve => {
+          const headers = new HttpHeaders();
+          headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user'))); // 'Bearer ' +
+          headers.append('Content-Type', 'application/json');
+          const httpOptions = {
+            headers: new HttpHeaders({
+              'Content-Type': 'application/json',
+              'Authorization': 'Bearer ' + localStorage.getItem('token_user'),
+              'Accept': 'application/json'
+            })
+          };
+          const postParams = {
+            params: params
+          };
+          this.http.patch(this.apiEndPoint+'api/update_config_estimate_variables', postParams, httpOptions)
+            .map(res => res).subscribe(data => {
+              resolve(data);
+            }, error => {
+              resolve(error);
+            });
+        });
+      }
+
+      updateConfigFormulasFull(params:string) {
+        console.log(params);
+        return new Promise(resolve => {
+          const headers = new HttpHeaders();
+          headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user'))); // 'Bearer ' +
+          headers.append('Content-Type', 'application/json');
+          const httpOptions = {
+            headers: new HttpHeaders({
+              'Content-Type': 'application/json',
+              'Authorization': 'Bearer ' + localStorage.getItem('token_user'),
+              'Accept': 'application/json'
+            })
+          };
+          const postParams = {
+            params: params
+          };
+          this.http.patch(this.apiEndPoint+'api/update_config_estimate_formulas', postParams, httpOptions)
+            .map(res => res).subscribe(data => {
+              resolve(data);
+            }, error => {
+              resolve(error);
+            });
+        });
+      }
+
+      getEstimateDetails(idEstimate:number) {
+        return new Promise(resolve => {
+          const headers = new HttpHeaders();
+          headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user'))); // 'Bearer ' +
+          headers.append('Content-Type', 'application/json');
+          const httpOptions = {
+            headers: new HttpHeaders({
+              'Content-Type': 'application/json',
+              'Authorization': 'Bearer ' + localStorage.getItem('token_user'),
+              'Accept': 'application/json'
+            })
+          };
+          this.http.get(this.apiEndPoint+'api/estimate_details_general/'+idEstimate, httpOptions)
+            .map(res => res).subscribe(data => {
+              console.log(data);
+              resolve(data);
+            }, error => {
+              resolve(error);
+            });
+        });
+      }
+
+
+      getEstimateDetailsWorkforce(idEstimate:number) {
+        return new Promise(resolve => {
+          const headers = new HttpHeaders();
+          headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user'))); // 'Bearer ' +
+          headers.append('Content-Type', 'application/json');
+          const httpOptions = {
+            headers: new HttpHeaders({
+              'Content-Type': 'application/json',
+              'Authorization': 'Bearer ' + localStorage.getItem('token_user'),
+              'Accept': 'application/json'
+            })
+          };
+          this.http.get(this.apiEndPoint+'api/estimate_details_general_workforce/'+idEstimate, httpOptions)
+            .map(res => res).subscribe(data => {
+              console.log(data);
+              resolve(data);
+            }, error => {
+              resolve(error);
+            });
+        });
+      }
+
+      
+      getEstimateDetailsParts(idEstimate:number) {
+        return new Promise(resolve => {
+          const headers = new HttpHeaders();
+          headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user'))); // 'Bearer ' +
+          headers.append('Content-Type', 'application/json');
+          const httpOptions = {
+            headers: new HttpHeaders({
+              'Content-Type': 'application/json',
+              'Authorization': 'Bearer ' + localStorage.getItem('token_user'),
+              'Accept': 'application/json'
+            })
+          };
+          this.http.get(this.apiEndPoint+'api/estimate_details_general_parts/'+idEstimate, httpOptions)
+            .map(res => res).subscribe(data => {
+              console.log(data);
+              resolve(data);
+            }, error => {
+              resolve(error);
+            });
+        });
+      }
+}
+
+
+
+
+

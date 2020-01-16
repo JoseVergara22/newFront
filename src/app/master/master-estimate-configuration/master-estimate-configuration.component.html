@@ -1,0 +1,254 @@
+<app-modal-basic #modalRegisterBrand [dialogClass]="'modal-lg'">
+  <div class="app-modal-header">
+
+      <h4 class="modal-title">Registrar marca</h4>
+  </div>
+  <div class="app-modal-body">
+      <form [formGroup]="myForm" (ngSubmit)="sendBrand()">
+          <div class="form-group row">
+              <div class="col-sm-6">
+                  <h6>Descripción </h6>
+
+                  <input type="text" class="form-control" formControlName="description" [ngClass]="{ 'is-invalid': submitted && checkForm.description.errors }">
+
+                  <div *ngIf="submitted && checkForm.description.errors" class="invalid-feedback">
+                      <div class="messages text-danger" *ngIf="checkForm.description.errors.required">Este campo es requerido</div>
+                  </div>
+              </div>
+              <div class="col-sm-6">
+                  <h6>Activo</h6>
+                  <ui-switch class="js-single" color="#4680ff" switchColor="#fff" size="medium" (change)="onChangeCreate($event)" checked></ui-switch><br>
+              </div>
+          </div>
+          <div class="align-buttons">
+              <button type="button" class="btn btn-default waves-effect" id="createBrandHide" (click)="modalRegisterBrand.hide()">Cancelar</button>
+              <button type="submit " class="btn btn-primary m-b-0 ">Crear marca</button>
+
+          </div>
+      </form>
+  </div>
+</app-modal-basic>
+
+<app-modal-basic #modalUpdateBrand [dialogClass]="'modal-lg'">
+  <div class="app-modal-header">
+      <h4 class="modal-title">Actualizar marca</h4>
+  </div>
+  <div *ngIf="currentBrand" class="app-modal-body">
+      <form [formGroup]="myFormUpdate" (ngSubmit)="sendUpdateBrand()">
+          <div class="form-group row">
+              <div class="col-sm-6">
+                  <h6>Descripción </h6>
+                  <input type="text" class="form-control" formControlName="descriptionUpdate" value={{currentBrand.description}} [ngClass]="{ 'is-invalid': submitted && checkFormUpdate.descriptionUpdate.errors }">
+                  <div *ngIf="submitted && checkFormUpdate.descriptionUpdate.errors" class="invalid-feedback">
+                      <div class="messages text-danger" *ngIf="checkFormUpdate.descriptionUpdate.errors.required">Este campo es requerido</div>
+                  </div>
+              </div>
+              <div class="col-sm-6">
+                  <h6>Activo</h6>
+                  <ui-switch class="js-single" color="#4680ff" switchColor="#fff" size="medium" (change)="onChangeUpdate($event)" [checked]="enabledUpdated"></ui-switch><br>
+              </div>
+          </div>
+          <div class="align-buttons">
+              <button type="button" class="btn btn-default waves-effect" id="updateBrandHide" (click)="modalUpdateBrand.hide()">Cancelar</button>
+              <button type="submit " class="btn btn-primary m-b-0 ">Actualizar marca</button>
+          </div>
+      </form>
+  </div>
+</app-modal-basic>
+
+
+
+<div class="row">
+
+  <div class="col-sm-12">
+      <app-card>
+          <h5>Configuración de cotizaciones</h5>
+          <br>
+          <br>
+          <br>
+          <div class="row">
+              <div class="col-sm-6">
+                  <h6>Formulas USA</h6>
+                  <br>
+                 <div *ngIf="optionOneUsa">
+
+                <div class="row">
+                       <h6>  <label>
+                          <input  type="radio" name="usa"  [value]="optionOneUsa.id" [(ngModel)]="radioSelectedUsa"    (change)="selectUsa($event)" >
+                          <i class="helper"></i> {{optionOneUsa.description}} &nbsp;&nbsp;&nbsp;&nbsp;<input type="text"  [(ngModel)]="trmGeneral" disabled>
+                        </label>
+                    </h6>
+                  </div>
+                  <div class="row">
+                        <h6>   <label>
+                               <input  type="radio" name="usa"  [value]="optionSecondUsa.id"   [(ngModel)]="radioSelectedUsa"  (change)="selectUsa()" >
+                          <i class="helper"></i>    {{optionSecondUsa.description}}   &nbsp;&nbsp;&nbsp;&nbsp;<input type="text"  [(ngModel)]="trmConstant"  >
+                       
+                        </label></h6>
+                  </div>
+                  <div class="row">
+                        <h6>      <label>
+                                <input  type="radio" name="usa"  id="optionThirdUsa.id" [(ngModel)]="radioSelectedUsa" [value]="optionThirdUsa.id"  (change)="selectUsa()">
+                          <i class="helper"></i>  {{optionThirdUsa.description}}  &nbsp;&nbsp;&nbsp;&nbsp;<input type="text" [(ngModel)]="trmPlusConstant" >
+                        </label> </h6> 
+                  </div>
+                </div>
+              </div>
+              
+              <div class="col-sm-6">
+                    <h6>Configuración ESPAÑA</h6>
+                    <br>
+                    <div *ngIf="itemEsp">
+                            
+                              <div class="row">
+                                    <h6>  <label>
+                                       Ingresar constante &nbsp;&nbsp;&nbsp;&nbsp; <input  type="text" name="esp"  [(ngModel)]="constantEsp">
+                                      <i class="helper"></i>
+                                    </label></h6> 
+                              </div>
+                             
+                    </div>
+               
+              </div>
+          </div>
+          <div class="row">
+                <div class="col-sm-8">
+                
+                </div>
+
+                <div class="col-sm-4">
+                        <button class="btn btn-primary m-b-0 " (click)='updateConfigurationTrm()'>Actualizar</button>
+                </div>
+        
+         </div>
+        <hr>
+        <br>
+        <div class="row">
+                <div class="col-sm-6">
+                        <h6>Configuración de control </h6>
+                        <br>
+                        <p>  <label>
+                                <i class="helper"></i>  Tope maximo sugerido &nbsp;&nbsp;&nbsp;&nbsp;<input type="text" [(ngModel)]="maximumLimit" value={{maximumLimit}}  ><br><br>
+                                <i class="helper"></i> Margen cliente nuevo &nbsp;&nbsp;&nbsp;&nbsp;<input type="text" [(ngModel)]="clientMargin" value={{clientMargin}}  ><br> 
+                            </label>
+                          </p>
+                    </div>
+
+                    <div class="col-sm-6">
+                            <h6>Configuración de constantes </h6>
+                            <br>
+                            <p>  <label>
+                                    <i class="helper"></i> Servicio terceros &nbsp;&nbsp;&nbsp;&nbsp;<input type="text"  [(ngModel)]="thirdService" value={{thirdService}} ><br><br>
+                                    <i class="helper"></i> Servicio Nacional &nbsp;&nbsp;&nbsp;&nbsp;<input type="text"  [(ngModel)]="nationalService" value={{nationalService}} ><br> 
+                                </label>
+                              </p>
+                        </div>
+                </div>
+                <div class="row">
+                        <div class="col-sm-8">
+                        
+                        </div>
+        
+                        <div class="col-sm-4">
+                                <button class="btn btn-primary m-b-0 " (click)="updateConfigurationVariables()">Actualizar</button>
+                        </div>
+                
+                 </div>
+        <hr>
+        <br>
+          <div class="row">
+            <div class="col-sm-6">
+                <div *ngIf="formulaUsaOne">
+                    <h6>Configuración USA</h6>
+                    <br>
+              <h6>{{formulaUsaOne.formula_description}}</h6>
+                                <p>  <label>
+                                         <i class="helper"></i> Precio &nbsp;&nbsp;&nbsp;&nbsp;<input type="text" [(ngModel)]="formulaUsaOnePrice"><br>
+                                         <i class="helper"></i>  Variables manejo &nbsp;&nbsp;&nbsp;&nbsp; <input type="text" [(ngModel)]="formulaUsaOneManagementVariables"> <br>
+                                         <i class="helper"></i>  Arancel &nbsp;&nbsp;&nbsp;&nbsp; <input type="text"[(ngModel)]="formulaUsaOneTariff"><br>
+                                      </label>
+                                   </p>
+                                   <br>
+                                   <h6>{{formulaUsaTwo.formula_description}}</h6>
+                                
+                                           <p>  <label>
+                                              <i class="helper"></i> Precio &nbsp;&nbsp;&nbsp;&nbsp;<input type="text" [(ngModel)]="formulaUsaSecondPrice"><br>
+                                              <i class="helper"></i>  Variables manejo &nbsp;&nbsp;&nbsp;&nbsp; <input type="text" [(ngModel)]="formulaUsaSecondManagementVariables"> <br>
+                                              <i class="helper"></i>  Arancel &nbsp;&nbsp;&nbsp;&nbsp; <input type="text"[(ngModel)]="formulaUsaSecondTariff"><br>
+                                           </label>
+                                        </p>
+                                        <br>
+                                        <h6>{{formulaUsaThird.formula_description}}</h6>
+                                     
+                                                <p>  <label>
+                                                   <i class="helper"></i> Precio &nbsp;&nbsp;&nbsp;&nbsp;<input type="text" [(ngModel)]="formulaUsaThirdPrice"><br>
+                                                   <i class="helper"></i>  Variables manejo &nbsp;&nbsp;&nbsp;&nbsp; <input type="text" [(ngModel)]="formulaUsaThirdManagementVariables"> <br>
+                                                   <i class="helper"></i>  Arancel &nbsp;&nbsp;&nbsp;&nbsp; <input type="text"[(ngModel)]="formulaUsaThirdTariff"><br>
+                                                </label>
+                                             </p>
+                        </div>
+            </div>
+            <div class="col-sm-6">
+                <div *ngIf="formulaUsaOne">
+                    <h6>Configuración ESPAÑA</h6>
+                    <br>
+              <h6>{{formulaEspOne.formula_description}}</h6>
+                                <p>  <label>
+                                         <i class="helper"></i> Precio &nbsp;&nbsp;&nbsp;&nbsp;<input type="text" [(ngModel)]="formulaEspOnePrice"><br>
+                                         <i class="helper"></i>  Variables manejo &nbsp;&nbsp;&nbsp;&nbsp; <input type="text" [(ngModel)]="formulaEspOneManagementVariables"> <br>
+                                         <i class="helper"></i>  Arancel &nbsp;&nbsp;&nbsp;&nbsp; <input type="text"[(ngModel)]="formulaEspOneTariff"><br>
+                                      </label>
+                                   </p>
+                                   <br>
+                                   <h6>{{formulaEspTwo.formula_description}}</h6>
+                                
+                                           <p>  <label>
+                                              <i class="helper"></i> Precio &nbsp;&nbsp;&nbsp;&nbsp;<input type="text" [(ngModel)]="formulaEspSecondPrice"><br>
+                                              <i class="helper"></i>  Variables manejo &nbsp;&nbsp;&nbsp;&nbsp; <input type="text" [(ngModel)]="formulaEspSecondManagementVariables"> <br>
+                                              <i class="helper"></i>  Arancel &nbsp;&nbsp;&nbsp;&nbsp; <input type="text"[(ngModel)]="formulaEspSecondTariff"><br>
+                                           </label>
+                                        </p>
+                                        <br>
+                                        <h6>{{formulaEspThird.formula_description}}</h6>
+                                     
+                                                <p>  <label>
+                                                   <i class="helper"></i> Precio &nbsp;&nbsp;&nbsp;&nbsp;<input type="text" [(ngModel)]="formulaEspThirdPrice"><br>
+                                                   <i class="helper"></i>  Variables manejo &nbsp;&nbsp;&nbsp;&nbsp; <input type="text" [(ngModel)]="formulaEspThirdManagementVariables"> <br>
+                                                   <i class="helper"></i>  Arancel &nbsp;&nbsp;&nbsp;&nbsp; <input type="text"[(ngModel)]="formulaEspThirdTariff"><br>
+                                                </label>
+                                             </p>
+                        </div>
+                  
+        </div>
+    </div>
+    <br>
+    <div class="row">
+            <div class="col-sm-6">
+                    <h6>Configuración BELGICA</h6>
+                    <br>
+              <div  *ngFor="let formulaCondition of formulaEstimateCountriesBel">
+
+                    <h6>{{formulaCondition.formula_description}}</h6>
+                 
+                            <p>  <label>
+                               <i class="helper"></i> Precio &nbsp;&nbsp;&nbsp;&nbsp;<input type="text" value={{formulaCondition.price}}><br>
+                               <i class="helper"></i>  Variables manejo &nbsp;&nbsp;&nbsp;&nbsp; <input type="text" value={{formulaCondition.management_variables}}> <br>
+                               <i class="helper"></i>  Arancel &nbsp;&nbsp;&nbsp;&nbsp; <input type="text" value={{formulaCondition.tariff}}><br>
+                            </label>
+                         </p>
+                </div>      
+            </div>
+        </div>
+        <div class="row">
+                <div class="col-sm-8">
+                
+                </div>
+
+                <div class="col-sm-4">
+                        <button class="btn btn-primary m-b-0" (click)="updateFormulasConfiguration()" >Actualizar</button>
+                </div>
+        
+         </div>
+      </app-card>
+  </div>
+</div>

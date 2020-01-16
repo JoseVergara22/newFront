@@ -139,6 +139,89 @@ uploadFileForkliftUpdate(file, idForlift:number) {
     })   
 }
 
+uploadFileForkliftUpdate3(file) {
+    return new Promise(resolve =>{
+      const contentType = file.type;
+    
+      const bucket = new S3(
+            {
+                accessKeyId: 'AKIAQTIVBK67FU3N4ZPV',
+                secretAccessKey: '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',
+                region: 'us-east-1'
+            }
+        );
+        const uuid = UUID.UUID();
+       
+        // const extension = (file.name.substring(file.name.lastIndexOf('.'))).toLowerCase();
+      
+        let nameFile =uuid +''+ '.pdf';
+        console.log(nameFile);
+        const params = {
+            Bucket: 'masterforklift',
+            Key: nameFile,
+            Body: file,
+            ACL: 'public-read',
+            ContentType: contentType
+        };
+
+        bucket.upload(params).promise().then(resp=>{
+            console.log(resp);
+          resolve(resp);
+          let nameFileFinal='https://masterforklift.s3.amazonaws.com/'+nameFile;
+
+        }).catch(error => {
+    console.log(error);
+  });
+
+    })   
+}
+
+
+
+
+
+
+
+
+
+
+
+uploadFileForkliftUpdate2(file) {
+    return new Promise(resolve =>{
+     // const contentType = file.type;
+      const bucket = new S3(
+            {
+                accessKeyId: 'AKIAQTIVBK67FU3N4ZPV',
+                secretAccessKey: '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',
+                region: 'us-east-1'
+            }
+        );
+        const uuid ='oleoleole12333'; //UUID.UUID();
+        const extension = '.pdf';
+        let nameFile =uuid +''+ extension;
+        console.log(nameFile);
+        const params = {
+            Bucket: 'masterforklift',
+            Key: nameFile,
+            Body: file,
+            ACL: 'public-read',
+            ContentType:  'application/pdf'
+        };
+
+       
+
+        bucket.upload(params).promise().then(resp=>{
+            console.log(resp);
+          resolve(resp);
+          let nameFileFinal='https://masterforklift.s3.amazonaws.com/'+nameFile;
+        }).catch(error => {
+    console.log(error);
+  });
+
+    })   
+}
+
+
 
  /* uploadFile(file) {
     const contentType = file.type;

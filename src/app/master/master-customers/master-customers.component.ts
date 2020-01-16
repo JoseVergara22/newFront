@@ -274,6 +274,8 @@ updateBrand(customeRow: any) {
   sendCustomer(){
     this.router.navigateByUrl('/master/registerCustomer');
   }
+
+  
   sendUpdateBrand() {
     console.log(this.myFormUpdate.get('descriptionUpdate'));
     console.log(localStorage.getItem('token'));
