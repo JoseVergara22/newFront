@@ -52,6 +52,8 @@ import { MasterEstimateAllComponent } from './master-estimate-all/master-estimat
 import { MasterEstimateConfigurationComponent } from './master-estimate-configuration/master-estimate-configuration.component';
 import { MasterUpdateEstimateCustomerComponent } from './master-update-estimate-customer/master-update-estimate-customer.component';
 import { MasterCopyEstimateCustomerComponent } from './master-copy-estimate-customer/master-copy-estimate-customer.component';
+import { MasterPrivacyPolicyComponent } from './master-privacy-policy/master-privacy-policy.component';
+
 // import { MasterAdminComponent } from '../master-layout/master-admin/master-admin.component';
 
 // Servicios
@@ -65,9 +67,6 @@ import { HorometroService } from "../master-services/horometro/horometro.service
 import { ForkliftService } from '../master-services/Forklift/forklift.service';
 import { EstimateService } from '../master-services/estimate/estimate.service';
 import { FilexcelService } from '../master-services/FileExcel/filexcel.service';
-
-
-
 
 @NgModule({
   imports: [
@@ -125,7 +124,8 @@ import { FilexcelService } from '../master-services/FileExcel/filexcel.service';
     MasterEstimateAllComponent,
     MasterEstimateConfigurationComponent,
     MasterUpdateEstimateCustomerComponent,
-    MasterCopyEstimateCustomerComponent
+    MasterCopyEstimateCustomerComponent,
+    MasterPrivacyPolicyComponent
    // MasterAdminComponent
   ],
   providers: [

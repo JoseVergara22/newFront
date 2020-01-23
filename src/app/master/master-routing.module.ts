@@ -37,6 +37,7 @@ import { MasterEstimateAllComponent } from './master-estimate-all/master-estimat
 import { MasterEstimateConfigurationComponent } from './master-estimate-configuration/master-estimate-configuration.component';
 import { MasterUpdateEstimateCustomerComponent } from './master-update-estimate-customer/master-update-estimate-customer.component';
 import { MasterCopyEstimateCustomerComponent } from './master-copy-estimate-customer/master-copy-estimate-customer.component';
+import { MasterPrivacyPolicyComponent } from './master-privacy-policy/master-privacy-policy.component';
 
 const routes: Routes = [
   {
@@ -181,8 +182,11 @@ const routes: Routes = [
   },{
     path: 'estimateCustomerCopy/:id',
     component:    MasterCopyEstimateCustomerComponent
+  },{
+    path: 'privacyPolicy',
+    component:    MasterPrivacyPolicyComponent
   }
-
+ 
 ];
 
 

@@ -83,6 +83,8 @@ export class MasterEstimateAllComponent extends NgbDatepickerI18n {
   forklifts: any;
 
   part:any='';
+  codepart:any='';
+
   numberEstimate:any='';
 
   subject:any;
@@ -558,31 +560,62 @@ export class MasterEstimateAllComponent extends NgbDatepickerI18n {
   }
    }
 
-
    getEstimateFilters() {
+
+    if(this.considerDate == false && this.selectedBusinessId == 0 &&  this.part == 0 &&
+      this.codepart == 0 && this.numberEstimate == 0  &&  this.selectedForkliftId == 0 &&
+      this.listStatus.length == 0){
+        swal({
+          title:'Importante',
+          text: 'Debes seleccionar por lo menos uno de los filtros o activar casilla para tener en cuenta las fechas',
+          type: 'error'
+         });
+      }else{
+    swal({
+      title: 'Validando información ...',
+      allowOutsideClick: false
+    });
+    swal.showLoading();
 
     let params='';
     let cont=0;
     if(this.considerDate){
-      var fromD = this.fromDate.year+'-'+this.fromDate.month+'-'+this.fromDate.day; //31 de diciembre de 2015
-      var untilD = this.untilDate.year+'-'+this.untilDate.month+'-'+this.untilDate.day;
+
+      // poner los 0
+      var day = (this.fromDate.day < 10 ? '0' : '') +this.fromDate.day;
+      // 01, 02, 03, ... 10, 11, 12
+      let month = ((this.fromDate.month) < 10 ? '0' : '') + (this.fromDate.month);
+      // 1970, 1971, ... 2015, 2016, ...
+      var year = this.fromDate.year;
+
+      // until poner los ceros
+      var dayUntil = (this.untilDate.day < 10 ? '0' : '') +this.untilDate.day;
+      // 01, 02, 03, ... 10, 11, 12
+      let monthUntil = ((this.untilDate.month) < 10 ? '0' : '') + (this.untilDate.month);
+      // 1970, 1971, ... 2015, 2016, ...
+      var yearUntil = this.untilDate.year;    
+
+      var fromD = year +'-'+ month+'-'+ day;
+      var untilD = yearUntil +'-'+ monthUntil+'-'+ dayUntil;
+      //var fromD = this.fromDate.year+'-'+this.fromDate.month+'-'+this.fromDate.day; //31 de diciembre de 2015
+      // var untilD = this.untilDate.year+'-'+this.untilDate.month+'-'+this.untilDate.day;
       params='from_date='+ fromD+' 00:00:00'+'&&'+'to_date=' +untilD+' 23:59:59';
     cont++;
     }
 
     if(this.selectedBusinessId!=0){
-      if(cont>1){
+      console.log('imprimir cont');
+      console.log(cont);
+      if(cont>0){
         params=params+'&&customer_id='+this.selectedBusinessId;
       }else{
         params=params+'customer_id='+this.selectedBusinessId;
         cont++;
-      }
-     
+      }     
     }
 
-
     if(this.part!=''){
-      if(cont>1){
+      if(cont>0){
         params=params+'&&description_query='+this.part;
       }else{
         params=params+'description_query='+this.part;
@@ -590,19 +623,26 @@ export class MasterEstimateAllComponent extends NgbDatepickerI18n {
       }
     }
 
+    if(this.codepart!=''){
+      if(cont>0){
+        params=params+'&&codepart_query='+this.codepart;
+      }else{
+        params=params+'codepart_query='+this.codepart;
+        cont++;
+      }
+    }
+
     if(this.numberEstimate!=''){
-      if(cont>1){
+      if(cont>0){
         params=params+'&&consecutive='+this.numberEstimate;
       }else{
         params=params+'consecutive='+this.numberEstimate;
         cont++;
       }
-     
     }
 
-
     if(this.selectedForkliftId!=0){
-      if(cont>1){
+      if(cont>0){
       params=params+'&&forklift_id='+this.selectedForkliftId;
       }else{
         params=params+'forklift_id='+this.selectedForkliftId;
@@ -611,7 +651,7 @@ export class MasterEstimateAllComponent extends NgbDatepickerI18n {
     }
 
     if(this.listStatus.length>0){
-      if(cont>1){
+      if(cont>0){
       params=params+'&&status=['+this.listStatus+']';
       }else{
         params=params+'status=['+this.listStatus+']';
@@ -624,16 +664,17 @@ export class MasterEstimateAllComponent extends NgbDatepickerI18n {
       const resp: any = data;
       console.log('info de filter');
       console.log(data);
-      swal.close();
      // this.customers  = resp.data;
        this.rowsClient = resp.data;
+       swal.close();
       // this.rowStatic =  resp.data;
       // this.rowsTemp = resp.data;
       // console.log( this.rowsClient);
     }).catch(error => {
       console.log(error);
-    });
-   }
+    });  
+  }
+}
 
    getEstimateFiltersInitial() {
 

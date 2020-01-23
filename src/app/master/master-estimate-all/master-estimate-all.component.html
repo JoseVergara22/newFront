@@ -109,7 +109,7 @@
 
   <div class="col-sm-12">
       <app-card>
-          <h5>Registrar Cotizaciones </h5>
+          <h5>Cotizaciones </h5>
           <br>
 
       
@@ -174,26 +174,27 @@
           <div class="row">
          
               <div class="col-sm-4">
-               <h6>Repuestos</h6>
+               <h6>Descripción Repuesto</h6>
                   <input type="text" [(ngModel)]="part" class="form-control" placeholder="Filtrar repuestos">
                   <!--  <input type="text" style="padding:8px;margin:15px auto;width:30%;" placeholder="Type to filter the name column..." (keyup)="updateFilter($event)" /> -->
               </div>
               
               <div class="col-sm-3">
-                <h6>Num. Cotización</h6>
-                   <input type="text"  [(ngModel)]="numberEstimate" class="form-control" placeholder="Filtrar num cotización">
+                <h6>Código Repuesto</h6>
+                   <input type="text" [(ngModel)]="codepart" class="form-control" placeholder="Filtrar repuestos">
                    <!--  <input type="text" style="padding:8px;margin:15px auto;width:30%;" placeholder="Type to filter the name column..." (keyup)="updateFilter($event)" /> -->
                </div>
 
+               <div class="col-sm-2">
+                <ul>
+                    <li class="list-status" *ngFor="let item of checklist">
+                      <input type="checkbox" [(ngModel)]="item.isSelected" name="list_name" value="{{item.id}}" (change)="selectStatus(item)"/>
+                      {{item.value}}
+                    </li>
+                  </ul>
+            </div>
+             
               <div class="col-sm-2">
-                  <ul>
-                      <li class="list-status" *ngFor="let item of checklist">
-                        <input type="checkbox" [(ngModel)]="item.isSelected" name="list_name" value="{{item.id}}" (change)="selectStatus(item)"/>
-                        {{item.value}}
-                      </li>
-                    </ul>
-              </div>
-              <div class="col-sm-3">
                   <div >
                     <button type="button" style="display:none;" id="showSendEmail" class="btn btn-primary waves-effect" (click)="modalSendEmail.show()">Crear Equipo</button>
                      <!--     <button type="button" id="registerBrand" class="btn btn-primary waves-effect" (click)="sendForklift()">Crear equipo</button>-->
@@ -203,11 +204,18 @@
           </div>
           <br>
           <div class="form-group row">
-              <div class="col-4">
-          </div>
-          <div class="col-4">
+           
+          
+            <div class="col-sm-3">
+                <h6>Num. Cotización</h6>
+                   <input type="text"  [(ngModel)]="numberEstimate" class="form-control" placeholder="Filtrar num cotización">
+                   <!--  <input type="text" style="padding:8px;margin:15px auto;width:30%;" placeholder="Type to filter the name column..." (keyup)="updateFilter($event)" /> -->
+               </div>
+
+            <div class="col-sm-5">   
             </div>
-            <div class="col-4">
+          
+               <div class="col-4">
                 <div class="align-buttons">
                   <button class="btn btn-primary" (click)="createEstimate()">Crear Cotización</button>
               </div>
@@ -253,7 +261,7 @@
 
               <!-- <ngx-datatable-column [width]="90" [sortable]="false" [resizeable]="false"   name="Documento " [sortable]="false"  prop="customer_document"></ngx-datatable-column> -->
                <ngx-datatable-column [width]="110" [sortable]="false" [resizeable]="false"   name="Cliente" [sortable]="false"  prop="customer.business_name"></ngx-datatable-column>
-               <ngx-datatable-column [width]="100" [sortable]="false" [resizeable]="false"   name="Contacto " [sortable]="false"  prop="contact"></ngx-datatable-column>
+               <ngx-datatable-column [width]="115" [sortable]="false" [resizeable]="false"   name="Observación" [sortable]="false"  prop="approval_comment"></ngx-datatable-column>
                <ngx-datatable-column [width]="70" [sortable]="false" [resizeable]="false"   name="Teléfono " [sortable]="false"  prop="telephone"></ngx-datatable-column>
                <ngx-datatable-column [width]="90" [sortable]="false" [resizeable]="false"   name="Ciudad " [sortable]="false"  prop="city.name"></ngx-datatable-column>
                  <ngx-datatable-column  [width]="80" [sortable]="false" [resizeable]="false"  name="Sbt.Horas" [sortable]="false"  prop="subtotal"></ngx-datatable-column>

@@ -21,7 +21,7 @@
             <div class="row">
                 <div class="col-sm-3">
                     <h6>Cantidad</h6>
-                    <input type="number" [(ngModel)]="quantity" (blur)="calculateFreightValues()" class="form-control">
+                    <input type="number" [(ngModel)]="quantity" (blur)="calculateSubtotal()" class="form-control">
                 </div>
                 <div class="col-sm-3">
                     <h6>Costo Unitario </h6>
@@ -60,15 +60,15 @@
                 </div>
                 <div class="col-sm-3">
                     <h6>Precio sugerido </h6>
-                    <input type="number" [(ngModel)]="suggestedPrice" class="form-control">
+                    <input  [(ngModel)]="suggestedPrice" class="form-control" disabled>
                 </div>
                 <div class="col-sm-3">
                     <h6>Precio </h6>
-                    <input type="number" [(ngModel)]="price" class="form-control">
+                    <input  [(ngModel)]="price" (blur)="calculateSubtotal()"  (keyup)="finalFormatPrice()" class="form-control">
                 </div>
                 <div class="col-sm-3">
                     <h6>Subtotal </h6>
-                    <input type="number" [(ngModel)]="subtotal" class="form-control">
+                    <input  [(ngModel)]="subtotal" class="form-control" disabled>
                 </div>
             </div>
 
@@ -99,7 +99,8 @@
             </div>
             <br>
             <div class="align-buttons">
-                <button type="button" class="btn btn-default waves-effect" id="createItemHide" (click)="modalRegisterItem.hide()">Cancelar</button>
+                <button type="button" style="display:none;" class="btn btn-default waves-effect" id="createItemHide" (click)="modalRegisterItem.hide()">Cancelar</button>
+                <button type="button" class="btn btn-default waves-effect" id="createItemHideDetail" (click)="cancelFormDetail()">Cancelar</button>
                 <button type="submit " class="btn btn-primary m-b-0 "  (click)="createEstimateDetail()">Crear Item</button>
 
             </div>
@@ -132,11 +133,11 @@
                 </div>
                 <div class="col-sm-4">
                     <h6>Valor hora</h6>
-                    <input type="number" [(ngModel)]="workforceHourValue"   (blur)="calculateSubtotalWork()" class="form-control">
+                    <input type="text" [(ngModel)]="workforceHourValue"    (blur)="calculateSubtotalWork()"  (keyup)="finalFormaHourValue()"  class="form-control">
                 </div>
                 <div class="col-sm-4">
                     <h6>Subtotal </h6>
-                    <input type="number" [(ngModel)]="workforceSubtotal" class="form-control">
+                    <input type="text" [(ngModel)]="workforceSubtotal" class="form-control" disabled >
                 </div>
             </div>
 
@@ -149,7 +150,11 @@
             </div>
             <br>
             <div class="align-buttons">
-                <button type="button" class="btn btn-default waves-effect" id="createItemHideDetailWorkforce" (click)="modalRegisterItemWorkforce.hide()">Cancelar</button>
+
+                <button type="button" style="display:none;" class="btn btn-default waves-effect" id="createHideWorkforce" (click)="modalRegisterItemWorkforce.hide()">Cancelar</button>
+                <button type="button" class="btn btn-default waves-effect" id="createItemHideDetailWorkforce" (click)="cancelFormWorkCreate()">Cancelar</button>
+                
+               <!-- <button type="button" class="btn btn-default waves-effect" id="createItemHideDetailWorkforce" (click)="modalRegisterItemWorkforce.hide()">Cancelar</button> -->
                 <button type="submit " class="btn btn-primary m-b-0 "  (click)="createEstimateDetailWorkforce()">Crear Item</button>
             </div>
         </div>
@@ -213,15 +218,15 @@
             <div class="row">
                 <div class="col-sm-4">
                     <h6>Cantidad</h6>
-                    <input type="number" [(ngModel)]="workforcequantityUpdate" class="form-control"  (blur)="calculateSubtotalWork()">
+                    <input type="number" [(ngModel)]="workforcequantityUpdate" class="form-control"  (blur)="calculateSubtotalWorkUpdate()">
                 </div>
                 <div class="col-sm-4">
                     <h6>Valor hora</h6>
-                    <input type="number" [(ngModel)]="workforceHourValueUpdate"   (blur)="calculateSubtotalWork()" class="form-control">
+                    <input type="text" [(ngModel)]="workforceHourValueUpdate"   (keyup)="finalFormaHourValueUpdate()"   (blur)="calculateSubtotalWorkUpdate()" class="form-control">
                 </div>
                 <div class="col-sm-4">
                     <h6>Subtotal </h6>
-                    <input type="number" [(ngModel)]="workforceSubtotalUpdate" class="form-control">
+                    <input type="text" [(ngModel)]="workforceSubtotalUpdate" class="form-control">
                 </div>
             </div>
 
@@ -234,8 +239,12 @@
             </div>
             <br>
             <div class="align-buttons">
-                <button type="button" class="btn btn-default waves-effect" id="updateItemHideDetailWorkforce" (click)="modalUpdateItemWorkforce.hide()">Cancelar</button>
+      
+                <button type="button" style="display:none;" class="btn btn-default waves-effect" id="updateHideWorkforce" (click)="modalRegisterItem.hide()">Cancelar</button>
+                <button type="button" class="btn btn-default waves-effect" id="updateItemHideDetailWorkforce" (click)="cancelFormDetailWorkforceUpdate()">Cancelar</button>
+
                 <button type="submit " class="btn btn-primary m-b-0 "  (click)="updateEstimateDetailWorkforce()">Actualizar Item</button>
+             
             </div>
         </div>
     </div>
@@ -304,15 +313,15 @@
                 </div>
                 <div class="col-sm-3">
                     <h6>Precio sugerido </h6>
-                    <input type="number" [(ngModel)]="suggestedPriceUpdate" class="form-control">
+                    <input type="text" [(ngModel)]="suggestedPriceUpdate" class="form-control" disabled>
                 </div>
                 <div class="col-sm-3">
                     <h6>Precio </h6>
-                    <input type="number" [(ngModel)]="priceUpdate" class="form-control">
+                    <input type="text" [(ngModel)]="priceUpdate"  (blur)="calculateSubtotalUpdate()"  (keyup)="finalFormatPriceUpdate()"class="form-control">
                 </div>
                 <div class="col-sm-3">
                     <h6>Subtotal </h6>
-                    <input type="number" [(ngModel)]="subtotalUpdate" class="form-control">
+                    <input type="text" [(ngModel)]="subtotalUpdate" class="form-control" disabled>
                 </div>
             </div>
 
@@ -343,7 +352,11 @@
             <br>
             <div class="align-buttons">
                <!-- <button type="button" class="btn btn-default waves-effect" id="createItemHide" (click)="modalRegisterItem.hide()">Cancelar</button> -->
-                <button type="button" class="btn btn-default waves-effect" id="updateItemHide" (click)="modalUpdateItem.hide()">Cancelar</button>
+
+               <button type="button" style="display:none;" class="btn btn-default waves-effect" id="updateItemHide" (click)="modalUpdateItem.hide()">Cancelar</button>
+               <button type="button" class="btn btn-default waves-effect" id="updateDetailItemHide" (click)="cancelFormDetailUpdate()">Cancelar</button>
+
+            <!--  <button type="button" class="btn btn-default waves-effect" id="updateItemHide" (click)="modalUpdateItem.hide()">Cancelar</button>-->
                 <button type="submit " class="btn btn-primary m-b-0 "  (click)="updateEstimateDetail()">Actualizar Item</button>
                
             </div>
@@ -549,6 +562,10 @@
                   
             <br>
             <br>
+
+           
+
+
             <div class="col-sm-12">
             <div class="labelItem">
                 <button type="button" id="registerCountry" class="btn btn-primary waves-effect" (click)="modalRegisterItem.show()" *ngIf="showCreateItem">Crear item</button>
@@ -616,19 +633,101 @@
 
 
         </ngx-datatable>
+<br>
+<br>
+<div   *ngIf="showSaveFile" class="row">
+    <div class="col-sm-4">
+    </div>
 
+    <div class="col-sm-4">
+    </div>
+    <div class="col-sm-4">
+        <div class="labelItem">
+            <button (click)="uploadAll()" class="btn btn-primary">Guardar Medios</button>
+        </div>
+    </div>
+</div>
+        <div  *ngIf="showCreateItem" class="form-group row ">
+             <div class="col-sm-6">
+                <h6><img src="assets/images/folder_image.png"  width="50" height="50" > Elegir imagenes</h6>
+                <input type='file' (change)="onSelectFileImage($event)" >
+                <br>
+                <br>
+                <!-- <app-card [title]="'Lista de imagenes'" [classHeader]="true" [blockClass]="'table-border-style'"> -->
+                <!--  <span class="code-header">use class <code>table</code> inside table element</span> -->
+                <div class="table-responsive">
+                <table class="table">
+                <thead>
+                <tr>
+                    <th>Imagen</th>
+                    <th>Acción</th>
+                </tr>
+                </thead>
+                <tbody  class="col-sm-3" *ngFor='let url of urlsImages; let i = index'>
+                <td>
+                                <!-- <img src="assets/images/blog/blog-r-1.jpg" alt="img" class="img-fluid img-100"> -->
+                <img [src]="url" height="200" *ngIf="url" alt="img" class="img-fluid img-100"> 
+                                <!--  <img [src]="imgURL " height="200 " *ngIf="imgURL " alt="img" class="img-fluid img-100">
+                                <h6 class="m-t-15 m-b-0">Ejemplo</h6>
+                                <p class="text-muted m-b-0"><small>PNG-100KB</small></p> -->
+                </td>
+                <td>
+                <button (click)="deleteImage(i)" class="btn btn-danger btn-icon"><i class="icofont icofont-ui-delete"></i></button>
 
-       
+                </td>
+                </tbody>
+                </table>
+                </div>
+                <!-- </app-card> -->
+            </div>
 
+            <div class="col-sm-6">
+                <h6>  <img src="assets/images/folder_file.png"  width="50" height="50" > Elegir Archivos</h6>
+                <input type='file' (change)="onSelectFile($event)" >
+                <br>
+                <br>
+                <!-- <app-card [title]="'Lista de imagenes'" [classHeader]="true" [blockClass]="'table-border-style'"> -->
+                <!--  <span class="code-header">use class <code>table</code> inside table element</span> -->
+                <div class="table-responsive">
+                <table class="table">
+                <thead>
+                <tr>
+                    <th>Imagen</th>
+                    <th>Acción</th>
+                </tr>
+                </thead>
+                <tbody  class="col-sm-3" *ngFor='let file of urlsFiles; let i = index'>
+                <td>
+                                <!-- <img src="assets/images/blog/blog-r-1.jpg" alt="img" class="img-fluid img-100"> -->
+               <!-- <img [src]="url" height="200" *ngIf="url" alt="img" class="img-fluid img-100">  --> 
 
+                <h6  *ngIf="file"> {{ file }}</h6>
+                                <!--  <img [src]="imgURL " height="200 " *ngIf="imgURL " alt="img" class="img-fluid img-100">
+                                <h6 class="m-t-15 m-b-0">Ejemplo</h6>
+                                <p class="text-muted m-b-0"><small>PNG-100KB</small></p> -->
+                </td>
+                <td>
+                <button (click)="deleteFile(i)" class="btn btn-danger btn-icon"><i class="icofont icofont-ui-delete"></i></button>
 
-        </app-card>
+                </td>
+                </tbody>
+                </table>
+                </div>
+                <!-- </app-card> -->
+            </div>
+        </div>
+
+      
+    </app-card>
         
-        <div class="row">
+        <!-- <div class="row"> -->
             <!-- <div class="col-md-4" *ngFor="let img of images;let i=index">
                <img id="img{{i}}" class="img-fluid" crossOrigin="Anonymous" [src]="img.url">
            </div>  -->
-           <div class="col-md-12 mt-3">
+         
+         <!--   <div class="col-md-12 mt-3">
+          <img id="img" src="https://masterestimate.s3.amazonaws.com/34fc9103-4750-3a2b-ce6e-fc7956f61c40.jpeg" alt="Smiley face" height="42" width="42">
+
                <button (click)="download()" class="btn btn-primary">Download PDF</button>
 
                <button (click)="downloadEcxel()" class="btn btn-primary">Download ECXEL</button>
@@ -639,9 +738,17 @@
                <button (click)="modalSendEmail.show()" class="btn btn-primary">Enviar</button>
 
                <button (click)= "createNewCustomer()" class="btn btn-primary">Test Customer</button>
+
+               <button (click)= "uploadImagesEstimate()" class="btn btn-primary">Subir a S3</button>
+
+               <button (click)= "pp()" class="btn btn-primary">Probar imagen</button>
+
+             
              
                
-           </div>
-       </div>
+           </div>-->
+       <!-- </div> -->
+
+       <button (click)= "formatear(123456779.18)" class="btn btn-primary">Probar imagen</button>
     </div>
 </div>

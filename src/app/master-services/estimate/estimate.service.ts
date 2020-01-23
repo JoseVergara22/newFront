@@ -783,6 +783,7 @@ createEstimateDetails(estimate_id: number, code: string, description: string,
     };
     this.http.patch(this.apiEndPoint+'api/update_estimate_details/'+estimate_detail_id, postParams, httpOptions)
     .map(res => res).subscribe(data => {
+    console.log('respuesta');
     resolve(data);
     }, error => {
     resolve(error);
@@ -1003,6 +1004,38 @@ createEstimateDetails(estimate_id: number, code: string, description: string,
             });
         });
       }
+
+
+      createEstimateFile(estimate_id: number, bucket: string, url: string, type: number, nameFile:string) {
+        console.log('info de detalle');
+        return new Promise(resolve => {
+        const headers = new HttpHeaders();
+        headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user'))); // 'Bearer ' +
+        headers.append('Content-Type', 'application/json');
+        const httpOptions = {
+        headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + localStorage.getItem('token_user'),
+        'Accept': 'application/json'
+        })
+        };
+        const postParams = {
+        estimate_id: estimate_id,
+        bucket: bucket,
+        url:url,
+        type: type,
+        name: nameFile
+        };
+        this.http.post(this.apiEndPoint+'api/create_estimate_file', postParams, httpOptions)
+        .map(res => res).subscribe(data => {
+        resolve(data);
+        }, error => {
+        resolve(error);
+       });
+      });
+    }
+
+  
 }
 
 
