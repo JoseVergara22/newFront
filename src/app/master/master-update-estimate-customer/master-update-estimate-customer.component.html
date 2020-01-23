@@ -299,7 +299,8 @@
 
                <div class="col-sm-4">
                   <h6>Cliente </h6>
-                  <input type="text" [(ngModel)]="nameCustomer"  value={{nameCustomer}}  class="form-control" (change)="getForklitfs()">
+                  <!-- (change)="getForklitfs()" -->
+                  <input type="text" [(ngModel)]="nameCustomer"  value={{nameCustomer}}  class="form-control" >
                      </div>
 
                          <div class="col-sm-4">
@@ -446,7 +447,7 @@ eeee
 
              <button (click)="downloadEcxel()" class="btn btn-primary">Download ECXEL</button>
 
-             <button (click)="upload()" class="btn btn-primary">Download subir</button>
+           <!--  <button (click)="upload()" class="btn btn-primary">Download subir</button>  -->
 
              
          </div>
