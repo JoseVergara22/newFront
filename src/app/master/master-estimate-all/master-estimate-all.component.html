@@ -29,6 +29,199 @@
   </div>
 </app-modal-basic>
 
+<app-modal-basic #modalDetail [dialogClass]="'modal-lg'">
+    <div class="app-modal-header">
+        <h4 class="modal-title">Agregar Correos Electrónico</h4>
+    </div>
+    <div class="app-modal-body">
+            <div class="form-group row">
+                <div class="col-sm-12">
+                    <h6>Asunto</h6>
+                    <input type="text" class="form-control" [(ngModel)]="subject" >
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-sm-12">
+                    <div class="row">
+                        <div class="col-sm-12 col-xs-12 col-md-12  col-lg-11">
+                            <h6>Agregar Correo Electrónico</h6>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="row">
+                        <div class="col-sm-6 col-xs-6 col-md-6  col-lg-5" >
+                            <h6> Correo  </h6>
+                        </div>
+                        <div class="col-sm-6 col-xs-6 col-md-6  col-lg-5">
+                           <h6> Nombre  </h6> 
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6 col-xs-6 col-md-6  col-lg-5">
+                            <input type="text" class="form-control" [(ngModel)]="masterEmail">
+                        </div>
+                        <div class="col-sm-6 col-xs-6 col-md-6  col-lg-5">
+                            <input type="text" class="form-control" [(ngModel)]="masterName">
+                        </div>
+                        <div class="col-sm-1" style="margin-top: 0.5%">
+                            <button class="btn btn-warning btn-icon" (click)="addEmail()"><i class="icofont icofont-ui-add"></i></button>
+                        </div>
+                    </div>
+                    <br>
+                    <br>
+                    <div>
+                        <h6>Lista Correos Electrónicos</h6>
+                      <!--  <div class="row">
+                            <div class="col-sm-6 col-xs-6 col-md-6  col-lg-5">
+                                <h6> Correo  </h6>
+                            </div>
+                            <div class="col-sm-6 col-xs-6 col-md-6  col-lg-5">
+                               <h6> Nombre  </h6> 
+                            </div>
+                        </div>--> 
+                        <br>
+                        <div  *ngFor="let email of emailsSend;let pointIdex=index">
+                            <div class="row">
+                                <div class="col-sm-6 col-xs-6 col-md-6  col-lg-5">
+                                    <input type="text" class="form-control"  value='{{email.email}}'  disabled>
+                                </div>
+                                <div class="col-sm-6 col-xs-6 col-md-6  col-lg-5">
+                                    <input type="text" class="form-control"  value='{{email.name}}' disabled>
+                                </div>
+                                <div class="col-sm-1" style="margin-top: 0.5%">
+                                    <button class="btn btn-default btn-icon" (click)="deleteEmail(pointIdex)"><i class="icofont icofont-ui-remove"></i></button>
+                                </div>
+                            </div>
+                            <br>
+                            <!-- <div *ngIf="submitted && detailform.part.errors" class="invalid-feedback">
+                                        <div class="messages text-danger" *ngIf="detailform.part.errors.required">Este campo es requerido</div>
+                                    </div> -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-sm-12">
+                    <h6>Mensaje</h6>
+                    <textarea type="text" rows="5" class="form-control" id="comment"></textarea>
+                </div>
+            </div>
+            <div class="col-sm-12">
+                <input type="checkbox" name="Ocultar codigo de repuesto" value="" />
+                <label>Ocultar codigo de repuesto</label>
+            </div>
+
+            <div class="align-buttons">
+                <button type="button" class="btn btn-default waves-effect" id="storageDetailHide" (click)="modalDetail.hide()">Cancelar</button>
+                <button type="submit " class="btn btn-primary m-b-0 " (click)="sendEmailEstimate()">Enviar Correo</button>
+
+            </div>
+       
+    </div>
+
+</app-modal-basic>
+
+
+<app-modal-basic #modalApprovalItems [dialogClass]="'modal-lg'">
+    <div class="app-modal-header">
+        <h4 class="modal-title">Aprobar Cotización</h4>
+    </div>
+    <div class="app-modal-body">
+        <div class="form-group row">
+            <div class="col-sm-12">
+                <div class="detail-title">
+                    <h5>Repuestos</h5>
+                </div>
+                <div>
+                    <br>
+                    <input type="checkbox"  value="m1" [checked]="checkAllPart"  (change)="checkUncheckAllPart($event)"/> <strong>Seleccionar todo</strong>
+                    <br>       
+                    <br>         
+                              <div class="table-responsive">
+                                <div class="table-scroll">
+                                <table class="table table-framed">
+                                  <thead>
+                                  <tr>
+                                    <th style="width: 5%"> </th>
+                                    <th style="width: 5%">#</th>
+                                    <th style="width: 85%">Descripción</th>
+                                    <th style="width: 5%;">Cantidad</th>
+                                  </tr>
+                                  </thead>
+                                  <tbody>
+                                  <tr *ngFor="let item of itemsPart;let pointIdex=index">
+                                    <td scope="row">
+                                        <input type="checkbox"  name="list_name" value="{{item.id}}" (change)="partChangeActive($event,item)"[checked]="item.active"/>
+                                    </td>
+                                    <td> {{pointIdex }}</td>
+                                    <td> {{item.description}}</td>
+                                    <td> <input type="number"  style="width: 100px;   text-align: center;"     (change)="partChange($event,item)" value={{item.quantity}} /> </td>
+                                  </tr>
+                                  </tbody>
+                                </table>
+                              </div>
+                            </div>
+                        <br>
+                </div>
+            </div>
+        </div>
+
+
+            <!-- -->
+
+
+            <div class="form-group row">
+                <div class="col-sm-12">
+                    <div class="detail-title">
+                        <h5>Mano de obra</h5>
+                    </div>
+                    <div>
+                        <br>
+                        <input type="checkbox"  value="m1" [checked]="checkAllWorkForce"  (change)="checkUncheckAllWorkforce($event)"/> <strong>Seleccionar todo</strong>
+                        <br>       
+                        <br>         
+                                  <div class="table-responsive">
+                                    <div class="table-scroll">
+                                    <table class="table table-framed">
+                                      <thead>
+                                      <tr>
+                                        <th style="width: 5%"> </th>
+                                        <th style="width: 5%">#</th>
+                                        <th style="width: 85%">Servicio</th>
+                                        <th style="width: 5%;">Cantidad</th>
+                                      </tr>
+                                      </thead>
+                                      <tbody>
+                                      <tr *ngFor="let item of itemsWorkforce;let pointIdex=index">
+                                        <td scope="row">
+                                            <input type="checkbox"  name="list_name" value="{{item.id}}" (change)="workForceChangeActive($event,item)"[checked]="item.active"/>
+                                        </td>
+                                        <td> {{pointIdex }}</td>
+                                        <td> {{item.description}}</td>
+                                        <td> <input type="number"  style="width: 100px;   text-align: center;"     (change)="workForceChange($event,item)" value={{item.quantity}} /> </td>
+                                      </tr>
+                                      </tbody>
+                                    </table>
+                                  </div>
+                                </div>
+                            <br>
+                    </div>
+                </div>
+            </div>
+   
+            
+            <div class="align-buttons">
+                <button type="button" class="btn btn-default waves-effect" id="storageDetailHide" (click)="modalApprovalItems.hide()">Cancelar</button>
+                <button type="submit " class="btn btn-primary m-b-0 " (click)="finalApproval()">Aprobar</button>
+            </div>
+    </div>
+</app-modal-basic>
+
+
+
+
+
+
 
 <app-modal-basic #modalSendEmail [dialogClass]="'modal-lg'">
     <div class="app-modal-header">
@@ -104,6 +297,34 @@
       </form>
   </div>
 </app-modal-basic>
+
+
+<app-modal-basic #modalRejection [dialogClass]="'modal-lg'">
+    <div class="app-modal-header">
+      <h4 class="modal-title">Rechazos</h4>
+    </div>
+    <div class="app-modal-body">
+        <select class="form-control" (change)="getForklifs()" [(ngModel)]="selectedBusinessId"> 
+            <option value="0" selected>Seleccionar motivo </option>
+        <option   *ngFor="let rejectionEstimate of rejectionsEstimate" [ngValue]="rejectionEstimate.id"> {{rejectionEstimate.description}}  </option>
+        <!--  <option value="0" selected>Seleccionar perfil</option> -->
+       </select>
+    </div>
+    <div class="app-modal-footer">
+     <!--  <button type="button" class="btn btn-default waves-effect" (click)="modalSmall.hide()">Close</button>-->
+      <div class="align-buttons">
+          <div class="row">
+            <button type="button" class="btn btn-default waves-effect" id="refusedHide" (click)="modalRejection.hide()">Cancelar</button>
+            &nbsp; &nbsp;<button type="button " class="btn btn-primary m-b-0 ">Rechazar</button>
+          </div>
+    </div>
+    </div>
+  </app-modal-basic>
+
+
+
+
+
 
 <div class="row">
 
@@ -197,6 +418,12 @@
               <div class="col-sm-2">
                   <div >
                     <button type="button" style="display:none;" id="showSendEmail" class="btn btn-primary waves-effect" (click)="modalSendEmail.show()">Crear Equipo</button>
+
+                    <button type="button" style="display:none;" id="showCheckItem" class="btn btn-primary waves-effect" (click)="modalApprovalItems.show()">Checkear</button>
+                    
+
+                    <button type="button" style="display:none;" id="showRejection" class="btn btn-primary waves-effect" (click)="modalRejection.show()">rechazar</button>
+
                      <!--     <button type="button" id="registerBrand" class="btn btn-primary waves-effect" (click)="sendForklift()">Crear equipo</button>-->
                        <button class="btn btn-primary" (click)="getEstimateFilters()"><i class="icofont icofont-search" ></i>Buscar</button>
                       </div>
@@ -282,16 +509,16 @@
                  <label class="link" (click)="copyEstimate(row)">Copiar</label>
                  <label class="link" (click)="sendEstimateEmail(row)" >Enviar</label>
             <!-- <label class="link" (click)="modalSendEmail.show()" >Enviar</label>  -->  
-                 <label class="link" (click)="showEstimateLink(row)">Aprobar</label>
-                 <label class="link" (click)="showEstimateLink(row)">Rechazar</label>
+                 <label class="link" (click)="showCheckItems(row)">Aprobar</label>
+                 <label class="link" (click)="rejectionEstimate(row)">Rechazar</label>
                 </div>
 
                 <div *ngIf="value==1">
                     <label class="link" (click)="copyEstimate(row)">Copiar</label>
                     <label class="link" (click)="sendEstimateEmail(row)" >Enviar</label>
                <!-- <label class="link" (click)="modalSendEmail.show()" >Enviar</label>  -->  
-                    <label class="link" (click)="showEstimateLink(row)">Aprobar</label>
-                    <label class="link" (click)="showEstimateLink(row)">Rechazar</label>
+                    <label class="link" (click)="showCheckItems(row)">Aprobar</label>
+                    <label class="link" (click)="rejectionEstimate(row)">Rechazar</label>
                 </div>
                
                 <div *ngIf="value==2">  
@@ -309,7 +536,11 @@
 
         </ngx-datatable>
 
-      
+
+        <button type="button"   style="display:none;" id="showItemsApprove"  class="btn btn-primary waves-effect" (click)="modalDetail.show()">Mostrar botones</button>
+         <button type="button"  id="uploadItem" class="btn btn-primary waves-effect" (click)="kk()">jaja</button> 
+
+        
       </app-card>
   </div>
 </div>

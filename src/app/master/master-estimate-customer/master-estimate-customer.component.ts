@@ -146,6 +146,8 @@ export class MasterEstimateCustomerComponent implements OnInit {
   costTotalGlobal=0;
   costPesosGlobal=0;
 
+  fileWidth:any;
+
   costTotalGlobalUpdate=0;
   costPesosGlobalUpdate=0;
 
@@ -1585,6 +1587,10 @@ onSelectFileImage(event) {
     this.selectedFilesImages.push(event.target.files);
     console.log(   this.selectedFilesImages[0]);
     var filename = event.target.files[event.target.files.length-1].name;
+   this.fileWidth =this.selectedFilesImages[0];
+   console.log('ESTES ES EL ANCHO DE LA IMAGEN: '+ this.fileWidth[0].name); //Se deja para despues si se tiene que validar width de  imagen
+    console.log('Importante');
+  
     var allowedExtensions = /(.jpg|.jpeg|.png|.gif)$/i;
     console.log(allowedExtensions.exec(filename));
     var extFilename = filename.split('.').pop();
@@ -1594,7 +1600,7 @@ onSelectFileImage(event) {
     console.log(filename);
     console.log(this.urlsImages);
     console.log(filesAmount);
-  // if(this.urlsImages.length<=2){
+   if(this.urlsImages.length<=4){
     if (event.target.files && event.target.files[0]) {
         for (let i = 0; i < filesAmount; i++) {
                 var reader = new FileReader();
@@ -1606,13 +1612,13 @@ onSelectFileImage(event) {
                 reader.readAsDataURL(event.target.files[i]);
         }
     }
- /* }else{
+  }else{
     swal({
-      title: 'El numero maximo de imagenes son 3',
-      text: 'No se pueden cargar mas de 3 imagenes',
+      title: 'El numero maximo de imagenes son 4',
+      text: 'No se pueden cargar mas de 4 imagenes',
       type: 'error'
     });
-  }*/
+  }
   }else{
   swal({
     title: 'El formato del archivo, no es correcto',
@@ -1706,7 +1712,10 @@ uploadImagesEstimate() {
       console.log('s3info'+JSON.stringify(res));
       this.s3info=res;
       console.log(this.s3info);
-      //this.insertNew();
+      swal({
+        title: 'Archivos guardados',
+        type: 'success'
+       });
     }).catch(error=> {
       console.log(error);
       swal({
@@ -1723,19 +1732,26 @@ uploadImagesEstimate() {
  uploadFilesImages() {
   for (let fileCurrent of this.selectedFilesImages) {
   const file = fileCurrent[0];
+  var img = new Image();
+  img=file;
+
+  img.width= 30;
+  img.height= 300;
+  console.log('info de file');
   console.log(file);
   const uuid = UUID.UUID();
   console.log(uuid);
-  console.log(file.name + '' + file.type);
+  console.log(img.name + '' + file.type);
   const extension = (file.name.substring(file.name.lastIndexOf('.'))).toLowerCase();
   console.log(extension);
   // 1 son las imagenes
-  this.uploadService.uploadFilesAll(file, this.estimateId,1, file.name).then(res=>{
+ 
+  this.uploadService.uploadFilesAll(img, this.estimateId,1, file.name).then(res=>{
     console.log('s3info'+JSON.stringify(res));
     this.s3info=res;
     console.log(this.s3info);
     swal({
-      title: 'Archivos guardados',
+      title: 'Imagenes guardadas',
       type: 'success'
      });
 
@@ -2053,12 +2069,42 @@ upload() {
     }
 
   createEstimateCondition(){
-    if(this.selectedBusinessId.id){
-       this.createEstimate();
+
+    // Validar condiciones
+
+    if(this.documentCustomer !== '' && this.nameCustomer !== '' && this.selectedDepartmentId != 0 && this.selectedCityId != 0 &&
+    this.days !== '' && this.guaranty !== ''  && this.contact !== '' &&
+    this.email !== '' &&  this.validity!== ''){
+
+        if(this.validateEmail(this.email)){
+          if(this.selectedBusinessId.id){
+            this.createEstimate();
+         }else{
+           this.createNewCustomer();
+         }
+        }else{
+          swal({
+            title: 'Se presento un problema',
+            text:'Debe ingresar un correo electrónico valido',
+            type: 'error'
+           });
+        }
     }else{
-      this.createNewCustomer();
+      swal({
+        title: 'Se presento un problema',
+        text:'Debe diligenciar los valores obligatorios(*)',
+        type: 'error'
+       });
     }
+
+    
   }
+
+  validateEmail( email ) 
+{
+    var regex = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+    return regex.test(email) ? true : false;
+}
   
   
 
@@ -2313,13 +2359,34 @@ console.log();
 
 
   updateEstimateCondition(){
+    console.log('Ingresa ps');        
+    if(this.documentCustomer !== '' && this.nameCustomer !== '' && this.selectedDepartmentId != 0 && this.selectedCityId != 0 &&
+    this.days !== '' && this.guaranty !== ''  && this.contact !== '' &&
+    this.email !== '' &&  this.validity!== ''){
+    
+      console.log('-- '+this.selectedCityId );
+
+      if(this.validateEmail(this.email)){
+
     if(this.selectedBusinessId.id){
       this.updateEstimate();
    }else{
      this.updateNewCustomer();
    }
+  }else{
+    swal({
+      title: 'Se presento un problema',
+      text:'Debe ingresar un correo electrónico valido',
+      type: 'error'
+     });
+  }}else{
+    swal({
+      title: 'Se presento un problema',
+      text:'Debe diligenciar los valores obligatorios(*)',
+      type: 'error'
+     });
   }
-
+  }
 
   updateEstimate() {
    

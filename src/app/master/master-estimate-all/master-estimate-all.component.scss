@@ -10,12 +10,22 @@
     font-size:smaller;
   }
 
-
+.table-scroll{
+  height:192px;
+}
   
 .statusLabel{
    font-size: 11px;
 }
 
+.detail-title{
+  text-align: center;
+}
+
+.table-height{
+  height:150px;
+  overflow-:scroll;
+}
 
   .link{
     text-decoration: underline;

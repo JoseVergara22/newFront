@@ -240,7 +240,7 @@
             <br>
             <div class="align-buttons">
       
-                <button type="button" style="display:none;" class="btn btn-default waves-effect" id="updateHideWorkforce" (click)="modalRegisterItem.hide()">Cancelar</button>
+                <button type="button" style="display:none;" class="btn btn-default waves-effect" id="updateHideWorkforce" (click)="modalUpdateItemWorkforce.hide()">Cancelar</button>
                 <button type="button" class="btn btn-default waves-effect" id="updateItemHideDetailWorkforce" (click)="cancelFormDetailWorkforceUpdate()">Cancelar</button>
 
                 <button type="submit " class="btn btn-primary m-b-0 "  (click)="updateEstimateDetailWorkforce()">Actualizar Item</button>
@@ -447,12 +447,12 @@
 <br>
               <div class="row">
                 <div class="col-sm-4">
-                    <h6>Documento </h6>
+                    <h6>Documento <span style="color:red;">*</span> </h6>
                     <input type="text"  [(ngModel)]="documentCustomer"  value={{documentCustomer}} class="form-control" >
                        </div>
 
                  <div class="col-sm-4">
-                    <h6>Cliente </h6>
+                    <h6>Cliente<span style="color:red;">*</span> </h6>
                     <input type="text" [(ngModel)]="nameCustomer"  value={{nameCustomer}}  class="form-control">
                        </div>
 
@@ -482,11 +482,11 @@
                 </div>
 
                 <div class="col-sm-2">
-                    <h6>Forma de pago </h6>
+                    <h6>Forma de pago <span style="color:red;">*</span>  </h6>
                     <input type="text"  [(ngModel)]="days"  value={{days}}  class="form-control">
                 </div>
                 <div class="col-sm-2">
-                    <h6>Garantia </h6>
+                    <h6>Garantia <span style="color:red;">*</span>  </h6>
                     <input type="text"  [(ngModel)]="guaranty"  value={{guaranty}}  class="form-control">
                  </div>
         </div>
@@ -495,18 +495,18 @@
 <br>
               <div class="row">
                 <div class="col-sm-4">
-                 <h6>Contacto </h6>
+                 <h6>Contacto <span style="color:red;">*</span>  </h6>
                     <input type="text"  [(ngModel)]="contact"  value={{contact}}   class="form-control">
                        </div>
               
                    <div class="col-sm-4">
-                 <h6>Correo </h6>
-                    <input type="text"  [(ngModel)]="email"  value={{email}} class="form-control">
+                 <h6>Correo <span style="color:red;">*</span>  </h6>
+                    <input type="email"  [(ngModel)]="email"  value={{email}} class="form-control">
                        </div>
             
 
                     <div class="col-sm-2">
-                    <h6>Validez</h6>
+                    <h6>Validez <span style="color:red;">*</span> </h6>
                     <input type="text"   [(ngModel)]="validity"  value={{validity}} class="form-control">
                     </div>
                         <div class="col-sm-2">
@@ -519,7 +519,7 @@
             <br>
             <div class="row">
                 <div class="col-sm-4">
-                 <h6>Teléfono</h6>
+                 <h6>Teléfono  <span style="color:red;">*</span>  </h6>
                     <input type="text"   [(ngModel)]="cellphone"  value={{cellphone}}  class="form-control">
                 </div> 
                 <div class="col-sm-8">
@@ -692,7 +692,7 @@
                 <table class="table">
                 <thead>
                 <tr>
-                    <th>Imagen</th>
+                    <th>Archivo</th>
                     <th>Acción</th>
                 </tr>
                 </thead>

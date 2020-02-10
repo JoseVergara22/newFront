@@ -742,6 +742,8 @@ this.selectedFuelId);
 
 
     onSelectFile(event) {
+
+     
       var filesAmount = event.target.files.length;
      
       this.selectedFiles.push(event.target.files);

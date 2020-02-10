@@ -36,6 +36,29 @@ export class EstimateService {
     });
   }
 
+
+  getRejectionsEstimate() {
+    return new Promise(resolve => {
+      const headers = new HttpHeaders();
+      headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user'))); // 'Bearer ' +
+      headers.append('Content-Type', 'application/json');
+      const httpOptions = {
+        headers: new HttpHeaders({
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + localStorage.getItem('token_user'),
+          'Accept': 'application/json'
+        })
+      };
+      this.http.get(this.apiEndPoint+'api/get_all_type_rejection', httpOptions)
+        .map(res => res).subscribe(data => {
+          console.log(data);
+          resolve(data);
+        }, error => {
+          resolve(error);
+        });
+    });
+  }
+
   getPriceDhl() {
     return new Promise(resolve => {
       const headers = new HttpHeaders();
@@ -1032,6 +1055,76 @@ createEstimateDetails(estimate_id: number, code: string, description: string,
         }, error => {
         resolve(error);
        });
+      });
+    }
+
+
+    getEstimateDetailFilesImages(idEstimate:number) {
+      return new Promise(resolve => {
+        const headers = new HttpHeaders();
+        headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user'))); // 'Bearer ' +
+        headers.append('Content-Type', 'application/json');
+        const httpOptions = {
+          headers: new HttpHeaders({
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + localStorage.getItem('token_user'),
+            'Accept': 'application/json'
+          })
+        };
+        this.http.get(this.apiEndPoint+'api/get_idestimate_files?estimate_id='+idEstimate+'&type=1', httpOptions)
+          .map(res => res).subscribe(data => {
+            console.log(data);
+            resolve(data);
+          }, error => {
+            resolve(error);
+          });
+      });
+    }
+
+    getEstimateDetailFiles(idEstimate:number) {
+      return new Promise(resolve => {
+        const headers = new HttpHeaders();
+        headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user'))); // 'Bearer ' +
+        headers.append('Content-Type', 'application/json');
+        const httpOptions = {
+          headers: new HttpHeaders({
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + localStorage.getItem('token_user'),
+            'Accept': 'application/json'
+          })
+        };
+        this.http.get(this.apiEndPoint+'api/get_idestimate_files?estimate_id='+idEstimate+'&type=0', httpOptions)
+          .map(res => res).subscribe(data => {
+            console.log(data);
+            resolve(data);
+          }, error => {
+            resolve(error);
+          });
+      });
+    }
+
+    deleteEstimateFile(id: number) {
+      console.log('ole ole ole');
+      console.log(status);
+      return new Promise(resolve => {
+        const headers = new HttpHeaders();
+        headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user'))); // 'Bearer ' +
+        headers.append('Content-Type', 'application/json');
+        const httpOptions = {
+          headers: new HttpHeaders({
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + localStorage.getItem('token_user'),
+            'Accept': 'application/json'
+          })
+        };
+        const postParams = {
+        };
+        this.http.delete(this.apiEndPoint+'api/delete_estimate_file/' + id, httpOptions)
+          .map(res => res).subscribe(data => {
+            resolve(data);
+          }, error => {
+            resolve(error);
+          });
       });
     }
 

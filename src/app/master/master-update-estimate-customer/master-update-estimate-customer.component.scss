@@ -22,3 +22,37 @@
       height: 100vh;
     }
   }
+
+
+.partLabel{
+    background-color: #eceeef;
+    text-align: center;
+    padding-top: 10px;
+    padding-bottom: 1px;
+  }
+
+  .fullscreen {
+    position: absolute !important;
+    height: auto !important;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+}
+
+:host ::ng-deep .ngx-datatable .datatable-body .datatable-scroll {
+    display: inherit;
+    width: 100%;
+    font-size:smaller;
+  }
+
+  :host ::ng-deep .ngx-datatable .datatable-header .datatable-header-cell {
+    display: inherit;
+    width: 100%;
+    font-size:smaller;
+  }
+
+  .labelItem{
+      text-align: right;
+  }
