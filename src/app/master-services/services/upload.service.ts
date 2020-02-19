@@ -216,7 +216,7 @@ uploadFileForkliftUpdate3(file) {
             console.log(resp);
           resolve(resp);
           let nameFileFinal='https://masterforklift.s3.amazonaws.com/'+nameFile;
-
+          console.log(nameFileFinal);
         }).catch(error => {
     console.log(error);
   });

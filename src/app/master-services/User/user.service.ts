@@ -413,7 +413,13 @@ resolve(data);
       const headers = new HttpHeaders();
       headers.append('Accept', 'application/json');
       headers.append('Content-Type', 'application/json');
-
+/* 
+  */
+ console.log(this.apiClientId);
+ console.log(this.apiClientSecret);
+ console.log(email);
+ console.log(password);
+ 
       const httpOptions = {
             headers: new HttpHeaders({
               'Content-Type':  'application/json',
@@ -440,6 +446,10 @@ resolve(data);
                console.log('respuesta: '  +  JSON.stringify(ole));
                resolve(data);
              }, error => {
+               console.log('este es el error');
+               console.log(error);
+       
+               
               resolve(error);
              });
          });

@@ -6,6 +6,7 @@ import { Router } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
 import { environment } from './../../../environments/environment';
 import 'rxjs/add/operator/map';
+import { integer } from 'aws-sdk/clients/cloudfront';
 @Injectable()
 
 export class EstimateService {
@@ -129,6 +130,34 @@ export class EstimateService {
         });
     });
   }
+
+
+  copyEstimate(idEstimate:integer) {
+    return new Promise(resolve => {
+      const headers = new HttpHeaders();
+      headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user'))); // 'Bearer ' +
+      headers.append('Content-Type', 'application/json');
+      const httpOptions = {
+        headers: new HttpHeaders({
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + localStorage.getItem('token_user'),
+          'Accept': 'application/json'
+        })
+      };
+
+      const postParams = {
+        id:idEstimate
+      };
+      this.http.post(this.apiEndPoint+'api/copy_estimate', postParams, httpOptions)
+        .map(res => res).subscribe(data => {
+
+          resolve(data);
+        }, error => {
+          resolve(error);
+        });
+    });
+  }
+
   updateEstimateCountries(id: number, name: string, money: string) {
     return new Promise(resolve => {
       const headers = new HttpHeaders();
@@ -264,6 +293,39 @@ export class EstimateService {
         });
     });
   }
+
+
+  sendEstimateEmailAmazon(idUser: number, idCustomer: number, idEstimate:number, info:any,  comment: string, subject: string) {
+    return new Promise(resolve => {
+      const headers = new HttpHeaders();
+      headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user'))); // 'Bearer ' +
+      headers.append('Content-Type', 'application/json');
+      const httpOptions = {
+        headers: new HttpHeaders({
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + localStorage.getItem('token_user'),
+          'Accept': 'application/json'
+        })
+      };
+      const postParams = {
+        id_user: idUser,
+        id_customer: idCustomer,
+        id_estimate: idEstimate,
+        info: info,
+        comment: comment,
+        subject: subject
+      };
+      this.http.post(this.apiEndPoint+'api/send_amazon_mail', postParams, httpOptions)
+        .map(res => res).subscribe(data => {
+          resolve(data);
+        }, error => {
+          resolve(error);
+        });
+    });
+  }
+
+
+
   updatePriceCountries(id: number, weight: number, price: number) {
     console.log(id +','+weight +','+price);
     return new Promise(resolve => {

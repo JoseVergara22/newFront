@@ -103,11 +103,11 @@
             <div class="form-group row">
                 <div class="col-sm-12">
                     <h6>Mensaje</h6>
-                    <textarea type="text" rows="5" class="form-control" id="comment"></textarea>
+                    <textarea type="text" rows="5" class="form-control" id="comment"  [(ngModel)]="comment"></textarea>
                 </div>
             </div>
             <div class="col-sm-12">
-                <input type="checkbox" name="Ocultar codigo de repuesto" value="" />
+                <input type="checkbox" name="Ocultar codigo de repuesto" value="" (change)="onChangeCode($event)" />
                 <label>Ocultar codigo de repuesto</label>
             </div>
 
@@ -452,7 +452,7 @@
 
             <ngx-datatable-column  [width]="40" [sortable]="false" [resizeable]="false" [canAutoResize]="false" name="PDF"   prop="serie" >
                 <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
-                    <label class="link" (click)="downloadPdf(row)">PDF</label>
+                    <label class="link" (click)="downloadPdf(row,0)">PDF</label>
                   </ng-template>     
             </ngx-datatable-column>
               <ngx-datatable-column [width]="72" [sortable]="false" [resizeable]="false"  name="Nro" [sortable]="false"  prop="estimate_consecutive"></ngx-datatable-column>
