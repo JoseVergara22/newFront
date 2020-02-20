@@ -300,7 +300,7 @@
             <br>
             <div class="row">
                 <div class="col-sm-3">
-                    <h6>Lista precio </h6>
+                    <h6>Lista de precios </h6>
                     <select class="form-control" [(ngModel)]="priceListUpdate"  (blur)="calculateFreightValuesUpdate()" >
                             <option value="0" selected>Seleccionar país</option>
                             <option value="2">USA </option>
@@ -317,7 +317,7 @@
                 </div>
                 <div class="col-sm-3">
                     <h6>Precio </h6>
-                    <input type="text" [(ngModel)]="priceUpdate"  (blur)="calculateSubtotalUpdate()"  (keyup)="finalFormatPriceUpdate()"class="form-control">
+                    <input type="text" [(ngModel)]="priceUpdate"  (blur)="calculateSubtotalUpdate()"  (change.enter)="finalFormatPriceUpdate()"class="form-control">
                 </div>
                 <div class="col-sm-3">
                     <h6>Subtotal </h6>

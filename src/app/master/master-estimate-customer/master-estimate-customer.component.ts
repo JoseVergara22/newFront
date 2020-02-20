@@ -169,11 +169,11 @@ export class MasterEstimateCustomerComponent implements OnInit {
   showEstimateId=true;
   showCreateItem=false;
   showSaveFile=false;
-  lowPrice : any=0;
-  higherPrice : any=0;
+  lowPrice : any;
+  higherPrice : any;
 
-  lowPriceUpdate : any=0;
-  higherPriceUpdate : any=0;
+  lowPriceUpdate : any;
+  higherPriceUpdate : any;
 
   daysUpdate:any;
 
@@ -578,10 +578,12 @@ this.trmGeneralUsa= inputTrm.value.replace(/[^\d\.]*/g,'');
     // let priceTemp = this.price;
      let deliveryTemp = this.validity;
      let weightTemp = this.weight;
-     let totalTemp = this.changeFormatDecimal(this.subtotal);//this.subtotal.toString().replace('.','').replace(',','.');
+     let totalTemp =  this.changeFormatDecimal(this.subtotal)//this.subtotal.toString().replace('.','').replace(',','.');
      let observationTemp = this.observation;
      let statusTemp = 0;
-     let subtotalTemp = this.changeFormatDecimal(this.subtotal);
+     console.log('Antes de guardar');
+     console.log(this.subtotal);
+     let subtotalTemp = this.subtotal; //this.changeFormatDecimal(this.subtotal)
      let typeServiceTemp = 0;
      let weightTypeList = this.weightTypeList;
 
@@ -654,6 +656,8 @@ this.trmGeneralUsa= inputTrm.value.replace(/[^\d\.]*/g,'');
      let totalTemp = this.changeFormatDecimal(this.subtotalUpdate);
      let observationTemp = this.observationUpdate;
      let statusTemp = 0;
+     console.log('Antes de guardar');
+     console.log(this.subtotalUpdate);
      let subtotalTemp = this.changeFormatDecimal(this.subtotalUpdate);
      let typeServiceTemp = 0;
      let weightTypeTemp = this.weightTypeListUpdate;
@@ -1335,6 +1339,8 @@ console.log(country+'-'+item.estimate_countries_id+'-'+item.conexion_id_validati
     this.suggestedPrice= this.finalFormat(this.suggestedPrice);
     this.price= this.finalFormat(this.price);
     this.subtotal= this.finalFormat(this.subtotal);
+    console.log(this.subtotal);
+    console.log('---------------------');
     console.log(this.weight);
   }
 
@@ -1455,6 +1461,7 @@ finalOperation(country:number){
   }
 
   console.log('margin');
+  console.log(margin);
 
 
   // llamar api para cada usuario y configurar clientes que no existan
@@ -2633,7 +2640,7 @@ console.log('Solo se permiten numeros');
           }
 
         finalFormatStandard(priceUpdate:any){
-          var num = this.changeFormatDecimal(priceUpdate); // this.changeFormatDecimal(this.workforceHourValue);
+          var num = priceUpdate;//this.changeFormatDecimal(priceUpdate); // this.changeFormatDecimal(this.workforceHourValue);
           console.log(num);
           num +='';
           var splitStr = num.split('.');
