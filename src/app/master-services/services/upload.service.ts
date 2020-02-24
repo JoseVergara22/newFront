@@ -363,9 +363,8 @@ uploadFilesAll(file:any, estimateId:number, type: number, fileName:string) {
           }
       );
       const uuid = UUID.UUID();
-      console.log(uuid);
-      console.log(file.name + '' + file.type);
-      const extension = (file.name.substring(file.name.lastIndexOf('.'))).toLowerCase();
+    
+      const extension ='.pdf';
       console.log(extension);
       // let nameFile ='https://masterforklift.s3.amazonaws.com/'+uuid +''+ extension;
       let nameFile =uuid +''+ extension;

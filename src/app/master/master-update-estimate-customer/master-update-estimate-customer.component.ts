@@ -374,6 +374,8 @@ export class MasterUpdateEstimateCustomerComponent implements OnInit {
     if(this.estimateId){
       this.estimateService.getEstimateDetailsWorkforce(this.estimateId).then(data => {
         const resp: any = data;
+
+        if(resp.data.length){
         this.rowsItemsWorkforce=resp.data;
       
         /*for (let i = 0; i < this.rowsItems.length; i++) {
@@ -386,6 +388,7 @@ export class MasterUpdateEstimateCustomerComponent implements OnInit {
         console.log('------------'+ this.itemEnd[0]);
       
         console.log(data);
+      }
       }).catch(error => {
         console.log(error);
       });
@@ -450,21 +453,25 @@ export class MasterUpdateEstimateCustomerComponent implements OnInit {
    
     if(this.estimateId){
       this.estimateService.getEstimateDetailsParts(this.estimateId).then(data => {
+        console.log('importante información del estimate:'+ JSON.stringify(data));
+        console.log(data);
         const resp: any = data;
+        console.log('tamano: '+resp.data.length);
+        if(resp.data.length>0){
+
+      
         this.rowsItemsparts=resp.data;
       
      /*   for (let i = 0; i < this.rowsItems.length; i++) {
           this.itemEnd.push(+i+1+','+ this.rowsItems[i].code+','+this.rowsItems[i].description+','+this.rowsItems[i].quantity+','+this.rowsItems[i].unit_cost+','+this.rowsItems[i].price+','+this.rowsItems[i].delivery);
         }*/
-
-
-
         console.log('INFO PARA VER ITEMS PARA EL PDF');
         console.log('Importante');
         console.log(this.itemEnd.toString());
         console.log('------------'+ this.itemEnd[0]);
       
         console.log(data);
+      }
       }).catch(error => {
         console.log(error);
       });
@@ -660,8 +667,9 @@ this.trmGeneralUsa= inputTrm.value.replace(/[^\d\.]*/g,'');
      
      let observationTemp = this.observation;
      let statusTemp = 0;
-     let subtotalTemp = this.subtotal; //this.changeFormatDecimal(this.subtotal);
+    let subtotalTemp = this.subtotal; //this.changeFormatDecimal(this.subtotal);
      console.log('subtotalTemp');
+     // let subtotalTemp = this.changeFormatDecimal(this.subtotal);
      console.log(subtotalTemp);
      
      let typeServiceTemp = 0;

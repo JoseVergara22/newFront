@@ -583,10 +583,10 @@ this.trmGeneralUsa= inputTrm.value.replace(/[^\d\.]*/g,'');
      let statusTemp = 0;
      console.log('Antes de guardar');
      console.log(this.subtotal);
-     let subtotalTemp = this.subtotal; //this.changeFormatDecimal(this.subtotal)
+     let subtotalTemp =  this.changeFormatDecimal(this.subtotal)
      let typeServiceTemp = 0;
      let weightTypeList = this.weightTypeList;
-
+     console.log('estos son los puntos');
  
      this.estimateService.createEstimateDetails(estimateIdDetailTemp,codeTemp,descriptionTemp,
       quantityTemp, unitCostTemp, priceListTemp, priceSuggestTemp, weightTemp,

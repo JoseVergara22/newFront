@@ -315,7 +315,22 @@ export class EstimateService {
         comment: comment,
         subject: subject
       };
-      this.http.post(this.apiEndPoint+'api/send_amazon_mail', postParams, httpOptions)
+
+      console.log('oleoel');
+      console.log('info: '+info);
+      console.log(JSON.stringify(info));
+
+      console.log('oleoele');
+    
+       let infoTemp =   console.log(JSON.stringify(info));
+//       [ {"email": "jasoncv0294@gmail.com","contact": "jason"}]
+
+
+      console.log('id_user='+ idUser+'&id_customer='+idCustomer
+      +'&id_estimate='+idEstimate+'&info='+infoTemp+'&comment='+comment+'&subject='+subject);
+
+      this.http.get(this.apiEndPoint+'api/send_amazon_mail?id_user='+ idUser+'&id_customer='+idCustomer
+                    +'&id_estimate='+idEstimate +'&info='+infoTemp+'&comment='+comment+'&subject='+subject, httpOptions)
         .map(res => res).subscribe(data => {
           resolve(data);
         }, error => {
