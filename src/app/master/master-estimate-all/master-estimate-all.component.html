@@ -86,7 +86,7 @@
                                     <input type="text" class="form-control"  value='{{email.email}}'  disabled>
                                 </div>
                                 <div class="col-sm-6 col-xs-6 col-md-6  col-lg-5">
-                                    <input type="text" class="form-control"  value='{{email.name}}' disabled>
+                                    <input type="text" class="form-control"  value='{{email.contact}}' disabled>
                                 </div>
                                 <div class="col-sm-1" style="margin-top: 0.5%">
                                     <button class="btn btn-default btn-icon" (click)="deleteEmail(pointIdex)"><i class="icofont icofont-ui-remove"></i></button>
@@ -153,7 +153,7 @@
                                     <td scope="row">
                                         <input type="checkbox"  name="list_name" value="{{item.id}}" (change)="partChangeActive($event,item)"[checked]="item.active"/>
                                     </td>
-                                    <td> {{pointIdex }}</td>
+                                    <td> {{pointIdex+1 }}</td>
                                     <td> {{item.description}}</td>
                                     <td> <input type="number"  style="width: 100px;   text-align: center;"     (change)="partChange($event,item)" value={{item.quantity}} /> </td>
                                   </tr>
@@ -196,7 +196,7 @@
                                         <td scope="row">
                                             <input type="checkbox"  name="list_name" value="{{item.id}}" (change)="workForceChangeActive($event,item)"[checked]="item.active"/>
                                         </td>
-                                        <td> {{pointIdex }}</td>
+                                        <td> {{pointIdex+1 }}</td>
                                         <td> {{item.description}}</td>
                                         <td> <input type="number"  style="width: 100px;   text-align: center;"     (change)="workForceChange($event,item)" value={{item.quantity}} /> </td>
                                       </tr>

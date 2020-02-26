@@ -613,11 +613,25 @@ export class MasterEstimateAllComponent extends NgbDatepickerI18n {
       if(this.subject!==''){
          subjectTemp= this.subject;
       }
+
+     // concatenar los correos y nos con ","
      
+    let emailsName = '';
+     for (let i = 0; i < this.emailsSend.length; i++) {
+       if(i!==0){
+        emailsName=emailsName+'|';
+       }
+        emailsName=emailsName+this.emailsSend[i].email+'|'+this.emailsSend[i].contact;
+     }
+
+     console.log('------------------');
+     console.log(emailsName);
+     console.log('---------------------');
+
       if(this.emailsSend.length>0){
       this.estimateService.sendEstimateEmailAmazon(//sendEstimateEmailAmazon
         this.estimateCurrent.elaborate_user_id, this.estimateCurrent.customer_id, this.estimateCurrent.id,
-        JSON.stringify(this.emailsSend),this.comment,subjectTemp).then(data => {
+        emailsName.trim(),this.comment,subjectTemp).then(data => {
         const resp: any = data;
         console.log('envio');
         console.log(resp);
@@ -3687,23 +3701,37 @@ finalApproval(){
   });
   swal.showLoading();
  
-
-  this.estimateService.updateEstimateStatus(
-    this.estimateCurrent.id, 2).then(data => {
+  this.estimateService.approveEstimateDetails(valuesApproval
+    ).then(data => {
     const resp: any = data;
-    console.log('envio');
+    console.log('envio autorización');
     console.log(resp);
-    document.getElementById('hideCheckItem').click();
-
-    this.getEstimateFiltersInitial();
-    swal({
-      title: 'cotización aprobada',
-      type: 'success'
-     });
+   
+    //---------------------------
+    this.estimateService.updateEstimateStatus(
+      this.estimateCurrent.id, 2).then(data => {
+      const resp: any = data;
+      console.log('envio');
+      console.log(resp);
+      document.getElementById('hideCheckItem').click();
+  
+      this.getEstimateFiltersInitial();
+      swal({
+        title: 'cotización aprobada',
+        type: 'success'
+       });
+    }).catch(error => {
+      console.log(error);
+      swal.close();
+    });
+    // ----------------------------
+    
   }).catch(error => {
     console.log(error);
     swal.close();
   });
+
+
 
 }
 

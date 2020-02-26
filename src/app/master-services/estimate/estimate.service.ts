@@ -295,7 +295,7 @@ export class EstimateService {
   }
 
 
-  sendEstimateEmailAmazon(idUser: number, idCustomer: number, idEstimate:number, info:any,  comment: string, subject: string) {
+  sendEstimateEmailAmazon(idUser: number, idCustomer: number, idEstimate:number, info:string,  comment: string, subject: string) {
     return new Promise(resolve => {
       const headers = new HttpHeaders();
       headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user'))); // 'Bearer ' +
@@ -307,30 +307,28 @@ export class EstimateService {
           'Accept': 'application/json'
         })
       };
-      const postParams = {
-        id_user: idUser,
-        id_customer: idCustomer,
-        id_estimate: idEstimate,
-        info: info,
-        comment: comment,
-        subject: subject
-      };
-
-      console.log('oleoel');
-      console.log('info: '+info);
-      console.log(JSON.stringify(info));
-
-      console.log('oleoele');
     
-       let infoTemp =   console.log(JSON.stringify(info));
-//       [ {"email": "jasoncv0294@gmail.com","contact": "jason"}]
+
+    
 
 
       console.log('id_user='+ idUser+'&id_customer='+idCustomer
-      +'&id_estimate='+idEstimate+'&info='+infoTemp+'&comment='+comment+'&subject='+subject);
+      +'&id_estimate='+idEstimate+'&info='+info+'&comment='+comment+'&subject='+subject);
 
-      this.http.get(this.apiEndPoint+'api/send_amazon_mail?id_user='+ idUser+'&id_customer='+idCustomer
-                    +'&id_estimate='+idEstimate +'&info='+infoTemp+'&comment='+comment+'&subject='+subject, httpOptions)
+     console.log(' ingreso al correo sobre el info'+info);
+
+      const postParams = {
+        id_user: idUser,
+        id_estimate: idEstimate,
+        info: info,
+        id_customer: idCustomer,
+        subject:subject,
+        comment:comment
+      };
+
+     this.http.get(this.apiEndPoint+'api/send_amazon_mail?id_user='+ idUser+'&id_customer='+idCustomer
+      +'&id_estimate='+idEstimate+'&info='+info+'&comment='+comment+'&subject='+subject,httpOptions)
+     // this.http.get(this.apiEndPoint+'api/send_amazon_mail?id_user=197&subject="Buen dia"&id_customer= 118&id_estimate= 277&info=jasoncv0294@gmail.com|eee|ycastrillon0294@gmail.com|lll&comment= "Oiga pues"',httpOptions)
         .map(res => res).subscribe(data => {
           resolve(data);
         }, error => {
@@ -1197,6 +1195,31 @@ createEstimateDetails(estimate_id: number, code: string, description: string,
         const postParams = {
         };
         this.http.delete(this.apiEndPoint+'api/delete_estimate_file/' + id, httpOptions)
+          .map(res => res).subscribe(data => {
+            resolve(data);
+          }, error => {
+            resolve(error);
+          });
+      });
+    }
+
+    approveEstimateDetails(details: string) {
+    
+      return new Promise(resolve => {
+        const headers = new HttpHeaders();
+        headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user'))); // 'Bearer ' +
+        headers.append('Content-Type', 'application/json');
+        const httpOptions = {
+          headers: new HttpHeaders({
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + localStorage.getItem('token_user'),
+            'Accept': 'application/json'
+          })
+        };
+        const postParams = {
+          items: details
+        };
+        this.http.patch(this.apiEndPoint+'api/approve_estimate', postParams, httpOptions)
           .map(res => res).subscribe(data => {
             resolve(data);
           }, error => {
