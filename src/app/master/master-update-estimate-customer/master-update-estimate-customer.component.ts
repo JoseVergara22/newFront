@@ -1281,7 +1281,7 @@ console.log('Importante informacion: '+ this.conditionValidation);
       }
 
       if(this.conditionTrmUsa.id==2){
-        this.trmGeneralUsa=(Number(this.conditionTrmUsa.constant)).toFixed(0);
+        this.trmGeneralUsa=(Number(this.conditionTrmUsa.constant)).toFixed(2);
       }
 
       if(this.conditionTrmUsa.id==3){
@@ -1292,7 +1292,7 @@ console.log('Importante informacion: '+ this.conditionValidation);
       }
 
 
-      this.trmGeneralEsp= (trm*this.conditionTrmEsp.constant).toFixed(0);
+      this.trmGeneralEsp= (trm*this.conditionTrmEsp.constant).toFixed(2);
 
 
 
@@ -1547,9 +1547,9 @@ finalOperation(country:number){
   let operationFreight=0;
 
   if(this.conditionValidation==2){
-     operationFreight = Number(Number(this.freightGeneral).toFixed(0))*1;
+     operationFreight = Number(Number(this.freightGeneral).toFixed(2))*1;
   }else{
-     operationFreight = Number(Number(this.freightGeneral).toFixed(0))*this.finalWeight;
+     operationFreight = Number(Number(this.freightGeneral).toFixed(2))*this.finalWeight;
   }
 
   console.log('driving '+drivingCost);
@@ -1628,9 +1628,9 @@ finalOperationUpdate(country:number){
   let operationFreight=0;
 
   if(this.conditionValidation==2){
-     operationFreight = Number(Number(this.freightGeneral).toFixed(0))*1;
+     operationFreight = Number(Number(this.freightGeneral).toFixed(2))*1;
   }else{
-     operationFreight = Number(Number(this.freightGeneral).toFixed(0))*this.finalWeight;
+     operationFreight = Number(Number(this.freightGeneral).toFixed(2))*this.finalWeight;
   }
 
   console.log('driving '+drivingCost);
