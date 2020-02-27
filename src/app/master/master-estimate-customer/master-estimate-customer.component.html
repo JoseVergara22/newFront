@@ -52,7 +52,7 @@
                             <option value="3">ESPAÑA </option>
                             <option value="4">BELGICA </option>
                             <option value="5">SERVICIO TERCERO </option>
-                            <option value="6">SERVICIO NACIONAL </option>
+                            <option value="6">REPUESTO NACIONAL </option>
                             <!-- <option value="7">INSUMOS </option>
                             <option value="8">SIN PV </option>-->
                           </select>
@@ -307,7 +307,7 @@
                             <option value="3">ESPAÑA </option>
                             <option value="4">BELGICA </option>
                             <option value="5">SERVICIO TERCERO </option>
-                            <option value="6">SERVICIO NACIONAL </option>
+                            <option value="6">REPUESTO NACIONAL </option>
                           </select>
 
                 </div>
@@ -480,15 +480,35 @@
                           <option  *ngFor="let city of cities " [ngValue]="city.id"> {{city.city}} </option>
                          </select>
                 </div>
-
                 <div class="col-sm-2">
+
+                    <div class="row">
                     <h6>Forma de pago <span style="color:red;">*</span>  </h6>
-                    <input type="text"  [(ngModel)]="days"  value={{days}}  class="form-control">
+                    </div>
+                    <div class="row">
+                <div class="col-sm-7">
+                    <input type="number"   [(ngModel)]="days"  value={{days}}  class="form-control">
+                </div>
+                <div class="col-sm-5">
+                    <!-- <h6>Forma de pago <span style="color:red;">*</span>  </h6> -->
+                    <h6>Días  </h6>
+                </div>
+        
+            </div>
                 </div>
                 <div class="col-sm-2">
                     <h6>Garantia <span style="color:red;">*</span>  </h6>
-                    <input type="text"  [(ngModel)]="guaranty"  value={{guaranty}}  class="form-control">
-                 </div>
+                    <div class="row">
+                        <div class="col-sm-7">
+                    <input type="number"  [(ngModel)]="guaranty"  value={{guaranty}}  class="form-control">
+                    </div>
+                    <div class="col-sm-5">
+                        <!-- <h6>Forma de pago <span style="color:red;">*</span>  </h6> -->
+                        <h6>Días  </h6>
+                    </div>
+                </div>
+
+                </div>
         </div>
 
 
@@ -505,10 +525,20 @@
                        </div>
             
 
-                    <div class="col-sm-2">
-                    <h6>Validez <span style="color:red;">*</span> </h6>
-                    <input type="text"   [(ngModel)]="validity"  value={{validity}} class="form-control">
-                    </div>
+                       <div class="col-sm-2">
+                        <h6>Validez <span style="color:red;">*</span> </h6>
+                        <div class="row">
+                            <div class="col-sm-7">
+               
+                    <input type="number"   [(ngModel)]="validity"  value={{validity}} class="form-control">
+                </div>
+                <div class="col-sm-5">
+                    <!-- <h6>Forma de pago <span style="color:red;">*</span>  </h6> -->
+                    <h6>Días  </h6>
+                </div>
+            </div>
+
+            </div>
                         <div class="col-sm-2">
                     <h6>TRM </h6>
                 <h3> {{  this.trmGeneralUsa }}</h3>

@@ -1946,8 +1946,13 @@ doc.autoTable({
        [{content: 'NOTA: VALORES ANTES DE IVA', colSpan: 2,  styles: {halign: 'left'}}]]
     });
 
+console.log('info de imagenes');
 
-    console.log('MOSTRAME POR FAVOR LA URL'+ this.filesImage[0].url);
+console.log(this.filesImage);
+
+  if(this.filesImage.length>0){
+
+  console.log('MOSTRAME POR FAVOR LA URL'+ this.filesImage[0].url);
   var img4 = new Image;
   img4.onload = function() {
       doc.addImage(img4, exts,  15,  doc.autoTable.previous.finalY+20, 150,150);
@@ -1958,6 +1963,9 @@ doc.autoTable({
   img4.crossOrigin = "";  
   img4.src =this.filesImage[0].url; 
   var exts = this.filesImage[0].ext;
+}else{
+  doc.save('CuatroFirstPdf.pdf');
+}
 
   //  console.log(this.filesImage.length+' oleole');
     //doc.addPage();
@@ -3610,8 +3618,9 @@ updateForklift(forklift:any) {
       const resp: any = data;
       this.filesEstimateImage=resp.data;
       console.log('esta es la respuesta de la imagen');
-      console.log(resp.data);
+      console.log(resp);
 
+      if(resp.success){
       this.filesImage=[];
      // for (let i = 0; i < this.filesEstimateImage.length; i++){
         console.log('ingreso a la conversión');
@@ -3663,6 +3672,17 @@ updateForklift(forklift:any) {
 
       // images.push();
   
+      }else{
+        console.log(ind);
+        if(ind==0){
+          console.log('ingreso a la descarga');
+          this.download3(ind);
+          
+        }else{
+          console.log('ingreso al envio del correo');
+          this.downloadSend(ind);
+        }
+      }
     }).catch(error => {
       console.log(error);
     });

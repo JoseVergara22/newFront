@@ -156,11 +156,11 @@ export class MasterEstimateCustomerComponent implements OnInit {
   cellphone:any;
   contact:any;
   email:any;
-  days:any;
+  days:any=0;
   trmGeneralUsa:any;
   trmGeneralEsp:any;
-  guaranty:any;
-  validity:any;
+  guaranty:any=0;
+  validity:any=0;
   departments: any;
   cities: any;
   observation:any;
@@ -2080,10 +2080,15 @@ upload() {
   createEstimateCondition(){
 
     // Validar condiciones
-
+   
     if(this.documentCustomer !== '' && this.nameCustomer !== '' && this.selectedDepartmentId != 0 && this.selectedCityId != 0 &&
     this.days !== '' && this.guaranty !== ''  && this.contact !== '' &&
     this.email !== '' &&  this.validity!== ''){
+      console.log((this.days.toString()).length);
+
+      if( (this.days.toString()).length<=2){
+        if( ( this.guaranty.toString()).length<=3){
+    if((this.validity.toString()).length<=2){
 
         if(this.validateEmail(this.email)){
           if(this.selectedBusinessId.id){
@@ -2098,15 +2103,35 @@ upload() {
             type: 'error'
            });
         }
-    }else{
-      swal({
-        title: 'Se presento un problema',
-        text:'Debe diligenciar los valores obligatorios(*)',
-        type: 'error'
-       });
+  }else{
+    swal({
+      title: 'Se presento un problema',
+      text:'La validez debe ser menor o igual a 99 días',
+      type: 'error'
+     });
     }
+  }else{
+    swal({
+      title: 'Se presento un problema',
+      text:'La garantia debe  ser menor o igual a 999 días',
+      type: 'error'
+     });
+    }
+  }else{
+    swal({
+      title: 'Se presento un problema',
+      text:'La forma de pago debe ser menor o igual a 99 días',
+      type: 'error'
+     });
+    }
+}else{
+  swal({
+    title: 'Se presento un problema',
+    text:'Debe diligenciar los valores obligatorios(*)',
+    type: 'error'
+   });
+}
 
-    
   }
 
   validateEmail( email ) 
