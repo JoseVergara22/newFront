@@ -632,12 +632,12 @@ this.trmGeneralUsa= inputTrm.value.replace(/[^\d\.]*/g,'');
     // let priceTempStr = this.price.toString();
     // priceTempStr = priceTempStr.split('.').join('');
      let priceTemp=  this.changeFormatDecimal( this.price);// 
-     this.suggestedPrice=((Number(this.salePrice)).toFixed(2));
+     this.suggestedPrice=((Number(this.salePrice)).toFixed(0));
      console.log('this.suggestedPrice');
      console.log(this.suggestedPrice);
      
     this.lowPrice = this.suggestedPrice;
-    this.higherPrice = Number(this.suggestedPrice *(1+(this.suggestedMaximum/100))).toFixed(2);
+    this.higherPrice = Number(this.suggestedPrice *(1+(this.suggestedMaximum/100))).toFixed(0);
 
      console.log('OLEOLE IMPORT');
      console.log(this.price);
@@ -652,7 +652,7 @@ this.trmGeneralUsa= inputTrm.value.replace(/[^\d\.]*/g,'');
      let quantityTemp = this.quantity;
      let unitCostTemp = this.unitCost;
      let priceListTemp = this.priceList;
-     let priceSuggestTemp = this.suggestedPrice;//this.changeFormatDecimal(this.suggestedPrice);// this.suggestedPrice;
+     let priceSuggestTemp = this.changeFormatDecimal(this.suggestedPrice);// this.suggestedPrice;
      console.log('priceSuggestTemp');
      console.log(priceSuggestTemp);
      
@@ -661,13 +661,13 @@ this.trmGeneralUsa= inputTrm.value.replace(/[^\d\.]*/g,'');
     // let priceTemp = this.price;
      let deliveryTemp = this.validity;
      let weightTemp = this.weight;
-     let totalTemp = this.subtotal; //this.changeFormatDecimal(this.subtotal);//this.subtotal.toString().replace('.','').replace(',','.');
+     let totalTemp = this.changeFormatDecimal(this.subtotal);//this.subtotal.toString().replace('.','').replace(',','.');
      console.log('totalTemp');
      console.log(totalTemp);
      
      let observationTemp = this.observation;
      let statusTemp = 0;
-    let subtotalTemp = this.subtotal; //this.changeFormatDecimal(this.subtotal);
+    let subtotalTemp = this.changeFormatDecimal(this.subtotal);
      console.log('subtotalTemp');
      // let subtotalTemp = this.changeFormatDecimal(this.subtotal);
      console.log(subtotalTemp);
@@ -749,7 +749,7 @@ this.trmGeneralUsa= inputTrm.value.replace(/[^\d\.]*/g,'');
     console.log('this.lowPriceUpdate');
     console.log(this.lowPriceUpdate);
     
-     this.higherPriceUpdate =Number(this.lowPriceUpdate *(1+(this.suggestedMaximum/100))).toFixed(2);;
+     this.higherPriceUpdate =Number(this.lowPriceUpdate *(1+(this.suggestedMaximum/100))).toFixed(0);;
      console.log('this.higherPriceUpdate');
      console.log(this.higherPriceUpdate);
      console.log('info de importante');
@@ -1281,7 +1281,7 @@ console.log('Importante informacion: '+ this.conditionValidation);
       }
 
       if(this.conditionTrmUsa.id==2){
-        this.trmGeneralUsa=(Number(this.conditionTrmUsa.constant)).toFixed(2);
+        this.trmGeneralUsa=(Number(this.conditionTrmUsa.constant)).toFixed(0);
       }
 
       if(this.conditionTrmUsa.id==3){
@@ -1292,7 +1292,7 @@ console.log('Importante informacion: '+ this.conditionValidation);
       }
 
 
-      this.trmGeneralEsp= (trm*this.conditionTrmEsp.constant).toFixed(2);
+      this.trmGeneralEsp= (trm*this.conditionTrmEsp.constant).toFixed(0);
 
 
 
@@ -1477,11 +1477,11 @@ console.log(country+'-'+item.estimate_countries_id+'-'+item.conexion_id_validati
     if(this.priceListUpdate==5 || this.priceListUpdate==6){
       console.log('calculo diferente');
       if(this.priceListUpdate==5 ){
-        this.suggestedPrice =Number(Number(this.unitCostUpdate/this.thirdService).toFixed(2));
+        this.suggestedPrice =Number(Number(this.unitCostUpdate/this.thirdService).toFixed(0));
         this.priceUpdate =   this.suggestedPriceUpdate;
         this.subtotalUpdate =  this.suggestedPriceUpdate*this.quantityUpdate;
       }else if (this.priceListUpdate==6) {
-        this.suggestedPriceUpdate =Number(Number(this.unitCostUpdate/ this.nationalService).toFixed(2));
+        this.suggestedPriceUpdate =Number(Number(this.unitCostUpdate/ this.nationalService).toFixed(0));
         this.priceUpdate =   this.suggestedPriceUpdate;
         this.subtotalUpdate =  this.suggestedPriceUpdate*this.quantityUpdate;
       } 
@@ -1495,11 +1495,11 @@ console.log(country+'-'+item.estimate_countries_id+'-'+item.conexion_id_validati
       if(this.priceListUpdate==5 || this.priceListUpdate==6){
         console.log('calculo diferente');
         if(this.priceListUpdate==5 ){
-          this.suggestedPriceUpdate = Number(Number(this.unitCostUpdate/this.thirdService).toFixed(2));
+          this.suggestedPriceUpdate = Number(Number(this.unitCostUpdate/this.thirdService).toFixed(0));
           this.priceUpdate =   this.suggestedPriceUpdate;
           this.subtotalUpdate =  this.suggestedPriceUpdate*this.quantityUpdate;
         }else if (this.priceListUpdate==6) {
-          this.suggestedPriceUpdate =Number(Number(this.unitCostUpdate/ this.nationalService).toFixed(2));
+          this.suggestedPriceUpdate =Number(Number(this.unitCostUpdate/ this.nationalService).toFixed(0));
           this.priceUpdate =   this.suggestedPriceUpdate;
           this.subtotalUpdate =  this.suggestedPriceUpdate*this.quantityUpdate;
         } 
@@ -1547,9 +1547,9 @@ finalOperation(country:number){
   let operationFreight=0;
 
   if(this.conditionValidation==2){
-     operationFreight = Number(Number(this.freightGeneral).toFixed(2))*1;
+     operationFreight = Number(Number(this.freightGeneral).toFixed(0))*1;
   }else{
-     operationFreight = Number(Number(this.freightGeneral).toFixed(2))*this.finalWeight;
+     operationFreight = Number(Number(this.freightGeneral).toFixed(0))*this.finalWeight;
   }
 
   console.log('driving '+drivingCost);
@@ -1591,16 +1591,16 @@ finalOperation(country:number){
 
   // llamar api para cada usuario y configurar clientes que no existan
   this.salePrice=costPesos/(1-margin);
-  this.suggestedPrice=((Number(this.salePrice)).toFixed(2));
+  this.suggestedPrice=((Number(this.salePrice)).toFixed(0));
   this.lowPrice = this.suggestedPrice;
-  this.higherPrice = Number(this.suggestedPrice *(1+(this.suggestedMaximum/100))).toFixed(2);
+  this.higherPrice = Number(this.suggestedPrice *(1+(this.suggestedMaximum/100))).toFixed(0);
 
   console.log('Este es el precio bajo:'+ this.lowPrice);
   console.log('Este es el precio alto' + this.higherPrice);
   console.log( this.lowPrice +'-----'+ this.higherPrice);
 
-  this.price=Number(this.salePrice).toFixed(2)
-  this.subtotal=(Number(this.salePrice)*Number(this.quantity)).toFixed(2);
+  this.price=Number(this.salePrice).toFixed(0);
+  this.subtotal=(Number(this.salePrice)*Number(this.quantity)).toFixed(0);
 }
 
 
@@ -1628,9 +1628,9 @@ finalOperationUpdate(country:number){
   let operationFreight=0;
 
   if(this.conditionValidation==2){
-     operationFreight = Number(Number(this.freightGeneral).toFixed(2))*1;
+     operationFreight = Number(Number(this.freightGeneral).toFixed(0))*1;
   }else{
-     operationFreight = Number(Number(this.freightGeneral).toFixed(2))*this.finalWeight;
+     operationFreight = Number(Number(this.freightGeneral).toFixed(0))*this.finalWeight;
   }
 
   console.log('driving '+drivingCost);
@@ -1672,18 +1672,18 @@ finalOperationUpdate(country:number){
 
   // llamar api para cada usuario y configurar clientes que no existan
   this.salePriceUpdate=costPesos/(1-margin);
-  this.suggestedPriceUpdate=((Number(this.salePriceUpdate)).toFixed(2));
+  this.suggestedPriceUpdate=((Number(this.salePriceUpdate)).toFixed(0));
   this.lowPriceUpdate = this.suggestedPriceUpdate;
   console.log('low');
   console.log(this.lowPriceUpdate);
 
-  this.higherPriceUpdate = Number(this.suggestedPriceUpdate *(1+(this.suggestedMaximum/100))).toFixed(2);
+  this.higherPriceUpdate = Number(this.suggestedPriceUpdate *(1+(this.suggestedMaximum/100))).toFixed(0);
   console.log('high');
   console.log(this.higherPriceUpdate);
   console.log( this.lowPriceUpdate +'---manada de boludos---'+ this.higherPriceUpdate);
 
-  this.priceUpdate=Number(this.salePriceUpdate).toFixed(2)
-  this.subtotalUpdate=(Number(this.salePriceUpdate)*Number(this.quantityUpdate)).toFixed(2);
+  this.priceUpdate=Number(this.salePriceUpdate).toFixed(0)
+  this.subtotalUpdate=(Number(this.salePriceUpdate)*Number(this.quantityUpdate)).toFixed(0);
 }
 
 

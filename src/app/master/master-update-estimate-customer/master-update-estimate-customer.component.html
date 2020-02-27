@@ -133,7 +133,7 @@
                 </div>
                 <div class="col-sm-4">
                     <h6>Valor hora</h6>
-                    <input type="text" [(ngModel)]="workforceHourValue"    (blur)="calculateSubtotalWork()"  (keyup)="finalFormaHourValue()"  class="form-control">
+                    <input type="text" [(ngModel)]="workforceHourValue"    (blur)="calculateSubtotalWork()"  (keyup.enter)="finalFormaHourValue()"  class="form-control">
                 </div>
                 <div class="col-sm-4">
                     <h6>Subtotal </h6>
@@ -222,7 +222,7 @@
                 </div>
                 <div class="col-sm-4">
                     <h6>Valor hora</h6>
-                    <input type="text" [(ngModel)]="workforceHourValueUpdate"   (keyup)="finalFormaHourValueUpdate()"   (blur)="calculateSubtotalWorkUpdate()" class="form-control">
+                    <input type="text" [(ngModel)]="workforceHourValueUpdate"   (keyup.enter)="finalFormaHourValueUpdate()"   (blur)="calculateSubtotalWorkUpdate()" class="form-control">
                 </div>
                 <div class="col-sm-4">
                     <h6>Subtotal </h6>
