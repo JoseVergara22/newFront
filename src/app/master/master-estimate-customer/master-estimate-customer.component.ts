@@ -615,7 +615,7 @@ this.trmGeneralUsa= inputTrm.value.replace(/[^\d\.]*/g,'');
      });
     }else{
       swal({
-        title: 'Se presentó un problema',
+        title: 'Se presentó un problema ----' + priceTemp+'---'+this.lowPrice+'--'+ this.higherPrice,
         text: 'El precio asignado está por debajo del sugerido o está por encima del porcentaje permitido',
         type: 'error'
        });
@@ -638,11 +638,11 @@ this.trmGeneralUsa= inputTrm.value.replace(/[^\d\.]*/g,'');
     swal.showLoading();
      // console.log(this.lowPrice+ '--' +this.price+ '--'+ this.higherPrice);
      let priceUpdateTemp=  this.changeFormatDecimal(this.priceUpdate);// 
+     this.lowPriceUpdate = this.changeFormatDecimal(this.suggestedPriceUpdate);
+     this.higherPriceUpdate = Number(this.lowPriceUpdate *(1+(this.suggestedMaximum/100))).toFixed(0);
      console.log('info de importante');
-     console.log('----'+priceUpdateTemp+ '----'+ this.lowPriceUpdate+'---'+  this.higherPriceUpdate);
+     console.log('----'+priceUpdateTemp+ '----'+ this.lowPriceUpdate+'---'+  this.higherPriceUpdate + '---' + this.suggestedMaximum);
      // cambio YCV 
-     this.lowPriceUpdate = this.suggestedPriceUpdate;
-     this.higherPriceUpdate = Number(this.suggestedPriceUpdate *(1+(this.suggestedMaximum/100))).toFixed(0);
 
      if(priceUpdateTemp >= this.lowPriceUpdate && priceUpdateTemp <= this.higherPriceUpdate){
 
@@ -716,8 +716,8 @@ this.trmGeneralUsa= inputTrm.value.replace(/[^\d\.]*/g,'');
      let codeTemp= this.workforceCodeUpdate;
      let serviceTemp= this.workforceServiceUpdate;
      let quantityTemp = this.workforcequantityUpdate;
-     let hourValueTemp = this.workforceHourValueUpdate;
-     let subtotalTemp = this.workforceSubtotalUpdate;
+     let hourValueTemp =this.changeFormatDecimal(this.workforceHourValueUpdate);
+     let subtotalTemp = this.changeFormatDecimal(this.workforceSubtotalUpdate);
      let deliveryTemp = this.workforceDeliveryUpdate;
      let statusTemp = 0;
      let typeServiceTemp = 1;
@@ -890,8 +890,8 @@ this.weightTypeListUpdate = item.weight_type;
     this.workforceCodeUpdate = item.code;
     this.workforceServiceUpdate = item.service;
     this.workforcequantityUpdate = item.quantity;
-    this.workforceHourValueUpdate = item.hour_value;
-    this.workforceSubtotalUpdate = item.subtotal;
+    this.workforceHourValueUpdate = this.finalFormatStandard((Number(item.hour_value)).toFixed(0));
+    this.workforceSubtotalUpdate = (Number(item.subtotal)).toFixed(0);
     this.workforceDeliveryUpdate = item.delivery;
 
         console.log(item);
@@ -2572,14 +2572,20 @@ console.log('Solo se permiten numeros');
   calculateSubtotal(){
     let priceTemp = this.changeFormatDecimal(this.price);
      // =this.price.toString().replace('.','').replace(',','.');
-    this.subtotal= priceTemp*this.quantity;
+     let value =  priceTemp*this.quantity;
+     this.subtotal= this.finalFormat(value);
+    console.log('subtotal--- ' + this.subtotal);
+    
   }
 
 
   calculateSubtotalUpdate(){
     let priceUpdateTemp = this.changeFormatDecimal(this.priceUpdate);
      // =this.price.toString().replace('.','').replace(',','.');
-    this.subtotalUpdate= priceUpdateTemp*this.quantityUpdate;
+    let value =  priceUpdateTemp*this.quantityUpdate;
+     this.subtotalUpdate= this.finalFormat(value);
+    console.log('subtotal-- ' + this.subtotalUpdate);
+    
   }
 
 
