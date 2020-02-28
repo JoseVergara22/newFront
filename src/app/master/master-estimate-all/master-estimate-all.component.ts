@@ -878,7 +878,7 @@ export class MasterEstimateAllComponent extends NgbDatepickerI18n {
 
   for (let i = 0; i < this.rowsItemsparts.length; i++) {
   
-    body_table = [i+1, this.rowsItemsparts[i].code, this.rowsItemsparts[i].description, this.rowsItemsparts[i].quantity, this.rowsItemsparts[i].unit_cost, this.rowsItemsparts[i].price,
+    body_table = [i+1, this.rowsItemsparts[i].code, this.rowsItemsparts[i].description, this.rowsItemsparts[i].quantity, this.rowsItemsparts[i].unit_cost, this.rowsItemsparts[i].price_decimal,
     this.rowsItemsparts[i].delivery];
     
     doc.autoTable({

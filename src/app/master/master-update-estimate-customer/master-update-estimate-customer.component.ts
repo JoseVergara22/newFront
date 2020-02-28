@@ -987,11 +987,12 @@ this.descriptionUpdate= item.description;
 this.quantityUpdate= item.quantity;
 this.unitCostUpdate  = item.unit_cost;
 this.priceListUpdate  = item.price_list;
-this.suggestedPriceUpdate = this.finalFormatStandard(item.price_suggest);
-this.priceUpdate = this.finalFormatStandard(item.price); 
+
+this.suggestedPriceUpdate = this.finalFormatStandard(Number(item.price_suggest).toFixed(0));
+this.priceUpdate = this.finalFormatStandard(Number(item.price).toFixed(0)); 
 console.log('vamos para el subtotal');
 console.log(item.subtotal);
-this.subtotalUpdate = this.finalFormatStandard(item.subtotal);
+this.subtotalUpdate = this.finalFormatStandard(Number(item.subtotal).toFixed(0));
 this.deliveryUpdate =  item.delivery;
 this.weightUpdate = item.weight;
 this.weightTypeListUpdate = item.weight_type;
@@ -1003,12 +1004,15 @@ this.weightTypeListUpdate = item.weight_type;
 
   updateWorkForceItems(item:any) {
   
+   
+
+
     this.workforceDetailIdUpdate = item.id;
     this.workforceCodeUpdate = item.code;
     this.workforceServiceUpdate = item.service;
     this.workforcequantityUpdate = item.quantity;
-    this.workforceHourValueUpdate = item.hour_value;
-    this.workforceSubtotalUpdate = item.subtotal;
+    this.workforceHourValueUpdate =  this.finalFormatStandard(Number(item.hour_value).toFixed(0));
+    this.workforceSubtotalUpdate =   this.finalFormatStandard(Number(item.subtotal).toFixed(0));
     this.workforceDeliveryUpdate = item.delivery;
 
         console.log(item);

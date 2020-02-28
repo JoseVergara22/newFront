@@ -562,8 +562,9 @@ this.trmGeneralUsa= inputTrm.value.replace(/[^\d\.]*/g,'');
      console.log('OLEOLE IMPORT');
      console.log(this.price);
      console.log(this.price.toString().replace('.',''));
+     console.log('arreglate porfavor');
      console.log('--->' + priceTemp+'---'+this.lowPrice+'--'+ this.higherPrice);
-
+     console.log('--->' + priceTemp+'-->=-'+this.lowPrice+'-&-'+ priceTemp+'<='+ this.higherPrice);
      if(priceTemp >= this.lowPrice && priceTemp <= this.higherPrice){
 
      let estimateIdDetailTemp= this.estimateId;
@@ -639,6 +640,9 @@ this.trmGeneralUsa= inputTrm.value.replace(/[^\d\.]*/g,'');
      let priceUpdateTemp=  this.changeFormatDecimal(this.priceUpdate);// 
      console.log('info de importante');
      console.log('----'+priceUpdateTemp+ '----'+ this.lowPriceUpdate+'---'+  this.higherPriceUpdate);
+     // cambio YCV 
+     this.lowPriceUpdate = this.suggestedPriceUpdate;
+     this.higherPriceUpdate = Number(this.suggestedPriceUpdate *(1+(this.suggestedMaximum/100))).toFixed(0);
 
      if(priceUpdateTemp >= this.lowPriceUpdate && priceUpdateTemp <= this.higherPriceUpdate){
 
@@ -868,9 +872,9 @@ this.descriptionUpdate= item.description;
 this.quantityUpdate= item.quantity;
 this.unitCostUpdate  = item.unit_cost;
 this.priceListUpdate  = item.price_list;
-this.suggestedPriceUpdate = this.finalFormatStandard(item.price_suggest);
-this.priceUpdate = this.finalFormatStandard(item.price); 
-this.subtotalUpdate = this.finalFormatStandard(item.subtotal);
+this.suggestedPriceUpdate = this.finalFormatStandard(Number(item.price_suggest).toFixed(0));
+this.priceUpdate =this.finalFormatStandard(Number(item.price).toFixed(0)); 
+this.subtotalUpdate =this.finalFormatStandard( Number(item.subtotal).toFixed(0));
 this.deliveryUpdate =  item.delivery;
 this.weightUpdate = item.weight;
 this.weightTypeListUpdate = item.weight_type;
