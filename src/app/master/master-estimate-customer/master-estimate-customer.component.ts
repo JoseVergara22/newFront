@@ -716,7 +716,7 @@ this.trmGeneralUsa= inputTrm.value.replace(/[^\d\.]*/g,'');
      let codeTemp= this.workforceCodeUpdate;
      let serviceTemp= this.workforceServiceUpdate;
      let quantityTemp = this.workforcequantityUpdate;
-     let hourValueTemp =this.changeFormatDecimal(this.workforceHourValueUpdate);
+     let hourValueTemp = this.changeFormatDecimal(this.workforceHourValueUpdate);
      let subtotalTemp = this.changeFormatDecimal(this.workforceSubtotalUpdate);
      let deliveryTemp = this.workforceDeliveryUpdate;
      let statusTemp = 0;
@@ -2307,15 +2307,21 @@ console.log();
    }
 
    calculateSubtotalWork(){
+    console.log('calular de subtotal actualizar');
     let workforceHourValueTemp = this.changeFormatDecimal(this.workforceHourValue);
-    this.workforceSubtotal = this.workforcequantity*workforceHourValueTemp;
+    let value =  this.workforcequantity*workforceHourValueTemp;
+    this.workforceSubtotal = Number(value).toFixed(0);
+    console.log('this.workforceSubtotal ----- '+this.workforceSubtotal);
     this.finalFormaHourValueSubtotal();
    // this.workforceSubtotal =  this.changeFormatDecimal(this.workforceSubtotal);
    }
 
    calculateSubtotalWorkUpdate(){
+    console.log('calular de subtotal actualizar');
     let workforceHourValueTempUpdate = this.changeFormatDecimal(this.workforceHourValueUpdate);
-    this.workforceSubtotalUpdate = this.workforcequantityUpdate*workforceHourValueTempUpdate;
+    let value =  this.workforcequantityUpdate*workforceHourValueTempUpdate;
+    this.workforceSubtotalUpdate = Number(value).toFixed(0);
+    console.log('this.workforceSubtotalUpdate ----- '+this.workforceSubtotalUpdate);
     this.finalFormaHourValueSubtotalUpdate();
    // this.workforceSubtotal =  this.changeFormatDecimal(this.workforceSubtotal);
    }
@@ -2643,7 +2649,7 @@ console.log('Solo se permiten numeros');
         }
 
       finalFormaHourValueSubtotal(){
-        var num = this.changeFormatDecimal(this.workforceSubtotal); // this.changeFormatDecimal(this.workforceHourValue);
+        var num = this.workforceSubtotal;//this.changeFormatDecimal(this.workforceSubtotal); // this.changeFormatDecimal(this.workforceHourValue);
         console.log(num);
         num +='';
         var splitStr = num.split('.');
@@ -2660,7 +2666,7 @@ console.log('Solo se permiten numeros');
         }
 
         finalFormaHourValueSubtotalUpdate(){
-          var num = this.changeFormatDecimal(this.workforceSubtotalUpdate); // this.changeFormatDecimal(this.workforceHourValue);
+          var num = this.workforceSubtotalUpdate;//this.changeFormatDecimal(this.workforceSubtotalUpdate); // this.changeFormatDecimal(this.workforceHourValue);
           console.log(num);
           num +='';
           var splitStr = num.split('.');
