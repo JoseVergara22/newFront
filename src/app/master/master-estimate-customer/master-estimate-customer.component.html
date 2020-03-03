@@ -28,23 +28,6 @@
                     <input type="number" [(ngModel)]="unitCost" (blur)="calculateFreightValues()" class="form-control">
                 </div>
                 <div class="col-sm-3">
-                    <h6>Peso</h6>
-                    <input type="number" [(ngModel)]="weight" (blur)="calculateFreightValues()" class="form-control">
-                </div>
-                <div class="col-sm-3">
-                    <h6>Lista Tipo Peso </h6>
-                    <select class="form-control" [(ngModel)]="weightTypeList" (blur)="calculateFreightValues()">
-                                <option value="0" selected>Seleccionar peso</option>
-                                <option value="1">LB </option>
-                                <option value="2">KL </option>
-                              </select>
-
-                </div>
-            </div>
-
-            <br>
-            <div class="row">
-                <div class="col-sm-3">
                     <h6>Lista precio </h6>
                     <select class="form-control" [(ngModel)]="priceList" (blur)="calculateFreightValues()">
                             <option value="0" selected>Seleccionar país</option>
@@ -53,11 +36,49 @@
                             <option value="4">BELGICA </option>
                             <option value="5">SERVICIO TERCERO </option>
                             <option value="6">REPUESTO NACIONAL </option>
-                            <!-- <option value="7">INSUMOS </option>
-                            <option value="8">SIN PV </option>-->
                           </select>
 
                 </div>
+                <div class="col-sm-3">
+                    <h6>Peso</h6>
+                    <input type="number" [(ngModel)]="weight" (blur)="calculateFreightValues()" [disabled]="priceList == 5 || priceList == 6" class="form-control">
+                </div>
+                <!--<div class="col-sm-3">
+                    <h6>Lista Tipo Peso </h6>
+                    <select class="form-control" [(ngModel)]="weightTypeList" (blur)="calculateFreightValues()" [disabled]="priceList == 5 || priceList == 6">
+                                <option value="0" selected>Seleccionar peso</option>
+                                <option value="1">LB </option>
+                                <option value="2">KL </option>
+                              </select>
+
+                </div>-->
+            </div>
+
+            <br>
+            <div class="row">
+                <div class="col-sm-3">
+                    <h6>Lista Tipo Peso </h6>
+                    <select class="form-control" [(ngModel)]="weightTypeList" (blur)="calculateFreightValues()" [disabled]="priceList == 5 || priceList == 6">
+                                <option value="0" selected>Seleccionar peso</option>
+                                <option value="1">LB </option>
+                                <option value="2">KL </option>
+                              </select>
+
+                </div>
+               <!---- <div class="col-sm-3">
+                    <h6>Lista precio </h6>
+                    <select class="form-control" [(ngModel)]="priceList" (blur)="calculateFreightValues()">
+                            <option value="0" selected>Seleccionar país</option>
+                            <option value="2">USA </option>
+                            <option value="3">ESPAÑA </option>
+                            <option value="4">BELGICA </option>
+                            <option value="5">SERVICIO TERCERO </option>
+                            <option value="6">REPUESTO NACIONAL </option>
+                             <option value="7">INSUMOS </option>
+                            <option value="8">SIN PV </option>
+                          </select>
+
+                </div>---->
                 <div class="col-sm-3">
                     <h6>Precio sugerido </h6>
                     <input  [(ngModel)]="suggestedPrice" class="form-control" disabled>
@@ -297,23 +318,6 @@
                     <input type="number" [(ngModel)]="unitCostUpdate"  (blur)="calculateFreightValuesUpdate()"  class="form-control">
                 </div>
                 <div class="col-sm-3">
-                    <h6>Peso</h6>
-                    <input type="number" [(ngModel)]="weightUpdate"  (blur)="calculateFreightValuesUpdate()"  class="form-control">
-                </div>
-                <div class="col-sm-3">
-                    <h6>Lista Tipo Peso </h6>
-                    <select class="form-control" [(ngModel)]="weightTypeListUpdate"  (blur)="calculateFreightValuesUpdate()" >
-                                <option value="0" selected>Seleccionar peso</option>
-                                <option value="1">LB </option>
-                                <option value="2">KL </option>
-                              </select>
-
-                </div>
-            </div>
-
-            <br>
-            <div class="row">
-                <div class="col-sm-3">
                     <h6>Lista de precios </h6>
                     <select class="form-control" [(ngModel)]="priceListUpdate"  (blur)="calculateFreightValuesUpdate()" >
                             <option value="0" selected>Seleccionar país</option>
@@ -325,6 +329,44 @@
                           </select>
 
                 </div>
+                <div class="col-sm-3">
+                    <h6>Peso</h6>
+                    <input type="number" [(ngModel)]="weightUpdate"  (blur)="calculateFreightValuesUpdate()" [disabled]="priceListUpdate == 5 || priceListUpdate == 6" class="form-control">
+                </div>
+                <!--<div class="col-sm-3">
+                    <h6>Lista Tipo Peso </h6>
+                    <select class="form-control" [(ngModel)]="weightTypeListUpdate"  (blur)="calculateFreightValuesUpdate()" [disabled]="priceList == 5 || priceList == 6">
+                                <option value="0" selected>Seleccionar peso</option>
+                                <option value="1">LB </option>
+                                <option value="2">KL </option>
+                              </select>
+
+                </div> -->
+            </div>
+
+            <br>
+            <div class="row">
+                <div class="col-sm-3">
+                    <h6>Lista Tipo Peso </h6>
+                    <select class="form-control" [(ngModel)]="weightTypeListUpdate"  (blur)="calculateFreightValuesUpdate()" [disabled]="priceListUpdate == 5 || priceListUpdate == 6">
+                                <option value="0" selected>Seleccionar peso</option>
+                                <option value="1">LB </option>
+                                <option value="2">KL </option>
+                              </select>
+
+                </div>
+                <!--<div class="col-sm-3">
+                    <h6>Lista de precios </h6>
+                    <select class="form-control" [(ngModel)]="priceListUpdate"  (blur)="calculateFreightValuesUpdate()" >
+                            <option value="0" selected>Seleccionar país</option>
+                            <option value="2">USA </option>
+                            <option value="3">ESPAÑA </option>
+                            <option value="4">BELGICA </option>
+                            <option value="5">SERVICIO TERCERO </option>
+                            <option value="6">REPUESTO NACIONAL </option>
+                          </select>
+
+                </div>-->
                 <div class="col-sm-3">
                     <h6>Precio sugerido </h6>
                     <input type="text" [(ngModel)]="suggestedPriceUpdate" class="form-control" disabled>

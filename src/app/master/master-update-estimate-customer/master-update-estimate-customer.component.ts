@@ -632,13 +632,10 @@ this.trmGeneralUsa= inputTrm.value.replace(/[^\d\.]*/g,'');
     // let priceTempStr = this.price.toString();
     // priceTempStr = priceTempStr.split('.').join('');
      let priceTemp=  this.changeFormatDecimal( this.price);// 
-     this.suggestedPrice=((Number(this.salePrice)).toFixed(0));
+     //this.suggestedPrice = priceTemp;
      console.log('this.suggestedPrice');
      console.log(this.suggestedPrice);
-     
-    this.lowPrice = this.suggestedPrice;
-    this.higherPrice = Number(this.suggestedPrice *(1+(this.suggestedMaximum/100))).toFixed(0);
-
+   
      console.log('OLEOLE IMPORT');
      console.log(this.price);
      console.log(this.price.toString().replace('.',''));
@@ -753,7 +750,7 @@ this.trmGeneralUsa= inputTrm.value.replace(/[^\d\.]*/g,'');
      console.log('this.higherPriceUpdate');
      console.log(this.higherPriceUpdate);
      console.log('info de importante');
-     console.log('--1--'+priceUpdateTemp+ '--25--'+ this.lowPriceUpdate+'-3--'+  this.higherPriceUpdate + '---4---' + this.suggestedPrice);
+     console.log('--1--'+priceUpdateTemp+ '--2--'+ this.lowPriceUpdate+'-3--'+  this.higherPriceUpdate + '---4---' + this.suggestedPrice);
 
      if(priceUpdateTemp >= this.lowPriceUpdate && priceUpdateTemp <= this.higherPriceUpdate){
 
@@ -770,12 +767,12 @@ this.trmGeneralUsa= inputTrm.value.replace(/[^\d\.]*/g,'');
      // let priceTemp = this.priceUpdate;
      let deliveryTemp = this.validityUpdate;
      let weightTemp = this.weightUpdate;
-     let totalTemp =this.subtotalUpdate// this.changeFormatDecimal(this.subtotalUpdate);
+     let totalTemp = this.changeFormatDecimal(this.subtotalUpdate);
      console.log('totalTemp');
      console.log(totalTemp);
      let observationTemp = this.observationUpdate;
      let statusTemp = 0;
-     let subtotalTemp = this.subtotalUpdate;//this.changeFormatDecimal(this.subtotalUpdate);
+     let subtotalTemp = this.changeFormatDecimal(this.subtotalUpdate);
      console.log('subtotalTemp');
      console.log(subtotalTemp);
      let typeServiceTemp = 0;
@@ -987,6 +984,7 @@ this.descriptionUpdate= item.description;
 this.quantityUpdate= item.quantity;
 this.unitCostUpdate  = item.unit_cost;
 this.priceListUpdate  = item.price_list;
+
 
 this.suggestedPriceUpdate = this.finalFormatStandard(Number(item.price_suggest).toFixed(0));
 this.priceUpdate = this.finalFormatStandard(Number(item.price).toFixed(0)); 
@@ -1437,13 +1435,23 @@ console.log(country+'-'+item.estimate_countries_id+'-'+item.conexion_id_validati
     if(this.priceList==5 || this.priceList==6){
       console.log('calculo diferente');
       if(this.priceList==5 ){
-        this.suggestedPrice =Number(Number(this.unitCost/this.thirdService));//.toFixed(2));
+        this.suggestedPrice =Number(Number(this.unitCost/this.thirdService)).toFixed(0);
         this.price =   this.suggestedPrice;
         this.subtotal=  this.suggestedPrice*this.quantity;
+        this.lowPrice = this.suggestedPrice;
+        this.higherPrice=Number(this.suggestedPrice *(1+(this.suggestedMaximum/100))).toFixed(0);
+        console.log('Precio : ' + this.suggestedPrice);
+        console.log('Precio bajo: ' + this.lowPrice);
+        console.log('Precio alto: ' + this.higherPrice);
       }else if (this.priceList==6) {
-        this.suggestedPrice =Number(Number(this.unitCost/ this.nationalService));//.toFixed(2));
+        this.suggestedPrice =Number(Number(this.unitCost/ this.nationalService)).toFixed(0);
         this.price =   this.suggestedPrice;
         this.subtotal=  this.suggestedPrice*this.quantity;
+        this.lowPrice = this.suggestedPrice;
+        this.higherPrice=Number(this.suggestedPrice *(1+(this.suggestedMaximum/100))).toFixed(0);
+        console.log('Precio : ' + this.suggestedPrice);
+        console.log('Precio bajo: ' + this.lowPrice);
+        console.log('Precio alto: ' + this.higherPrice);
       } 
     }else{
       console.log('ingreso');
@@ -1455,13 +1463,23 @@ console.log(country+'-'+item.estimate_countries_id+'-'+item.conexion_id_validati
       if(this.priceList==5 || this.priceList==6){
         console.log('calculo diferente');
         if(this.priceList==5 ){
-          this.suggestedPrice = Number(Number(this.unitCost/this.thirdService));//.toFixed(2));
+          this.suggestedPrice = Number(Number(this.unitCost/this.thirdService)).toFixed(0);
           this.price =   this.suggestedPrice;
           this.subtotal=  this.suggestedPrice*this.quantity;
+          this.lowPrice = this.suggestedPrice;
+          this.higherPrice=Number(this.suggestedPrice *(1+(this.suggestedMaximum/100))).toFixed(0);
+          console.log('Precio : ' + this.suggestedPrice);
+          console.log('Precio bajo: ' + this.lowPrice);
+          console.log('Precio alto: ' + this.higherPrice);
         }else if (this.priceList==6) {
-          this.suggestedPrice =Number(Number(this.unitCost/ this.nationalService));//.toFixed(2));
+          this.suggestedPrice =Number(Number(this.unitCost/ this.nationalService)).toFixed(0);
           this.price =   this.suggestedPrice;
           this.subtotal=  this.suggestedPrice*this.quantity;
+          this.lowPrice = this.suggestedPrice;
+          this.higherPrice=Number(this.suggestedPrice *(1+(this.suggestedMaximum/100))).toFixed(0);
+          console.log('Precio : ' + this.suggestedPrice);
+          console.log('Precio bajo: ' + this.lowPrice);
+          console.log('Precio alto: ' + this.higherPrice);
         } 
       }
 
@@ -1484,10 +1502,18 @@ console.log(country+'-'+item.estimate_countries_id+'-'+item.conexion_id_validati
         this.suggestedPrice =Number(Number(this.unitCostUpdate/this.thirdService).toFixed(0));
         this.priceUpdate =   this.suggestedPriceUpdate;
         this.subtotalUpdate =  this.suggestedPriceUpdate*this.quantityUpdate;
+        this.lowPriceUpdate = this.suggestedPriceUpdate;
+        this.higherPriceUpdate=Number(this.suggestedPriceUpdate *(1+(this.suggestedMaximum/100))).toFixed(0);
+        console.log('Precion bajo: ' + this.lowPriceUpdate);
+        console.log('Precion alto: ' + this.higherPriceUpdate);
       }else if (this.priceListUpdate==6) {
         this.suggestedPriceUpdate =Number(Number(this.unitCostUpdate/ this.nationalService).toFixed(0));
         this.priceUpdate =   this.suggestedPriceUpdate;
         this.subtotalUpdate =  this.suggestedPriceUpdate*this.quantityUpdate;
+        this.lowPriceUpdate = this.suggestedPriceUpdate;
+        this.higherPriceUpdate=Number(this.suggestedPriceUpdate *(1+(this.suggestedMaximum/100))).toFixed(0);
+        console.log('Precion bajo: ' + this.lowPriceUpdate);
+        console.log('Precion alto: ' + this.higherPriceUpdate);
       } 
     }else{
       console.log('ingreso');
@@ -1502,10 +1528,18 @@ console.log(country+'-'+item.estimate_countries_id+'-'+item.conexion_id_validati
           this.suggestedPriceUpdate = Number(Number(this.unitCostUpdate/this.thirdService).toFixed(0));
           this.priceUpdate =   this.suggestedPriceUpdate;
           this.subtotalUpdate =  this.suggestedPriceUpdate*this.quantityUpdate;
+          this.lowPriceUpdate = this.suggestedPriceUpdate;
+          this.higherPriceUpdate=Number(this.suggestedPriceUpdate *(1+(this.suggestedMaximum/100))).toFixed(0);
+          console.log('Precion bajo: ' + this.lowPriceUpdate);
+          console.log('Precion alto: ' + this.higherPriceUpdate);
         }else if (this.priceListUpdate==6) {
           this.suggestedPriceUpdate =Number(Number(this.unitCostUpdate/ this.nationalService).toFixed(0));
           this.priceUpdate =   this.suggestedPriceUpdate;
           this.subtotalUpdate =  this.suggestedPriceUpdate*this.quantityUpdate;
+          this.lowPriceUpdate = this.suggestedPriceUpdate;
+          this.higherPriceUpdate=Number(this.suggestedPriceUpdate *(1+(this.suggestedMaximum/100))).toFixed(0);
+          console.log('Precion bajo: ' + this.lowPriceUpdate);
+          console.log('Precion alto: ' + this.higherPriceUpdate);
         } 
 
       }
@@ -2796,6 +2830,8 @@ console.log('Solo se permiten numeros');
 
  // separador para los decimales
  finalFormat(num){
+   console.log('num');
+   console.log(num);
   num +='';
   var splitStr = num.split('.');
   var splitLeft = splitStr[0];
@@ -2821,8 +2857,10 @@ console.log('Solo se permiten numeros');
 
   calculateSubtotalUpdate(){
     let priceUpdateTemp = this.priceUpdate;
-    priceUpdateTemp =priceUpdateTemp.toString().replace('.','').replace('.','').replace('.','').replace('.','').replace(',','.');
+    priceUpdateTemp = priceUpdateTemp.toString().replace('.','').replace('.','').replace('.','').replace('.','').replace(',','.');//this.finalFormatStandard(priceUpdateTemp);
     let value =  priceUpdateTemp*this.quantityUpdate;
+    console.log('value');
+    console.log(value);
     this.subtotalUpdate = this.finalFormat(value);
     console.log('PrecioAc.. '+priceUpdateTemp +' Cantidad.. ' + this.quantityUpdate + ' Result-- '+ this.subtotalUpdate);;
     
@@ -2919,6 +2957,7 @@ console.log('Solo se permiten numeros');
 ///Metodo que hace el verdadero cambio en los valores
         finalFormatStandard(priceUpdate:any){
           var num = priceUpdate; // this.changeFormatDecimal(this.workforceHourValue);
+          console.log('num');
           console.log(num);
           num +='';
           var splitStr = num.split('.');
@@ -2940,7 +2979,7 @@ console.log('Solo se permiten numeros');
 
         finalFormatPriceUpdate(){
 
-          var num = this.priceUpdate;//this.changeFormatDecimal(this.priceUpdate); //.toString().replace('.','').replace(',','.');
+          var num = this.changeFormatDecimal(this.priceUpdate); //.toString().replace('.','').replace(',','.');
           console.log('antes');
           console.log(num);
           num +='';
@@ -2951,7 +2990,7 @@ console.log('Solo se permiten numeros');
           var regx = /(\d+)(\d{3})/;
           while (regx.test(splitLeft)) {
           splitLeft = splitLeft.replace(regx, '$1' + '.' + '$2');
-          console.log(splitLeft);
+          console.log('ewfewf' + splitLeft);
           }
           console.log('Importante oleole');
           console.log(splitLeft +splitRight);
@@ -2959,10 +2998,11 @@ console.log('Solo se permiten numeros');
           console.log(num);
           this.priceUpdate=splitLeft +splitRight;
           console.log('price---- ' + this.priceUpdate);
-
+          console.log(splitLeft);
+          console.log(splitRight);
           }
 
-
+          
       clearFormDetail(){
           this.code='';
           this.description='';

@@ -1229,6 +1229,7 @@ console.log('Importante informacion: '+ this.conditionValidation);
     this.suggestedMaximum=this.configDetailEstimates[0].constant;
     this.newCustomerMargin=this.configDetailEstimates[1].constant;
     this.thirdService=this.configDetailEstimates[2].constant;
+    console.log(this.thirdService);
     this.nationalService=this.configDetailEstimates[3].constant;
 
 
@@ -1315,10 +1316,19 @@ console.log(country+'-'+item.estimate_countries_id+'-'+item.conexion_id_validati
         this.suggestedPrice =Number(Number(this.unitCost/this.thirdService).toFixed(0));
         this.price =   this.suggestedPrice;
         this.subtotal=  this.suggestedPrice*this.quantity;
+        this.lowPrice = this.suggestedPrice;
+        this.higherPrice=Number(this.suggestedPrice *(1+(this.suggestedMaximum/100))).toFixed(0);
+        console.log('Precion bajo: ' + this.lowPrice);
+        console.log('Precion alto: ' + this.higherPrice);
+        
       }else if (this.priceList==6) {
         this.suggestedPrice =Number(Number(this.unitCost/ this.nationalService).toFixed(0));
         this.price =   this.suggestedPrice;
         this.subtotal=  this.suggestedPrice*this.quantity;
+        this.lowPrice = this.suggestedPrice;
+        this.higherPrice=Number(this.suggestedPrice *(1+(this.suggestedMaximum/100))).toFixed(0);
+        console.log('Precion bajo: ' + this.lowPrice);
+        console.log('Precion alto: ' + this.higherPrice);
       } 
     }else{
       console.log('ingreso');
@@ -1333,10 +1343,18 @@ console.log(country+'-'+item.estimate_countries_id+'-'+item.conexion_id_validati
           this.suggestedPrice = Number(Number(this.unitCost/this.thirdService).toFixed(0));
           this.price =   this.suggestedPrice;
           this.subtotal=  this.suggestedPrice*this.quantity;
+          this.lowPrice = this.suggestedPrice;
+          this.higherPrice=Number(this.suggestedPrice *(1+(this.suggestedMaximum/100))).toFixed(0);
+          console.log('Precion bajo: ' + this.lowPrice);
+          console.log('Precion alto: ' + this.higherPrice);
         }else if (this.priceList==6) {
           this.suggestedPrice =Number(Number(this.unitCost/ this.nationalService).toFixed(0));
           this.price =   this.suggestedPrice;
           this.subtotal=  this.suggestedPrice*this.quantity;
+          this.lowPrice = this.suggestedPrice;
+        this.higherPrice=Number(this.suggestedPrice *(1+(this.suggestedMaximum/100))).toFixed(0);
+        console.log('Precion bajo: ' + this.lowPrice);
+        console.log('Precion alto: ' + this.higherPrice);
         } 
       }
 
@@ -1361,10 +1379,18 @@ console.log(country+'-'+item.estimate_countries_id+'-'+item.conexion_id_validati
         this.suggestedPrice =Number(Number(this.unitCostUpdate/this.thirdService).toFixed(0));
         this.priceUpdate =   this.suggestedPriceUpdate;
         this.subtotalUpdate =  this.suggestedPriceUpdate*this.quantityUpdate;
+        this.lowPriceUpdate = this.suggestedPriceUpdate;
+        this.higherPriceUpdate=Number(this.suggestedPriceUpdate *(1+(this.suggestedMaximum/100))).toFixed(0);
+        console.log('Precion bajo: ' + this.lowPriceUpdate);
+        console.log('Precion alto: ' + this.higherPriceUpdate);
       }else if (this.priceListUpdate==6) {
         this.suggestedPriceUpdate =Number(Number(this.unitCostUpdate/ this.nationalService).toFixed(0));
         this.priceUpdate =   this.suggestedPriceUpdate;
         this.subtotalUpdate =  this.suggestedPriceUpdate*this.quantityUpdate;
+        this.lowPriceUpdate = this.suggestedPriceUpdate;
+        this.higherPriceUpdate=Number(this.suggestedPriceUpdate *(1+(this.suggestedMaximum/100))).toFixed(0);
+        console.log('Precion bajo: ' + this.lowPriceUpdate);
+        console.log('Precion alto: ' + this.higherPriceUpdate);
       } 
     }else{
       console.log('ingreso');
@@ -1379,10 +1405,18 @@ console.log(country+'-'+item.estimate_countries_id+'-'+item.conexion_id_validati
           this.suggestedPriceUpdate = Number(Number(this.unitCostUpdate/this.thirdService).toFixed(0));
           this.priceUpdate =   this.suggestedPriceUpdate;
           this.subtotalUpdate =  this.suggestedPriceUpdate*this.quantityUpdate;
+          this.lowPriceUpdate = this.suggestedPriceUpdate;
+          this.higherPriceUpdate=Number(this.suggestedPriceUpdate *(1+(this.suggestedMaximum/100))).toFixed(0);
+          console.log('Precion bajo: ' + this.lowPriceUpdate);
+          console.log('Precion alto: ' + this.higherPriceUpdate);
         }else if (this.priceListUpdate==6) {
           this.suggestedPriceUpdate =Number(Number(this.unitCostUpdate/ this.nationalService).toFixed(0));
           this.priceUpdate =   this.suggestedPriceUpdate;
           this.subtotalUpdate =  this.suggestedPriceUpdate*this.quantityUpdate;
+          this.lowPriceUpdate = this.suggestedPriceUpdate;
+          this.higherPriceUpdate=Number(this.suggestedPriceUpdate *(1+(this.suggestedMaximum/100))).toFixed(0);
+          console.log('Precion bajo: ' + this.lowPriceUpdate);
+          console.log('Precion alto: ' + this.higherPriceUpdate);
         } 
 
       }
@@ -1476,8 +1510,8 @@ finalOperation(country:number){
   this.lowPrice = this.suggestedPrice;
   this.higherPrice = Number(this.suggestedPrice *(1+(this.suggestedMaximum/100))).toFixed(0);
 
-  console.log('Este es el precio bajo:'+ this.lowPrice);
-  console.log('Este es el precio alto' + this.higherPrice);
+  console.log('Este es el precio bajo: '+ this.lowPrice);
+  console.log('Este es el precio alto: ' + this.higherPrice);
   console.log( this.lowPrice +'-----'+ this.higherPrice);
 
   this.price=Number(this.salePrice).toFixed(0)
