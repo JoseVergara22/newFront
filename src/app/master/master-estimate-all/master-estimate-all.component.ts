@@ -136,7 +136,7 @@ export class MasterEstimateAllComponent extends NgbDatepickerI18n {
 
   numberEstimate:any='';
 
-  subject:any;
+  subject:any='';
   message:any;
   emails:any;
   quantityItem:any;
@@ -403,10 +403,12 @@ export class MasterEstimateAllComponent extends NgbDatepickerI18n {
 
 
   getEstimateParts(ind: number) {
+    console.log('entro parts');
     if(this.estimateId){
       this.estimateService.getEstimateDetailsParts(this.estimateId).then(data => {
         const resp: any = data;
         this.rowsItemsparts=resp.data;
+       
         this.getEstimateWorkforce(ind);
        
       }).catch(error => {
@@ -498,13 +500,18 @@ export class MasterEstimateAllComponent extends NgbDatepickerI18n {
 
 
    sendEmail(){
+    console.log('entro sendEmail');
+
+    
     let ind=1; // 0 Solo para descargar y 1 para enviar;
     this.getEstimateParts(ind);
    }
 
 
-   ja(){
-    this.uploadService.uploadFilesAll(this.blobGlobal, this.estimateCurrent.id,3,'cotizacion.pdf').then(res=>{
+   sendEmailEstimateAmazon(){
+     console.log('IMPORTANTE INGRESO');
+    let nameFileEstimate ='Cotizacion_No_'+this.estimateCurrent.estimate_consecutive+'.pdf';
+    this.uploadService.uploadFilesAllEstimate(this.blobGlobal, this.estimateCurrent.id,3,nameFileEstimate).then(res=>{
     console.log('s3info'+JSON.stringify(res));
     this.s3info=res;
     console.log(this.s3info);
@@ -547,6 +554,19 @@ export class MasterEstimateAllComponent extends NgbDatepickerI18n {
     }
 
     sendEstimateEmail(row:any){
+      
+      this.estimateId= row.id;
+      this.user = row.elaborate_user.username;
+      this.consecutive = row.estimate_consecutive;
+      this.documentCustomer = row.customer_document;
+      this.nameCustomer = row.business_name;
+      this.contact = row.contact;
+      this.cellphone =   row.email;
+
+      this.emailsSend = [];
+      this.subject = '';
+      this.comment = '';
+      console.log('cotización actual:'+ row);
       this.estimateCurrent= row;
       document.getElementById( 'showItemsApprove').click();
     }
@@ -598,6 +618,12 @@ export class MasterEstimateAllComponent extends NgbDatepickerI18n {
 
 
     sendEmailEstimate(){
+
+      swal({
+        title: 'Validando información ...',
+        allowOutsideClick: false
+      });
+      swal.showLoading();
       // Validar forma de envio de correo--
       // armar json de correos con nombres--
       // cargar pdf a s3
@@ -607,15 +633,19 @@ export class MasterEstimateAllComponent extends NgbDatepickerI18n {
       //
 
       //this.download3(1);
+      console.log('este debe pasar este lado ps');
       this.sendEmail();
 
-      let subjectTemp= 'valor por defecto';
-      if(this.subject!==''){
-         subjectTemp= this.subject;
-      }
+        console.log('este debe pasar este lado ps sssssssssssssss');
 
+      let subjectTemp; //= 'Montacargas Master Cotización '+ this.estimateCurrent.estimate_consecutive;
+      if((this.subject.trim()).length>0){
+        console.log('importante el subject:'+this.subject)
+        subjectTemp= this.subject;
+      }else{
+        subjectTemp= 'Montacargas Master Cotización '+ this.estimateCurrent.estimate_consecutive;
+      }
      // concatenar los correos y nos con ","
-     
     let emailsName = '';
      for (let i = 0; i < this.emailsSend.length; i++) {
        if(i!==0){
@@ -629,24 +659,27 @@ export class MasterEstimateAllComponent extends NgbDatepickerI18n {
      console.log('---------------------');
 
       if(this.emailsSend.length>0){
+
+
       this.estimateService.sendEstimateEmailAmazon(//sendEstimateEmailAmazon
         this.estimateCurrent.elaborate_user_id, this.estimateCurrent.customer_id, this.estimateCurrent.id,
         emailsName.trim(),this.comment,subjectTemp).then(data => {
         const resp: any = data;
         console.log('envio');
         console.log(resp);
-        swal({
-          title: 'Correo enviado',
-          type: 'success'
-         });  
+     
          this.estimateService.updateEstimateStatus(
           this.estimateCurrent.id, 1).then(data => {
           const resp: any = data;
           console.log('envio');
           console.log(resp);
-          
           this.getEstimateFiltersInitial();
-
+          document.getElementById('emailDetailHide').click();
+          swal({
+            title: 'Correo enviado',
+            type: 'success'
+           });  
+         
         }).catch(error => {
           console.log(error);
         });
@@ -659,6 +692,7 @@ export class MasterEstimateAllComponent extends NgbDatepickerI18n {
         type: 'error'
        });
     }
+     //este es el codigo para enviar el correo
      }
   
 
@@ -1964,7 +1998,7 @@ console.log(this.filesImage);
   img4.src =this.filesImage[0].url; 
   var exts = this.filesImage[0].ext;
 }else{
-  doc.save('CuatroFirstPdf.pdf');
+  doc.save('Cotizacion_No_'+this.estimateCurrent.estimate_consecutive+'.pdf');
 }
 
   //  console.log(this.filesImage.length+' oleole');
@@ -2226,6 +2260,7 @@ img.onload = function() {
 
 downloadSend(ind: number){
 
+  console.log('downloadSend');
 
    
   // this.pp();
@@ -2513,22 +2548,27 @@ body: [['Validez Oferta: 5 días','Forma Pago: 30 días','Garantía: 90 días','
   });
 
 
+  if(this.filesImage.length>0){
   console.log('MOSTRAME POR FAVOR LA URL'+ this.filesImage[0].url);
 var img4 = new Image;
 img4.crossOrigin = "";  
 img4.src =this.filesImage[0].content; 
 var exts = this.filesImage[0].ext;
+ 
+
 // img4.onload = function() {
     doc.addImage(img4, exts,  15,  doc.autoTable.previous.finalY+20, 150,150);
     console.log('ingreso por este 4');
+
+  }
     // doc.save('CuatroFirstPdf.pdf');
-    this.blobGlobal = doc.output('blob');
+   // this.blobGlobal = doc.output('blob');
  // };
 
 
 this.blobGlobal = doc.output('blob');
 console.log('ingreso a ja');
-this.ja();
+this.sendEmailEstimateAmazon();
 
 //  console.log(this.filesImage.length+' oleole');
   //doc.addPage();
@@ -3569,7 +3609,7 @@ updateForklift(forklift:any) {
         this.generalAlert('Proceso exitoso','Se ha guardado el detalle correctamente','success');
        //  this.getWorkDetails();
        
-        document.getElementById('storageDetailHide').click();
+        document.getElementById('storageDetailHide').click();emailDetailHide
       } else {
         this.generalAlert('No se puede guardar','Ha ocurrido un error en la ejecucion','error');
       }
@@ -3613,7 +3653,7 @@ updateForklift(forklift:any) {
 
 
     getFilesImage(ind){
-
+    console.log('INGRESO A LAS IMAGENES  KKKK');
     this.estimateService.getEstimateDetailFilesImages(Number(this.estimateId)).then(data => {
       const resp: any = data;
       this.filesEstimateImage=resp.data;
@@ -3648,16 +3688,17 @@ updateForklift(forklift:any) {
 
 
          // if(i== this.filesEstimateImage.length-1){
+           console.log('debes pasar por aqui seguridad');
 
-
-           console.log(ind);
+           console.log('este es el indice'+ind);
             if(ind==0){
               console.log('ingreso a la descarga');
               this.download3(ind);
               
             }else{
               console.log('ingreso al envio del correo');
-              this.downloadSend(ind);
+              //this.download3(0);
+              this.downloadSend(ind); // Este es el problema
             }
          
             // Descargar PDF 0
@@ -3673,14 +3714,15 @@ updateForklift(forklift:any) {
       // images.push();
   
       }else{
+        console.log('esto es muy impotante');
         console.log(ind);
         if(ind==0){
-          console.log('ingreso a la descarga');
+          console.log('ingreso a la descarg6a');
           this.download3(ind);
           
         }else{
-          console.log('ingreso al envio del correo');
-          this.downloadSend(ind);
+          console.log('ingreso al envio del corre6o');
+              this.downloadSend(ind); //Este es el problema
         }
       }
     }).catch(error => {
