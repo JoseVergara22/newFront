@@ -355,6 +355,9 @@ uploadFileForkliftUpdate2(file) {
 uploadFilesAll(file:any, estimateId:number, type: number, fileName:string) {
   return new Promise(resolve =>{
     const contentType = file.type;
+    
+    let ext = fileName.split('.').pop();
+    let nameTemp = fileName.split('.');
     const bucket = new S3(
           {
               accessKeyId: 'AKIAQTIVBK67FU3N4ZPV',
@@ -364,17 +367,17 @@ uploadFilesAll(file:any, estimateId:number, type: number, fileName:string) {
       );
       const uuid = UUID.UUID();
     
-      const extension ='.pdf';
+      const extension = ext ;
       console.log(extension);
       // let nameFile ='https://masterforklift.s3.amazonaws.com/'+uuid +''+ extension;
-      let nameFile =uuid +''+ extension;
+      let nameFile =nameTemp[0]+'.'+ extension;
       console.log(nameFile);
       const params = {
           Bucket: 'masterforklift/estimate_files',
           Key: nameFile,
           Body: file,
           ACL: 'public-read',
-          ContentType: contentType
+          ContentType: 'image/'+extension
       };
 
       bucket.upload(params).promise().then(resp=>{

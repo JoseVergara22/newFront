@@ -502,6 +502,8 @@ export class MasterEstimateAllComponent extends NgbDatepickerI18n {
    sendEmail(){
     console.log('entro sendEmail');
 
+
+    // Si el estatus es
     
     let ind=1; // 0 Solo para descargar y 1 para enviar;
     this.getEstimateParts(ind);
@@ -515,6 +517,10 @@ export class MasterEstimateAllComponent extends NgbDatepickerI18n {
     console.log('s3info'+JSON.stringify(res));
     this.s3info=res;
     console.log(this.s3info);
+    
+    //Aqui va el codigo para enviar correo
+    this.sendEmailFinal();
+    
     swal({
       title: 'cotización almacenada',
       type: 'success'
@@ -634,10 +640,21 @@ export class MasterEstimateAllComponent extends NgbDatepickerI18n {
 
       //this.download3(1);
       console.log('este debe pasar este lado ps');
-      this.sendEmail();
+
+      if( this.estimateCurrent.status === 0){
+        this.sendEmail();
+      }else{
+        this.sendEmailFinal();
+      }
+    
 
         console.log('este debe pasar este lado ps sssssssssssssss');
+     }
 
+
+
+
+     sendEmailFinal(){
       let subjectTemp; //= 'Montacargas Master Cotización '+ this.estimateCurrent.estimate_consecutive;
       if((this.subject.trim()).length>0){
         console.log('importante el subject:'+this.subject)
@@ -1985,20 +2002,24 @@ console.log('info de imagenes');
 console.log(this.filesImage);
 
   if(this.filesImage.length>0){
+  console.log(this.estimateCurrent);
+ 
 
   console.log('MOSTRAME POR FAVOR LA URL'+ this.filesImage[0].url);
   var img4 = new Image;
   img4.onload = function() {
       doc.addImage(img4, exts,  15,  doc.autoTable.previous.finalY+20, 150,150);
       console.log('ingreso por este 4');
-       doc.save('CuatroFirstPdf.pdf');
+       doc.save('Cotizacion_No_'+estimateConsecutive+'.pdf');
       
   };
   img4.crossOrigin = "";  
   img4.src =this.filesImage[0].url; 
   var exts = this.filesImage[0].ext;
+  var estimateConsecutive= this.consecutive;
+  console.log('este es el numero: '+ this.estimateCurrent.estimate_consecutive);
 }else{
-  doc.save('Cotizacion_No_'+this.estimateCurrent.estimate_consecutive+'.pdf');
+  doc.save('Cotizacion_No_'+ this.consecutive+'.pdf');
 }
 
   //  console.log(this.filesImage.length+' oleole');

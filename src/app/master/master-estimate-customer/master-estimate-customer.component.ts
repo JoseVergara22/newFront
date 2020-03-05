@@ -1750,9 +1750,9 @@ uploadImagesEstimate() {
     for (let fileCurrent of this.selectedFiles) {
     const file = fileCurrent[0];
     console.log(file);
-    const uuid = UUID.UUID();
-    console.log(uuid);
-    console.log(file.name + '' + file.type);
+   //  const uuid = UUID.UUID();
+   // console.log(uuid);
+    console.log(file.name + '.' + file.type);
     const extension = (file.name.substring(file.name.lastIndexOf('.'))).toLowerCase();
     console.log(extension);
     this.uploadService.uploadFilesAll(file,this.estimateId,0,file.name).then(res=>{
@@ -1774,7 +1774,6 @@ uploadImagesEstimate() {
     });
   }
 }
-
 
  uploadFilesImages() {
   for (let fileCurrent of this.selectedFilesImages) {
