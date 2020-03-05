@@ -641,7 +641,7 @@ this.trmGeneralUsa= inputTrm.value.replace(/[^\d\.]*/g,'');
      console.log(this.price.toString().replace('.',''));
      console.log('---1--->' + priceTemp+'--2--'+this.lowPrice+'-3-'+ this.higherPrice);
 
-     if(priceTemp >= this.lowPrice && priceTemp <= this.higherPrice){
+     if(Number(priceTemp) >= Number(this.lowPrice) && Number(priceTemp) <= Number(this.higherPrice)){
 
      let estimateIdDetailTemp= this.estimateId;
      let codeTemp= this.code;
@@ -752,7 +752,7 @@ this.trmGeneralUsa= inputTrm.value.replace(/[^\d\.]*/g,'');
      console.log('info de importante');
      console.log('--1--'+priceUpdateTemp+ '--2--'+ this.lowPriceUpdate+'-3--'+  this.higherPriceUpdate + '---4---' + this.suggestedPrice);
 
-     if(priceUpdateTemp >= this.lowPriceUpdate && priceUpdateTemp <= this.higherPriceUpdate){
+     if(Number(priceUpdateTemp) >= Number(this.lowPriceUpdate) && Number(priceUpdateTemp) <= Number(this.higherPriceUpdate)){
 
      let estimateIdDetailTemp= this.idDetail;
      let codeTemp= this.codeUpdate;

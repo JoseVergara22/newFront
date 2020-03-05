@@ -564,8 +564,8 @@ this.trmGeneralUsa= inputTrm.value.replace(/[^\d\.]*/g,'');
      console.log(this.price.toString().replace('.',''));
      console.log('arreglate porfavor');
      console.log('--->' + priceTemp+'---'+this.lowPrice+'--'+ this.higherPrice);
-     console.log('--->' + priceTemp+'-->=-'+this.lowPrice+'-&-'+ priceTemp+'<='+ this.higherPrice);
-     if(priceTemp >= this.lowPrice && priceTemp <= this.higherPrice){
+     console.log('-----' + Number(priceTemp)+'--->=----' + Number(this.lowPrice) +'----&&----' + Number(priceTemp) +'---<=---' + Number(this.higherPrice));
+     if(Number(priceTemp) >= Number(this.lowPrice) && Number(priceTemp) <= Number(this.higherPrice)){
 
      let estimateIdDetailTemp= this.estimateId;
      let codeTemp= this.code;
@@ -644,7 +644,7 @@ this.trmGeneralUsa= inputTrm.value.replace(/[^\d\.]*/g,'');
      console.log('----'+priceUpdateTemp+ '----'+ this.lowPriceUpdate+'---'+  this.higherPriceUpdate + '---' + this.suggestedMaximum);
      // cambio YCV 
 
-     if(priceUpdateTemp >= this.lowPriceUpdate && priceUpdateTemp <= this.higherPriceUpdate){
+     if(Number(priceUpdateTemp) >= Number(this.lowPriceUpdate) && Number(priceUpdateTemp) <= Number(this.higherPriceUpdate)){
 
      let estimateIdDetailTemp= this.idDetail;
      let codeTemp= this.codeUpdate;
@@ -2498,7 +2498,7 @@ console.log();
     let observationTemp = this.observation;
     let forkliftTextTemp=  this.forkliftText;
 
-    console.log('Ole'+forkliftTextTemp);
+    console.log('Ole: '+forkliftTextTemp);
     this.estimateService.updateEstimate(this.estimateId, customerIdTemp,documentCustomerTemp,
       idDepartmentTemp, selectedCityTemp, selectedForkliftIdTemp,
       contactTemp, daysTemp, guarantyTemp, validityTemp, cellphoneTemp, observationTemp,0,this.email,0,
