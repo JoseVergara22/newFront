@@ -158,6 +158,16 @@ export class MasterEstimateAllComponent extends NgbDatepickerI18n {
   estimateId:any;
   blobGlobal:any;
 
+  forkliftText: any='';
+  cityEstimate: any='';
+  guarantyEstimate: any='';
+  validity: any='';
+  payment_method: any='';
+  subtotalHoursEstimate: any='';
+  subtotalPartsEstimate : any='';
+  totalEstimate: any='';
+  observationEstimate: any='';
+
   user:any;
   consecutive:any; 
   documentCustomer:any;
@@ -384,18 +394,28 @@ export class MasterEstimateAllComponent extends NgbDatepickerI18n {
 
 
   downloadPdf(item: any, ind: number){
-
+  console.log('item :'+ JSON.stringify(item));
   this.estimateId= item.id;
   this.user = item.elaborate_user.username;
   this.consecutive = item.estimate_consecutive;
   this.documentCustomer = item.customer_document;
-  this.nameCustomer = item.business_name;
+  this.nameCustomer = item.customer.business_name;
   this.contact = item.contact;
-  this.cellphone =   item.email;
+  this.cellphone =   item.telephone;
+  this.forkliftText = item.forklift_text;
+  this.cityEstimate =  item.city.name;
+  this.guarantyEstimate =  item.guaranty;
+  this.validity = item.validity;
+  this.payment_method= item.payment_method;
+  this.subtotalHoursEstimate = item.subtotal_hours_decimal;
+  this.subtotalPartsEstimate = item.subtotal_parts_decimal;
+  this.totalEstimate = item.total_decimal;
+  this.observationEstimate= item.observation;
 
    // 0 Solo para descargar y 1 para enviar;
 
  // this.pp( this.estimateId);
+ console.log('download ole');
   this.getEstimateParts(ind);
   }
 
@@ -406,6 +426,7 @@ export class MasterEstimateAllComponent extends NgbDatepickerI18n {
     console.log('entro parts');
     if(this.estimateId){
       this.estimateService.getEstimateDetailsParts(this.estimateId).then(data => {
+        console.log('información repuestos: '+data);
         const resp: any = data;
         this.rowsItemsparts=resp.data;
        
@@ -854,7 +875,7 @@ export class MasterEstimateAllComponent extends NgbDatepickerI18n {
 
     for (let i = 0; i < this.rowsItemsWorkforce.length; i++) {
     
-      body_table = [i+1, this.rowsItemsWorkforce[i].code, this.rowsItemsWorkforce[i].description, this.rowsItemsWorkforce[i].quantity, this.rowsItemsWorkforce[i].unit_cost, this.rowsItemsWorkforce[i].price,
+      body_table = [i+1, this.rowsItemsWorkforce[i].code, this.rowsItemsWorkforce[i].service, this.rowsItemsWorkforce[i].quantity, this.rowsItemsWorkforce[i].hour_value, this.rowsItemsWorkforce[i].subtotal_decimal,
       this.rowsItemsWorkforce[i].delivery];
       
       doc.autoTable({
@@ -889,7 +910,7 @@ export class MasterEstimateAllComponent extends NgbDatepickerI18n {
 
     for (let i = 0; i < this.rowsItemsWorkforce.length; i++) {
     
-      body_table = [i+1, this.rowsItemsWorkforce[i].description, this.rowsItemsWorkforce[i].quantity, this.rowsItemsWorkforce[i].unit_cost, this.rowsItemsWorkforce[i].price,
+      body_table = [i+1, this.rowsItemsWorkforce[i].service, this.rowsItemsWorkforce[i].quantity, this.rowsItemsWorkforce[i].hour_value, this.rowsItemsWorkforce[i].subtotal_decimal,
       this.rowsItemsWorkforce[i].delivery];
       
       doc.autoTable({
@@ -929,7 +950,7 @@ export class MasterEstimateAllComponent extends NgbDatepickerI18n {
 
   for (let i = 0; i < this.rowsItemsparts.length; i++) {
   
-    body_table = [i+1, this.rowsItemsparts[i].code, this.rowsItemsparts[i].description, this.rowsItemsparts[i].quantity, this.rowsItemsparts[i].unit_cost, this.rowsItemsparts[i].price_decimal,
+    body_table = [i+1, this.rowsItemsparts[i].code, this.rowsItemsparts[i].description, this.rowsItemsparts[i].quantity, this.rowsItemsparts[i].price_decimal, this.rowsItemsparts[i].subtotal_decimal,
     this.rowsItemsparts[i].delivery];
     
     doc.autoTable({
@@ -964,7 +985,7 @@ export class MasterEstimateAllComponent extends NgbDatepickerI18n {
 
   for (let i = 0; i < this.rowsItemsparts.length; i++) {
   
-    body_table = [i+1, this.rowsItemsparts[i].description, this.rowsItemsparts[i].quantity, this.rowsItemsparts[i].unit_cost, this.rowsItemsparts[i].price,
+    body_table = [i+1, this.rowsItemsparts[i].description, this.rowsItemsparts[i].quantity, this.rowsItemsparts[i].price_decimal, this.rowsItemsparts[i].subtotal_decimal,
     this.rowsItemsparts[i].delivery];
     
     doc.autoTable({
@@ -1343,7 +1364,7 @@ img.onload = function() {
   
       for (let i = 0; i < this.rowsItemsWorkforce.length; i++) {
       
-        body_table = [i+1, this.rowsItemsWorkforce[i].code, this.rowsItemsWorkforce[i].description, this.rowsItemsWorkforce[i].quantity, this.rowsItemsWorkforce[i].unit_cost, this.rowsItemsWorkforce[i].price,
+        body_table = [i+1, this.rowsItemsWorkforce[i].code, this.rowsItemsWorkforce[i].service, this.rowsItemsWorkforce[i].quantity, this.rowsItemsWorkforce[i].hour_value, this.rowsItemsWorkforce[i].subtotal_decimal,
         this.rowsItemsWorkforce[i].delivery];
         
         doc.autoTable({
@@ -1378,8 +1399,7 @@ img.onload = function() {
   
       for (let i = 0; i < this.rowsItemsWorkforce.length; i++) {
       
-        body_table = [i+1, this.rowsItemsWorkforce[i].description, this.rowsItemsWorkforce[i].quantity, this.rowsItemsWorkforce[i].unit_cost, this.rowsItemsWorkforce[i].price,
-        this.rowsItemsWorkforce[i].delivery];
+        body_table = [i+1, this.rowsItemsWorkforce[i].service, this.rowsItemsWorkforce[i].quantity, this.rowsItemsWorkforce[i].hour_value, this.rowsItemsWorkforce[i].subtotal_price, this.rowsItemsWorkforce[i].delivery];
         
         doc.autoTable({
           startY: doc.autoTable.previous.finalY,
@@ -1418,7 +1438,7 @@ img.onload = function() {
   
     for (let i = 0; i < this.rowsItemsparts.length; i++) {
     
-      body_table = [i+1, this.rowsItemsparts[i].code, this.rowsItemsparts[i].description, this.rowsItemsparts[i].quantity, this.rowsItemsparts[i].unit_cost, this.rowsItemsparts[i].price,
+      body_table = [i+1, this.rowsItemsparts[i].code, this.rowsItemsparts[i].description, this.rowsItemsparts[i].quantity, this.rowsItemsparts[i].price_decimal, this.rowsItemsparts[i].subtotal_decimal,
       this.rowsItemsparts[i].delivery];
       
       doc.autoTable({
@@ -1453,7 +1473,7 @@ img.onload = function() {
   
     for (let i = 0; i < this.rowsItemsparts.length; i++) {
     
-      body_table = [i+1, this.rowsItemsparts[i].description, this.rowsItemsparts[i].quantity, this.rowsItemsparts[i].unit_cost, this.rowsItemsparts[i].price,
+      body_table = [i+1, this.rowsItemsparts[i].description, this.rowsItemsparts[i].quantity, this.rowsItemsparts[i].price_decimal, this.rowsItemsparts[i].subtotal_decimal,
       this.rowsItemsparts[i].delivery];
       
       doc.autoTable({
@@ -1789,10 +1809,9 @@ img.onload = function() {
       styles: {fillColor: [215,215,215],lineColor:[4,1,0],lineWidth:0.2},
       columnStyles: {0: { cellWidth:100, fontSize:9,  fillColor: null},  1: {fontSize:9, halign: 'left', fillColor: null, cellWidth:100},  2: {fontSize:9, halign: 'left', fillColor: null, cellWidth:214}},
       margin: { left: 15},
-      body: [['Telefono: '+ this.cellphone, 'Ciudad: '+ 'Medellín', 'Maquina: '+  'CHEVROLEJTL CHR3566987893 123456543345'  ]]
+      body: [['Telefono: '+ this.cellphone, 'Ciudad: '+ this.cityEstimate, 'Maquina: '+  this.forkliftText  ]]
     });
     //Vamos en este punto
-   
 
     //**********************************************************     */
 
@@ -1849,7 +1868,7 @@ img.onload = function() {
 
     for (let i = 0; i < this.rowsItemsWorkforce.length; i++) {
     
-      body_table = [i+1, this.rowsItemsWorkforce[i].code, this.rowsItemsWorkforce[i].description, this.rowsItemsWorkforce[i].quantity, this.rowsItemsWorkforce[i].unit_cost, this.rowsItemsWorkforce[i].price,
+      body_table = [i+1, this.rowsItemsWorkforce[i].code, this.rowsItemsWorkforce[i].service, this.rowsItemsWorkforce[i].quantity, this.rowsItemsWorkforce[i].hour_value, this.rowsItemsWorkforce[i].subtotal_decimal,
       this.rowsItemsWorkforce[i].delivery];
       
       doc.autoTable({
@@ -1884,7 +1903,7 @@ img.onload = function() {
 
     for (let i = 0; i < this.rowsItemsWorkforce.length; i++) {
     
-      body_table = [i+1, this.rowsItemsWorkforce[i].description, this.rowsItemsWorkforce[i].quantity, this.rowsItemsWorkforce[i].unit_cost, this.rowsItemsWorkforce[i].price,
+      body_table = [i+1, this.rowsItemsWorkforce[i].service, this.rowsItemsWorkforce[i].quantity, this.rowsItemsWorkforce[i].hour_value, this.rowsItemsWorkforce[i].subtotal_decimal,
       this.rowsItemsWorkforce[i].delivery];
       
       doc.autoTable({
@@ -1924,7 +1943,7 @@ img.onload = function() {
 
   for (let i = 0; i < this.rowsItemsparts.length; i++) {
   
-    body_table = [i+1, this.rowsItemsparts[i].code, this.rowsItemsparts[i].description, this.rowsItemsparts[i].quantity, this.rowsItemsparts[i].unit_cost, this.rowsItemsparts[i].price,
+    body_table = [i+1, this.rowsItemsparts[i].code, this.rowsItemsparts[i].description, this.rowsItemsparts[i].quantity, this.rowsItemsparts[i].price_decimal, this.rowsItemsparts[i].subtotal_decimal,
     this.rowsItemsparts[i].delivery];
     
     doc.autoTable({
@@ -1959,8 +1978,8 @@ img.onload = function() {
 
   for (let i = 0; i < this.rowsItemsparts.length; i++) {
   
-    body_table = [i+1, this.rowsItemsparts[i].description, this.rowsItemsparts[i].quantity, this.rowsItemsparts[i].unit_cost, this.rowsItemsparts[i].price,
-    this.rowsItemsparts[i].delivery];
+    body_table = [i+1, this.rowsItemsparts[i].description, this.rowsItemsparts[i].quantity, this.rowsItemsparts[i].price_decimal, this.rowsItemsparts[i].subtotal,
+    this.rowsItemsparts[i].delivery + ' días'];
     
     doc.autoTable({
       startY: doc.autoTable.previous.finalY,
@@ -1982,8 +2001,9 @@ doc.autoTable({
   styles: {fillColor: null,valign:"top",lineColor:[4,1,0],lineWidth:0.2},
   columnStyles: {0: {halign: 'left', fontSize:8, cellWidth:85}, 1: {halign: 'left', fontSize:8, cellWidth:86},2: {halign: 'left', fontSize:8, cellWidth:81},3: {halign: 'left', fontSize:8, cellWidth:80},4: {halign: 'center', fontSize:8, cellWidth:81} },
   margin: {top: 60, right: 15, bottom: 0, left: 15},
-  body: [['Validez Oferta: 5 días','Forma Pago: 30 días','Garantía: 90 días','Subtotal Repuestos:','1.500.000']]
+  body: [['Validez Oferta: '+ this.payment_method +' días','Forma Pago: ' + this.validity + ' días','Garantía: '+ this.guarantyEstimate +' días','Subtotal Repuestos:',this.subtotalPartsEstimate]]
 });
+
 
     doc.autoTable({
       startY:  doc.autoTable.previous.finalY,
@@ -1992,8 +2012,8 @@ doc.autoTable({
       columnStyles: {0: {halign: 'left', fontSize:8, cellWidth:85}, 1: {halign: 'left', fontSize:8, cellWidth:86},2: {halign: 'left', fontSize:8, cellWidth:81},3: {halign: 'left', fontSize:8, cellWidth:80},4: {halign: 'center', fontSize:8, cellWidth:81} },
       margin: { left: 15},
       body: [
-      [{content: 'HNYUCW-00128', colSpan: 3, rowSpan: 3, styles: {halign: 'left'}},'Subtotal Mano de Obra','0'],
-       ['Total','89000'],
+      [{content: this.observationEstimate, colSpan: 3, rowSpan: 3, styles: {halign: 'left'}},'Subtotal Mano de Obra',this.subtotalHoursEstimate],
+       ['Total',this.totalEstimate],
        [{content: 'NOTA: VALORES ANTES DE IVA', colSpan: 2,  styles: {halign: 'left'}}]]
     });
 
@@ -2256,7 +2276,7 @@ img.onload = function() {
      
       var body_table = [];
       let i=0;
-      body_table = [i+1, this.rowsItemsparts[i].code, this.rowsItemsparts[i].description, this.rowsItemsparts[i].quantity, this.rowsItemsparts[i].unit_cost, this.rowsItemsparts[i].price,
+      body_table = [i+1, this.rowsItemsparts[i].code, this.rowsItemsparts[i].description, this.rowsItemsparts[i].quantity, this.rowsItemsparts[i].price_decimal, this.rowsItemsparts[i].subtotal_decimal,
       this.rowsItemsparts[i].delivery];
 
       doc.autoTable({
@@ -2420,7 +2440,7 @@ downloadSend(ind: number){
 
   for (let i = 0; i < this.rowsItemsWorkforce.length; i++) {
   
-    body_table = [i+1, this.rowsItemsWorkforce[i].code, this.rowsItemsWorkforce[i].description, this.rowsItemsWorkforce[i].quantity, this.rowsItemsWorkforce[i].unit_cost, this.rowsItemsWorkforce[i].price,
+    body_table = [i+1, this.rowsItemsWorkforce[i].code, this.rowsItemsWorkforce[i].service, this.rowsItemsWorkforce[i].quantity, this.rowsItemsWorkforce[i].hour_value, this.rowsItemsWorkforce[i].subtotal_decimal,
     this.rowsItemsWorkforce[i].delivery];
     
     doc.autoTable({
@@ -2455,7 +2475,7 @@ downloadSend(ind: number){
 
   for (let i = 0; i < this.rowsItemsWorkforce.length; i++) {
   
-    body_table = [i+1, this.rowsItemsWorkforce[i].description, this.rowsItemsWorkforce[i].quantity, this.rowsItemsWorkforce[i].unit_cost, this.rowsItemsWorkforce[i].price,
+    body_table = [i+1, this.rowsItemsWorkforce[i].service, this.rowsItemsWorkforce[i].quantity, this.rowsItemsWorkforce[i].hour_value, this.rowsItemsWorkforce[i].subtotal_decimal,
     this.rowsItemsWorkforce[i].delivery];
     
     doc.autoTable({
@@ -2495,7 +2515,7 @@ doc.autoTable({
 
 for (let i = 0; i < this.rowsItemsparts.length; i++) {
 
-  body_table = [i+1, this.rowsItemsparts[i].code, this.rowsItemsparts[i].description, this.rowsItemsparts[i].quantity, this.rowsItemsparts[i].unit_cost, this.rowsItemsparts[i].price,
+  body_table = [i+1, this.rowsItemsparts[i].code, this.rowsItemsparts[i].description, this.rowsItemsparts[i].quantity, this.rowsItemsparts[i].price_decimal, this.rowsItemsparts[i].subtotal_decimal,
   this.rowsItemsparts[i].delivery];
   
   doc.autoTable({
@@ -2530,7 +2550,7 @@ doc.autoTable({
 
 for (let i = 0; i < this.rowsItemsparts.length; i++) {
 
-  body_table = [i+1, this.rowsItemsparts[i].description, this.rowsItemsparts[i].quantity, this.rowsItemsparts[i].unit_cost, this.rowsItemsparts[i].price,
+  body_table = [i+1, this.rowsItemsparts[i].description, this.rowsItemsparts[i].quantity, this.rowsItemsparts[i].price_decimal, this.rowsItemsparts[i].subtotal,
   this.rowsItemsparts[i].delivery];
   
   doc.autoTable({
