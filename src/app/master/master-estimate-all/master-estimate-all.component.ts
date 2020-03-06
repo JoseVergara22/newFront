@@ -3000,6 +3000,7 @@ this.getImgFromUrl(logo_url, function (img) {
   this.checkAllWorkForce=event.target.checked;    
     for (let i = 0; i < this.itemsWorkforce.length; i++){
       console.log('lo encontre'+i);
+      console.log(this.itemsWorkforce[i]);
         this.itemsWorkforce[i].active=event.target.checked;
     }
   }
@@ -3010,6 +3011,7 @@ this.getImgFromUrl(logo_url, function (img) {
     this.checkAllPart=event.target.checked;    
       for (let i = 0; i < this.itemsPart.length; i++){
         console.log('lo encontre'+i);
+        console.log(this.itemsPart[i]);
           this.itemsPart[i].active=event.target.checked;
       }
     }
@@ -3778,12 +3780,14 @@ finalApproval(){
   for (let i = 0; i < this.itemsPart.length; i++){
     console.log('lo encontre'+i);
     if(this.itemsPart[i].active){
+      console.log(this.itemsPart[i]);
       this.itemsFinalApproval.push(this.itemsPart[i]);
     }
   }
   for (let i = 0; i < this.itemsWorkforce.length; i++){
     console.log('lo encontre'+i);
     if(this.itemsWorkforce[i].active){
+      console.log(this.itemsWorkforce[i]);
       this.itemsFinalApproval.push(this.itemsWorkforce[i]);
     } 
   }
@@ -3798,43 +3802,50 @@ finalApproval(){
   console.log(this.itemsFinalApproval);
   console.log(valuesApproval);
 
-  swal({
-    title: 'Validando información ...',
-    allowOutsideClick: false
-  });
-  swal.showLoading();
- 
-  this.estimateService.approveEstimateDetails(valuesApproval
-    ).then(data => {
-    const resp: any = data;
-    console.log('envio autorización');
-    console.log(resp);
+  if(valuesApproval != ''){
+
+    swal({
+      title: 'Validando información ...',
+      allowOutsideClick: false
+    });
+    swal.showLoading();
    
-    //---------------------------
-    this.estimateService.updateEstimateStatus(
-      this.estimateCurrent.id, 2).then(data => {
+    this.estimateService.approveEstimateDetails(valuesApproval
+      ).then(data => {
       const resp: any = data;
-      console.log('envio');
+      console.log('envio autorización');
       console.log(resp);
-      document.getElementById('hideCheckItem').click();
-  
-      this.getEstimateFiltersInitial();
-      swal({
-        title: 'cotización aprobada',
-        type: 'success'
-       });
+     
+      //---------------------------
+      this.estimateService.updateEstimateStatus(
+        this.estimateCurrent.id, 2).then(data => {
+        const resp: any = data;
+        console.log('envio');
+        console.log(resp);
+        document.getElementById('hideCheckItem').click();
+    
+        this.getEstimateFiltersInitial();
+        swal({
+          title: 'cotización aprobada',
+          type: 'success'
+         });
+      }).catch(error => {
+        console.log(error);
+        swal.close();
+      });
+      // ----------------------------
+      
     }).catch(error => {
       console.log(error);
       swal.close();
     });
-    // ----------------------------
-    
-  }).catch(error => {
-    console.log(error);
-    swal.close();
-  });
-
-
+  }else{
+    swal({
+      title: 'Se presentó un problema',
+      text: 'Favor selecionar al menos una opcion.',
+      type: 'error',
+    });
+  }
 
 }
 
