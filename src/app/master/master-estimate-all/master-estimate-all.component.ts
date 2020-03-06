@@ -538,7 +538,7 @@ export class MasterEstimateAllComponent extends NgbDatepickerI18n {
     console.log('s3info'+JSON.stringify(res));
     this.s3info=res;
     console.log(this.s3info);
-    
+    console.log('Cargo la info en s3 6/3/20');
     //Aqui va el codigo para enviar correo
     this.sendEmailFinal();
     
@@ -582,13 +582,31 @@ export class MasterEstimateAllComponent extends NgbDatepickerI18n {
 
     sendEstimateEmail(row:any){
       
-      this.estimateId= row.id;
+   /*   this.estimateId= row.id;
       this.user = row.elaborate_user.username;
       this.consecutive = row.estimate_consecutive;
       this.documentCustomer = row.customer_document;
       this.nameCustomer = row.business_name;
       this.contact = row.contact;
-      this.cellphone =   row.email;
+      this.cellphone =   row.email;*/
+
+
+      this.estimateId= row.id;
+      this.user = row.elaborate_user.username;
+      this.consecutive = row.estimate_consecutive;
+      this.documentCustomer = row.customer_document;
+      this.nameCustomer = row.customer.business_name;
+      this.contact = row.contact;
+      this.cellphone =   row.telephone;
+      this.forkliftText = row.forklift_text;
+      this.cityEstimate =  row.city.name;
+      this.guarantyEstimate =  row.guaranty;
+      this.validity = row.validity;
+      this.payment_method= row.payment_method;
+      this.subtotalHoursEstimate = row.subtotal_hours_decimal;
+      this.subtotalPartsEstimate = row.subtotal_parts_decimal;
+      this.totalEstimate = row.total_decimal;
+      this.observationEstimate= row.observation;
 
       this.emailsSend = [];
       this.subject = '';
@@ -664,8 +682,10 @@ export class MasterEstimateAllComponent extends NgbDatepickerI18n {
 
       if( this.estimateCurrent.status === 0){
         this.sendEmail();
+        console.log('Ingreso para armar el correo');
       }else{
         this.sendEmailFinal();
+        console.log('Solo para enviar el correo');
       }
     
 
@@ -875,7 +895,7 @@ export class MasterEstimateAllComponent extends NgbDatepickerI18n {
 
     for (let i = 0; i < this.rowsItemsWorkforce.length; i++) {
     
-      body_table = [i+1, this.rowsItemsWorkforce[i].code, this.rowsItemsWorkforce[i].service, this.rowsItemsWorkforce[i].quantity, this.rowsItemsWorkforce[i].hour_value, this.rowsItemsWorkforce[i].subtotal_decimal,
+      body_table = [i+1, this.rowsItemsWorkforce[i].code, this.rowsItemsWorkforce[i].service, this.rowsItemsWorkforce[i].quantity, this.rowsItemsWorkforce[i].hour_value_decimal, this.rowsItemsWorkforce[i].subtotal_decimal,
       this.rowsItemsWorkforce[i].delivery];
       
       doc.autoTable({
@@ -910,7 +930,7 @@ export class MasterEstimateAllComponent extends NgbDatepickerI18n {
 
     for (let i = 0; i < this.rowsItemsWorkforce.length; i++) {
     
-      body_table = [i+1, this.rowsItemsWorkforce[i].service, this.rowsItemsWorkforce[i].quantity, this.rowsItemsWorkforce[i].hour_value, this.rowsItemsWorkforce[i].subtotal_decimal,
+      body_table = [i+1, this.rowsItemsWorkforce[i].service, this.rowsItemsWorkforce[i].quantity, this.rowsItemsWorkforce[i].hour_value_decimal, this.rowsItemsWorkforce[i].subtotal_decimal,
       this.rowsItemsWorkforce[i].delivery];
       
       doc.autoTable({
@@ -1364,7 +1384,7 @@ img.onload = function() {
   
       for (let i = 0; i < this.rowsItemsWorkforce.length; i++) {
       
-        body_table = [i+1, this.rowsItemsWorkforce[i].code, this.rowsItemsWorkforce[i].service, this.rowsItemsWorkforce[i].quantity, this.rowsItemsWorkforce[i].hour_value, this.rowsItemsWorkforce[i].subtotal_decimal,
+        body_table = [i+1, this.rowsItemsWorkforce[i].code, this.rowsItemsWorkforce[i].service, this.rowsItemsWorkforce[i].quantity, this.rowsItemsWorkforce[i].hour_value_decimal, this.rowsItemsWorkforce[i].subtotal_decimal,
         this.rowsItemsWorkforce[i].delivery+ ' días'];
         
         doc.autoTable({
@@ -1399,7 +1419,7 @@ img.onload = function() {
   
       for (let i = 0; i < this.rowsItemsWorkforce.length; i++) {
       
-        body_table = [i+1, this.rowsItemsWorkforce[i].service, this.rowsItemsWorkforce[i].quantity, this.rowsItemsWorkforce[i].hour_value, this.rowsItemsWorkforce[i].subtotal_price, this.rowsItemsWorkforce[i].delivery+''];
+        body_table = [i+1, this.rowsItemsWorkforce[i].service, this.rowsItemsWorkforce[i].quantity, this.rowsItemsWorkforce[i].hour_value_decimal, this.rowsItemsWorkforce[i].subtotal_price, this.rowsItemsWorkforce[i].delivery+''];
         
         doc.autoTable({
           startY: doc.autoTable.previous.finalY,
@@ -1868,7 +1888,7 @@ img.onload = function() {
 
     for (let i = 0; i < this.rowsItemsWorkforce.length; i++) {
     
-      body_table = [i+1, this.rowsItemsWorkforce[i].code, this.rowsItemsWorkforce[i].service, this.rowsItemsWorkforce[i].quantity, this.rowsItemsWorkforce[i].hour_value, this.rowsItemsWorkforce[i].subtotal_decimal,
+      body_table = [i+1, this.rowsItemsWorkforce[i].code, this.rowsItemsWorkforce[i].service, this.rowsItemsWorkforce[i].quantity, this.rowsItemsWorkforce[i].hour_value_decimal, this.rowsItemsWorkforce[i].subtotal_decimal,
       this.rowsItemsWorkforce[i].delivery+' días'];
       
       doc.autoTable({
@@ -1903,7 +1923,7 @@ img.onload = function() {
 
     for (let i = 0; i < this.rowsItemsWorkforce.length; i++) {
     
-      body_table = [i+1, this.rowsItemsWorkforce[i].service, this.rowsItemsWorkforce[i].quantity, this.rowsItemsWorkforce[i].hour_value, this.rowsItemsWorkforce[i].subtotal_decimal,
+      body_table = [i+1, this.rowsItemsWorkforce[i].service, this.rowsItemsWorkforce[i].quantity, this.rowsItemsWorkforce[i].hour_value_decimal, this.rowsItemsWorkforce[i].subtotal_decimal,
       this.rowsItemsWorkforce[i].delivery+ ' días'];
       
       doc.autoTable({
@@ -2385,7 +2405,7 @@ img.onload = function() {
 
     for (let i = 0; i < this.rowsItemsWorkforce.length; i++) {
     
-      body_table = [i+1, this.rowsItemsWorkforce[i].code, this.rowsItemsWorkforce[i].service, this.rowsItemsWorkforce[i].quantity, this.rowsItemsWorkforce[i].hour_value, this.rowsItemsWorkforce[i].subtotal_decimal,
+      body_table = [i+1, this.rowsItemsWorkforce[i].code, this.rowsItemsWorkforce[i].service, this.rowsItemsWorkforce[i].quantity, this.rowsItemsWorkforce[i].hour_value_decimal, this.rowsItemsWorkforce[i].subtotal_decimal,
       this.rowsItemsWorkforce[i].delivery+' días'];
       
       doc.autoTable({
@@ -2420,7 +2440,7 @@ img.onload = function() {
 
     for (let i = 0; i < this.rowsItemsWorkforce.length; i++) {
     
-      body_table = [i+1, this.rowsItemsWorkforce[i].service, this.rowsItemsWorkforce[i].quantity, this.rowsItemsWorkforce[i].hour_value, this.rowsItemsWorkforce[i].subtotal_decimal,
+      body_table = [i+1, this.rowsItemsWorkforce[i].service, this.rowsItemsWorkforce[i].quantity, this.rowsItemsWorkforce[i].hour_value_decimal, this.rowsItemsWorkforce[i].subtotal_decimal,
       this.rowsItemsWorkforce[i].delivery+ ' días'];
       
       doc.autoTable({
@@ -2957,7 +2977,7 @@ downloadSend2(ind: number){
 
   for (let i = 0; i < this.rowsItemsWorkforce.length; i++) {
   
-    body_table = [i+1, this.rowsItemsWorkforce[i].code, this.rowsItemsWorkforce[i].service, this.rowsItemsWorkforce[i].quantity, this.rowsItemsWorkforce[i].hour_value, this.rowsItemsWorkforce[i].subtotal_decimal,
+    body_table = [i+1, this.rowsItemsWorkforce[i].code, this.rowsItemsWorkforce[i].service, this.rowsItemsWorkforce[i].quantity, this.rowsItemsWorkforce[i].hour_value_decimal, this.rowsItemsWorkforce[i].subtotal_decimal,
     this.rowsItemsWorkforce[i].delivery];
     
     doc.autoTable({
@@ -2992,7 +3012,7 @@ downloadSend2(ind: number){
 
   for (let i = 0; i < this.rowsItemsWorkforce.length; i++) {
   
-    body_table = [i+1, this.rowsItemsWorkforce[i].service, this.rowsItemsWorkforce[i].quantity, this.rowsItemsWorkforce[i].hour_value, this.rowsItemsWorkforce[i].subtotal_decimal,
+    body_table = [i+1, this.rowsItemsWorkforce[i].service, this.rowsItemsWorkforce[i].quantity, this.rowsItemsWorkforce[i].hour_value_decimal, this.rowsItemsWorkforce[i].subtotal_decimal,
     this.rowsItemsWorkforce[i].delivery];
     
     doc.autoTable({
