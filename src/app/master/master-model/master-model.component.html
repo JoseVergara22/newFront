@@ -122,7 +122,7 @@
             <br>
 
             <ngx-datatable #table class="data-table" [rows]="rowsClient" [columns]="[{name:'Descripción', prop:'description'},{name:'Tipo', prop:'type'},{name:'Estado', prop:'status'},{prop:'id'}]" [columnMode]="'force'" [headerHeight]="50" [footerHeight]="50" [rowHeight]="'auto'"
-                [limit]="5">
+                [limit]="25">
 
                 <ngx-datatable-column [resizeable]="false" name="Modelo" [sortable]="false" [draggable]="false" prop="model"></ngx-datatable-column>
                 <ngx-datatable-column [resizeable]="false" name="Marca" [sortable]="false" [draggable]="false" prop="brand"></ngx-datatable-column>

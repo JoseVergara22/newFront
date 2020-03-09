@@ -96,7 +96,7 @@ selectedCityIdUpdate: any = 0;
     const businessName = new FormControl('', Validators.required);
     const typeDocumentId = new FormControl('', Validators.required);
     const documentId = new FormControl('', Validators.required);
-    const telephone = new FormControl('', Validators.required);
+    const telephone = new FormControl('');
     const address = new FormControl('', Validators.required);
      const priceMargin = new FormControl('', Validators.required);
   // const priceListId = new FormControl('', Validators.required);
@@ -108,7 +108,7 @@ selectedCityIdUpdate: any = 0;
     const businessNameUpdate = new FormControl('', Validators.required);
     const typeDocumentIdUpdate  = new FormControl('', Validators.required);
     const documentIdUpdate  = new FormControl('', Validators.required);
-    const telephoneUpdate  = new FormControl('', Validators.required);
+    const telephoneUpdate  = new FormControl('');
     const addressUpdate  = new FormControl('', Validators.required);
     const priceMarginUpdate  = new FormControl('', Validators.required);
   //  const priceListIdUpdate  = new FormControl('', Validators.required);
@@ -118,13 +118,13 @@ selectedCityIdUpdate: any = 0;
 
 
     const nameOffice = new FormControl('', Validators.required);
-    const telephoneOffice = new FormControl('', Validators.required);
+    const telephoneOffice = new FormControl('');
     const departmentOffice = new FormControl('', Validators.required);
     const citytOffice = new FormControl('', Validators.required);
     const addressOffice = new FormControl('', Validators.required);
 
     const nameOfficeUpdate = new FormControl('', Validators.required);
-    const telephoneOfficeUpdate = new FormControl('', Validators.required);
+    const telephoneOfficeUpdate = new FormControl('');
     const departmentOfficeUpdate = new FormControl('', Validators.required);
     const citytOfficeUpdate = new FormControl('', Validators.required);
     const addressOfficeUpdate = new FormControl('', Validators.required);

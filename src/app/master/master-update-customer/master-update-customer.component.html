@@ -14,10 +14,10 @@
                     </div>
                 </div>
                 <div class="col-sm-4">
-                    <h6> Teléfono <span style="color:red;">*</span></h6>
+                    <h6> Teléfono </h6>
                     <input type="text" class="form-control" formControlName="telephoneOffice" [ngClass]="{ 'is-invalid': submittedOffice && checkFormOffice.telephoneOffice.errors }">
                     <div *ngIf="submittedOffice && checkFormOffice.telephoneOffice.errors" class="invalid-feedback">
-                        <div class="messages text-danger" *ngIf="checkFormOffice.telephoneOffice.errors.required">Este campo es requerido</div>
+                        <!--<div class="messages text-danger" *ngIf="checkFormOffice.telephoneOffice.errors.required">Este campo es requerido</div>-->
                     </div>
                 </div>
                 <div class="col-sm-4">
@@ -88,10 +88,10 @@
                     </div>
                 </div>
                 <div class="col-sm-4">
-                    <h6> Teléfono <span style="color:red;">*</span></h6>
+                    <h6> Teléfono </h6>
                     <input type="text" class="form-control" formControlName="telephoneOfficeUpdate" [ngClass]="{ 'is-invalid': submittedOfficeUpdated && checkFormOfficeUpdate.telephoneOfficeUpdate.errors }">
                     <div *ngIf="submittedOfficeUpdated && checkFormOfficeUpdate.telephoneOfficeUpdate.errors" class="invalid-feedback">
-                        <div class="messages text-danger" *ngIf="checkFormOfficeUpdate.telephoneOfficeUpdate.errors.required">Este campo es requerido</div>
+                        <!--<div class="messages text-danger" *ngIf="checkFormOfficeUpdate.telephoneOfficeUpdate.errors.required">Este campo es requerido</div>-->
                     </div>
                 </div>
                 <div class="col-sm-4">
@@ -226,10 +226,10 @@
                         <!-- <h6>Teléfono <span style="color:red; ">*</span></h6>
                   <input type="text " class="form-control " id="rpassword ">-->
 
-                        <h6>Teléfono <span style="color:red; ">*</span></h6>
+                        <h6>Teléfono </h6>
                         <input type="text " class="form-control " formControlName="telephoneUpdate" [ngClass]="{ 'is-invalid': submittedUpdated && checkFormUpdate.telephoneUpdate.errors } ">
                         <div *ngIf="submittedUpdated && checkFormUpdate.telephoneUpdate.errors " class="invalid-feedback ">
-                            <div class="messages text-danger " *ngIf="checkFormUpdate.telephoneUpdate.errors.required ">Este campo es requerido</div>
+                            <!--<div class="messages text-danger " *ngIf="checkFormUpdate.telephoneUpdate.errors.required ">Este campo es requerido</div>-->
                         </div>
 
                     </div>
@@ -361,7 +361,7 @@
             </div>
             <br>
 
-            <ngx-datatable #table class="data-table" [rows]="dataOffices" [columns]="[{name:'Descripción', prop:'description'},{name:'Estado', prop:'status'},{prop:'id'}]" [columnMode]="'force'" [headerHeight]="50" [footerHeight]="50" [rowHeight]="'auto'" [limit]="5">
+            <ngx-datatable #table class="data-table" [rows]="dataOffices" [columns]="[{name:'Descripción', prop:'description'},{name:'Estado', prop:'status'},{prop:'id'}]" [columnMode]="'force'" [headerHeight]="50" [footerHeight]="50" [rowHeight]="'auto'" [limit]="25">
 
                 <!--   <ngx-datatable-column [resizeable]="false" name="Compañia" [sortable]="false" [draggable]="false" prop="business_name"></ngx-datatable-column> -->
                 <ngx-datatable-column [resizeable]="false" name="Sucursal" [sortable]="false" [draggable]="false" prop="branch_name"></ngx-datatable-column>

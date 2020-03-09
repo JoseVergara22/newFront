@@ -103,7 +103,7 @@
             <br>
 
             <ngx-datatable #table class="data-table" [rows]="rowsClient" [columns]="[{name:'Peso (kilos)', prop:'weight'},{name:'Precio x Kilo (usd)', prop:'price'},{prop:'id'}]" [columnMode]="'force'" [headerHeight]="50" [footerHeight]="50" [rowHeight]="'auto'"
-                [limit]="5">
+                [limit]="25">
 
                 <ngx-datatable-column [resizeable]="false" name="Peso (kilos)" [sortable]="false" [draggable]="false" prop="weight"></ngx-datatable-column>
                 <ngx-datatable-column [resizeable]="false" name="Precio x Kilo (usd)" [sortable]="false" [draggable]="false" prop="price"></ngx-datatable-column>

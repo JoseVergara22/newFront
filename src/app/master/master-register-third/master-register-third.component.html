@@ -14,10 +14,10 @@
                     </div>
                 </div>
                 <div class="col-sm-4">
-                    <h6> Teléfono <span style="color:red;">*</span></h6>
+                    <h6> Teléfono </h6>
                     <input type="text" class="form-control" formControlName="telephoneOffice" [ngClass]="{ 'is-invalid': submittedOffice && checkFormOffice.telephoneOffice.errors }">
                     <div *ngIf="submittedOffice && checkFormOffice.telephoneOffice.errors" class="invalid-feedback">
-                        <div class="messages text-danger" *ngIf="checkFormOffice.telephoneOffice.errors.required">Este campo es requerido</div>
+                       <!-- <div class="messages text-danger" *ngIf="checkFormOffice.telephoneOffice.errors.required">Este campo es requerido</div>-->
                     </div>
                 </div>
                 <div class="col-sm-4">
@@ -89,10 +89,10 @@
                     </div>
                 </div>
                 <div class="col-sm-4">
-                    <h6> Teléfono <span style="color:red;">*</span></h6>
+                    <h6> Teléfono </h6>
                     <input type="text" class="form-control" formControlName="telephoneOfficeUpdate" [ngClass]="{ 'is-invalid': submittedOfficeUpdated && checkFormOfficeUpdate.telephoneOfficeUpdate.errors }">
                     <div *ngIf="submittedOfficeUpdated && checkFormOfficeUpdate.telephoneOfficeUpdate.errors" class="invalid-feedback">
-                        <div class="messages text-danger" *ngIf="checkFormOfficeUpdate.telephoneOfficeUpdate.errors.required">Este campo es requerido</div>
+                       <!-- <div class="messages text-danger" *ngIf="checkFormOfficeUpdate.telephoneOfficeUpdate.errors.required">Este campo es requerido</div>-->
                     </div>
                 </div>
                 <div class="col-sm-4">
@@ -225,10 +225,10 @@
                         <!-- <h6>Teléfono <span style="color:red;">*</span></h6>
                     <input type="text" class="form-control" id="rpassword">-->
 
-                        <h6>Teléfono <span style="color:red;">*</span></h6>
+                        <h6>Teléfono</h6>
                         <input type="text" class="form-control" formControlName="telephone" [ngClass]="{ 'is-invalid': submitted && checkForm.telephone.errors }">
                         <div *ngIf="submitted && checkForm.telephone.errors" class="invalid-feedback">
-                            <div class="messages text-danger" *ngIf="checkForm.telephone.errors.required">Este campo es requerido</div>
+                            <!--<div class="messages text-danger" *ngIf="checkForm.telephone.errors.required">Este campo es requerido</div>-->
                         </div>
 
                     </div>
@@ -390,10 +390,10 @@
                         <!-- <h6>Teléfono <span style="color:red; ">*</span></h6>
                     <input type="text " class="form-control " id="rpassword ">-->
 
-                        <h6>Teléfono <span style="color:red; ">*</span></h6>
+                        <h6>Teléfono </h6>
                         <input type="text " class="form-control " formControlName="telephoneUpdate" [ngClass]="{ 'is-invalid': submittedUpdated && checkFormUpdate.telephoneUpdate.errors } ">
                         <div *ngIf="submittedUpdated && checkFormUpdate.telephoneUpdate.errors " class="invalid-feedback ">
-                            <div class="messages text-danger " *ngIf="checkFormUpdate.telephoneUpdate.errors.required ">Este campo es requerido</div>
+                            <!--<div class="messages text-danger " *ngIf="checkFormUpdate.telephoneUpdate.errors.required ">Este campo es requerido</div>-->
                         </div>
 
                     </div>

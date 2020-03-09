@@ -357,7 +357,7 @@
             <button class="btn btn-primary m-b-0 " style="display:none;" id="relationShipCustomer" (click)="modalRegisterRelationCompany.show()">Relacionar con empresas</button>
             <button class="btn btn-primary m-b-0 " style="display:none;" id="relationShipUpdate" (click)="modalRegisterRelationUpdate.show()">Relacionar con empresas</button>
 
-            <ngx-datatable #table class="data-table" [rows]="rowsClient" [columns]="[{name:'Descripción', prop:'description'},{name:'Estado', prop:'status'},{prop:'id'}]" [columnMode]="'force'" [headerHeight]="50" [footerHeight]="50" [rowHeight]="'auto'" [limit]="5">
+            <ngx-datatable #table class="data-table" [rows]="rowsClient" [columns]="[{name:'Descripción', prop:'description'},{name:'Estado', prop:'status'},{prop:'id'}]" [columnMode]="'force'" [headerHeight]="50" [footerHeight]="50" [rowHeight]="'auto'" [limit]="10">
 
                 <ngx-datatable-column [resizeable]="false" name="Cliente" [sortable]="false" [draggable]="false" prop="business_name"></ngx-datatable-column>
                 <ngx-datatable-column [resizeable]="false" name="Cliente" [sortable]="false" [draggable]="false" prop="branch_office_names"></ngx-datatable-column>

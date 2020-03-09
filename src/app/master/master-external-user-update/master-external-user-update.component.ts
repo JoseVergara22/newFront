@@ -224,11 +224,9 @@ export class MasterExternalUserUpdateComponent implements OnInit {
           const resp: any = data;
           console.log('Info');
           console.log(resp);
-          if (resp.error) {
+          if (resp.success == false) {
             swal({
-              title: 'Error',
-              text: 'Ha ocurrido un error',
-              type: 'error'
+              text: 'No se encontraron sucursales asociadas.'
              });
           } else {
             console.log('info de userOffices para update');
