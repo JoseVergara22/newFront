@@ -129,7 +129,7 @@
                         </div>
                     </div>
                     <div class="col-sm-4">
-                        <h6>Mastil izado</h6>
+                        <h6>Mastil izado<span style="color:red;">*</span></h6>
                         <input type="text" class="form-control" formControlName="hoistedMast" [ngClass]="{ 'is-invalid': submitted && checkForm.hoistedMast.errors }">
 
                         <div *ngIf="submitted && checkForm.hoistedMast.errors" class="invalid-feedback">
@@ -137,7 +137,7 @@
                         </div>
                     </div>
                     <div class="col-sm-4">
-                        <h6>Mastil contraido</h6>
+                        <h6>Mastil contraido<span style="color:red;">*</span></h6>
                         <input type="text" class="form-control" formControlName="contractedMast" [ngClass]="{ 'is-invalid': submitted && checkForm.contractedMast.errors }">
 
                         <div *ngIf="submitted && checkForm.contractedMast.errors" class="invalid-feedback">
@@ -148,20 +148,20 @@
 
                 <div class="form-group row">
                     <div class="col-sm-4">
-                        <h6>H. inicial <span style="color:red;">*</span></h6>
+                        <h6>H. inicial </h6>
                         <input type="text" class="form-control" formControlName="startTime" [ngClass]="{ 'is-invalid': submitted && checkForm.startTime.errors }">
 
                         <div *ngIf="submitted && checkForm.startTime.errors" class="invalid-feedback">
-                            <div class="messages text-danger" *ngIf="checkForm.startTime.errors.required">Este campo es requerido</div>
+                        <!--    <div class="messages text-danger" *ngIf="checkForm.startTime.errors.required">Este campo es requerido</div>-->
                         </div>
 
                     </div>
                     <div class="col-sm-4">
-                        <h6>H. actual <span style="color:red;">*</span></h6>
+                        <h6>H. actual </h6>
                         <input type="text" class="form-control" formControlName="currentTime" [ngClass]="{ 'is-invalid': submitted && checkForm.currentTime.errors }">
 
                         <div *ngIf="submitted && checkForm.currentTime.errors" class="invalid-feedback">
-                            <div class="messages text-danger" *ngIf="checkForm.currentTime.errors.required">Este campo es requerido</div>
+                           <!--- <div class="messages text-danger" *ngIf="checkForm.currentTime.errors.required">Este campo es requerido</div>-->
                         </div>
 
                     </div>

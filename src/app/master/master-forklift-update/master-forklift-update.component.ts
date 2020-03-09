@@ -250,8 +250,8 @@ export class MasterForkliftUpdateComponent extends NgbDatepickerI18n {
     const tonne = new FormControl('', Validators.required);
     const hoistedMast = new FormControl('', Validators.required);
     const contractedMast = new FormControl('', Validators.required);
-    const startTime = new FormControl('', Validators.required);
-    const currentTime = new FormControl('', Validators.required);
+    const startTime = new FormControl('');
+    const currentTime = new FormControl('');
     const routine = new FormControl('', Validators.required);
     const observation = new FormControl('');
 

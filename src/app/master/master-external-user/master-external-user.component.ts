@@ -243,11 +243,13 @@ export class MasterExternalUserComponent implements OnInit {
     active).then(data => {
     console.log(data);
       const resp: any = data;
+      console.log('resppppppppp' + JSON.stringify(resp));
       if (resp.error) {
         let msg  = '';
       if ( resp.error.message === 'The username already exists.') {
        msg = 'El usuario ya existe';
       } else {
+        console.log('Falla al crear-----  '+resp.error.message)
         msg = 'El correo electrónico ya existe';
       }
         swal({

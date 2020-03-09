@@ -405,6 +405,9 @@ sendOffice() {
 
   if ( Number(this.selectedDepartmentOfficeId.id) !== 0 && Number(this.selectedCityOfficeId.id) !== 0) {
     this.submittedOffice = true;
+    console.log('paso y no podia pasar');
+    console.log('paso y no podia pasar');
+    console.log('paso y no podia pasar');
     console.log(this.myFormCreateOffice.errors);
 
     console.log('oleole');
@@ -558,6 +561,9 @@ updatedOfficePro() {
      try {
     if ( Number(this.selectedDepartmentOfficeIdUpdate.id) !== 0 && Number(this.selectedCityOfficeIdUpdate.id) !== 0) {
       this.submittedOffice = true;
+      console.log('paso y no podia pasar');
+      console.log('paso y no podia pasar');
+      console.log('paso y no podia pasar');
       console.log(this.myFormCreateOffice.errors);  
      if ( !this.myFormUpdateOffice.invalid) {
       swal({

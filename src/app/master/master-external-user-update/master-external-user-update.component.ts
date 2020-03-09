@@ -181,7 +181,7 @@ export class MasterExternalUserUpdateComponent implements OnInit {
     });
     swal.showLoading();
     this.userService.getUser(id).then(data => {
-      console.log('info: '+data);
+      console.log('info: '+ data);
       const resp: any = data;
       if (resp.error) {
         swal({

@@ -603,7 +603,7 @@ updatedOffice() {
   console.log(this.selectedCityOfficeIdUpdate);
 
      try {
-    if ( Number(this.selectedDepartmentOfficeIdUpdate.id) !== 0 && Number(this.selectedCityOfficeIdUpdate.id) !== 0) {
+    if ( Number(this.selectedDepartmentOfficeIdUpdate) !== 0 && Number(this.selectedCityOfficeIdUpdate) !== 0) {
       this.submittedOffice = true;
       console.log(this.myFormCreateOffice.errors);
      if ( !this.myFormUpdateOffice.invalid) {
@@ -672,10 +672,15 @@ sendOffice() {
   console.log(this.myFormCreateOffice.get('addressOffice').errors);
 
 
-  console.log(this.selectedDepartmentOfficeId.id);
-  console.log(this.selectedCityOfficeId.id);
+  console.log(this.selectedDepartmentOfficeId);
+  console.log(this.selectedCityOfficeId);
 
-  if ( Number(this.selectedDepartmentOfficeId.id) !== 0 && Number(this.selectedCityOfficeId.id) !== 0) {
+  if ( Number(this.selectedDepartmentOfficeId) !== 0 && Number(this.selectedCityOfficeId) !== 0) {
+    console.log('Paso a donde no debia');
+    console.log('Paso a donde no debia');
+    console.log('Paso a donde no debia');
+    console.log('Paso a donde no debia');
+    console.log('Paso a donde no debia');
     this.submittedOffice = true;
     console.log(this.myFormCreateOffice.errors);
     console.log(this.myFormCreateOffice.invalid);

@@ -100,7 +100,7 @@ apiEndPoint = environment.apiBaseUrl;
           'Accept': 'application/json'
         })
       };
-      this.http.get(this.apiEndPoint+'api/branch_offices_users?id_user= ' + idUser, httpOptions)
+      this.http.get(this.apiEndPoint+'api/branch_offices_users?id_user=' + idUser, httpOptions)
         .map(res => res).subscribe(data => {
           console.log(data);
           resolve(data);
@@ -396,6 +396,7 @@ apiEndPoint = environment.apiBaseUrl;
     alarm: alarm,
     observation: observation
       };
+      console.log('tonne-----------'+ tonne);
       this.http.post(this.apiEndPoint+'api/forklifts', postParams, httpOptions)
         .map(res => res).subscribe(data => {
           resolve(data);

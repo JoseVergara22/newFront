@@ -260,7 +260,7 @@
                           </select> -->
 
                              <h6>Margen de precios <span style="color:red; ">*</span></h6>
-                        <input type="text " class="form-control " formControlName="priceMarginUpdate" [ngClass]="{ 'is-invalid': submittedUpdated && checkFormUpdate.priceMarginUpdate.errors } ">
+                        <input type="number" class="form-control " formControlName="priceMarginUpdate" [ngClass]="{ 'is-invalid': submittedUpdated && checkFormUpdate.priceMarginUpdate.errors } ">
                         <div *ngIf="submittedUpdated && checkFormUpdate.priceMarginUpdate.errors " class="invalid-feedback ">
                             <div class="messages text-danger " *ngIf="checkFormUpdate.priceMarginUpdate.errors.required ">Este campo es requerido</div>
                         </div>
