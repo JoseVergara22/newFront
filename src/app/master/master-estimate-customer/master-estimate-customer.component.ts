@@ -1629,13 +1629,14 @@ doc.save('Test.pdf');
 }
 
 onSelectFileImage(event) {
+
+   console.log('tamaño de la imagen: '+ event.target.files.length);
+
     var filesAmount = event.target.files.length;
-  
-    this.selectedFilesImages.push(event.target.files);
-    console.log(   this.selectedFilesImages[0]);
+    // this.selectedFilesImages.push(event.target.files);
     var filename = event.target.files[event.target.files.length-1].name;
-   this.fileWidth =this.selectedFilesImages[0];
-   console.log('ESTES ES EL ANCHO DE LA IMAGEN: '+ this.fileWidth[0].name); //Se deja para despues si se tiene que validar width de  imagen
+   //this.fileWidth =this.selectedFilesImages[0];
+   //console.log('ESTES ES EL ANCHO DE LA IMAGEN: '+ this.fileWidth[0].name); //Se deja para despues si se tiene que validar width de  imagen
     console.log('Importante');
   
     var allowedExtensions = /(.jpg|.jpeg|.png|.gif)$/i;
@@ -1646,23 +1647,27 @@ onSelectFileImage(event) {
 
     console.log(filename);
     console.log(this.urlsImages);
-    console.log(filesAmount);
-   if(this.urlsImages.length<=4){
+    console.log('que es esto '+filesAmount);
+    console.log('tamaño de vector:'+ this.urlsImages.length);
+    console.log(event.target.files+'---'+ event.target.files[0]);
+   if(this.urlsImages.length<1){
     if (event.target.files && event.target.files[0]) {
+      this.selectedFilesImages.push(event.target.files);
         for (let i = 0; i < filesAmount; i++) {
                 var reader = new FileReader();
                 reader.onload = (event:any) => {
                   console.log(event.target.result);
-                  this.urlsImages.push(event.target.result); 
                   
+                  this.urlsImages.push(event.target.result); 
+                 
                 }
                 reader.readAsDataURL(event.target.files[i]);
         }
     }
   }else{
     swal({
-      title: 'El numero maximo de imagenes son 4',
-      text: 'No se pueden cargar mas de 4 imagenes',
+      title: 'El numero maximo de imagenes son 1',
+      text: 'No se pueden cargar mas de 1 imagenes',
       type: 'error'
     });
   }
@@ -1678,7 +1683,7 @@ onSelectFileImage(event) {
 onSelectFile(event) {
   var filesAmount = event.target.files.length;
 
-  this.selectedFiles.push(event.target.files);
+  
   var filename = event.target.files[event.target.files.length-1].name;
   console.log('Nombre de archivo');
   console.log(filename);
@@ -1689,18 +1694,19 @@ onSelectFile(event) {
   console.log('-----');
   console.log(extFilename);
 
-  if(extFilename !=='jpg' && extFilename !=='jpeg' && extFilename !=='png'){
+ // if(extFilename !=='jpg' && extFilename !=='jpeg' && extFilename !=='png'){
     console.log('filename que es');
     var filename = event.target.files[event.target.files.length-1].name;
     console.log(filename);
     this.urlsFiles.push(filename); 
-  }else{
+    this.selectedFiles.push(event.target.files);
+  /*}else{
   swal({
     title: 'El formato del archivo, no es correcto',
     text: 'No se permite cargar archivos con extensión jpg, jpeg, png ',
     type: 'error'
   });
-  }
+  }*/
 }
 
 uploadImagesEstimate() {
@@ -1738,11 +1744,13 @@ uploadImagesEstimate() {
     });
     swal.showLoading();
 
-    this.uploadFiles();
     this.uploadFilesImages();
+    this.uploadFiles();
 
-
-
+     swal({
+        title: 'Archivos guardados',
+        type: 'success'
+       });
   
   }
 
@@ -1753,16 +1761,21 @@ uploadImagesEstimate() {
    //  const uuid = UUID.UUID();
    // console.log(uuid);
     console.log(file.name + '.' + file.type);
+
+    let nameTemp= this.consecutive +file.name.replace(/\s/g,"");
     const extension = (file.name.substring(file.name.lastIndexOf('.'))).toLowerCase();
     console.log(extension);
-    this.uploadService.uploadFilesAll(file,this.estimateId,0,file.name).then(res=>{
+    this.uploadService.uploadFilesAll(file,this.estimateId,0,nameTemp).then(res=>{
       console.log('s3info'+JSON.stringify(res));
       this.s3info=res;
       console.log(this.s3info);
-      swal({
+      /*swal({
         title: 'Archivos guardados',
         type: 'success'
-       });
+       });*/
+
+       swal.close();
+       this.showSaveFile=false; 
     }).catch(error=> {
       console.log(error);
       swal({
@@ -1776,6 +1789,8 @@ uploadImagesEstimate() {
 }
 
  uploadFilesImages() {
+   console.log('esta es la longitud: '+this.selectedFilesImages.length);
+   console.log('contenido'+this.selectedFilesImages);
   for (let fileCurrent of this.selectedFilesImages) {
   const file = fileCurrent[0];
   var img = new Image();
@@ -1791,17 +1806,17 @@ uploadImagesEstimate() {
   const extension = (file.name.substring(file.name.lastIndexOf('.'))).toLowerCase();
   console.log(extension);
   // 1 son las imagenes
- 
-  this.uploadService.uploadFilesAll(img, this.estimateId,1, file.name).then(res=>{
+  let nameTemp= this.consecutive +file.name.replace(/\s/g,"");
+  this.uploadService.uploadFilesAll(img, this.estimateId,1, nameTemp).then(res=>{
     console.log('s3info'+JSON.stringify(res));
     this.s3info=res;
     console.log(this.s3info);
-    swal({
+    /*swal({
       title: 'Imagenes guardadas',
       type: 'success'
-     });
+     });*/
 
-     this.showSaveFile=false; 
+     swal.close();
    
     //this.insertNew();
   }).catch(error=> {
@@ -1819,9 +1834,10 @@ uploadImagesEstimate() {
 
   deleteImage(i: number){
     if( this.showSaveFile == true){
-      console.log('Este es el valor de i ');
+      console.log('Este es el valor de i ' + i);
       console.log(i);
       this.urlsImages.splice(i,1);
+      this.selectedFilesImages.splice(i,1);
     }else{
       swal({
         title: 'No se permite eliminar la imagen, debes ir a editar la cotización',
@@ -1836,6 +1852,7 @@ uploadImagesEstimate() {
     console.log('Este es el valor de i ');
     console.log(i);
     this.urlsFiles.splice(i,1);
+    this.selectedFiles.splice(i,1);
     } else{
       swal({
         title: 'No se permite eliminar la imagen, debes ir a editar la cotización',

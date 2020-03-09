@@ -597,12 +597,12 @@
             </div>
 
             </div>
-                        <div class="col-sm-2">
+                     <!---   <div class="col-sm-2">
                     <h6>TRM </h6>
                 <h3> {{  this.trmGeneralUsa }}</h3>
 
                 ESP <h3> {{  this.trmGeneralEsp }}</h3>
-                       </div>
+                       </div>-->
             </div>
             <br>
             <div class="row">
@@ -735,9 +735,11 @@
         </div>
     </div>
 </div>
+
+
         <div  *ngIf="showCreateItem" class="form-group row ">
              <div class="col-sm-6">
-                <h6><img src="assets/images/folder_image.png"  width="50" height="50" > Elegir imagenes</h6>
+                <h6><img src="assets/images/folder_image.png"  width="50" height="50" > Elegir imagen (Anexar a pdf)</h6>
                 <input type='file' (change)="onSelectFileImage($event)" >
                 <br>
                 <br>
@@ -805,7 +807,18 @@
             </div>
         </div>
 
-      
+        <div   *ngIf="showCreateItem" class="row">
+            <div class="col-sm-4">
+            </div>
+        
+            <div class="col-sm-4">
+            </div>
+            <div class="col-sm-4">
+                <div class="labelItem">
+                    <button  [routerLink]="['/master/estimateAll']" class="btn btn-primary">Guardar Cotización</button>
+                </div>
+            </div>
+        </div>
     </app-card>
         
         <!-- <div class="row"> -->

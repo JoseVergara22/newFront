@@ -354,8 +354,10 @@ uploadFileForkliftUpdate2(file) {
 
 uploadFilesAll(file:any, estimateId:number, type: number, fileName:string) {
   return new Promise(resolve =>{
+
     const contentType = file.type;
     
+    console.log('tipo de archivo '+contentType);
     let ext = fileName.split('.').pop();
     let nameTemp = fileName.split('.');
     const bucket = new S3(
@@ -377,7 +379,7 @@ uploadFilesAll(file:any, estimateId:number, type: number, fileName:string) {
           Key: nameFile,
           Body: file,
           ACL: 'public-read',
-          ContentType: 'image/'+extension
+          ContentType: contentType
       };
 
       bucket.upload(params).promise().then(resp=>{

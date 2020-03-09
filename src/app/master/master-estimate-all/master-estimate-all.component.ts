@@ -402,7 +402,13 @@ export class MasterEstimateAllComponent extends NgbDatepickerI18n {
   this.nameCustomer = item.customer.business_name;
   this.contact = item.contact;
   this.cellphone =   item.telephone;
-  this.forkliftText = item.forklift_text;
+
+  if( this.forkliftText){
+    this.forkliftText = item.forklift_text;
+  }else{
+    this.forkliftText = '';
+  }
+ 
   this.cityEstimate =  item.city.name;
   this.guarantyEstimate =  item.guaranty;
   this.validity = item.validity;
@@ -598,7 +604,12 @@ export class MasterEstimateAllComponent extends NgbDatepickerI18n {
       this.nameCustomer = row.customer.business_name;
       this.contact = row.contact;
       this.cellphone =   row.telephone;
-      this.forkliftText = row.forklift_text;
+     
+      if( this.forkliftText){
+        this.forkliftText = row.forklift_text;
+      }else{
+        this.forkliftText = '';
+      }
       this.cityEstimate =  row.city.name;
       this.guarantyEstimate =  row.guaranty;
       this.validity = row.validity;
@@ -1846,15 +1857,17 @@ img.onload = function() {
     });
   
     if(this.checkHideCode==false){
+      console.log('Ingreso codigo'+ this.checkHideCode);
     doc.autoTable({
       startY: doc.autoTable.previous.finalY,
       theme:'grid',
       styles: {fillColor: [215,215,215],lineColor:[4,1,0],lineWidth:0.2},
-      columnStyles: {0: {halign: 'center', fontSize:9, cellWidth:23}, 1: {halign: 'center', fontSize:9, cellWidth:55},2: {halign: 'center', fontSize:9, cellWidth:185},3: {halign: 'center', fontSize:9, cellWidth:27},4: {halign: 'center', fontSize:9, cellWidth:40}, 5: {halign: 'center', fontSize:9, cellWidth:39}, 6: {halign: 'center', fontSize:9, cellWidth:42}  },
+      columnStyles: {0: {halign: 'center', fontSize:9, cellWidth:23}, 1: {halign: 'center', fontSize:9, cellWidth:55},2: {halign: 'center', fontSize:9, cellWidth:175},3: {halign: 'center', fontSize:9, cellWidth:27},4: {halign: 'center', fontSize:9, cellWidth:45}, 5: {halign: 'center', fontSize:9, cellWidth:45}, 6: {halign: 'center', fontSize:9, cellWidth:42}  },
       margin: { left: 15},
       body: [['ITEM','CÓDIGO','DESCRIPCIÓN','CANT.','VLR. UNIT.','TOTAL','ENTREGA']]
     });
   }else{
+    console.log('Ingreso para ocultar codigo');
     doc.autoTable({
       startY: doc.autoTable.previous.finalY,
       theme:'grid',
@@ -1930,7 +1943,7 @@ img.onload = function() {
         startY: doc.autoTable.previous.finalY,
         theme:'grid',
         styles: {fillColor: null,lineColor:[4,1,0],lineWidth:0.2},
-        columnStyles: {0: {halign: 'center', fontSize:9, cellWidth:23},1: {halign: 'center', fontSize:9, cellWidth:190},2: {halign: 'center', fontSize:9, cellWidth:27},3: {halign: 'center', fontSize:9, cellWidth:63}, 4: {halign: 'center', fontSize:9, cellWidth:63}, 5: {halign: 'center', fontSize:9, cellWidth:46}  },
+        columnStyles: {0: {halign: 'center', fontSize:9, cellWidth:23},1: {halign: 'left', fontSize:9, cellWidth:190},2: {halign: 'center', fontSize:9, cellWidth:27},3: {halign: 'center', fontSize:9, cellWidth:63}, 4: {halign: 'center', fontSize:9, cellWidth:63}, 5: {halign: 'center', fontSize:9, cellWidth:46}  },
         margin: { left: 15},
         body: [ body_table ]
       });
@@ -1998,7 +2011,7 @@ img.onload = function() {
 
   for (let i = 0; i < this.rowsItemsparts.length; i++) {
   
-    body_table = [i+1, this.rowsItemsparts[i].description, this.rowsItemsparts[i].quantity, this.rowsItemsparts[i].price_decimal, this.rowsItemsparts[i].subtotal,
+    body_table = [i+1, this.rowsItemsparts[i].description, this.rowsItemsparts[i].quantity, this.rowsItemsparts[i].price_decimal, this.rowsItemsparts[i].subtotal_decimal,
     this.rowsItemsparts[i].delivery + ' días'];
     
     doc.autoTable({
@@ -3529,6 +3542,7 @@ this.getImgFromUrl(logo_url, function (img) {
   onChangeCode(event){
     console.log(event);
     this.checkHideCode= event.target.checked;
+    console.log('este es el evento para chekear eso');
   }
 
   

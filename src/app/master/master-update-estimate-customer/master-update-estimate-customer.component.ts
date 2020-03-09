@@ -305,7 +305,7 @@ export class MasterUpdateEstimateCustomerComponent implements OnInit {
     });
    }
 
-  
+  // este no se llama
    getConsecutive() {
    
     this.estimateService.showEstimateConsecutive().then(data => {
@@ -431,7 +431,7 @@ export class MasterUpdateEstimateCustomerComponent implements OnInit {
       
 
 
-      this.getConsecutive();
+     //  this.getConsecutive();
     
       this.getConfigEstimatesInitial();
       this.getConfigTrmInitial();
@@ -1760,7 +1760,7 @@ onSelectFileImage(event) {
     var filesAmount = event.target.files.length;
   
    
-    console.log(   this.selectedFilesImages[0]);
+   
     var filename = event.target.files[event.target.files.length-1].name;
 
  
@@ -1776,9 +1776,9 @@ onSelectFileImage(event) {
     var element=event.target.files[0];
     console.log('valor de ancho');
     console.log(element.width);
-   if(this.urlsImages.length<=4){
-    this.selectedFilesImages.push(event.target.files); 
+   if(this.urlsImages.length<1){
     if (event.target.files && event.target.files[0]) {
+      this.selectedFilesImages.push(event.target.files); 
         for (let i = 0; i < filesAmount; i++) {
                 var reader = new FileReader();
                 reader.onload = (event:any) => {
@@ -1814,7 +1814,7 @@ onSelectFileImage(event) {
   }
 }
 
-onSelectFile(event) {
+/*onSelectFile(event) {
   var filesAmount = event.target.files.length;
 
   this.selectedFiles.push(event.target.files);
@@ -1844,6 +1844,36 @@ onSelectFile(event) {
     type: 'error'
   });
   }
+}*/
+
+
+onSelectFile(event) {
+  var filesAmount = event.target.files.length;
+
+  
+  var filename = event.target.files[event.target.files.length-1].name;
+  console.log('Nombre de archivo');
+  console.log(filename);
+  //  var allowedExtensions = /(.jpg|.jpeg|.png|.gif)$/i;
+  //  console.log(allowedExtensions.exec(filename));
+  var extFilename = filename.split('.').pop();
+
+  console.log('-----');
+  console.log(extFilename);
+
+ // if(extFilename !=='jpg' && extFilename !=='jpeg' && extFilename !=='png'){
+    console.log('filename que es');
+    var filename = event.target.files[event.target.files.length-1].name;
+    console.log(filename);
+    this.urlsFiles.push(filename); 
+    this.selectedFiles.push(event.target.files);
+  /*}else{
+  swal({
+    title: 'El formato del archivo, no es correcto',
+    text: 'No se permite cargar archivos con extensión jpg, jpeg, png ',
+    type: 'error'
+  });
+  }*/
 }
 
 uploadImagesEstimate() {
@@ -1881,25 +1911,28 @@ uploadImagesEstimate() {
     });
     swal.showLoading();
 
+     console.log((this.selectedFilesImages.length).toString());
+     if(this.selectedFilesImages.length>0){
+       this.uploadFilesImages();
+     }
+ 
+    console.log((this.selectedFiles.length).toString());
+    if(this.selectedFiles.length>0){
+      this.uploadFiles();
+    }
 
     if(this.selectedFilesImages.length==0 && this.selectedFiles.length==0){
       swal({
      title: 'No hay archivos para cargar',
      type: 'error'
       });
+     }else{
+      swal({
+        title: 'Archivos guardados',
+        type: 'success'
+       });
      }
-
-    console.log((this.selectedFiles.length).toString());
-    if(this.selectedFiles.length>0){
-      this.uploadFiles();
-    }
-    console.log((this.selectedFilesImages.length).toString());
-    if(this.selectedFilesImages.length>0){
-      this.uploadFilesImages();
-    }
-
     
-   
   }
 
   uploadFiles() {
@@ -1911,14 +1944,13 @@ uploadImagesEstimate() {
     console.log(file.name + '' + file.type);
     const extension = (file.name.substring(file.name.lastIndexOf('.'))).toLowerCase();
     console.log(extension);
-    this.uploadService.uploadFilesAll(file,this.estimateId,0,file.name).then(res=>{
+    let nameTemp= this.consecutive +file.name.replace(/\s/g,"");
+    this.uploadService.uploadFilesAll(file,this.estimateId,0, nameTemp).then(res=>{
       console.log('s3info'+JSON.stringify(res));
       this.s3info=res;
       console.log(this.s3info);
-      swal({
-      title: 'Archivos guardados',
-      type: 'success'
-     });
+      swal.close();
+      this.showSaveFile=false; 
     }).catch(error=> {
       console.log(error);
       swal({
@@ -1945,17 +1977,11 @@ uploadImagesEstimate() {
   const extension = (file.name.substring(file.name.lastIndexOf('.'))).toLowerCase();
   console.log(extension);
   // 1 son las imagenes
-  this.uploadService.uploadFilesAll(file, this.estimateId,1, file.name).then(res=>{
+  let nameTemp= this.consecutive +file.name.replace(/\s/g,"");
+  this.uploadService.uploadFilesAll(file, this.estimateId,1, nameTemp).then(res=>{
     console.log('s3info'+JSON.stringify(res));
     this.s3info=res;
-    console.log(this.s3info);
-    swal({
-      title: 'Archivos guardados',
-      type: 'success'
-     });
-
-     this.showSaveFile=false; 
-   
+    swal.close();
     //this.insertNew();
   }).catch(error=> {
     console.log(error);
@@ -3112,7 +3138,7 @@ console.log('Solo se permiten numeros');
           console.log('ingreso que paso ps');
            this.estimateService.getEstimateDetailFiles(Number(this.estimateId)).then(data => {
              const resp: any = data;
-           
+           if(resp.data){
              console.log('-----------------------');
              console.log(data);
              console.log('-----------------------');
@@ -3140,6 +3166,9 @@ console.log('Solo se permiten numeros');
             // this.urls
  
              console.log('Estos son los archivos: '+data); 
+            }else{
+              this.fileEstimateTemp=[];
+            }
            }).catch(error => {
              console.log(error);
            });
