@@ -209,9 +209,251 @@ const MENUITEMS = [
   }
 ];
 
+
+const MENUCREATOR = [
+  {
+    label: 'Inicio',
+    main: [
+      {
+        state: 'master',
+        short_label: 'I',
+        name: 'Inicio',
+        type: 'sub',
+        icon: 'ti-home',
+        children: [
+          {
+            state: 'master',
+            name: 'Inicio'
+          }
+        ]
+      }
+    ]
+  },
+  {
+    label: 'master',
+    main: [
+      {
+        state: 'master',
+        short_label: 'N',
+        name: 'Mantenimiento',
+        type: 'sub',
+        icon: 'ti-pulse',
+        children: [
+          {
+            state:'work_dashboard',
+            name:'Administrar rutinas'
+          },
+       /*     {
+            state: 'register',
+            name: 'Administrar usuarios'
+          },
+        {
+            state: 'task',
+            name: 'Administrar tareas'
+          },
+          {
+            state: 'createSlider',
+            name: 'Administrar noticia'
+          },
+          {
+            state: 'changePassword',
+            name: 'Cambio de contraseña'
+          },*/
+          {
+            state: 'customers',
+            name: 'Administrar clientes'
+          },
+          {
+            state: 'forkliftShow',
+            name: 'Administrar montacargas'
+          },
+          {
+            state:'horometro',
+            name:'Administrar Horometro'
+          },
+          {
+            state: 'registerBrand',
+            name: 'Administrar Marcas'
+          },
+          {
+            state: 'registerModel',
+            name: 'Administrar modelos'
+          },
+          {
+            state: 'registerTyre',
+            name: 'Administrar tipo de llantas'
+          },
+          {
+            state: 'registerFuel',
+            name: 'Administrar combustibles'
+          },
+          {
+            state: 'registerMachine',
+            name: 'Administrar maquinas'
+          },
+          {
+            state: 'registerTypeDocument',
+            name: 'Administrar tipo documento'
+          },
+          {
+            state: 'registerPaymentCondition',
+            name:  'Administrar condiciones de pago'
+          },
+        /*  {
+            state: 'estimateCountries',
+            name:  'Administrar paises cotización'
+          },
+          {
+            state: 'priceCountriesDhl',
+            name:  'Administrar tabla DHL'
+          },
+          {
+            state: 'estimateAll',
+            name:  'Cotizaciones'
+          },
+          {
+            state: 'estimateCustomer',
+            name:  'Crear Cotizacion'
+          },
+          {
+            state: 'estimateConfiguration',
+            name:  'Configuración de cotizaciones'
+          }*/
+        ]
+      }
+    ]
+  }
+];
+
+const MENUSELLER = [
+  {
+    label: 'Inicio',
+    main: [
+      {
+        state: 'master',
+        short_label: 'I',
+        name: 'Inicio',
+        type: 'sub',
+        icon: 'ti-home',
+        children: [
+          {
+            state: 'master',
+            name: 'Inicio'
+          }
+        ]
+      }
+    ]
+  },
+  {
+    label: 'master',
+    main: [
+      {
+        state: 'master',
+        short_label: 'N',
+        name: 'Mantenimiento',
+        type: 'sub',
+        icon: 'ti-pulse',
+        children: [
+          /*   {
+            state:'work_dashboard',
+            name:'Administrar rutinas'
+          },
+         {
+            state: 'register',
+            name: 'Administrar usuarios'
+          },
+        {
+            state: 'task',
+            name: 'Administrar tareas'
+          },
+          {
+            state: 'createSlider',
+            name: 'Administrar noticia'
+          },
+          {
+            state: 'changePassword',
+            name: 'Cambio de contraseña'
+          },
+          {
+            state: 'customers',
+            name: 'Administrar clientes'
+          },
+          {
+            state: 'forkliftShow',
+            name: 'Administrar montacargas'
+          },
+          {
+            state:'horometro',
+            name:'Administrar Horometro'
+          },
+          {
+            state: 'registerBrand',
+            name: 'Administrar Marcas'
+          },
+          {
+            state: 'registerModel',
+            name: 'Administrar modelos'
+          },
+          {
+            state: 'registerTyre',
+            name: 'Administrar tipo de llantas'
+          },
+          {
+            state: 'registerFuel',
+            name: 'Administrar combustibles'
+          },
+          {
+            state: 'registerMachine',
+            name: 'Administrar maquinas'
+          },
+          {
+            state: 'registerTypeDocument',
+            name: 'Administrar tipo documento'
+          },
+          {
+            state: 'registerPaymentCondition',
+            name:  'Administrar condiciones de pago'
+          },
+          {
+            state: 'estimateCountries',
+            name:  'Administrar paises cotización'
+          },
+          {
+            state: 'priceCountriesDhl',
+            name:  'Administrar tabla DHL'
+          },
+          */ {
+            state: 'estimateAll',
+            name:  'Cotizaciones'
+          },
+          {
+            state: 'estimateCustomer',
+            name:  'Crear Cotizacion'
+          },
+        /*  {
+            state: 'estimateConfiguration',
+            name:  'Configuración de cotizaciones'
+          }*/
+        ]
+      }
+    ]
+  }
+];
+
+
+
 @Injectable()
 export class MenuItemsMasterService {
   getAll(): Menu[] {
     return MENUITEMS;
   }
+
+  getCreator(): Menu[] {
+    return MENUCREATOR;
+  }
+
+  getSeller(): Menu[] {
+    return MENUSELLER;
+  }
+  
 }

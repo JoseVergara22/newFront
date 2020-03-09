@@ -75,7 +75,8 @@ export class MasterAuthComponent implements OnInit {
     this.userService.getUserInformation(this.myForm.get('email').value)
     .then(data => {
       const resp: any = data;
-   
+      //console.log('data user: '+ JSON.stringify(resp.data[0].profile_id));
+      localStorage.setItem('profile', resp.data[0].profile_id);
       localStorage.setItem('email', resp.data[0].email);
       localStorage.setItem('username', resp.data[0].username);
       localStorage.setItem('userid', resp.data[0].id);

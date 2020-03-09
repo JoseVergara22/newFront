@@ -111,6 +111,8 @@ export class MasterAdminComponent  implements OnInit {
   public dropDownIcon: string;
   public subItemIcon: string;
 
+  public profileUserCurrent:Number;
+
   public configOpenRightBar: string;
   public displayBoxLayout: string;
   public isVerticalLayoutChecked: boolean;
@@ -123,8 +125,24 @@ export class MasterAdminComponent  implements OnInit {
   public itemBorder: boolean;
 
   public config: any;
+  public itemsFinalMenu: any; 
+  public profileText: string;
 
   constructor(public menuItems: MenuItemsMasterService, private router: Router) {
+    console.log('ingreso al admin de la plataforma');
+    this.profileUserCurrent=Number(localStorage.getItem('profile'));
+
+    if( this.profileUserCurrent==1){
+      this.profileText='Administrador';
+      this.itemsFinalMenu=menuItems.getAll();
+    }else if( this.profileUserCurrent==2){
+      this.profileText='Operación';
+      this.itemsFinalMenu=menuItems.getCreator();
+    }else if( this.profileUserCurrent==3){
+      this.profileText='Comercial';
+      this.itemsFinalMenu=menuItems.getSeller();
+    }
+
     this.navType = 'st2';
     this.themeLayout = 'vertical';
     this.verticalPlacement = 'left';

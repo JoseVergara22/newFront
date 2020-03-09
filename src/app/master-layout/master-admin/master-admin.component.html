@@ -87,7 +87,7 @@
                         <li (clickOutside)="notificationOutsideClick('profile')" class="user-profile header-notification" [ngClass]="profileNotificationClass" (click)="toggleProfileNotification()">
                             <a href="javascript:">
                                 <img src="assets/images/profile.png" class="img-radius" alt="User-Profile-Image">
-                                <span>Administrador</span>
+                                <span>{{profileText}}</span>
                                 <i class="ti-angle-down"></i>
                             </a>
                             <ul [@notificationBottom]="profileNotification" class="show-notification profile-notification">
@@ -234,8 +234,10 @@
                     sub-item-theme="theme2" active-item-style="style0" [attr.pcoded-navbar-position]="pcodedSidebarPosition">
                     <div class="pcoded-inner-navbar main-menu" appAccordion>
                         <perfect-scrollbar [style.max-width]="'235px'" [style.max-height]="sidebarFixedHeight" [config]="config">
-                            <span *ngFor="let asideItems of menuItems.getAll()" class="d-color">
-                <div class="pcoded-navigation-label" [attr.menu-title-theme]="menuTitleTheme">{{asideItems.label}}</div>
+                            <div *ngIf="itemsFinalMenu">
+                            <span    *ngFor="let asideItems of itemsFinalMenu" class="d-color">                           
+                                <!-- implementa permisos por el momento -->
+                                <div class="pcoded-navigation-label" [attr.menu-title-theme]="menuTitleTheme">{{asideItems.label}}</div>
                 <ul class="pcoded-item pcoded-left-item" [attr.item-border]="itemBorder" [attr.item-border-style]="itemBorderStyle" [attr.subitem-border]="subItemBorder" *ngFor="let asideItem of asideItems.main" appAccordionLink group="{{asideItem.state}}">
                   <li [routerLinkActive]="['active']" *ngIf="asideItem.type === 'external'" appAccordionLink group="{{asideItem.state}}">
                     <a href="{{asideItem.external}}" target="{{asideItem.target ? '_blank' : '_self'}}" appAccordionToggle>
@@ -306,6 +308,7 @@
                             </li>
                             </ul>
                             </span>
+                            </div>
                         </perfect-scrollbar>
                     </div>
                 </nav>
