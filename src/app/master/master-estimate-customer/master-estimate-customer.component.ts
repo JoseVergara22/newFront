@@ -2145,9 +2145,15 @@ upload() {
     if((this.validity.toString()).length<=2){
 
         if(this.validateEmail(this.email)){
-          if(this.selectedBusinessId.id){
+          if(this.selectedBusinessId){
+            console.log('paso por aca ');
+            
+            console.log(this.selectedBusinessId);
             this.createEstimate();
          }else{
+          console.log('paso por aca ');
+          
+          console.log(this.selectedBusinessId);
            this.createNewCustomer();
          }
         }else{
@@ -2462,7 +2468,7 @@ console.log();
 
       if(this.validateEmail(this.email)){
 
-    if(this.selectedBusinessId.id){
+    if(this.selectedBusinessId){
       this.updateEstimate();
    }else{
      this.updateNewCustomer();

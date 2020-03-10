@@ -206,7 +206,7 @@ export class MasterCustomersComponent implements OnInit {
   }
 
 updateBrand(customeRow: any) {
-  this.router.navigateByUrl('master/customersUpdate/' + customeRow.id);
+  this.router.navigateByUrl('mantenimiento/customersUpdate/' + customeRow.id);
   /*console.log(brand);
   this.currentBrand = brand;
   console.log( this.currentBrand );
@@ -272,7 +272,7 @@ updateBrand(customeRow: any) {
 
 
   sendCustomer(){
-    this.router.navigateByUrl('/master/registerCustomer');
+    this.router.navigateByUrl('/mantenimiento/registerCustomer');
   }
 
   

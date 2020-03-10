@@ -436,11 +436,11 @@ updateForklift(forklift:any) {
 
   showForklift(forklift:any){
     console.log(forklift);
-    this.router.navigateByUrl('master/forkliftShow/' + forklift.id);
+    this.router.navigateByUrl('mantenimiento/forkliftShow/' + forklift.id);
   }
 
   sendForklift() {
-    this.router.navigateByUrl('/master/registerForklift');
+    this.router.navigateByUrl('/mantenimiento/registerForklift');
   }
   
   ngOnInit() {

@@ -276,7 +276,7 @@ export class MasterHorometroComponent implements OnInit {
 
 updateForklift(forklift:any) {
   console.log(forklift);
-  this.router.navigateByUrl('master/forkliftUpdate/' + forklift.id);
+  this.router.navigateByUrl('mantenimiento/forkliftUpdate/' + forklift.id);
 }
 
 
@@ -285,7 +285,7 @@ updateForklift(forklift:any) {
 
 
   sendForklift() {
-    this.router.navigateByUrl('/master/registerForklift');
+    this.router.navigateByUrl('/mantenimiento/registerForklift');
   }
 
   ngOnInit() {

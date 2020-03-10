@@ -51,12 +51,12 @@ export class MasterWorkDashboardComponent implements OnInit {
   }
 
   redirecttodetails(){
-    this.router.navigateByUrl('master/work_details');
+    this.router.navigateByUrl('mantenimiento/work_details');
   }
 
   goToTpdateView(workrow:any){
     console.log(workrow.description);
-    this.router.navigateByUrl('master/work_detailsUpdate/'+workrow.description);
+    this.router.navigateByUrl('mantenimiento/work_detailsUpdate/'+workrow.description);
   }
   deleteWorkHeader(workrow:any){
     swal({

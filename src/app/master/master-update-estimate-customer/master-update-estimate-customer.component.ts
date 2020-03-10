@@ -2408,8 +2408,10 @@ upload() {
 
         if(this.validateEmail(this.email)){
           if(this.selectedBusinessId.id){
+            console.log('paso por aca ');
             this.createEstimate();
          }else{
+           console.log('paso por aca ');
            this.createNewCustomer();
          }
         }else{
@@ -2707,9 +2709,16 @@ console.log();
 
       if(this.validateEmail(this.email)){
 
-    if(this.selectedBusinessId.id){
+    if(this.selectedBusinessId){
       this.updateEstimate();
+      console.log('entron ');
+      
+      console.log(this.selectedBusinessId);
+      
    }else{
+    console.log('entron ');
+    
+      console.log(this.selectedBusinessId);
      this.updateNewCustomer();
    }
   }else{

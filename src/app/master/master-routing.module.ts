@@ -129,7 +129,7 @@ const routes: Routes = [
     component:  MasterPaymentConditionComponent
   },
   {
-    path: 'customers',
+    path: "customers",
     component:  MasterCustomersComponent
   },
   {
@@ -172,7 +172,6 @@ const routes: Routes = [
   },{
     path: 'estimateAll',
     component:   MasterEstimateAllComponent
-    
   },{
     path: 'estimateConfiguration',
     component:    MasterEstimateConfigurationComponent
@@ -185,8 +184,10 @@ const routes: Routes = [
   },{
     path: 'privacyPolicy',
     component:    MasterPrivacyPolicyComponent
+  },{
+    path: 'administrarclientes',
+    component: MasterPrivacyPolicyComponent
   }
- 
 ];
 
 

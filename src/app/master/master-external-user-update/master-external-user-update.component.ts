@@ -226,7 +226,7 @@ export class MasterExternalUserUpdateComponent implements OnInit {
           console.log(resp);
           if (resp.success == false) {
             swal({
-              text: 'No se encontraron sucursales asociadas.'
+              titleText: 'No se encontraron sucursales asociadas.'
              });
           } else {
             console.log('info de userOffices para update');

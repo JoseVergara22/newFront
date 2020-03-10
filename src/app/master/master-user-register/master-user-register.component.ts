@@ -379,12 +379,12 @@ export class MasterUserRegisterComponent implements OnInit {
 
     document.getElementById( 'uploadUser').click();*/
     console.log(row);
-    this.router.navigateByUrl('master/externalUserUpdate/' + row.id);
+    this.router.navigateByUrl('mantenimiento/externalUserUpdate/' + row.id);
 
   }
 
   createdUser() {
-    this.router.navigateByUrl('master/externalUser');
+    this.router.navigateByUrl('mantenimiento/externalUser');
   }
 
 

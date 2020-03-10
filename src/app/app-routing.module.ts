@@ -120,9 +120,24 @@ const routes: Routes = [
       {
         path: 'master',
         loadChildren: './master/master.module#MasterModule'
+      },{
+        path: 'mantenimiento',
+        loadChildren: './master/master.module#MasterModule'
+      },{
+        path: 'configuracion',
+        loadChildren: './master/master.module#MasterModule'
       }
+
     ]
-  },
+  }/*,
+  {
+    path: 'master/mantenimiento',
+    component: MasterAdminComponent,
+    children: [{
+      path: 'mantenimiento',
+      loadChildren: './master/master.module#MasterModule'
+    }]
+  }*/,
   {path: 'doLogin', component: MasterAuthComponent}
 ];
 
