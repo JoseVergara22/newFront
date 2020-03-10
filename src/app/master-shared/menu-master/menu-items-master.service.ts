@@ -50,39 +50,16 @@ const MENUITEMS = [
     ]
   },
   {
-    label: 'Modulos',
+    label: 'erp',
     main: [
       {
-        state: 'erp',
+        state: 'master',
         short_label: 'E',
         name: 'ERP',
         type: 'sub',
         icon: 'ti-direction',
         children: [
-          {
-            state: 'administrarcliente',
-            name: 'Administración de clientes'
-          },
-          {
-            state: 'cotización',
-            name: 'Cotización'
-          },
-          {
-            state: 'liquidaciondervicios',
-            name: 'liquidación de servicios'
-          },
-          {
-            state: 'listarliquidaciones',
-            name: 'Listar liquidaciones'
-          },
-          {
-            state: 'reportarcostos',
-            name: 'Reportar costos'
-          },
-          {
-            state: 'administrarlistas',
-            name: 'Administrar lista de precios'
-          }
+          
         ]
       }
     ],
@@ -105,10 +82,10 @@ const MENUITEMS = [
             state: 'register',
             name: 'Administrar usuarios'
           },
-          {
+         /*{
             state: 'task',
             name: 'Administrar tareas'
-          },
+          },*/
           {
             state: 'createSlider',
             name: 'Administrar noticia'
@@ -158,20 +135,20 @@ const MENUITEMS = [
             name:  'Administrar condiciones de pago'
           },
           {
-            state: 'estimateCountries',
-            name:  'Administrar paises cotización'
-          },
-          {
-            state: 'priceCountriesDhl',
-            name:  'Administrar tabla DHL'
-          },
-          {
             state: 'estimateAll',
             name:  'Cotizaciones'
           },
           {
             state: 'estimateCustomer',
             name:  'Crear Cotizacion'
+          },
+          {
+            state: 'estimateCountries',
+            name:  'Administrar paises cotización'
+          },
+          {
+            state: 'priceCountriesDhl',
+            name:  'Administrar tabla DHL'
           },
           {
             state: 'estimateConfiguration',
@@ -230,6 +207,21 @@ const MENUCREATOR = [
     ]
   },
   {
+    label: 'Modulos',
+    main: [
+      {
+        state: 'erp',
+        short_label: 'E',
+        name: 'ERP',
+        type: 'sub',
+        icon: 'ti-direction',
+        children: [
+         
+        ]
+      }
+    ],
+  },
+  {
     label: 'master',
     main: [
       {
@@ -239,6 +231,15 @@ const MENUCREATOR = [
         type: 'sub',
         icon: 'ti-pulse',
         children: [
+  
+          {
+            state: 'estimateAll',
+            name:  'Cotizaciones'
+          },
+          {
+            state: 'estimateCustomer',
+            name:  'Crear Cotizacion'
+          },
           {
             state:'work_dashboard',
             name:'Administrar rutinas'
@@ -298,7 +299,7 @@ const MENUCREATOR = [
           {
             state: 'registerPaymentCondition',
             name:  'Administrar condiciones de pago'
-          },
+          }
         /*  {
             state: 'estimateCountries',
             name:  'Administrar paises cotización'
@@ -306,16 +307,9 @@ const MENUCREATOR = [
           {
             state: 'priceCountriesDhl',
             name:  'Administrar tabla DHL'
-          },
-          {
-            state: 'estimateAll',
-            name:  'Cotizaciones'
-          },
-          {
-            state: 'estimateCustomer',
-            name:  'Crear Cotizacion'
-          },
-          {
+          },*/
+       
+         /* {
             state: 'estimateConfiguration',
             name:  'Configuración de cotizaciones'
           }*/
@@ -349,80 +343,12 @@ const MENUSELLER = [
     main: [
       {
         state: 'master',
-        short_label: 'N',
-        name: 'Mantenimiento',
+        short_label: 'E',
+        name: 'ERP',
         type: 'sub',
-        icon: 'ti-pulse',
+        icon: 'ti-direction',
         children: [
-          /*   {
-            state:'work_dashboard',
-            name:'Administrar rutinas'
-          },
-         {
-            state: 'register',
-            name: 'Administrar usuarios'
-          },
-        {
-            state: 'task',
-            name: 'Administrar tareas'
-          },
           {
-            state: 'createSlider',
-            name: 'Administrar noticia'
-          },
-          {
-            state: 'changePassword',
-            name: 'Cambio de contraseña'
-          },
-          {
-            state: 'customers',
-            name: 'Administrar clientes'
-          },
-          {
-            state: 'forkliftShow',
-            name: 'Administrar montacargas'
-          },
-          {
-            state:'horometro',
-            name:'Administrar Horometro'
-          },
-          {
-            state: 'registerBrand',
-            name: 'Administrar Marcas'
-          },
-          {
-            state: 'registerModel',
-            name: 'Administrar modelos'
-          },
-          {
-            state: 'registerTyre',
-            name: 'Administrar tipo de llantas'
-          },
-          {
-            state: 'registerFuel',
-            name: 'Administrar combustibles'
-          },
-          {
-            state: 'registerMachine',
-            name: 'Administrar maquinas'
-          },
-          {
-            state: 'registerTypeDocument',
-            name: 'Administrar tipo documento'
-          },
-          {
-            state: 'registerPaymentCondition',
-            name:  'Administrar condiciones de pago'
-          },
-          {
-            state: 'estimateCountries',
-            name:  'Administrar paises cotización'
-          },
-          {
-            state: 'priceCountriesDhl',
-            name:  'Administrar tabla DHL'
-          },
-          */ {
             state: 'estimateAll',
             name:  'Cotizaciones'
           },
@@ -430,13 +356,9 @@ const MENUSELLER = [
             state: 'estimateCustomer',
             name:  'Crear Cotizacion'
           },
-        /*  {
-            state: 'estimateConfiguration',
-            name:  'Configuración de cotizaciones'
-          }*/
         ]
       }
-    ]
+    ],
   }
 ];
 
@@ -455,5 +377,5 @@ export class MenuItemsMasterService {
   getSeller(): Menu[] {
     return MENUSELLER;
   }
-  
+
 }
