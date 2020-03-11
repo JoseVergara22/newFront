@@ -1903,6 +1903,9 @@ uploadImagesEstimate() {
 }
   }
 
+  removeAccents (str){
+    return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+  }
 
   uploadAll(){
     swal({
@@ -1944,7 +1947,7 @@ uploadImagesEstimate() {
     console.log(file.name + '' + file.type);
     const extension = (file.name.substring(file.name.lastIndexOf('.'))).toLowerCase();
     console.log(extension);
-    let nameTemp= this.consecutive +file.name.replace(/\s/g,"");
+    let nameTemp= this.removeAccents(this.consecutive +file.name.replace(/\s/g,""));
     this.uploadService.uploadFilesAll(file,this.estimateId,0, nameTemp).then(res=>{
       console.log('s3info'+JSON.stringify(res));
       this.s3info=res;
@@ -1977,7 +1980,7 @@ uploadImagesEstimate() {
   const extension = (file.name.substring(file.name.lastIndexOf('.'))).toLowerCase();
   console.log(extension);
   // 1 son las imagenes
-  let nameTemp= this.consecutive +file.name.replace(/\s/g,"");
+  let nameTemp= this.removeAccents(this.consecutive +file.name.replace(/\s/g,""));
   this.uploadService.uploadFilesAll(file, this.estimateId,1, nameTemp).then(res=>{
     console.log('s3info'+JSON.stringify(res));
     this.s3info=res;

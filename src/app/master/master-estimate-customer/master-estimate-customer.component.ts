@@ -220,6 +220,7 @@ export class MasterEstimateCustomerComponent implements OnInit {
   urlsImages = [];
   urlsFiles = [];
 
+
   separador: "." ;// separador para los miles
   sepDecimal: ',';
 
@@ -277,7 +278,10 @@ export class MasterEstimateCustomerComponent implements OnInit {
     });
    }
 
-  
+   removeAccents (str){
+    return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+  } 
+
    getConsecutive() {
    
     this.estimateService.showEstimateConsecutive().then(data => {
@@ -1628,6 +1632,28 @@ let content2="<table align='center'  width='100%' cellpadding='0' cellspacing='0
 doc.save('Test.pdf');
 }
 
+normalize(element: string) {
+  var from = "ÃÀÁÄÂÈÉËÊÌÍÏÎÒÓÖÔÙÚÜÛãàáäâèéëêìíïîòóöôùúüûÑñÇç", 
+      to   = "AAAAAEEEEIIIIOOOOUUUUaaaaaeeeeiiiioooouuuunncc",
+      mapping = {};
+ 
+  for(var i = 0, j = from.length; i < j; i++ )
+      mapping[ from.charAt( i ) ] = to.charAt( i );
+ 
+  return function( str ) {
+      var ret = [];
+      for( var i = 0, j = str.length; i < j; i++ ) {
+          var c = str.charAt( i );
+          if( mapping.hasOwnProperty( str.charAt( i ) ) )
+              ret.push( mapping[ c ] );
+          else
+              ret.push( c );
+      }      
+      return ret.join( '' );
+  }
+}
+
+
 onSelectFileImage(event) {
 
    console.log('tamaño de la imagen: '+ event.target.files.length);
@@ -1762,7 +1788,7 @@ uploadImagesEstimate() {
    // console.log(uuid);
     console.log(file.name + '.' + file.type);
 
-    let nameTemp= this.consecutive +file.name.replace(/\s/g,"");
+    let nameTemp= this.removeAccents(this.consecutive +file.name.replace(/\s/g,""));
     const extension = (file.name.substring(file.name.lastIndexOf('.'))).toLowerCase();
     console.log(extension);
     this.uploadService.uploadFilesAll(file,this.estimateId,0,nameTemp).then(res=>{
@@ -1806,7 +1832,8 @@ uploadImagesEstimate() {
   const extension = (file.name.substring(file.name.lastIndexOf('.'))).toLowerCase();
   console.log(extension);
   // 1 son las imagenes
-  let nameTemp= this.consecutive +file.name.replace(/\s/g,"");
+  let nameTemp= this.removeAccents(this.consecutive +file.name.replace(/\s/g,""));
+  // let nameTemp= this.consecutive +file.name.replace(/\s/g,"");
   this.uploadService.uploadFilesAll(img, this.estimateId,1, nameTemp).then(res=>{
     console.log('s3info'+JSON.stringify(res));
     this.s3info=res;

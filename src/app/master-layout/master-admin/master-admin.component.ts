@@ -135,10 +135,10 @@ export class MasterAdminComponent  implements OnInit {
     if( this.profileUserCurrent==1){
       this.profileText='Administrador';
       this.itemsFinalMenu=menuItems.getAll();
-    }else if( this.profileUserCurrent==2){
+    }else if( this.profileUserCurrent==3){
       this.profileText='Operación';
       this.itemsFinalMenu=menuItems.getCreator();
-    }else if( this.profileUserCurrent==3){
+    }else if( this.profileUserCurrent==2){
       this.profileText='Comercial';
       this.itemsFinalMenu=menuItems.getSeller();
     }
