@@ -509,8 +509,9 @@ this.trmGeneralUsa= inputTrm.value.replace(/[^\d\.]*/g,'');
     this.selectedDepartmentId = this.selectedBusinessId.department_id;
    
     this.getCities();
+ // if(this.selectedBusinessId.id!=0){
 
-    if(this.selectedBusinessId.id!=0){
+    if(this.selectedBusinessId!=0){
     this.forkliftService.getForkliftsCustomerFull(this.selectedBusinessId.id).then(data => {
       const resp: any = data;
       console.log(data);
@@ -526,6 +527,7 @@ this.trmGeneralUsa= inputTrm.value.replace(/[^\d\.]*/g,'');
       console.log(error);
     });
   }
+
    }
 
 
@@ -2242,12 +2244,15 @@ upload() {
 
     let customerIdTemp;
 
+    if(this.selectedBusinessId!=0){
     if(this.selectedBusinessId.id){
        customerIdTemp= Number(this.selectedBusinessId.id);
     }else{
       customerIdTemp= Number(this.idCustomerCreated);
-    }
-    
+    }// en este else no entraría si funciona
+    }else{
+    customerIdTemp= Number(this.idCustomerCreated);
+   }
     
     let documentCustomerTemp= this.documentCustomer;
     let nameCustomerTemp = this.nameCustomer;
@@ -2527,13 +2532,16 @@ console.log();
     let consecutiveTemp= Number(this.consecutive);
 
     let customerIdTemp;
-
+    if(this.selectedBusinessId!=0){
     if(this.selectedBusinessId.id){
        customerIdTemp= Number(this.selectedBusinessId.id);
     }else{
       customerIdTemp= Number(this.idCustomerCreated);
-    }
-    
+    }// en este else no entraría si funciona
+    }else{
+    customerIdTemp= Number(this.idCustomerCreated);
+   }
+  
     let documentCustomerTemp= this.documentCustomer;
     let nameCustomerTemp = this.nameCustomer;
     let idDepartmentTemp = this.selectedDepartmentId;
