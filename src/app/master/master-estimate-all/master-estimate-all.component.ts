@@ -723,12 +723,17 @@ export class MasterEstimateAllComponent extends NgbDatepickerI18n {
         emailsName=emailsName+this.emailsSend[i].email+'|'+this.emailsSend[i].contact;
      }
 
+     if( this.masterEmail != '' &&  this.masterName != '' ){
+
+      emailsName= this.masterEmail+'|'+ this.masterName+'|'+ emailsName;
+    }
+
      console.log('------------------');
      console.log(emailsName);
      console.log('---------------------');
 
       if(this.emailsSend.length>0){
-
+      
 
       this.estimateService.sendEstimateEmailAmazon(//sendEstimateEmailAmazon
         this.estimateCurrent.elaborate_user_id, this.estimateCurrent.customer_id, this.estimateCurrent.id,
@@ -748,7 +753,40 @@ export class MasterEstimateAllComponent extends NgbDatepickerI18n {
             title: 'Correo enviado',
             type: 'success'
            });  
+           this.masterEmail='';
+           this.masterName='';
+
+           this.checkHideCode=false;
          
+        }).catch(error => {
+          console.log(error);
+        });
+      }).catch(error => {
+        console.log(error);
+      });
+    }else if( this.masterEmail != '' &&  this.masterName != '' ){
+
+      this.estimateService.sendEstimateEmailAmazon(//sendEstimateEmailAmazon
+        this.estimateCurrent.elaborate_user_id, this.estimateCurrent.customer_id, this.estimateCurrent.id,
+        emailsName.trim(),this.comment,subjectTemp).then(data => {
+        const resp: any = data;
+        console.log('envio');
+        console.log(resp);
+     
+         this.estimateService.updateEstimateStatus(
+          this.estimateCurrent.id, 1).then(data => {
+          const resp: any = data;
+          console.log('envio');
+          console.log(resp);
+          this.getEstimateFiltersInitial();
+          document.getElementById('emailDetailHide').click();
+          swal({
+            title: 'Correo enviado',
+            type: 'success'
+           });  
+           this.masterEmail='';
+           this.masterName='';
+           this.checkHideCode=false;
         }).catch(error => {
           console.log(error);
         });

@@ -154,7 +154,7 @@ export class MasterEstimateCustomerComponent implements OnInit {
   documentCustomer:any;
   nameCustomer:any;
   cellphone:any;
-  contact:any;
+  contact:any='';
   email:any;
   days:any=0;
   trmGeneralUsa:any;
@@ -504,7 +504,7 @@ this.trmGeneralUsa= inputTrm.value.replace(/[^\d\.]*/g,'');
     this.nameCustomer = this.selectedBusinessId.business_name;
     this.cellphone = this.selectedBusinessId.telephone;
     this.contact =  this.selectedBusinessId.name+''+ this.selectedBusinessId.last_name;
-    this.email =  this.selectedBusinessId.email;
+   //  this.email =  this.selectedBusinessId.email;
     this.days = this.selectedBusinessId.day;
     this.selectedDepartmentId = this.selectedBusinessId.department_id;
    
@@ -2166,14 +2166,14 @@ upload() {
    
     if(this.documentCustomer !== '' && this.nameCustomer !== '' && this.selectedDepartmentId != 0 && this.selectedCityId != 0 &&
     this.days !== '' && this.guaranty !== ''  && this.contact !== '' &&
-    this.email !== '' &&  this.validity!== ''){
+    this.validity!== ''){
       console.log((this.days.toString()).length);
 
       if( (this.days.toString()).length<=2){
         if( ( this.guaranty.toString()).length<=3){
     if((this.validity.toString()).length<=2){
 
-        if(this.validateEmail(this.email)){
+     //   if(this.validateEmail(this.email)){
           if(this.selectedBusinessId){
             console.log('paso por aca ');
             
@@ -2185,13 +2185,13 @@ upload() {
           console.log(this.selectedBusinessId);
            this.createNewCustomer();
          }
-        }else{
+      /*  }else{
           swal({
             title: 'Se presento un problema',
             text:'Debe ingresar un correo electrónico valido',
             type: 'error'
            });
-        }
+        }*/
   }else{
     swal({
       title: 'Se presento un problema',
@@ -2223,11 +2223,11 @@ upload() {
 
   }
 
-  validateEmail( email ) 
-{
+ /* validateEmail( email ) 
+{ 
     var regex = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
     return regex.test(email) ? true : false;
-}
+}*/
   
   
 
@@ -2270,7 +2270,7 @@ upload() {
 console.log();
     this.estimateService.createEstimate(consecutiveTemp,customerIdTemp,documentCustomerTemp,
       idDepartmentTemp, selectedCityTemp, selectedForkliftIdTemp,
-      contactTemp, daysTemp, guarantyTemp, validityTemp, cellphoneTemp, observationTemp,0,this.email,0, forkliftTextTemp).then(data => {
+      contactTemp, daysTemp, guarantyTemp, validityTemp, cellphoneTemp, observationTemp,0,'',0, forkliftTextTemp).then(data => {
       const resp: any = data;
       console.log(resp);
       this.estimateId= resp.data.id;
@@ -2493,25 +2493,25 @@ console.log();
   updateEstimateCondition(){
     console.log('Ingresa ps');        
     if(this.documentCustomer !== '' && this.nameCustomer !== '' && this.selectedDepartmentId != 0 && this.selectedCityId != 0 &&
-    this.days !== '' && this.guaranty !== ''  && this.contact !== '' &&
-    this.email !== '' &&  this.validity!== ''){
+    this.days !== '' && this.guaranty !== ''  && this.contact !== '' &&  this.validity!== ''){
     
       console.log('-- '+this.selectedCityId );
 
-      if(this.validateEmail(this.email)){
+     // if(this.validateEmail(this.email)){
 
     if(this.selectedBusinessId){
       this.updateEstimate();
    }else{
      this.updateNewCustomer();
    }
-  }else{
+ /*  }else{
     swal({
       title: 'Se presento un problema',
       text:'Debe ingresar un correo electrónico valido',
       type: 'error'
      });
-  }}else{
+  }*/
+}else{
     swal({
       title: 'Se presento un problema',
       text:'Debe diligenciar los valores obligatorios(*)',
@@ -2558,7 +2558,7 @@ console.log();
     console.log('Ole: '+forkliftTextTemp);
     this.estimateService.updateEstimate(this.estimateId, customerIdTemp,documentCustomerTemp,
       idDepartmentTemp, selectedCityTemp, selectedForkliftIdTemp,
-      contactTemp, daysTemp, guarantyTemp, validityTemp, cellphoneTemp, observationTemp,0,this.email,0,
+      contactTemp, daysTemp, guarantyTemp, validityTemp, cellphoneTemp, observationTemp,0, '',0,
       forkliftTextTemp).then(data => {
       const resp: any = data;
       this.estimateId= resp.data.id;

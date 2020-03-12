@@ -107,7 +107,7 @@
                 </div>
             </div>
             <div class="col-sm-12">
-                <input type="checkbox" name="Ocultar codigo de repuesto" value="" (change)="onChangeCode($event)" />
+                <input type="checkbox" name="Ocultar codigo de repuesto"  [(ngModel)]="checkHideCode" (change)="onChangeCode($event)"  />
                 <label>Ocultar codigo de repuesto</label>
             </div>
 

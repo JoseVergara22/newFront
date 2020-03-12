@@ -514,8 +514,8 @@ this.selectedFuelId);
      
           if (resp.success === false) {
             swal({
-              title: 'Este tercero ya esta registrado',
-              text: 'Este tercero no se puede registrar',
+              title: 'Este equipo ya se encuentra registrado',
+              text: 'La serie ya se encuentra registrada en otro equipo',
               type: 'error'
              });
           } else {

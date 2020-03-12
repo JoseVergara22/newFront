@@ -167,7 +167,7 @@ export class MasterUpdateEstimateCustomerComponent implements OnInit {
   documentCustomer:any;
   nameCustomer:any;
   cellphone:any;
-  contact:any;
+  contact:any='';
   email:any;
   days:any;
   trmGeneralUsa:any;
@@ -176,7 +176,7 @@ export class MasterUpdateEstimateCustomerComponent implements OnInit {
   validity:any;
   departments: any;
   cities: any;
-  observation:any;
+  observation:any='';
   selectedBusinessId:any=0;
   estimateId=null;
   showEstimateId=false;
@@ -226,7 +226,7 @@ export class MasterUpdateEstimateCustomerComponent implements OnInit {
   idCustomerCreated:any;
   itemEnd = [];
 
-  observationUpdate:any;
+  observationUpdate:any='';
   validityUpdate:any;
 
   idDetail:any;
@@ -421,7 +421,7 @@ export class MasterUpdateEstimateCustomerComponent implements OnInit {
       this.days = this.currentEstimate.payment_method;
       this.guaranty = this.currentEstimate.guaranty;
       this.contact = this.currentEstimate.contact;
-      this.email = this.currentEstimate.email;
+    //  this.email = this.currentEstimate.email;
       this.validity = this.currentEstimate.validity;
       this.cellphone = this.currentEstimate.telephone;
       this.observation = this.currentEstimate.observation;
@@ -2406,10 +2406,9 @@ upload() {
     // Validar condiciones
 
     if(this.documentCustomer !== '' && this.nameCustomer !== '' && this.selectedDepartmentId != 0 && this.selectedCityId != 0 &&
-    this.days !== '' && this.guaranty !== ''  && this.contact !== '' &&
-    this.email !== '' &&  this.validity!== ''){
+    this.days !== '' && this.guaranty !== ''  && this.contact !== '' &&  this.validity!== ''){
 
-        if(this.validateEmail(this.email)){
+       
           if(this.selectedBusinessId.id){
             console.log('paso por aca ');
             this.createEstimate();
@@ -2417,13 +2416,7 @@ upload() {
            console.log('paso por aca ');
            this.createNewCustomer();
          }
-        }else{
-          swal({
-            title: 'Se presento un problema',
-            text:'Debe ingresar un correo electrónico valido',
-            type: 'error'
-           });
-        }
+       
     }else{
       swal({
         title: 'Se presento un problema',
@@ -2435,11 +2428,11 @@ upload() {
     
   }
 
-  validateEmail( email ) 
+ /* validateEmail( email ) 
 {
     var regex = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
     return regex.test(email) ? true : false;
-}
+}*/
   
   
 
@@ -2479,7 +2472,7 @@ upload() {
 console.log();
     this.estimateService.createEstimate(consecutiveTemp,customerIdTemp,documentCustomerTemp,
       idDepartmentTemp, selectedCityTemp, selectedForkliftIdTemp,
-      contactTemp, daysTemp, guarantyTemp, validityTemp, cellphoneTemp, observationTemp,0,this.email,0, forkliftTextTemp).then(data => {
+      contactTemp, daysTemp, guarantyTemp, validityTemp, cellphoneTemp, observationTemp,0,'',0, forkliftTextTemp).then(data => {
       const resp: any = data;
       console.log(resp);
       this.estimateId= resp.data.id;
@@ -2705,12 +2698,11 @@ console.log();
   updateEstimateCondition(){
     console.log('Ingresa ps');        
     if(this.documentCustomer !== '' && this.nameCustomer !== '' && this.selectedDepartmentId != 0 && this.selectedCityId != 0 &&
-    this.days !== '' && this.guaranty !== ''  && this.contact !== '' &&
-    this.email !== '' &&  this.validity!== ''){
+    this.days !== '' && this.guaranty !== ''  && this.contact !== ''  &&  this.validity!== ''){
     
       console.log('-- '+this.selectedCityId );
 
-      if(this.validateEmail(this.email)){
+    //  if(this.validateEmail(this.email)){
 
     if(this.selectedBusinessId){
       this.updateEstimate();
@@ -2724,13 +2716,14 @@ console.log();
       console.log(this.selectedBusinessId);
      this.updateNewCustomer();
    }
-  }else{
+ /* }else{
     swal({
       title: 'Se presento un problema',
       text:'Debe ingresar un correo electrónico valido',
       type: 'error'
      });
-  }}else{
+  }*/
+}else{
     swal({
       title: 'Se presento un problema',
       text:'Debe diligenciar los valores obligatorios(*)',
@@ -2774,7 +2767,7 @@ console.log();
     console.log('Ole'+forkliftTextTemp);
     this.estimateService.updateEstimate(this.estimateId, customerIdTemp,documentCustomerTemp,
       idDepartmentTemp, selectedCityTemp, selectedForkliftIdTemp,
-      contactTemp, daysTemp, guarantyTemp, validityTemp, cellphoneTemp, observationTemp,0,this.email,0,
+      contactTemp, daysTemp, guarantyTemp, validityTemp, cellphoneTemp, observationTemp,0,'',0,
       forkliftTextTemp).then(data => {
       const resp: any = data;
       this.estimateId= resp.data.id;
