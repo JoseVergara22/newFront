@@ -471,6 +471,8 @@ this.trmGeneralUsa= inputTrm.value.replace(/[^\d\.]*/g,'');
         swal.close();
         this.cities = resp.data;
         if(this.selectedBusinessId.city_id){
+          console.log('this.selectedBusinessId.city_id');
+          console.log(this.selectedBusinessId.city_id);
           this.selectedCityId=this.selectedBusinessId.city_id;
         }
         console.log( this.cities);
@@ -502,6 +504,8 @@ this.trmGeneralUsa= inputTrm.value.replace(/[^\d\.]*/g,'');
 
     this.documentCustomer = this.selectedBusinessId.document_id;
     this.nameCustomer = this.selectedBusinessId.business_name;
+    console.log('this.selectedBusinessId.business_name');
+    console.log(this.selectedBusinessId.business_name);
     this.cellphone = this.selectedBusinessId.telephone;
     this.contact =  '';
    //  this.email =  this.selectedBusinessId.email;
@@ -512,6 +516,9 @@ this.trmGeneralUsa= inputTrm.value.replace(/[^\d\.]*/g,'');
  // if(this.selectedBusinessId.id!=0){
 
     if(this.selectedBusinessId!=0){
+    console.log('this.selectedBusinessId.id');
+    console.log(this.selectedBusinessId.id);
+
     this.forkliftService.getForkliftsCustomerFull(this.selectedBusinessId.id).then(data => {
       const resp: any = data;
       console.log(data);
@@ -2164,7 +2171,7 @@ upload() {
 
     // Validar condiciones
    
-    if(this.documentCustomer !== '' && this.nameCustomer !== '' && this.selectedDepartmentId != 0 && this.selectedCityId != 0 &&
+    if(this.documentCustomer !== '' && this.selectedBusinessId != 0 && this.nameCustomer !== '' && this.selectedDepartmentId != 0 && this.selectedCityId != 0 &&
     this.days !== '' && this.guaranty !== ''  && this.contact !== '' &&
     this.validity!== ''){
       console.log((this.days.toString()).length);
@@ -2174,7 +2181,7 @@ upload() {
     if((this.validity.toString()).length<=2){
 
      //   if(this.validateEmail(this.email)){
-          if(this.selectedBusinessId){
+          if(this.selectedBusinessId !== '' && this.selectedBusinessId !== 0){
             console.log('paso por aca ');
             
             console.log(this.selectedBusinessId);
@@ -2243,14 +2250,18 @@ upload() {
     let consecutiveTemp= Number(this.consecutive);
 
     let customerIdTemp;
-
+console.log('acaaaaaaaaaaaaa');
     if(this.selectedBusinessId!=0){
-    if(this.selectedBusinessId.id){
-       customerIdTemp= Number(this.selectedBusinessId.id);
+      console.log('acaaaaaaaaaaaaa');
+    if(this.selectedBusinessId){
+      console.log('entroooooooooooooooooooooooooo pssssssssssssssssssssssssssssssss siiiiiiiiiiiii');
+       customerIdTemp= Number(this.selectedBusinessId);
     }else{
+      console.log('entroooooooooooooooooooooooooo pssssssssssssssssssssssssssssssss siiiiiiiiiiiii');
       customerIdTemp= Number(this.idCustomerCreated);
     }// en este else no entraría si funciona
     }else{
+      console.log('no paso');
     customerIdTemp= Number(this.idCustomerCreated);
    }
     
@@ -2492,7 +2503,7 @@ console.log();
 
   updateEstimateCondition(){
     console.log('Ingresa ps');        
-    if(this.documentCustomer !== '' && this.nameCustomer !== '' && this.selectedDepartmentId != 0 && this.selectedCityId != 0 &&
+    if(this.documentCustomer !== '' && this.selectedBusinessId != 0 && this.nameCustomer !== '' && this.selectedDepartmentId != 0 && this.selectedCityId != 0 &&
     this.days !== '' && this.guaranty !== ''  && this.contact !== '' &&  this.validity!== ''){
     
       console.log('-- '+this.selectedCityId );
@@ -2533,8 +2544,8 @@ console.log();
 
     let customerIdTemp;
     if(this.selectedBusinessId!=0){
-    if(this.selectedBusinessId.id){
-       customerIdTemp= Number(this.selectedBusinessId.id);
+    if(this.selectedBusinessId){
+       customerIdTemp= Number(this.selectedBusinessId);
     }else{
       customerIdTemp= Number(this.idCustomerCreated);
     }// en este else no entraría si funciona

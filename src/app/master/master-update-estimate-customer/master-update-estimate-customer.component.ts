@@ -2415,11 +2415,11 @@ upload() {
 
     // Validar condiciones
 
-    if(this.documentCustomer !== '' && this.nameCustomer !== '' && this.selectedDepartmentId != 0 && this.selectedCityId != 0 &&
+    if(this.documentCustomer !== '' && this.selectedBusinessId != 0 && this.nameCustomer !== '' && this.selectedDepartmentId != 0 && this.selectedCityId != 0 &&
     this.days !== '' && this.guaranty !== ''  && this.contact !== '' &&  this.validity!== ''){
 
        
-          if(this.selectedBusinessId.id){
+          if(this.selectedBusinessId){
             console.log('paso por aca ');
             this.createEstimate();
          }else{
@@ -2707,7 +2707,7 @@ console.log();
 
   updateEstimateCondition(){
     console.log('Ingresa ps');        
-    if(this.documentCustomer !== '' && this.nameCustomer !== '' && this.selectedDepartmentId != 0 && this.selectedCityId != 0 &&
+    if(this.documentCustomer !== '' && this.selectedBusinessId != 0 && this.nameCustomer !== '' && this.selectedDepartmentId != 0 && this.selectedCityId != 0 &&
     this.days !== '' && this.guaranty !== ''  && this.contact !== ''  &&  this.validity!== ''){
     
       console.log('-- '+this.selectedCityId );
@@ -2756,8 +2756,10 @@ console.log();
     let customerIdTemp;
 
     if(this.selectedBusinessId){
+      console.log('entroooooooooooooooooooooooooo pssssssssssssssssssssssssssssssss siiiiiiiiiiiii');
        customerIdTemp= Number(this.selectedBusinessId);
     }else{
+      console.log('entroooooooooooooooooooooooooo pssssssssssssssssssssssssssssssss siiiiiiiiiiiii');
       customerIdTemp= Number(this.idCustomerCreated);
     }
     
