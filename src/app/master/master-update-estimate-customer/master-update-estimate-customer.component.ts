@@ -406,6 +406,7 @@ export class MasterUpdateEstimateCustomerComponent implements OnInit {
       console.log('ingreso');
       console.log(resp.data);
       this.getCustomers();
+      console.log('paso0000000000');
       this.now =(this.currentEstimate.create_at).substring(0,10);
       this.consecutive= this.currentEstimate.estimate_consecutive;
       this.selectedBusinessId = this.currentEstimate.customer_id; // Number(this.currentEstimate.customer.id);
@@ -1865,6 +1866,12 @@ onSelectFile(event) {
     console.log('filename que es');
     var filename = event.target.files[event.target.files.length-1].name;
     console.log(filename);
+
+    this.fileEstimate={
+      id: 0,
+      url: filename      
+    };
+
     this.urlsFiles.push(filename); 
     this.selectedFiles.push(event.target.files);
   /*}else{
@@ -1894,8 +1901,8 @@ uploadImagesEstimate() {
     console.log(error);
     swal({
       type: 'error',
-      title: 'oops a currido un error',
-      text:'se ha presentado un error al subir la imagen',
+      title: 'Oops a currido un error',
+      text:'Se ha presentado un error al subir la imagen',
       allowOutsideClick: false
     });
   });
@@ -1958,8 +1965,8 @@ uploadImagesEstimate() {
       console.log(error);
       swal({
         type: 'error',
-        title: 'oops a currido un error',
-        text:'se ha presentado un error al subir la imagen',
+        title: 'Oops a currido un error',
+        text:'Se ha presentado un error al subir la imagen',
         allowOutsideClick: false
       });
     });
@@ -1990,8 +1997,8 @@ uploadImagesEstimate() {
     console.log(error);
     swal({
       type: 'error',
-      title: 'oops a currido un error',
-      text:'se ha presentado un error al subir la imagen',
+      title: 'Oops a currido un error',
+      text:'Se ha presentado un error al subir la imagen',
       allowOutsideClick: false
     });
   });
@@ -2113,6 +2120,8 @@ uploadImagesEstimate() {
               type: 'success'
              });
             }
+            swal.showLoading();
+            this.urlsFiles.length = 0;
             this.getFilesEstimate();
             }).catch(error => {
               console.log(error);
@@ -2124,7 +2133,8 @@ uploadImagesEstimate() {
       });
 
     }else{
-      this.fileEstimateTemp.splice(i,1);
+      this.urlsFiles.splice(i,1);
+      console.log(this.urlsFiles.splice(i,1));
       var j = this.contFiles-i;
       console.log('este es valor de la posición de j: '+j);
       this.selectedFiles.splice(j,1);
@@ -2745,8 +2755,8 @@ console.log();
 
     let customerIdTemp;
 
-    if(this.selectedBusinessId.id){
-       customerIdTemp= Number(this.selectedBusinessId.id);
+    if(this.selectedBusinessId){
+       customerIdTemp= Number(this.selectedBusinessId);
     }else{
       customerIdTemp= Number(this.idCustomerCreated);
     }
@@ -3148,6 +3158,7 @@ console.log('Solo se permiten numeros');
              console.log(data);
              console.log('-----------------------');
  
+             let i = 0;
              for (let estimateFile of  resp.data) {
                //console.log(estimateFile.name);
                console.log('Jajajajaja');
@@ -3158,18 +3169,19 @@ console.log('Solo se permiten numeros');
                  content: '',
                  type: estimateFile.type
                };
- 
-               this.fileEstimateTemp.push(this.fileEstimate); 
+               i= i + 1;
+               this.urlsFiles.push(this.fileEstimate);
+               //this.fileEstimateTemp.push(this.fileEstimate); 
               //  this.urlsImages.push(estimateFile.url);
               // this.urls.push(EstimateImage.url);
                // this.urlsInitial.push(EstimateImage.name);
                // this.guideImagesInitial.push(i);// guia para saber que imagenes estan en amazon
                //i=i+1;
               }
-            this.contFiles =  this.fileEstimateTemp.length;
+              this.contFiles = i;
  
             // this.urls
- 
+             console.log('vihdsik--' + this.contFiles);
              console.log('Estos son los archivos: '+data); 
             }else{
               this.fileEstimateTemp=[];

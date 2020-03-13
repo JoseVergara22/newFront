@@ -503,7 +503,7 @@ this.trmGeneralUsa= inputTrm.value.replace(/[^\d\.]*/g,'');
     this.documentCustomer = this.selectedBusinessId.document_id;
     this.nameCustomer = this.selectedBusinessId.business_name;
     this.cellphone = this.selectedBusinessId.telephone;
-    this.contact =  this.selectedBusinessId.name+''+ this.selectedBusinessId.last_name;
+    this.contact =  '';
    //  this.email =  this.selectedBusinessId.email;
     this.days = this.selectedBusinessId.day;
     this.selectedDepartmentId = this.selectedBusinessId.department_id;
@@ -1049,7 +1049,7 @@ console.log('REDONDEO DE VALORES A '+result);
 }
 
   console.log('-------------------------- este es el titulo');
-  console.log('peso: '+result+' precio: '+price +'pesok'+ weight);
+  console.log('peso: '+result+' precio: '+price +'peso'+ weight);
 
 if ( price < 1000 && weight < 45) {
   this.conditionValidation = 1;
@@ -1755,8 +1755,8 @@ uploadImagesEstimate() {
     console.log(error);
     swal({
       type: 'error',
-      title: 'oops a currido un error',
-      text:'se ha presentado un error al subir la imagen',
+      title: 'Oops a currido un error',
+      text:'Se ha presentado un error al subir la imagen',
       allowOutsideClick: false
     });
   });
@@ -1808,8 +1808,8 @@ uploadImagesEstimate() {
       console.log(error);
       swal({
         type: 'error',
-        title: 'oops a currido un error',
-        text:'se ha presentado un error al subir la imagen',
+        title: 'Oops a currido un error',
+        text:'Se ha presentado un error al subir la imagen',
         allowOutsideClick: false
       });
     });
@@ -1852,8 +1852,8 @@ uploadImagesEstimate() {
     console.log(error);
     swal({
       type: 'error',
-      title: 'oops a currido un error',
-      text:'se ha presentado un error al subir la imagen',
+      title: 'Oops a currido un error',
+      text:'Se ha presentado un error al subir la imagen',
       allowOutsideClick: false
     });
   });
@@ -2134,7 +2134,7 @@ upload() {
     console.log(error);
     swal({
       type: 'error',
-      title: 'oops a currido un error',
+      title: 'Oops a currido un error',
       text: error,
       allowOutsideClick: false
     });
@@ -2288,7 +2288,7 @@ console.log();
         console.log(data);
         
         swal({
-          title: 'encabezado cotización creado',
+          title: 'Encabezado cotización creado',
           type: 'success'
          });
 
@@ -2876,11 +2876,5 @@ console.log('Solo se permiten numeros');
           document.getElementById('updateHideWorkforce').click();
           this.clearFormDetailWorkUpdate();
         }
-
-
-
-
         //funcion limpiar y validar campos obligatorios
-
-      
 }

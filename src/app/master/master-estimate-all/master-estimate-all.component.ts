@@ -3897,7 +3897,7 @@ this.getImgFromUrl(logo_url, function (img) {
 
   updateEstimate(row:any){
     console.log(row);
-    this.router.navigateByUrl('mantenimiento/estimateCustomerUpdate/'+row.id);
+    this.router.navigateByUrl('maintenance/estimateCustomerUpdate/'+row.id);
   }
 
   copyEstimateProcess(row:any){
@@ -3951,7 +3951,7 @@ this.getImgFromUrl(logo_url, function (img) {
 
 updateForklift(forklift:any) {
   console.log(forklift);
-  this.router.navigateByUrl('master/forkliftUpdate/' + forklift.id);
+  this.router.navigateByUrl('maintenance/forkliftUpdate/' + forklift.id);
 }
 
    sendBrand() {
@@ -4071,15 +4071,15 @@ updateForklift(forklift:any) {
 
   showForklift(forklift:any){
     console.log(forklift);
-    this.router.navigateByUrl('mantenimiento/forkliftShow/' + forklift.id);
+    this.router.navigateByUrl('maintenance/forkliftShow/' + forklift.id);
   }
 
   sendForklift() {
-    this.router.navigateByUrl('/mantenimiento/registerForklift');
+    this.router.navigateByUrl('/maintenance/registerForklift');
   }
   
   createEstimate(){
-    this.router.navigateByUrl('mantenimiento/estimateCustomer');
+    this.router.navigateByUrl('maintenance/estimateCustomer');
   }
 
 

@@ -121,7 +121,7 @@ const routes: Routes = [
         path: 'master',
         loadChildren: './master/master.module#MasterModule'
       },{
-        path: 'mantenimiento',
+        path: 'maintenance',
         loadChildren: './master/master.module#MasterModule'
       },{
         path: 'configuracion',
@@ -131,10 +131,10 @@ const routes: Routes = [
     ]
   }/*,
   {
-    path: 'master/mantenimiento',
+    path: 'master/maintenance',
     component: MasterAdminComponent,
     children: [{
-      path: 'mantenimiento',
+      path: 'maintenance',
       loadChildren: './master/master.module#MasterModule'
     }]
   }*/,
