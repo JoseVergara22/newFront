@@ -2072,7 +2072,7 @@ doc.autoTable({
   styles: {fillColor: null,valign:"top",lineColor:[4,1,0],lineWidth:0.2},
   columnStyles: {0: {halign: 'left', fontSize:8, cellWidth:85}, 1: {halign: 'left', fontSize:8, cellWidth:86},2: {halign: 'left', fontSize:8, cellWidth:81},3: {halign: 'left', fontSize:8, cellWidth:80},4: {halign: 'center', fontSize:8, cellWidth:81} },
   margin: {top: 60, right: 15, bottom: 0, left: 15},
-  body: [['Validez Oferta: '+ this.payment_method +' días','Forma Pago: ' + this.validity + ' días','Garantía: '+ this.guarantyEstimate +' días','Subtotal Repuestos:',this.subtotalPartsEstimate]]
+  body: [['Validez Oferta: '+  this.validity  +' días','Forma Pago: ' + this.payment_method + ' días','Garantía: '+ this.guarantyEstimate +' días','Subtotal Repuestos:',this.subtotalPartsEstimate]]
 });
 
 
@@ -2589,7 +2589,7 @@ doc.autoTable({
   styles: {fillColor: null,valign:"top",lineColor:[4,1,0],lineWidth:0.2},
   columnStyles: {0: {halign: 'left', fontSize:8, cellWidth:85}, 1: {halign: 'left', fontSize:8, cellWidth:86},2: {halign: 'left', fontSize:8, cellWidth:81},3: {halign: 'left', fontSize:8, cellWidth:80},4: {halign: 'center', fontSize:8, cellWidth:81} },
   margin: {top: 60, right: 15, bottom: 0, left: 15},
-  body: [['Validez Oferta: '+ this.payment_method +' días','Forma Pago: ' + this.validity + ' días','Garantía: '+ this.guarantyEstimate +' días','Subtotal Repuestos:',this.subtotalPartsEstimate]]
+  body: [['Validez Oferta: '+ this.validity  +' días','Forma Pago: ' + this.payment_method + ' días','Garantía: '+ this.guarantyEstimate +' días','Subtotal Repuestos:',this.subtotalPartsEstimate]]
 });
 
 
