@@ -97,6 +97,10 @@ export class MasterUpdateEstimateCustomerComponent implements OnInit {
   selectedDepartmentId = 0;
   selectedCityId = 0;
 
+  deliveryPart:any = 0;
+  deliveryPartUpdate:any = 0;
+  
+
   filterIndicatorText = false;
   filterIndicatorCheck = false;
 
@@ -657,7 +661,7 @@ this.trmGeneralUsa= inputTrm.value.replace(/[^\d\.]*/g,'');
      let daysTemp = this.days;
      // priceTemp ya se asigno
     // let priceTemp = this.price;
-     let deliveryTemp = this.validity;
+     let deliveryTemp = this.deliveryPart;
      let weightTemp = this.weight;
      let totalTemp = this.changeFormatDecimal(this.subtotal);//this.subtotal.toString().replace('.','').replace(',','.');
      console.log('totalTemp');
@@ -689,8 +693,8 @@ this.trmGeneralUsa= inputTrm.value.replace(/[^\d\.]*/g,'');
        this.getEstimateParts();
 
        console.log(resp);
-     }).catch(error => {
-
+     }).catch(error => { 
+          console.log(error);
       swal({
         title: 'Se presento un problema, para guardar este item',
         type: 'error'
@@ -766,7 +770,7 @@ this.trmGeneralUsa= inputTrm.value.replace(/[^\d\.]*/g,'');
      console.log('priceSuggestTemp----'+priceSuggestTemp);
      let daysTemp = this.daysUpdate;
      // let priceTemp = this.priceUpdate;
-     let deliveryTemp = this.validityUpdate;
+     let deliveryTemp = this.deliveryPartUpdate;
      let weightTemp = this.weightUpdate;
      let totalTemp = this.changeFormatDecimal(this.subtotalUpdate);
      console.log('totalTemp');
@@ -3057,7 +3061,7 @@ console.log('Solo se permiten numeros');
           this.suggestedPrice=0;
           this.price=0;
           this.subtotal=0;
-          this.delivery=0;
+          this.deliveryPart=0;
         }
 
         clearFormDetailUpdate(){
@@ -3071,7 +3075,7 @@ console.log('Solo se permiten numeros');
           this.suggestedPriceUpdate=0;
           this.priceUpdate=0;
           this.subtotalUpdate=0;
-          this.deliveryUpdate=0;
+          this.deliveryPartUpdate=0;
         }
 
         clearFormDetailWork(){

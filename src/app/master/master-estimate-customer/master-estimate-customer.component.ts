@@ -114,6 +114,10 @@ export class MasterEstimateCustomerComponent implements OnInit {
   description='';
   delivery:any;
 
+  deliveryPart:any = 0;
+  deliveryPartUpdate:any = 0;
+  deliveryWorkForce:any = 0;
+  deliveryWorkForceUpdate:any = 0;
 
   quantityUpdate = 1;
   unitCostUpdate  = 0;
@@ -497,7 +501,7 @@ this.trmGeneralUsa= inputTrm.value.replace(/[^\d\.]*/g,'');
    }
 
    getForklifs() {
-   
+    if(this.selectedBusinessId!=0){
     console.log('valor de selección');
     
     console.log(this.selectedBusinessId.document_id);
@@ -515,7 +519,7 @@ this.trmGeneralUsa= inputTrm.value.replace(/[^\d\.]*/g,'');
     this.getCities();
  // if(this.selectedBusinessId.id!=0){
 
-    if(this.selectedBusinessId!=0){
+ //   if(this.selectedBusinessId!=0){
     console.log('this.selectedBusinessId.id');
     console.log(this.selectedBusinessId.id);
 
@@ -533,6 +537,15 @@ this.trmGeneralUsa= inputTrm.value.replace(/[^\d\.]*/g,'');
     }).catch(error => {
       console.log(error);
     });
+  }else{
+    this.selectedDepartmentId=0;
+    this.selectedCityId=0;
+    this.documentCustomer = '';
+    this.nameCustomer ='';
+    this.cellphone = '';
+    this.contact =  '';
+   //  this.email =  this.selectedBusinessId.email;
+    this.days =0;
   }
 
    }
@@ -590,7 +603,7 @@ this.trmGeneralUsa= inputTrm.value.replace(/[^\d\.]*/g,'');
      let daysTemp = this.days;
      // priceTemp ya se asigno
     // let priceTemp = this.price;
-     let deliveryTemp = this.validity;
+     let deliveryPartTemp = this.deliveryPart;
      let weightTemp = this.weight;
      let totalTemp =  this.changeFormatDecimal(this.subtotal)//this.subtotal.toString().replace('.','').replace(',','.');
      let observationTemp = this.observation;
@@ -604,7 +617,7 @@ this.trmGeneralUsa= inputTrm.value.replace(/[^\d\.]*/g,'');
  
      this.estimateService.createEstimateDetails(estimateIdDetailTemp,codeTemp,descriptionTemp,
       quantityTemp, unitCostTemp, priceListTemp, priceSuggestTemp, weightTemp,
-      priceTemp, subtotalTemp, deliveryTemp, totalTemp,statusTemp, typeServiceTemp, weightTypeList).then(data => {
+      priceTemp, subtotalTemp, deliveryPartTemp, totalTemp,statusTemp, typeServiceTemp, weightTypeList).then(data => {
        const resp: any = data;
        swal({
         title: 'Item creado',
@@ -668,7 +681,7 @@ this.trmGeneralUsa= inputTrm.value.replace(/[^\d\.]*/g,'');
      let priceSuggestTemp = this.changeFormatDecimal(this.suggestedPriceUpdate);
      let daysTemp = this.daysUpdate;
      // let priceTemp = this.priceUpdate;
-     let deliveryTemp = this.validityUpdate;
+     let deliveryPartTemp = this.deliveryPartUpdate;
      let weightTemp = this.weightUpdate;
      let totalTemp = this.changeFormatDecimal(this.subtotalUpdate);
      let observationTemp = this.observationUpdate;
@@ -682,7 +695,7 @@ this.trmGeneralUsa= inputTrm.value.replace(/[^\d\.]*/g,'');
  
      this.estimateService.updateEstimateDetails(estimateIdDetailTemp,codeTemp,descriptionTemp,
       quantityTemp, unitCostTemp, priceListTemp, priceSuggestTemp, weightTemp,
-      priceUpdateTemp, subtotalTemp, deliveryTemp, totalTemp,statusTemp, typeServiceTemp,weightTypeTemp).then(data => {
+      priceUpdateTemp, subtotalTemp, deliveryPartTemp, totalTemp,statusTemp, typeServiceTemp,weightTypeTemp).then(data => {
        const resp: any = data;
        swal({
         title: 'Item actualizado',
@@ -2170,8 +2183,13 @@ upload() {
   createEstimateCondition(){
 
     // Validar condiciones
+
+    console.log('información de validación'+this.documentCustomer +'-'+ this.selectedBusinessId +'-'+ this.nameCustomer +'-'+ this.selectedDepartmentId +'-'+ this.selectedCityId +'-'+
+    this.days +'-'+ this.guaranty +'-'+ this.contact +'-'+
+    this.validity);
    
-    if(this.documentCustomer !== '' && this.selectedBusinessId != 0 && this.nameCustomer !== '' && this.selectedDepartmentId != 0 && this.selectedCityId != 0 &&
+    // this.selectedBusinessId  != 0
+    if(this.documentCustomer !== '' && this.nameCustomer !== '' && this.selectedDepartmentId != 0 && this.selectedCityId != 0 &&
     this.days !== '' && this.guaranty !== ''  && this.contact !== '' &&
     this.validity!== ''){
       console.log((this.days.toString()).length);
@@ -2181,13 +2199,14 @@ upload() {
     if((this.validity.toString()).length<=2){
 
      //   if(this.validateEmail(this.email)){
-          if(this.selectedBusinessId !== '' && this.selectedBusinessId !== 0){
-            console.log('paso por aca ');
+       console.log('probando '+ this.selectedBusinessId);
+          if(this.selectedBusinessId != '' &&  this.selectedBusinessId != 0){
+            console.log('ingreso para crear cotizacion ');
             
             console.log(this.selectedBusinessId);
             this.createEstimate();
          }else{
-          console.log('paso por aca ');
+          console.log('ingreso para crear cliente');
           
           console.log(this.selectedBusinessId);
            this.createNewCustomer();
@@ -2283,6 +2302,7 @@ console.log();
       idDepartmentTemp, selectedCityTemp, selectedForkliftIdTemp,
       contactTemp, daysTemp, guarantyTemp, validityTemp, cellphoneTemp, observationTemp,0,'',0, forkliftTextTemp).then(data => {
       const resp: any = data;
+      console.log('respuesta de la api de creacion');
       console.log(resp);
       this.estimateId= resp.data.id;
       this.showEstimateId = false;
@@ -2434,6 +2454,8 @@ console.log();
 
       let margin=Number(this.newCustomerMargin)/100;
 
+      console.log('Ingreso a crear un nuevo cliente');
+
       this.restService.createCustomer(this.nameCustomer,3, this.documentCustomer,
       this.cellphone, 'Sin Dirección', 0,margin,1,  this.selectedCityId, this.selectedDepartmentId)
       .then(data => {
@@ -2447,6 +2469,8 @@ console.log();
             type: 'error'
            });
         } else {
+          console.log('---- respuesta de creación de id');
+          console.log(resp.data);
           this.idCustomerCreated = resp.data.id;
           console.log('Cambio');
 
@@ -2501,9 +2525,11 @@ console.log();
 }
 
 
+//  this.selectedBusinessId != 0 &&
+
   updateEstimateCondition(){
     console.log('Ingresa ps');        
-    if(this.documentCustomer !== '' && this.selectedBusinessId != 0 && this.nameCustomer !== '' && this.selectedDepartmentId != 0 && this.selectedCityId != 0 &&
+    if(this.documentCustomer !== '' && this.nameCustomer !== '' && this.selectedDepartmentId != 0 && this.selectedCityId != 0 &&
     this.days !== '' && this.guaranty !== ''  && this.contact !== '' &&  this.validity!== ''){
     
       console.log('-- '+this.selectedCityId );
@@ -2833,7 +2859,7 @@ console.log('Solo se permiten numeros');
           this.suggestedPrice=0;
           this.price=0;
           this.subtotal=0;
-          this.delivery=0;
+          this.deliveryPart=0;
         }
 
         clearFormDetailUpdate(){
@@ -2847,7 +2873,7 @@ console.log('Solo se permiten numeros');
           this.suggestedPriceUpdate=0;
           this.priceUpdate=0;
           this.subtotalUpdate=0;
-          this.deliveryUpdate=0;
+          this. deliveryPartUpdate=0;
         }
 
         clearFormDetailWork(){
@@ -2865,7 +2891,7 @@ console.log('Solo se permiten numeros');
           this.workforcequantity=1;
           this.workforceHourValue=0;
           this.workforceSubtotal=0;
-          this.workforceDelivery=0;
+          this.workforceDeliveryUpdate=0;
         }
   
         cancelFormDetail(){
