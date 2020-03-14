@@ -2280,7 +2280,7 @@ console.log('acaaaaaaaaaaaaa');
       customerIdTemp= Number(this.idCustomerCreated);
     }// en este else no entraría si funciona
     }else{
-      console.log('no paso');
+      console.log('no paso ole');
     customerIdTemp= Number(this.idCustomerCreated);
    }
     
