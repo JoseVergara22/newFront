@@ -756,7 +756,7 @@ export class EstimateService {
   updateEstimate(id:number, customer_id: number, customer_document: string,
     department_id: number, city_id: number, forklift_id: number, contact: string,
     payment_method: number, guaranty: number, validity: number, telephone: string,
-    observation: string, total: number, email:string, status:number, forklift_text:string ) {
+    observation: string, forklift_text:string ) {
       return new Promise(resolve => {
       const headers = new HttpHeaders();
       headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user'))); // 'Bearer ' +
@@ -780,9 +780,7 @@ export class EstimateService {
       validity: validity,
       telephone: telephone,
       observation: observation,
-      total: total,
-      email:email,
-      status:status,
+      email:'',
       forklift_text:forklift_text
       };
 

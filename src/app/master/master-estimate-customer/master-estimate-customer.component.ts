@@ -2595,7 +2595,7 @@ console.log();
     console.log('Ole: '+forkliftTextTemp);
     this.estimateService.updateEstimate(this.estimateId, customerIdTemp,documentCustomerTemp,
       idDepartmentTemp, selectedCityTemp, selectedForkliftIdTemp,
-      contactTemp, daysTemp, guarantyTemp, validityTemp, cellphoneTemp, observationTemp,0, '',0,
+      contactTemp, daysTemp, guarantyTemp, validityTemp, cellphoneTemp, observationTemp,
       forkliftTextTemp).then(data => {
       const resp: any = data;
       this.estimateId= resp.data.id;
