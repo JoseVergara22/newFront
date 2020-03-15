@@ -1915,7 +1915,7 @@ img.onload = function() {
       body: [['ITEM','DESCRIPCIÓN','CANT.','VLR. UNIT.','TOTAL','ENTREGA']]
     });
   }
-
+// importante cambio
     if(this.rowsItemsWorkforce.length>0){
 
       if(this.checkHideCode==false){
