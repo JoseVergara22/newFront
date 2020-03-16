@@ -2540,11 +2540,11 @@ console.log();
 
      // if(this.validateEmail(this.email)){
 
-    if(this.selectedBusinessId){
+  //  if( this.idCustomerCreated){
       this.updateEstimate();
-   }else{
+   /*}else{
      this.updateNewCustomer();
-   }
+   }*/
  /*  }else{
     swal({
       title: 'Se presento un problema',

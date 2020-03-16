@@ -411,6 +411,7 @@ export class MasterUpdateEstimateCustomerComponent implements OnInit {
       console.log(resp.data);
       this.getCustomers();
       console.log('paso0000000000');
+      console.log('cotizacion actual '+ JSON.stringify(this.currentEstimate));
       this.now =(this.currentEstimate.create_at).substring(0,10);
       this.consecutive= this.currentEstimate.estimate_consecutive;
       this.selectedBusinessId = this.currentEstimate.customer_id; // Number(this.currentEstimate.customer.id);
@@ -1618,9 +1619,12 @@ finalOperation(country:number){
   console.log( this.costPesosGlobal);
 
   let margin;
-  if(this.selectedBusinessId){
-    if(this.selectedBusinessId.price_margin){
-        margin= (Number(this.selectedBusinessId.price_margin))/100;
+  console.log(this.currentEstimate);
+ console.log('actual '+this.currentEstimate.price_margin);
+  if(this.currentEstimate){
+    console.log('entro');
+    if( this.currentEstimate.customer.price_margin != 0){
+        margin= (Number(this.currentEstimate.customer.price_margin))/100;
     }else{
       margin=Number(this.newCustomerMargin)/100
     }
