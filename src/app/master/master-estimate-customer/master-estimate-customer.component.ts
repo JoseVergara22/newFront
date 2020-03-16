@@ -2270,20 +2270,24 @@ upload() {
 
     let customerIdTemp;
 console.log('acaaaaaaaaaaaaa');
-    if(this.selectedBusinessId!=0){
+    // if(this.selectedBusinessId!=0){
       console.log('acaaaaaaaaaaaaa');
-    if(this.selectedBusinessId){
-      console.log('entroooooooooooooooooooooooooo pssssssssssssssssssssssssssssssss siiiiiiiiiiiii');
-       customerIdTemp= Number(this.selectedBusinessId);
+    if(this.selectedBusinessId!=0){
+      console.log('entro por que existe el cliente');
+       customerIdTemp= Number(this.selectedBusinessId.id);
     }else{
-      console.log('entroooooooooooooooooooooooooo pssssssssssssssssssssssssssssssss siiiiiiiiiiiii');
+      console.log('No existe pero lo creo');
       customerIdTemp= Number(this.idCustomerCreated);
     }// en este else no entraría si funciona
-    }else{
+    /*}else{
       console.log('no paso ole');
-    customerIdTemp= Number(this.idCustomerCreated);
-   }
-    
+      // customerIdTemp= Number(this.idCustomerCreated);
+      customerIdTemp= Number(this.selectedBusinessId.id);
+   }*/
+
+
+   console.log(customerIdTemp);
+
     let documentCustomerTemp= this.documentCustomer;
     let nameCustomerTemp = this.nameCustomer;
     let idDepartmentTemp = this.selectedDepartmentId;
