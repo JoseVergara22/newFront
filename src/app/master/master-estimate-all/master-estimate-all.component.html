@@ -539,6 +539,24 @@
 
         </ngx-datatable>
 
+<h1>
+    TEST
+</h1>
+
+<ngx-datatable #table class="data-table" [rows]="rowsClient"  [columns]="[{name:'Descripción', prop:'description'},{name:'Estado', prop:'status'},{prop:'id'}]" [columnMode]="'force'" [headerHeight]="50" [footerHeight]="50" [rowHeight]="'auto'" [limit]="20">
+
+       <ngx-datatable-column [flexGrow]="100" [sortable]="false" [resizeable]="false"   name="Teléfono " [sortable]="false"  prop="telephone"></ngx-datatable-column>
+       <ngx-datatable-column [flexGrow]="100" [sortable]="false" [resizeable]="false"   name="Ciudad " [sortable]="false"  prop="city.name"></ngx-datatable-column>
+         <ngx-datatable-column  [flexGrow]="100"  [sortable]="false" [resizeable]="false"  name="Sbt.Horas" [sortable]="false"  prop="subtotal_hours_decimal"></ngx-datatable-column>
+        <ngx-datatable-column [flexGrow]="100" [sortable]="false" [resizeable]="false"  name="Sbt.Repuestos" [sortable]="false"  prop="subtotal_parts_decimal"></ngx-datatable-column>
+        <ngx-datatable-column [flexGrow]="100" [sortable]="false" [resizeable]="false"  name="Total" [sortable]="false"  prop="total_decimal"></ngx-datatable-column>
+  <!--   <ngx-datatable-column  [width]="80" [sortable]="false" [resizeable]="false"  name="Observaciones" [sortable]="false"  prop="machine_description"></ngx-datatable-column> -->
+
+
+</ngx-datatable>
+
+
+
 
         <button type="button"   style="display:none;" id="showItemsApprove"  class="btn btn-primary waves-effect" (click)="modalDetail.show()">Mostrar botones</button>
        <!-- <button type="button"   style="display:none;" id="showItemsApprove"  class="btn btn-primary waves-effect" (click)="modalDetail.show()">Mostrar botones</button> -->

@@ -147,9 +147,9 @@ export class MasterAdminComponent  implements OnInit {
     this.themeLayout = 'vertical';
     this.verticalPlacement = 'left';
     this.verticalLayout = 'wide';
-    this.pcodedDeviceType = 'desktop';
-    this.verticalNavType = 'expanded';
-    this.verticalEffect = 'shrink';
+    this.pcodedDeviceType = 'tablet';
+    this.verticalNavType = 'offcanvas'; //YCV
+    this.verticalEffect = 'overlay';
     this.vnavigationView = 'view1';
     this.freamType = 'theme1';
     this.sidebarImg = 'false';
@@ -222,7 +222,7 @@ export class MasterAdminComponent  implements OnInit {
     this.windowWidth = event.target.innerWidth;
     this.setHeaderAttributes(this.windowWidth);
 
-    let reSizeFlag = true;
+    let reSizeFlag = false;//
     if (this.pcodedDeviceType === 'tablet' && this.windowWidth >= 768 && this.windowWidth <= 1024) {
       reSizeFlag = false;
     } else if (this.pcodedDeviceType === 'mobile' && this.windowWidth < 768) {
@@ -252,9 +252,9 @@ export class MasterAdminComponent  implements OnInit {
       this.verticalNavType = 'offcanvas';
       this.verticalEffect = 'overlay';
     } else {
-      this.pcodedDeviceType = 'desktop';
-      this.verticalNavType = 'expanded';
-      this.verticalEffect = 'shrink';
+      this.pcodedDeviceType = 'tablet';
+      this.verticalNavType = 'offcanvas';  // YCV
+      this.verticalEffect = 'overlay';
     }
   }
 
@@ -337,23 +337,32 @@ export class MasterAdminComponent  implements OnInit {
   }
 
   toggleOpened() {
-    if (this.windowWidth < 992) {
+    console.log('entro a menu fuera del IF');
+ //   if (this.windowWidth < 992) {
+      console.log('entro a menu');
       this.toggleOn = this.verticalNavType === 'offcanvas' ? true : this.toggleOn;
+      console.log('entro a menu');
       if (this.navRight === 'nav-on') {
+        console.log('ingreso aqui');
         this.toggleHeaderNavRight();
+        
       }
-    }
-    this.verticalNavType = this.verticalNavType === 'expanded' ? 'offcanvas' : 'expanded';
+    // }
+    this.verticalNavType = this.verticalNavType === 'expanded' ? 'offcanvas' : 'expanded'; //YCV
+
+   // this.verticalNavType = 'offcanvas';
   }
 
   onClickedOutsideSidebar(e: Event) {
-    if ((this.windowWidth < 992 && this.toggleOn && this.verticalNavType !== 'offcanvas') || this.verticalEffect === 'overlay') {
-      this.toggleOn = true;
+  // if ((this.windowWidth < 992 && this.toggleOn && this.verticalNavType !== 'offcanvas') || this.verticalEffect === 'overlay') {
+      // this.toggleOn = true;
+      //Cambio para ocultar menu test YCV
       this.verticalNavType = 'offcanvas';
-    }
+    // } // YCV
   }
 
   toggleRightbar() {
+    console.log();
     this.configOpenRightBar = this.configOpenRightBar === 'open' ? '' : 'open';
   }
 
