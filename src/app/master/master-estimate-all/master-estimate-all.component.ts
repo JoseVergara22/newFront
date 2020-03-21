@@ -213,6 +213,7 @@ export class MasterEstimateAllComponent extends NgbDatepickerI18n {
   masterSelected:boolean;
   checklist:any;
 
+  emailCustomer: any = '';
 
   constructor(private restService: RestService, private _i18n: I18n, private router: Router, private estimateService: EstimateService, private forkliftService: ForkliftService,
               private calendar: NgbCalendar, public formatter: NgbDateParserFormatter, private userService: UserService,  private uploadService: UploadService,   private formbuilder:FormBuilder) {
@@ -609,7 +610,7 @@ export class MasterEstimateAllComponent extends NgbDatepickerI18n {
         this.forkliftText = row.forklift_text;
       }else{
         this.forkliftText = '';
-      }
+      } 
       this.cityEstimate =  row.city.name;
       this.guarantyEstimate =  row.guaranty;
       this.validity = row.validity;
@@ -627,6 +628,19 @@ export class MasterEstimateAllComponent extends NgbDatepickerI18n {
       document.getElementById( 'showItemsApprove').click();
     }
 
+    getEmailCustomer(email: any){
+      this.emailCustomer = email;
+      this.estimateService.getEmailsCustomer(this.emailCustomer,this.consecutive).then(res=>{
+        console.log('que paso');
+        console.log(this.emailCustomer);
+        console.log('s3info'+JSON.stringify(res));
+        this.s3info=res;
+        console.log(this.s3info);
+      }).catch(error=> {
+        console.log(error);
+      });
+
+    }
 
     showCheckItems(row: any){
       let rowCurrent= row;

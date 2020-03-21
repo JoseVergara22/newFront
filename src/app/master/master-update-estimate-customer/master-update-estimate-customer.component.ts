@@ -1466,6 +1466,19 @@ console.log(country+'-'+item.estimate_countries_id+'-'+item.conexion_id_validati
     }
 
     if(this.unitCost!==0 && this.priceList!==0 && this.quantity!==0){
+      if(this.priceList==7){
+        console.log('calculo simple');
+        this.suggestedPrice = Number(this.unitCost);
+        this.price = this.suggestedPrice;
+        this.subtotal = Number(this.suggestedPrice*this.quantity).toFixed(0);
+        this.lowPrice = this.suggestedPrice;
+        this.higherPrice = Number(this.suggestedPrice *(1+(this.suggestedMaximum/100))).toFixed(0);
+        console.log('Precion bajo: ' + this.lowPrice);
+        console.log('Precion alto: ' + this.higherPrice);
+      }
+    }
+
+    if(this.unitCost!==0 && this.priceList!==0 && this.quantity!==0){
       if(this.priceList==5 || this.priceList==6){
         console.log('calculo diferente');
         if(this.priceList==5 ){
@@ -1525,6 +1538,19 @@ console.log(country+'-'+item.estimate_countries_id+'-'+item.conexion_id_validati
       console.log('ingreso');
       this.calculateFreightUpdate(this.weightUpdate, this.unitCostUpdate);
     }
+    }
+
+    if(this.unitCostUpdate!==0 && this.priceListUpdate!==0 && this.quantity!==0){
+      if(this.priceListUpdate==7){
+        console.log('calculo simple');
+        this.suggestedPriceUpdate =Number(this.unitCostUpdate);
+        this.priceUpdate =   this.suggestedPriceUpdate;
+        this.subtotalUpdate = Number(this.suggestedPriceUpdate*this.quantityUpdate).toFixed(0);
+        this.lowPriceUpdate = this.suggestedPriceUpdate;
+        this.higherPriceUpdate=Number(this.suggestedPriceUpdate *(1+(this.suggestedMaximum/100))).toFixed(0);
+        console.log('Precion bajo: ' + this.lowPriceUpdate);
+        console.log('Precion alto: ' + this.higherPriceUpdate);
+      }
     }
 
     if(this.unitCostUpdate!==0 && this.priceListUpdate!==0 && this.quantity!==0){
