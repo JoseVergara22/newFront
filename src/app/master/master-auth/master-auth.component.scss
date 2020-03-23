@@ -1,27 +1,39 @@
 body {
     background-color: #f3f3f3 !important;
     ;
+  
+}
+
+
+.container{
+    overflow-y: scroll;
 }
 
 .common-img-bg {
     background: #ffffff !important;
 }
 
-.loginlogo {
-    //  height: 50%;
-    width: 58%;
-}
-
-@media only screen and (max-width: 992px) {
+@media (min-width: 759px) and (max-width: 1700px) 
+{
     .loginlogo {
-        height: 30%;
+        height: 20%;
         width: 50%;
+       
+    }
+    
+ }
+
+
+@media  (min-width: 1700px) and  (max-width: 2400px) {
+    .loginlogo {
+        height: 20%;
+        width: 95%;
     }
 }
 
 @media only screen and (max-width: 758px) {
     .loginlogo {
         height: 10%;
-        width: 30%;
+        width: 70%;
     }
 }

@@ -252,7 +252,7 @@ export class MasterAdminComponent  implements OnInit {
       this.verticalNavType = 'offcanvas';
       this.verticalEffect = 'overlay';
     } else {
-      this.pcodedDeviceType = 'tablet';
+      this.pcodedDeviceType = 'desktop';
       this.verticalNavType = 'offcanvas';  // YCV
       this.verticalEffect = 'overlay';
     }
@@ -344,7 +344,7 @@ export class MasterAdminComponent  implements OnInit {
       console.log('entro a menu');
       if (this.navRight === 'nav-on') {
         console.log('ingreso aqui');
-        this.toggleHeaderNavRight();
+        // this.toggleHeaderNavRight();
         
       }
     // }

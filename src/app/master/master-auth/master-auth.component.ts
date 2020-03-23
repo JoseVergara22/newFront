@@ -29,9 +29,9 @@ export class MasterAuthComponent implements OnInit {
 
 
   ngOnInit() {
-    if (screen.width < 780) {
+    /*if (screen.width < 780) {
       this.isMobile = true;
-    }
+    }*/
   }
 
 

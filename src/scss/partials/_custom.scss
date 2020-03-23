@@ -97,7 +97,9 @@
     }
     perfect-scrollbar {
         >.ps {
-            height: 100%;
+          
+            position: sticky;
+            top: 300px;
         }
     }
     #styleSelector {

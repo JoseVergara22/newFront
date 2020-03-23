@@ -245,6 +245,38 @@
     </nav>
     <div class="pcoded-main-container" [style.margin-top]="headerFixedMargin">
       <div class="pcoded-wrapper">
+ccccccccccccc
+        <perfect-scrollbar *ngIf="type === 'component'" class="scroll-container" fxFlex="auto" [config]="config" [scrollIndicators]="true" (psXReachEnd)="onScrollEvent($event)" (psYReachEnd)="onScrollEvent($event)" (psXReachStart)="onScrollEvent($event)" (psYReachStart)="onScrollEvent($event)">
+          <div class="scrollable-content">
+            Scroll<br>
+            me!<br>
+            <br>
+            I<br>
+            am<br>
+            an<br>
+            example<br>
+            content<br>
+            text<br>
+            for<br>
+            this<br>
+            really<br>
+            cooooooooooooooooooooooooooooooooooooooooooooooooool<br>
+            scrollable<br>
+            area<br>
+            in<br>
+            this<br>
+            example<br>
+            app<br>
+            which<br>
+            is<br>
+            using<br>
+            the<br>
+            angular2<br>
+            perfect<br>
+            scrollbar<br>
+            library<br>
+          </div>
+        </perfect-scrollbar>
         <nav
           id="main_navbar"
           class="pcoded-navbar"
@@ -258,7 +290,10 @@
           [attr.pcoded-navbar-position]="pcodedSidebarPosition"
         >
           <div class="pcoded-inner-navbar main-menu" appAccordion>
-            <perfect-scrollbar [style.max-width]="'235px'" [style.max-height]="sidebarFixedHeight" [config]="config">
+
+
+           
+           <!-- <perfect-scrollbar [style.max-width]="'235px'" [style.max-height]="sidebarFixedHeight" [config]="config">  -->
               <span *ngFor="let asideItems of menuItems.getAll()" class="d-color">
                 <div class="pcoded-navigation-label" [attr.menu-title-theme]="menuTitleTheme">{{asideItems.label}}</div>
                 <ul class="pcoded-item pcoded-left-item" [attr.item-border]="itemBorder" [attr.item-border-style]="itemBorderStyle" [attr.subitem-border]="subItemBorder" *ngFor="let asideItem of asideItems.main" appAccordionLink group="{{asideItem.state}}">
@@ -329,8 +364,8 @@
                     </ul>
                   </li>
                 </ul>
-              </span>
-            </perfect-scrollbar>
+              </span> 
+          <!--   </perfect-scrollbar> -->
           </div>
         </nav>
         <div class="pcoded-content">
@@ -380,7 +415,7 @@
                   </div>
                 </li>
               </ul>
-              <perfect-scrollbar [style.max-width]="'100%'" [style.max-height]="'calc(100vh - 495px)'" [config]="config">
+           <!--   <perfect-scrollbar [style.max-width]="'100%'" [style.max-height]="'calc(100vh - 495px)'" [config]="config"> --> 
                 <div class="style-cont m-t-10">
                   <div class="md-tabs">
                   <ngb-tabset>
@@ -603,7 +638,7 @@
                     </ul>
                   </div>
                 </div>
-              </perfect-scrollbar>
+             <!-- </perfect-scrollbar>-->  
               <ul>
                 <li>
                   <a href="https://codedthemes.com/" target="_blank" class="btn btn-success btn-block m-r-15 m-t-10 m-b-10">Profile</a>
