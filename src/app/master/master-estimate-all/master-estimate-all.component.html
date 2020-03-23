@@ -58,7 +58,33 @@
                     </div>
                     <div class="row">
                         <div class="col-sm-6 col-xs-6 col-md-6  col-lg-5">
-                            <input type="text" class="form-control" [(ngModel)]="masterEmail">
+
+                            <!--tag-input [ngClass]="'tag-select'" theme='bootstrap' [placeholder] = "'Select Name +'" [ngModel]="[]" [onlyFromAutocomplete]="true">
+                                <input-dropdown [displayBy]="'value'" [identifyBy]="'id'" [autocompleteItems]="autocompleteItemsAsObjects"></tag-input-dropdown>
+                            </tag-input>
+
+                            <tag-input  type="text" class="form-control" [placeholder] = 'Ingresa el correo' [ngModel]="masterEmail" [onlyFromAutocomplete]="true">
+                                <tag-input-dropdown [displayBy]="'value'" [identifyBy]="'id'" [autocompleteItems]="emailCustomer"></tag-input-dropdown>
+                            </tag-input>
+
+                            <div class="form-group">
+                               <label for="name">Email's</label>
+                               <tag-input [(ngModel)]="masterEmail" [onlyFromAutocomplete]="true">
+                                <tag-input-dropdown [showDropdownIfEmpty]="true" [autocompleteItems]="emailShow" [identifyBy]="'id'" [displayBy]="'email'">
+                                   </tag-input-dropdown>
+                                </tag-input>
+                            </div>
+
+                            <mat-form-field>
+                                <input type="text" matInput [formControl]="myControl" [matAutocomplete]="auto">
+                              </mat-form-field>
+                              
+                              <mat-autocomplete #auto="matAutocomplete">
+                                <mat-option *ngFor="let option of options" [value]="option">{{option}}</mat-option>
+                              </mat-autocomplete-->
+
+                            <input type="text" class="form-control" [(ngModel)]="masterEmail" [autocomplete]="true">
+                            <option *ngFor="let emails of emailCustomer">{{emails.email}}</option>
                         </div>
                         <div class="col-sm-6 col-xs-6 col-md-6  col-lg-5">
                             <input type="text" class="form-control" [(ngModel)]="masterName">
@@ -533,7 +559,7 @@
             </ngx-datatable-column>
 
 
-        </ngx-datatable>
+        </ngx-datatable-->
 
 <h1>
     TEST
