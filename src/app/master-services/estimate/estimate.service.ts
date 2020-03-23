@@ -1101,7 +1101,7 @@ createEstimateDetails(estimate_id: number, code: string, description: string,
         });
       }
 
-      getEmailsCustomer(consecutive: any){
+      getEmailsCustomer(customer_id: any){
         return new Promise (resolve=>{
           const headers = new HttpHeaders();
           headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user'))); // 'Bearer ' +
@@ -1114,7 +1114,7 @@ createEstimateDetails(estimate_id: number, code: string, description: string,
             })
           };
           const postParams = {
-            consecutive: consecutive
+            customer_id: customer_id
             };
           this.http.post(this.apiEndPoint+'api/show_email', postParams,httpOptions)
             .map(res => res).subscribe(data => {
@@ -1124,32 +1124,6 @@ createEstimateDetails(estimate_id: number, code: string, description: string,
               resolve(error);
             });
         });
-        }
-      
-        updateCustomerEmails(email: any, consecutive: any){
-          return new Promise (resolve=>{
-            const headers = new HttpHeaders();
-            headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user'))); // 'Bearer ' +
-            headers.append('Content-Type', 'application/json');
-            const httpOptions = {
-              headers: new HttpHeaders({
-                'Content-Type': 'application/json',
-                'Authorization': 'Bearer ' + localStorage.getItem('token_user'),
-                'Accept': 'application/json'
-              })
-            };
-            const postParams = {
-              email: email,
-              consecutive: consecutive
-              };
-            this.http.post(this.apiEndPoint+'api/validate_existing_email', postParams,httpOptions)
-              .map(res => res).subscribe(data => {
-                console.log(data);
-                resolve(data);
-              }, error => {
-                resolve(error);
-              });
-          });
         }
 
       createEstimateFile(estimate_id: number, bucket: string, url: string, type: number, nameFile:string) {

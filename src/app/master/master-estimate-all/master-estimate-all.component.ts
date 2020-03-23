@@ -631,25 +631,13 @@ export class MasterEstimateAllComponent extends NgbDatepickerI18n {
     }
 
     getEmailCustomer(){
-      this.estimateService.getEmailsCustomer(this.consecutive).then(res=>{
+      this.estimateService.getEmailsCustomer(this.estimateCurrent.customer_id).then(res=>{
         console.log('que paso');
         console.log(this.emailCustomer);
         console.log('s3info'+JSON.stringify(res));
         this.s3info=res;
         this.emailCustomer=res;
         //Poner un for para los email's
-        console.log(this.s3info);
-      }).catch(error=> {
-        console.log(error);
-      });
-    }
-
-    updateCustomerEmails(){
-      this.estimateService.updateCustomerEmails(this.masterEmail,this.consecutive).then(res=>{
-        console.log('que paso');
-        console.log(this.emailCustomer);
-        console.log('s3info'+JSON.stringify(res));
-        this.s3info=res;
         console.log(this.s3info);
       }).catch(error=> {
         console.log(error);
@@ -726,7 +714,6 @@ export class MasterEstimateAllComponent extends NgbDatepickerI18n {
         this.sendEmailFinal();
         console.log('Solo para enviar el correo');
       }
-      this.updateCustomerEmails();
 
         console.log('este debe pasar este lado ps sssssssssssssss');
      }

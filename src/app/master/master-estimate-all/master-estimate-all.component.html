@@ -83,7 +83,8 @@
                                 <mat-option *ngFor="let option of options" [value]="option">{{option}}</mat-option>
                               </mat-autocomplete-->
 
-                            <input type="text" class="form-control" [(ngModel)]="masterEmail">
+                            <input type="text" class="form-control" [(ngModel)]="masterEmail" [autocomplete]="true">
+                            <option *ngFor="let emails of emailCustomer">{{emails.email}}</option>
                         </div>
                         <div class="col-sm-6 col-xs-6 col-md-6  col-lg-5">
                             <input type="text" class="form-control" [(ngModel)]="masterName">
