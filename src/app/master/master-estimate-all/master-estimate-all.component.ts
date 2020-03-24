@@ -70,8 +70,6 @@ export class I18n {
 })
 export class MasterEstimateAllComponent extends NgbDatepickerI18n {
 
-
-
    public userModel = {
     id: 0,
     name: "",
@@ -567,6 +565,21 @@ export class MasterEstimateAllComponent extends NgbDatepickerI18n {
   });
 }
 
+selectEvent(item) {
+  console.log('este es el item: '+JSON.stringify(item));
+  this.masterName = item.email;
+  // masterName
+  // do something with selected item
+}
+
+onChangeSearch(search: string) {
+  console.log('search:' +JSON.stringify(search));}
+
+onFocused(e) {
+console.log('este es el e:'+ +JSON.stringify(e));
+}
+
+
 
    upload() { 
 
@@ -630,15 +643,13 @@ export class MasterEstimateAllComponent extends NgbDatepickerI18n {
       this.getEmailCustomer();
     }
 
-    getEmailCustomer(){
-      this.estimateService.getEmailsCustomer(this.estimateCurrent.customer_id).then(res=>{
+    getEmailCustomer(){//this.estimateCurrent.customer_id
+      this.estimateService.getEmailsCustomer(this.estimateCurrent.customer_id).then(data=>{
+        const resp: any = data;
         console.log('que paso');
-        console.log(this.emailCustomer);
-        console.log('s3info'+JSON.stringify(res));
-        this.s3info=res;
-        this.emailCustomer=res;
+        this.emailCustomer= resp.data;
         //Poner un for para los email's
-        console.log(this.s3info);
+        console.log(this.emailCustomer);
       }).catch(error=> {
         console.log(error);
       });
@@ -4181,7 +4192,7 @@ updateForklift(forklift:any) {
   
   
     addEmail(){
-
+      console.log('este es el valor de email: '+ this.masterEmail);
       if(this.validateEmail(this.masterEmail)){
         this.emailSend={
           email: this.masterEmail,

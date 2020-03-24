@@ -30,6 +30,7 @@
         "@syncfusion/ej2-angular-schedule": "^17.2.47",
         "@syncfusion/ej2-material-theme": "~17.2.46",
         "angular-calendar-year-view": "^2.0.2",
+        "angular-ng-autocomplete": "^2.0.1",
         "angular2-chartjs": "^0.4.1",
         "angular2-notifications": "^0.7.4",
         "angular2-uuid": "^1.1.1",

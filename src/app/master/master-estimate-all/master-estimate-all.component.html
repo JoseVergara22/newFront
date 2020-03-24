@@ -58,7 +58,49 @@
                     </div>
                     <div class="row">
                         <div class="col-sm-6 col-xs-6 col-md-6  col-lg-5">
+                           <!-- <ng-autocomplete
+                            [data]="emailCustomer"
+                            [searchKeyword]="masterEmail"
+                            placeHolder="Correo Electrónico"
+                            (selected)='selectEvent($event)'
+                            (inputChanged)='onChangeSearch($event)'
+                            (inputFocused)='onFocused($event)'
+                            [itemTemplate]="itemTemplate">
+                          </ng-autocomplete> 
+                          <ng-template #itemTemplate let-item>
+                            <a [innerHTML]="item.email"></a>
+                          </ng-template>
+                        
+                          <ng-template #notFoundTemplate let-notFound>
+                            <div [innerHTML]="notFound"></div>
+                          </ng-template> -->
 
+                          <input  type="text" class="form-control"   [(ngModel)]="masterEmail" list="browsers">
+                          <datalist  id="browsers">
+                             <div  *ngFor="let customerEmail of emailCustomer">
+                                <option    value={{customerEmail.email}}>
+                             </div> 
+                           
+                          </datalist>
+
+                     <!--     <ng-autocomplete
+                          [data]="countries"
+                          [searchKeyword]="keyword"
+                          placeHolder="Enter the Country Name"
+                          (selected)='selectEvent($event)'
+                          (inputChanged)='onChangeSearch($event)'
+                          (inputFocused)='onFocused($event)'
+                          [itemTemplate]="itemTemplate"
+                          [notFoundTemplate]="notFoundTemplate">
+                        </ng-autocomplete>
+                      
+                        <ng-template #itemTemplate let-item>
+                          <a [innerHTML]="item.name"></a>
+                        </ng-template>
+                      
+                        <ng-template #notFoundTemplate let-notFound>
+                          <div [innerHTML]="notFound"></div>
+                        </ng-template> -->
                             <!--tag-input [ngClass]="'tag-select'" theme='bootstrap' [placeholder] = "'Select Name +'" [ngModel]="[]" [onlyFromAutocomplete]="true">
                                 <input-dropdown [displayBy]="'value'" [identifyBy]="'id'" [autocompleteItems]="autocompleteItemsAsObjects"></tag-input-dropdown>
                             </tag-input>
@@ -82,12 +124,19 @@
                               <mat-autocomplete #auto="matAutocomplete">
                                 <mat-option *ngFor="let option of options" [value]="option">{{option}}</mat-option>
                               </mat-autocomplete-->
+                          
+                             <!-- <input type="text" class="form-control" [(ngModel)]="masterEmail" [autocomplete]="true">
+                           <option *ngFor="let emails of emailCustomer">{{emails.email}}</option> -->
+                          
+                         
 
-                            <input type="text" class="form-control" [(ngModel)]="masterEmail" [autocomplete]="true">
-                            <option *ngFor="let emails of emailCustomer">{{emails.email}}</option>
+
                         </div>
                         <div class="col-sm-6 col-xs-6 col-md-6  col-lg-5">
                             <input type="text" class="form-control" [(ngModel)]="masterName">
+                        
+                          
+                        
                         </div>
                         <div class="col-sm-1" style="margin-top: 0.5%">
                             <button class="btn btn-warning btn-icon" (click)="addEmail()"><i class="icofont icofont-ui-add"></i></button>
@@ -559,11 +608,7 @@
             </ngx-datatable-column>
 
 
-        </ngx-datatable-->
-
-<h1>
-    TEST
-</h1 >-->
+        </ngx-datatable-->                            
 
 <ngx-datatable #table class="data-table" [rows]="rowsClient"   [columnMode]="'flex'" [headerHeight]="50" [footerHeight]="50" [rowHeight]="'auto'" [limit]="20">
 

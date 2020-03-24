@@ -68,6 +68,9 @@ import { ForkliftService } from '../master-services/Forklift/forklift.service';
 import { EstimateService } from '../master-services/estimate/estimate.service';
 import { FilexcelService } from '../master-services/FileExcel/filexcel.service';
 
+import {AutocompleteLibModule} from 'angular-ng-autocomplete';
+
+
 @NgModule({
   imports: [
     CommonModule,
@@ -80,7 +83,8 @@ import { FilexcelService } from '../master-services/FileExcel/filexcel.service';
     SharedModule,
     UiSwitchModule,
     NgxDatatableModule,
-    NgbModule
+    NgbModule,
+    AutocompleteLibModule
   ],
   exports: [
   ],
