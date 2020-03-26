@@ -214,6 +214,7 @@ export class MasterEstimateConfigurationComponent implements OnInit {
 
       if(country_id===4){
         this.formulaEstimateCountriesBel=resp.data;
+        console.log('informacion de belgica '+  this.formulaEstimateCountriesBel);
         this. showFormulaEstimateCuntriesBel();
       }
    

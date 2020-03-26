@@ -189,7 +189,7 @@
                         </div>
             </div>
             <div class="col-sm-6">
-                <div *ngIf="formulaUsaOne">
+                <div *ngIf="formulaEspOne">
                     <h6>Configuración ESPAÑA</h6>
                     <br>
               <h6>{{formulaEspOne.formula_description}}</h6>
@@ -224,7 +224,7 @@
     <br>
     <div class="row">
             <div class="col-sm-6">
-                    <h6>Configuración BELGICA</h6>
+           <!--         <h6>Configuración BELGICA</h6>
                     <br>
               <div  *ngFor="let formulaCondition of formulaEstimateCountriesBel">
 
@@ -237,7 +237,46 @@
                             </label>
                          </p>
                 </div>      
-            </div>
+           
+
+             Arreglo de formula belgica -->
+
+            <div *ngIf="formulaBelOne">
+                <h6>Configuración BELGICA</h6>
+                <br>
+          <h6>{{formulaBelOne.formula_description}}</h6>
+                            <p>  <label>
+                                     <i class="helper"></i> Precio &nbsp;&nbsp;&nbsp;&nbsp;<input type="text" [(ngModel)]="formulaBelOnePrice"><br>
+                                     <i class="helper"></i>  Variables manejo &nbsp;&nbsp;&nbsp;&nbsp; <input type="text" [(ngModel)]="formulaBelOneManagementVariables"> <br>
+                                     <i class="helper"></i>  Arancel &nbsp;&nbsp;&nbsp;&nbsp; <input type="text"[(ngModel)]="formulaBelOneTariff"><br>
+                                  </label>
+                               </p>
+                               <br>
+                               <h6>{{formulaBelTwo.formula_description}}</h6>
+                            
+                                       <p>  <label>
+                                          <i class="helper"></i> Precio &nbsp;&nbsp;&nbsp;&nbsp;<input type="text" [(ngModel)]="formulaBelSecondPrice"><br>
+                                          <i class="helper"></i>  Variables manejo &nbsp;&nbsp;&nbsp;&nbsp; <input type="text" [(ngModel)]="formulaBelSecondManagementVariables"> <br>
+                                          <i class="helper"></i>  Arancel &nbsp;&nbsp;&nbsp;&nbsp; <input type="text"[(ngModel)]="formulaBelSecondTariff"><br>
+                                       </label>
+                                    </p>
+                                    <br>
+                                    <h6>{{formulaBelThird.formula_description}}</h6>
+                                 
+                                            <p>  <label>
+                                               <i class="helper"></i> Precio &nbsp;&nbsp;&nbsp;&nbsp;<input type="text" [(ngModel)]="formulaBelThirdPrice"><br>
+                                               <i class="helper"></i>  Variables manejo &nbsp;&nbsp;&nbsp;&nbsp; <input type="text" [(ngModel)]="formulaBelThirdManagementVariables"> <br>
+                                               <i class="helper"></i>  Arancel &nbsp;&nbsp;&nbsp;&nbsp; <input type="text"[(ngModel)]="formulaBelThirdTariff"><br>
+                                            </label>
+                                         </p>
+                    </div>
+
+                </div>
+
+
+
+
+
         </div>
         <div class="row">
                 <div class="col-sm-8">
