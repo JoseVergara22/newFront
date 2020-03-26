@@ -747,7 +747,7 @@ updateBrand(brand) {
     this.formulaEspOne.id+'@'+this.formulaEspOnePrice+'@'+ this.formulaEspOneManagementVariables+'@'+this.formulaEspOneTariff+'@'+
     this.formulaEspTwo.id+'@'+this.formulaEspSecondPrice+'@'+ this.formulaEspSecondManagementVariables+'@'+this.formulaEspSecondTariff+'@'+
     this.formulaEspThird.id+'@'+this.formulaEspThirdPrice+'@'+ this.formulaEspThirdManagementVariables+'@'+this.formulaEspThirdTariff+'@'+
-    this.formulaEspOne.id+'@'+this.formulaBelOnePrice+'@'+ this.formulaBelOneManagementVariables+'@'+this.formulaBelOneTariff+'@'+
+    this.formulaBelOne.id+'@'+this.formulaBelOnePrice+'@'+ this.formulaBelOneManagementVariables+'@'+this.formulaBelOneTariff+'@'+
     this.formulaBelTwo.id+'@'+this.formulaBelSecondPrice+'@'+ this.formulaBelSecondManagementVariables+'@'+this.formulaBelSecondTariff+'@'+
     this.formulaBelThird.id+'@'+this.formulaBelThirdPrice+'@'+ this.formulaBelThirdManagementVariables+'@'+this.formulaBelThirdTariff;                           
     
