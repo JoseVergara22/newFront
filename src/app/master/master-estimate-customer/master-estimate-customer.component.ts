@@ -1203,7 +1203,7 @@ console.log('Importante informacion: '+ this.conditionValidation);
       }
 
 
-      this.trmGeneralEsp= (trm*this.conditionTrmEsp.constant).toFixed(2);
+      this.trmGeneralEsp= ( this.trmGeneralUsa*this.conditionTrmEsp.constant).toFixed(2);
 
 
 
@@ -1275,7 +1275,7 @@ showShippingCountriesDhl(conditionValidation:number ,country:number,weight: numb
    let priceTemp=0;
   console.log('---------------------');
   console.log(this.showShippingCountriesDhlFilter);
-  console.log('----------------------');
+  console.log('Valores definitivos '+conditionValidation +','+country+','+weight+','+ ind);
 
   
 for (let item of  this.showShippingCountriesDhlFilter) {
@@ -1300,6 +1300,7 @@ console.log(country+'-'+item.estimate_countries_id+'-'+item.conexion_id_validati
       this.freightGeneral=priceTemp;
        console.log( this.freightGeneral);
 
+       console.log('Llego hasta aqui 123')
        if(ind==0){
         this.finalOperation(country);
        }else{
@@ -1357,7 +1358,7 @@ console.log(country+'-'+item.estimate_countries_id+'-'+item.conexion_id_validati
         console.log('Precion alto: ' + this.higherPrice);
       } 
     }else{
-      console.log('ingreso');
+      console.log('ingreso para el flete 123');
       this.calculateFreight(this.weight, this.unitCost);
     }
     }
@@ -1493,18 +1494,24 @@ finalOperation(country:number){
   // this.freightGeneral  this.managementVariables this.finalWeight
   console.log('Ingreso hasta aquí');
    let drivingCost=0;
-
+console.log('yeison');
   if(this.conditionValidation==3){
     drivingCost=this.managementVariables;
     console.log('costo de manejo');
     console.log(drivingCost);
    
   }else{
-    if(country==4){
+   // if(country==4){
+      console.log('456');
       drivingCost=this.unitCost*Number(this.managementVariables)+this.unitCost*(Number(this.managmentTariff)/100);//10
-    }else{
-      drivingCost=this.unitCost*Number(this.managementVariables);
-    }
+  //  }else{
+    //  console.log('123');
+    //  drivingCost=this.unitCost*Number(this.managementVariables)+this.unitCost*(Number(this.managmentTariff)/100);//10
+      // drivingCost=this.unitCost*Number(this.managementVariables);
+     //  drivingCost= drivingCost*(Number(this.managmentTariff)/100);
+      
+     // drivingCost=this.unitCost*Number(this.managementVariables)+this.unitCost*(Number(this.managmentTariff)/100);//10
+    // }
    
   }
 
@@ -1516,6 +1523,8 @@ finalOperation(country:number){
      operationFreight = Number(Number(this.freightGeneral).toFixed(2))*this.finalWeight;
   }
 
+
+  console.log('fase final'+ Number(operationFreight));
   console.log('driving '+drivingCost);
   // let operationFreight = this.freightGeneral*this.finalWeight;
   console.log('operation '+ this.freightGeneral);
@@ -1581,11 +1590,12 @@ finalOperationUpdate(country:number){
     console.log(drivingCost);
    
   }else{
-    if(country==4){
+    // if(country==4){
       drivingCost=this.unitCostUpdate*Number(this.managementVariables)+this.unitCostUpdate*(Number(this.managmentTariff)/100);//10
-    }else{
-      drivingCost=this.unitCostUpdate*Number(this.managementVariables);
-    }
+    // }else{
+      // drivingCost=this.unitCostUpdate*Number(this.managementVariables);
+      //drivingCost=this.unitCostUpdate*Number(this.managementVariables)+this.unitCostUpdate*(Number(this.managmentTariff)/100);//
+    //}
    
   }
 

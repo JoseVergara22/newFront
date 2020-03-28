@@ -1300,7 +1300,7 @@ console.log('Importante informacion: '+ this.conditionValidation);
       }
 
 
-      this.trmGeneralEsp= (trm*this.conditionTrmEsp.constant).toFixed(2);
+      this.trmGeneralEsp= (this.trmGeneralUsa*this.conditionTrmEsp.constant).toFixed(2);
 
 
 
@@ -1606,11 +1606,11 @@ finalOperation(country:number){
     console.log(drivingCost);
    
   }else{
-    if(country==4){
+    //if(country==4){
       drivingCost=this.unitCost*Number(this.managementVariables)+this.unitCost*(Number(this.managmentTariff)/100);//10
-    }else{
+    /*}else{
       drivingCost=this.unitCost*Number(this.managementVariables);
-    }
+    }*/
    
   }
 
@@ -1690,11 +1690,11 @@ finalOperationUpdate(country:number){
     console.log(drivingCost);
    
   }else{
-    if(country==4){
+   // if(country==4){
       drivingCost=this.unitCostUpdate*Number(this.managementVariables)+this.unitCostUpdate*(Number(this.managmentTariff)/100);//10
-    }else{
-      drivingCost=this.unitCostUpdate*Number(this.managementVariables);
-    }
+   // }else{
+    //  drivingCost=this.unitCostUpdate*Number(this.managementVariables);
+   // }
    
   }
 
