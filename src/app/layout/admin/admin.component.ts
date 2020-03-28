@@ -66,6 +66,7 @@ import {MenuItems} from '../../shared/menu-items/menu-items';
 })
 export class AdminComponent implements OnInit {
   public navType: string;
+  public type: string; 
   public themeLayout: string;
   public verticalPlacement: string;
   public verticalLayout: string;
@@ -132,6 +133,7 @@ export class AdminComponent implements OnInit {
     this.sidebarImg = 'false';
     this.sidebarImgType = 'img1';
     this.layoutType = 'light';
+    this.type = 'component'; 
 
     this.headerTheme = 'themelight5';
     this.pcodedHeaderPosition = 'fixed';
