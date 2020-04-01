@@ -394,6 +394,7 @@ export class MasterEstimateAllComponent extends NgbDatepickerI18n {
 
 
   downloadPdf(item: any, ind: number){
+    swal.showLoading();
   console.log('item :'+ JSON.stringify(item));
   this.estimateId= item.id;
   this.user = item.elaborate_user.username;
@@ -2858,6 +2859,7 @@ img.onload = function() {
 
 
     console.log('el ja tiene el metodo para enviar el correo');
+    swal.close();
     }
 
     async  getBase64ImageFromUrl(imageUrl) {

@@ -38,6 +38,18 @@ import { MasterEstimateConfigurationComponent } from './master-estimate-configur
 import { MasterUpdateEstimateCustomerComponent } from './master-update-estimate-customer/master-update-estimate-customer.component';
 import { MasterCopyEstimateCustomerComponent } from './master-copy-estimate-customer/master-copy-estimate-customer.component';
 import { MasterPrivacyPolicyComponent } from './master-privacy-policy/master-privacy-policy.component';
+import { MasterRegionalsComponent } from './master-regionals/master-regionals.component';
+import { MasterRegisterRegionalComponent } from './master-register-regional/master-register-regional.component';
+import { MasterUpdateRegionalComponent } from './master-update-regional/master-update-regional.component';
+import { MasterTechniciansComponent } from './master-technicians/master-technicians.component';
+import { MasterCreateTechniciansComponent } from './master-create-technicians/master-create-technicians.component';
+import { MasterUpdateTechniciansComponent } from './master-update-technicians/master-update-technicians.component';
+import { MasterCostCenterComponent } from './master-cost-center/master-cost-center.component';
+import { MasterRegisterCostCenterComponent } from './master-register-cost-center/master-register-cost-center.component';
+import { MasterUpdateCostCenterComponent } from './master-update-cost-center/master-update-cost-center.component';
+import { MasterWarehousesComponent } from './master-warehouses/master-warehouses.component';
+import { MasterSubCostCenterComponent } from './master-sub-cost-center/master-sub-cost-center.component';
+
 
 const routes: Routes = [
   {
@@ -187,6 +199,39 @@ const routes: Routes = [
   },{
     path: 'administrarclientes',
     component: MasterPrivacyPolicyComponent
+  },{
+    path: 'regionalsAll',
+    component: MasterRegionalsComponent
+  },{
+    path: 'registeRegional',
+    component: MasterRegisterRegionalComponent,
+  },{
+    path: 'regionalsUpdate',
+    component: MasterUpdateRegionalComponent,
+  },{
+    path: 'techniciansAll',
+    component: MasterTechniciansComponent,
+  },{
+    path: 'registerTechnicians',
+    component: MasterCreateTechniciansComponent,
+  },{
+    path: 'techniansUpdate',
+    component: MasterUpdateTechniciansComponent,
+  },{
+    path: 'costCenter',
+    component: MasterCostCenterComponent,
+  },{
+    path: 'registeCostCeneter',
+    component: MasterRegisterCostCenterComponent,
+  },{
+    path:'costCeneterUpdate',
+    component: MasterUpdateCostCenterComponent
+  },{
+    path:'warehouses',
+    component: MasterWarehousesComponent
+  },{
+    path:'subCostCenter',
+    component: MasterSubCostCenterComponent
   }
 ];
 
