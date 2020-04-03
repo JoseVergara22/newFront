@@ -1685,7 +1685,8 @@ finalOperationUpdate(country:number){
    let drivingCost=0;
 
   if(this.conditionValidation==3){
-    drivingCost=Number(this.managementVariables)+this.unitCost*(Number(this.managmentTariff)/100);
+    console.log('valor tariff '+this.managmentTariff);
+    drivingCost=Number(this.managementVariables)+this.unitCostUpdate*(Number(this.managmentTariff)/100);
     console.log('costo de manejo');
     console.log(drivingCost);
    

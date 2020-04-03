@@ -64,7 +64,7 @@ import { MasterRegisterCostCenterComponent } from './master-register-cost-center
 import { MasterUpdateCostCenterComponent } from './master-update-cost-center/master-update-cost-center.component';
 import { MasterWarehousesComponent } from './master-warehouses/master-warehouses.component';
 import { MasterSubCostCenterComponent } from './master-sub-cost-center/master-sub-cost-center.component';
-
+import { MasterWarehousesOutComponent } from './master-warehouses-out/master-warehouses-out.component';
 
 // import { MasterAdminComponent } from '../master-layout/master-admin/master-admin.component';
 
@@ -153,6 +153,7 @@ import {AutocompleteLibModule} from 'angular-ng-autocomplete';
     MasterUpdateCostCenterComponent,
     MasterWarehousesComponent,
     MasterSubCostCenterComponent,
+    MasterWarehousesOutComponent
    // MasterAdminComponent
   ],
   providers: [

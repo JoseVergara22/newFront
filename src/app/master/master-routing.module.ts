@@ -49,7 +49,7 @@ import { MasterRegisterCostCenterComponent } from './master-register-cost-center
 import { MasterUpdateCostCenterComponent } from './master-update-cost-center/master-update-cost-center.component';
 import { MasterWarehousesComponent } from './master-warehouses/master-warehouses.component';
 import { MasterSubCostCenterComponent } from './master-sub-cost-center/master-sub-cost-center.component';
-
+import { MasterWarehousesOutComponent } from './master-warehouses-out/master-warehouses-out.component';
 
 const routes: Routes = [
   {
@@ -232,7 +232,11 @@ const routes: Routes = [
   },{
     path:'subCostCenter',
     component: MasterSubCostCenterComponent
+  },{
+    path:'warehousesout',
+    component:MasterWarehousesOutComponent
   }
+
 ];
 
 
