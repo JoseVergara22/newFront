@@ -59,33 +59,35 @@ export class MasterTechniciansComponent implements OnInit {
     this.loadingData();
 
     const name = new FormControl('', Validators.required);
-    const typeDocumentId = new FormControl('', Validators.required);
     const document = new FormControl('', Validators.required);
     const cellphone = new FormControl('');
 
-    const codeUpdate = new FormControl('', Validators.required);
-    const descriptionUpdate  = new FormControl('', Validators.required);
+    const nameUpdate = new FormControl('', Validators.required);
+    const documentUpdate  = new FormControl('', Validators.required);
+    const cellphoneUpdate  = new FormControl('', Validators.required);
 
     this.myForm = new FormGroup({
       name: name,
-      typeDocumentId: typeDocumentId,
       document: document,
       cellphone: cellphone,
     });
 
     this.myFormUpdate = new FormGroup({
-      codeUpdate: codeUpdate,
-      descriptionUpdate: descriptionUpdate
+      nameUpdate: nameUpdate,
+      documentUpdate: documentUpdate,
+      cellphoneUpdate: cellphoneUpdate,
    });
   }
 
 updateTech(row) {
   console.log(row);
   this.currentTechnician = row;
-  console.log( this.currentTechnician );
+  console.log(this.currentTechnician);
   this.myFormUpdate.get('documentUpdate').setValue(row.document);
   this.myFormUpdate.get('nameUpdate').setValue(row.name);
   this.myFormUpdate.get('cellphoneUpdate').setValue(row.cellphone);
+  this.idTechnician= row.id;
+  console.log(this.idTechnician);
     this.enabledUpdated = true;
   
   document.getElementById('updateTech').click();
@@ -93,7 +95,6 @@ updateTech(row) {
 
 updatedTechnician() {
   console.log('Ole ole ole kakaakkaka');
-  console.log(this.selectedTypeDocumentIdUpdate);
 
   if ( !this.myFormUpdate.invalid) {
     this.submittedUpdated = true;
@@ -110,7 +111,7 @@ updatedTechnician() {
     }
     console.log('kakakaka');
 
-    this.restService.updateTechnian(Number(this.technician.id), this.myFormUpdate.get('nameUpdate').value.toUpperCase(),
+    this.restService.updateTechnian(Number(this.idTechnician), this.myFormUpdate.get('nameUpdate').value.toUpperCase(),
     this.myFormUpdate.get('documentUpdate').value, this.myFormUpdate.get('cellphoneUpdate').value)
     .then(data => {
       const resp: any = data;
@@ -123,7 +124,7 @@ updatedTechnician() {
          });
       } else {
         console.log('Cambio');
-        document.getElementById('updateTechnicianHide').click();
+        document.getElementById('updatTechnicianHide').click();
         this.loadingData();    
    swal({
     title: 'Tecnico actualizado',
@@ -144,7 +145,6 @@ updatedTechnician() {
 
 sendTechnicians() {
   console.log('Ole ole ole');
-  console.log(this.selectedTypeDocumentId);
 
     this.submitted = true;
    if ( !this.myForm.invalid) {
@@ -174,7 +174,7 @@ sendTechnicians() {
       } else {
         this.idtechnicanCreated = resp.data.id;
         console.log('creo');
-        document.getElementById( 'updatTechnicianHide').click();
+        document.getElementById( 'createTechnicianHide').click();
         this.loadingData();
    swal({
     title: 'Tecnico agregado',

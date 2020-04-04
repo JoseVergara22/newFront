@@ -69,7 +69,7 @@ export class MasterRegisterCostCenterComponent implements OnInit {
       }
 
       this.restService.createCostCenter(this.myForm.get('description').value.toUpperCase(),
-       this.myForm.get('code').value)
+       this.myForm.get('code').value, 1)
       .then(data => {
         const resp: any = data;
         console.log(resp);

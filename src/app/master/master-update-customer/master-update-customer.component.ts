@@ -8,6 +8,13 @@ import { UUID } from 'angular2-uuid';
 import { ActivatedRoute, Params } from '@angular/router';
 import { getElement } from '@syncfusion/ej2-base';
 
+interface regionalSelectInterface {// item para mostrar selccionados
+  id?: number;
+  code?: string,
+  description?: string;
+  cheked?: boolean;
+}
+
 @Component({
   selector: 'app-master-update-customer',
   templateUrl: './master-update-customer.component.html',
@@ -82,13 +89,18 @@ selectedDepartmentIdUpdate: any = 0;
 selectedCityIdUpdate: any = 0;
   customer: any;
 
+  checkAllRegional = false;
+regionals: Array <regionalSelectInterface> = [];
+itemRegional:regionalSelectInterface;
+rowsRegional: any;
+selectRegional:  Array <regionalSelectInterface> = [];
 
   constructor(private restService: RestService, private router: Router, private uploadService: UploadService,
               private rutaActiva: ActivatedRoute) {
 
     this.getMasters(0);
     // this.getOffices();
-
+this.getRegionals();
     this.currentCustomerId = this.rutaActiva.snapshot.params.id;
     this.getOffices(this.currentCustomerId);
     console.log(this.currentCustomerId);
@@ -175,6 +187,116 @@ this.myFormUpdateOffice = new FormGroup({
 
 
    }
+
+   getRegionals(){
+    this.restService.getRegional().then(data => {
+        const resp: any = data;
+        console.log(resp);
+        console.log('OEOEOEOEOEEO');
+        console.log('---------------------------');
+        this.rowsRegional = resp.data;
+
+        console.log('información de regional');
+        console.log( this.rowsRegional);
+        console.log( this.rowsRegional.length);
+
+        this.regionals=[];
+        this.rowsRegional.forEach((item)=>{
+          console.log(item);
+          this.itemRegional={
+            id: item.id,
+            code: item.code,
+            description: item.description
+          }
+          this.regionals.push(this.itemRegional);
+        });
+
+      }).catch(error => {
+        console.log(error);
+      });
+}
+
+checkUncheckAllPart(event:any){
+
+  this.checkAllRegional=event.target.checked;    
+    for (let i = 0; i < this.regionals.length; i++){
+      console.log('lo encontre'+i);
+        this.regionals[i].cheked=event.target.checked;
+    }
+  }
+
+  partChangeActive(event:any, item:any){
+    
+    console.log('valor para editar');
+    console.log(event);
+    console.log(item);
+    console.log(item.id);
+
+    for (let i = 0; i < this.regionals.length; i++){
+     if (this.regionals[i].id == item.id){
+     console.log(item);
+     console.log('lo encontre'+i);
+       this.regionals[i].cheked=event.target.checked;
+       console.log(this.regionals[i]);
+     }
+   }
+  }
+
+  finalRegional(){
+    this.selectRegional=[];
+    for (let i = 0; i < this.regionals.length; i++){
+      console.log('lo encontre'+i);
+      if(this.regionals[i].cheked){
+        this.selectRegional.push(this.regionals[i]);
+      }
+    }
+    let regionalSelec = '';
+     regionalSelec = this.idCustomerCreated;
+  
+    for (let i = 0; i < this.selectRegional.length; i++){
+      regionalSelec=regionalSelec+ this.selectRegional[i].id+'@'+this.selectRegional[i].description+'@'; 
+    }
+    console.log(this.selectRegional);
+    console.log(regionalSelec);
+  
+    if(regionalSelec != ''){
+    swal({
+      title: 'Validando información ...',
+      allowOutsideClick: false
+    });
+    swal.showLoading();
+   
+    this.restService.customerRegionalSelect(regionalSelec
+      ).then(data => {
+      const resp: any = data;
+      console.log('envio');
+      console.log(resp);
+      if (resp.success === false) {
+        swal({
+          title: 'Falla en la actualizacion',
+          text: 'Este sub centro de costos no se pudo actualizar',
+          type: 'error'
+         });
+        }else{
+          swal({
+            title: 'Regionales guardadas',
+            type: 'success'
+           });
+        }
+      }).catch(error => {
+        console.log(error);
+        swal.close();
+      });
+        
+  }else{
+       swal({
+          title: 'Se presentó un problema',
+          text: 'Favor selecionar al menos una opcion.',
+          type: 'error',
+        });
+      }
+  
+  }
 
   ngOnInit() {
   }

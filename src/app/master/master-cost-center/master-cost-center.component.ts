@@ -7,7 +7,8 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 @Component({
   selector: 'app-master-cost-center',
   templateUrl: './master-cost-center.component.html',
-  styleUrls: ['./master-cost-center.component.scss']
+  styleUrls: ['./master-cost-center.component.scss',
+  '../../../assets/icon/icofont/css/icofont.scss']
 })
 export class MasterCostCenterComponent implements OnInit {
 
@@ -47,7 +48,7 @@ export class MasterCostCenterComponent implements OnInit {
   idCostCenter;
   constCenter: any;
   regionalsUpdate;
-  selectedRegionalUpdate = 0;
+  selectedRegionalUpdate: any;
 
   constructor(private restService: RestService, private router: Router) {
    this.loadingData();
@@ -77,10 +78,17 @@ export class MasterCostCenterComponent implements OnInit {
     this.restService.getRegional().then(data => {
         const resp: any = data;
         console.log(resp);
-        this.regionals = resp;
+        this.regionals = resp.data;
           swal.close();
   });
 }
+
+  changeValue(){
+    console.log('valor');
+    console.log(this.selectedRegionalUpdate);
+    console.log('valor');
+
+  }
 
    sendCostCenter() {
     console.log('Ole ole ole');
@@ -97,7 +105,7 @@ export class MasterCostCenterComponent implements OnInit {
       });
       swal.showLoading();
       this.restService.createCostCenter(this.myForm.get('description').value.toUpperCase(),
-       this.myForm.get('code').value)
+       this.myForm.get('code').value,this.selectedRegional.id)
       .then(data => {
         const resp: any = data;
         console.log(resp);
@@ -110,10 +118,10 @@ export class MasterCostCenterComponent implements OnInit {
         } else {
           this.idConstCenter = resp.data.id;
           console.log('Cambio');
-          document.getElementById('modalRegisterCostCenter').click();
+          document.getElementById('createCostCenterHide').click();
           this.loadingData();
      swal({
-      title: 'Centro de cosots agregada',
+      title: 'Centro de costos agregada',
       type: 'success'
      });
       }
@@ -136,8 +144,10 @@ export class MasterCostCenterComponent implements OnInit {
     console.log( this.currentCostCenter );
     this.myFormUpdate.get('descriptionUpdate').setValue(row.description);
     this.myFormUpdate.get('codeUpdate').setValue(row.code);
-    
+    this.idCostCenter = row.id;
     document.getElementById( 'updateCostCenter').click();
+    this.selectedRegionalUpdate = row.regionalDescription;
+    console.log(this.selectedRegionalUpdate);
    }
 
   updateCostCenters() {
@@ -145,6 +155,7 @@ export class MasterCostCenterComponent implements OnInit {
     console.log(this.codeUpdate);
     console.log(this.descriptionUpdate);
     console.log(this.selectedRegionalUpdate);
+    console.log(this.selectedRegional);
 
     if ( Number(this.selectedRegionalUpdate) !== 0) {
       this.submittedUpdated = true;
@@ -156,14 +167,14 @@ export class MasterCostCenterComponent implements OnInit {
       swal.showLoading();
       console.log('kakakaka');
       this.restService.updatCostCenters(Number(this.idCostCenter), this.myFormUpdate.get('descriptionUpdate').value.toUpperCase(),
-       this.myFormUpdate.get('codeUpdate').value, this.myFormUpdate.get('selectedRegionalUpdate').value)
+       this.myFormUpdate.get('codeUpdate').value, this.selectedRegionalUpdate)
       .then(data => {
         const resp: any = data;
         console.log(JSON.stringify(resp));
         if (resp.success === false) {
           swal({
             title: 'Falla en la actualizacion',
-            text: 'Esta regional no se pudo actualizar',
+            text: 'Este centor de costos no se pudo actualizar',
             type: 'error'
            });
         } else {
@@ -171,7 +182,7 @@ export class MasterCostCenterComponent implements OnInit {
           document.getElementById('updateCostCenterHide').click();
           this.loadingData();
      swal({
-      title: 'Regional actualizada.',
+      title: 'Centro de costos actualizado.',
       type: 'success'
      });
       }
@@ -218,7 +229,7 @@ export class MasterCostCenterComponent implements OnInit {
                 type: 'error'
                });
             } else {
-           // this.router.navigateByUrl('master/registerBrand');
+    
            this.loadingData();
            swal({
             title: 'Centro de costos eliminado',

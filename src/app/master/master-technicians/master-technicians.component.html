@@ -24,7 +24,7 @@
                 <div class="form-group row">
                   <div class="col-sm-4">
          
-                      <h6>Teléfono</h6>
+                      <h6>Teléfono <span style="color:red;">*</span></h6>
                       <input type="text" class="form-control" formControlName="cellphone" [ngClass]="{ 'is-invalid': submitted && checkForm.cellphone.errors }">
                       <div *ngIf="submitted && checkForm.cellphone.errors" class="invalid-feedback"></div>
 
@@ -32,7 +32,7 @@
                 </div>
             <div class="form-group row">
               <div class="align-buttons">
-                <button type="button" class="btn btn-default waves-effect" id="createBrandHide" (click)="modalRegisterTechnicians.hide()">Cancelar</button>
+                <button type="button" class="btn btn-default waves-effect" id="createTechnicianHide" (click)="modalRegisterTechnicians.hide()">Cancelar</button>
                 <button type="submit " class="btn btn-primary m-b-0 ">Agregar Tecnico</button>
               </div>
             </div>
@@ -56,7 +56,7 @@
                 </div>
                 <div class="col-sm-4 ">
  
-                    <h6>Razón social <span style="color:red; ">*</span></h6>
+                    <h6>Nombre Completo <span style="color:red; ">*</span></h6>
                     <input type="text " class="form-control " formControlName="nameUpdate" [ngClass]="{ 'is-invalid': submittedUpdated && checkFormUpdate.nameUpdate.errors } ">
                     <div *ngIf="submittedUpdated && checkFormUpdate.nameUpdate.errors " class="invalid-feedback ">
                         <div class="messages text-danger " *ngIf="checkFormUpdate.nameUpdate.errors.required ">Este campo es requerido</div>
@@ -66,7 +66,7 @@
 
             <div class="form-group row ">
                 <div class="col-sm-4 ">
-                    <h6>Teléfono </h6>
+                    <h6>Teléfono <span style="color:red; ">*</span></h6>
                     <input type="text " class="form-control " formControlName="cellphoneUpdate" [ngClass]="{ 'is-invalid': submittedUpdated && checkFormUpdate.cellphoneUpdate.errors } ">
                     <div *ngIf="submittedUpdated && checkFormUpdate.cellphoneUpdate.errors " class="invalid-feedback ">
                       </div>
@@ -80,53 +80,10 @@
     </div>
 </app-modal-basic>
 
-<app-modal-basic #modalUpdateBrand [dialogClass]="'modal-lg'">
-    <div class="app-modal-header">
-        <h4 class="modal-title">Actualizar marca</h4>
-    </div>
-    <div *ngIf="currentTechnician" class="app-modal-body">
-        <form [formGroup]="myFormUpdate" (ngSubmit)="updatedTechnician()">
-            <div class=" form-group row ">
-                <div class="col-sm-4 ">
-                    <h6>Documento <span style="color:red; ">*</span></h6>
-                    <input type="text " class="form-control " formControlName="documentUpdate" [ngClass]="{ 'is-invalid': submittedUpdated && checkFormUpdate.documentUpdate.errors } ">
-                    <div *ngIf="submittedUpdated && checkFormUpdate.documentUpdate.errors " class="invalid-feedback ">
-                        <div class="messages text-danger " *ngIf="checkFormUpdate.documentUpdate.errors.required ">Este campo es requerido</div>
-                    </div>
-                </div>
-
-                <div class="col-sm-4 ">
-                    <h6>Razón social <span style="color:red; ">*</span></h6>
-                    <input type="text " class="form-control " formControlName="nameUpdate" [ngClass]="{ 'is-invalid': submittedUpdated && checkFormUpdate.nameUpdate.errors } ">
-                    <div *ngIf="submittedUpdated && checkFormUpdate.nameUpdate.errors " class="invalid-feedback ">
-                        <div class="messages text-danger " *ngIf="checkFormUpdate.nameUpdate.errors.required ">Este campo es requerido</div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="form-group row ">
-                <div class="col-sm-4 ">
-                    <h6>Teléfono </h6>
-                    <input type="text " class="form-control " formControlName="cellphoneUpdate" [ngClass]="{ 'is-invalid': submittedUpdated && checkFormUpdate.cellphoneUpdate.errors } ">
-                    <div *ngIf="submittedUpdated && checkFormUpdate.cellphoneUpdate.errors " class="invalid-feedback ">
-                      </div>
-                </div>
-            </div>
-
-            <div class="align-buttons">
-                <button type="button" class="btn btn-default waves-effect" id="updateTechnicianHide" (click)="modalUpdateBrand.hide()">Cancelar</button>
-                <button type="submit " class="btn btn-primary m-b-0 ">Actualizar Tecnico</button>
-            </div>
-
-        </form>
-    </div>
-</app-modal-basic>
-
-
 <div class="row">
   <div class="col-sm-12">
       <app-card  style="position: sticky; top: 300px;">
-          <h5>Registrar Cliente </h5>
+          <h5>Registrar Tecnico </h5>
           <br>
           <div class="row">
               <div class="col-sm-6">
@@ -136,7 +93,7 @@
               </div>
               <div class="col-sm-3">
                   <div class="align-buttons">
-                      <button type="button" id="registerTechnicians" class="btn btn-primary waves-effect" (click)="sendTechnicians()">Crear tecnico</button>
+                      <button type="button" id="registerTechnicians" class="btn btn-primary waves-effect" (click)="modalRegisterTechnicians.show()">Crear tecnico</button>
                   </div>
               </div>
           <br>
@@ -149,10 +106,12 @@
               <ngx-datatable-column [resizeable]="false" [flexGrow]="1" name="Telefono" [canAutoResize]="true" [sortable]="false" [draggable]="false" prop="cellphone"></ngx-datatable-column>
               <ngx-datatable-column [resizeable]="false" [flexGrow]="2" name="Acciones" [canAutoResize]="true" [sortable]="false" [draggable]="false" sortable="false" prop="id">
                   <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
-                    <button type="button" style="display:none;" id="updateTech" class="btn btn-primary waves-effect" (click)="modalUpdateBrand.show()">Actualizar Regional</button>
+
+                    <button type="button" style="display:none;" id="updateTech" class="btn btn-primary waves-effect" (click)="modalUpdateTechnicians.show()">Actualizar Tecnico</button>
                       <button (click)="updateTech(row)" class="btn btn-primary btn-icon"><i class="icofont icofont-pencil-alt-5"></i></button>
                       <button (click)="deleteTechnicians(row)" class="btn btn-danger btn-icon"><i class="icofont icofont-ui-delete"></i></button>
-                  </ng-template>
+                 
+                    </ng-template>
               </ngx-datatable-column>
           </ngx-datatable>
       </app-card>

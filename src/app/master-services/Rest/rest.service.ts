@@ -1324,7 +1324,7 @@ updatCostCenters(id: number,  description: string,  code: string,  regional: num
         id: id,
         description: description,
         code: code,
-        regional: regional
+        regionals_id: regional
       };
       this.http.patch(this.apiEndPoint+'api/update_cost_centers/' + id, postParams, httpOptions)
         .map(res => res).subscribe(data => {
@@ -1361,9 +1361,9 @@ deleteCostCenter(id: number){
     });
   }
 
-  createCostCenter(description: string, code: string){
+  createCostCenter(description: string, code: string, regional_id: number){
     console.log('ole ole ole');
-    console.log(description +', '+ code);
+    console.log(description +', '+ code+', '+ regional_id);
     return new Promise(resolve => {
       const headers = new HttpHeaders();
       headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user'))); 
@@ -1376,6 +1376,7 @@ deleteCostCenter(id: number){
         })
       };
       const postParams = {
+        regionals_id: regional_id,
         code: code,
         description: description
       };
@@ -1501,6 +1502,7 @@ deleteCostCenter(id: number){
         };
         const postParams = {
           id: id,
+          name:name,
           document: document,
           cellphone: cellphone,
         };
@@ -1584,6 +1586,7 @@ getSpecificRegional(id:number){
       });
   });
 }
+
 createRegional(description: string, code:string){
   console.log('ole ole ole');
   console.log(description +', '+ code);
@@ -1600,7 +1603,7 @@ createRegional(description: string, code:string){
     };
     const postParams = {
       code: code,
-      name: description
+      description: description
     };
     console.log(postParams)
     this.http.post(this.apiEndPoint+'api/create_regionals', postParams, httpOptions)
@@ -1627,8 +1630,8 @@ updateRegional(id:number, description:string, code:string){
         })
       };
       const postParams = {
-        name: description,
         code: code,
+        description: description
       };
       this.http.patch(this.apiEndPoint+'api/update_regional/'+ id, postParams, httpOptions)
         .map(res => res).subscribe(data => {
@@ -1686,7 +1689,246 @@ updateRegional(id:number, description:string, code:string){
     });
   }
 
-  //---------------------------------------------------------------------Customer
+  //---------------------------------------------------------------------SubCostCentrt
+  createSubCostCenter(description: string, code: string, costCenter_id: number){
+    console.log('ole ole ole');
+    console.log(description +', '+ code);
+    return new Promise(resolve => {
+      const headers = new HttpHeaders();
+      headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user'))); 
+      headers.append('Content-Type', 'application/json');
+      const httpOptions = {
+        headers: new HttpHeaders({
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + localStorage.getItem('token_user'),
+          'Accept': 'application/json'
+        })
+      };
+      const postParams = {
+        code: code,
+        description: description,
+        cost_center_id: costCenter_id
+      };
+      this.http.post(this.apiEndPoint+'api/create_sub_cost_centers', postParams, httpOptions)
+        .map(res => res).subscribe(data => {
+          resolve(data);
+        }, error => {
+          resolve(error);
+        });
+    });
+  }
+
+  updatSubCostCenters(id: number,  description: string,  code: string,  costCenter: number){
+
+    console.log("en servicio");
+    console.log(id);
+    console.log(description);
+    console.log(code);
+    console.log(costCenter);
+  
+      return new Promise(resolve => {
+        const httpOptions = {
+          headers: new HttpHeaders({
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + localStorage.getItem('token_user'),
+            'Accept': 'application/json'
+          })
+        };
+        const postParams = {
+          id: id,
+          description: description,
+          code: code,
+          cost_center_id: costCenter
+        };
+        this.http.patch(this.apiEndPoint+'api/update_sub_cost_centers/' + id, postParams, httpOptions)
+          .map(res => res).subscribe(data => {
+            resolve(data);
+          }, error => {
+            resolve(error);
+          });
+      });
+    }
+
+    deleteSubCostCenter(id: number){
+      console.log('ole ole ole');
+      console.log(id);
+      return new Promise(resolve => {
+        const headers = new HttpHeaders();
+        headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user'))); 
+        headers.append('Content-Type', 'application/json');
+        const httpOptions = {
+          headers: new HttpHeaders({
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + localStorage.getItem('token_user'),
+            'Accept': 'application/json'
+          })
+        };
+        const postParams = {
+        };
+        this.http.delete(this.apiEndPoint+'api/delete_sub_cost_centers_id/'+ id, httpOptions)
+          .map(res => res).subscribe(data => {
+            resolve(data);
+          }, error => {
+            resolve(error);
+          });
+      });
+    }
+
+    getSubCostCenter(){
+      return new Promise(resolve => {
+        const headers = new HttpHeaders();
+        headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user'))); 
+        headers.append('Content-Type', 'application/json');
+        const httpOptions = {
+          headers: new HttpHeaders({
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + localStorage.getItem('token_user'),
+            'Accept': 'application/json'
+          })
+        };
+        this.http.post(this.apiEndPoint+'api/show_sub_cost_centers', httpOptions)
+          .map(res => res).subscribe(data => {
+            console.log(data);
+            resolve(data);
+          }, error => {
+            resolve(error);
+          });
+      });
+    }
+  //---------------------------------------------------------------Warehouses
+  createWarehouses(description: string, code: string, regional_id: number){
+    console.log('ole ole ole');
+    console.log(description +', '+ code +', ' + regional_id);
+    return new Promise(resolve => {
+      const headers = new HttpHeaders();
+      headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user'))); 
+      headers.append('Content-Type', 'application/json');
+      const httpOptions = {
+        headers: new HttpHeaders({
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + localStorage.getItem('token_user'),
+          'Accept': 'application/json'
+        })
+      };
+      const postParams = {
+        code: code,
+        description: description,
+        regionals_id: regional_id
+      };
+      console.log(postParams);
+      this.http.post(this.apiEndPoint+'api/create_warehouses', postParams, httpOptions)
+        .map(res => res).subscribe(data => {
+          resolve(data);
+        }, error => {
+          resolve(error);
+        });
+    });
+  }
+
+  updatWarehouses(id: number,  description: string,  code: string,  regional: number){
+
+    console.log("en servicio");
+    console.log(id);
+    console.log(description);
+    console.log(code);
+    console.log(regional);
+  
+      return new Promise(resolve => {
+        const httpOptions = {
+          headers: new HttpHeaders({
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + localStorage.getItem('token_user'),
+            'Accept': 'application/json'
+          })
+        };
+        const postParams = {
+          id: id,
+          description: description,
+          code: code,
+          regionals_id: regional
+        };
+        this.http.patch(this.apiEndPoint+'api/update_warehouses/' + id, postParams, httpOptions)
+          .map(res => res).subscribe(data => {
+            resolve(data);
+          }, error => {
+            resolve(error);
+          });
+      });
+    }
+
+    deleteWarehouses(id: number){
+      console.log('ole ole ole');
+      console.log(id);
+      return new Promise(resolve => {
+        const headers = new HttpHeaders();
+        headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user'))); 
+        headers.append('Content-Type', 'application/json');
+        const httpOptions = {
+          headers: new HttpHeaders({
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + localStorage.getItem('token_user'),
+            'Accept': 'application/json'
+          })
+        };
+        const postParams = {
+        };
+        this.http.delete(this.apiEndPoint+'api/delete_warehouses_id/'+ id, httpOptions)
+          .map(res => res).subscribe(data => {
+            resolve(data);
+          }, error => {
+            resolve(error);
+          });
+      });
+    }
+
+    getWarehouses(){
+      return new Promise(resolve => {
+        const headers = new HttpHeaders();
+        headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user'))); 
+        headers.append('Content-Type', 'application/json');
+        const httpOptions = {
+          headers: new HttpHeaders({
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + localStorage.getItem('token_user'),
+            'Accept': 'application/json'
+          })
+        };
+        this.http.post(this.apiEndPoint+'api/show_warehouses', httpOptions)
+          .map(res => res).subscribe(data => {
+            console.log(data);
+            resolve(data);
+          }, error => {
+            resolve(error);
+          });
+      });
+    }
+  //---------------------------------------------------------------CustomerRegional
+
+  customerRegionalSelect(details: string) {
+    
+    return new Promise(resolve => {
+      const headers = new HttpHeaders();
+      headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user'))); // 'Bearer ' +
+      headers.append('Content-Type', 'application/json');
+      const httpOptions = {
+        headers: new HttpHeaders({
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + localStorage.getItem('token_user'),
+          'Accept': 'application/json'
+        })
+      };
+      const postParams = {
+        regional: details
+      };
+      this.http.patch(this.apiEndPoint+'api/create_customer_regionals', postParams, httpOptions)
+        .map(res => res).subscribe(data => {
+          resolve(data);
+        }, error => {
+          resolve(error);
+        });
+    });
+  }
+  //---------------------------------------------------------------Customer
 
   getCustomer() {
     return new Promise(resolve => {

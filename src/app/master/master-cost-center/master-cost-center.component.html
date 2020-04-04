@@ -57,9 +57,9 @@
             <div class="form-group row">
                 <div class="col-sm-5">
                   <h6 class="regional">Selecciona la regional a la cual pertenece<span style="color: red;">*</span></h6>
-                  <select class="form-control" name="select" [(ngModel)]="selectedRegionalUpdate" formControlName="regionalsUpdate">
+                  <select class="form-control" name="select" (change)="changeValue()" [(ngModel)]="selectedRegionalUpdate" formControlName="regionalsUpdate">
                     <option value="0" selected>Seleccionar la regional</option>
-                    <option  *ngFor="let reg of regionalsUpdate" [ngValue]="reg"> {{reg.description}} </option>
+                    <option  *ngFor="let reg of regionals" [ngValue]="reg.id"> {{reg.description}} </option>
                   </select>
                 </div>
               </div>
@@ -102,7 +102,7 @@
               
               <div class="col-sm-3">
                   <div class="align-buttons">
-                      <button type="button" id="registerCostCenter" class="btn btn-primary waves-effect" (click)="modalRegisterCostCenter.show()" (click)="getRegionals();" >Crear Centro de costo</button>
+                      <button type="button" id="registerCostCenter" class="btn btn-primary waves-effect" (click)="modalRegisterCostCenter.show()" (click)="getRegionals()" >Crear Centro de costo</button>
                   </div>
               </div>
           </div>
@@ -121,7 +121,7 @@
                   <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
 
 
-                    <button type="button" id="updateCostCenter" class="btn btn-primary waves-effect" (click)="modalUpdateCostCenter.show()">Actualizar Centro de costo</button>
+                    <button type="button" style="display:none;" id="updateCostCenter" class="btn btn-primary waves-effect" (click)="modalUpdateCostCenter.show()" (click)="getRegionals()">Actualizar Centro de costo</button>
                       <button (click)="updateCostCenter(row)" class="btn btn-primary btn-icon"><i class="icofont icofont-pencil-alt-5"></i></button>
                       <button (click)="deleteCostCenters(row)" class="btn btn-danger btn-icon"><i class="icofont icofont-ui-delete"></i></button>
                   </ng-template>

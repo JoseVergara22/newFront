@@ -82,10 +82,19 @@ const MENUITEMS = [
             state: 'register',
             name: 'Administrar usuarios'
           },
-          /*{
+          {
             state: 'costCenter',
             name: 'Administrar Centros de Costo'
           },
+          {
+              state: 'subCostCenter',
+              name: 'Administrar Sub Centros de Costo'
+          },
+          {
+            state: 'warehouses',
+            name: 'Administrar Bodegas'
+          },
+          /*
          {
             state: 'task',
             name: 'Administrar tareas'
@@ -110,14 +119,14 @@ const MENUITEMS = [
             state:'horometro',
             name:'Administrar Horometro'
           },
-          /*{
+          {
             state: 'regionalsAll',
             name: 'Administrar Regionales'
           },
-          {
+         {
             state: 'techniciansAll',
             name: 'Administrar Tecnicos'
-          },*/
+          },
           {
             state: 'registerBrand',
             name: 'Administrar Marcas'
