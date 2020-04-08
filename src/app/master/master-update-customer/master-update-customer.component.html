@@ -386,18 +386,20 @@
             </ngx-datatable>
                <br>
                <br>
-         <div class="align-buttons">
-            <button class="btn btn-primary m-b-0 " (click)="goAdminCustomer()">Volver Administración Clientes</button>
-        </div>
+         
         </app-card>
     </div>
 </div>
 
+<app-card >
 <div class="row">
-    <div class="col-sm-12 ">
+        <div class="col-sm-12">
             <h5>
-                Selecciona la regional a la cual el cliente esta relacionado.
+                Relacionar regionales.
             </h5>
+            <div class="align-buttons">
+                <button type="submit " class="btn btn-primary m-b-0 " (click)="finalRegional()">Actualizar Regionales</button>
+            </div>
             <br>
             <input type="checkbox"  value="m1" [checked]="checkAllRegional"  (change)="checkUncheckAllPart($event)"/> <strong>Seleccionar todo</strong>
             <br>    
@@ -419,9 +421,13 @@
                    </tr>
                    </tbody>
                  </table>
-               </div>
-             </div>
-
-             <div class="align-buttons">
-                <button type="submit " class="btn btn-primary m-b-0 " (click)="finalRegional()">Actualizar Regionales</button>
+                </div>
             </div>
+            <div class="align-buttons">
+                <button class="btn btn-primary m-b-0 " (click)="goAdminCustomer()">Volver Administración Clientes</button>
+            </div>
+        </div>
+        
+    </div>
+</app-card>
+

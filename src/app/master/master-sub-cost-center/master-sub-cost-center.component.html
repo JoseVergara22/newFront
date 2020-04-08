@@ -18,7 +18,7 @@
 
           <div class="form-group row">
               <div class="col-sm-5">
-                  <h6>Codigo Centro de Costos <span style="color:red;">*</span></h6>
+                  <h6>Codigo <span style="color:red;">*</span></h6>
                   <input type="text" class="form-control" formControlName="code" [ngClass]="{ 'is-invalid': submitted && checkForm.code.errors }">
                   <div *ngIf="submitted && checkForm.code.errors" class="invalid-feedback">
                       <div class="messages text-danger" *ngIf="checkForm.code.errors.required">Este campo es requerido</div>
@@ -36,12 +36,11 @@
                   </div>
               </div>
           </div>            
-          <div class="form-group row">
             <div class="align-buttons">
               <button type="button" class="btn btn-default waves-effect" id="createSubCostCenterHide" (click)="modalRegisterSubCostCenter.hide()">Cancelar</button>
               <button type="submit " class="btn btn-primary m-b-0 ">Agregar Sub Centro de Costos</button>
             </div>
-          </div>
+          
         </form>
   </div>
 </app-modal-basic>
@@ -58,7 +57,7 @@
                 <h6 class="regional">Selecciona el centro de costos al cual pertenece<span style="color: red;">*</span></h6>
                 <select class="form-control" name="select" [(ngModel)]="selectedCostCenterUpdate" formControlName="costCenterUpdate">
                   <option value="0" selected>Seleccionar el centro de costo</option>
-                  <option  *ngFor="let reg of costCenterUpdate" [ngValue]="reg"> {{reg.description}} </option>
+                  <option  *ngFor="let reg of costCenter" [ngValue]="reg.id"> {{reg.description}} </option>
                 </select>
               </div>
             </div>
@@ -102,7 +101,7 @@
             
             <div class="col-sm-3">
                 <div class="align-buttons">
-                    <button type="button" id="registerCostCenter" class="btn btn-primary waves-effect" (click)="modalRegisterSubCostCenter.show()" (click)="getCostCenter()" >Crear Sub Centro de costo</button>
+                    <button type="button" id="registerCostCenter" class="btn btn-primary waves-effect" (click)="modalRegisterSubCostCenter.show()" (click)="getRegionals()" (click)="getCostCenter()" >Crear Sub Centro de costo</button>
                 </div>
             </div>
         </div>

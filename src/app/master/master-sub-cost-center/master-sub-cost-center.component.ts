@@ -7,7 +7,8 @@ import { Router } from '@angular/router';
 @Component({
   selector: 'app-master-sub-cost-center',
   templateUrl: './master-sub-cost-center.component.html',
-  styleUrls: ['./master-sub-cost-center.component.scss']
+  styleUrls: ['./master-sub-cost-center.component.scss',
+  '../../../assets/icon/icofont/css/icofont.scss']
 })
 export class MasterSubCostCenterComponent implements OnInit {
 
@@ -46,7 +47,11 @@ export class MasterSubCostCenterComponent implements OnInit {
   descriptionUpdate = '';
   constCenter: any;
   costCenterUpdate;
-  selectedCostCenterUpdate = 0;
+  selectedCostCenterUpdate: any;
+
+  regionals: any;
+  selectedRegional: any = 0;
+  selectedRegionalUpdate: any;
 
   constructor(private restService: RestService, private router: Router) {
     this.loadingData();
@@ -68,9 +73,25 @@ export class MasterSubCostCenterComponent implements OnInit {
    this.myFormUpdate = new FormGroup({
     codeUpdate: codeUpdate,
     descriptionUpdate: descriptionUpdate,
-    regionalsUpdate: costCenterUpdate,
+    costCenterUpdate: costCenterUpdate,
   });
    }
+
+   getRegionals(){
+    this.restService.getRegional().then(data => {
+        const resp: any = data;
+        console.log(resp);
+        this.regionals = resp.data;
+          swal.close();
+  });
+}
+
+  changeValue(){
+    console.log('valor');
+    console.log(this.selectedCostCenterUpdate);
+    console.log('valor');
+
+  }
 
    getCostCenter(){
     this.restService.getCostCenter().then(data => {
@@ -135,8 +156,11 @@ export class MasterSubCostCenterComponent implements OnInit {
     console.log( this.currentCostCenter );
     this.myFormUpdate.get('descriptionUpdate').setValue(row.description);
     this.myFormUpdate.get('codeUpdate').setValue(row.code);
+
     document.getElementById( 'updateSubCostCenter').click();
-    this.selectedCostCenterUpdate = row.costCenterDescription;
+    
+    this.getCostCenter();
+    this.selectedCostCenterUpdate = row.costCenter_id;
     console.log(this.selectedCostCenterUpdate);
    }
  

@@ -246,10 +246,12 @@ checkUncheckAllPart(event:any){
       }
     }
     let regionalSelec = '';
-     regionalSelec = this.idCustomerCreated;
+     regionalSelec = this.idCustomerCreated + '@';
+     console.log(regionalSelec);
+     console.log(this.idCustomerCreated);
   
     for (let i = 0; i < this.selectRegional.length; i++){
-      regionalSelec=regionalSelec+ this.selectRegional[i].id+'@'+this.selectRegional[i].description+'@'; 
+      regionalSelec=regionalSelec+ this.selectRegional[i].id+'@'; 
     }
     console.log(this.selectRegional);
     console.log(regionalSelec);
@@ -269,7 +271,7 @@ checkUncheckAllPart(event:any){
       if (resp.success === false) {
         swal({
           title: 'Falla en la actualizacion',
-          text: 'Este sub centro de costos no se pudo actualizar',
+          text: 'Este cliente no se pudo registrar',
           type: 'error'
          });
         }else{

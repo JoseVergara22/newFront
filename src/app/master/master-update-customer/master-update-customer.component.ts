@@ -90,10 +90,14 @@ selectedCityIdUpdate: any = 0;
   customer: any;
 
   checkAllRegional = false;
+regional = [];
 regionals: Array <regionalSelectInterface> = [];
 itemRegional:regionalSelectInterface;
+rowsRegionals: any;
 rowsRegional: any;
 selectRegional:  Array <regionalSelectInterface> = [];
+valor: any;
+regionalCustomer = []; 
 
   constructor(private restService: RestService, private router: Router, private uploadService: UploadService,
               private rutaActiva: ActivatedRoute) {
@@ -103,6 +107,7 @@ selectRegional:  Array <regionalSelectInterface> = [];
 this.getRegionals();
     this.currentCustomerId = this.rutaActiva.snapshot.params.id;
     this.getOffices(this.currentCustomerId);
+//    this.getRegionalId(this.currentCustomerId);
     console.log(this.currentCustomerId);
 
     const businessName = new FormControl('', Validators.required);
@@ -183,9 +188,6 @@ this.myFormUpdateOffice = new FormGroup({
       departmentIdUpdate: departmentIdUpdate,
       cityIdUpdate: cityIdUpdate
     });
-
-
-
    }
 
    getRegionals(){
@@ -199,21 +201,58 @@ this.myFormUpdateOffice = new FormGroup({
         console.log('información de regional');
         console.log( this.rowsRegional);
         console.log( this.rowsRegional.length);
-
-        this.regionals=[];
-        this.rowsRegional.forEach((item)=>{
-          console.log(item);
-          this.itemRegional={
-            id: item.id,
-            code: item.code,
-            description: item.description
-          }
-          this.regionals.push(this.itemRegional);
-        });
-
+        this.getRegionalId(this.currentCustomerId);
       }).catch(error => {
         console.log(error);
       });
+}
+
+getRegionalId( id: number){
+  this.restService.getRegionalId(id).then(data => {
+    const resp: any = data;
+    console.log(resp);
+    console.log('OEOEOEOEOEEO');
+    console.log(resp.data_customerRegionals);
+    console.log('----------------data_customerRegionals-----------');
+    this.rowsRegionals = resp.data_customerRegionals;
+    this.regional=[];
+
+    
+    console.log(this.rowsRegionals);
+    console.log(this.rowsRegional);
+    this.rowsRegional.forEach((item)=>{
+      console.log(item);
+      this.itemRegional={
+        id: item.id,
+        code: item.code,
+        description: item.description,
+        cheked:false
+      }
+      this.regionals.push(this.itemRegional);
+    });
+// rowsRegionals  Son las regionales del customer
+// rowsRegional  Son las regionales del creadas
+    
+    this.rowsRegionals.forEach((value)=>{
+      console.log(value.regional_id);
+      let index = this.regionals.indexOf(this.regionals.find(x => x.id == value.regional_id));
+      console.log(index);
+      if(index!=-1){
+
+        this.itemRegional={
+          id: this.regionals[index].id,
+          code: this.regionals[index].code,
+          description: this.regionals[index].description,
+          cheked: true
+        }
+
+        this.regionals.splice(index, 1);
+        this.regionals.push(this.itemRegional);
+      }
+      console.log(this.regionals);
+    });
+        console.log(this.regional);
+  });
 }
 
 checkUncheckAllPart(event:any){
@@ -247,14 +286,17 @@ checkUncheckAllPart(event:any){
     for (let i = 0; i < this.regionals.length; i++){
       console.log('lo encontre'+i);
       if(this.regionals[i].cheked){
+        console.log(this.regionals[i].cheked);
         this.selectRegional.push(this.regionals[i]);
       }
     }
     let regionalSelec = '';
-     regionalSelec = this.idCustomerCreated;
+     regionalSelec = this.currentCustomerId;
+     console.log(regionalSelec);
+     console.log(this.currentCustomerId);
   
     for (let i = 0; i < this.selectRegional.length; i++){
-      regionalSelec=regionalSelec+ this.selectRegional[i].id+'@'+this.selectRegional[i].description+'@'; 
+      regionalSelec=regionalSelec + '@' + this.selectRegional[i].id; 
     }
     console.log(this.selectRegional);
     console.log(regionalSelec);
@@ -274,7 +316,7 @@ checkUncheckAllPart(event:any){
       if (resp.success === false) {
         swal({
           title: 'Falla en la actualizacion',
-          text: 'Este sub centro de costos no se pudo actualizar',
+          text: 'Este cliente no se pudo actualizar',
           type: 'error'
          });
         }else{

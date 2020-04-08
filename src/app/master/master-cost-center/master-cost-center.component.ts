@@ -87,7 +87,7 @@ export class MasterCostCenterComponent implements OnInit {
     console.log('valor');
     console.log(this.selectedRegionalUpdate);
     console.log('valor');
-
+    //this.getCosrCentersById(this.regionals.id);
   }
 
    sendCostCenter() {
@@ -146,7 +146,9 @@ export class MasterCostCenterComponent implements OnInit {
     this.myFormUpdate.get('codeUpdate').setValue(row.code);
     this.idCostCenter = row.id;
     document.getElementById( 'updateCostCenter').click();
-    this.selectedRegionalUpdate = row.regionalDescription;
+
+    this.getRegionals();
+    this.selectedRegionalUpdate = row.regional_id;
     console.log(this.selectedRegionalUpdate);
    }
 

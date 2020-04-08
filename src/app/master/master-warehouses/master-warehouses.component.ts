@@ -46,7 +46,7 @@ export class MasterWarehousesComponent implements OnInit {
   codeUpdate: any;
   descriptionUpdate = '';
   regionalsUpdate;
-  selectedRegionalUpdate = 0;
+  selectedRegionalUpdate: any;
 
   constructor(private restService: RestService, private router: Router) {
      this.loadingData();
@@ -77,6 +77,17 @@ export class MasterWarehousesComponent implements OnInit {
          const resp: any = data;
          console.log(resp);
          this.regionals = resp.data;
+         console.log(this.regionals);
+           swal.close();
+   });
+ }
+ 
+   getRegionalCostCenter(regionalsId: number){
+     this.restService.getRegional().then(data => {
+         const resp: any = data;
+         console.log(resp);
+         this.regionals = resp.data;
+         this.selectedRegionalUpdate = regionalsId;
          console.log(this.regionals);
            swal.close();
    });
@@ -137,16 +148,29 @@ updateWare(row) {
   this.myFormUpdate.get('descriptionUpdate').setValue(row.description);
   this.myFormUpdate.get('codeUpdate').setValue(row.code);
   this.idConstCenter = row.id;
+
   document.getElementById( 'updateWarehouses').click();
+
+  this.getRegionalCostCenter(row.regionals_id);
+ // this.selectedRegionalUpdate = row.regionals_id;
+console.log(this.selectedRegionalUpdate);
  }
 
+ changeValue(){
+  console.log('valor');
+  console.log(this.selectedRegionalUpdate);
+  console.log('valor');
+  //this.getCosrCentersById(this.regionals.id);
+}
  updateWarehouses() {
   console.log('Ole ole ole kakaakkaka');
   console.log(this.codeUpdate);
   console.log(this.descriptionUpdate);
+  console.log(this.selectedRegionalUpdate);
+  console.log(this.selectedRegionalUpdate.id);
   console.log(Number(this.selectedRegionalUpdate));
 
-  if ( Number(this.selectedRegionalUpdate) !== 0) {
+  if ( this.selectedRegionalUpdate.id !== 0) {
     this.submittedUpdated = true;
    if ( !this.myFormUpdate.invalid) {
     swal({
@@ -156,7 +180,7 @@ updateWare(row) {
     swal.showLoading();
     console.log('kakakaka');
     this.restService.updatWarehouses(Number(this.idConstCenter), this.myFormUpdate.get('descriptionUpdate').value.toUpperCase(),
-     this.myFormUpdate.get('codeUpdate').value, this.selectedRegionalUpdate)
+     this.myFormUpdate.get('codeUpdate').value, this.selectedRegionalUpdate.id)
     .then(data => {
       const resp: any = data;
       console.log(JSON.stringify(resp));

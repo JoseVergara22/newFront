@@ -1920,7 +1920,32 @@ updateRegional(id:number, description:string, code:string){
       const postParams = {
         regional: details
       };
-      this.http.patch(this.apiEndPoint+'api/create_customer_regionals', postParams, httpOptions)
+      this.http.post(this.apiEndPoint+'api/create_customer_regionals', postParams, httpOptions)
+        .map(res => res).subscribe(data => {
+          resolve(data);
+        }, error => {
+          resolve(error);
+        });
+    });
+  }
+
+  getRegionalId(id: number){
+    console.log('ole ole ole');
+    console.log(id);
+    return new Promise(resolve => {
+      const headers = new HttpHeaders();
+      headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user'))); 
+      headers.append('Content-Type', 'application/json');
+      const httpOptions = {
+        headers: new HttpHeaders({
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + localStorage.getItem('token_user'),
+          'Accept': 'application/json'
+        })
+      };
+      const postParams = {
+      };
+      this.http.get(this.apiEndPoint+'api/get_customer_regionals_id/'+ id, httpOptions)
         .map(res => res).subscribe(data => {
           resolve(data);
         }, error => {

@@ -30,12 +30,12 @@
 
                   </div>
                 </div>
-            <div class="form-group row">
+            
               <div class="align-buttons">
                 <button type="button" class="btn btn-default waves-effect" id="createTechnicianHide" (click)="modalRegisterTechnicians.hide()">Cancelar</button>
                 <button type="submit " class="btn btn-primary m-b-0 ">Agregar Tecnico</button>
               </div>
-            </div>
+            
           </form>
     </div>
 </app-modal-basic>
@@ -89,14 +89,13 @@
               <div class="col-sm-6">
                   <input type="text" class="form-control" placeholder="Filtrar" (keyup)="updateFilter($event)">
               </div>
-             
-              </div>
               <div class="col-sm-3">
                   <div class="align-buttons">
                       <button type="button" id="registerTechnicians" class="btn btn-primary waves-effect" (click)="modalRegisterTechnicians.show()">Crear tecnico</button>
-                  </div>
-              </div>
-          <br>
+                    </div>
+                </div>
+            </div>
+            <br>
 
           <ngx-datatable #table class="data-table" [rows]="rowsClient"  [columnMode]="'flex'" [headerHeight]="50" [footerHeight]="50" [rowHeight]="'auto'"
               [limit]="25">
