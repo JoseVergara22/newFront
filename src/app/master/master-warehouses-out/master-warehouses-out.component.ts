@@ -1,5 +1,4 @@
-import { Component, ViewEncapsulation, ViewChild, Injectable} from '@angular/core';
-
+import {Component, OnInit, ViewChild,Injectable} from '@angular/core';
 
 declare let jsPDF;
 import {FormControl, FormGroup, Validators,FormBuilder, FormArray} from '@angular/forms';
@@ -71,10 +70,11 @@ export class I18n {
   providers: [I18n, {provide: NgbDatepickerI18n, useClass: MasterWarehousesOutComponent}]
 })
 export class MasterWarehousesOutComponent implements NgbDatepickerI18n {
+  @ViewChild('myTable') table: any;
 
-  rows: any[] = [];
-  expanded: any = {};
-  timeout: any;
+  public rows: any[] = [];
+  public expanded: any = {};
+  public timeout: any;
 
   public userModel = {
     id: 0,
@@ -218,9 +218,7 @@ export class MasterWarehousesOutComponent implements NgbDatepickerI18n {
 
   emailCustomer: any = '';
   emailShow: any = '';
-  table:any;
 
- 
   constructor(private restService: RestService, private _i18n: I18n, private router: Router, private estimateService: EstimateService, private forkliftService: ForkliftService,
               private calendar: NgbCalendar, public formatter: NgbDateParserFormatter, private userService: UserService,  private uploadService: UploadService,   private formbuilder:FormBuilder) {
               //  super();
@@ -246,7 +244,9 @@ export class MasterWarehousesOutComponent implements NgbDatepickerI18n {
                 var ngbDateStruct = { day: date.getDate(), month: date.getMonth()+1, year: date.getFullYear()};
                 
                 
-                
+                this.fetch((data) => {
+                  this.rows = data;
+                });
                 
                 
                 this.fromDate=ngbDateStruct;
@@ -299,7 +299,33 @@ export class MasterWarehousesOutComponent implements NgbDatepickerI18n {
     });
   }
 
+ 
 
+
+
+  onPage(event) {
+    clearTimeout(this.timeout);
+    this.timeout = setTimeout(() => {
+      console.log('paged!', event);
+    }, 100);
+  }
+
+  fetch(cb) {
+    const req = new XMLHttpRequest();
+    req.open('GET', `assets/data/100k.json`);
+
+    req.onload = () => {
+      cb(JSON.parse(req.response));
+    };
+
+    req.send();
+  }
+
+  toggleExpandRow(row) {
+    this.table.rowDetail.toggleExpandRow(row);
+  }
+
+  onDetailToggle(event) {}
    loadingData() {
     swal({
       title: 'Validando información ...',
@@ -837,33 +863,7 @@ console.log('este es el e:'+ +JSON.stringify(e));
      }
 
 
-     onPage(event) {
-      clearTimeout(this.timeout);
-      this.timeout = setTimeout(() => {
-        console.log('paged!', event);
-      }, 100);
-    }
-  
-    fetch(cb) {
-      const req = new XMLHttpRequest();
-      req.open('GET', `assets/data/100k.json`);
-  
-      req.onload = () => {
-        cb(JSON.parse(req.response));
-      };
-  
-      req.send();
-    }
-  
-    toggleExpandRow(row) {
-      console.log('Toggled Expand Row!', row);
-    
-    }
-  
-    onDetailToggle(event) {
-      console.log('Detail Toggled', event);
-    }
-  
+     
     getHeight(row: any, index: number): number {
       return row.someHeight;
     }

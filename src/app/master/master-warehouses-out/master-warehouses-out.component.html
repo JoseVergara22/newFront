@@ -610,115 +610,82 @@
 
         </ngx-datatable-->                            
 
-<ngx-datatable #table class="data-table" [rows]="rowsClient"   [columnMode]="'flex'" [headerHeight]="50" [footerHeight]="50" [rowHeight]="'auto'" [limit]="20">
-
-  <ngx-datatable-column  [width]="40" [sortable]="false" [resizeable]="false" [canAutoResize]="false" name="PDF"   prop="serie" >
-    <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
-        <label class="link" (click)="downloadPdf(row,0)">PDF</label>
-      </ng-template>     
-</ngx-datatable-column>
-  <ngx-datatable-column  [flexGrow]="2" [sortable]="false" [resizeable]="false"  name="Nro" [sortable]="false"  prop="estimate_consecutive"></ngx-datatable-column>
-  <ngx-datatable-column  [flexGrow]="2" [sortable]="false" [resizeable]="false"   name="Fecha" [sortable]="false"  prop="create_at_date"></ngx-datatable-column>
-  <ngx-datatable-column   [flexGrow]="2"  name="Estado" [sortable]="false"  sortable="false"  prop="status">
-
-
-
-    <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
-
-        <!--<button md-icon-button (click)="blockAgents(value)">
-                <i class="fa fa-ban"></i>
-              </button> -->
-    <div class="statusLabel" *ngIf="value==0">
-       GENERADO
-    </div>
-
-    <div *ngIf="value==1">
-       ENVIADO
-    </div>
-   
-    <div *ngIf="value==2">  
-      APROBADO
-    </div>
-   
-    <div *ngIf="value==5">
-        RECHAZADO
-    </div>
-       
-
-    <ngx-datatable-row-detail rowHeight="100" #myDetailRow (toggle)="onDetailToggle($event)">
-        <ng-template let-row="row"  ngx-datatable-row-detail-template>
-          <div style="padding-left:35px;">
-            <div><strong>Address</strong></div>
-            <div>dddddddddd</div>
-          </div>
-        </ng-template>
-      </ngx-datatable-row-detail>
-
-      
-    </ng-template>
-
-
-
-</ngx-datatable-column>
-
-
-  <!-- <ngx-datatable-column [width]="90" [sortable]="false" [resizeable]="false"   name="Documento " [sortable]="false"  prop="customer_document"></ngx-datatable-column> -->
-   <ngx-datatable-column [flexGrow]="2" [sortable]="false" [resizeable]="false"   name="Cliente" [sortable]="false"  prop="customer.business_name"></ngx-datatable-column>
-   <ngx-datatable-column [flexGrow]="2" [sortable]="false" [resizeable]="false"   name="Observación" [sortable]="false"  prop="approval_comment"></ngx-datatable-column>
-   <ngx-datatable-column [flexGrow]="2" [sortable]="false" [resizeable]="false"   name="Teléfono " [sortable]="false"  prop="telephone"></ngx-datatable-column>
-   <ngx-datatable-column [flexGrow]="2" [sortable]="false" [resizeable]="false"   name="Ciudad " [sortable]="false"  prop="city.name"></ngx-datatable-column>
-     <ngx-datatable-column [flexGrow]="2" [sortable]="false" [resizeable]="false"  name="Sbt.Horas" [sortable]="false"  prop="subtotal_hours_decimal"></ngx-datatable-column>
-    <ngx-datatable-column  [flexGrow]="2" [sortable]="false" [resizeable]="false"  name="Sbt.Repuestos" [sortable]="false"  prop="subtotal_parts_decimal"></ngx-datatable-column>
-    <ngx-datatable-column  [flexGrow]="2" [sortable]="false" [resizeable]="false"  name="Total" [sortable]="false"  prop="total_decimal"></ngx-datatable-column>
-<!--   <ngx-datatable-column  [width]="80" [sortable]="false" [resizeable]="false"  name="Observaciones" [sortable]="false"  prop="machine_description"></ngx-datatable-column> -->
-<ngx-datatable-column  [flexGrow]="2" name="Acciones" [sortable]="false"  sortable="false" prop="status">
-
-
-
-    <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
-
-        <!--<button md-icon-button (click)="blockAgents(value)">
-                <i class="fa fa-ban"></i>
-              </button> -->
-    <div *ngIf="value==0">
-     <label class="link" (click)="updateEstimate(row)">Editar</label>
-     <label class="link" (click)="copyEstimate(row)">Copiar</label>
-     <label class="link" (click)="sendEstimateEmail(row)" >Enviar</label>
-<!-- <label class="link" (click)="modalSendEmail.show()" >Enviar</label>  -->  
-     <label class="link" (click)="showCheckItems(row)">Aprobar</label>
-     <label class="link" (click)="rejectionEstimate(row)">Rechazar</label>
-    </div>
-
-    <div *ngIf="value==1">
-        <label class="link" (click)="copyEstimate(row)">Copiar</label>
-        <label class="link" (click)="sendEstimateEmail(row)" >Enviar</label>
-   <!-- <label class="link" (click)="modalSendEmail.show()" >Enviar</label>  -->  
-        <label class="link" (click)="showCheckItems(row)">Aprobar</label>
-        <label class="link" (click)="rejectionEstimate(row)">Rechazar</label>
-    </div>
-   
-    <div *ngIf="value==2">  
-        <label class="link" (click)="copyEstimate(row)">Copiar</label>
-        <label class="link" (click)="sendEstimateEmail(row)" >Enviar</label>
-    </div>
-   
-    <div *ngIf="value==5">
-        <label class="link" (click)="copyEstimate(row)">Copiar</label>
-    </div>
-       
-    </ng-template>
-</ngx-datatable-column>
-
-</ngx-datatable>
-
-
 
 
         <button type="button"   style="display:none;" id="showItemsApprove"  class="btn btn-primary waves-effect" (click)="modalDetail.show()">Mostrar botones</button>
        <!-- <button type="button"   style="display:none;" id="showItemsApprove"  class="btn btn-primary waves-effect" (click)="modalDetail.show()">Mostrar botones</button> -->
         <!--  <button type="button"  id="uploadItem" class="btn btn-primary waves-effect" (click)="kk()">jaja</button> -->
 
-        
+        <ngx-datatable
+        #myTable
+        class="data-table expandable"
+        [rows]='rows'
+        [limit]="10"
+        [columnMode]="'force'"
+        [headerHeight]="50"
+        [footerHeight]="50"
+        [rowHeight]="'auto'"
+        (page)="onPage($event)">
+        <!-- Row Detail Template -->
+        <ngx-datatable-row-detail [rowHeight]="'auto'" #myDetailRow (toggle)="onDetailToggle($event)">
+          <ng-template let-row="row" let-expanded="expanded" ngx-datatable-row-detail-template>
+            <div class="dt-desc">
+              <table class="table-striped table-bordered">
+                <tr>
+                  <th colspan="2"><strong>Address</strong></th>
+                </tr>
+                <tr>
+                  <td>City</td>
+                  <td>{{row.address.city}}</td>
+                </tr>
+                <tr>
+                  <td>State</td>
+                  <td>{{row.address.state}}</td>
+                </tr>
+              </table>
+            </div>
+
+          </ng-template>
+        </ngx-datatable-row-detail>
+        <ngx-datatable-column
+          [width]="50"
+          [resizeable]="false"
+          [sortable]="false"
+          [draggable]="false"
+          [canAutoResize]="false">
+          <ng-template let-row="row" let-expanded="expanded" ngx-datatable-cell-template>
+            <a
+              href="javascript:;"
+              [class.datatable-ti-right]="!expanded"
+              [class.datatable-ti-down]="expanded"
+              title="Expand/Collapse Row"
+              (click)="toggleExpandRow(row)">
+           > </a>
+          </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column name="Index">
+          <ng-template let-row="row" ngx-datatable-cell-template>
+            <strong>{{row['id']}}</strong>
+          </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column name="Expanded">
+          <ng-template let-row="row" let-expanded="expanded" ngx-datatable-cell-template>
+            <strong>{{expanded === 1}}</strong>
+          </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column name="Name">
+          <ng-template let-value="value" ngx-datatable-cell-template>
+            <strong>{{value}}</strong>
+          </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column name="Gender">
+          <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+            <i [innerHTML]="row['name']"></i> and <i>{{value}}</i>
+          </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column name="Age"></ngx-datatable-column>
+      </ngx-datatable>
+
       </app-card>
   </div>
 </div>
