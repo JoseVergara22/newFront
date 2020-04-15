@@ -46,6 +46,7 @@ import { MasterWarehousesComponent } from './master-warehouses/master-warehouses
 import { MasterSubCostCenterComponent } from './master-sub-cost-center/master-sub-cost-center.component';
 import { MasterWarehousesOutComponent } from './master-warehouses-out/master-warehouses-out.component';
 import { MasterCreateWarehousesOutComponent } from './master-create-warehouses-out/master-create-warehouses-out.component';
+import { MasterSettlementCustomerComponent } from './master-settlement-customer/master-settlement-customer.component';
 
 const routes: Routes = [
   {
@@ -219,6 +220,9 @@ const routes: Routes = [
   },{
     path: 'createWarehousesout',
     component: MasterCreateWarehousesOutComponent
+  },{
+    path:'settlementCustomer',
+    component:MasterSettlementCustomerComponent
   }
 
 ];
