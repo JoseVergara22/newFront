@@ -1905,7 +1905,6 @@ updateRegional(id:number, description:string, code:string){
   //---------------------------------------------------------------CustomerRegional
 
   customerRegionalSelect(details: string) {
-    
     return new Promise(resolve => {
       const headers = new HttpHeaders();
       headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user'))); // 'Bearer ' +
@@ -1953,6 +1952,205 @@ updateRegional(id:number, description:string, code:string){
         });
     });
   }
+  //---------------------------------------------------------------Rest salidas
+  getCustomers() {
+    return new Promise(resolve => {
+      const headers = new HttpHeaders();
+      headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user'))); // 'Bearer ' +
+      headers.append('Content-Type', 'application/json');
+      const httpOptions = {
+        headers: new HttpHeaders({
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + localStorage.getItem('token_user'),
+          'Accept': 'application/json'
+        })
+      };
+      this.http.get(this.apiEndPoint+'api/get_customer', httpOptions)
+        .map(res => res).subscribe(data => {
+          console.log(data);
+          resolve(data);
+        }, error => {
+          resolve(error);
+        });
+    });
+  }
+
+  getOffice(idCustomer: number) {
+    console.log(idCustomer);
+    return new Promise(resolve => {
+      const headers = new HttpHeaders();
+      headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user'))); // 'Bearer ' +
+      headers.append('Content-Type', 'application/json');
+      const httpOptions = {
+        headers: new HttpHeaders({
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + localStorage.getItem('token_user'),
+          'Accept': 'application/json'
+        })
+      };
+      this.http.get(this.apiEndPoint+'api/get_branch_office/' + idCustomer, httpOptions)
+        .map(res => res).subscribe(data => {
+          console.log(data);
+          resolve(data);
+        }, error => {
+          resolve(error);
+        });
+    });
+  }
+
+  getForkLift(idOffice: number) {
+    console.log(idOffice)
+    return new Promise(resolve => {
+      const headers = new HttpHeaders();
+      headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user'))); // 'Bearer ' +
+      headers.append('Content-Type', 'application/json');
+      const httpOptions = {
+        headers: new HttpHeaders({
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + localStorage.getItem('token_user'),
+          'Accept': 'application/json'
+        })
+      };
+      this.http.get(this.apiEndPoint+'api/get_fork_lift/' + idOffice, httpOptions)
+        .map(res => res).subscribe(data => {
+          console.log(data);
+          resolve(data);
+        }, error => {
+          resolve(error);
+        });
+    });
+  }
+  
+  getTechnician(){
+    return new Promise(resolve => {
+      const headers = new HttpHeaders();
+      headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user'))); 
+      headers.append('Content-Type', 'application/json');
+      const httpOptions = {
+        headers: new HttpHeaders({
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + localStorage.getItem('token_user'),
+          'Accept': 'application/json'
+        })
+      };
+      this.http.get(this.apiEndPoint+'api/get_technician', httpOptions)
+        .map(res => res).subscribe(data => {
+          console.log(data);
+          resolve(data);
+        }, error => {
+          resolve(error);
+        });
+    });
+  }
+  
+  createWarehousesOut(idCustomer, idTechnician, idBranchOffice, quantity, reference, description, control, unitCost,
+    total, forkliftText, forkliftId, ordenNumber, comsumtion, observation){
+    return new Promise(resolve => {
+      const headers = new HttpHeaders();
+      headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user'))); // 'Bearer ' +
+      headers.append('Content-Type', 'application/json');
+      const httpOptions = {
+        headers: new HttpHeaders({
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + localStorage.getItem('token_user'),
+          'Accept': 'application/json'
+        })
+      };
+      const postParams = {
+       customer_id: idCustomer,
+       technician_id: idTechnician,
+       branch_office_id: idBranchOffice,
+       quantity: quantity,
+       reference: reference,
+       description: description,
+       control: control,
+       unit_cost: unitCost,
+       total: total,
+       forklift_text: forkliftText,
+       forklift_id: forkliftId,
+       orden_number: ordenNumber,
+      // settlement_text: settlementText,
+       //settlement_id: settlementId,
+       //invoice_text: invoiceText,
+       //invoice_id: invoiceId,
+       comsumtion: comsumtion,
+       observation: observation,
+     //  status_completed: statusCompleted
+      };
+      this.http.post(this.apiEndPoint+'api/create_warehouses_out', postParams, httpOptions)
+        .map(res => res).subscribe(data => {
+          resolve(data);
+        }, error => {
+          resolve(error);
+        });
+    });
+  }
+
+  updateWarehousesOut(id, idCustomer, idTechnician, idBranchOffice, quantity, reference, description, control, unitCost,
+    total, forkliftText, forkliftId, ordenNumber, comsumtion, observation){
+    return new Promise(resolve => {
+      const headers = new HttpHeaders();
+      headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user'))); // 'Bearer ' +
+      headers.append('Content-Type', 'application/json');
+      const httpOptions = {
+        headers: new HttpHeaders({
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + localStorage.getItem('token_user'),
+          'Accept': 'application/json'
+        })
+      };
+      const postParams = {
+       customer_id: idCustomer,
+       technician_id: idTechnician,
+       branch_office_id: idBranchOffice,
+       quantity: quantity,
+       reference: reference,
+       description: description,
+       control: control,
+       unit_cost: unitCost,
+       total: total,
+       forklift_text: forkliftText,
+       forklift_id: forkliftId,
+       orden_number: ordenNumber,
+      // settlement_text: settlementText,
+       //settlement_id: settlementId,
+       //invoice_text: invoiceText,
+       //invoice_id: invoiceId,
+       comsumtion: comsumtion,
+       observation: observation,
+     //  status_completed: statusCompleted
+      };
+      this.http.patch(this.apiEndPoint+'api/update_warehouses_out/'+id, postParams, httpOptions)
+        .map(res => res).subscribe(data => {
+          resolve(data);
+        }, error => {
+          resolve(error);
+        });
+    });
+  }
+
+  getWarehousesOut(){
+    return new Promise(resolve => {
+      const headers = new HttpHeaders();
+      headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user'))); 
+      headers.append('Content-Type', 'application/json');
+      const httpOptions = {
+        headers: new HttpHeaders({
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + localStorage.getItem('token_user'),
+          'Accept': 'application/json'
+        })
+      };
+      this.http.post(this.apiEndPoint+'api/show_warehouses_out', httpOptions)
+        .map(res => res).subscribe(data => {
+          console.log(data);
+          resolve(data);
+        }, error => {
+          resolve(error);
+        });
+    });
+  }
+
   //---------------------------------------------------------------Customer
 
   getCustomer() {

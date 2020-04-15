@@ -45,6 +45,7 @@ import { MasterCostCenterComponent } from './master-cost-center/master-cost-cent
 import { MasterWarehousesComponent } from './master-warehouses/master-warehouses.component';
 import { MasterSubCostCenterComponent } from './master-sub-cost-center/master-sub-cost-center.component';
 import { MasterWarehousesOutComponent } from './master-warehouses-out/master-warehouses-out.component';
+import { MasterCreateWarehousesOutComponent } from './master-create-warehouses-out/master-create-warehouses-out.component';
 
 const routes: Routes = [
   {
@@ -214,7 +215,10 @@ const routes: Routes = [
     component: MasterSubCostCenterComponent
   },{
     path:'warehousesout',
-    component:MasterWarehousesOutComponent
+    component: MasterWarehousesOutComponent
+  },{
+    path: 'createWarehousesout',
+    component: MasterCreateWarehousesOutComponent
   }
 
 ];
