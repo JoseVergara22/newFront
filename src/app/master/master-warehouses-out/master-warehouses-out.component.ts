@@ -220,7 +220,7 @@ export class MasterWarehousesOutComponent implements NgbDatepickerI18n {
   
   selectedTypeDocumentId: any;
   selectedCustomer: any;
-  selectedBranchOffice: any;
+  selectedBranchOffice: any=0;
   selectedTechnician: any;
   selectForkLift: any;
 
@@ -303,10 +303,13 @@ export class MasterWarehousesOutComponent implements NgbDatepickerI18n {
    const unitCost = new FormControl('', Validators.required);
    const totalCost = new FormControl('', Validators.required);
    const descriptions = new FormControl('', Validators.required);
-   const control = new FormControl('', Validators.required);
+   const control = new FormControl('');
    const estimate = new FormControl('', Validators.required);
    const consumption = new FormControl('', Validators.required);
    const observation = new FormControl('', Validators.required);
+   const liquidation = new FormControl('');
+   const bill = new FormControl('');
+   const forkliftControl = new FormControl('');
 
    const customerUpdate = new FormControl('', Validators.required);
    const branchOfficeUpdate = new FormControl('', Validators.required);
@@ -320,7 +323,8 @@ export class MasterWarehousesOutComponent implements NgbDatepickerI18n {
    const estimateUpdate = new FormControl('', Validators.required);
    const consumptionUpdate = new FormControl('', Validators.required);
    const observationUpdate = new FormControl('', Validators.required);
-
+   const businessNameUpdate = new FormControl('', Validators.required);
+   const liquidationUpdate = new FormControl('', Validators.required);
 
    this.myForm = new FormGroup({
     customer: customer,
@@ -330,11 +334,14 @@ export class MasterWarehousesOutComponent implements NgbDatepickerI18n {
     reference: reference,
     unitCost: unitCost,
     totalCost: totalCost,
-    description: descriptions,
+    descriptions: descriptions,
     control: control,
     estimate: estimate,
     consumption: consumption,
-    observation: observation
+    observation: observation,
+    liquidation: liquidation,
+    bill: bill,
+    forkliftControl:forkliftControl
    });
 
    this.myFormUpdate = new FormGroup({
@@ -345,11 +352,13 @@ export class MasterWarehousesOutComponent implements NgbDatepickerI18n {
     referenceUpdate: referenceUpdate,
     unitCostUpdate: unitCostUpdate,
     totalCostUpdate: totalCostUpdate,
-    descriptionUpdate: descriptionsUpdate,
+    descriptionsUpdate: descriptionsUpdate,
     controlUpdate: controlUpdate,
     estimateUpdate: estimateUpdate,
     consumptionUpdate: consumptionUpdate,
     observationUpdate: observationUpdate,
+    liquidationUpdate: liquidationUpdate,
+    businessNameUpdate: businessNameUpdate
    });
   }
 
@@ -425,7 +434,6 @@ export class MasterWarehousesOutComponent implements NgbDatepickerI18n {
   ChangingValue(){
     console.log('Cambio cliente');
     console.log(this.selectedCustomer);
-    console.log(this.selectedCustomer.id);
     this.getOffices(this.selectedCustomer);
   }
 

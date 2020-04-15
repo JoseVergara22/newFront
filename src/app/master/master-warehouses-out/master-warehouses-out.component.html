@@ -6,27 +6,35 @@
       <div class="form-group row">
         <div class="col-sm-8">
             <h6>Cliente <span style="color:red;">*</span></h6>
-            <select class="form-control" (change)="ChangingValue()" name="select" [(ngModel)]="selectedCustomer" formControlName="customer">
+            <select class="form-control" (change)="ChangingValue()" name="select" [(ngModel)]="selectedCustomer" formControlName="customer" [ngClass]="{ 'is-invalid': submitted && checkForm.customer.errors }">
                   <option value="0" selected>Seleccionar el cliente</option>
                   <option  *ngFor="let cus of customers" [ngValue]="cus.id"> {{cus.business_name}} </option>
                 </select>
+                <div *ngIf="submitted && checkForm.customer.errors" class="invalid-feedback">
+                  <div class="messages text-danger" *ngIf="checkForm.customer.errors.required">Este campo es requerido</div>
+              </div>
         </div>
 
         <div class="col-sm-4">
           <h6>Sucursal <span style="color:red;">*</span></h6>
-          <select class="form-control" (change)="ChangingValueBranch()" name="select" [(ngModel)]="selectedBranchOffice" formControlName="branchOffice">
+          <select class="form-control" (change)="ChangingValueBranch()" name="select" [(ngModel)]="selectedBranchOffice" formControlName="branchOffice" [ngClass]="{ 'is-invalid': submitted && checkForm.branchOffice.errors }">
                 <option value="0" selected>Seleccionar la sucursal</option>
-                <option  *ngFor="let office of branchOffices" [ngValue]="office.id"> {{office.branch_name}} </option>
+                <option  *ngFor="let office of branchOffices" [ngValue]="office"> {{office.branch_name}} </option>
               </select>
+              
+              <div *ngIf="submitted && checkForm.branchOffice.errors" class="invalid-feedback">
+                <div class="messages text-danger" *ngIf="checkForm.branchOffice.errors.required">Este campo es requerido</div>
+            </div>
+
         </div>
       </div>
       
       <br>
 
       <div class="form-group row">
-        <div class="col-sm-4">
-            <h6>Maquina <span style="color:red;">*</span></h6>
-            <input  type="text" class="form-control"   [(ngModel)]="selectForkLift" list="browsers">
+  <div class="col-sm-4">
+            <h6>Equipo <span style="color:red;">*</span></h6>
+            <input  type="text" class="form-control"   formControlName="forkliftControl"  [(ngModel)]="selectForkLift" list="browsers">
             <datalist  id="browsers">
                <div  *ngFor="let fork of forkLift">
                   <option [ngValue]="fork"   value={{fork.description}}>
@@ -36,7 +44,7 @@
 
         <div class="col-sm-4">
           <h6>Técnico <span style="color:#ff0000;">*</span></h6>
-          <select class="form-control" (change)="ChangingValue()" name="select" [(ngModel)]="selectedTechnician" formControlName="technician">
+          <select class="form-control" name="select" [(ngModel)]="selectedTechnician" formControlName="technician">
                 <option value="0" selected>Seleccionar el tecnico</option>
                 <option  *ngFor="let tech of technicians" [ngValue]="tech.id"> {{tech.name}} </option>
               </select>
@@ -102,9 +110,9 @@
 
         <div class="col-sm-10">
           <label>Control</label>
-          <textarea class="form-control" formControlName="control" [ngClass]="{ 'is-invalid': submitted && checkForm.businessName.errors }" placeholder="Control"></textarea>
-            <div *ngIf="submitted && checkForm.businessName.errors" class="invalid-feedback">
-                <div class="messages text-danger" *ngIf="checkForm.businessName.errors.required">Este campo es requerido</div>
+          <textarea class="form-control" formControlName="control" [ngClass]="{ 'is-invalid': submitted && checkForm.control.errors }" placeholder="Control"></textarea>
+            <div *ngIf="submitted && checkForm.control.errors" class="invalid-feedback">
+                <div class="messages text-danger" *ngIf="checkForm.control.errors.required">Este campo es requerido</div>
             </div>
         </div>
 
@@ -135,9 +143,9 @@
 
         <div class="col-sm-4">
           <h6>Factura <span style="color:red;">*</span></h6>
-            <input type="text" class="form-control" formControlName="businessName" [ngClass]="{ 'is-invalid': submitted && checkForm.businessName.errors }" disabled>
-            <div *ngIf="submitted && checkForm.businessName.errors" class="invalid-feedback">
-                <div class="messages text-danger" *ngIf="checkForm.businessName.errors.required">Este campo es requerido</div>
+            <input type="text" class="form-control" formControlName="bill" [ngClass]="{ 'is-invalid': submitted && checkForm.bill.errors }" disabled>
+            <div *ngIf="submitted && checkForm.bill.errors" class="invalid-feedback">
+                <div class="messages text-danger" *ngIf="checkForm.bill.errors.required">Este campo es requerido</div>
             </div>
         </div>
       </div>
@@ -185,7 +193,7 @@
     </div>
 </app-modal-basic>
 
-<app-modal-basic #modalUpdateWarehousesOut [dialogClass]="'modal-lg'">
+<!--<app-modal-basic #modalUpdateWarehousesOut [dialogClass]="'modal-lg'">
     <div class="app-modal-header">
         <h5>Actualizar salida </h5>
       <br>
@@ -201,18 +209,22 @@
 
         <div class="col-sm-4">
           <h6>Sucursal <span style="color:red;">*</span></h6>
-          <select class="form-control" (change)="ChangingValueBranch()" name="select" [(ngModel)]="selectedBranchOffice" formControlName="branchOfficeUpdate">
+          <select class="form-control" (change)="ChangingValueBranch()" name="select" [(ngModel)]="selectedBranchOfficeUpdate" formControlName="branchOfficeUpdate" [ngClass]="{ 'is-invalid': submitted && checkForm.branchOfficeUpdate.errors }" >
                 <option value="0" selected>Seleccionar la sucursal</option>
-                <option  *ngFor="let office of branchOffices" [ngValue]="office.id"> {{office.branch_name}} </option>
+                <option  *ngFor="let office of branchOffices" [ngValue]="office"> {{office.branch_name}} </option>
               </select>
         </div>
           
+        <div *ngIf="submitted && checkFormUpdate.branchOfficeUpdate.errors" class="invalid-feedback">
+          <div class="messages text-danger" *ngIf="checkFormUpdate.branchOfficeUpdate.errors.required">Este campo es requerido</div>
+      </div>
+
       </div>
       
       <br>
 
       <div class="form-group row">
-        <div class="col-sm-4">
+       <div class="col-sm-4">
             <h6>Tipo <span style="color:red;">*</span></h6>
             <input  type="text" class="form-control"   [(ngModel)]="selectForkLift" list="browsers">
             <datalist  id="browsers">
@@ -232,9 +244,9 @@
 
         <div class="col-sm-4">
             <h6>Cantidad <span style="color:red;">*</span></h6>
-            <input type="text" class="form-control" formControlName="quantityUpdate" [ngClass]="{ 'is-invalid': submitted && checkForm.quantityUpdate.errors }">
-            <div *ngIf="submitted && checkForm.quantityUpdate.errors" class="invalid-feedback">
-                <div class="messages text-danger" *ngIf="checkForm.quantityUpdate.errors.required">Este campo es requerido</div>
+            <input type="text" class="form-control" formControlName="quantityUpdate" [ngClass]="{ 'is-invalid': submitted && checkFormUpdate.quantityUpdate.errors }">
+            <div *ngIf="submitted && checkFormUpdate.quantityUpdate.errors" class="invalid-feedback">
+                <div class="messages text-danger" *ngIf="checkFormUpdate.quantityUpdate.errors.required">Este campo es requerido</div>
             </div>
         </div>
       </div>
@@ -245,25 +257,25 @@
       <div class="form-group row">
         <div class="col-sm-4">
             <h6>Referencia <span style="color:red;">*</span></h6>
-            <input type="text" class="form-control" formControlName="referenceUpdate" [ngClass]="{ 'is-invalid': submitted && checkForm.referenceUpdate.errors }">
-            <div *ngIf="submitted && checkForm.referenceUpdate.errors" class="invalid-feedback">
-                <div class="messages text-danger" *ngIf="checkForm.referenceUpdate.errors.required">Este campo es requerido</div>
+            <input type="text" class="form-control" formControlName="referenceUpdate" [ngClass]="{ 'is-invalid': submitted && checkFormUpdate.referenceUpdate.errors }">
+            <div *ngIf="submitted && checkFormUpdate.referenceUpdate.errors" class="invalid-feedback">
+                <div class="messages text-danger" *ngIf="checkFormUpdate.referenceUpdate.errors.required">Este campo es requerido</div>
             </div>
         </div>
 
         <div class="col-sm-4">
             <h6>Valor Unitario <span style="color:red;">*</span></h6>
-            <input type="text" class="form-control" formControlName="unitCostUpdate" (keyup)="calculateTotal()" [ngClass]="{ 'is-invalid': submitted && checkForm.unitCostUpdate.errors }">
-            <div *ngIf="submitted && checkForm.unitCostUpdate.errors" class="invalid-feedback">
-                <div class="messages text-danger" *ngIf="checkForm.unitCostUpdate.errors.required">Este campo es requerido</div>
+            <input type="text" class="form-control" formControlName="unitCostUpdate" (keyup)="calculateTotal()" [ngClass]="{ 'is-invalid': submitted && checkFormUpdate.unitCostUpdate.errors }">
+            <div *ngIf="submitted && checkFormUpdate.unitCostUpdate.errors" class="invalid-feedback">
+                <div class="messages text-danger" *ngIf="checkFormUpdate.unitCostUpdate.errors.required">Este campo es requerido</div>
             </div>
         </div>
 
         <div class="col-sm-4">
           <h6>Valor Total <span style="color:red;">*</span></h6>
-          <input type="text" class="form-control" formControlName="totalCostUpdate" [ngClass]="{ 'is-invalid': submitted && checkForm.totalCostUpdate.errors }" disabled>
-          <div *ngIf="submitted && checkForm.totalCostUpdate.errors" class="invalid-feedback">
-              <div class="messages text-danger" *ngIf="checkForm.totalCostUpdate.errors.required">Este campo es requerido</div>
+          <input type="text" class="form-control" formControlName="totalCostUpdate" [ngClass]="{ 'is-invalid': submitted && checkFormUpdate.totalCostUpdate.errors }" disabled>
+          <div *ngIf="submitted && checkFormUpdate.totalCostUpdate.errors" class="invalid-feedback">
+              <div class="messages text-danger" *ngIf="checkFormUpdate.totalCostUpdate.errors.required">Este campo es requerido</div>
           </div>
         </div>      
       </div>
@@ -369,7 +381,7 @@
     </div>
 </form>
     </div>
-</app-modal-basic>
+</app-modal-basic>-->
 
 
 <div class="row">
