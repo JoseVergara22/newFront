@@ -62,6 +62,10 @@ import { MasterSubCostCenterComponent } from './master-sub-cost-center/master-su
 import { MasterWarehousesOutComponent } from './master-warehouses-out/master-warehouses-out.component';
 import { MasterCreateWarehousesOutComponent } from './master-create-warehouses-out/master-create-warehouses-out.component';
 import { MasterSettlementCustomerComponent } from './master-settlement-customer/master-settlement-customer.component';
+import { MasterSettlementAllComponent } from './master-settlement-all/master-settlement-all.component';
+import { MasterUpdateSettlementCustomerComponent } from './master-update-settlement-customer/master-update-settlement-customer.component';
+
+
 // import { MasterAdminComponent } from '../master-layout/master-admin/master-admin.component';
 
 // Servicios
@@ -75,8 +79,10 @@ import { HorometroService } from "../master-services/horometro/horometro.service
 import { ForkliftService } from '../master-services/Forklift/forklift.service';
 import { EstimateService } from '../master-services/estimate/estimate.service';
 import { FilexcelService } from '../master-services/FileExcel/filexcel.service';
+import { SettlementService } from '../master-services/settlement/settlement.service';
 
 import {AutocompleteLibModule} from 'angular-ng-autocomplete';
+
 
 
 @NgModule({
@@ -146,7 +152,9 @@ import {AutocompleteLibModule} from 'angular-ng-autocomplete';
     MasterSubCostCenterComponent,
     MasterWarehousesOutComponent,
     MasterCreateWarehousesOutComponent,
-    MasterSettlementCustomerComponent
+    MasterSettlementCustomerComponent,
+    MasterSettlementAllComponent,
+    MasterUpdateSettlementCustomerComponent
    // MasterAdminComponent
   ],
   providers: [
@@ -164,6 +172,7 @@ import {AutocompleteLibModule} from 'angular-ng-autocomplete';
     HorometroService,
     ForkliftService,
     EstimateService,
-    FilexcelService]
+    FilexcelService,
+    SettlementService]
 })
 export class MasterModule { }

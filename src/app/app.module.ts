@@ -26,8 +26,7 @@ import {AutocompleteLibModule} from 'angular-ng-autocomplete';
     AdminComponent,
     AuthComponent,
     BreadcrumbsComponent,
-    MasterAdminComponent,
-    
+    MasterAdminComponent
    // MasterNewsComponent
   ],
   imports: [

@@ -47,6 +47,9 @@ import { MasterSubCostCenterComponent } from './master-sub-cost-center/master-su
 import { MasterWarehousesOutComponent } from './master-warehouses-out/master-warehouses-out.component';
 import { MasterCreateWarehousesOutComponent } from './master-create-warehouses-out/master-create-warehouses-out.component';
 import { MasterSettlementCustomerComponent } from './master-settlement-customer/master-settlement-customer.component';
+import { MasterSettlementAllComponent } from './master-settlement-all/master-settlement-all.component';
+import { MasterUpdateSettlementCustomerComponent } from './master-update-settlement-customer/master-update-settlement-customer.component';
+
 
 const routes: Routes = [
   {
@@ -223,8 +226,15 @@ const routes: Routes = [
   },{
     path:'settlementCustomer',
     component:MasterSettlementCustomerComponent
+  },{
+    path:'settlementAll',
+    component:MasterSettlementAllComponent
+  },{
+    path:'settlementCustomerUpdate/:id',
+    component: MasterUpdateSettlementCustomerComponent
   }
-
+  
+ 
 ];
 
 

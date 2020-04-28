@@ -127,6 +127,7 @@
           <br>
           <div class="align-buttons">
               <button type="button" style="display:none;" class="btn btn-default waves-effect" id="createItemHide" (click)="modalRegisterItem.hide()">Cancelar</button>
+             
               <button type="button" class="btn btn-default waves-effect" id="createItemHideDetail" (click)="cancelFormDetail()">Cancelar</button>
               <button type="submit " class="btn btn-primary m-b-0 "  (click)="createEstimateDetail()">Crear Item</button>
 
@@ -418,8 +419,11 @@
             
              <button type="button" style="display:none;" class="btn btn-default waves-effect" id="showModalApproval" (click)="modalApprovalItems.show()">Mostrar cotizaciones</button>
              <button type="button" style="display:none;" class="btn btn-default waves-effect" id="showModalProgramming" (click)="modalProgramming.show()">Mostrar Programación</button>
-
-          <!--  <button type="button" class="btn btn-default waves-effect" id="updateItemHide" (click)="modalUpdateItem.hide()">Cancelar</button>-->
+             <button type="button" style="display:none;" class="btn btn-default waves-effect" id="hideModalProgramming" (click)="modalProgramming.hide()">Mostrar Programación</button>
+             <button type="button" style="display:none;" class="btn btn-default waves-effect" id="checkEstimateCustomers" (click)="modalEstimateCustomers.show()">Cancelar</button>
+             <button type="button" style="display:none;" class="btn btn-default waves-effect" id="hideEstimateCustomers" (click)="modalEstimateCustomers.hide()">Cancelar</button>
+            
+             <!--  <button type="button" class="btn btn-default waves-effect" id="updateItemHide" (click)="modalUpdateItem.hide()">Cancelar</button>-->
               <button type="submit " class="btn btn-primary m-b-0 "  (click)="updateEstimateDetail()">Actualizar Item</button>
              
           </div>
@@ -443,7 +447,7 @@
                 <div class="row">
                     <div class="col-sm-6" >
                 <h6>Día de envio </h6>
-                <select class="form-control">
+                <select class="form-control"  [(ngModel)]="selectedScheduleOptionOne">
                         <option value="0" selected>Seleccionar día</option>
                         <option value="1">1 </option>
                         <option value="2">2 </option>
@@ -479,13 +483,13 @@
                     </div>
                     <div class="col-sm-6" >
                         <h6>Activo</h6>
-                        <ui-switch class="js-single" color="#4680ff" switchColor="#fff" size="medium"  [checked]="switchStatus" (change)="onChangeStatus($event)"></ui-switch><br>
+                        <ui-switch class="js-single" color="#4680ff" switchColor="#fff" size="medium"  [checked]="switchScheduleOptionOne" (change)="onChangeScheduleOptionOne($event)"></ui-switch><br>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-sm-6" >
                 <h6>Día de envio </h6>
-                <select class="form-control">
+                <select class="form-control"   [(ngModel)]="selectedScheduleOptionSecond">
                         <option value="0" selected>Seleccionar día</option>
                         <option value="1">1 </option>
                         <option value="2">2 </option>
@@ -521,68 +525,80 @@
                     </div>
                     <div class="col-sm-6" >
                         <h6>Activo</h6>
-                        <ui-switch class="js-single" color="#4680ff" switchColor="#fff" size="medium"  [checked]="switchStatus" (change)="onChangeStatus($event)"></ui-switch><br>
+                        <ui-switch class="js-single" color="#4680ff" switchColor="#fff" size="medium"  [checked]="switchScheduleOptionSecond" (change)="onChangeScheduleOptionSecond($event)"></ui-switch><br>
                     </div>
                 </div>
             </div>
             <div class="app-modal-footer">
               <button type="button" class="btn btn-default waves-effect" (click)="modalProgramming.hide()">Cerrar</button>
-              <button type="button" class="btn btn-primary waves-effect waves-light ">Guardar</button>
+              <button type="button" class="btn btn-primary waves-effect waves-light" (click)="saveScheduleOption()">Guardar</button>
             </div>
           </app-modal-basic>
 <!-- Fin Programación -->
 
 <!-- Modal Cotizaciones por empresa-->
-<app-modal-basic #modalApprovalItems [dialogClass]="'modal-lg'">
+<app-modal-basic #modalEstimateCustomers [dialogClass]="'modal-lg'">
     <div class="app-modal-header">
         <h4 class="modal-title">Copiar cotizaciones por empresa</h4>
     </div>
     <div class="app-modal-body">
-        <div class="form-group row">
-            <div class="col-sm-12">
-                <div class="detail-title">
-                </div>
-                <div>
-                    <br>
-                    <input type="checkbox"  value="m1" [checked]="checkAllPart"  (change)="checkUncheckAllPart($event)"/> <strong>Seleccionar todo</strong>
-                    <br> 
-                    <br>
-                  <h5>
-                    Num Cot. 001
-                  </h5>
-                    <br>         
-                              <div class="table-responsive">
-                                <div class="table-scroll">
-                                <table class="table table-framed">
-                                  <thead>
-                                      
-                                  <tr>
-                                    <th style="width: 5%"> </th>
-                                    <th style="width: 10%">#</th>
-                                    <th style="width: 85%">Descripción</th>
-                                   
-                                  </tr>
-                                  </thead>
-                                  <tbody>
-                                <tr>
-                                    <td scope="row">
-                                        <input type="checkbox"  name="list_name" value="1" />
-                                    </td>
-                                    <td>1</td>
-                                    <td>ejemplo de repuesto</td>
-                                  
-                                  </tr>
-                                  </tbody>
-                                </table>
-                              </div>
-                            </div>
-                        <br>
-                </div>
-            </div>
-        </div>
+        <app-card  [blockClass]="'accordion-block'" [cardOptionBlock]="true">
+            <ngb-accordion  *ngFor="let estimateCustomer of itemsEstimate" [closeOthers]="false" #acc="ngbAccordion" class="ngb-accordion">
+              <ngb-panel id="ngb-close-p1" title="Cotización N. {{estimateCustomer.estimate_consecutive}}">
+                <ng-template ngbPanelContent>
+                    <div class="form-group row">
+                        <div class="col-sm-12">
+                             <!--    <input type="checkbox"  value="m1" [checked]="checkAllPart"  (change)="checkUncheckAllPart($event)"/> <strong>Seleccionar todo</strong> -->      
+                                          <div class="table-responsive">
+                                            <div class="table-scroll"> 
+                                            <table class="table table-framed">
+                                              <thead>
+                                              <tr>
+                                                <th style="width: 5%"> </th>
+                                                <th style="width: 10%">Código</th>
+                                                <th style="width: 70%">Descripción</th>
+                                                <th style="width: 5%;">Cantidad</th>
+                                                <th style="width: 10%;">Subtotal</th>
+                                              </tr>
+                                              </thead>
+                                              <tbody>
+                                        <!--  value="{{item.id}}" (change)="partChangeActive($event,item)"[checked]="item.active" -->   
+                                             <tr *ngFor="let item of estimateCustomer.item;let pointIdex=index">   
+                                                <td scope="row">
+                                                   <input type="checkbox"  name="list_name" value="{{item.id}}" (change)="checkChangeActive($event,item)"[checked]="item.active"/> 
+                                                </td>
+                                                <td>{{item.code}}</td>
+                                                <td>{{item.description}}</td>
+                                                <td>{{item.quantity}}</td>
+                                                <td>{{item.subtotal}} </td>
+                                               </tr> 
+                                              </tbody>
+                                            </table>
+                                          </div>
+                                        </div>
+                        </div>
+                    </div>
             
+                </ng-template>
+              </ngb-panel>
+            </ngb-accordion>
+            <div class="form-group row">
+                <div class="col-sm-4">
+              
+                </div>
+                <div class="col-sm-4">
+              
+                </div>
+                <div class="col-sm-4">
+                    <button class="btn btn-primary btn-round" *ngIf="numberPage>1" (click)="backPage()" >Atras</button> <button (click)="nextPage()" class="btn btn-primary btn-round" *ngIf="numberPage<limitPage">Siguiente</button>
+                   <!--  <button class="btn btn-info btn-round">Atras</button>   <button class="btn btn-info btn-round">Siguiente</button> -->
+                </div>
+             </div>       
+           
+          </app-card>
+
             <div class="align-buttons">
-                <button type="button" class="btn btn-default waves-effect" id="storageDetailHide" (click)="modalApprovalItems.hide()">Cancelar</button>
+                <button type="button" class="btn btn-default waves-effect" id="storageDetailHide" (click)="deleteItemsSelect()">Cancelar</button>
                 <button type="submit " class="btn btn-primary m-b-0 ">Copiar</button>
             </div>
     </div>
@@ -654,7 +670,7 @@
                 
                       <select class="form-control" (change)="getRegionals()" [(ngModel)]="selectedBusinessId"> 
                                   <option value="0" selected>Seleccionar cliente </option>
-                              <option   *ngFor="let customer of customers" [ngValue]="customer"> {{customer.business_name}}  </option>
+                              <option   *ngFor="let customer of customers" [ngValue]="customer.id"> {{customer.business_name}}  </option>
                               <!--  <option value="0" selected>Seleccionar perfil</option> -->
                              </select>
               </div>
@@ -663,7 +679,7 @@
 
                       <select class="form-control" (change)="getCenterCost()"  [(ngModel)]="selectedRegionalId" > 
                                   <option value="0" selected>Seleccionar regional </option>
-                                   <option   *ngFor="let regional of regionals" [ngValue]="regional"   > {{regional.description}}  </option>
+                                   <option   *ngFor="let regional of regionals" [ngValue]="regional.id"   > {{regional.description}}  </option>
                               <!--  <option value="0" selected>Seleccionar perfil</option> -->
                              </select>
               </div>
@@ -672,7 +688,7 @@
 
                 <select class="form-control"   [(ngModel)]="selectedCostCenterId" > 
                             <option value="0" selected>Seleccionar centro </option>
-                            <option   *ngFor="let costCenter of costCenters" [ngValue]="costCenter"   > {{costCenter.description}}  </option>
+                            <option   *ngFor="let costCenter of costCenters" [ngValue]="costCenter.id"   > {{costCenter.description}}  </option>
                      
                        </select>
         </div>
@@ -694,7 +710,7 @@
       
                       <select class="form-control"   [(ngModel)]="selectedWarehouseId" > 
                                   <option value="0" selected>Seleccionar bodega </option>
-                                  <option   *ngFor="let warehouse of warehouses" [ngValue]="warehouse"   > {{warehouse.description}}  </option>
+                                  <option   *ngFor="let warehouse of warehouses" [ngValue]="warehouse.id"   > {{warehouse.description}}  </option>
                               <!--  <option value="0" selected>Seleccionar perfil</option> -->
                              </select>
               </div>
@@ -790,8 +806,8 @@
                   <div class="align-buttons">
                       <button type="button" style="display:none;" id="uploadItem" class="btn btn-primary waves-effect" (click)="modalUpdateItem.show()">Actualizar item</button>
                       <button type="button" style="display:none;" id="uploadWorkforceItem" class="btn btn-primary waves-effect" (click)="modalUpdateItemWorkforce.show()">Actualizar item</button>
-                      <button type="button"  class="btn btn-primary waves-effect" (click)="createSettlementCondition()" *ngIf="showSettlementId">Crear liquidación</button>
-                      <button type="button" id="registerCountry" class="btn btn-primary waves-effect" (click)="updateEstimateCondition()"  *ngIf="showCreateItem">Actualizar liquidación</button>
+                   <!--   <button type="button"  class="btn btn-primary waves-effect" (click)="createSettlementCondition()" *ngIf="showSettlementId">Actualizar liquidación</button>--> 
+                      <button type="button" id="registerCountry" class="btn btn-primary waves-effect" (click)="updateSettlementCondition()"  *ngIf="showCreateItem">Actualizar liquidación</button>
                   </div>
                   <!-- *ngIf="showCreateItem" -->
                   <div class="row" *ngIf="showCreateItem" >
@@ -799,10 +815,10 @@
                         <button  class="btn btn-primary btn-icon" (click)="showSettlementProgramming()" placement="top" ngbTooltip="Programar">  <img src="assets/images/calendarSettlement.png"  width="50" height="50" > </button>
                     </div> 
                     <div class="col-sm-1">
-                        <button  class="btn btn-primary btn-icon" (click)="showSettlementEstimateBusiness()"  placement="top" ngbTooltip="Ver cotizaciones por cliente">  <img src="assets/images/business.png"  width="50" height="50" > </button>
+                        <button  class="btn btn-primary btn-icon" (click)="showSettlementEstimateCustomer()"  placement="top" ngbTooltip="Ver cotizaciones por cliente">  <img src="assets/images/business.png"  width="50" height="50" > </button>
                     </div> 
                     <div class="col-sm-1">
-                        <button  class="btn btn-primary btn-icon" placement="top" ngbTooltip="Ver cotizaciones por equipo">  <img src="assets/images/forklift.png"  width="50" height="50" > </button>
+                        <button  class="btn btn-primary btn-icon"  (click)="showSettlementEstimateForklift()" placement="top" ngbTooltip="Ver cotizaciones por equipo">  <img src="assets/images/forklift.png"  width="50" height="50" > </button>
                     </div> 
                      
                     <div class="col-sm-1">

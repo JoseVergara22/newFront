@@ -1,5 +1,6 @@
 import { Component, ViewChild, ElementRef, OnInit, Inject, Input } from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
+import { ActivatedRoute, Params } from '@angular/router';
 import { RestService } from '../../master-services/Rest/rest.service';
 import { FilexcelService } from '../../master-services/FileExcel/filexcel.service';
 import { WorkService } from '../../master-services/Work/work.service';
@@ -11,8 +12,6 @@ import { UUID } from 'angular2-uuid';
 import * as jsPDF from 'jspdf';
 import 'jspdf-autotable';
 import { UserOptions } from 'jspdf-autotable';
-
-
 import swal from 'sweetalert2';
 import { Router } from '@angular/router';
 
@@ -20,15 +19,32 @@ interface jsPDFWithPlugin extends jsPDF {
   autoTable: (options: UserOptions) => jsPDF;
 }
 
+interface itemEstimateInterface {// item para mostrar selccionados
+  estimate_consecutive?: string;
+  item?: Array<itemEstimateDetailInterface>;
+}
+
+interface itemEstimateDetailInterface {// item para mostrar selccionados
+  id?: number;
+  code?: string;
+  description?: string;
+  quantity?: number;
+  subtotal?: string;
+  active?: boolean;
+}
+
 @Component({
-  selector: 'app-master-settlement-customer',
-  templateUrl: './master-settlement-customer.component.html',
-  styleUrls: ['./master-settlement-customer.component.scss',
+  selector: 'app-master-update-settlement-customer',
+  templateUrl: './master-update-settlement-customer.component.html',
+  styleUrls: ['./master-update-settlement-customer.component.scss',
   '../../../assets/icon/icofont/css/icofont.scss']
 })
-export class MasterSettlementCustomerComponent implements OnInit {
 
-  data: any = [{
+
+
+export class MasterUpdateSettlementCustomerComponent implements OnInit {
+
+    data: any = [{
     eid: 'e101',
     ename: 'ravi',
     esal: 1000
@@ -59,6 +75,13 @@ export class MasterSettlementCustomerComponent implements OnInit {
       "Gender" : "Male"
       
     };
+
+  itemsEstimate: Array <itemEstimateInterface> = [];
+  itemEstimate:itemEstimateInterface;
+  itemsDetailEstimate: Array<itemEstimateDetailInterface> = [];
+  itemDetailEstimate: itemEstimateDetailInterface;
+  selectedItemsDetail=[];
+
   myForm: FormGroup;
   myFormUpdate: FormGroup;
   submitted = false;
@@ -73,9 +96,14 @@ export class MasterSettlementCustomerComponent implements OnInit {
   kilo: any;
   elementDelete: any;
   freightGeneral;
+  contFiles=0;
+  numberPage=1;
+  limitPage;
 
   switchCreate = true;
   switchUpdate = true;
+
+  scheduleSettlementCustomer: any;
   change = true;
   active = false;
   inactive = false;
@@ -93,10 +121,13 @@ export class MasterSettlementCustomerComponent implements OnInit {
   selectedEstimateCountryId :any=0;
   estimateCountries: any;
   consecutive:any;
+
  
   currentCountryText:any;
   s3info:any;
   fileTest:any;
+  
+
 
   forkliftText: any;
 
@@ -143,6 +174,12 @@ export class MasterSettlementCustomerComponent implements OnInit {
   selectedForkliftId:any=0;
   selectedRegionalId:any=0;
   selectedCostCenterId:any=0;
+
+  selectedScheduleOptionOne:any=0;
+  switchScheduleOptionOne:any= false;
+  selectedScheduleOptionSecond:any=0;
+  switchScheduleOptionSecond:any= false;
+  
   selectedWarehouseId:any=0;
   managementVariables=0;
   managmentTariff=0;
@@ -177,7 +214,15 @@ export class MasterSettlementCustomerComponent implements OnInit {
   cities: any;
   observation:any;
   selectedBusinessId:any=0;
+
+  settlementEstimatesCustomer:any;
+  settlementEstimatesForklift:any;
+  
   settlementId=null;
+  currentSettlement:any;
+
+  fileEstimateTemp: any;
+
   showSettlementId=true;
   showCreateItem=false;
   showSaveFile=false;
@@ -241,36 +286,30 @@ export class MasterSettlementCustomerComponent implements OnInit {
 
   @ViewChild('content') content: ElementRef;
   
-  constructor(private restService: RestService, private router: Router, private estimateService: EstimateService, private excelService:FilexcelService,  private workService:WorkService,  private uploadService: UploadService, private forkliftService: ForkliftService, private settlementService: SettlementService) {
+  constructor(private restService: RestService, private router: Router, private estimateService: EstimateService, private excelService:FilexcelService,  private workService:WorkService,  private uploadService: UploadService, private forkliftService: ForkliftService, private settlementService: SettlementService, private rutaActiva: ActivatedRoute) {
   console.log('------------------');
-
-  this.restService.getRegionalAll().then(data => {
-    const resp: any = data;
-    console.log(data);
-    swal.close();
-    this.regionals  = resp.data;
-  }).catch(error => {
-    console.log(error);
-  });
-
+  this.settlementId = this.rutaActiva.snapshot.params.id;
+  this.showCreateItem = true;
+    this.getTrmCurrent();
     this.showShippingCountriesDhlInitial();
+    
+    this.getRegionalsMaster();
+    this.getDepartments();
+
+    this.getSettlementSpecific(this.settlementId); 
+
     // this.showCountryWeight();
+    console.log('importante info');
+  
 
     this.loadingData();
-    this.getConsecutive();
-    
-    this.getConfigEstimatesInitial();
-    this.getConfigTrmInitial();
 
-    this.getCustomers();
-    this.getDepartments();
-    this.getTrmCurrent();
-
+    // this.getEstimateParts();
+    // this.getEstimateWorkforce();
+    // this.getFilesEstimate();
 
     var date = new Date();
-
     // poner los 0
-
     var day = (date.getDate() < 10 ? '0' : '') + date.getDate();
     // 01, 02, 03, ... 10, 11, 12
     let month = ((date.getMonth() + 1) < 10 ? '0' : '') + (date.getMonth() + 1);
@@ -300,10 +339,22 @@ export class MasterSettlementCustomerComponent implements OnInit {
     });
    }
 
+
    removeAccents (str){
     return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
   } 
 
+
+  getRegionalsMaster(){
+    this.restService.getRegionalAll().then(data => {
+      const resp: any = data;
+      console.log(data);
+      swal.close();
+      this.regionals  = resp.data;
+    }).catch(error => {
+      console.log(error);
+    });
+  }
    getConsecutive() {
    
     this.settlementService.showSettlementConsecutive().then(data => {
@@ -370,7 +421,7 @@ export class MasterSettlementCustomerComponent implements OnInit {
    getEstimateWorkforce() {
    
     if(this.settlementId){
-      this.estimateService.getEstimateDetailsWorkforce(this.settlementId).then(data => {
+      this.settlementService.getSettlementDetailsWorkforce(this.settlementId).then(data => {
         const resp: any = data;
         this.rowsItemsWorkforce=resp.data;
       
@@ -396,7 +447,7 @@ export class MasterSettlementCustomerComponent implements OnInit {
    getEstimateParts() {
    
     if(this.settlementId){
-      this.estimateService.getEstimateDetailsParts(this.settlementId).then(data => {
+      this.settlementService.getSettlementDetailsParts(this.settlementId).then(data => {
         const resp: any = data;
         this.rowsItemsparts=resp.data;
       
@@ -503,6 +554,48 @@ this.trmGeneralUsa= inputTrm.value.replace(/[^\d\.]*/g,'');
       });
     }
 
+    getFilesEstimate(){
+      console.log('ingreso que paso ps');
+       this.estimateService.getEstimateDetailFiles(Number(this.settlementId)).then(data => {
+         const resp: any = data;
+       if(resp.data){
+         console.log('-----------------------');
+         console.log(data);
+         console.log('-----------------------');
+
+         let i = 0;
+         for (let estimateFile of  resp.data) {
+           //console.log(estimateFile.name);
+           console.log('Jajajajaja');
+          
+           this.settlementId={
+             id: estimateFile.id,
+             url: estimateFile.name,
+             content: '',
+             type: estimateFile.type
+           };
+           i= i + 1;
+           this.urlsFiles.push(this.settlementId);
+           //this.fileEstimateTemp.push(this.fileEstimate); 
+          //  this.urlsImages.push(estimateFile.url);
+          // this.urls.push(EstimateImage.url);
+           // this.urlsInitial.push(EstimateImage.name);
+           // this.guideImagesInitial.push(i);// guia para saber que imagenes estan en amazon
+           //i=i+1;
+          }
+          this.contFiles = i;
+
+        // this.urls
+         console.log('vihdsik--' + this.contFiles);
+         console.log('Estos son los archivos: '+data); 
+        }else{
+          this.fileEstimateTemp=[];
+        }
+       }).catch(error => {
+         console.log(error);
+       });
+     }
+
    getDepartments() {
     this.restService.getDepartments().then(data => {
       const resp: any = data;
@@ -605,7 +698,7 @@ this.trmGeneralUsa= inputTrm.value.replace(/[^\d\.]*/g,'');
 getCenterCost() {
   this.getWarehouses();
   //selectedCostCenterId
-  this.restService.getCostCenterSettlement(this.selectedRegionalId.id).then(data => {
+  this.restService.getCostCenterSettlement(this.selectedRegionalId).then(data => {
     const resp: any = data;
     console.log(data);
     swal.close();
@@ -618,7 +711,7 @@ getCenterCost() {
 
 getWarehouses() {
   //selectedCostCenterId
-  this.restService.getWarehousesSettlement(this.selectedRegionalId.id).then(data => {
+  this.restService.getWarehousesSettlement(this.selectedRegionalId).then(data => {
     const resp: any = data;
     console.log(data);
     swal.close();
@@ -1303,8 +1396,6 @@ console.log('Importante informacion: '+ this.conditionValidation);
     });
     
 
-
-   
     
     this.configTrm=resp.data;
 
@@ -1316,6 +1407,104 @@ console.log('Importante informacion: '+ this.conditionValidation);
       console.log(error);
     });
   }
+
+  
+  onChangeScheduleOptionOne(event:any){
+    console.log('optionOne '+event);
+    this.switchScheduleOptionOne = event;
+    console.log(this.selectedScheduleOptionOne);
+  }
+ 
+  // selectedScheduleOptionOne:any=0;
+  // switchScheduleOptionOne:any= false;
+  // selectedScheduleOptionSecond:any=0;
+  // switchScheduleOptionSecond:any= false;
+  
+  onChangeScheduleOptionSecond(event:any){
+    console.log('optionSecond '+event);
+    this.switchScheduleOptionSecond = event;
+    console.log(this.selectedScheduleOptionSecond);
+    console.log(this.switchScheduleOptionSecond);
+  }
+
+
+
+  saveScheduleOption(){
+      let switchOne= 0;
+      let switchSecond= 0;
+      if(this.switchScheduleOptionOne==true){
+        switchOne= 1;
+      }
+     
+      if(this.switchScheduleOptionSecond==true){
+        switchSecond= 1;
+      }
+
+    if(this.selectedScheduleOptionOne!=0 || this.selectedScheduleOptionSecond!=0){
+      swal({
+        title: 'Validando información ...',
+        allowOutsideClick: false
+      });
+      swal.showLoading();
+
+    if( this.scheduleSettlementCustomer.length>0){
+    
+      let params = this.scheduleSettlementCustomer[0].id+'@'+this.selectedScheduleOptionOne+'@'+switchOne+
+      '@'+  this.scheduleSettlementCustomer[1].id +'@'+this.selectedScheduleOptionSecond+'@'+switchSecond;
+
+      console.log(params);
+  
+      this.settlementService.updateScheduleSettlement(params).then(data => {
+        const resp: any = data;
+        console.log(data);
+        swal({
+          title: 'Se actualizo correctamente',
+          type: 'success'
+         });
+       // swal.close();
+       document.getElementById('hideModalProgramming').click();
+       
+      }).catch(error => {
+        console.log(error);
+        swal.close();
+      });
+      console.log('importante entro la info');
+    }else{
+
+            
+
+      let params = this.currentSettlement.id+'@'+this.selectedScheduleOptionOne+'@'+switchOne+
+      '@'+  this.currentSettlement.id+'@'+this.selectedScheduleOptionSecond+'@'+switchSecond;
+      console.log(params);
+  
+      this.settlementService.createScheduleSettlement(params).then(data => {
+        const resp: any = data;
+        console.log(data);
+       // swal.close();
+       swal({
+        title: 'Se guardo correctamente',
+        type: 'success'
+       });
+       document.getElementById('hideModalProgramming').click();
+      }).catch(error => {
+        console.log(error);
+        swal.close();
+      });
+
+    }
+  }else{
+    swal({
+      title: 'Seleccionar un día',
+      text: 'Se debe seleccionar por lo menos un día para enviar la liquidación',
+      type: 'error'
+    });
+
+  }
+  
+
+
+  }
+ 
 
 
   getForkliftText(){
@@ -1992,6 +2181,63 @@ uploadImagesEstimate() {
 }
 }
 
+getSettlementSpecific(id:number) {
+   
+  this.settlementService.getSettlemetSpecific(id).then(data => { 
+    const resp: any = data;      
+    this.currentSettlement=resp.data;      
+    console.log('ingreso');
+    console.log(resp.data);
+    this.getCustomers();
+    console.log('paso00000000001234');
+    console.log('cotizacion actual '+ JSON.stringify(this.currentSettlement));
+    this.now =(this.currentSettlement.create_at).substring(0,10);
+    this.consecutive= this.currentSettlement.settlement_consecutive;
+    console.log('customer '+this.currentSettlement.customer_id);
+    this.selectedBusinessId = this.currentSettlement.customer_id; // Number(this.currentSettlement.customer.id);
+    console.log(this.selectedBusinessId);
+    if(this.currentSettlement.forklift){
+      this.selectedForkliftId = this.currentSettlement.forklift_id; //this.currentSettlement.forklift_id;
+      this.forkliftText= this.currentSettlement.forklift_text;
+    }
+    this.selectedRegionalId =  this.currentSettlement.regional_id;
+    this.documentCustomer =  this.currentSettlement.customer_document;
+    this.nameCustomer =  this.currentSettlement.customer.business_name;
+    console.log('departamento '+this.currentSettlement.department_id);
+    this.selectedDepartmentId = this.currentSettlement.department_id;
+    this.numberEstimate = this.currentSettlement.estimate_order;
+    this.getCities();
+    this.getCenterCost();
+    this.selectedCityId = this.currentSettlement.city_id;
+    this.selectedCostCenterId = this.currentSettlement.cost_center_id;
+    this.selectedWarehouseId = this.currentSettlement.warehouse_id;
+  //  this.days = this.currentSettlement.payment_method;
+  //  this.guaranty = this.currentSettlement.guaranty;
+    this.contact = this.currentSettlement.contact;
+  //  this.email = this.currentSettlement.email;
+  //  this.validity = this.currentSettlement.validity;
+    this.cellphone = this.currentSettlement.telephone;
+    this.observation = this.currentSettlement.observation;
+  
+    this.user= this.currentSettlement.elaborate_user.username;
+    this.rowsItems=this.currentSettlement.estimate_details;
+    
+/*
+    this.getConfigEstimatesInitial();
+    this.getConfigTrmInitial();
+
+    this.getCustomers();
+    this.getForklifs();
+    this.getDepartments();
+    this.getCities();
+    this.getTrmCurrent();
+*/
+    // Cambio para carga bien data inicio de actualización
+  }).catch(error => {
+    console.log(error);
+  });
+ }
+
 
   deleteImage(i: number){
     if( this.showSaveFile == true){
@@ -2365,8 +2611,163 @@ upload() {
 }*/
   
 showSettlementProgramming(){
-  document.getElementById('showModalProgramming').click();
+  swal({
+    title: 'Validando información ...',
+    allowOutsideClick: false
+  });
+  swal.showLoading();
+  
+  this.settlementService.getScheduleSettlementCustomer(this.currentSettlement.id).then(data => {
+    console.log('data schedule '+data);
+    let  respGetSchedule: any = data;
+    this.scheduleSettlementCustomer=respGetSchedule.data;
+
+    if(this.scheduleSettlementCustomer.length>0){
+
+      if(this.scheduleSettlementCustomer[0].status==1){
+        this.switchScheduleOptionOne=true;
+      }
+
+      if(this.scheduleSettlementCustomer[1].status==1){
+        this.switchScheduleOptionSecond=true;
+      }
+
+      this.selectedScheduleOptionOne = this.scheduleSettlementCustomer[0].day;
+      this.selectedScheduleOptionSecond =  this.scheduleSettlementCustomer[1].day;
+    }
+
+    document.getElementById('showModalProgramming').click();
+    swal.close();
+
+    }).catch(error => {
+    console.log(error);
+    swal.close();
+    });
 } 
+
+showSettlementEstimateCustomer(){
+  swal({
+    title: 'Validando información ...',
+    allowOutsideClick: false
+  });
+  swal.showLoading();
+  console.log('--------------');
+  console.log(this.currentSettlement);
+  console.log(this.currentSettlement.customer_id);
+  
+  this.settlementService.getSettlementEstimateCustomer(this.currentSettlement.customer_id, this.numberPage).then(data => {
+    let respSettlementCustomer:any= data;
+    this.itemsEstimate=[];
+    this.limitPage=respSettlementCustomer.data.last_page;
+    console.log('limite de paginas '+this.limitPage);
+    this.settlementEstimatesCustomer=respSettlementCustomer.data.data;
+
+
+    this.settlementEstimatesCustomer.forEach((item)=>{
+    
+      this.itemsDetailEstimate=[];
+      item.estimate_details_settlement.forEach((itemDetail)=>{
+      
+        this.itemDetailEstimate={
+          id:itemDetail.id,
+          code: itemDetail.code,
+          description: itemDetail.description,
+          quantity: itemDetail.quantity,
+          subtotal: itemDetail.total_decimal,
+          active: false
+        }
+        
+        this.itemsDetailEstimate.push(this.itemDetailEstimate);
+      });
+      
+      this.itemEstimate={
+        estimate_consecutive: item.estimate_consecutive,
+        item:this.itemsDetailEstimate
+      }
+
+      this.itemsEstimate.push(this.itemEstimate);
+    });
+
+    console.log('--oleole-------------');
+    console.log('resultado final: ' +JSON.stringify( this.itemsEstimate));
+    console.log(this.settlementEstimatesCustomer);
+
+    document.getElementById('checkEstimateCustomers').click();
+    swal.close();
+
+    }).catch(error => {
+    console.log(error);
+    swal.close();
+    });
+} 
+
+checkChangeActive(event:any, item:any){
+   
+  console.log('valor para editar');
+  console.log(event);
+  console.log(item);
+  console.log(item.id);
+  for (let i = 0; i < this.itemsEstimate.length; i++){
+  // let itemsDetail:Array<itemEstimateDetailInterface>=this.itemsEstimate.item;
+  for (let j = 0; j < this.itemsEstimate[i].item.length; j++){
+   
+    if (this.itemsEstimate[i].item[j].id == item.id){
+     this.itemsEstimate[i].item[j].active=event.target.checked;
+     if(event.target.checked==true){
+      this.selectedItemsDetail.push(item.id);
+     }else{
+      var index = this.selectedItemsDetail.indexOf(item.id);
+      if (index !== -1) {
+          this.selectedItemsDetail.splice(index, 1);
+      }
+     }
+   }
+
+  }
+ }
+ console.log('Consolidado: '+this.selectedItemsDetail);
+}
+
+deleteItemsSelect(){
+  this.selectedItemsDetail=[];
+  document.getElementById('hideEstimateCustomers').click();
+}
+
+nextPage(){
+  this.numberPage= this.numberPage+1;
+  this.showSettlementEstimateCustomer();
+}
+
+backPage(){
+  if( this.numberPage>1){
+  this.numberPage= this.numberPage-1;
+  this.showSettlementEstimateCustomer();
+}
+
+}
+
+showSettlementEstimateForklift(){
+  swal({
+    title: 'Validando información ...',
+    allowOutsideClick: false
+  });
+  swal.showLoading();
+
+  this.settlementService.getSettlementEstimateForklift(this.currentSettlement.customer_id).then(data => {
+    let respSettlementForklift:any= data;
+    this.settlementEstimatesForklift=respSettlementForklift.data;
+    console.log(this.settlementEstimatesForklift);
+    
+    // document.getElementById('showModalProgramming').click();
+    swal.close();
+
+    }).catch(error => {
+    console.log(error);
+    swal.close();
+    });
+} 
+
+
 
 showSettlementEstimateBusiness(){
   document.getElementById('showModalApproval').click();
@@ -2637,7 +3038,7 @@ console.log('acaaaaaaaaaaaaa');
         this.idCustomerCreated = resp.data.id;
         console.log('Cambio');
 
-        this.updateEstimate();
+        this.updateSettlement();
    /*swal({
     title: 'Tercero agregado',
     type: 'success'
@@ -2651,17 +3052,33 @@ console.log('acaaaaaaaaaaaaa');
 
 //  this.selectedBusinessId != 0 &&
 
-  updateEstimateCondition(){
-    console.log('Ingresa ps');        
-    if(this.documentCustomer !== '' && this.nameCustomer !== '' && this.selectedDepartmentId != 0 && this.selectedCityId != 0 &&
-    this.days !== '' && this.guaranty !== ''  && this.contact !== '' &&  this.validity!== ''){
+  updateSettlementCondition(){
+    console.log('Ingresa ps');  
+    this.selectedBusinessId
     
+    // this.selectedBusinessId!=0 &&
+    if(this.documentCustomer !== '' && this.nameCustomer !== '' && this.selectedDepartmentId != 0 && this.selectedCityId != 0 && this.selectedRegionalId != 0  && this.selectedCostCenterId !=0 && this.selectedWarehouseId!=0 && this.contact !== '' && this.cellphone !== ''){
+
       console.log('-- '+this.selectedCityId );
+
+
+      if(this.selectedBusinessId){
+        this.updateSettlement();
+        console.log('entron ');
+        
+        console.log(this.selectedBusinessId);
+        
+     }else{
+      console.log('entron ');
+      
+        console.log(this.selectedBusinessId);
+       this.updateNewCustomer();
+     }
 
      // if(this.validateEmail(this.email)){
 
   //  if( this.idCustomerCreated){
-      this.updateEstimate();
+   //    this.updateSettlement();
    /*}else{
      this.updateNewCustomer();
    }*/
@@ -2681,7 +3098,7 @@ console.log('acaaaaaaaaaaaaa');
   }
   }
 
-  updateEstimate() {
+  updateSettlement() {
    
     swal({
       title: 'Validando información ...',
@@ -2689,80 +3106,52 @@ console.log('acaaaaaaaaaaaaa');
     });
     swal.showLoading();
     //estimate_consecutive: number, custmer_id: number, customer_document: string, department_id: number, city_id: number, forklift_id: number, contact: string, payment_method: number, guaranty: number, validity: number, telephone: string, observation: string, total: number, status: number
-    
-    let consecutiveTemp= Number(this.consecutive);
 
     let customerIdTemp;
 
-    if(this.selectedBusinessId!=0){
     if(this.selectedBusinessId){
-      console.log('this.selectedBusinessId');
-      console.log(this.selectedBusinessId.id);
-       customerIdTemp= Number(this.selectedBusinessId.id);
+      console.log('entroooooooooooooooooooooooooo pssssssssssssssssssssssssssssssss siiiiiiiiiiiii');
+       customerIdTemp= Number(this.selectedBusinessId);
     }else{
+      console.log('entroooooooooooooooooooooooooo pssssssssssssssssssssssssssssssss siiiiiiiiiiiii');
       customerIdTemp= Number(this.idCustomerCreated);
-    }// en este else no entraría si funciona
-    }else{
-    customerIdTemp= Number(this.idCustomerCreated);
-   }
-   console.log('customerIdTemp');
-   console.log(customerIdTemp);
-  
+    }
+    
     let documentCustomerTemp= this.documentCustomer;
-    let nameCustomerTemp = this.nameCustomer;
     let idDepartmentTemp = this.selectedDepartmentId;
     let selectedCityTemp = this.selectedCityId;
-    let selectedForkliftIdTemp = this.selectedForkliftId.id;
     let contactTemp = this.contact;
-    let daysTemp = this.days;
-    let guarantyTemp = this.guaranty;
-    let validityTemp = this.validity;
+    let selectedRegionalIdTemp= this.selectedRegionalId;
+    let selectedCostCenterIdTemp= this.selectedCostCenterId;
+    let selectedWarehouseIdTemp= this.selectedWarehouseId;
     let cellphoneTemp = this.cellphone;
     let observationTemp = this.observation;
-    let forkliftTextTemp=  this.forkliftText;
+    let numberEstimateTemp= this.numberEstimate;
 
-    console.log('Ole: '+forkliftTextTemp);
-    this.estimateService.updateEstimate(this.settlementId, customerIdTemp,documentCustomerTemp,
-      idDepartmentTemp, selectedCityTemp, selectedForkliftIdTemp,
-      contactTemp, daysTemp, guarantyTemp, validityTemp, cellphoneTemp, observationTemp,
-      forkliftTextTemp).then(data => {
+
+    console.log();
+
+    this.settlementService.updateSettlement(this.settlementId, customerIdTemp,documentCustomerTemp,
+      idDepartmentTemp, selectedCityTemp, contactTemp, cellphoneTemp, observationTemp, selectedRegionalIdTemp,
+      selectedCostCenterIdTemp, selectedWarehouseIdTemp,numberEstimateTemp).then(data => {
+
+      swal.close();
+      console.log('dataUpdate '+JSON.stringify(data));
       const resp: any = data;
       this.settlementId= resp.data.id;
       this.showSettlementId = false;
       this.showCreateItem = true;
       this.showSaveFile = true;
-     
-      console.log('estimate para crear items');
-      console.log(this.settlementId);
-      console.log('crear cotización');
-      console.log(data);
-      
-      this.estimateService.updateConsecutive().then(data => {
-        const resp: any = data;
-        console.log(data);
-        
-        swal({
-          title: 'encabezado actualizado',
-          type: 'success'
-         });
 
-        // swal.close();
-        // this.rowsClient = resp.data;
-        // this.rowStatic =  resp.data;
-        // this.rowsTemp = resp.data;
-        // console.log( this.rowsClient);
-      }).catch(error => {
-        swal({
-          title: 'Se presento un problema, para guardar este encabezado cotización',
-          type: 'error'
-         });
-        console.log(error);
-      });
       // this.rowsClient = resp.data;
       // this.rowStatic =  resp.data;
       // this.rowsTemp = resp.data;
       // console.log( this.rowsClient);
     }).catch(error => {
+      swal({
+        title: 'Se presento un problema, para guardar este encabezado cotización',
+        type: 'error'
+       });
       console.log(error);
     });
    }
