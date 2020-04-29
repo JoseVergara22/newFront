@@ -3637,7 +3637,7 @@ this.getImgFromUrl(logo_url, function (img) {
 
     if(this.considerDate == false && this.selectedBusinessId == 0 &&  this.part == 0 &&
       this.codepart == 0 && this.numberEstimate == 0  &&  this.selectedForkliftId == 0 &&
-      this.listStatus.length == 0){
+      this.selectedUserId == 0 && this.listStatus.length == 0){
         swal({
           title:'Importante',
           text: 'Debes seleccionar por lo menos uno de los filtros o activar casilla para tener en cuenta las fechas',
@@ -3719,6 +3719,15 @@ this.getImgFromUrl(logo_url, function (img) {
       params=params+'&&forklift_id='+this.selectedForkliftId;
       }else{
         params=params+'forklift_id='+this.selectedForkliftId;
+        cont++;
+      }
+    }
+
+    if(this.selectedUserId!=0){
+      if(cont>0){
+      params=params+'&&user_id='+this.selectedUserId;
+      }else{
+        params=params+'user_id='+this.selectedUserId;
         cont++;
       }
     }
@@ -3855,6 +3864,7 @@ this.getImgFromUrl(logo_url, function (img) {
   
   selectStatus(item:any){
     let position =  this.listStatus.indexOf(item.id); 
+    console.log(position);
     if(position>=0){
       this.listStatus.splice(position,1);
     }else{
