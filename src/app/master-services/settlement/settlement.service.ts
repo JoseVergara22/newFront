@@ -353,4 +353,102 @@ createScheduleSettlement(params: string) {
           });
       });
     }
+
+    getWarehouese(id: number){
+      console.log('ole ole ole');
+      console.log(id);
+      return new Promise(resolve => {
+        const headers = new HttpHeaders();
+        headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user'))); 
+        headers.append('Content-Type', 'application/json');
+        const httpOptions = {
+          headers: new HttpHeaders({
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + localStorage.getItem('token_user'),
+            'Accept': 'application/json'
+          })
+        };
+        const postParams = {
+        };
+        this.http.get(this.apiEndPoint+'api/get_warehouses_regional_id?idRegional='+id, httpOptions)
+          .map(res => res).subscribe(data => {
+            resolve(data);
+          }, error => {
+            resolve(error);
+          });
+      });
+    }
+
+    getSubCostCenter(id: number){
+      console.log('ole ole ole');
+      console.log(id);
+      return new Promise(resolve => {
+        const headers = new HttpHeaders();
+        headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user'))); 
+        headers.append('Content-Type', 'application/json');
+        const httpOptions = {
+          headers: new HttpHeaders({
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + localStorage.getItem('token_user'),
+            'Accept': 'application/json'
+          })
+        };
+        const postParams = {
+        };
+        this.http.get(this.apiEndPoint+'api/get_subcost_centers_center_id?idRegional='+ id, httpOptions)
+          .map(res => res).subscribe(data => {
+            resolve(data);
+          }, error => {
+            resolve(error);
+          });
+      });
+    }
+
+    getCostCenter(id: number){
+      console.log('ole ole ole');
+      console.log(id);
+      return new Promise(resolve => {
+        const headers = new HttpHeaders();
+        headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user'))); 
+        headers.append('Content-Type', 'application/json');
+        const httpOptions = {
+          headers: new HttpHeaders({
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + localStorage.getItem('token_user'),
+            'Accept': 'application/json'
+          })
+        };
+        const postParams = {
+        };
+        this.http.get(this.apiEndPoint+'api/get_cost_centers_regionals_id?idRegional='+ id, httpOptions)
+          .map(res => res).subscribe(data => {
+            resolve(data);
+          }, error => {
+            resolve(error);
+          });
+      });
+    }
+
+    showSettlementFilter(paramsFilter: string) { 
+      console.log()
+      return new Promise(resolve => {
+        const headers = new HttpHeaders();
+        headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user'))); // 'Bearer ' +
+        headers.append('Content-Type', 'application/json');
+        const httpOptions = {
+          headers: new HttpHeaders({
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + localStorage.getItem('token_user'),
+            'Accept': 'application/json'
+          })
+        };
+        this.http.get(this.apiEndPoint+'api/get_settlement?' + paramsFilter, httpOptions)
+          .map(res => res).subscribe(data => {
+            console.log(data);
+            resolve(data);
+          }, error => {
+            resolve(error);
+          });
+      });
+    }
 }

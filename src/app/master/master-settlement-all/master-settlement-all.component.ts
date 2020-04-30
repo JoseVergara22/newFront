@@ -7,6 +7,7 @@ import { ForkliftService } from '../../master-services/Forklift/forklift.service
 import { UploadService } from '../../master-services/services/upload.service';
 import { UserService } from '../../master-services/User/user.service';
 import { EstimateService } from '../../master-services/estimate/estimate.service';
+import { SettlementService } from '../../master-services/settlement/settlement.service';
 //import * as jsPDF from 'jspdf';
 import 'jspdf-autotable';
 import { UserOptions } from 'jspdf-autotable';
@@ -142,13 +143,20 @@ export class MasterSettlementAllComponent  extends NgbDatepickerI18n {
  checkAllWorkForce= false;
  checkAllPart= false;
  considerDate=true;
+ programate=false;
 
  listStatus: any =[];
  
  selectedBusinessId: any = 0;
- selectedForkliftId:any = 0;
+ selectedRegional:any = 0;
  selectedOfficeId: any = 0;
  selectedUserId: any =0;
+ selectedCostCenter: any = 0;
+ selectWarehouses: any = 0;
+ selectedSubCostCenter: any = 0;
+
+
+
  customerOffices: any = 0;
  rowsUser:any;
  rowsItemsparts:any;
@@ -165,6 +173,8 @@ export class MasterSettlementAllComponent  extends NgbDatepickerI18n {
  subtotalPartsEstimate : any='';
  totalEstimate: any='';
  observationEstimate: any='';
+ numberSettlement: any='';
+ numberInvoice: any='';
 
  user:any;
  consecutive:any; 
@@ -214,8 +224,14 @@ export class MasterSettlementAllComponent  extends NgbDatepickerI18n {
  emailCustomer: any = '';
  emailShow: any = '';
 
+
+ regional: any;
+ warehouse: any;
+ costCenter: any; 
+ subCostCenter: any;
+
  constructor(private restService: RestService, private _i18n: I18n, private router: Router, private estimateService: EstimateService, private forkliftService: ForkliftService,
-             private calendar: NgbCalendar, public formatter: NgbDateParserFormatter, private userService: UserService,  private uploadService: UploadService,   private formbuilder:FormBuilder) {
+             private calendar: NgbCalendar, public formatter: NgbDateParserFormatter, private userService: UserService,  private uploadService: UploadService,   private formbuilder:FormBuilder, private settlementeService: SettlementService) {
                super();
 
 
@@ -352,7 +368,54 @@ export class MasterSettlementAllComponent  extends NgbDatepickerI18n {
    return this.getMonthShortName(month);
  }
 
-  
+ getRegional(){
+   console.log('customer');
+   console.log(this.selectedBusinessId);
+   this.restService.getRegionalId(this.selectedBusinessId).then(data => {
+    console.log(data);
+    const resp: any = data;
+    this.regional=resp.data_customerRegionals;
+  }).catch(error => {
+    console.log(error);
+  });
+ }
+
+ getWarehouese(){
+   console.log('regional-bodega');
+   console.log(this.selectedRegional);
+   this.settlementeService.getWarehouese(this.selectedRegional).then(data => {
+    console.log(data);
+    const resp: any = data;
+    this.warehouse=resp.data;
+  }).catch(error => {
+    console.log(error);
+ });
+}
+
+
+ getSubCostCenter(){
+  console.log('regional-costCenter');
+  console.log(this.selectedRegional);
+  this.settlementeService.getSubCostCenter(this.selectedRegional).then(data => {
+    console.log(data);
+    const resp: any = data;
+    this.subCostCenter=resp.data;
+  }).catch(error => {
+    console.log(error);
+ });
+}
+
+ getCostCenter(){
+  console.log('regional-subCostCenter');
+  console.log(this.selectedRegional);
+  this.settlementeService.getCostCenter(this.selectedRegional).then(data => {
+    console.log(data);
+    const resp: any = data;
+    this.costCenter=resp.data;
+  }).catch(error => {
+    console.log(error);
+ });
+}
 
  changeConsiderDate(event: any){
  if(this.considerDate==true){
@@ -398,10 +461,9 @@ export class MasterSettlementAllComponent  extends NgbDatepickerI18n {
  console.log('item :'+ JSON.stringify(item));
  this.estimateId= item.id;
  this.user = item.elaborate_user.username;
- this.consecutive = item.estimate_consecutive;
+ this.consecutive = item.settlement_consecutive;
  this.documentCustomer = item.customer_document;
  this.nameCustomer = item.customer.business_name;
- this.contact = item.contact;
  this.cellphone =   item.telephone;
 
  if( this.forkliftText){
@@ -410,20 +472,18 @@ export class MasterSettlementAllComponent  extends NgbDatepickerI18n {
    this.forkliftText = '';
  }
 
- this.cityEstimate =  item.city.name;
  this.guarantyEstimate =  item.guaranty;
- this.validity = item.validity;
- this.payment_method= item.payment_method;
- this.subtotalHoursEstimate = item.subtotal_hours_decimal;
- this.subtotalPartsEstimate = item.subtotal_parts_decimal;
- this.totalEstimate = item.total_decimal;
+ this.subtotalHoursEstimate = item.subtotal_hours;
+ this.subtotalPartsEstimate = item.subtotal_parts;
+ this.totalEstimate = item.total;
  this.observationEstimate= item.observation;
 
   // 0 Solo para descargar y 1 para enviar;
 
 // this.pp( this.estimateId);
 console.log('download ole');
- this.getEstimateParts(ind);
+this.loadPdfSendEmail(ind);
+ //this.getEstimateParts(ind);
  }
 
 
@@ -610,7 +670,7 @@ console.log('este es el e:'+ +JSON.stringify(e));
      this.documentCustomer = row.customer_document;
      this.nameCustomer = row.business_name;
      this.contact = row.contact;
-     this.cellphone =   row.email;*/
+     this.cellphone =   row.email;
 
 
      this.estimateId= row.id;
@@ -637,10 +697,11 @@ console.log('este es el e:'+ +JSON.stringify(e));
 
      this.emailsSend = [];
      this.subject = '';
-     this.comment = '';
+     this.comment = '';*/
+     console.log('entro a email');
      console.log('cotización actual:'+ row);
      this.estimateCurrent= row;
-     document.getElementById( 'showItemsApprove').click();
+     document.getElementById( 'showEmail').click();
      this.getEmailCustomer();
    }
 
@@ -655,6 +716,12 @@ console.log('este es el e:'+ +JSON.stringify(e));
        console.log(error);
      });
    }
+
+   assignInvoice(){
+    console.log('entro a email');
+
+    document.getElementById( 'showEmail').click();
+   };
 
    showCheckItems(row: any){
      let rowCurrent= row;
@@ -863,7 +930,7 @@ console.log('este es el e:'+ +JSON.stringify(e));
    });
 
      
-   doc.text('Cotización', 230, 55, 'center');
+   doc.text('Liquidación de Facturacion', 230, 55, 'center');
    doc.addImage(imageurl, 'PNG', 15, 60, 120, 42); 
    //doc.text('Cotizacción', 230, doc.image.previous.finalY, 'center');
    
@@ -872,7 +939,7 @@ console.log('este es el e:'+ +JSON.stringify(e));
      columnStyles:{2: { cellWidth:105, fontSize:9,   fillColor: null},  1: {cellWidth:102,fontSize:9, halign: 'left',fillColor: null},  0: {cellWidth:88,fontSize:9, halign: 'left', fillColor: null} },
      alternateRowStyles:{fontSize:9},
      margin: {top: 60, right: 15, bottom: 0, left: 135},
-     body: [['MONTACARGAS MASTER Nit. 900.204.935-2              Medellín - Colombia     ','PBX. (57-4) 444 6055               CLL 10 B sur # 51 42', '' ]]
+     body: [['Soluciones integrales para el movimiento interno de sus mercancias' ]]
    
    });
    
@@ -889,165 +956,125 @@ console.log('este es el e:'+ +JSON.stringify(e));
    doc.autoTable({
      startY: doc.autoTable.previous.finalY,
      theme:'grid',
-     styles: {fillColor: [215,215,215],valign:"top",lineColor:[4,1,0],lineWidth:0.2},
-     columnStyles: {0: {halign: 'center'},  }, // Cells in first column centered and green
-     margin: {top: 60, right: 15, bottom: 0, left: 15},
-     body: [['CLIENTE']]
-   });
-   
-   doc.autoTable({
-     startY: doc.autoTable.previous.finalY,
-     theme:'grid',
      styles: {fillColor: [215,215,215],lineColor:[4,1,0],lineWidth:0.2},
-     columnStyles: {0: { cellWidth: 230, fontSize:9,  fillColor: null},  1: {fontSize:9, halign: 'left', fillColor: null, cellWidth:185}},
+    columnStyles: {0: { cellWidth: 230, fontSize:9,  fillColor: null},  1: {fontSize:9,
+    halign: 'left', fillColor: null, cellWidth:185}},
      margin: { left: 15},
      body: [['Nit: ' + this.documentCustomer+' '+this.nameCustomer, 'Contacto: '+ this.contact]]
    });
+
+   doc.autoTable({
+    startY: doc.autoTable.previous.finalY,
+    theme:'grid',
+    styles: {fillColor: [215,215,215],lineColor:[4,1,0],lineWidth:0.2},
+    columnStyles: {
+     0: { fontSize:9, cellWidth:215, fillColor: null},
+     1: { fontSize:9, cellWidth:75, fillColor: null},
+     2: { fontSize:9, cellWidth:80, fillColor: null},
+
+    },
+    margin: { left: 15},
+    body: [['Cliente: Nestle','Bodega: 6_Bodega_Nestle_Buga','Fecha: 30/04/2020']]
+  });
+
+   doc.autoTable({
+    startY: doc.autoTable.previous.finalY,
+    theme:'grid',
+    styles: {fillColor: [215,215,215],lineColor:[4,1,0],lineWidth:0.2},
+    columnStyles: {
+     0: { fontSize:9, cellWidth:215, fillColor: null},
+     1: { fontSize:9, cellWidth:75, fillColor: null},
+     2: { fontSize:9, cellWidth:80, fillColor: null},
+
+    },
+    margin: { left: 15},
+    body: [['Sucursal: OCCIDENTE_Nestle_02','C.Costos: BUGALAGRANDE_16','OC/Cotización: Pedido No: 4562285978 ']]
+  });
    
    doc.autoTable({
-     startY:doc.autoTable.previous.finalY,
-     theme:'grid',
-     styles: {fillColor: [215,215,215],lineColor:[4,1,0],lineWidth:0.2},
-     columnStyles: {0: { cellWidth:100, fontSize:9,  fillColor: null},  1: {fontSize:9, halign: 'left', fillColor: null, cellWidth:100},  2: {fontSize:9, halign: 'left', fillColor: null, cellWidth:214}},
-     margin: { left: 15},
-     body: [['Telefono: '+ this.cellphone, 'Ciudad: '+ 'Medellín', 'Maquina: '+  'CHEVROLEJTL CHR3566987893 123456543345'  ]]
-   });
+    startY: doc.autoTable.previous.finalY,
+    theme:'grid',
+    styles: {fillColor: [215,215,215],valign:"top",lineColor:[4,1,0],lineWidth:0.2},
+    columnStyles: {0: {halign: 'center'},  }, // Cells in first column centered and green
+    margin: {top: 60, right: 15, bottom: 0, left: 15},
+    body: [['Factura HGI']]
+  });
+
+ 
    //Vamos en este punto
   
 
    //**********************************************************     */
 
-
-   doc.autoTable({
-     startY:doc.autoTable.previous.finalY,
-     theme:'grid',
-     styles: {fillColor: [215,215,215],valign:"top",lineColor:[4,1,0],lineWidth:0.2},
-     columnStyles: {0: {halign: 'center'},  }, // Cells in first column centered and green
-     margin: {top: 60, right: 15, bottom: 0, left: 15},
-     body: [['MANO DE OBRA Y SERVICIOS']]
-   });
  
-   if(this.checkHideCode==false){
    doc.autoTable({
      startY: doc.autoTable.previous.finalY,
      theme:'grid',
      styles: {fillColor: [215,215,215],lineColor:[4,1,0],lineWidth:0.2},
-     columnStyles: {0: {halign: 'center', fontSize:9, cellWidth:23}, 1: {halign: 'center', fontSize:9, cellWidth:55},2: {halign: 'center', fontSize:9, cellWidth:185},3: {halign: 'center', fontSize:9, cellWidth:27},4: {halign: 'center', fontSize:9, cellWidth:40}, 5: {halign: 'center', fontSize:9, cellWidth:39}, 6: {halign: 'center', fontSize:9, cellWidth:42}  },
+     columnStyles: {0: {halign: 'center', fontSize:9, cellWidth:23}, 1: {halign: 'center', fontSize:9,
+      cellWidth:55},2: {halign: 'center', fontSize:9, cellWidth:185},3: {halign: 'center', fontSize:9,
+      cellWidth:27},4: {halign: 'center', fontSize:9, cellWidth:40}, 5: {halign: 'center', fontSize:9,
+      cellWidth:39}, 6: {halign: 'center', fontSize:9, cellWidth:42}  },
      margin: { left: 15},
-     body: [['ITEM','CÓDIGO','DESCRIPCIÓN','CANT.','VLR. UNIT.','TOTAL','ENTREGA']]
+     body: [['REFERENCIA','DESCRIPCIÓN','SUB. CCOST','CANT.','VLR. UNIT.','DESC%','TOTAL']]
    });
- }else{
-   doc.autoTable({
-     startY: doc.autoTable.previous.finalY,
-     theme:'grid',
-     styles: {fillColor: [215,215,215],lineColor:[4,1,0],lineWidth:0.2},
-     columnStyles: {0: {halign: 'center', fontSize:9, cellWidth:23},1: {halign: 'center', fontSize:9, cellWidth:190},2: {halign: 'center', fontSize:9, cellWidth:27},3: {halign: 'center', fontSize:9, cellWidth:63}, 4: {halign: 'center', fontSize:9, cellWidth:63}, 5: {halign: 'center', fontSize:9, cellWidth:46}  },
-     margin: { left: 15},
-     body: [['ITEM','DESCRIPCIÓN','CANT.','VLR. UNIT.','TOTAL','ENTREGA']]
-   });
- }
+
+ // doc.save('Cotizacion_No_'+ this.consecutive+'.pdf');
  console.log('Info importante');
- console.log(this.rowsItemsWorkforce);
-   if(this.rowsItemsWorkforce.length>0){
 
-     if(this.checkHideCode==false){
-   doc.autoTable({
-     startY:doc.autoTable.previous.finalY,
-     theme:'grid',
-     styles: {fillColor: [215,215,215],valign:"top",lineColor:[4,1,0],lineWidth:0.2},
-     columnStyles: {0: {halign: 'center'},  }, // Cells in first column centered and green
-     margin: {top: 60, right: 15, bottom: 0, left: 15},
-     body: [['MANO DE OBRA']]
-   });
-
-   /*doc.autoTable({
-     startY: doc.autoTable.previous.finalY,
-     theme:'grid',
-     styles: {fillColor: [215,215,215],lineColor:[4,1,0],lineWidth:0.2},
-     columnStyles: {0: {halign: 'center', fontSize:9, cellWidth:23}, 1: {halign: 'center', fontSize:9, cellWidth:55},2: {halign: 'center', fontSize:9, cellWidth:185},3: {halign: 'center', fontSize:9, cellWidth:27},4: {halign: 'center', fontSize:9, cellWidth:40}, 5: {halign: 'center', fontSize:9, cellWidth:39}, 6: {halign: 'center', fontSize:9, cellWidth:42}  },
-     margin: { left: 15},
-     body: [['ITEM','CÓDIGO','DESCRIPCIÓN','CANT.','VLR. UNIT.','TOTAL','ENTREGA']]
-   });*/
-
-   for (let i = 0; i < this.rowsItemsWorkforce.length; i++) {
    
-     body_table = [i+1, this.rowsItemsWorkforce[i].code, this.rowsItemsWorkforce[i].service, this.rowsItemsWorkforce[i].quantity, this.rowsItemsWorkforce[i].hour_value_decimal, this.rowsItemsWorkforce[i].subtotal_decimal,
-     this.rowsItemsWorkforce[i].delivery];
+     body_table = [1, 'A-09123', 'Limpiado de maquina', 'GIRON', '3', '98,433','10%',
+     '265,769'];
      
      doc.autoTable({
        startY: doc.autoTable.previous.finalY,
        theme:'grid',
        styles: {fillColor: null,lineColor:[4,1,0],lineWidth:0.2},
-       columnStyles: {0: {halign: 'center', fontSize:8, cellWidth:23},1: {halign: 'left', fontSize:8, cellWidth:205}, 2: {halign: 'center', fontSize:8, cellWidth:27}, 3: {halign: 'center', fontSize:8, cellWidth:15}, 4: {halign: 'center', fontSize:8, cellWidth:15}, 5: {halign: 'center', fontSize:8, cellWidth:47}  },
+       columnStyles: {
+         0: {halign: 'center', fontSize:9, cellWidth:23},
+         1: {halign: 'center', fontSize:9, cellWidth:55},
+         2: {halign: 'center', fontSize:9, cellWidth:185},
+         3: {halign: 'center', fontSize:9, cellWidth:27},
+         4: {halign: 'center', fontSize:9, cellWidth:40},
+         5: {halign: 'center', fontSize:9, cellWidth:39},
+         6: {halign: 'center', fontSize:9, cellWidth:42}  },
        margin: { left: 15},
        body: [ body_table ]
      });
-    // y=y+15;
-   } 
- }else{
 
-   doc.autoTable({
-     startY:doc.autoTable.previous.finalY,
-     theme:'grid',
-     styles: {fillColor: [215,215,215],valign:"top",lineColor:[4,1,0],lineWidth:0.2},
-     columnStyles: {0: {halign: 'center'},  }, // Cells in first column centered and green
-     margin: {top: 60, right: 15, bottom: 0, left: 15},
-     body: [['MANO DE OBRA']]
-   });
-
-  /* doc.autoTable({
-     startY: doc.autoTable.previous.finalY,
-     theme:'grid',
-     styles: {fillColor: [215,215,215],lineColor:[4,1,0],lineWidth:0.2},
-     columnStyles: {0: {halign: 'center', fontSize:9, cellWidth:23}, 1: {halign: 'center', fontSize:9, cellWidth:55},2: {halign: 'center', fontSize:9, cellWidth:185},3: {halign: 'center', fontSize:9, cellWidth:27},4: {halign: 'center', fontSize:9, cellWidth:40}, 5: {halign: 'center', fontSize:9, cellWidth:39}, 6: {halign: 'center', fontSize:9, cellWidth:42}  },
-     margin: { left: 15},
-     body: [['ITEM','DESCRIPCIÓN','CANT.','VLR. UNIT.','TOTAL','ENTREGA']]
-   });*/
-
-   for (let i = 0; i < this.rowsItemsWorkforce.length; i++) {
-   
-     body_table = [i+1, this.rowsItemsWorkforce[i].service, this.rowsItemsWorkforce[i].quantity, this.rowsItemsWorkforce[i].hour_value_decimal, this.rowsItemsWorkforce[i].subtotal_decimal,
-     this.rowsItemsWorkforce[i].delivery];
-     
      doc.autoTable({
-       startY: doc.autoTable.previous.finalY,
-       theme:'grid',
-       styles: {fillColor: null,lineColor:[4,1,0],lineWidth:0.2},
-       columnStyles: {0: {halign: 'center', fontSize:9, cellWidth:23},1: {halign: 'center', fontSize:9, cellWidth:190},2: {halign: 'center', fontSize:9, cellWidth:27},3: {halign: 'center', fontSize:9, cellWidth:63}, 4: {halign: 'center', fontSize:9, cellWidth:63}, 5: {halign: 'center', fontSize:9, cellWidth:46}  },
-       margin: { left: 15},
-       body: [ body_table ]
-     });
-    // y=y+15;
-   } 
+      startY: doc.autoTable.previous.finalY,
+      theme:'grid',
+      styles: {fillColor: [215,215,215],lineColor:[4,1,0],lineWidth:0.2},
+      columnStyles: {
+      0: {halign: 'center', fontSize:9, cellWidth:263},
+      1: {halign: 'center', fontSize:9, cellWidth:67},
+      2: {halign: 'center', fontSize:9, cellWidth:39},
+      3: {halign: 'center', fontSize:9, cellWidth:42} },
+      margin: { left: 15},
+      body: [['','TOTAL','DESC%','265,769']]
+    });
 
- }
- }
+  doc.autoTable({
+    startY: doc.autoTable.previous.finalY,
+    theme:'grid',
+    styles: {fillColor: [215,215,215],valign:"top",lineColor:[4,1,0],lineWidth:0.2},
+    columnStyles: {0: {halign: 'center'},  }, // Cells in first column centered and green
+    margin: {top: 60, right: 15, bottom: 0, left: 15},
+    body: [['Factura CLiente']]
+  });
 
- if(this.rowsItemsparts.length>0){
-
-   if(this.checkHideCode==false){
- doc.autoTable({
-   startY:doc.autoTable.previous.finalY,
-   theme:'grid',
-   styles: {fillColor: [215,215,215],valign:"top",lineColor:[4,1,0],lineWidth:0.2},
-   columnStyles: {0: {halign: 'center'},  }, // Cells in first column centered and green
-   margin: {top: 60, right: 15, bottom: 0, left: 15},
-   body: [['REPUESTOS']]
- });
-
-/* doc.autoTable({
-   startY: doc.autoTable.previous.finalY,
-   theme:'grid',
-   styles: {fillColor: [215,215,215],lineColor:[4,1,0],lineWidth:0.2},
-   columnStyles: {0: {halign: 'center', fontSize:9, cellWidth:23}, 1: {halign: 'center', fontSize:9, cellWidth:55},2: {halign: 'center', fontSize:9, cellWidth:185},3: {halign: 'center', fontSize:9, cellWidth:27},4: {halign: 'center', fontSize:9, cellWidth:40}, 5: {halign: 'center', fontSize:9, cellWidth:39}, 6: {halign: 'center', fontSize:9, cellWidth:42}  },
-   margin: { left: 15},
-   body: [['ITEM','CÓDIGO','DESCRIPCIÓN','CANT.','VLR. UNIT.','TOTAL','ENTREGA']]
- });*/
-
- for (let i = 0; i < this.rowsItemsparts.length; i++) {
+  doc.autoTable({
+    startY: doc.autoTable.previous.finalY,
+    theme:'grid',
+    styles: {fillColor: [215,215,215],lineColor:[4,1,0],lineWidth:0.2},
+    columnStyles: {0: {halign: 'center', fontSize:9, cellWidth:23},1: {halign: 'center', fontSize:9, cellWidth:190},2: {halign: 'center', fontSize:9, cellWidth:27},3: {halign: 'center', fontSize:9, cellWidth:63}, 4: {halign: 'center', fontSize:9, cellWidth:63}, 5: {halign: 'center', fontSize:9, cellWidth:46}  },
+    margin: { left: 15},
+    body: [['REFERENCIA','DESCRIPCIÓN','SUB. CCOST','CANT.','VLR. UNIT.','DESC%','TOTAL']]
+  });
  
-   body_table = [i+1, this.rowsItemsparts[i].code, this.rowsItemsparts[i].description, this.rowsItemsparts[i].quantity, this.rowsItemsparts[i].price_decimal, this.rowsItemsparts[i].subtotal_decimal,
-   this.rowsItemsparts[i].delivery];
+ body_table = [1, 'A-09123', 'Limpiado de maquina', 'GIRON', '3', '98,433','10%',
+ '265,769'];
    
    doc.autoTable({
      startY: doc.autoTable.previous.finalY,
@@ -1058,68 +1085,22 @@ console.log('este es el e:'+ +JSON.stringify(e));
      body: [ body_table ]
    });
   // y=y+15;
- } 
-}else{
 
- doc.autoTable({
-   startY:doc.autoTable.previous.finalY,
-   theme:'grid',
-   styles: {fillColor: [215,215,215],valign:"top",lineColor:[4,1,0],lineWidth:0.2},
-   columnStyles: {0: {halign: 'center'},  }, // Cells in first column centered and green
-   margin: {top: 60, right: 15, bottom: 0, left: 15},
-   body: [['REPUESTOS']]
- });
+  doc.autoTable({
+    startY: doc.autoTable.previous.finalY,
+    theme:'grid',
+    styles: {fillColor: [215,215,215],lineColor:[4,1,0],lineWidth:0.2},
+    columnStyles: {
+    0: {halign: 'center', fontSize:9, cellWidth:263},
+    1: {halign: 'center', fontSize:9, cellWidth:67},
+    2: {halign: 'center', fontSize:9, cellWidth:39},
+    3: {halign: 'center', fontSize:9, cellWidth:42} },
+    margin: { left: 15},
+    body: [['','TOTAL','DESC%','265,769']]
+  });
 
-/* doc.autoTable({
-   startY: doc.autoTable.previous.finalY,
-   theme:'grid',
-   styles: {fillColor: [215,215,215],lineColor:[4,1,0],lineWidth:0.2},
-   columnStyles: {0: {halign: 'center', fontSize:9, cellWidth:23}, 1: {halign: 'center', fontSize:9, cellWidth:55},2: {halign: 'center', fontSize:9, cellWidth:185},3: {halign: 'center', fontSize:9, cellWidth:27},4: {halign: 'center', fontSize:9, cellWidth:40}, 5: {halign: 'center', fontSize:9, cellWidth:39}, 6: {halign: 'center', fontSize:9, cellWidth:42}  },
-   margin: { left: 15},
-   body: [['ITEM','DESCRIPCIÓN','CANT.','VLR. UNIT.','TOTAL','ENTREGA']]
- });*/
-
- for (let i = 0; i < this.rowsItemsparts.length; i++) {
- 
-   body_table = [i+1, this.rowsItemsparts[i].description, this.rowsItemsparts[i].quantity, this.rowsItemsparts[i].price_decimal, this.rowsItemsparts[i].subtotal_decimal,
-   this.rowsItemsparts[i].delivery];
-   
-   doc.autoTable({
-     startY: doc.autoTable.previous.finalY,
-     theme:'grid',
-     styles: {fillColor: null,lineColor:[4,1,0],lineWidth:0.2},
-     columnStyles: {0: {halign: 'center', fontSize:9, cellWidth:23},1: {halign: 'left', fontSize:9, cellWidth:190},2: {halign: 'center', fontSize:9, cellWidth:27},3: {halign: 'center', fontSize:9, cellWidth:63}, 4: {halign: 'center', fontSize:9, cellWidth:63}, 5: {halign: 'center', fontSize:9, cellWidth:46}  },
-     margin: { left: 15},
-     body: [ body_table ]
-   });
+  doc.save('Liquidación_No_'+ this.consecutive+'.pdf');
   // y=y+15;
- } 
-
-}
-}
-
-doc.autoTable({
- startY:doc.autoTable.previous.finalY,
- theme:'grid',
- styles: {fillColor: null,valign:"top",lineColor:[4,1,0],lineWidth:0.2},
- columnStyles: {0: {halign: 'left', fontSize:8, cellWidth:85}, 1: {halign: 'left', fontSize:8, cellWidth:86},2: {halign: 'left', fontSize:8, cellWidth:81},3: {halign: 'left', fontSize:8, cellWidth:80},4: {halign: 'center', fontSize:8, cellWidth:81} },
- margin: {top: 60, right: 15, bottom: 0, left: 15},
- body: [['Validez Oferta: 5 días','Forma Pago: 30 días','Garantía: 90 días','Subtotal Repuestos:','1.500.000']]
-});
-
-   doc.autoTable({
-     startY:  doc.autoTable.previous.finalY,
-     theme:'grid',
-     styles: {fillColor: null,lineColor:[4,1,0],lineWidth:0.2},
-     columnStyles: {0: {halign: 'left', fontSize:8, cellWidth:85}, 1: {halign: 'left', fontSize:8, cellWidth:86},2: {halign: 'left', fontSize:8, cellWidth:81},3: {halign: 'left', fontSize:8, cellWidth:80},4: {halign: 'center', fontSize:8, cellWidth:81} },
-     margin: { left: 15},
-     body: [
-     [{content: 'HNYUCW-00128', colSpan: 3, rowSpan: 3, styles: {halign: 'left'}},'Subtotal Mano de Obra','0'],
-      ['Total','89000'],
-      [{content: 'NOTA: VALORES ANTES DE IVA', colSpan: 2,  styles: {halign: 'left'}}]]
-   });
-
-
    console.log(this.filesImage.length+' oleole');
    //doc.addPage();
   /*for (let i = 0; i < this.filesImage.length; i++) {
@@ -3636,8 +3617,9 @@ this.getImgFromUrl(logo_url, function (img) {
   getEstimateFilters() {
 
    if(this.considerDate == false && this.selectedBusinessId == 0 &&  this.part == 0 &&
-     this.codepart == 0 && this.numberEstimate == 0  &&  this.selectedForkliftId == 0 &&
-     this.listStatus.length == 0){
+     this.codepart == 0 && this.numberEstimate == 0  &&  this.selectedRegional == 0 &&
+     this.programate == false && this.selectedUserId == 0 && this.selectWarehouses == 0 &&
+     this.selectedCostCenter == 0  && this.selectedSubCostCenter == 0 ){
        swal({
          title:'Importante',
          text: 'Debes seleccionar por lo menos uno de los filtros o activar casilla para tener en cuenta las fechas',
@@ -3705,35 +3687,94 @@ this.getImgFromUrl(logo_url, function (img) {
      }
    }
 
+   if(this.codepart!=''){
+     if(cont>0){
+       params=params+'&&codepart_query='+this.codepart;
+     }else{
+       params=params+'codepart_query='+this.codepart;
+       cont++;
+     }
+   }
+ 
+   if(this.numberSettlement!=''){
+     if(cont>0){
+       params=params+'&&consecutive='+this.numberSettlement;
+     }else{
+       params=params+'consecutive='+this.numberSettlement;
+       cont++;
+     }
+   }
+ 
+   if(this.numberInvoice!=''){
+     if(cont>0){
+       params=params+'&&invoice='+this.numberInvoice;
+     }else{
+       params=params+'invoice='+this.numberInvoice;
+       cont++;
+     }
+   }
+ 
    if(this.numberEstimate!=''){
      if(cont>0){
-       params=params+'&&consecutive='+this.numberEstimate;
+       params=params+'&&estiamte='+this.numberEstimate;
      }else{
-       params=params+'consecutive='+this.numberEstimate;
+       params=params+'estiamte='+this.numberEstimate;
        cont++;
      }
    }
 
-   if(this.selectedForkliftId!=0){
+   if(this.selectedRegional!=0){
      if(cont>0){
-     params=params+'&&forklift_id='+this.selectedForkliftId;
+     params=params+'&&regional_id='+this.selectedRegional;
      }else{
-       params=params+'forklift_id='+this.selectedForkliftId;
+       params=params+'regional_id='+this.selectedRegional;
+       cont++;
+     }
+   }
+   if(this.selectedUserId!=0){
+     if(cont>0){
+     params=params+'&&user_id='+this.selectedUserId;
+     }else{
+       params=params+'user_id='+this.selectedUserId;
+       cont++;
+     }
+   }
+   if(this.selectWarehouses!=0){
+     if(cont>0){
+     params=params+'&&warehouses_id='+this.selectWarehouses;
+     }else{
+       params=params+'warehouses_id='+this.selectWarehouses;
+       cont++;
+     }
+   }
+   if(this.selectedCostCenter!=0){
+     if(cont>0){
+     params=params+'&&cost_center_id='+this.selectedCostCenter;
+     }else{
+       params=params+'cost_center_id='+this.selectedCostCenter;
+       cont++;
+     }
+   }
+   if(this.selectedSubCostCenter!=0){
+     if(cont>0){
+     params=params+'&&sub_cots_center_id='+this.selectedSubCostCenter;
+     }else{
+       params=params+'sub_cots_center_id='+this.selectedSubCostCenter;
        cont++;
      }
    }
 
-   if(this.listStatus.length>0){
+   if(this.programate == true){
      if(cont>0){
-     params=params+'&&status=['+this.listStatus+']';
+     params=params+'&&status=['+1+']';
      }else{
-       params=params+'status=['+this.listStatus+']';
+       params=params+'status=['+1+']';
        cont++;
      }
    }
 
    console.log('.---------->'+params);
-   this.estimateService.showEstimateFilter(params).then(data => {
+   this.settlementeService.showSettlementFilter(params).then(data => {
      const resp: any = data;
      console.log('info de filter');
      console.log(data);
@@ -3775,7 +3816,7 @@ this.getImgFromUrl(logo_url, function (img) {
      params='from_date='+ fromD+' 00:00:00'+'&&'+'to_date=' +untilD+' 23:59:59';
 
    console.log('.---------->'+params);
-   this.estimateService.showEstimateFilter(params).then(data => {
+   this.settlementeService.showSettlementFilter(params).then(data => {
      const resp: any = data;
      console.log('info de filter');
      console.log(data);
@@ -3855,6 +3896,7 @@ this.getImgFromUrl(logo_url, function (img) {
  
  selectStatus(item:any){
    let position =  this.listStatus.indexOf(item.id); 
+   console.log(position);
    if(position>=0){
      this.listStatus.splice(position,1);
    }else{

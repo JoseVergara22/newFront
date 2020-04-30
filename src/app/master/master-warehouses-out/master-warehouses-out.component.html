@@ -32,22 +32,28 @@
       <br>
 
       <div class="form-group row">
-  <div class="col-sm-4">
+          <div class="col-sm-4">
             <h6>Equipo <span style="color:red;">*</span></h6>
-            <input  type="text" class="form-control"   formControlName="forkliftControl"  [(ngModel)]="selectForkLift" list="browsers">
+            <input  type="text" class="form-control"   formControlName="forkliftControl"  [(ngModel)]="selectForkLift" list="browsers" [ngClass]="{ 'is-invalid': submitted && checkForm.forkliftControl.errors }">
             <datalist  id="browsers">
                <div  *ngFor="let fork of forkLift">
-                  <option [ngValue]="fork"   value={{fork.description}}>
+                  <option [ngValue]="fork.id" value={{fork.full_name}}>
                </div> 
             </datalist>
+            <div *ngIf="submitted && checkForm.forkliftControl.errors" class="invalid-feedback">
+              <div class="messages text-danger" *ngIf="checkForm.forkliftControl.errors.required">Este campo es requerido</div>
+           </div>
           </div>
 
         <div class="col-sm-4">
           <h6>Técnico <span style="color:#ff0000;">*</span></h6>
-          <select class="form-control" name="select" [(ngModel)]="selectedTechnician" formControlName="technician">
+          <select class="form-control" name="select" [(ngModel)]="selectedTechnician" formControlName="technician" [ngClass]="{ 'is-invalid': submitted && checkForm.technician.errors }">
                 <option value="0" selected>Seleccionar el tecnico</option>
                 <option  *ngFor="let tech of technicians" [ngValue]="tech.id"> {{tech.name}} </option>
               </select>
+              <div *ngIf="submitted && checkForm.technician.errors" class="invalid-feedback">
+                <div class="messages text-danger" *ngIf="checkForm.technician.errors.required">Este campo es requerido</div>
+            </div>
         </div>
 
         <div class="col-sm-4">
@@ -80,7 +86,7 @@
 
         <div class="col-sm-4">
           <h6>Valor Total <span style="color:red;">*</span></h6>
-          <input type="text" class="form-control" formControlName="totalCost" [ngClass]="{ 'is-invalid': submitted && checkForm.totalCost.errors }" >
+          <input type="text" class="form-control" formControlName="totalCost" [ngClass]="{ 'is-invalid': submitted && checkForm.totalCost.errors }" disabled >
           <div *ngIf="submitted && checkForm.totalCost.errors" class="invalid-feedback">
               <div class="messages text-danger" *ngIf="checkForm.totalCost.errors.required">Este campo es requerido</div>
           </div>
@@ -188,12 +194,13 @@
       <div class="align-buttons">
         <button type="button" class="btn btn-default waves-effect" id="warehousesOutHide" (click)="modalRegisterWarehousesOut.hide()">Cancelar</button>
       <button type="submit " class="btn btn-primary m-b-0 " >Crear Salida</button>
+      <button type="reset" class="btn btn-primary m-b-0 " style="display:none;" id="clearWarehouses">Crear Salida</button>
     </div>
 </form>
     </div>
 </app-modal-basic>
 
-<!--<app-modal-basic #modalUpdateWarehousesOut [dialogClass]="'modal-lg'">
+<app-modal-basic #modalUpdateWarehousesOut [dialogClass]="'modal-lg'">
     <div class="app-modal-header">
         <h5>Actualizar salida </h5>
       <br>
@@ -201,20 +208,22 @@
       <div class="form-group row">
         <div class="col-sm-8">
             <h6>Cliente <span style="color:red;">*</span></h6>
-            <select class="form-control" (change)="ChangingValue()" name="select" [(ngModel)]="selectedCustomer" formControlName="customerUpdate">
+            <select class="form-control" (change)="ChangingValueUpdate()" name="select" [(ngModel)]="selectedCustomerUpdate" formControlName="customerUpdate" [ngClass]="{ 'is-invalid': submitted && checkFormUpdate.customerUpdate.errors }" >
                   <option value="0" selected>Seleccionar el cliente</option>
                   <option  *ngFor="let cus of customers" [ngValue]="cus.id"> {{cus.business_name}} </option>
                 </select>
+                <div *ngIf="submitted && checkFormUpdate.customerUpdate.errors" class="invalid-feedback">
+                  <div class="messages text-danger" *ngIf="checkFormUpdate.customerUpdate.errors.required">Este campo es requerido</div>
+                </div>
         </div>
 
         <div class="col-sm-4">
           <h6>Sucursal <span style="color:red;">*</span></h6>
-          <select class="form-control" (change)="ChangingValueBranch()" name="select" [(ngModel)]="selectedBranchOfficeUpdate" formControlName="branchOfficeUpdate" [ngClass]="{ 'is-invalid': submitted && checkForm.branchOfficeUpdate.errors }" >
+          <select class="form-control" (change)="ChangingValueBranchUpdate()" name="select" [(ngModel)]="selectedBranchOfficeUpdate" formControlName="branchOfficeUpdate" [ngClass]="{ 'is-invalid': submitted && checkFormUpdate.branchOfficeUpdate.errors }" >
                 <option value="0" selected>Seleccionar la sucursal</option>
-                <option  *ngFor="let office of branchOffices" [ngValue]="office"> {{office.branch_name}} </option>
+                <option  *ngFor="let office of branchOffices" [ngValue]="office.id"> {{office.branch_name}} </option>
               </select>
         </div>
-          
         <div *ngIf="submitted && checkFormUpdate.branchOfficeUpdate.errors" class="invalid-feedback">
           <div class="messages text-danger" *ngIf="checkFormUpdate.branchOfficeUpdate.errors.required">Este campo es requerido</div>
       </div>
@@ -225,21 +234,27 @@
 
       <div class="form-group row">
        <div class="col-sm-4">
-            <h6>Tipo <span style="color:red;">*</span></h6>
-            <input  type="text" class="form-control"   [(ngModel)]="selectForkLift" list="browsers">
+            <h6>Equipo<span style="color:red;">*</span></h6>
+            <input  type="text" class="form-control"  formControlName="forkliftControlUpdate" [(ngModel)]="selectForkLiftUpdate" list="browsers" [ngClass]="{ 'is-invalid': submitted && checkFormUpdate.forkliftControlUpdate.errors }">
             <datalist  id="browsers">
                <div  *ngFor="let fork of forkLift">
-                  <option [ngValue]="fork"   value={{fork.description}}>
+                  <option [ngValue]="fork"   value={{fork.full_name}}>
                </div> 
             </datalist>
+            <div *ngIf="submitted && checkFormUpdate.forkliftControlUpdate.errors" class="invalid-feedback">
+                <div class="messages text-danger" *ngIf="checkFormUpdate.forkliftControlUpdate.errors.required">Este campo es requerido</div>
+            </div>
           </div>
 
         <div class="col-sm-4">
           <h6>Tecnico <span style="color:#ff0000;">*</span></h6>
-          <select class="form-control" (change)="ChangingValue()" name="select" [(ngModel)]="selectedTechnician" formControlName="technicianUpdate">
+          <select class="form-control" name="select" [(ngModel)]="selectedTechnicianUpdate" formControlName="technicianUpdate" [ngClass]="{ 'is-invalid': submitted && checkFormUpdate.technicianUpdate.errors }">
                 <option value="0" selected>Seleccionar el tecnico</option>
                 <option  *ngFor="let tech of technicians" [ngValue]="tech.id"> {{tech.name}} </option>
               </select>
+              <div *ngIf="submitted && checkFormUpdate.technicianUpdate.errors" class="invalid-feedback">
+                <div class="messages text-danger" *ngIf="checkFormUpdate.technicianUpdate.errors.required">Este campo es requerido</div>
+            </div>
         </div>
 
         <div class="col-sm-4">
@@ -288,9 +303,9 @@
 
         <div class="col-sm-10">
           <h6>Descipcion <span style="color:red;">*</span></h6>
-            <input type="text" class="form-control" formControlName="descriptionsUpdate" [ngClass]="{ 'is-invalid': submitted && checkForm.descriptionsUpdate.errors }">
-            <div *ngIf="submitted && checkForm.descriptionsUpdate.errors" class="invalid-feedback">
-                <div class="messages text-danger" *ngIf="checkForm.descriptionsUpdate.errors.required">Este campo es requerido</div>
+            <input type="text" class="form-control" formControlName="descriptionsUpdate" [ngClass]="{ 'is-invalid': submitted && checkFormUpdate.descriptionsUpdate.errors }">
+            <div *ngIf="submitted && checkFormUpdate.descriptionsUpdate.errors" class="invalid-feedback">
+                <div class="messages text-danger" *ngIf="checkFormUpdate.descriptionsUpdate.errors.required">Este campo es requerido</div>
             </div>
         </div>
 
@@ -302,9 +317,10 @@
         <div class="col-sm-1"></div>
 
         <div class="col-sm-10">
-          <textarea class="form-control" formControlName="controlUpdate" [ngClass]="{ 'is-invalid': submitted && checkForm.controlUpdate.errors }" placeholder="Control"></textarea>
-            <div *ngIf="submitted && checkForm.controlUpdate.errors" class="invalid-feedback">
-                <div class="messages text-danger" *ngIf="checkForm.controlUpdate.errors.required">Este campo es requerido</div>
+          <label>Control</label>
+          <textarea class="form-control" formControlName="controlUpdate" [ngClass]="{ 'is-invalid': submitted && checkFormUpdate.controlUpdate.errors }" placeholder="Control"></textarea>
+            <div *ngIf="submitted && checkFormUpdate.controlUpdate.errors" class="invalid-feedback">
+                <div class="messages text-danger" *ngIf="checkFormUpdate.controlUpdate.errors.required">Este campo es requerido</div>
             </div>
         </div>
 
@@ -319,25 +335,25 @@
         
         <div class="col-sm-4">
           <h6>Nro Pedido/Cotizacion <span style="color:red;">*</span></h6>
-            <input type="text" class="form-control" formControlName="estimateUpdate" [ngClass]="{ 'is-invalid': submitted && checkForm.estimateUpdate.errors }">
-            <div *ngIf="submitted && checkForm.estimateUpdate.errors" class="invalid-feedback">
-                <div class="messages text-danger" *ngIf="checkForm.estimateUpdate.errors.required">Este campo es requerido</div>
+            <input type="text" class="form-control" formControlName="estimateUpdate" [ngClass]="{ 'is-invalid': submitted && checkFormUpdate.estimateUpdate.errors }">
+            <div *ngIf="submitted && checkFormUpdate.estimateUpdate.errors" class="invalid-feedback">
+                <div class="messages text-danger" *ngIf="checkFormUpdate.estimateUpdate.errors.required">Este campo es requerido</div>
             </div>
         </div>
 
         <div class="col-sm-4">
           <h6>Liquidacion <span style="color:red;">*</span></h6>
-            <input type="text" class="form-control" formControlName="liquidationUpdate" [ngClass]="{ 'is-invalid': submitted && checkForm.liquidationUpdate.errors }" disabled>
-            <div *ngIf="submitted && checkForm.liquidationUpdate.errors" class="invalid-feedback">
-                <div class="messages text-danger" *ngIf="checkForm.liquidationUpdate.errors.required">Este campo es requerido</div>
+            <input type="text" class="form-control" formControlName="liquidationUpdate" [ngClass]="{ 'is-invalid': submitted && checkFormUpdate.liquidationUpdate.errors }" disabled>
+            <div *ngIf="submitted && checkFormUpdate.liquidationUpdate.errors" class="invalid-feedback">
+                <div class="messages text-danger" *ngIf="checkFormUpdate.liquidationUpdate.errors.required">Este campo es requerido</div>
             </div>
         </div>
 
         <div class="col-sm-4">
           <h6>Factura <span style="color:red;">*</span></h6>
-            <input type="text" class="form-control" formControlName="businessNameUpdate" [ngClass]="{ 'is-invalid': submitted && checkForm.businessNameUpdate.errors }" disabled>
-            <div *ngIf="submitted && checkForm.businessNameUpdate.errors" class="invalid-feedback">
-                <div class="messages text-danger" *ngIf="checkForm.businessNameUpdate.errors.required">Este campo es requerido</div>
+            <input type="text" class="form-control" formControlName="billUpdate" [ngClass]="{ 'is-invalid': submitted && checkFormUpdate.billUpdate.errors }" disabled>
+            <div *ngIf="submitted && checkFormUpdate.billUpdate.errors" class="invalid-feedback">
+                <div class="messages text-danger" *ngIf="checkFormUpdate.billUpdate.errors.required">Este campo es requerido</div>
             </div>
         </div>
       </div>
@@ -351,9 +367,9 @@
 
         <div class="col-sm-10">
           <h6>Consumo <span style="color:red;">*</span></h6>
-            <input type="text" class="form-control" formControlName="consumptionUpdate" [ngClass]="{ 'is-invalid': submitted && checkForm.consumptionUpdate.errors }">
-            <div *ngIf="submitted && checkForm.consumptionUpdate.errors" class="invalid-feedback">
-                <div class="messages text-danger" *ngIf="checkForm.consumptionUpdate.errors.required">Este campo es requerido</div>
+            <input type="text" class="form-control" formControlName="consumptionUpdate" [ngClass]="{ 'is-invalid': submitted && checkFormUpdate.consumptionUpdate.errors }">
+            <div *ngIf="submitted && checkFormUpdate.consumptionUpdate.errors" class="invalid-feedback">
+                <div class="messages text-danger" *ngIf="checkFormUpdate.consumptionUpdate.errors.required">Este campo es requerido</div>
             </div>
         </div>
 
@@ -365,9 +381,10 @@
         <div class="col-sm-1"></div>
 
         <div class="col-sm-10">
-          <textarea class="form-control" formControlName="observationUpdate" [ngClass]="{ 'is-invalid': submitted && checkForm.observationUpdate.errors }" placeholder="Observaciones"></textarea>
-            <div *ngIf="submitted && checkForm.observationUpdate.errors" class="invalid-feedback">
-                <div class="messages text-danger" *ngIf="checkForm.observationUpdate.errors.required">Este campo es requerido</div>
+          <label>Observación</label>
+          <textarea class="form-control" formControlName="observationUpdate" [ngClass]="{ 'is-invalid': submitted && checkFormUpdate.observationUpdate.errors }" placeholder="Observaciones"></textarea>
+            <div *ngIf="submitted && checkFormUpdate.observationUpdate.errors" class="invalid-feedback">
+                <div class="messages text-danger" *ngIf="checkFormUpdate.observationUpdate.errors.required">Este campo es requerido</div>
             </div>
         </div>
 
@@ -376,19 +393,19 @@
 
       <br>
       <div class="align-buttons">
-        <button type="button" class="btn btn-default waves-effect" id="warehousesOutUpdateHide" (click)="modalRegisterWarehousesOut.hide()">Cancelar</button>
+        <button type="button" class="btn btn-default waves-effect" id="warehousesOutUpdateHide" (click)="modalUpdateWarehousesOut.hide()">Cancelar</button>
       <button type="submit " class="btn btn-primary m-b-0 " >Actualizar Salida</button>
     </div>
 </form>
     </div>
-</app-modal-basic>-->
+  </app-modal-basic>
 
 
 <div class="row">
 
   <div class="col-sm-12">
       <app-card>
-          <h5>Cotizaciones </h5>
+          <h5>Salidas </h5>
           <br>
 
       
@@ -421,99 +438,151 @@
                   <div class="col-sm-5">
                       <h6>Cliente</h6>
                   
-                      <select class="form-control" (change)="getForklifs()" [(ngModel)]="selectedBusinessId"> 
-                                  <option value="0" selected>Seleccionar cliente </option>
+                      <select class="form-control"  [(ngModel)]="selectedBusinessId" (click)="changingValue()"> 
+                                  <option value="0" selected>Seleccionar cliente  </option>
                               <option   *ngFor="let customer of customers" [ngValue]="customer.id"> {{customer.business_name}}  </option>
-                              <!--  <option value="0" selected>Seleccionar perfil</option> -->
+                           
                              </select>
                   </div>
-
-                
-
+              
+                  <div class="col-sm-3">
+                    <h6>Sucursal</h6>
+                    <select class="form-control" [(ngModel)]="selectedBranchId" (click)="changingValueBranch()"> 
+                        <option value="0" selected>Seleccionar Sucursal </option>
+                    <option   *ngFor="let branch of branchOffices" [ngValue]="branch.id"> {{branch.branch_name}}  </option>
+                   </select>
+                </div>
+              
               <div class="col-sm-4">
                   <h6>Equipo</h6>
 
                   <select class="form-control" [(ngModel)]="selectedForkliftId" > 
                               <option value="0" selected>Seleccionar equipo </option>
                               <option   *ngFor="let forklift of forklifts" [ngValue]="forklift.id"> {{forklift.full_name}}  </option>
-                          <!--  <option value="0" selected>Seleccionar perfil</option> -->
                          </select>
               </div>
 
-              <div class="col-sm-3">
-                  <h6>Usuario</h6>
-                  <select class="form-control" [(ngModel)]="selectedUserId" > 
-                      <option value="0" selected>Seleccionar usuario </option>
-                  <option   *ngFor="let user of rowsUser" [ngValue]="user.id"> {{user.username}}  </option>
-                  <!--  <option value="0" selected>Seleccionar perfil</option> -->
-                 </select>
-              </div>
+             
           </div>
           <br>
           <div class="row">
-         
-              <div class="col-sm-4">
-               <h6>Descripción Repuesto</h6>
-                  <input type="text" [(ngModel)]="part" class="form-control" placeholder="Filtrar repuestos">
-                  <!--  <input type="text" style="padding:8px;margin:15px auto;width:30%;" placeholder="Type to filter the name column..." (keyup)="updateFilter($event)" /> -->
-              </div>
-              
-              <div class="col-sm-3">
-                <h6>Código Repuesto</h6>
-                   <input type="text" [(ngModel)]="codepart" class="form-control" placeholder="Filtrar repuestos">
-                   <!--  <input type="text" style="padding:8px;margin:15px auto;width:30%;" placeholder="Type to filter the name column..." (keyup)="updateFilter($event)" /> -->
-               </div>
+            
+            <div class="col-sm-3">
+              <h6>Tecnico</h6>
+              <select class="form-control" [(ngModel)]="selectedUserId" > 
+                  <option value="0" selected>Seleccionar Sucursal </option>
+              <option   *ngFor="let tech of technicians" [ngValue]="tech.id"> {{tech.name}}  </option>
+             </select>
+          </div>
 
-               <div class="col-sm-2">
-                <ul>
-                    <li class="list-status" *ngFor="let item of checklist">
-                      <input type="checkbox" [(ngModel)]="item.isSelected" name="list_name" value="{{item.id}}" (change)="selectStatus(item)"/>
-                      {{item.value}}
-                    </li>
-                  </ul>
+          <div class="col-sm-2" style="height:100px; width:100px; overflow-y:scroll; overflow-x:hidden;">
+              <h6>Referencia</h6>
+            <ul>
+                <li class="list-status" *ngFor="let item of referenceChecklist">
+                  <input type="checkbox" [(ngModel)]="item.isSelected" name="list_name" value="{{item.reference}}" (change)="selectReference(item)"/>
+                  {{item.reference}}
+                </li>
+              </ul>
+        </div>
+
+        <div class="col-sm-1"></div>
+
+          <div class="col-sm-2" style="height:100px; width:100px; overflow-y:scroll; overflow-x:hidden;">
+              <h6>Descripción</h6>
+            <ul>
+                <li class="list-status" *ngFor="let item of descriptionChecklist">
+                  <input type="checkbox" [(ngModel)]="item.isSelected" name="list_name" value="{{item.description}}" (change)="selectDescription(item)"/>
+                  {{item.description}}
+                </li>
+              </ul>
+        </div>
+
+        <div class="col-sm-1"></div>
+
+          <div class="col-sm-2" style="height:100px; width:100px; overflow-y:scroll; overflow-x:hidden;">
+              <h6>Control</h6>
+            <ul>
+                <li class="list-status" *ngFor="let item of controlChecklist">
+                  <input type="checkbox" [(ngModel)]="item.isSelected" name="list_name" value="{{item.control}}" (change)="selectControl(item)"/>
+                  {{item.control}}
+                </li>
+              </ul>
+        </div>
+
+        <div class="col-sm-1"></div>
+
+        </div>
+          <br>
+          <br>
+          <div class="row">
+            <div class="col-sm-2" style="height:100px; width:100px; overflow-y:scroll; overflow-x:hidden;">
+              <h6>Pedido/Cotización</h6>
+              <ul>
+                <li class="list-status" *ngFor="let item of estimateChecklist">
+                  <input type="checkbox" [(ngModel)]="item.isSelected" name="list_name" value="{{item.order_number}}" (change)="selectEstimate(item)"/>
+                  {{item.order_number}}
+                </li>
+              </ul>
             </div>
-             
-              <div class="col-sm-2">
-                  <div >
-                    <button type="button" style="display:none;" id="showSendEmail" class="btn btn-primary waves-effect" >Crear Equipo</button>
 
-                    <button type="button" style="display:none;" id="showCheckItem" class="btn btn-primary waves-effect" >Checkear</button>
-                    
-                    <button type="button" style="display:none;" id="hideCheckItem" class="btn btn-primary waves-effect" >Checkear</button>
+            <div class="col-sm-1"></div>
 
-                    <button type="button" style="display:none;" id="hideRejection" class="btn btn-primary waves-effect" >Checkear</button>
-                    
-                    <button type="button" style="display:none;" id="showRejection" class="btn btn-primary waves-effect" >rechazar</button>
+            <div class="col-sm-2" style="height:100px; width:100px; overflow-y:scroll; overflow-x:hidden;">
+              <h6>Liquidación</h6>
+              <ul>
+                <li class="list-status" *ngFor="let item of liquidationChecklist">
+                  <input type="checkbox" [(ngModel)]="item.isSelected" name="list_name" value="{{item.settlement_text}}" (change)="selectLiquidation(item)"/>
+                  {{item.settlement_text}}
+                </li>
+              </ul>
+            </div>
 
-                     <!--     <button type="button" id="registerBrand" class="btn btn-primary waves-effect" (click)="sendForklift()">Crear equipo</button>-->
-                       <button class="btn btn-primary" (click)="getEstimateFilters()"><i class="icofont icofont-search" ></i>Buscar</button>
-                      </div>
-              </div>
+            <div class="col-sm-1"></div>
+
+            <div class="col-sm-2" style="height:100px; width:100px; overflow-y:scroll; overflow-x:hidden;">
+              <h6>Factura</h6>
+              <ul>
+                <li class="list-status" *ngFor="let item of billChecklist">
+                  <input type="checkbox" [(ngModel)]="item.isSelected" name="list_name" value="{{item.invoice_text}}" (change)="selectBill(item)"/>
+                  {{item.invoice_text}}
+                </li>
+              </ul>
+            </div>
+           
+            <div class="col-sm-1"></div>
+
+            <div class="col-sm-2">
+                <div >
+
+                  <br>
+                  <br>
+                  <br>
+
+                  <button type="button" style="display:none;" id="showSendEmail" class="btn btn-primary waves-effect" >Crear Equipo</button>
+
+                  <button type="button" style="display:none;" id="showCheckItem" class="btn btn-primary waves-effect" >Checkear</button>
+                  
+                  <button type="button" style="display:none;" id="hideCheckItem" class="btn btn-primary waves-effect" >Checkear</button>
+
+                  <button type="button" style="display:none;" id="hideRejection" class="btn btn-primary waves-effect" >Checkear</button>
+                  
+                  <button type="button" style="display:none;" id="showRejection" class="btn btn-primary waves-effect" >rechazar</button>
+
+                   <!--     <button type="button" id="registerBrand" class="btn btn-primary waves-effect" (click)="sendForklift()">Crear equipo</button>-->
+                     <button class="btn btn-primary" (click)="getEstimateFilters()"><i class="icofont icofont-search" ></i>Buscar</button>
+                    </div>
+            </div>
           </div>
           <br>
-          <div class="form-group row">
-           
-          
-            <div class="col-sm-3">
-                <h6>Num. Cotización</h6>
-                   <input type="text"  [(ngModel)]="numberEstimate" class="form-control" placeholder="Filtrar num cotización">
-                   <!--  <input type="text" style="padding:8px;margin:15px auto;width:30%;" placeholder="Type to filter the name column..." (keyup)="updateFilter($event)" /> -->
-               </div>
-
-            <div class="col-sm-5">   
-            </div>
-          
-               <div class="col-4">
+          <br>
                 <div class="align-buttons">
-                  <button class="btn btn-primary" (click)="modalRegisterWarehousesOut.show()" (click)="getCustomers()" (click)="getTechnician()">Crear Salida</button>
-                  <button (click)="updateWare()" (click)="modalUpdateWarehousesOut.show()" class="btn btn-primary btn-icon"><i class="icofont icofont-pencil-alt-5"></i></button>
-                </div>
-              </div>
-        </div>                
+                  <button class="btn btn-primary" (click)="modalRegisterWarehousesOut.show()" >Crear Salida</button>
+                </div>              
 
         <button type="button"   style="display:none;" id="showItemsApprove"  class="btn btn-primary waves-effect" >Mostrar botones</button>
        <!-- <button type="button"   style="display:none;" id="showItemsApprove"  class="btn btn-primary waves-effect" (click)="modalDetail.show()">Mostrar botones</button> -->
         <!--  <button type="button"  id="uploadItem" class="btn btn-primary waves-effect" (click)="kk()">jaja</button> -->
+
 
         <ngx-datatable
         #myTable
@@ -530,22 +599,53 @@
           <ng-template let-row="row" let-expanded="expanded" ngx-datatable-row-detail-template>
             <div class="dt-desc">
               <table class="table-striped table-bordered">
-                <tr>
-                  <th colspan="2"><strong>Address</strong></th>
-                </tr>
-                <tr>
-                  <td>City</td>
-                  <td>{{row.address.city}}</td>
-                </tr>
-                <tr>
-                  <td>State</td>
-                  <td>{{row.address.state}}</td>
-                </tr>
+                <td>
+                  <tr><strong>Descripcion</strong></tr>
+                  <tr>{{row.description}}</tr>
+                </td>
+                <td>
+                  <tr><strong>Control</strong></tr>
+                  <tr>{{row.control}}</tr>
+                </td>
+                <td>
+                  <tr><strong>Precio Unitario</strong></tr>
+                  <tr>{{row.unit_cost}}</tr>
+                </td>
+                <td>
+                  <tr><strong>Maquina</strong></tr>
+                  <tr>{{row.forklift_text}}</tr>
+                </td>
+                <td>
+                  <tr><strong>Liquidacion</strong></tr>
+                  <tr>{{row.settlement_text}}</tr>
+                </td>
+                <td>
+                  <tr><strong>Factura</strong></tr>
+                  <tr>{{row.invoice_text}}</tr>
+                </td>
+                <td>
+                  <tr><strong>Consumo</strong></tr>
+                  <tr>{{row.consumption}}</tr>
+                </td>
+                <td>
+                  <tr><strong>Observacion</strong></tr>
+                  <tr>{{row.observation}}</tr>
+                </td>
               </table>
+              <div class="align-buttons">
+                <button type="button" style="display:none;" id="updateWarehouses" class="btn btn-primary waves-effect"  (click)="modalUpdateWarehousesOut.show()" >Actualizar Bodega</button>
+                <button (click)="updateWare(row)" class="btn btn-primary btn-icon"><i class="icofont icofont-pencil-alt-5"></i></button>
+                <button (click)="deleteWarehoueses(row)" class="btn btn-danger btn-icon"><i class="icofont icofont-ui-delete"></i></button>
+              </div>
             </div>
+
 
           </ng-template>
         </ngx-datatable-row-detail>
+        <!--Principal:
+        Fecha, cantidad, referencia, tecnico, Empresa, sucursal, valor total
+        Detalle: 
+        Los demas valores-->
         <ngx-datatable-column
           [width]="50"
           [resizeable]="false"
@@ -562,30 +662,43 @@
            > </a>
           </ng-template>
         </ngx-datatable-column>
-        <ngx-datatable-column name="Index">
+        <ngx-datatable-column name="Fecha">
           <ng-template let-row="row" ngx-datatable-cell-template>
-            <strong>{{row['id']}}</strong>
+            <strong>{{row['create_at']}}</strong>
           </ng-template>
         </ngx-datatable-column>
-        <ngx-datatable-column name="Expanded">
-          <ng-template let-row="row" let-expanded="expanded" ngx-datatable-cell-template>
-            <strong>{{expanded === 1}}</strong>
+        <ngx-datatable-column name="Cantidad">
+          <ng-template let-row="row"  ngx-datatable-cell-template>
+            <strong>{{row['quantity']}}</strong>
           </ng-template>
         </ngx-datatable-column>
-        <ngx-datatable-column name="Name">
-          <ng-template let-value="value" ngx-datatable-cell-template>
-            <strong>{{value}}</strong>
+        <ngx-datatable-column name="Referencia">
+          <ng-template let-row="row" ngx-datatable-cell-template>
+            <strong>{{row['reference']}}</strong>
           </ng-template>
         </ngx-datatable-column>
-        <ngx-datatable-column name="Gender">
+        <ngx-datatable-column name="Tecnico">
           <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
-            <i [innerHTML]="row['name']"></i> and <i>{{value}}</i>
+            <strong>{{row['name']}}</strong>   
           </ng-template>
         </ngx-datatable-column>
-        <ngx-datatable-column name="Age"></ngx-datatable-column>
+        <ngx-datatable-column name="Empresa">
+          <ng-template let-row="row" ngx-datatable-cell-template>
+            <strong>{{row['business_name']}}</strong>
+          </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column name="Sucursal">
+          <ng-template let-row="row" ngx-datatable-cell-template>
+            <strong>{{row['branch_name']}}</strong>
+          </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column name="Valor total">
+          <ng-template let-row="row" ngx-datatable-cell-template>
+            <strong>{{row['total']}}</strong>
+          </ng-template>
+        </ngx-datatable-column>
         <ngx-datatable-column name="Acciones">
           <ng-template>
-            <button type="button" style="display:none;" id="updateWarehouses" class="btn btn-primary waves-effect" (click)="modalUpdateWarehousesOut.show()">Actualizar Bodega</button>
             <button (click)="updateWare()" class="btn btn-primary btn-icon"><i class="icofont icofont-pencil-alt-5"></i></button>
             <button (click)="deleteWarehoueses()" class="btn btn-danger btn-icon"><i class="icofont icofont-ui-delete"></i></button>
           </ng-template>
