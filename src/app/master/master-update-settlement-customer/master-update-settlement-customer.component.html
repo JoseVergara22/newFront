@@ -7,8 +7,21 @@
       <div>
           <div class="row">
               <div class="col-sm-6">
-                  <h6>Código </h6>
-                  <input type="text" [(ngModel)]="code" class="form-control">
+                 
+                <h6>Código </h6>
+                <input  type="text" class="form-control" (change)="onChangeCode(code)"  [(ngModel)]="code" list="browsers">
+                <datalist  id="browsers">
+                  <!--  <div  > -->
+                      <option  *ngFor="let detailCode of detailCodes"   [ngValue]="detailCode"> {{detailCode.full_description}} </option>
+                        
+                   <!-- </div> --> 
+
+                 
+                </datalist>
+                
+
+                
+                 <!--<input type="text" [(ngModel)]="code" class="form-control">  --> 
               </div>
               <div class="col-sm-6">
                   <h6>Descripción </h6>
@@ -102,28 +115,42 @@
 
             <div class="col-sm-4">
                 <h6>Subcentro </h6>
-                <select class="form-control">
+      <!--          <select class="form-control">
                         <option value="0" selected>Seleccionar Subcentro</option>
                         <option value="2">Centro1 </option>
                         <option value="3">Centro2 </option>
-                      </select>
+                      </select>--> 
+
+                      <select class="form-control" class="form-control" name="select"  [(ngModel)]="selectedSubcostCenterId">
+                        <option value="0" selected>Seleccionar Subcentro</option>
+                    <option  *ngFor="let subcenterCost of subcentersCost " [ngValue]="subcenterCost.id"> {{subcenterCost.description}} </option>
+                   </select>
+
+
             </div>
             <div class="col-sm-4">
                 <h6>Descuento% </h6>
-                <input type="number" class="form-control">
+                <input type="number" [(ngModel)]="discountPart"  (blur)="calculateSubtotal()" class="form-control">
             </div>
 
               <div class="col-sm-4">
-                  <h6>Entrega </h6>
-                  <div class="row">
-                      <div class="col-sm-4">
-                          <input type="number"   [(ngModel)]="deliveryPart" class="form-control">
-                      </div><h6>Días</h6> 
-                  </div>
-                
+                <h6>Total </h6>
+                <input  [(ngModel)]="totalPrice" class="form-control" disabled>
               </div>
-
           </div>
+          <br>
+          <div class="row">
+            <div class="col-sm-4">
+                <h6>Entrega </h6>
+                <div class="row">
+                    <div class="col-sm-4">
+                        <input type="number"   [(ngModel)]="deliveryPart" class="form-control">
+                    </div><h6>Días</h6> 
+                </div>
+              
+            </div>
+          </div>
+
           <br>
           <div class="align-buttons">
               <button type="button" style="display:none;" class="btn btn-default waves-effect" id="createItemHide" (click)="modalRegisterItem.hide()">Cancelar</button>
@@ -145,8 +172,20 @@
       <div>
           <div class="row">
               <div class="col-sm-6">
-                  <h6>Código </h6>
-                  <input type="text" [(ngModel)]="workforceCode" class="form-control">
+
+                <h6>Código </h6>
+                <input  type="text" class="form-control" (change)="onChangeworkforceCode(workforceCode)"  [(ngModel)]="workforceCode" list="browsers">
+                <datalist  id="browsers">
+                  <!--  <div  > -->
+                      <option  *ngFor="let detailCode of detailCodes"   [ngValue]="detailCode"> {{detailCode.full_description}} </option>
+                        
+                   <!-- </div> --> 
+
+                 
+                </datalist>
+
+                <!-- <h6>Código </h6>
+                  <input type="text" [(ngModel)]="workforceCode" class="form-control"> --> 
               </div>
               <div class="col-sm-6">
                   <h6>Servicio </h6>
@@ -171,16 +210,46 @@
 
           <br>
           <div class="row">
-              <div class="col-sm-4">
-                  <h6>Entrega </h6>
-                  <div class="row">
-                      <div class="col-sm-4">
-                          <input type="number"   [(ngModel)]="workforceDelivery" class="form-control">
-                      </div><h6>Días</h6> 
-                  </div>     
-           </div>
+            <div class="col-sm-4">
+                <h6>Subcentro </h6>
+      <!--          <select class="form-control">
+                        <option value="0" selected>Seleccionar Subcentro</option>
+                        <option value="2">Centro1 </option>
+                        <option value="3">Centro2 </option>
+                      </select>--> 
+
+                      <select class="form-control" class="form-control" name="select"  [(ngModel)]="selectedSubcostCenterWorkforceId">
+                        <option value="0" selected>Seleccionar Subcentro</option>
+                    <option  *ngFor="let subcenterCost of subcentersCost " [ngValue]="subcenterCost.id"> {{subcenterCost.description}} </option>
+                   </select>
+
+
+            </div>
+            <div class="col-sm-4">
+                <h6>Descuento% </h6>
+                <input type="number" [(ngModel)]="discountWorkforce"  (blur)="calculateSubtotalWork()" class="form-control">
+            </div>
+
+            <div class="col-sm-4">
+                <h6>Total </h6>
+                <input  [(ngModel)]="totalPriceWorkforce" class="form-control" disabled>
+              </div>
+
+
+        
           </div>
           <br>
+          <div class="row">
+            <div class="col-sm-4">
+                <h6>Entrega </h6>
+                <div class="row">
+                    <div class="col-sm-4">
+                        <input type="number"   [(ngModel)]="workforceDelivery" class="form-control">
+                    </div><h6>Días</h6> 
+                </div>     
+         </div>
+        </div>
+        <br>
           <div class="align-buttons">
 
               <button type="button" style="display:none;" class="btn btn-default waves-effect" id="createHideWorkforce" (click)="modalRegisterItemWorkforce.hide()">Cancelar</button>
@@ -192,6 +261,134 @@
       </div>
   </div>
 </app-modal-basic>
+
+
+<app-modal-basic #modalRegisterItemCustomer [dialogClass]="'modal-lg'">
+    <div class="app-modal-header">
+        <h4 class="modal-title">Registrar Item</h4>
+    </div>
+    <div class="app-modal-body">
+        <div>
+            <div class="row">
+                <div class="col-sm-6">
+  
+                  <h6>Código </h6>
+                  <input  type="text" class="form-control" (change)="onChangeCustomerCode(customerCode)"  [(ngModel)]="customerCode" list="browsers">
+                  <datalist  id="browsers">
+                    <!--  <div  > -->
+                        <option  *ngFor="let detailCode of detailCodes"   [ngValue]="detailCode"> {{detailCode.full_description}} </option>
+                          
+                     <!-- </div> --> 
+  
+                   
+                  </datalist>
+  
+                  <!-- <h6>Código </h6>
+                    <input type="text" [(ngModel)]="workforceCode" class="form-control"> --> 
+                </div>
+                <div class="col-sm-6">
+                    <h6>Descripción </h6>
+                    <input type="text" [(ngModel)]="customerDescription" class="form-control">
+                </div>
+            </div>
+            <br>
+            <div class="row">
+                <div class="col-sm-4">
+                    <h6>Cantidad</h6>
+                    <input type="number" [(ngModel)]="customerquantity" class="form-control"  (blur)="calculateSubtotalCustomer()">
+                </div>
+                <div class="col-sm-4">
+                    <h6>Precio</h6>
+                    <input type="text" [(ngModel)]="customerPrice"    (blur)="calculateSubtotalCustomer()"  (keyup)="finalFormaHourValue()"  class="form-control">
+                </div>
+                <div class="col-sm-4">
+                    <h6>Subtotal </h6>
+                    <input type="text" [(ngModel)]="customerSubtotal" class="form-control" disabled >
+                </div>
+            </div>
+  
+            <br>
+            <div class="row">
+              <div class="col-sm-4">
+                  <h6>Subcentro </h6>
+        <!--          <select class="form-control">
+                          <option value="0" selected>Seleccionar Subcentro</option>
+                          <option value="2">Centro1 </option>
+                          <option value="3">Centro2 </option>
+                        </select>--> 
+  
+                        <select class="form-control" class="form-control" name="select"  [(ngModel)]="selectedSubcostCenterCustomerId">
+                          <option value="0" selected>Seleccionar Subcentro</option>
+                      <option  *ngFor="let subcenterCost of subcentersCost " [ngValue]="subcenterCost.id"> {{subcenterCost.description}} </option>
+                     </select>
+  
+  
+              </div>
+              <div class="col-sm-4">
+                  <h6>Descuento% </h6>
+                  <input type="number" [(ngModel)]="discountCustomer"  (blur)="calculateSubtotalCustomer()" class="form-control">
+              </div>
+  
+              <div class="col-sm-4">
+                  <h6>Total </h6>
+                  <input  [(ngModel)]="totalPriceCustomer" class="form-control" disabled>
+                </div>
+  
+  
+          
+            </div>
+            <br>
+            <div class="row">
+              <div class="col-sm-4">
+                  <h6>Entrega </h6>
+                  <div class="row">
+                      <div class="col-sm-4">
+                          <input type="number"   [(ngModel)]="customerDelivery" class="form-control">
+                      </div><h6>Días</h6> 
+                  </div>     
+           </div>
+          </div>
+          <br>
+            <div class="align-buttons">
+  
+                <button type="button" style="display:none;" class="btn btn-default waves-effect" id="createHideCustomer" (click)="createHideCustomer.hide()">Cancelar</button>
+                <button type="button" class="btn btn-default waves-effect" id="createItemHideDetailWorkforce" (click)="cancelFormCustomerCreate()">Cancelar</button>
+                
+               <!-- <button type="button" class="btn btn-default waves-effect" id="createItemHideDetailWorkforce" (click)="modalRegisterItemWorkforce.hide()">Cancelar</button> -->
+                <button type="submit " class="btn btn-primary m-b-0 "  (click)="createEstimateDetailWorkforce()">Crear Item</button>
+            </div>
+        </div>
+    </div>
+  </app-modal-basic>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 <!-- 
 <app-modal-basic #modalSendEmail [dialogClass]="'modal-lg'">
   <div class="app-modal-header">
@@ -299,8 +496,14 @@
       <div>
           <div class="row">
               <div class="col-sm-6">
-                  <h6>Código </h6>
-                  <input type="text" [(ngModel)]="codeUpdate" class="form-control">
+                <h6>Código </h6>
+                <input  type="text" class="form-control" (change)="onChangeCodeUpdate(code)"  [(ngModel)]="codeUpdate" list="codeUpdateList">
+                <datalist  id="codeUpdateList">
+                  <!--  <div  > -->
+                      <option  *ngFor="let detailCode of detailCodes"   [ngValue]="detailCode"> {{detailCode.full_description}} </option>  
+                   <!-- </div> -->                  
+                </datalist>
+                 <!-- <input type="text" [(ngModel)]="codeUpdate" class="form-control">  -->
               </div>
               <div class="col-sm-6">
                   <h6>Descripción </h6>
@@ -385,6 +588,36 @@
           </div>
 
           <br>
+          <div class="row">
+
+
+
+            <div class="col-sm-4">
+                <h6>Subcentro </h6>
+      <!--          <select class="form-control">
+                        <option value="0" selected>Seleccionar Subcentro</option>
+                        <option value="2">Centro1 </option>
+                        <option value="3">Centro2 </option>
+                      </select>--> 
+
+                      <select class="form-control" class="form-control" name="select"  [(ngModel)]="selectedSubcostCenterUpdateId">
+                        <option value="0" selected>Seleccionar Subcentro</option>
+                    <option  *ngFor="let subcenterCost of subcentersCost " [ngValue]="subcenterCost.id"> {{subcenterCost.description}} </option>
+                   </select>
+
+
+            </div>
+            <div class="col-sm-4">
+                <h6>Descuento% </h6>
+                <input type="number" [(ngModel)]="discountPartUpdate"  (blur)="calculateSubtotalUpdate()" class="form-control">
+            </div>
+
+              <div class="col-sm-4">
+                <h6>Total </h6>
+                <input  [(ngModel)]="totalPriceUpdate" class="form-control" disabled>
+              </div>
+          </div>
+          <br>
 
           <div class="row">
               <div class="col-sm-4">
@@ -424,7 +657,7 @@
              <button type="button" style="display:none;" class="btn btn-default waves-effect" id="hideEstimateCustomers" (click)="modalEstimateCustomers.hide()">Cancelar</button>
             
              <!--  <button type="button" class="btn btn-default waves-effect" id="updateItemHide" (click)="modalUpdateItem.hide()">Cancelar</button>-->
-              <button type="submit " class="btn btn-primary m-b-0 "  (click)="updateEstimateDetail()">Actualizar Item</button>
+              <button type="submit " class="btn btn-primary m-b-0 "  (click)="updateSettlementDetail()">Actualizar Item</button>
              
           </div>
       </div>
@@ -599,7 +832,76 @@
 
             <div class="align-buttons">
                 <button type="button" class="btn btn-default waves-effect" id="storageDetailHide" (click)="deleteItemsSelect()">Cancelar</button>
-                <button type="submit " class="btn btn-primary m-b-0 ">Copiar</button>
+                <button type="submit " class="btn btn-primary m-b-0 "   (click)="createDetailsEstimateSettlement()">Copiar</button>
+            </div>
+    </div>
+</app-modal-basic>
+
+
+<!-- Modal Cotizaciones por empresa-->
+<app-modal-basic #modalEstimateCustomersTest [dialogClass]="'modal-lg'">
+    <div class="app-modal-header">
+        <h4 class="modal-title">Copiar cotizaciones por equipos</h4>
+    </div>
+    <div class="app-modal-body">
+        <app-card  [blockClass]="'accordion-block'" [cardOptionBlock]="true">
+            <ngb-accordion  *ngFor="let estimateCustomer of itemsEstimate" [closeOthers]="false" #acc="ngbAccordion" class="ngb-accordion">
+              <ngb-panel id="ngb-close-p1" title="Cotización N. {{estimateCustomer.estimate_consecutive}}">
+                <ng-template ngbPanelContent>
+                    <div class="form-group row">
+                        <div class="col-sm-12">
+                             <!--    <input type="checkbox"  value="m1" [checked]="checkAllPart"  (change)="checkUncheckAllPart($event)"/> <strong>Seleccionar todo</strong> -->      
+                                          <div class="table-responsive">
+                                            <div class="table-scroll"> 
+                                            <table class="table table-framed">
+                                              <thead>
+                                              <tr>
+                                                <th style="width: 5%"> </th>
+                                                <th style="width: 10%">Código</th>
+                                                <th style="width: 70%">Descripción</th>
+                                                <th style="width: 5%;">Cantidad</th>
+                                                <th style="width: 10%;">Subtotal</th>
+                                              </tr>
+                                              </thead>
+                                              <tbody>
+                                        <!--  value="{{item.id}}" (change)="partChangeActive($event,item)"[checked]="item.active" -->   
+                                             <tr *ngFor="let item of estimateCustomer.item;let pointIdex=index">   
+                                                <td scope="row">
+                                                   <input type="checkbox"  name="list_name" value="{{item.id}}" (change)="checkChangeActive($event,item)"[checked]="item.active"/> 
+                                                </td>
+                                                <td>{{item.code}}</td>
+                                                <td>{{item.description}}</td>
+                                                <td>{{item.quantity}}</td>
+                                                <td>{{item.subtotal}} </td>
+                                               </tr> 
+                                              </tbody>
+                                            </table>
+                                          </div>
+                                        </div>
+                        </div>
+                    </div>
+            
+                </ng-template>
+              </ngb-panel>
+            </ngb-accordion>
+            <div class="form-group row">
+                <div class="col-sm-4">
+              
+                </div>
+                <div class="col-sm-4">
+              
+                </div>
+                <div class="col-sm-4">
+                    <button class="btn btn-primary btn-round" *ngIf="numberPage>1" (click)="backPage()" >Atras</button> <button (click)="nextPage()" class="btn btn-primary btn-round" *ngIf="numberPage<limitPage">Siguiente</button>
+                   <!--  <button class="btn btn-info btn-round">Atras</button>   <button class="btn btn-info btn-round">Siguiente</button> -->
+                </div>
+             </div>       
+           
+          </app-card>
+
+            <div class="align-buttons">
+                <button type="button" class="btn btn-default waves-effect" id="storageDetailHide" (click)="deleteItemsSelect()">Cancelar</button>
+                <button type="submit " class="btn btn-primary m-b-0 "   (click)="createDetailsEstimateSettlement()">Copiar</button>
             </div>
     </div>
 </app-modal-basic>
@@ -858,7 +1160,7 @@
           <ngx-datatable-column  name="Precio sugerido" [flexGrow]="1"   [sortable]="false" [resizeable]="false" [canAutoResize]="true" prop="price_suggest_decimal"></ngx-datatable-column>
               <ngx-datatable-column  name="Precio"  [flexGrow]="1"  [sortable]="false" [resizeable]="false" [canAutoResize]="true" prop="price_decimal"></ngx-datatable-column>
                 <ngx-datatable-column  name="Subtotal" [flexGrow]="1"  [sortable]="false" [resizeable]="false" [canAutoResize]="true" prop="subtotal_decimal"></ngx-datatable-column>
-                  <ngx-datatable-column  name="Descuento" [flexGrow]="1" [sortable]="false" [resizeable]="false" [canAutoResize]="true" prop="delivery"></ngx-datatable-column>
+                  <ngx-datatable-column  name="Descuento" [flexGrow]="1" [sortable]="false" [resizeable]="false" [canAutoResize]="true" prop="discount"></ngx-datatable-column>
           <ngx-datatable-column  name="Acciones" [flexGrow]="2"  [sortable]="false" [resizeable]="false" [canAutoResize]="true" sortable="false" prop="id">
               <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
                   <button (click)="updateItems(row)" class="btn btn-primary btn-icon"><i class="icofont icofont-pencil-alt-5"></i></button>
@@ -916,14 +1218,13 @@
             </div>
         </div>
     </div>
-    <ngx-datatable #table class="data-table"  style="height: 300px; overflow-y:visible"  [rows]="rowsItemsparts"  [columnMode]="'flex'" [headerHeight]="50" [footerHeight]="50" [rowHeight]="'auto'"
+    <ngx-datatable #table class="data-table"  style="height: 300px; overflow-y:visible"  [rows]="rowsItemscustomer"  [columnMode]="'flex'" [headerHeight]="50" [footerHeight]="50" [rowHeight]="'auto'"
     [limit]="5">
 
     <ngx-datatable-column  name="Código"  [flexGrow]="1"  [sortable]="false" [resizeable]="false" [canAutoResize]="true" prop="code"></ngx-datatable-column>
     <ngx-datatable-column  name="Descripción"  [flexGrow]="2"  [sortable]="false" [resizeable]="false" [canAutoResize]="true" prop="description"></ngx-datatable-column>
     <ngx-datatable-column  name="Cant"  [flexGrow]="1"  [sortable]="false" [resizeable]="false" [canAutoResize]="true" prop="quantity"></ngx-datatable-column>
     <ngx-datatable-column  name="Cto Unit"  [flexGrow]="1" [sortable]="false" [resizeable]="false" [canAutoResize]="true" prop="unit_cost"></ngx-datatable-column>
-    <ngx-datatable-column  name="List Precio" [flexGrow]="1"  [sortable]="false" [resizeable]="false" [canAutoResize]="true" prop="price_list"></ngx-datatable-column>
     <ngx-datatable-column  name="Precio sugerido" [flexGrow]="1"   [sortable]="false" [resizeable]="false" [canAutoResize]="true" prop="price_suggest_decimal"></ngx-datatable-column>
         <ngx-datatable-column  name="Precio"  [flexGrow]="1"  [sortable]="false" [resizeable]="false" [canAutoResize]="true" prop="price_decimal"></ngx-datatable-column>
           <ngx-datatable-column  name="Subtotal" [flexGrow]="1"  [sortable]="false" [resizeable]="false" [canAutoResize]="true" prop="subtotal_decimal"></ngx-datatable-column>

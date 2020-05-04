@@ -332,11 +332,16 @@ export class MasterCopyEstimateCustomerComponent implements OnInit {
     this.estimateService.showTrmCurrent().then(data => {
       const resp: any = data;
 
-
+      let trm ;
+      try{
+        trm =resp.data.value
+      }catch(error){
+        trm =resp.result.value
+      }
 
       console.log('---trm----');
       console.log(data);
-      let trm = resp.data.value;
+      // let trm = resp.data.value;
       console.log(trm);
      
 
@@ -839,8 +844,13 @@ console.log('Importante informacion: '+ this.conditionValidation);
 
     this.estimateService.showTrmCurrent().then(data => {
       const resp: any = data;
-      let trm = resp.data.value;
-
+      //let trm = resp.data.value;
+      let trm ;
+      try{
+        trm =resp.data.value
+      }catch(error){
+        trm =resp.result.value
+      }
 
       if(this.conditionTrmUsa.id==1){
         this.trmGeneralUsa=trm;

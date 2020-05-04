@@ -448,10 +448,15 @@ export class MasterSettlementCustomerComponent implements OnInit {
       const resp: any = data;
 
 
-
+      let trm ;
+      try{
+        trm =resp.data.value
+      }catch(error){
+        trm =resp.result.value
+      }
       console.log('---trm----');
       console.log(data);
-      let trm = resp.data.value;
+      // let trm = resp.data.value;
       console.log(trm);
      
 

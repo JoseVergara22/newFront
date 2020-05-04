@@ -677,7 +677,23 @@ export class EstimateService {
           console.log(data);
           resolve(data);
         }, error => {
-          resolve(error);
+          
+         // resolve(error);
+         const httpOptions = {
+          headers: new HttpHeaders({
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+          })
+        };
+          this.http.get('https://cors-anywhere.herokuapp.com/https://api.cambio.today/v1/quotes/USD/COP/json?quantity=1&key=4328|zZQ~p4JZcXA0MPPYJNAeqpJKD*7E5wcj',httpOptions)
+          .map(res => res).subscribe(data => {
+            console.log('TRM TRM TRM');
+            console.log(data);
+            resolve(data);
+          }, error => {
+            resolve(error);
+          });
+
         });
     });
   }
