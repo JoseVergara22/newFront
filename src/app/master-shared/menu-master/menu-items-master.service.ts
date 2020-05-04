@@ -81,7 +81,7 @@ const MENUITEMS = [
           {
             state: 'register',
             name: 'Administrar usuarios'
-          },
+          },/*
           {
             state: 'costCenter',
             name: 'Administrar Centros de Costo'
@@ -118,7 +118,7 @@ const MENUITEMS = [
           {
             state:'horometro',
             name:'Administrar Horometro'
-          },
+          },/*
           {
             state: 'regionalsAll',
             name: 'Administrar Regionales'
@@ -126,7 +126,7 @@ const MENUITEMS = [
          {
             state: 'techniciansAll',
             name: 'Administrar Tecnicos'
-          },
+          },*/
           {
             state: 'registerBrand',
             name: 'Administrar Marcas'
@@ -162,7 +162,7 @@ const MENUITEMS = [
           {
             state: 'estimateCustomer',
             name:  'Crear Cotizacion'
-          },
+          },/*
           {
             state: 'settlementAll',
             name:  'Liquidaciones'
@@ -170,7 +170,7 @@ const MENUITEMS = [
           {
             state: 'settlementCustomer',
             name:  'Crear Liquidación'
-          },
+          },*/
           {
             state: 'estimateCountries',
             name:  'Administrar paises cotización'

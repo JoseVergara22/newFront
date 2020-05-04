@@ -150,7 +150,7 @@ export class MasterWarehousesOutComponent implements NgbDatepickerI18n {
   
   selectedBusinessId: any = 0;
   selectedForkliftId:any = 0;
-  selectedOfficeId: any = 0;
+  selectedBranchId: any = 0;
   selectedUserId: any =0;
   customerOffices: any = 0;
   rowsUser:any;
@@ -218,17 +218,16 @@ export class MasterWarehousesOutComponent implements NgbDatepickerI18n {
   emailShow: any = '';
 
   
-  selectedTypeDocumentId: any;
-  selectedCustomer: any;
+  selectedCustomer: any = 0;
   selectedBranchOffice: any=0;
-  selectedTechnician: any;
+  selectedTechnician: any = 0;
   selectForkLift: any;
 
-  selectedTypeDocumentIdUpdate: any;
-  selectedCustomerUpdate: any;
-  selectedBranchOfficeUpdate: any;
-  selectedTechnicianUpdate: any;
-  selectForkLiftUpdate: any;
+
+  selectedCustomerUpdate: any = 0;
+  selectedBranchOfficeUpdate: any = 0;
+  selectedTechnicianUpdate: any = 0;
+  selectForkLiftUpdate: any = 0;
   
   typeDocuments: any;
   customers: any;
@@ -246,6 +245,20 @@ export class MasterWarehousesOutComponent implements NgbDatepickerI18n {
   value = 0;
 
   submitted = false;
+  idwarehousesout: any;
+  referenceChecklist: any;
+  descriptionChecklist: any;
+  controlChecklist: any;
+  estimateChecklist: any;
+  liquidationChecklist: any;
+  billChecklist: any;
+
+  referenceList: any = [];
+  descriptionList: any = [];
+  controlList: any = [];
+  estimateList: any = [];
+  liquidationList: any = [];
+  billList: any = [];
 
   constructor(private restService: RestService, private _i18n: I18n, private router: Router, private estimateService: EstimateService, private forkliftService: ForkliftService,
               private calendar: NgbCalendar, public formatter: NgbDateParserFormatter, private userService: UserService,  private uploadService: UploadService,   private formbuilder:FormBuilder) {
@@ -271,11 +284,14 @@ export class MasterWarehousesOutComponent implements NgbDatepickerI18n {
                 var date = new Date();
                 var ngbDateStruct = { day: date.getDate(), month: date.getMonth()+1, year: date.getFullYear()};
                 
-                
+                /*
                 this.fetch((data) => {
                   this.rows = data;
+                  console.log('datatatatatatatata');
+                  console.log(data);
+                  console.log(this.rows);
                 });
-                
+                 */
                 
                 this.fromDate=ngbDateStruct;
                 this.untilDate=ngbDateStruct;
@@ -293,7 +309,16 @@ export class MasterWarehousesOutComponent implements NgbDatepickerI18n {
                 ];
 
     this.loadingData();
-    this.getCustomer();
+    //this.getCustomer();
+    this.getWarehousesOut();
+    this.getCustomers();
+    this.getTechnician();
+    this.getDescription();
+    this.getReference();
+    this.getControl();
+    this.getEstimate();
+    this.getLiquidation();
+    this.getBill();
 
     const customer = new FormControl('', Validators.required);
    const branchOffice = new FormControl('', Validators.required);
@@ -311,6 +336,7 @@ export class MasterWarehousesOutComponent implements NgbDatepickerI18n {
    const bill = new FormControl('');
    const forkliftControl = new FormControl('');
 
+
    const customerUpdate = new FormControl('', Validators.required);
    const branchOfficeUpdate = new FormControl('', Validators.required);
    const technicianUpdate = new FormControl('', Validators.required);
@@ -319,12 +345,13 @@ export class MasterWarehousesOutComponent implements NgbDatepickerI18n {
    const unitCostUpdate = new FormControl('', Validators.required);
    const totalCostUpdate = new FormControl('', Validators.required);
    const descriptionsUpdate = new FormControl('', Validators.required);
-   const controlUpdate = new FormControl('', Validators.required);
+   const controlUpdate = new FormControl('');
    const estimateUpdate = new FormControl('', Validators.required);
    const consumptionUpdate = new FormControl('', Validators.required);
    const observationUpdate = new FormControl('', Validators.required);
-   const businessNameUpdate = new FormControl('', Validators.required);
-   const liquidationUpdate = new FormControl('', Validators.required);
+   const billUpdate = new FormControl('', Validators.required);
+   const liquidationUpdate = new FormControl('');
+   const forkliftControlUpdate = new FormControl('', Validators.required);
 
    this.myForm = new FormGroup({
     customer: customer,
@@ -341,7 +368,7 @@ export class MasterWarehousesOutComponent implements NgbDatepickerI18n {
     observation: observation,
     liquidation: liquidation,
     bill: bill,
-    forkliftControl:forkliftControl
+    forkliftControl:forkliftControl,
    });
 
    this.myFormUpdate = new FormGroup({
@@ -358,9 +385,29 @@ export class MasterWarehousesOutComponent implements NgbDatepickerI18n {
     consumptionUpdate: consumptionUpdate,
     observationUpdate: observationUpdate,
     liquidationUpdate: liquidationUpdate,
-    businessNameUpdate: businessNameUpdate
+    billUpdate: billUpdate,
+    forkliftControlUpdate: forkliftControlUpdate
    });
   }
+
+  getWarehousesOut() {
+    this.restService.getWarehousesOut().then(data => {
+      const resp: any = data;
+      console.log(data);
+      swal.close();
+      this.warehousesout  = resp.data_warehousesOut;
+      console.log(this.warehousesout);
+      console.log(this.warehousesout.length);
+      this.rows = this.warehousesout;
+      this.rowsClient= this.warehousesout;
+
+      console.log(this.rows);
+      console.log('isefuiowesdl')
+      console.log(this.rowsClient);
+    }).catch(error => {
+      console.log(error);
+    });
+   }
 
   getCustomers() {
     this.restService.getCustomers().then(data => {
@@ -373,17 +420,20 @@ export class MasterWarehousesOutComponent implements NgbDatepickerI18n {
     });
    }
 
-  getWarehousesOut() {
-    this.restService.getWarehousesOut().then(data => {
+  getCustomersUpdate(row:any) {
+    this.restService.getCustomers().then(data => {
       const resp: any = data;
       console.log(data);
       swal.close();
-      this.warehousesout  = resp.data;
+      this.customers  = resp.data;
+
+      this.selectedCustomerUpdate = row.customer_id;
+      this.selectedTechnicianUpdate = row.technician_id;
+      this.selectedBranchOfficeUpdate = row.branch_offices_id;;
     }).catch(error => {
       console.log(error);
     });
    }
-
 
 
    getOffices(idCustomer: number) {
@@ -431,17 +481,133 @@ export class MasterWarehousesOutComponent implements NgbDatepickerI18n {
       });
   }
 
+  getReference() {
+    console.log('reference');
+      this.restService.getReferences().then(data => {
+        console.log('que mas ps');
+        const resp: any = data;
+        console.log(resp);
+        this.referenceChecklist = resp.data_warehousesOut;
+        console.log('master');
+        swal.close();
+        console.log( this.referenceChecklist);
+      }).catch(error => {
+        console.log(error);
+      });
+  }
+
+  getDescription() {
+    console.log('description');
+      this.restService.getDescriptions().then(data => {
+        console.log('que mas ps');
+        const resp: any = data;
+        console.log(resp);
+        this.descriptionChecklist = resp.data_warehousesOut;
+        console.log('master');
+        swal.close();
+        console.log( this.descriptionChecklist);
+      }).catch(error => {
+        console.log(error);
+      });
+  }
+
+  getControl() {
+    console.log('control');
+      this.restService.getControls().then(data => {
+        console.log('que mas ps');
+        const resp: any = data;
+        console.log(resp);
+        this.controlChecklist = resp.data_warehousesOut;
+        console.log('master');
+        swal.close();
+        console.log( this.controlChecklist);
+      }).catch(error => {
+        console.log(error);
+      });
+  }
+
+  getEstimate() {
+    console.log('estimate');
+      this.restService.getEstimates().then(data => {
+        console.log('que mas ps');
+        const resp: any = data;
+        console.log(resp);
+        this.estimateChecklist = resp.data_warehousesOut;
+        console.log('master');
+        swal.close();
+        console.log( this.estimateChecklist);
+      }).catch(error => {
+        console.log(error);
+      });
+  }
+
+  getLiquidation() {
+    console.log('liquidation');
+      this.restService.getSettlements().then(data => {
+        console.log('que mas ps');
+        const resp: any = data;
+        console.log(resp);
+        this.liquidationChecklist = resp.data_warehousesOut;
+        console.log('master');
+        swal.close();
+        console.log( this.liquidationChecklist);
+      }).catch(error => {
+        console.log(error);
+      });
+  }
+
+  getBill() {
+    console.log('bill');
+      this.restService.getInvoices().then(data => {
+        console.log('que mas ps');
+        const resp: any = data;
+        console.log(resp);
+        this.billChecklist = resp.data_warehousesOut;
+        console.log('master');
+        swal.close();
+        console.log( this.billChecklist);
+      }).catch(error => {
+        console.log(error);
+      });
+  }
+
   ChangingValue(){
     console.log('Cambio cliente');
     console.log(this.selectedCustomer);
     this.getOffices(this.selectedCustomer);
   }
 
+  changingValue(){
+    console.log('Cambio cliente');
+    console.log(this.selectedBusinessId);
+    this.getOffices(this.selectedBusinessId);
+  }
+
+  ChangingValueUpdate(){
+    console.log('Cambio cliente');
+    console.log(this.selectedCustomerUpdate);
+    this.getOffices(this.selectedCustomerUpdate);
+  }
+
   ChangingValueBranch(){
     console.log('Cambio sucursal');
     console.log(this.selectedBranchOffice);
     console.log(this.selectedBranchOffice.id);
-    this.getForkLift(this.selectedBranchOffice);
+    this.getForkLift(this.selectedBranchOffice.id);
+  }
+
+  changingValueBranch(){
+    console.log('Cambio sucursal');
+    console.log(this.selectedBranchId);
+    console.log(this.selectedBranchId.id);
+    this.getForkLift(this.selectedBranchId);
+  }
+
+  ChangingValueBranchUpdate(){
+    console.log('Cambio sucursal');
+    console.log(this.selectedBranchOfficeUpdate);
+    console.log(this.selectedBranchOfficeUpdate.id);
+    this.getForkLift(this.selectedBranchOfficeUpdate.id);
   }
 
   calculateTotal(){
@@ -477,7 +643,8 @@ export class MasterWarehousesOutComponent implements NgbDatepickerI18n {
     }
 
   sendWarehousesOut(){
-    if (  Number(this.selectedCustomer) !== 0 && Number(this.selectedBranchOffice) !== 0 && Number(this.selectForkLift) !== 0 && Number(this.selectedTechnician) !== 0) {
+    console.log('enviar');
+    if (  Number(this.selectedCustomer) !== 0 && Number(this.selectedBranchOffice) !== 0  && Number(this.selectedTechnician) !== 0) {
       this.submitted = true;
      if ( !this.myForm.invalid) {
         swal({
@@ -485,7 +652,18 @@ export class MasterWarehousesOutComponent implements NgbDatepickerI18n {
           allowOutsideClick: false
         });
         swal.showLoading();
-        this.restService.createWarehousesOut(this.selectedCustomer, this.selectedTechnician, this.selectedBranchOffice, this.myForm.get('quantity').value, this.myForm.get('reference').value, this.myForm.get('descriptions').value, this.myForm.get('control').value, this.myForm.get('unitCost').value, this.myForm.get('totalCost').value, this.selectForkLift.description, this.selectForkLift.id, this.myForm.get('estimate').value, this.myForm.get('consumption').value, this.myForm.get('observation').value)
+        console.log(this.selectForkLift);
+        console.log(this.selectedBranchOffice);
+        console.log(this.selectedBranchOffice.id);
+        console.log(this.selectedCustomer, this.selectedTechnician, this.selectedBranchOffice.id, 
+          this.myForm.get('quantity').value, this.myForm.get('reference').value, this.myForm.get('descriptions').value, 
+          this.myForm.get('control').value, this.myForm.get('unitCost').value, this.myForm.get('totalCost').value, 
+          this.selectForkLift, this.myForm.get('estimate').value, this.myForm.get('consumption').value, 
+          this.myForm.get('observation').value);
+
+        this.restService.createWarehousesOut(this.selectedCustomer, this.selectedTechnician, this.selectedBranchOffice.id, this.selectForkLift,this.myForm.get('quantity').value, this.myForm.get('reference').value, this.myForm.get('descriptions').value, 
+          this.myForm.get('control').value, this.myForm.get('unitCost').value, this.myForm.get('totalCost').value,  this.myForm.get('estimate').value, this.myForm.get('consumption').value, 
+          this.myForm.get('observation').value)
      .then(data => {
         const resp: any = data;
         console.log(resp);
@@ -498,8 +676,10 @@ export class MasterWarehousesOutComponent implements NgbDatepickerI18n {
         } else {
           console.log('Cambio');
           console.log(resp.data.id);
+          document.getElementById('clearWarehouses').click();
           document.getElementById('warehousesOutHide').click();
-          this.loadingData();
+          this.getWarehousesOut();
+          this.submitted = false;
           swal({
           title: 'Salida agregada',
           type: 'success'
@@ -518,22 +698,59 @@ export class MasterWarehousesOutComponent implements NgbDatepickerI18n {
     }
   }
 
-  updateWare(){}
+  updateWare(row){
+    console.log(row);
+    this.idwarehousesout = row.id
+    this.myFormUpdate.get('quantityUpdate').setValue(row.quantity);
+    this.myFormUpdate.get('referenceUpdate').setValue(row.reference);
+    this.myFormUpdate.get('descriptionsUpdate').setValue(row.description);
+    //this.myFormUpdate.get('controlUpdate').setValue(row.control);
+    this.myFormUpdate.get('unitCostUpdate').setValue(row.unit_cost);
+    this.myFormUpdate.get('totalCostUpdate').setValue(row.total);
+    this.myFormUpdate.get('estimateUpdate').setValue(row.order_number);
+    this.myFormUpdate.get('controlUpdate').setValue(row.control);
+    this.myFormUpdate.get('consumptionUpdate').setValue(row.consumption);
+    this.myFormUpdate.get('observationUpdate').setValue(row.observation);
+    this.myFormUpdate.get('liquidationUpdate').setValue(row.settlement_text);
+    this.myFormUpdate.get('billUpdate').setValue(row.invoice_text);
+
+    document.getElementById('updateWarehouses').click();
+
+    this.getTechnician();
+    this.getOffices(row.customer_id)
+    this.getForkLift(row.branch_offices_id)
+    this.getCustomersUpdate(row);
+    
+    console.log(this.selectedCustomerUpdate +'-- wec-- '+ this.selectedTechnicianUpdate +'----------'+ this.selectedBranchOfficeUpdate
+     +'------'+this.myFormUpdate.get('quantityUpdate').value +'-------'+ this.myFormUpdate.get('referenceUpdate').value
+      +'------'+ this.myFormUpdate.get('descriptionsUpdate').value +'-------'+ this.myFormUpdate.get('unitCostUpdate').value +'---'+ this.myFormUpdate.get('totalCostUpdate').value
+      +'------'+ this.myFormUpdate.get('estimateUpdate').value +'-------'+ this.myFormUpdate.get('consumptionUpdate').value
+       +'--------'+ this.myFormUpdate.get('observationUpdate').value +'-----'+this.myFormUpdate.get('liquidationUpdate').value +'------'+this.myFormUpdate.get('billUpdate').value);
+    
+  }
 
   updateWarehousesOut(){
-    if (  Number(this.selectedCustomerUpdate) !== 0 && Number(this.selectedBranchOfficeUpdate) !== 0 && Number(this.selectForkLiftUpdate) !== 0 && Number(this.selectedTechnicianUpdate) !== 0) {
+    console.log('DAISLJKSL');
+    if (  Number(this.selectedCustomerUpdate) !== 0 && Number(this.selectedBranchOfficeUpdate) !== 0  && Number(this.selectedTechnicianUpdate) !== 0) {
+      console.log('DAISLJKSL');
       this.submitted = true;
-     if ( !this.myForm.invalid) {
+      if ( !this.myFormUpdate.invalid) {
+        console.log('DAISLJKSL');
         swal({
           title: 'Validando información ...',
           allowOutsideClick: false
         });
         swal.showLoading();
-        this.restService.updateWarehousesOut(1,this.selectedCustomerUpdate, this.selectedTechnicianUpdate, this.selectedBranchOfficeUpdate,
-           this.myFormUpdate.get('quantityUpdate').value, this.myFormUpdate.get('referenceUpdate').value, this.myFormUpdate.get('descriptionsUpdate').value,
-            this.myFormUpdate.get('controlUpdate').value, this.myFormUpdate.get('unitCostUpdate').value, this.myFormUpdate.get('totalCostUpdate').value, 
-            this.selectForkLiftUpdate.description, this.selectForkLiftUpdate.id, this.myFormUpdate.get('estimateUpdate').value,
-             this.myFormUpdate.get('consumptionUpdate').value, this.myFormUpdate.get('observationUpdate').value)
+        console.log(this.selectedCustomerUpdate +'-- wec-- '+ this.selectedTechnicianUpdate +'----------'+ this.selectedBranchOfficeUpdate
+        +'------'+this.myFormUpdate.get('quantityUpdate').value +'-------'+ this.myFormUpdate.get('referenceUpdate').value
+         +'------'+ this.myFormUpdate.get('descriptionsUpdate').value +'-------'+ this.myFormUpdate.get('unitCostUpdate').value +'---'+ this.myFormUpdate.get('totalCostUpdate').value
+         +'------'+ this.myFormUpdate.get('estimateUpdate').value +'-----' +  this.myFormUpdate.get('controlUpdate').value,  +'-------'+ this.myFormUpdate.get('consumptionUpdate').value
+          +'--------'+ this.myFormUpdate.get('observationUpdate').value +'-----'+this.myFormUpdate.get('liquidationUpdate').value +'------'+this.myFormUpdate.get('billUpdate').value);
+
+        this.restService.updateWarehouseOut(this.idwarehousesout,this.selectedCustomerUpdate, this.selectedTechnicianUpdate, this.selectedBranchOfficeUpdate,
+          this.myFormUpdate.get('quantityUpdate').value, this.myFormUpdate.get('referenceUpdate').value, this.myFormUpdate.get('descriptionsUpdate').value,
+          this.myFormUpdate.get('controlUpdate').value, this.myFormUpdate.get('unitCostUpdate').value, this.myFormUpdate.get('totalCostUpdate').value, this.myFormUpdate.get('estimateUpdate').value,
+          this.myFormUpdate.get('consumptionUpdate').value, this.myFormUpdate.get('observationUpdate').value)
      .then(data => {
         const resp: any = data;
         console.log(resp);
@@ -547,7 +764,7 @@ export class MasterWarehousesOutComponent implements NgbDatepickerI18n {
           console.log('Cambio');
           console.log(resp.data.id);
           document.getElementById('warehousesOutUpdateHide').click();
-          this.loadingData();
+          this.getWarehousesOut();
           swal({
           title: 'Salida Actualizada',
           type: 'success'
@@ -558,6 +775,7 @@ export class MasterWarehousesOutComponent implements NgbDatepickerI18n {
         });
       }
     }else {
+      console.log('DAISLJKSL');
       swal({
         title: 'Debe seleccionar todos los campos obligatorios',
         text: 'Debe seleccionar todos los campos obligatorios',
@@ -566,7 +784,52 @@ export class MasterWarehousesOutComponent implements NgbDatepickerI18n {
     }
   }
 
-  deleteWarehoueses(){}
+  deleteWarehoueses(row){
+    swal({
+      title: 'Estás seguro de eliminar este elemento?',
+      type: 'warning',
+      showCancelButton: true,
+      showConfirmButton: true,
+      cancelButtonText: 'No',
+      confirmButtonText: 'Si'
+  
+    })
+    .then((willDelete) => {
+        if (willDelete.value) {
+          this.elementDelete = row;
+          console.log(row);
+          console.log(    this.elementDelete);
+          swal.showLoading();
+          this.restService.deleteWarehousesOut(Number(this.elementDelete.id))
+          .then(data => {
+            swal.showLoading();
+            const resp: any = data;
+            console.log(resp);
+  
+            if (resp.success === false) {
+              swal({
+                title: 'Esta salida presenta problemas',
+                text: 'Esta salida no se puede eliminar',
+                type: 'error'
+               });
+            } else {
+    
+           this.getWarehousesOut();
+           swal({
+            title: 'salida eliminado',
+            type: 'success'
+           });
+          }
+          }).catch(error => {
+            console.log(error);
+          });
+          console.log(this.elementDelete.id);
+        } else {
+         // swal('Fail');
+        }
+      console.log(willDelete);
+    });
+  }
 
   onPage(event) {
     clearTimeout(this.timeout);
@@ -682,95 +945,8 @@ export class MasterWarehousesOutComponent implements NgbDatepickerI18n {
 
    // Estos consumos es para la vista de aprobación
 
-   getEstimatePartsApproval(ind: number) {
-    if(ind){
-      this.estimateService.getEstimateDetailsParts(ind).then(data => {
-        const resp: any = data;
-        this.rowsItemsPartsApproval=resp.data;
 
-        console.log('información de items');
-        console.log( this.rowsItemsPartsApproval);
-
-        this.itemsPart=[];
-        this.itemsWorkforce=[];
-        this.rowsItemsPartsApproval.forEach((item)=>{
-          console.log(item);
-          let unitPrice =  Number(item.price)/Number(item.quantity);
-          this.itemPart={
-            id: item.id,
-            item: item.item,
-            description: item.description,
-            cost: unitPrice,
-            quantity: item.quantity,
-            active: false
-          }
-          this.itemsPart.push(this.itemPart);
-        });
-
-
-        this.getEstimateWorkforceApproval(ind);
-      }).catch(error => {
-        console.log(error);
-      });
-
-    }
-   }
-
-   getEstimateWorkforceApproval(ind: number) {
-     
-    if(ind){
-      this.estimateService.getEstimateDetailsWorkforce(ind).then(data => {
-
-        const resp: any = data;
-        this.rowsItemsWorkforceApproval=resp.data;
-        swal.close();
-        console.log(this.rowsItemsWorkforceApproval);
-        this.rowsItemsWorkforceApproval.forEach((item)=>{
-          let unitPrice =  Number(item.price)/Number(item.quantity);
-          this.itemWorkforce={
-            id: item.id,
-            item: item.item,
-            description: item.service,
-            cost: unitPrice,
-            quantity: item.quantity,
-            active: false
-          }
-          this.itemsWorkforce.push(this.itemWorkforce);
-        });
-
-      }).catch(error => {
-        console.log(error);
-      });
-    }
-   }
-
-   sendEmailEstimateAmazon(){
-     console.log('IMPORTANTE INGRESO');
-    let nameFileEstimate ='Cotizacion_No_'+this.estimateCurrent.estimate_consecutive+'.pdf';
-    this.uploadService.uploadFilesAllEstimate(this.blobGlobal, this.estimateCurrent.id,3,nameFileEstimate).then(res=>{
-    console.log('s3info'+JSON.stringify(res));
-    this.s3info=res;
-    console.log(this.s3info);
-    console.log('Cargo la info en s3 6/3/20');
-    //Aqui va el codigo para enviar correo
-    this.sendEmailFinal();
-    
-    swal({
-      title: 'cotización almacenada',
-      type: 'success'
-     });
-   
-    //this.insertNew();
-  }).catch(error=> {
-    console.log(error);
-    swal({
-      type: 'error',
-      title: 'oops a currido un error',
-      text:'se ha presentado un error al subir la imagen',
-      allowOutsideClick: false
-    });
-  });
-}
+  
 
 selectEvent(item) {
   console.log('este es el item: '+JSON.stringify(item));
@@ -808,64 +984,11 @@ console.log('este es el e:'+ +JSON.stringify(e));
     });
     }
 
-    sendEstimateEmail(row:any){
-      
-   /*   this.estimateId= row.id;
-      this.user = row.elaborate_user.username;
-      this.consecutive = row.estimate_consecutive;
-      this.documentCustomer = row.customer_document;
-      this.nameCustomer = row.business_name;
-      this.contact = row.contact;
-      this.cellphone =   row.email;*/
-
-
-      this.estimateId= row.id;
-      this.user = row.elaborate_user.username;
-      this.consecutive = row.estimate_consecutive;
-      this.documentCustomer = row.customer_document;
-      this.nameCustomer = row.customer.business_name;
-      this.contact = row.contact;
-      this.cellphone =   row.telephone;
-     
-      if( this.forkliftText){
-        this.forkliftText = row.forklift_text;
-      }else{
-        this.forkliftText = '';
-      } 
-      this.cityEstimate =  row.city.name;
-      this.guarantyEstimate =  row.guaranty;
-      this.validity = row.validity;
-      this.payment_method= row.payment_method;
-      this.subtotalHoursEstimate = row.subtotal_hours_decimal;
-      this.subtotalPartsEstimate = row.subtotal_parts_decimal;
-      this.totalEstimate = row.total_decimal;
-      this.observationEstimate= row.observation;
-
-      this.emailsSend = [];
-      this.subject = '';
-      this.comment = '';
-      console.log('cotización actual:'+ row);
-      this.estimateCurrent= row;
-      document.getElementById( 'showItemsApprove').click();
-      this.getEmailCustomer();
-    }
-
-    getEmailCustomer(){//this.estimateCurrent.customer_id
-      this.estimateService.getEmailsCustomer(this.estimateCurrent.customer_id).then(data=>{
-        const resp: any = data;
-        console.log('que paso');
-        this.emailCustomer= resp.data;
-        //Poner un for para los email's
-        console.log(this.emailCustomer);
-      }).catch(error=> {
-        console.log(error);
-      });
-    }
 
     showCheckItems(row: any){
       let rowCurrent= row;
       this.estimateCurrent=row;
-      this.getEstimatePartsApproval(rowCurrent.id);
+      //this.getEstimatePartsApproval(rowCurrent.id);
       this.checkAllPart=false;
       this.checkAllWorkForce= false;
       swal({
@@ -888,103 +1011,7 @@ console.log('este es el e:'+ +JSON.stringify(e));
 
 
 
-     sendEmailFinal(){
-      let subjectTemp; //= 'Montacargas Master Cotización '+ this.estimateCurrent.estimate_consecutive;
-      if((this.subject.trim()).length>0){
-        console.log('importante el subject:'+this.subject)
-        subjectTemp= this.subject;
-      }else{
-        subjectTemp= 'Montacargas Master Cotización '+ this.estimateCurrent.estimate_consecutive;
-      }
-     // concatenar los correos y nos con ","
-    let emailsName = '';
-     for (let i = 0; i < this.emailsSend.length; i++) {
-       if(i!==0){
-        emailsName=emailsName+'|';
-       }
-        emailsName=emailsName+this.emailsSend[i].email+'|'+this.emailsSend[i].contact;
-     }
-
-     if( this.masterEmail != '' &&  this.masterName != '' ){
-
-      emailsName= this.masterEmail+'|'+ this.masterName+'|'+ emailsName;
-    }
-
-     console.log('------------------');
-     console.log(emailsName);
-     console.log('---------------------');
-
-      if(this.emailsSend.length>0){
-      
-
-      this.estimateService.sendEstimateEmailAmazon(//sendEstimateEmailAmazon
-        this.estimateCurrent.elaborate_user_id, this.estimateCurrent.customer_id, this.estimateCurrent.id,
-        emailsName.trim(),this.comment,subjectTemp).then(data => {
-        const resp: any = data;
-        console.log('envio');
-        console.log(resp);
-     
-         this.estimateService.updateEstimateStatus(
-          this.estimateCurrent.id, 1).then(data => {
-          const resp: any = data;
-          console.log('envio');
-          console.log(resp);
-          this.getEstimateFiltersInitial();
-          document.getElementById('emailDetailHide').click();
-          swal({
-            title: 'Correo enviado',
-            type: 'success'
-           });  
-           this.masterEmail='';
-           this.masterName='';
-
-           this.checkHideCode=false;
-         
-        }).catch(error => {
-          console.log(error);
-        });
-      }).catch(error => {
-        console.log(error);
-      });
-    }else if( this.masterEmail != '' &&  this.masterName != '' ){
-
-      this.estimateService.sendEstimateEmailAmazon(//sendEstimateEmailAmazon
-        this.estimateCurrent.elaborate_user_id, this.estimateCurrent.customer_id, this.estimateCurrent.id,
-        emailsName.trim(),this.comment,subjectTemp).then(data => {
-        const resp: any = data;
-        console.log('envio');
-        console.log(resp);
-     
-         this.estimateService.updateEstimateStatus(
-          this.estimateCurrent.id, 1).then(data => {
-          const resp: any = data;
-          console.log('envio');
-          console.log(resp);
-          this.getEstimateFiltersInitial();
-          document.getElementById('emailDetailHide').click();
-          swal({
-            title: 'Correo enviado',
-            type: 'success'
-           });  
-           this.masterEmail='';
-           this.masterName='';
-           this.checkHideCode=false;
-        }).catch(error => {
-          console.log(error);
-        });
-      }).catch(error => {
-        console.log(error);
-      });
-    }else{
-      swal({
-        text:'Debe ingresar por lo menos un correo electrónico valido',
-        type: 'error'
-       });
-    }
-     //este es el codigo para enviar el correo
-     }
-
-
+    
      
     getHeight(row: any, index: number): number {
       return row.someHeight;
@@ -1011,20 +1038,7 @@ console.log('este es el e:'+ +JSON.stringify(e));
     };
 } 
 
- generatePDF(img){
-  var options = {orientation: 'p', unit: 'mm'};
-  var doc = new jsPDF(options);
-  doc.addImage(img, 'JPEG', 0, 0, 100, 50);
-}
-
-
-opp(){
-  var logo_url = "/images/logo.jpg";
-this.getImgFromUrl(logo_url, function (img) {
-    this.generatePDF(img);
-});
-}
-
+ 
 
 
 
@@ -1185,9 +1199,10 @@ this.getImgFromUrl(logo_url, function (img) {
 
    getEstimateFilters() {
 
-    if(this.considerDate == false && this.selectedBusinessId == 0 &&  this.part == 0 &&
-      this.codepart == 0 && this.numberEstimate == 0  &&  this.selectedForkliftId == 0 &&
-      this.listStatus.length == 0){
+    if(this.considerDate == false && this.selectedBusinessId == 0 &&  this.selectedBranchId == 0 &&
+      this.selectedUserId == 0 &&  this.selectedForkliftId == 0 && this.referenceChecklist.length == 0
+      && this.descriptionChecklist.length == 0 && this.controlChecklist.length == 0 && this.estimateChecklist.length == 0
+      && this.liquidationChecklist.length == 0 && this.billChecklist.length == 0){
         swal({
           title:'Importante',
           text: 'Debes seleccionar por lo menos uno de los filtros o activar casilla para tener en cuenta las fechas',
@@ -1237,29 +1252,20 @@ this.getImgFromUrl(logo_url, function (img) {
       }     
     }
 
-    if(this.part!=''){
+    if(this.selectedBranchId!== 0){
       if(cont>0){
-        params=params+'&&description_query='+this.part;
+        params=params+'&&branch_offices_id='+this.selectedBranchId;
       }else{
-        params=params+'description_query='+this.part;
+        params=params+'branch_offices_id='+this.selectedBranchId;
         cont++;
       }
     }
 
-    if(this.codepart!=''){
+    if(this.selectedUserId!== 0){
       if(cont>0){
-        params=params+'&&codepart_query='+this.codepart;
+        params=params+'&&technician_id='+this.selectedUserId;
       }else{
-        params=params+'codepart_query='+this.codepart;
-        cont++;
-      }
-    }
-
-    if(this.numberEstimate!=''){
-      if(cont>0){
-        params=params+'&&consecutive='+this.numberEstimate;
-      }else{
-        params=params+'consecutive='+this.numberEstimate;
+        params=params+'technician_id='+this.selectedUserId;
         cont++;
       }
     }
@@ -1272,23 +1278,70 @@ this.getImgFromUrl(logo_url, function (img) {
         cont++;
       }
     }
+  
 
-    if(this.listStatus.length>0){
+    if(this.referenceList.length>0){
       if(cont>0){
-      params=params+'&&status=['+this.listStatus+']';
+      params=params+'&&reference='+this.referenceList;
       }else{
-        params=params+'status=['+this.listStatus+']';
+        params=params+'reference='+this.referenceList;
+        cont++;
+      }
+    }
+
+    if(this.descriptionList.length>0){
+      if(cont>0){
+      params=params+'&&description='+this.descriptionList;
+      }else{
+        params=params+'description='+this.descriptionList;
+        cont++;
+      }
+    }
+
+    if(this.controlList.length>0){
+      if(cont>0){
+      params=params+'&&control='+this.controlList;
+      }else{
+        params=params+'control='+this.controlList;
+        cont++;
+      }
+    }
+    
+    if(this.estimateList.length>0){
+      if(cont>0){
+      params=params+'&&estimateList='+this.estimateList;
+      }else{
+        params=params+'estimateList='+this.estimateList;
+        cont++;
+      }
+    }
+
+    if(this.liquidationList.length>0){
+      if(cont>0){
+      params=params+'&&settlement_text='+this.liquidationList;
+      }else{
+        params=params+'settlement_text='+this.liquidationList;
+        cont++;
+      }
+    }
+
+    if(this.billList.length>0){
+      if(cont>0){
+      params=params+'&&invoice_text='+this.billList;
+      }else{
+        params=params+'invoice_text='+this.billList;
         cont++;
       }
     }
 
     console.log('.---------->'+params);
-    this.estimateService.showEstimateFilter(params).then(data => {
+    this.restService.showWarehouseOutFilter(params).then(data => {
       const resp: any = data;
       console.log('info de filter');
       console.log(data);
      // this.customers  = resp.data;
        this.rowsClient = resp.data;
+       this.rows = resp.data;
        swal.close();
       // this.rowStatic =  resp.data;
       // this.rowsTemp = resp.data;
@@ -1325,16 +1378,14 @@ this.getImgFromUrl(logo_url, function (img) {
       params='from_date='+ fromD+' 00:00:00'+'&&'+'to_date=' +untilD+' 23:59:59';
 
     console.log('.---------->'+params);
+    //this.restService.showWarehouseOutFilter
     this.estimateService.showEstimateFilter(params).then(data => {
       const resp: any = data;
       console.log('info de filter');
       console.log(data);
       swal.close();
-     // this.customers  = resp.data;
+
        this.rowsClient = resp.data;
-      // this.rowStatic =  resp.data;
-      // this.rowsTemp = resp.data;
-      // console.log( this.rowsClient);
     }).catch(error => {
       console.log(error);
     });
@@ -1393,9 +1444,9 @@ this.getImgFromUrl(logo_url, function (img) {
 
   }
 
-  getOfficeForklift() {
-   this.getBranchOfficeForklift(this.selectedOfficeId);
-  }
+ // getOfficeForklift() {
+  // this.getBranchOfficeForklift(this.selectedOfficeId);
+  //}
 
   onChangeCreate(check: any) {
    this.change = check;
@@ -1403,16 +1454,103 @@ this.getImgFromUrl(logo_url, function (img) {
   }
 
   
-  selectStatus(item:any){
-    let position =  this.listStatus.indexOf(item.id); 
-    if(position>=0){
-      this.listStatus.splice(position,1);
+  selectReference(item:any){
+    console.log(item);
+    console.log(item.isSelected);
+    console.log(this.referenceList.indexOf(item.reference));
+    let select = item.isSelected;
+    let position = this.referenceList.indexOf(item.reference)
+    if(select){
+
+      this.referenceList.push(item.reference);
     }else{
-      this.listStatus.push(item.id);
+ 
+      this.referenceList.splice(position,1);
     }
-    console.log(this.listStatus);
+    console.log(this.referenceList);
+  }
+ 
+  
+  selectDescription(item:any){
+    console.log(item);
+    console.log(item.isSelected);
+    console.log(this.descriptionList.indexOf(item.description));
+    let select = item.isSelected;
+    let position = this.descriptionList.indexOf(item.description)
+    if(select){
+
+      this.descriptionList.push(item.description);
+    }else{
+ 
+      this.descriptionList.splice(position,1);
+    }
+    console.log(this.descriptionList);
+  }
+ 
+  selectControl(item:any){
+    console.log(item);
+    console.log(item.isSelected);
+    console.log(this.controlList.indexOf(item.control));
+    let select = item.isSelected;
+    let position = this.controlList.indexOf(item.control)
+    if(select){
+
+      this.controlList.push(item.control);
+    }else{
+ 
+      this.controlList.splice(position,1);
+    }
+    console.log(this.controlList);
   }
 
+  selectEstimate(item:any){
+    console.log(item);
+    console.log(item.isSelected);
+    console.log(this.estimateList.indexOf(item.order_number));
+    let select = item.isSelected;
+    let position = this.estimateList.indexOf(item.order_number)
+    if(select){
+
+      this.estimateList.push(item.order_number);
+    }else{
+ 
+      this.estimateList.splice(position,1);
+    }
+    console.log(this.estimateList);
+  }
+ 
+  selectLiquidation(item:any){
+    console.log(item);
+    console.log(item.isSelected);
+    console.log(this.liquidationList.indexOf(item.settlement_text));
+    let select = item.isSelected;
+    let position = this.liquidationList.indexOf(item.settlement_text)
+    if(select){
+
+      this.liquidationList.push(item.settlement_text);
+    }else{
+ 
+      this.liquidationList.splice(position,1);
+    }
+    console.log(this.liquidationList);
+  }
+ 
+  selectBill(item:any){
+    console.log(item);
+    console.log(item.isSelected);
+    console.log(this.billList.indexOf(item.invoice_text));
+    let select = item.isSelected;
+    let position = this.billList.indexOf(item.invoice_text)
+    if(select){
+
+      this.billList.push(item.invoice_text);
+    }else{
+ 
+      this.billList.splice(position,1);
+    }
+    console.log(this.billList);
+  }
+ 
   onChangeUpdate(check: any) {
     this.switchUpdate = check;
     this.enabledUpdated = check;
