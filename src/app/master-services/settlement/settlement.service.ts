@@ -38,7 +38,7 @@ export class SettlementService {
     });
   }
 
-  createEstimate(settlement_consecutive: number, customer_id: number, customer_document: string,
+  createSettlement(settlement_consecutive: number, customer_id: number, customer_document: string,
     department_id: number, city_id: number, contact: string,
     telephone: string, observation: string, total: number, email:string, status:number,
     regional_id: number, cost_center_id:number,warehouse_id:number, estimate_order:number) {
@@ -88,6 +88,7 @@ resolve(error);
 });
 });
 }
+
 
 
 updateConsecutive() {
@@ -171,6 +172,49 @@ resolve(error);
 });
 }
 
+
+
+
+
+
+
+updateSettlementDetailWorkforce(settlement_detail_id: number, code: string, service: string,
+  quantity: number, hour_value: number, subtotal: number, delivery: number, total: string,
+  status: number, type_service: number,  subcenter_id: number, discount: number, fullCode:string) {
+  console.log('info de detalle');
+return new Promise(resolve => {
+const headers = new HttpHeaders();
+headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user'))); // 'Bearer ' +
+headers.append('Content-Type', 'application/json');
+const httpOptions = {
+headers: new HttpHeaders({
+'Content-Type': 'application/json',
+'Authorization': 'Bearer ' + localStorage.getItem('token_user'),
+'Accept': 'application/json'
+})
+};
+const postParams = {
+code: code,
+quantity: quantity,
+service:service,
+hour_value: hour_value,
+subtotal: subtotal,
+delivery: delivery,
+total: total,
+status:status,
+type_service:type_service,
+subcost_center_id: subcenter_id,
+discount: discount,
+full_code:fullCode,
+};
+this.http.patch(this.apiEndPoint+'api/update_settlement_details/'+settlement_detail_id, postParams, httpOptions)
+.map(res => res).subscribe(data => {
+resolve(data);
+}, error => {
+resolve(error);
+});
+});
+}
 
 getSettlementDetails(idSettlement:number) {
   return new Promise(resolve => {
@@ -496,6 +540,44 @@ createScheduleSettlement(params: string) {
     });
     }
 
+    createSettlementDetailWorkforce(settlement_id: number, code: string, description: string,
+      quantity: number, hour_value: number, subtotal: number, delivery: number, total: string,
+      status: number, type_service: number, subcenter_id: number, discount: number, fullCode:string) {
+  return new Promise(resolve => {
+  const headers = new HttpHeaders();
+  headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user'))); // 'Bearer ' +
+  headers.append('Content-Type', 'application/json');
+  const httpOptions = {
+  headers: new HttpHeaders({
+  'Content-Type': 'application/json',
+  'Authorization': 'Bearer ' + localStorage.getItem('token_user'),
+  'Accept': 'application/json'
+  })
+  };
+  const postParams = {
+  settlement_id: settlement_id,
+  subcost_center_id: subcenter_id,
+  discount: discount,
+  code: code,
+  full_code:fullCode,
+  service: description,
+  quantity: quantity,
+  hour_value: hour_value,
+  subtotal: subtotal,
+  delivery: delivery,
+  total: total,
+  status:status,
+  type_service:type_service,
+  };
+  this.http.post(this.apiEndPoint+'api/create_settlement_detail', postParams, httpOptions)
+  .map(res => res).subscribe(data => {
+  resolve(data);
+  }, error => {
+  resolve(error);
+  });
+  });
+  }
+
   createSettlementDetailsCustomer(settlement_id: number, code: string, description: string,
       quantity: number, unit_cost: number, price_suggest: number, weight: number,
       price: number, subtotal: number, delivery: number, total: string,
@@ -586,8 +668,102 @@ createScheduleSettlement(params: string) {
   }
 
 
+  getWarehouese(id: number){
+          console.log('ole ole ole');
+          console.log(id);
+          return new Promise(resolve => {
+            const headers = new HttpHeaders();
+            headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user'))); 
+            headers.append('Content-Type', 'application/json');
+            const httpOptions = {
+              headers: new HttpHeaders({
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + localStorage.getItem('token_user'),
+                'Accept': 'application/json'
+              })
+            };
+            const postParams = {
+            };
+            this.http.get(this.apiEndPoint+'api/get_warehouses_regional_id?idRegional='+id, httpOptions)
+              .map(res => res).subscribe(data => {
+                resolve(data);
+              }, error => {
+                resolve(error);
+              });
+          });
+      }
 
+      getSubCostCenter(id: number){
+              console.log('ole ole ole');
+              console.log(id);
+              return new Promise(resolve => {
+                const headers = new HttpHeaders();
+                headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user'))); 
+                headers.append('Content-Type', 'application/json');
+                const httpOptions = {
+                  headers: new HttpHeaders({
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer ' + localStorage.getItem('token_user'),
+                    'Accept': 'application/json'
+                  })
+                };
+                const postParams = {
+                };
+                this.http.get(this.apiEndPoint+'api/get_subcost_centers_center_id?idRegional='+ id, httpOptions)
+                  .map(res => res).subscribe(data => {
+                    resolve(data);
+                  }, error => {
+                    resolve(error);
+                  });
+              });
+            }
 
+            getCostCenter(id: number){
+                    console.log('ole ole ole');
+                    console.log(id);
+                    return new Promise(resolve => {
+                      const headers = new HttpHeaders();
+                      headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user'))); 
+                      headers.append('Content-Type', 'application/json');
+                      const httpOptions = {
+                        headers: new HttpHeaders({
+                          'Content-Type': 'application/json',
+                          'Authorization': 'Bearer ' + localStorage.getItem('token_user'),
+                          'Accept': 'application/json'
+                        })
+                      };
+                      const postParams = {
+                      };
+                      this.http.get(this.apiEndPoint+'api/get_cost_centers_regionals_id?idRegional='+ id, httpOptions)
+                        .map(res => res).subscribe(data => {
+                          resolve(data);
+                        }, error => {
+                          resolve(error);
+                        });
+                    });
+                  }
 
+                  showSettlementFilter(paramsFilter: string) { 
+                          console.log()
+                          return new Promise(resolve => {
+                            const headers = new HttpHeaders();
+                            headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user'))); // 'Bearer ' +
+                            headers.append('Content-Type', 'application/json');
+                            const httpOptions = {
+                              headers: new HttpHeaders({
+                                'Content-Type': 'application/json',
+                                'Authorization': 'Bearer ' + localStorage.getItem('token_user'),
+                                'Accept': 'application/json'
+                              })
+                            };
+                            this.http.get(this.apiEndPoint+'api/get_settlement?' + paramsFilter, httpOptions)
+                              .map(res => res).subscribe(data => {
+                                console.log(data);
+                                resolve(data);
+                              }, error => {
+                                resolve(error);
+                              });
+                          });
+                        }
 
 }

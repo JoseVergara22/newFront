@@ -162,7 +162,7 @@ const MENUITEMS = [
           {
             state: 'estimateCustomer',
             name:  'Crear Cotizacion'
-          },/*
+          },
           {
             state: 'settlementAll',
             name:  'Liquidaciones'
@@ -170,7 +170,7 @@ const MENUITEMS = [
           {
             state: 'settlementCustomer',
             name:  'Crear Liquidación'
-          },*/
+          },
           {
             state: 'estimateCountries',
             name:  'Administrar paises cotización'

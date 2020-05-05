@@ -460,7 +460,7 @@ export class MasterSettlementAllComponent  extends NgbDatepickerI18n {
    swal.showLoading();
  console.log('item :'+ JSON.stringify(item));
  this.estimateId= item.id;
- this.user = item.elaborate_user.username;
+ this.user = 'Carlos'
  this.consecutive = item.settlement_consecutive;
  this.documentCustomer = item.customer_document;
  this.nameCustomer = item.customer.business_name;
@@ -914,6 +914,7 @@ console.log('este es el e:'+ +JSON.stringify(e));
    const doc = new jsPDF('p', 'px', 'a4');
    
 
+
    var width = doc.internal.pageSize.width;
    var height = doc.internal.pageSize.height;
    
@@ -936,7 +937,7 @@ console.log('este es el e:'+ +JSON.stringify(e));
    
    doc.autoTable({
      startY: 60,
-     columnStyles:{2: { cellWidth:105, fontSize:9,   fillColor: null},  1: {cellWidth:102,fontSize:9, halign: 'left',fillColor: null},  0: {cellWidth:88,fontSize:9, halign: 'left', fillColor: null} },
+     columnStyles:{0: { cellWidth:105, fontSize:9,   fillColor: null} },
      alternateRowStyles:{fontSize:9},
      margin: {top: 60, right: 15, bottom: 0, left: 135},
      body: [['Soluciones integrales para el movimiento interno de sus mercancias' ]]
@@ -944,24 +945,13 @@ console.log('este es el e:'+ +JSON.stringify(e));
    });
    
    doc.autoTable({
-    
-     startY: 85,
-     columnStyles:{0: { cellWidth:180, fontSize:9,  fillColor: null},  1: {fontSize:12, halign: 'center', fillColor: null, textColor:[255, 0, 0] }},
-     alternateRowStyles:{fontSize:9},
-     margin: {top: 60, right: 15, bottom: 0, left: 135},
-     body: [ ['Creado Por: '+ this.user,'No. ' + this.consecutive ]]
-   });
-
-   
-   doc.autoTable({
-     startY: doc.autoTable.previous.finalY,
-     theme:'grid',
-     styles: {fillColor: [215,215,215],lineColor:[4,1,0],lineWidth:0.2},
-    columnStyles: {0: { cellWidth: 230, fontSize:9,  fillColor: null},  1: {fontSize:9,
-    halign: 'left', fillColor: null, cellWidth:185}},
-     margin: { left: 15},
-     body: [['Nit: ' + this.documentCustomer+' '+this.nameCustomer, 'Contacto: '+ this.contact]]
-   });
+     
+    startY: 85,
+    columnStyles:{0: { cellWidth:180, fontSize:9,  fillColor: null},  1: {fontSize:12, halign: 'center', fillColor: null, textColor:[255, 0, 0] }},
+    alternateRowStyles:{fontSize:9},
+    margin: {top: 60, right: 15, bottom: 0, left: 135},
+    body: [ ['Creado Por: '+ this.user,'No. ' + this.consecutive ]]
+  });
 
    doc.autoTable({
     startY: doc.autoTable.previous.finalY,
@@ -969,9 +959,8 @@ console.log('este es el e:'+ +JSON.stringify(e));
     styles: {fillColor: [215,215,215],lineColor:[4,1,0],lineWidth:0.2},
     columnStyles: {
      0: { fontSize:9, cellWidth:215, fillColor: null},
-     1: { fontSize:9, cellWidth:75, fillColor: null},
-     2: { fontSize:9, cellWidth:80, fillColor: null},
-
+     1: { fontSize:9, cellWidth:100, fillColor: null},
+     2: { fontSize:9, cellWidth:99, fillColor: null},
     },
     margin: { left: 15},
     body: [['Cliente: Nestle','Bodega: 6_Bodega_Nestle_Buga','Fecha: 30/04/2020']]
@@ -983,9 +972,8 @@ console.log('este es el e:'+ +JSON.stringify(e));
     styles: {fillColor: [215,215,215],lineColor:[4,1,0],lineWidth:0.2},
     columnStyles: {
      0: { fontSize:9, cellWidth:215, fillColor: null},
-     1: { fontSize:9, cellWidth:75, fillColor: null},
-     2: { fontSize:9, cellWidth:80, fillColor: null},
-
+     1: { fontSize:9, cellWidth:100, fillColor: null},
+     2: { fontSize:9, cellWidth:99, fillColor: null},
     },
     margin: { left: 15},
     body: [['Sucursal: OCCIDENTE_Nestle_02','C.Costos: BUGALAGRANDE_16','OC/Cotización: Pedido No: 4562285978 ']]
@@ -1011,12 +999,18 @@ console.log('este es el e:'+ +JSON.stringify(e));
      startY: doc.autoTable.previous.finalY,
      theme:'grid',
      styles: {fillColor: [215,215,215],lineColor:[4,1,0],lineWidth:0.2},
-     columnStyles: {0: {halign: 'center', fontSize:9, cellWidth:23}, 1: {halign: 'center', fontSize:9,
-      cellWidth:55},2: {halign: 'center', fontSize:9, cellWidth:185},3: {halign: 'center', fontSize:9,
-      cellWidth:27},4: {halign: 'center', fontSize:9, cellWidth:40}, 5: {halign: 'center', fontSize:9,
-      cellWidth:39}, 6: {halign: 'center', fontSize:9, cellWidth:42}  },
+     columnStyles: {
+     0: {halign: 'center', fontSize:9, cellWidth:20},
+     1: {halign: 'center', fontSize:9, cellWidth:30},
+     2: {halign: 'center', fontSize:9, cellWidth:140},
+     3: {halign: 'center', fontSize:9, cellWidth:50},
+     4: {halign: 'center', fontSize:9, cellWidth:25},
+     5: {halign: 'center', fontSize:9, cellWidth:50},
+     6: {halign: 'center', fontSize:9, cellWidth:40},
+     7: {halign: 'center', fontSize:9, cellWidth:55}
+     },
      margin: { left: 15},
-     body: [['REFERENCIA','DESCRIPCIÓN','SUB. CCOST','CANT.','VLR. UNIT.','DESC%','TOTAL']]
+     body: [['','REFERENCIA','DESCRIPCIÓN','SUB. CCOST','CANT.','VLR. UNIT.','DESC%','TOTAL']]
    });
 
  // doc.save('Cotizacion_No_'+ this.consecutive+'.pdf');
@@ -1031,13 +1025,15 @@ console.log('este es el e:'+ +JSON.stringify(e));
        theme:'grid',
        styles: {fillColor: null,lineColor:[4,1,0],lineWidth:0.2},
        columnStyles: {
-         0: {halign: 'center', fontSize:9, cellWidth:23},
-         1: {halign: 'center', fontSize:9, cellWidth:55},
-         2: {halign: 'center', fontSize:9, cellWidth:185},
-         3: {halign: 'center', fontSize:9, cellWidth:27},
-         4: {halign: 'center', fontSize:9, cellWidth:40},
-         5: {halign: 'center', fontSize:9, cellWidth:39},
-         6: {halign: 'center', fontSize:9, cellWidth:42}  },
+        0: {halign: 'center', fontSize:9, cellWidth:20},
+        1: {halign: 'center', fontSize:9, cellWidth:30},
+        2: {halign: 'center', fontSize:9, cellWidth:140},
+        3: {halign: 'center', fontSize:9, cellWidth:50},
+        4: {halign: 'center', fontSize:9, cellWidth:25},
+        5: {halign: 'center', fontSize:9, cellWidth:50},
+        6: {halign: 'center', fontSize:9, cellWidth:40},
+        7: {halign: 'center', fontSize:9, cellWidth:55}
+        },
        margin: { left: 15},
        body: [ body_table ]
      });
@@ -1047,10 +1043,11 @@ console.log('este es el e:'+ +JSON.stringify(e));
       theme:'grid',
       styles: {fillColor: [215,215,215],lineColor:[4,1,0],lineWidth:0.2},
       columnStyles: {
-      0: {halign: 'center', fontSize:9, cellWidth:263},
-      1: {halign: 'center', fontSize:9, cellWidth:67},
-      2: {halign: 'center', fontSize:9, cellWidth:39},
-      3: {halign: 'center', fontSize:9, cellWidth:42} },
+      0: {halign: 'center', fontSize:9, cellWidth:250},
+      1: {halign: 'center', fontSize:9, cellWidth:55},
+      2: {halign: 'center', fontSize:9, cellWidth:40},
+      3: {halign: 'center', fontSize:9, cellWidth:68},
+      },
       margin: { left: 15},
       body: [['','TOTAL','DESC%','265,769']]
     });
@@ -1068,9 +1065,18 @@ console.log('este es el e:'+ +JSON.stringify(e));
     startY: doc.autoTable.previous.finalY,
     theme:'grid',
     styles: {fillColor: [215,215,215],lineColor:[4,1,0],lineWidth:0.2},
-    columnStyles: {0: {halign: 'center', fontSize:9, cellWidth:23},1: {halign: 'center', fontSize:9, cellWidth:190},2: {halign: 'center', fontSize:9, cellWidth:27},3: {halign: 'center', fontSize:9, cellWidth:63}, 4: {halign: 'center', fontSize:9, cellWidth:63}, 5: {halign: 'center', fontSize:9, cellWidth:46}  },
+    columnStyles: {
+    0: {halign: 'center', fontSize:9, cellWidth:20},
+    1: {halign: 'center', fontSize:9, cellWidth:30},
+    2: {halign: 'center', fontSize:9, cellWidth:140},
+    3: {halign: 'center', fontSize:9, cellWidth:50},
+    4: {halign: 'center', fontSize:9, cellWidth:25},
+    5: {halign: 'center', fontSize:9, cellWidth:50},
+    6: {halign: 'center', fontSize:9, cellWidth:40},
+    7: {halign: 'center', fontSize:9, cellWidth:55}
+    },
     margin: { left: 15},
-    body: [['REFERENCIA','DESCRIPCIÓN','SUB. CCOST','CANT.','VLR. UNIT.','DESC%','TOTAL']]
+    body: [['','REFERENCIA','DESCRIPCIÓN','SUB. CCOST','CANT.','VLR. UNIT.','DESC%','TOTAL']]
   });
  
  body_table = [1, 'A-09123', 'Limpiado de maquina', 'GIRON', '3', '98,433','10%',
@@ -1080,7 +1086,16 @@ console.log('este es el e:'+ +JSON.stringify(e));
      startY: doc.autoTable.previous.finalY,
      theme:'grid',
      styles: {fillColor: null,lineColor:[4,1,0],lineWidth:0.2},
-     columnStyles: {0: {halign: 'center', fontSize:8, cellWidth:23}, 1: {halign: 'left', fontSize:8, cellWidth:55},2: {halign: 'left', fontSize:8, cellWidth:185},3: {halign: 'center', fontSize:8, cellWidth:27},4: {halign: 'center', fontSize:8, cellWidth:40}, 5: {halign: 'center', fontSize:8, cellWidth:39}, 6: {halign: 'center', fontSize:8, cellWidth:42}  },
+     columnStyles: {
+      0: {halign: 'center', fontSize:9, cellWidth:20},
+      1: {halign: 'center', fontSize:9, cellWidth:30},
+      2: {halign: 'center', fontSize:9, cellWidth:140},
+      3: {halign: 'center', fontSize:9, cellWidth:50},
+      4: {halign: 'center', fontSize:9, cellWidth:25},
+      5: {halign: 'center', fontSize:9, cellWidth:50},
+      6: {halign: 'center', fontSize:9, cellWidth:40},
+      7: {halign: 'center', fontSize:9, cellWidth:55}
+      },
      margin: { left: 15},
      body: [ body_table ]
    });
@@ -1091,17 +1106,18 @@ console.log('este es el e:'+ +JSON.stringify(e));
     theme:'grid',
     styles: {fillColor: [215,215,215],lineColor:[4,1,0],lineWidth:0.2},
     columnStyles: {
-    0: {halign: 'center', fontSize:9, cellWidth:263},
-    1: {halign: 'center', fontSize:9, cellWidth:67},
-    2: {halign: 'center', fontSize:9, cellWidth:39},
-    3: {halign: 'center', fontSize:9, cellWidth:42} },
+      0: {halign: 'center', fontSize:9, cellWidth:250},
+      1: {halign: 'center', fontSize:9, cellWidth:55},
+      2: {halign: 'center', fontSize:9, cellWidth:40},
+      3: {halign: 'center', fontSize:9, cellWidth:68}
+    },
     margin: { left: 15},
     body: [['','TOTAL','DESC%','265,769']]
   });
 
   doc.save('Liquidación_No_'+ this.consecutive+'.pdf');
   // y=y+15;
-   console.log(this.filesImage.length+' oleole');
+  console.log(this.filesImage.length+' oleole');
    //doc.addPage();
   /*for (let i = 0; i < this.filesImage.length; i++) {
      console.log('este es el valor de los i');
