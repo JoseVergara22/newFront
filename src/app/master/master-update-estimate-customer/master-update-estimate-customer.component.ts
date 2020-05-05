@@ -517,9 +517,14 @@ export class MasterUpdateEstimateCustomerComponent implements OnInit {
 
       console.log('---trm----');
       console.log(data);
-      let trm = resp.data.value;
-      console.log(trm);
-     
+     /// let trm = resp.data.value;
+   
+      let trm ;
+      try{
+        trm =resp.data.value
+      }catch(error){
+        trm =resp.result.value
+      }
 
 
       trm = trm.toString().replace('.',',');
@@ -990,6 +995,7 @@ this.descriptionUpdate= item.description;
 this.quantityUpdate= item.quantity;
 this.unitCostUpdate  = item.unit_cost;
 this.priceListUpdate  = item.price_list;
+this.deliveryPartUpdate = item.delivery;
 
 
 this.suggestedPriceUpdate = this.finalFormatStandard(Number(item.price_suggest).toFixed(0));
@@ -1273,11 +1279,90 @@ console.log('Importante informacion: '+ this.conditionValidation);
   getConfigTrmInitial(){
     this.estimateService.getConfigTrm().then(data => {
       const resp: any = data;
+      console.log('Este es la API DE CONFIGURACIÓN-------');
+      console.log(data); 
+
+      console.log('TRM CURRENT '+ JSON.stringify(resp));
+
+    this.conditionTrmUsa=resp.data[0]; // Configuración de TRM USA
+    this.conditionTrmEsp=resp.data[1]; // Configuración de TRM ESP
+
+
+if(this.conditionTrmUsa.id==2){
+
+  if(this.conditionTrmUsa.id==2){
+    this.trmGeneralUsa=(Number(this.conditionTrmUsa.constant)).toFixed(2);
+    console.log('este es la TRMUSA '+ this.trmGeneralUsa);
+
+    
+    this.trmGeneralEsp= ( this.trmGeneralUsa*this.conditionTrmEsp.constant).toFixed(2);
+    console.log('este es la TRMESPAÑA '+ this.trmGeneralUsa);
+  }
+}else{
+  this.estimateService.showTrmCurrent().then(data => {
+    const resp: any = data;
+    // let trm = resp.data.value;
+    let trm ;
+    try{
+      trm =resp.data.value
+    }catch(error){
+      trm =resp.result.value
+    }
+    console.log('TRM CURRENT '+ JSON.stringify(resp));
+  
+    if(this.conditionTrmUsa.id==1){
+      this.trmGeneralUsa=trm;
+    }
+  
+  
+    if(this.conditionTrmUsa.id==3){
+  
+      console.log(trm);
+      console.log(this.conditionTrmUsa.constant);
+      this.trmGeneralUsa= trm+(Math.trunc(this.conditionTrmUsa.constant));
+    }
+  
+  
+    this.trmGeneralEsp= ( this.trmGeneralUsa*this.conditionTrmEsp.constant).toFixed(2);
+    console.log('este es la TRMESPAÑA '+ this.trmGeneralUsa);
+  
+  
+  
+    console.log('para ver el id');
+    console.log(this.conditionTrmUsa);
+  
+  
+  //  trm = trm.toString().replace('.',',');
+  //   let trmSecondPart =trm.substring(1);
+  //  let trmFirtsPart = trm.substring(0, 1);
+  //  this.trmGeneral= trmFirtsPart+'.'+trmSecondPart;
+  //  swal.close();
+    
+    console.log( this.cities);
+  }).catch(error => {
+    console.log(error);
+  });
+}
+    this.configTrm=resp.data;
+      swal.close();
+    }).catch(error => {
+      console.log(error);
+    });
+  }
+
+  
+
+ /* getConfigTrmInitial(){
+    this.estimateService.getConfigTrm().then(data => {
+      const resp: any = data;
       console.log('Este es la API DE CONFIGURACIÓN');
       console.log(data);
 
     this.conditionTrmUsa=resp.data[0]; // Configuración de TRM USA
     this.conditionTrmEsp=resp.data[1]; // Configuración de TRM ESP
+
+
+    
 
     this.estimateService.showTrmCurrent().then(data => {
       const resp: any = data;
@@ -1334,6 +1419,9 @@ console.log('Importante informacion: '+ this.conditionValidation);
       console.log(error);
     });
   }
+*/
+
+  
 
 
   getForkliftText(){

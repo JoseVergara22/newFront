@@ -80,8 +80,14 @@ export class MasterUpdateSettlementCustomerComponent implements OnInit {
   itemEstimate:itemEstimateInterface;
   itemsDetailEstimate: Array<itemEstimateDetailInterface> = [];
   itemDetailEstimate: itemEstimateDetailInterface;
+  detailCodes: any;
   selectedItemsDetail=[];
-
+  subcentersCost:any;
+  code:any;
+  fullCode: any=null;
+  fullCodeUpdate: any=null;
+  fullCodeCustomer: any=null;
+  
   myForm: FormGroup;
   myFormUpdate: FormGroup;
   submitted = false;
@@ -89,6 +95,7 @@ export class MasterUpdateSettlementCustomerComponent implements OnInit {
   rowsItems: any;
   rowsItemsWorkforce: any;
   rowsItemsparts: any;
+  rowsItemscustomer:any;
   rowsTemp: any;
   rowStatic: any;
   rows: any;
@@ -99,9 +106,12 @@ export class MasterUpdateSettlementCustomerComponent implements OnInit {
   contFiles=0;
   numberPage=1;
   limitPage;
-
   switchCreate = true;
   switchUpdate = true;
+
+  indicatorFullCodeCreatePart=0;
+  indicatorFullCodeCreatePartUpdate=0;
+
 
   scheduleSettlementCustomer: any;
   change = true;
@@ -139,15 +149,20 @@ export class MasterUpdateSettlementCustomerComponent implements OnInit {
   suggestedPrice :any = 0;
   price :any = 0;
   subtotal: any = 0;
-  code='';
   description='';
   delivery:any;
+  totalPrice:any=0;
+  totalPriceUpdate:any=0;
+  discountPart:any=0;
+  discountPartUpdate:any=0;
+  discountWorkforce:any=0;
+  discountCustomer:any=0;
 
   deliveryPart:any = 0;
   deliveryPartUpdate:any = 0;
   deliveryWorkForce:any = 0;
   deliveryWorkForceUpdate:any = 0;
-
+  
   quantityUpdate = 1;
   unitCostUpdate  = 0;
   weightUpdate  :any =0;
@@ -160,6 +175,8 @@ export class MasterUpdateSettlementCustomerComponent implements OnInit {
   descriptionUpdate='';
   deliveryUpdate:any;
 
+  totalPriceWorkforce=0;
+  totalPriceCustomer=0;
  
   now:any;
   user:any;
@@ -174,6 +191,10 @@ export class MasterUpdateSettlementCustomerComponent implements OnInit {
   selectedForkliftId:any=0;
   selectedRegionalId:any=0;
   selectedCostCenterId:any=0;
+  selectedSubcostCenterId:any=0;
+  selectedSubcostCenterUpdateId:any=0;
+  selectedSubcostCenterWorkforceId:any=0;
+  selectedSubcostCenterCustomerId:any=0;
 
   selectedScheduleOptionOne:any=0;
   switchScheduleOptionOne:any= false;
@@ -249,6 +270,14 @@ export class MasterUpdateSettlementCustomerComponent implements OnInit {
 
   blobGlobal:any;
 
+  customerCode: any;
+  customerDescription: any;
+  customerquantity: any;
+  customerSubtotal: any;
+  customerDelivery: any;
+  customerPrice:any=0;
+
+
   workforceCode: any;
   workforceService: any;
   workforcequantity: any;
@@ -290,7 +319,7 @@ export class MasterUpdateSettlementCustomerComponent implements OnInit {
   console.log('------------------');
   this.settlementId = this.rutaActiva.snapshot.params.id;
   this.showCreateItem = true;
-    this.getTrmCurrent();
+  
     this.showShippingCountriesDhlInitial();
     
     this.getRegionalsMaster();
@@ -298,14 +327,19 @@ export class MasterUpdateSettlementCustomerComponent implements OnInit {
 
     this.getSettlementSpecific(this.settlementId); 
 
+    this.getSettlementParts();
+    this.getSettlementWorkforce();
+    this.getSettlementCustomer();
+    this.getSettlementCodes();
+
     // this.showCountryWeight();
     console.log('importante info');
   
 
     this.loadingData();
 
-    // this.getEstimateParts();
-    // this.getEstimateWorkforce();
+    // this.getSettlementParts();
+    // this.getSettlementWorkforce();
     // this.getFilesEstimate();
 
     var date = new Date();
@@ -418,7 +452,7 @@ export class MasterUpdateSettlementCustomerComponent implements OnInit {
 
 
 
-   getEstimateWorkforce() {
+   getSettlementWorkforce() {
    
     if(this.settlementId){
       this.settlementService.getSettlementDetailsWorkforce(this.settlementId).then(data => {
@@ -444,11 +478,13 @@ export class MasterUpdateSettlementCustomerComponent implements OnInit {
    }
 
 
-   getEstimateParts() {
+   getSettlementParts() {
    
     if(this.settlementId){
       this.settlementService.getSettlementDetailsParts(this.settlementId).then(data => {
         const resp: any = data;
+        console.log('Partes '+JSON.stringify(data));
+
         this.rowsItemsparts=resp.data;
       
      /*   for (let i = 0; i < this.rowsItems.length; i++) {
@@ -466,10 +502,34 @@ export class MasterUpdateSettlementCustomerComponent implements OnInit {
       }).catch(error => {
         console.log(error);
       });
-  
     }
-  
    }
+
+   getSettlementCustomer() {
+   
+    if(this.settlementId){
+      this.settlementService.getSettlementDetailsCustomer(this.settlementId).then(data => {
+        const resp: any = data;
+        console.log('Partes '+JSON.stringify(data));
+
+      this.rowsItemscustomer=resp.data;
+      console.log('rowsItemscustomer'+ this.rowsItemscustomer);
+     /*   for (let i = 0; i < this.rowsItems.length; i++) {
+          this.itemEnd.push(+i+1+','+ this.rowsItems[i].code+','+this.rowsItems[i].description+','+this.rowsItems[i].quantity+','+this.rowsItems[i].unit_cost+','+this.rowsItems[i].price+','+this.rowsItems[i].delivery);
+        }*/
+
+        console.log('INFO PARA VER ITEMS PARA EL PDF');
+        console.log('Importante');
+        console.log(this.itemEnd.toString());
+        console.log('------------'+ this.itemEnd[0]);
+      
+        console.log(data);
+      }).catch(error => {
+        console.log(error);
+      });
+    }
+   }
+
 
    getCustomers() {
     this.restService.getCustomer().then(data => {
@@ -491,6 +551,37 @@ export class MasterUpdateSettlementCustomerComponent implements OnInit {
     });
    }
 
+
+   getSettlementCodes() {
+    if(this.settlementId){
+      this.settlementService.getSettlementCodes().then(data => {
+        const resp: any = data;
+        if(resp.success){
+          this.detailCodes =resp.data;
+        }
+ 
+        console.log(data);
+      }).catch(error => {
+        console.log(error);
+      });
+    }
+   }
+
+   getSettlementSubCenterCost() {
+    if(this.settlementId){
+      this.settlementService.getRegionalSubCenterCost(this.selectedRegionalId).then(data => {
+        const resp: any = data;
+        if(resp.success){
+          this.subcentersCost =resp.data;
+        }
+        console.log('codigos de parte '+JSON.stringify(data));
+        console.log(data);
+      }).catch(error => {
+        console.log(error);
+      });
+    }
+   }
+
    
 
    getTrmCurrent() {
@@ -498,11 +589,16 @@ export class MasterUpdateSettlementCustomerComponent implements OnInit {
     this.estimateService.showTrmCurrent().then(data => {
       const resp: any = data;
 
-
+      let trm ;
+      try{
+        trm =resp.data.value
+      }catch(error){
+        trm =resp.result.value
+      }
 
       console.log('---trm----');
       console.log(data);
-      let trm = resp.data.value;
+     // let trm = resp.data.value;
       console.log(trm);
      
 
@@ -741,12 +837,32 @@ getWarehouses() {
    }
 
 
+   validationFullCodeCreatePart(){
+   if(this.fullCode){
+   // this.indicatorFullCodeCreatePart 
+    if(this.fullCode.required_subcenter==1){ // Si es true se debe validar subcenter obligatorio
+      if(this.selectedSubcostCenterId!=0){
+        return this.indicatorFullCodeCreatePart=1; //asignamos 1 si esta el subcentro
+      }else{
+        return this.indicatorFullCodeCreatePart=2; //asignamos 2 si no hay subcento
+      }
+    }else{
+      return this.indicatorFullCodeCreatePart=3; // no require subcenter
+     }
+   }else{
+    return this.indicatorFullCodeCreatePart=4; // no hay code
+   }
+// es validar el 2 si devuelve 2 se pide subcenter 
+   }
+
    createEstimateDetail(){
     swal({
       title: 'Validando información ...',
       allowOutsideClick: false
     });
     swal.showLoading();
+    console.log('code '+this.code);
+   
 
      // console.log(this.lowPrice+ '--' +this.price+ '--'+ this.higherPrice);
    
@@ -763,33 +879,50 @@ getWarehouses() {
      console.log('arreglate porfavor');
      console.log('--->' + priceTemp+'---'+this.lowPrice+'--'+ this.higherPrice);
      console.log('-----' + Number(priceTemp)+'--->=----' + Number(this.lowPrice) +'----&&----' + Number(priceTemp) +'---<=---' + Number(this.higherPrice));
+
+     if(this.description!==''){
+     if(this.code!==''){
+     let indSubcenter= this.validationFullCodeCreatePart();
+       if(indSubcenter!=2){
+
      if(Number(priceTemp) >= Number(this.lowPrice) && Number(priceTemp) <= Number(this.higherPrice)){
 
-     let estimateIdDetailTemp= this.settlementId;
-     let codeTemp= this.code;
+     let settlementIdDetailTemp= this.settlementId;
+
+     let codeTemp;
+     if(this.fullCode){
+      codeTemp=this.fullCode.code;
+     }else{
+      codeTemp= this.code;
+     }
+
+     let fullCodeTemp = this.code;
      let descriptionTemp= this.description;
      let quantityTemp = this.quantity;
      let unitCostTemp = this.unitCost;
      let priceListTemp = this.priceList;
      let priceSuggestTemp = this.changeFormatDecimal(this.suggestedPrice);// this.suggestedPrice;
-     let daysTemp = this.days;
+     let discount = this.discountPart;
+    // let daysTemp = this.days;
      // priceTemp ya se asigno
     // let priceTemp = this.price;
      let deliveryPartTemp = this.deliveryPart;
      let weightTemp = this.weight;
-     let totalTemp =  this.changeFormatDecimal(this.subtotal)//this.subtotal.toString().replace('.','').replace(',','.');
+     let totalTemp =  this.changeFormatDecimal(this.totalPrice)//this.subtotal.toString().replace('.','').replace(',','.');
      let observationTemp = this.observation;
      let statusTemp = 0;
      console.log('Antes de guardar');
-     console.log(this.subtotal);
-     let subtotalTemp =  this.changeFormatDecimal(this.subtotal)
+     console.log(this.totalPrice);
+     let subtotalTemp =  this.changeFormatDecimal(this.totalPrice)
      let typeServiceTemp = 0;
      let weightTypeList = this.weightTypeList;
+
+     let subcenterId= this.selectedSubcostCenterId;
      console.log('estos son los puntos');
- 
-     this.estimateService.createEstimateDetails(estimateIdDetailTemp,codeTemp,descriptionTemp,
+
+     this.settlementService.createSettlementDetails(settlementIdDetailTemp,codeTemp,descriptionTemp,
       quantityTemp, unitCostTemp, priceListTemp, priceSuggestTemp, weightTemp,
-      priceTemp, subtotalTemp, deliveryPartTemp, totalTemp,statusTemp, typeServiceTemp, weightTypeList).then(data => {
+      priceTemp, subtotalTemp, deliveryPartTemp, totalTemp,statusTemp, typeServiceTemp, weightTypeList,subcenterId,discount,fullCodeTemp).then(data => {
        const resp: any = data;
        swal({
         title: 'Item creado',
@@ -798,87 +931,9 @@ getWarehouses() {
        document.getElementById( 'createItemHide').click();
        this.clearFormDetail();
       // this.getEstimateDetails();
-       this.getEstimateWorkforce();
-       this.getEstimateParts();
-
-       console.log(resp);
-     }).catch(error => {
-
-      swal({
-        title: 'Se presento un problema, para guardar este item',
-        type: 'error'
-       });
-
-       console.log(error);
-     });
-    }else{
-      swal({
-        title: 'Se presentó un problema ----' + priceTemp+'---'+this.lowPrice+'--'+ this.higherPrice,
-        text: 'El precio asignado está por debajo del sugerido o está por encima del porcentaje permitido',
-        type: 'error'
-       });
-    }
-
-   }
-
-   changeFormatDecimal(price: any){
-    let priceTempStr = price.toString();
-    priceTempStr = priceTempStr.split('.').join('');
-    let priceTemp= priceTempStr.replace(',','.');
-    return priceTemp;
-   }
-
-   updateEstimateDetail(){
-    swal({
-      title: 'Validando información ...',
-      allowOutsideClick: false
-    });
-    swal.showLoading();
-     // console.log(this.lowPrice+ '--' +this.price+ '--'+ this.higherPrice);
-     let priceUpdateTemp=  this.changeFormatDecimal(this.priceUpdate);// 
-     this.lowPriceUpdate = this.changeFormatDecimal(this.suggestedPriceUpdate);
-     this.higherPriceUpdate = Number(this.lowPriceUpdate *(1+(this.suggestedMaximum/100))).toFixed(0);
-     console.log('info de importante');
-     console.log('----'+priceUpdateTemp+ '----'+ this.lowPriceUpdate+'---'+  this.higherPriceUpdate + '---' + this.suggestedMaximum);
-     // cambio YCV 
-
-     if(Number(priceUpdateTemp) >= Number(this.lowPriceUpdate) && Number(priceUpdateTemp) <= Number(this.higherPriceUpdate)){
-
-     let estimateIdDetailTemp= this.idDetail;
-     let codeTemp= this.codeUpdate;
-     let descriptionTemp= this.descriptionUpdate;
-     let quantityTemp = this.quantityUpdate;
-     let unitCostTemp = this.unitCostUpdate;
-     let priceListTemp = this.priceListUpdate;
-     let priceSuggestTemp = this.changeFormatDecimal(this.suggestedPriceUpdate);
-     let daysTemp = this.daysUpdate;
-     // let priceTemp = this.priceUpdate;
-     let deliveryPartTemp = this.deliveryPartUpdate;
-     let weightTemp = this.weightUpdate;
-     let totalTemp = this.changeFormatDecimal(this.subtotalUpdate);
-     let observationTemp = this.observationUpdate;
-     let statusTemp = 0;
-     console.log('Antes de guardar');
-     console.log(this.subtotalUpdate);
-     let subtotalTemp = this.changeFormatDecimal(this.subtotalUpdate);
-     let typeServiceTemp = 0;
-     let weightTypeTemp = this.weightTypeListUpdate;
-
- 
-     this.estimateService.updateEstimateDetails(estimateIdDetailTemp,codeTemp,descriptionTemp,
-      quantityTemp, unitCostTemp, priceListTemp, priceSuggestTemp, weightTemp,
-      priceUpdateTemp, subtotalTemp, deliveryPartTemp, totalTemp,statusTemp, typeServiceTemp,weightTypeTemp).then(data => {
-       const resp: any = data;
-       swal({
-        title: 'Item actualizado',
-        type: 'success'
-       });
-       
-       document.getElementById( 'updateItemHide').click();
-       this.clearFormDetailUpdate();
-      // this.getEstimateDetails();
-       this.getEstimateWorkforce();
-       this.getEstimateParts();
+       this.getSettlementWorkforce();
+       this.getSettlementParts();
+      // this.getSettlementCustomer();
 
        console.log(resp);
      }).catch(error => {
@@ -897,6 +952,171 @@ getWarehouses() {
         type: 'error'
        });
     }
+  }else{
+    swal({
+      title: 'Se presentó un problema',
+      text: 'El campo subcentro es requerido es requerido',
+      type: 'error'
+     });
+  }
+  }else{
+    swal({
+      title: 'Se presentó un problema',
+      text: 'El campo código es requerido',
+      type: 'error'
+     });
+  }
+}else{
+    swal({
+      title: 'Se presentó un problema',
+      text: 'El campo descripción es requerido',
+      type: 'error'
+     });
+  }
+
+   }
+
+   changeFormatDecimal(price: any){
+    let priceTempStr = price.toString();
+    priceTempStr = priceTempStr.split('.').join('');
+    let priceTemp= priceTempStr.replace(',','.');
+    return priceTemp;
+   }
+
+   validationFullCodeCreatePartUpdate(){
+     try{
+    if(this.fullCodeUpdate){
+    // this.indicatorFullCodeCreatePart 
+     if(this.fullCodeUpdate.required_subcenter==1){ // Si es true se debe validar subcenter obligatorio
+       if(this.selectedSubcostCenterUpdateId!=0){
+         return this.indicatorFullCodeCreatePartUpdate=1; //asignamos 1 si esta el subcentro
+       }else{
+         return this.indicatorFullCodeCreatePartUpdate=2; //asignamos 2 si no hay subcento
+       }
+     }else{
+       return this.indicatorFullCodeCreatePartUpdate=3; // no require subcenter
+      }
+    }else{
+     return this.indicatorFullCodeCreatePartUpdate=4; // no hay code
+    }
+  }catch(err){
+    return this.indicatorFullCodeCreatePartUpdate=4;
+  }
+ // es validar el 2 si devuelve 2 se pide subcenter 
+    }
+
+
+   updateSettlementDetail(){
+    swal({
+      title: 'Validando información ...',
+      allowOutsideClick: false
+    });
+    swal.showLoading();
+     // console.log(this.lowPrice+ '--' +this.price+ '--'+ this.higherPrice);
+     let priceUpdateTemp=  this.changeFormatDecimal(this.priceUpdate);// 
+     this.lowPriceUpdate = this.changeFormatDecimal(this.suggestedPriceUpdate);
+     this.higherPriceUpdate = Number(this.lowPriceUpdate *(1+(this.suggestedMaximum/100))).toFixed(0);
+     console.log('info de importante');
+     console.log('----'+priceUpdateTemp+ '----'+ this.lowPriceUpdate+'---'+  this.higherPriceUpdate + '---' + this.suggestedMaximum);
+     // cambio YCV 
+     if(this.descriptionUpdate!==''){
+      if(this.codeUpdate!==''){
+      let indSubcenter= this.validationFullCodeCreatePartUpdate();
+      
+      if(indSubcenter!=2){
+
+     if(Number(priceUpdateTemp) >= Number(this.lowPriceUpdate) && Number(priceUpdateTemp) <= Number(this.higherPriceUpdate)){
+
+      let codeTemp;
+      if(this.fullCodeUpdate){
+       codeTemp=this.fullCodeUpdate.code;
+      }else{
+       codeTemp= this.codeUpdate;
+      }
+
+     let fullCodeTemp = this.codeUpdate;
+     let settlementIdDetailTemp= this.settlementId;
+    
+     let descriptionTemp= this.descriptionUpdate;
+     let quantityTemp = this.quantityUpdate;
+     let unitCostTemp = this.unitCostUpdate;
+     let priceListTemp = this.priceListUpdate;
+     let priceSuggestTemp = this.changeFormatDecimal(this.suggestedPriceUpdate);
+     //let daysTemp = this.daysUpdate;
+     // let priceTemp = this.priceUpdate;
+     let deliveryPartTemp = this.deliveryPartUpdate;
+     let weightTemp = this.weightUpdate;
+     let totalTemp = this.changeFormatDecimal(this.subtotalUpdate);
+     let observationTemp = this.observationUpdate;
+     let statusTemp = 0;
+     let discountTemp= this.discountPartUpdate;
+     console.log('Antes de guardar');
+     console.log(this.subtotalUpdate);
+     let subtotalTemp = this.changeFormatDecimal(this.subtotalUpdate);
+     let typeServiceTemp = 0;
+     let weightTypeTemp = this.weightTypeListUpdate;
+     let subcenterId= this.selectedSubcostCenterUpdateId;
+
+     this.settlementService.updateSettlementDetails(settlementIdDetailTemp,codeTemp,descriptionTemp,
+      quantityTemp, unitCostTemp, priceListTemp, priceSuggestTemp, weightTemp,
+      priceUpdateTemp, subtotalTemp, deliveryPartTemp, totalTemp,statusTemp, typeServiceTemp,weightTypeTemp,subcenterId,
+       discountTemp, fullCodeTemp ).then(data => {
+       const resp: any = data;
+       swal({
+        title: 'Item actualizado',
+        type: 'success'
+       });
+       
+       document.getElementById( 'updateItemHide').click();
+       this.clearFormDetailUpdate();
+      // this.getEstimateDetails();
+       this.getSettlementWorkforce();
+       this.getSettlementParts();
+       // this.getSettlementCustomer();
+
+       console.log(resp);
+     }).catch(error => {
+
+      swal({
+        title: 'Se presento un problema, para guardar este item',
+        type: 'error'
+       });
+
+       console.log(error);
+     });
+    }else{
+      swal({
+        title: 'Se presentó un problema',
+        text: 'El precio asignado está por debajo del sugerido o está por encima del porcentaje permitido',
+        type: 'error'
+       });
+    }
+  }else{
+    swal({
+      title: 'Se presentó un problema',
+      text: 'El campo subcentro es requerido es requerido',
+      type: 'error'
+     });
+  }
+  }else{
+    swal({
+      title: 'Se presentó un problema',
+      text: 'El campo código es requerido',
+      type: 'error'
+     });
+  }
+}else{
+    swal({
+      title: 'Se presentó un problema',
+      text: 'El campo descripción es requerido',
+      type: 'error'
+     });
+  }
+
+
+
+
+
    }
 
 
@@ -910,7 +1130,7 @@ getWarehouses() {
     swal.showLoading();
 
      // console.log(this.lowPrice+ '--' +this.price+ '--'+ this.higherPrice);
-     let estimateIdDetailTemp= this.workforceDetailIdUpdate;
+     let settlementIdDetailTemp= this.workforceDetailIdUpdate;
      let codeTemp= this.workforceCodeUpdate;
      let serviceTemp= this.workforceServiceUpdate;
      let quantityTemp = this.workforcequantityUpdate;
@@ -921,7 +1141,7 @@ getWarehouses() {
      let typeServiceTemp = 1;
 
  
-     this.estimateService.updateEstimateDetailWorkforce(estimateIdDetailTemp,codeTemp,serviceTemp,
+     this.estimateService.updateEstimateDetailWorkforce(settlementIdDetailTemp,codeTemp,serviceTemp,
       quantityTemp, hourValueTemp, subtotalTemp, deliveryTemp, subtotalTemp,statusTemp, typeServiceTemp).then(data => {
        const resp: any = data;
        swal({
@@ -933,8 +1153,9 @@ getWarehouses() {
 
        this.clearFormDetailWorkUpdate();
       // this.getEstimateDetails();
-       this.getEstimateWorkforce();
-       this.getEstimateParts();
+       this.getSettlementWorkforce();
+       this.getSettlementParts();
+      // this.getSettlementCustomer();
 
        console.log(resp);
      }).catch(error => {
@@ -1064,8 +1285,9 @@ getWarehouses() {
   
 console.log('-----------------------');
 console.log(item);
+this.onChangeCodeUpdate(item.full_code);
 this.idDetail = item.id;
-this.codeUpdate= item.code;
+this.codeUpdate= item.full_code;
 this.descriptionUpdate= item.description;
 this.quantityUpdate= item.quantity;
 this.unitCostUpdate  = item.unit_cost;
@@ -1076,6 +1298,9 @@ this.subtotalUpdate =this.finalFormatStandard( Number(item.subtotal).toFixed(0))
 this.deliveryUpdate =  item.delivery;
 this.weightUpdate = item.weight;
 this.weightTypeListUpdate = item.weight_type;
+this.selectedSubcostCenterUpdateId = item.subcost_center_id;
+this.discountPartUpdate= item.discount;
+this.totalPriceUpdate= this.finalFormatStandard( Number(item.subtotal).toFixed(0));
 
     console.log(item);
     document.getElementById( 'uploadItem').click();
@@ -1185,8 +1410,9 @@ this.weightTypeListUpdate = item.weight_type;
             title: 'Elemento eliminado',
             type: 'success'
            });
-           this.getEstimateWorkforce();
-           this.getEstimateParts(); 
+           this.getSettlementWorkforce();
+           this.getSettlementParts(); 
+          // this.getSettlementCustomer();
           }
           }).catch(error => {
             console.log(error);
@@ -1356,8 +1582,13 @@ console.log('Importante informacion: '+ this.conditionValidation);
 
     this.estimateService.showTrmCurrent().then(data => {
       const resp: any = data;
-      let trm = resp.data.value;
-
+    //   let trm = resp.data.value;
+      let trm ;
+      try{
+        trm =resp.data.value
+      }catch(error){
+        trm =resp.result.value
+      }
 
       if(this.conditionTrmUsa.id==1){
         this.trmGeneralUsa=trm;
@@ -1410,7 +1641,7 @@ console.log('Importante informacion: '+ this.conditionValidation);
 
   
   onChangeScheduleOptionOne(event:any){
-    console.log('optionOne '+event);
+   // console.log('optionOne '+JSON.stringify(event));
     this.switchScheduleOptionOne = event;
     console.log(this.selectedScheduleOptionOne);
   }
@@ -1511,7 +1742,38 @@ console.log('Importante informacion: '+ this.conditionValidation);
     this.forkliftText=this.selectedForkliftId.full_name;
   }
   
-  
+  onChangeCode(detailCode:any){
+    console.log(detailCode);
+
+    for (let i = 0; i < this.detailCodes.length; i++) {
+      if(this.detailCodes[i].full_description==detailCode){
+            this.fullCode=this.detailCodes[i];
+      }
+    }
+    console.log(JSON.stringify(this.fullCode));    
+  }
+
+  onChangeCodeUpdate(detailCode:any){
+    console.log(detailCode);
+
+    for (let i = 0; i < this.detailCodes.length; i++) {
+      if(this.detailCodes[i].full_description==detailCode){
+            this.fullCodeUpdate=this.detailCodes[i];
+      }
+    }
+    console.log(JSON.stringify(this.fullCodeUpdate));    
+  }
+
+  onChangeCustomerCode(detailCode:any){
+    console.log(detailCode);
+
+    for (let i = 0; i < this.detailCodes.length; i++) {
+      if(this.detailCodes[i].full_description==detailCode){
+            this.fullCodeCustomer=this.detailCodes[i];
+      }
+    }
+    console.log(JSON.stringify(this.fullCode));    
+  }
 
   getConfigEstimatesInitial(){
     this.estimateService.getConfigEstimates().then(data => {
@@ -1608,28 +1870,31 @@ console.log(country+'-'+item.estimate_countries_id+'-'+item.conexion_id_validati
     if(this.priceList==5 || this.priceList==6){
       console.log('calculo diferente');
       if(this.priceList==5 ){
-        this.suggestedPrice =Number(Number(this.unitCost/this.thirdService).toFixed(0));
+        this.suggestedPrice =Number(Number(this.unitCost/this.thirdService)).toFixed(0);
         this.price =   this.suggestedPrice;
         this.subtotal=  this.suggestedPrice*this.quantity;
         this.lowPrice = this.suggestedPrice;
         this.higherPrice=Number(this.suggestedPrice *(1+(this.suggestedMaximum/100))).toFixed(0);
-        console.log('Precion bajo: ' + this.lowPrice);
-        console.log('Precion alto: ' + this.higherPrice);
-        
+        console.log('Precio : ' + this.suggestedPrice);
+        console.log('Precio bajo: ' + this.lowPrice);
+        console.log('Precio alto: ' + this.higherPrice);
       }else if (this.priceList==6) {
-        this.suggestedPrice =Number(Number(this.unitCost/ this.nationalService).toFixed(0));
+        this.suggestedPrice =Number(Number(this.unitCost/ this.nationalService)).toFixed(0);
         this.price =   this.suggestedPrice;
         this.subtotal=  this.suggestedPrice*this.quantity;
         this.lowPrice = this.suggestedPrice;
         this.higherPrice=Number(this.suggestedPrice *(1+(this.suggestedMaximum/100))).toFixed(0);
-        console.log('Precion bajo: ' + this.lowPrice);
-        console.log('Precion alto: ' + this.higherPrice);
+        console.log('Precio : ' + this.suggestedPrice);
+        console.log('Precio bajo: ' + this.lowPrice);
+        console.log('Precio alto: ' + this.higherPrice);
       } 
     }else{
-      console.log('ingreso para el flete 123');
+      console.log('ingreso');
+      console.log('paso 29-04-20');
       this.calculateFreight(this.weight, this.unitCost);
     }
     }
+
     if(this.unitCost!==0 && this.priceList!==0 && this.quantity!==0){
       if(this.priceList==7){
         console.log('calculo simple');
@@ -1647,21 +1912,23 @@ console.log(country+'-'+item.estimate_countries_id+'-'+item.conexion_id_validati
       if(this.priceList==5 || this.priceList==6){
         console.log('calculo diferente');
         if(this.priceList==5 ){
-          this.suggestedPrice = Number(Number(this.unitCost/this.thirdService).toFixed(0));
+          this.suggestedPrice = Number(Number(this.unitCost/this.thirdService)).toFixed(0);
           this.price =   this.suggestedPrice;
           this.subtotal=  this.suggestedPrice*this.quantity;
           this.lowPrice = this.suggestedPrice;
           this.higherPrice=Number(this.suggestedPrice *(1+(this.suggestedMaximum/100))).toFixed(0);
-          console.log('Precion bajo: ' + this.lowPrice);
-          console.log('Precion alto: ' + this.higherPrice);
+          console.log('Precio : ' + this.suggestedPrice);
+          console.log('Precio bajo: ' + this.lowPrice);
+          console.log('Precio alto: ' + this.higherPrice);
         }else if (this.priceList==6) {
-          this.suggestedPrice =Number(Number(this.unitCost/ this.nationalService).toFixed(0));
+          this.suggestedPrice =Number(Number(this.unitCost/ this.nationalService)).toFixed(0);
           this.price =   this.suggestedPrice;
           this.subtotal=  this.suggestedPrice*this.quantity;
           this.lowPrice = this.suggestedPrice;
-        this.higherPrice=Number(this.suggestedPrice *(1+(this.suggestedMaximum/100))).toFixed(0);
-        console.log('Precion bajo: ' + this.lowPrice);
-        console.log('Precion alto: ' + this.higherPrice);
+          this.higherPrice=Number(this.suggestedPrice *(1+(this.suggestedMaximum/100))).toFixed(0);
+          console.log('Precio : ' + this.suggestedPrice);
+          console.log('Precio bajo: ' + this.lowPrice);
+          console.log('Precio alto: ' + this.higherPrice);
         } 
       }
 
@@ -1670,8 +1937,6 @@ console.log(country+'-'+item.estimate_countries_id+'-'+item.conexion_id_validati
     this.suggestedPrice= this.finalFormat(this.suggestedPrice);
     this.price= this.finalFormat(this.price);
     this.subtotal= this.finalFormat(this.subtotal);
-    console.log(this.subtotal);
-    console.log('---------------------');
     console.log(this.weight);
   }
 
@@ -1756,94 +2021,94 @@ console.log(country+'-'+item.estimate_countries_id+'-'+item.conexion_id_validati
 
 
   
-finalOperation(country:number){
+  finalOperation(country:number){
 
-  //Variables necesarias para  el calculo
-  // this.freightGeneral  this.managementVariables this.finalWeight
-  console.log('Ingreso hasta aquí');
-   let drivingCost=0;
-console.log('yeison');
-  if(this.conditionValidation==3){
-    drivingCost=Number(this.managementVariables)+this.unitCost*(Number(this.managmentTariff)/100);;
-    console.log('costo de manejo');
-    console.log(drivingCost);
+    //Variables necesarias para  el calculo
+    // this.freightGeneral  this.managementVariables this.finalWeight
+    console.log('Ingreso hasta aquí');
+     let drivingCost=0;
+  
+    if(this.conditionValidation==3){
+      drivingCost=Number(this.managementVariables)+this.unitCost*(Number(this.managmentTariff)/100);;
+      console.log('costo de manejo');
+      console.log(drivingCost);
+     
+    }else{
+      //if(country==4){
+        drivingCost=this.unitCost*Number(this.managementVariables)+this.unitCost*(Number(this.managmentTariff)/100);//10
+      /*}else{
+        drivingCost=this.unitCost*Number(this.managementVariables);
+      }*/
+     
+    }
+  
+    let operationFreight=0;
+  
+    if(this.conditionValidation==2){
+       operationFreight = Number(Number(this.freightGeneral).toFixed(2))*1;
+    }else{
+       operationFreight = Number(Number(this.freightGeneral).toFixed(2))*this.finalWeight;
+    }
+  
+    console.log('driving '+drivingCost);
+    // let operationFreight = this.freightGeneral*this.finalWeight;
+    console.log('operation '+ this.freightGeneral);
+  
+    this.costTotalGlobal=  Number(this.unitCost) +  Number(operationFreight) +  Number(drivingCost);
+    console.log(this.costTotalGlobal);
+    console.log('Costo total '+ this.unitCost+'-'+operationFreight+'-'+drivingCost);
    
-  }else{
-   // if(country==4){
-      console.log('456');
-      drivingCost=this.unitCost*Number(this.managementVariables)+this.unitCost*(Number(this.managmentTariff)/100);//10
-  //  }else{
-    //  console.log('123');
-    //  drivingCost=this.unitCost*Number(this.managementVariables)+this.unitCost*(Number(this.managmentTariff)/100);//10
-      // drivingCost=this.unitCost*Number(this.managementVariables);
-     //  drivingCost= drivingCost*(Number(this.managmentTariff)/100);
-      
-     // drivingCost=this.unitCost*Number(this.managementVariables)+this.unitCost*(Number(this.managmentTariff)/100);//10
-    // }
+    let dolar; //llamar api medata
+    if(country==3){
+      dolar=this.trmGeneralEsp;
+    }else{
+      dolar=this.trmGeneralUsa;
+    }
+  
    
-  }
-
-  let operationFreight=0;
-
-  if(this.conditionValidation==2){
-     operationFreight = Number(Number(this.freightGeneral).toFixed(2))*1;
-  }else{
-     operationFreight = Number(Number(this.freightGeneral).toFixed(2))*this.finalWeight;
-  }
-
-
-  console.log('fase final'+ Number(operationFreight));
-  console.log('driving '+drivingCost);
-  // let operationFreight = this.freightGeneral*this.finalWeight;
-  console.log('operation '+ this.freightGeneral);
-
-  this.costTotalGlobal=  Number(this.unitCost) +  Number(operationFreight) +  Number(drivingCost);
-  console.log(this.costTotalGlobal);
-  console.log('Costo total '+ this.unitCost+'-'+operationFreight+'-'+drivingCost);
- 
-  let dolar; //llamar api medata
-  if(country==3){
-    dolar=this.trmGeneralEsp;
-  }else{
-    dolar=this.trmGeneralUsa;
-  }
-
-  console.log(this.costTotalGlobal+'--------------------'+dolar);
-  let costPesos=this.costTotalGlobal*dolar;
-  this.costPesosGlobal= costPesos;
-
-
-  console.log( this.costPesosGlobal);
-
-  let margin;
-  if(this.selectedBusinessId){
-    if(this.selectedBusinessId.price_margin){
-        margin= (Number(this.selectedBusinessId.price_margin))/100;
+    console.log(this.costTotalGlobal+'--------------------'+dolar);
+    console.log(Number(dolar)*1);
+    let costPesos=this.costTotalGlobal*dolar;
+    this.costPesosGlobal= costPesos;
+  
+  
+    console.log( this.costPesosGlobal);
+  
+    let margin;
+    console.log(this.currentSettlement);
+   console.log('actual '+this.currentSettlement.price_margin);
+    if(this.currentSettlement){
+      console.log('entro');
+      if( this.currentSettlement.customer.price_margin != 0){
+          margin= (Number(this.currentSettlement.customer.price_margin))/100;
+      }else{
+        margin=Number(this.newCustomerMargin)/100
+      }
     }else{
       margin=Number(this.newCustomerMargin)/100
     }
-  }else{
-    margin=Number(this.newCustomerMargin)/100
+  
+    console.log(margin);
+    console.log('margin');
+  
+  
+    // llamar api para cada usuario y configurar clientes que no existan
+    this.salePrice=costPesos/(1-margin);
+    this.suggestedPrice=((Number(this.salePrice)).toFixed(0));
+    this.lowPrice = this.suggestedPrice;
+    this.higherPrice = Number(this.suggestedPrice *(1+(this.suggestedMaximum/100))).toFixed(0);
+  
+    console.log('Este es el precio bajo:'+ this.lowPrice);
+    console.log('Este es el precio alto' + this.higherPrice);
+    console.log( this.lowPrice +'-----'+ this.higherPrice);
+  
+    this.price=Number(this.salePrice).toFixed(0);
+    this.subtotal=(Number(this.salePrice)*Number(this.quantity)).toFixed(0);
+
+    let totalPart =  Number((this.price*this.quantity)-((this.price*this.quantity)*(this.discountPart/100))).toFixed(0);
+    this.totalPrice= this.finalFormat(totalPart);
+
   }
-
-  console.log('margin');
-  console.log(margin);
-
-
-  // llamar api para cada usuario y configurar clientes que no existan
-  this.salePrice=costPesos/(1-margin);
-  this.suggestedPrice=((Number(this.salePrice)).toFixed(0));
-  this.lowPrice = this.suggestedPrice;
-  this.higherPrice = Number(this.suggestedPrice *(1+(this.suggestedMaximum/100))).toFixed(0);
-
-  console.log('Este es el precio bajo: '+ this.lowPrice);
-  console.log('Este es el precio alto: ' + this.higherPrice);
-  console.log( this.lowPrice +'-----'+ this.higherPrice);
-
-  this.price=Number(this.salePrice).toFixed(0)
-  this.subtotal=(Number(this.salePrice)*Number(this.quantity)).toFixed(0);
-}
-
 
 finalOperationUpdate(country:number){
 
@@ -1921,6 +2186,9 @@ finalOperationUpdate(country:number){
 
   this.priceUpdate=Number(this.salePriceUpdate).toFixed(0);
   this.subtotalUpdate=(Number(this.salePriceUpdate)*Number(this.quantityUpdate)).toFixed(0);
+
+  let totalPart =  Number((this.priceUpdate*this.quantityUpdate)-((this.priceUpdate*this.quantityUpdate)*(this.discountPartUpdate/100))).toFixed(0);
+    this.totalPriceUpdate= this.finalFormat(totalPart);
 }
 
 
@@ -2206,8 +2474,12 @@ getSettlementSpecific(id:number) {
     console.log('departamento '+this.currentSettlement.department_id);
     this.selectedDepartmentId = this.currentSettlement.department_id;
     this.numberEstimate = this.currentSettlement.estimate_order;
+    this.getConfigEstimatesInitial();
+    this.getConfigTrmInitial();
     this.getCities();
+    this.getTrmCurrent();
     this.getCenterCost();
+    this.getSettlementSubCenterCost();
     this.selectedCityId = this.currentSettlement.city_id;
     this.selectedCostCenterId = this.currentSettlement.cost_center_id;
     this.selectedWarehouseId = this.currentSettlement.warehouse_id;
@@ -2668,13 +2940,21 @@ showSettlementEstimateCustomer(){
       this.itemsDetailEstimate=[];
       item.estimate_details_settlement.forEach((itemDetail)=>{
       
+        let activeDetail=false;
+        console.log('consolidado '+this.selectedItemsDetail+' '+itemDetail.id);
+        if(this.selectedItemsDetail.length>0){
+          var index = this.selectedItemsDetail.indexOf(itemDetail.id);
+          if (index !== -1) {
+             activeDetail=true;
+          }
+        }
         this.itemDetailEstimate={
           id:itemDetail.id,
           code: itemDetail.code,
           description: itemDetail.description,
           quantity: itemDetail.quantity,
           subtotal: itemDetail.total_decimal,
-          active: false
+          active: activeDetail
         }
         
         this.itemsDetailEstimate.push(this.itemDetailEstimate);
@@ -2767,6 +3047,42 @@ showSettlementEstimateForklift(){
     });
 } 
 
+createDetailsEstimateSettlement(){
+  swal({
+    title: 'Validando información ...',
+    allowOutsideClick: false
+  });
+  swal.showLoading();
+
+  this.settlementService.copyEstimateToSettlement(this.currentSettlement.id,this.selectedItemsDetail ).then(data => {
+
+    let resp:any=data;
+   // let respSettlementForklift:any= data;
+    //this.settlementEstimatesForklift=respSettlementForklift.data;
+    console.log(data);
+
+    if(resp.success==true){
+      this.getSettlementParts();
+      this.getSettlementWorkforce();
+
+      swal({
+        title: 'Se crearon los detalles correctamente',
+        type: 'success'
+       });
+       document.getElementById('hideEstimateCustomers').click();
+    }else{
+      swal({
+        title: 'Se presento un problema, para guardar los detalles',
+        type: 'error'
+       });
+    }
+    // document.getElementById('showModalProgramming').click();
+
+    }).catch(error => {
+    console.log(error);
+    swal.close();
+    });
+} 
 
 
 showSettlementEstimateBusiness(){
@@ -2908,8 +3224,8 @@ console.log('acaaaaaaaaaaaaa');
        document.getElementById('createItemHideDetailWorkforce').click();
        this.clearFormDetailWork();
       // this.getEstimateDetails();
-       this.getEstimateParts();
-       this.getEstimateWorkforce();
+       this.getSettlementParts();
+       this.getSettlementWorkforce();
 
        console.log(resp);
      }).catch(error => {
@@ -2957,6 +3273,15 @@ console.log('acaaaaaaaaaaaaa');
     this.workforceSubtotal = Number(value).toFixed(0);
     console.log('this.workforceSubtotal ----- '+this.workforceSubtotal);
     this.finalFormaHourValueSubtotal();
+   // this.workforceSubtotal =  this.changeFormatDecimal(this.workforceSubtotal);
+   }
+
+   calculateSubtotalCustomer(){
+    console.log('calular de subtotal actualizar');
+    let customerPriceTemp = this.changeFormatDecimal(this.customerPrice);
+    let value =  this.customerquantity*customerPriceTemp;
+    this.customerSubtotal = Number(value).toFixed(0);
+    this.finalFormaCustomerSubtotal();
    // this.workforceSubtotal =  this.changeFormatDecimal(this.workforceSubtotal);
    }
 
@@ -3225,7 +3550,9 @@ console.log('Solo se permiten numeros');
     let priceTemp = this.changeFormatDecimal(this.price);
      // =this.price.toString().replace('.','').replace(',','.');
      let value =  priceTemp*this.quantity;
+     let totalPart =  Number((priceTemp*this.quantity)-((priceTemp*this.quantity)*(this.discountPart/100))).toFixed(0);
      this.subtotal= this.finalFormat(value);
+     this.totalPrice= this.finalFormat(totalPart);
     console.log('subtotal--- ' + this.subtotal);
     
   }
@@ -3236,6 +3563,8 @@ console.log('Solo se permiten numeros');
      // =this.price.toString().replace('.','').replace(',','.');
     let value =  priceUpdateTemp*this.quantityUpdate;
      this.subtotalUpdate= this.finalFormat(value);
+     let totalPartUpdate =  Number((priceUpdateTemp*this.quantityUpdate)-((priceUpdateTemp*this.quantityUpdate)*(this.discountPartUpdate/100))).toFixed(0);
+     this.totalPriceUpdate= this.finalFormat(totalPartUpdate);
     console.log('subtotal-- ' + this.subtotalUpdate);
     
   }
@@ -3311,6 +3640,24 @@ console.log('Solo se permiten numeros');
         this.workforceSubtotal=splitLeft +splitRight;
         }
 
+
+        finalFormaCustomerSubtotal(){
+          var num = this.customerSubtotal;//this.changeFormatDecimal(this.customerSubtotal); // this.changeFormatDecimal(this.workforceHourValue);
+          console.log(num);
+          num +='';
+          var splitStr = num.split('.');
+          var splitLeft = splitStr[0];
+          var splitRight = splitStr.length > 1 ? ',' + splitStr[1] : '';
+          var regx = /(\d+)(\d{3})/;
+          while (regx.test(splitLeft)) {
+          splitLeft = splitLeft.replace(regx, '$1' + '.' + '$2');
+          console.log(splitLeft);
+          }
+          console.log('Importante oleole');
+          console.log(splitLeft +splitRight);
+          this.customerSubtotal=splitLeft +splitRight;
+          }
+
         finalFormaHourValueSubtotalUpdate(){
           var num = this.workforceSubtotalUpdate;//this.changeFormatDecimal(this.workforceSubtotalUpdate); // this.changeFormatDecimal(this.workforceHourValue);
           console.log(num);
@@ -3378,6 +3725,10 @@ console.log('Solo se permiten numeros');
           this.price=0;
           this.subtotal=0;
           this.deliveryPart=0;
+          this.totalPrice=0;
+          this.selectedSubcostCenterId=0;
+          this.fullCode=null;
+          this.discountPart=0;
         }
 
         clearFormDetailUpdate(){
@@ -3425,6 +3776,12 @@ console.log('Solo se permiten numeros');
         cancelFormWorkCreate(){
           document.getElementById('createHideWorkforce').click();
           this.clearFormDetailWork();
+        }
+
+
+        cancelFormCustomerCreate(){
+          document.getElementById('createHideCustomer').click();
+         // this.clearFormDetailWork();
         }
 
         cancelFormDetailWorkforceUpdate(){

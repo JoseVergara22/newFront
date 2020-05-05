@@ -324,7 +324,14 @@ getTrmCurrent() {
     const resp: any = data;
     console.log('---trm----');
     console.log(data);
-    let trm = resp.data.value;
+    let trm ;
+    try{
+      trm =resp.data.value
+    }catch(error){
+      trm =resp.result.value
+    }
+
+  //  let trm = resp.data.value;
     console.log(trm);
     trm = trm.toString().replace('.',',');
     let trmSecondPart =trm.substring(1);
