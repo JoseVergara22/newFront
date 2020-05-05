@@ -443,13 +443,6 @@ export class MasterEstimateCustomerComponent implements OnInit {
      
       console.log(trm);
      
-
-
-      trm = trm.toString().replace('.',',');
-      let trmSecondPart =trm.substring(1);
-      let trmFirtsPart = trm.substring(0, 1);
-      this.trmGeneralUsa= trmFirtsPart+'.'+trmSecondPart;
-      swal.close();
       
       console.log( this.cities);
     }).catch(error => {
@@ -1206,7 +1199,7 @@ if(this.conditionTrmUsa.id==2){
   this.estimateService.showTrmCurrent().then(data => {
     const resp: any = data;
     //let trm = resp.data.value;
-  
+  console.log('RESP ' +JSON.stringify(resp));
     let trm ;
     try{
       trm =resp.data.value
@@ -1215,7 +1208,7 @@ if(this.conditionTrmUsa.id==2){
     }
     
    
-    console.log('TRM CURRENT '+ JSON.stringify(resp));
+    console.log('TRM CURRENT 123'+ JSON.stringify(resp));
   
     if(this.conditionTrmUsa.id==1){
       this.trmGeneralUsa=trm;
@@ -1559,7 +1552,10 @@ console.log('yeison');
     dolar=this.trmGeneralUsa;
   }
 
-  console.log(this.costTotalGlobal+'--------------------'+dolar);
+  console.log(this.trmGeneralUsa);
+
+
+  console.log(this.costTotalGlobal+'--------------------'+Number(dolar));
   let costPesos=this.costTotalGlobal*dolar;
   this.costPesosGlobal= costPesos;
 

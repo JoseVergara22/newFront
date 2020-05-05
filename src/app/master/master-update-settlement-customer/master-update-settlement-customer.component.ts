@@ -87,6 +87,10 @@ export class MasterUpdateSettlementCustomerComponent implements OnInit {
   fullCode: any=null;
   fullCodeUpdate: any=null;
   fullCodeCustomer: any=null;
+
+  fullCodeWorkforce: any=null;
+  fullCodeWorkforceUpdate: any=null;
+  fullCodeCustomerWorkforce: any=null;
   
   myForm: FormGroup;
   myFormUpdate: FormGroup;
@@ -112,6 +116,8 @@ export class MasterUpdateSettlementCustomerComponent implements OnInit {
   indicatorFullCodeCreatePart=0;
   indicatorFullCodeCreatePartUpdate=0;
 
+  indicatorFullCodeCreateWorkforce=0;
+  indicatorFullCodeCreateWorkforceUpdate=0;
 
   scheduleSettlementCustomer: any;
   change = true;
@@ -156,6 +162,7 @@ export class MasterUpdateSettlementCustomerComponent implements OnInit {
   discountPart:any=0;
   discountPartUpdate:any=0;
   discountWorkforce:any=0;
+  discountWorkforceUpdate:any=0;
   discountCustomer:any=0;
 
   deliveryPart:any = 0;
@@ -175,7 +182,8 @@ export class MasterUpdateSettlementCustomerComponent implements OnInit {
   descriptionUpdate='';
   deliveryUpdate:any;
 
-  totalPriceWorkforce=0;
+  totalPriceWorkforce;
+  totalPriceWorkforceUpdate;
   totalPriceCustomer=0;
  
   now:any;
@@ -193,6 +201,7 @@ export class MasterUpdateSettlementCustomerComponent implements OnInit {
   selectedCostCenterId:any=0;
   selectedSubcostCenterId:any=0;
   selectedSubcostCenterUpdateId:any=0;
+  selectedSubcostCenterWorkforceUpdateId:any=0;
   selectedSubcostCenterWorkforceId:any=0;
   selectedSubcostCenterCustomerId:any=0;
 
@@ -855,30 +864,14 @@ getWarehouses() {
 // es validar el 2 si devuelve 2 se pide subcenter 
    }
 
-   createEstimateDetail(){
+   createSettlementDetail(){
     swal({
       title: 'Validando información ...',
       allowOutsideClick: false
     });
     swal.showLoading();
     console.log('code '+this.code);
-   
-
-     // console.log(this.lowPrice+ '--' +this.price+ '--'+ this.higherPrice);
-   
-
-     // let priceTemp = this.price.toString().replace('.','').replace(',','.');
-
-    // let priceTempStr = this.price.toString();
-    // priceTempStr = priceTempStr.split('.').join('');
      let priceTemp=  this.changeFormatDecimal( this.price);// 
-
-     console.log('OLEOLE IMPORT');
-     console.log(this.price);
-     console.log(this.price.toString().replace('.',''));
-     console.log('arreglate porfavor');
-     console.log('--->' + priceTemp+'---'+this.lowPrice+'--'+ this.higherPrice);
-     console.log('-----' + Number(priceTemp)+'--->=----' + Number(this.lowPrice) +'----&&----' + Number(priceTemp) +'---<=---' + Number(this.higherPrice));
 
      if(this.description!==''){
      if(this.code!==''){
@@ -1006,6 +999,30 @@ getWarehouses() {
     }
 
 
+    
+   validationFullCodeWorkforceUpdate(){
+    try{
+   if(this.fullCodeWorkforceUpdate){
+   // this.indicatorFullCodeCreatePart 
+    if(this.fullCodeWorkforceUpdate.required_subcenter==1){ // Si es true se debe validar subcenter obligatorio
+      if(this.selectedSubcostCenterUpdateId!=0){
+        return this.indicatorFullCodeCreatePartUpdate=1; //asignamos 1 si esta el subcentro
+      }else{
+        return this.indicatorFullCodeCreatePartUpdate=2; //asignamos 2 si no hay subcento
+      }
+    }else{
+      return this.indicatorFullCodeCreatePartUpdate=3; // no require subcenter
+     }
+   }else{
+    return this.indicatorFullCodeCreatePartUpdate=4; // no hay code
+   }
+ }catch(err){
+   return this.indicatorFullCodeCreatePartUpdate=4;
+ }
+// es validar el 2 si devuelve 2 se pide subcenter 
+   }
+
+
    updateSettlementDetail(){
     swal({
       title: 'Validando información ...',
@@ -1019,60 +1036,47 @@ getWarehouses() {
      console.log('info de importante');
      console.log('----'+priceUpdateTemp+ '----'+ this.lowPriceUpdate+'---'+  this.higherPriceUpdate + '---' + this.suggestedMaximum);
      // cambio YCV 
-     if(this.descriptionUpdate!==''){
-      if(this.codeUpdate!==''){
-      let indSubcenter= this.validationFullCodeCreatePartUpdate();
+     if(this.workforceServiceUpdate!==''){
+      if(this.workforceCodeUpdate!==''){
+      let indSubcenter= this.validationFullCodeWorkforceUpdate();
       
       if(indSubcenter!=2){
-
-     if(Number(priceUpdateTemp) >= Number(this.lowPriceUpdate) && Number(priceUpdateTemp) <= Number(this.higherPriceUpdate)){
-
       let codeTemp;
-      if(this.fullCodeUpdate){
-       codeTemp=this.fullCodeUpdate.code;
+      if(this.fullCodeWorkforceUpdate){
+       codeTemp=this.fullCodeWorkforceUpdate.code;
       }else{
-       codeTemp= this.codeUpdate;
+       codeTemp= this.workforceCodeUpdate;
       }
 
-     let fullCodeTemp = this.codeUpdate;
-     let settlementIdDetailTemp= this.settlementId;
-    
-     let descriptionTemp= this.descriptionUpdate;
-     let quantityTemp = this.quantityUpdate;
-     let unitCostTemp = this.unitCostUpdate;
-     let priceListTemp = this.priceListUpdate;
-     let priceSuggestTemp = this.changeFormatDecimal(this.suggestedPriceUpdate);
-     //let daysTemp = this.daysUpdate;
-     // let priceTemp = this.priceUpdate;
-     let deliveryPartTemp = this.deliveryPartUpdate;
-     let weightTemp = this.weightUpdate;
-     let totalTemp = this.changeFormatDecimal(this.subtotalUpdate);
-     let observationTemp = this.observationUpdate;
-     let statusTemp = 0;
-     let discountTemp= this.discountPartUpdate;
-     console.log('Antes de guardar');
-     console.log(this.subtotalUpdate);
-     let subtotalTemp = this.changeFormatDecimal(this.subtotalUpdate);
-     let typeServiceTemp = 0;
-     let weightTypeTemp = this.weightTypeListUpdate;
-     let subcenterId= this.selectedSubcostCenterUpdateId;
+     let fullCodeTemp = this.workforceCodeUpdate;
 
-     this.settlementService.updateSettlementDetails(settlementIdDetailTemp,codeTemp,descriptionTemp,
-      quantityTemp, unitCostTemp, priceListTemp, priceSuggestTemp, weightTemp,
-      priceUpdateTemp, subtotalTemp, deliveryPartTemp, totalTemp,statusTemp, typeServiceTemp,weightTypeTemp,subcenterId,
-       discountTemp, fullCodeTemp ).then(data => {
+    
+     let settlementIdDetailTemp= this.workforceDetailIdUpdate;
+     let serviceTemp= this.workforceServiceUpdate;
+     let quantityTemp = this.workforcequantityUpdate;
+     let hourValueTemp = this.changeFormatDecimal(this.workforceHourValueUpdate);
+     let subtotalTemp = this.changeFormatDecimal(this.workforceSubtotalUpdate);
+     let deliveryTemp = this.workforceDeliveryUpdate;
+     let statusTemp = 0;
+     let typeServiceTemp = 1;
+     let totalTemp;
+     let subCenterCostIdWorkforce= this.selectedSubcostCenterWorkforceUpdateId;
+     let discountTemp= this.discountWorkforceUpdate;
+
+     this.settlementService.updateSettlementDetailWorkforce(settlementIdDetailTemp,codeTemp,serviceTemp,
+      quantityTemp,  hourValueTemp, subtotalTemp, deliveryTemp, subtotalTemp,statusTemp, totalTemp, subCenterCostIdWorkforce, discountTemp, fullCodeTemp ).then(data => {
        const resp: any = data;
        swal({
         title: 'Item actualizado',
         type: 'success'
        });
        
-       document.getElementById( 'updateItemHide').click();
-       this.clearFormDetailUpdate();
+       document.getElementById( 'updateItemHideDetailWorkforce').click();
+
+       this.clearFormDetailWorkUpdate();
       // this.getEstimateDetails();
        this.getSettlementWorkforce();
        this.getSettlementParts();
-       // this.getSettlementCustomer();
 
        console.log(resp);
      }).catch(error => {
@@ -1084,13 +1088,7 @@ getWarehouses() {
 
        console.log(error);
      });
-    }else{
-      swal({
-        title: 'Se presentó un problema',
-        text: 'El precio asignado está por debajo del sugerido o está por encima del porcentaje permitido',
-        type: 'error'
-       });
-    }
+ 
   }else{
     swal({
       title: 'Se presentó un problema',
@@ -1117,57 +1115,6 @@ getWarehouses() {
 
 
 
-   }
-
-
-   // 
-
-   updateEstimateDetailWorkforce(){
-    swal({
-      title: 'Validando información ...',
-      allowOutsideClick: false
-    });
-    swal.showLoading();
-
-     // console.log(this.lowPrice+ '--' +this.price+ '--'+ this.higherPrice);
-     let settlementIdDetailTemp= this.workforceDetailIdUpdate;
-     let codeTemp= this.workforceCodeUpdate;
-     let serviceTemp= this.workforceServiceUpdate;
-     let quantityTemp = this.workforcequantityUpdate;
-     let hourValueTemp = this.changeFormatDecimal(this.workforceHourValueUpdate);
-     let subtotalTemp = this.changeFormatDecimal(this.workforceSubtotalUpdate);
-     let deliveryTemp = this.workforceDeliveryUpdate;
-     let statusTemp = 0;
-     let typeServiceTemp = 1;
-
- 
-     this.estimateService.updateEstimateDetailWorkforce(settlementIdDetailTemp,codeTemp,serviceTemp,
-      quantityTemp, hourValueTemp, subtotalTemp, deliveryTemp, subtotalTemp,statusTemp, typeServiceTemp).then(data => {
-       const resp: any = data;
-       swal({
-        title: 'Item actualizado',
-        type: 'success'
-       });
-       
-       document.getElementById( 'updateItemHideDetailWorkforce').click();
-
-       this.clearFormDetailWorkUpdate();
-      // this.getEstimateDetails();
-       this.getSettlementWorkforce();
-       this.getSettlementParts();
-      // this.getSettlementCustomer();
-
-       console.log(resp);
-     }).catch(error => {
-
-      swal({
-        title: 'Se presento un problema, para guardar este item',
-        type: 'error'
-       });
-
-       console.log(error);
-     });
-   
    }
 
 
@@ -1308,7 +1255,7 @@ this.totalPriceUpdate= this.finalFormatStandard( Number(item.subtotal).toFixed(0
 
 
   updateWorkForceItems(item:any) {
-  
+    this.onChangeCodeUpdate(item.full_code);
     this.workforceDetailIdUpdate = item.id;
     this.workforceCodeUpdate = item.code;
     this.workforceServiceUpdate = item.service;
@@ -1316,6 +1263,9 @@ this.totalPriceUpdate= this.finalFormatStandard( Number(item.subtotal).toFixed(0
     this.workforceHourValueUpdate = this.finalFormatStandard((Number(item.hour_value)).toFixed(0));
     this.workforceSubtotalUpdate = (Number(item.subtotal)).toFixed(0);
     this.workforceDeliveryUpdate = item.delivery;
+    this.selectedSubcostCenterUpdateId = item.subcost_center_id;
+    this.discountWorkforceUpdate= item.discount;
+    this.totalPriceWorkforceUpdate= this.finalFormatStandard( Number(item.subtotal).toFixed(0));
 
         console.log(item);
         document.getElementById( 'uploadWorkforceItem').click();
@@ -1755,6 +1705,8 @@ console.log('Importante informacion: '+ this.conditionValidation);
 
   onChangeCodeUpdate(detailCode:any){
     console.log(detailCode);
+
+    console.log();
 
     for (let i = 0; i < this.detailCodes.length; i++) {
       if(this.detailCodes[i].full_description==detailCode){
@@ -3139,7 +3091,7 @@ console.log('acaaaaaaaaaaaaa');
     let observationTemp = this.observation;
    // let forkliftTextTemp=  this. forkliftText;
 
-    this.settlementService.createEstimate(consecutiveTemp,customerIdTemp,documentCustomerTemp,
+    this.settlementService.createSettlement(consecutiveTemp,customerIdTemp,documentCustomerTemp,
       idDepartmentTemp, selectedCityTemp, contactTemp, cellphoneTemp, observationTemp,0,'',0,
       selectedRegionalIdTemp, selectedCostCenterIdTemp, selectedWarehouseIdTemp, numberEstimateTemp).then(data => {
       const resp: any = data;
@@ -3186,58 +3138,138 @@ console.log('acaaaaaaaaaaaaa');
       console.log(error);
     });
    }
+
+
+   onChangeworkforceCode(detailCode:any){
+    console.log(detailCode);
+
+    for (let i = 0; i < this.detailCodes.length; i++) {
+      if(this.detailCodes[i].full_description==detailCode){
+            this.fullCodeWorkforce=this.detailCodes[i];
+      }
+    }
+    console.log(JSON.stringify(this.fullCode));    
+  }
+
+  onChangeworkforceCodeUpdate(detailCode:any){
+    console.log(detailCode);
+
+    for (let i = 0; i < this.detailCodes.length; i++) {
+      if(this.detailCodes[i].full_description==detailCode){
+            this.fullCodeWorkforceUpdate=this.detailCodes[i];
+      }
+    }
+    console.log(JSON.stringify(this.fullCode));    
+  }
+
+
+
+   validationFullCodeCreateWorkforce(){
+    if(this.fullCodeWorkforce){
+    // this.indicatorFullCodeCreatePart 
+     if(this.fullCodeWorkforce.required_subcenter==1){ // Si es true se debe validar subcenter obligatorio
+       if(this.selectedSubcostCenterWorkforceId!=0){
+         return this.indicatorFullCodeCreateWorkforce=1; //asignamos 1 si esta el subcentro
+       }else{
+         return this.indicatorFullCodeCreateWorkforce=2; //asignamos 2 si no hay subcento
+       }
+     }else{
+       return this.indicatorFullCodeCreateWorkforce=3; // no require subcenter
+      }
+    }else{
+     return this.indicatorFullCodeCreateWorkforce=4; // no hay code
+    }
+ // es validar el 2 si devuelve 2 se pide subcenter 
+    }  
+
    
-   createEstimateDetailWorkforce(){
-    swal({
-      title: 'Validando información ...',
-      allowOutsideClick: false
-    });
-    swal.showLoading();
 
-
-    let estimateIdTemp= this.settlementId;
-    let codeTemp = this.workforceCode;
-    let serviceTemp = this.workforceService;
-    let quantityTemp = this.workforcequantity;
-    let hourValueTemp = this.changeFormatDecimal(this.workforceHourValue);
-    let subtotalTemp = this.changeFormatDecimal(this.workforceSubtotal);
-    let deliveryTemp = this.workforceDelivery;
-    let typeService = 1 ; 
-    let statusTemp = 0;
-   
-     this.estimateService.createEstimateDetailWorkforce(estimateIdTemp,codeTemp,serviceTemp,
-      quantityTemp, hourValueTemp, subtotalTemp, deliveryTemp, subtotalTemp,statusTemp, typeService).then(data => {
-       const resp: any = data;
-       swal({
-        title: 'Item creado',
-        type: 'success'
-       });
-       
-      /* this.workforceCode = '';
-      this.workforceService = '';
-      this.workforcequantity = 1;
-       this.workforceHourValue = 0;
-      this.workforceSubtotal = 0;
-      this.workforceDelivery = 0;*/
-
-       
-       document.getElementById('createItemHideDetailWorkforce').click();
-       this.clearFormDetailWork();
-      // this.getEstimateDetails();
-       this.getSettlementParts();
-       this.getSettlementWorkforce();
-
-       console.log(resp);
-     }).catch(error => {
-
+    createSettlementDetailWorkforce(){
       swal({
-        title: 'Se presento un problema, para guardar este item',
+        title: 'Validando información ...',
+        allowOutsideClick: false
+      });
+      swal.showLoading();
+  
+       if(this.workforceService!==''){
+       if(this.workforceCode!==''){
+       let indSubcenter= this.validationFullCodeCreateWorkforce();
+         if(indSubcenter!=2){
+  
+       let codeTemp;
+       if(this.fullCodeWorkforce){
+        codeTemp=this.fullCodeWorkforce.code;
+       }else{
+        codeTemp= this.workforceCode;
+       }
+
+
+       let settlementIdTemp= this.settlementId;
+       let fullCodeTemp= this.workforceCode;
+       let serviceTemp = this.workforceService;
+       let quantityTemp = this.workforcequantity;
+       let hourValueTemp = this.changeFormatDecimal(this.workforceHourValue);
+       let subtotalTemp = this.changeFormatDecimal(this.totalPriceWorkforce);
+       let deliveryTemp = this.workforceDelivery;
+       let typeService = 1 ; 
+       let statusTemp = 0;
+       let subcenterId= this.selectedSubcostCenterWorkforceId;
+       let discountTemp = this.discountWorkforce;
+
+       this.settlementService.createSettlementDetailWorkforce(settlementIdTemp,codeTemp,serviceTemp,
+        quantityTemp, hourValueTemp, subtotalTemp, deliveryTemp, subtotalTemp,statusTemp, typeService,
+        subcenterId,discountTemp,fullCodeTemp).then(data => {
+         const resp: any = data;
+         swal({
+          title: 'Item creado',
+          type: 'success'
+         });
+         
+         document.getElementById('createItemHideDetailWorkforce').click();
+         this.clearFormDetailWork();
+        // this.getEstimateDetails();
+         this.getSettlementParts();
+         this.getSettlementWorkforce();
+  
+         console.log(resp);
+       }).catch(error => {
+  
+        swal({
+          title: 'Se presento un problema, para guardar este item',
+          type: 'error'
+         });
+  
+         console.log(error);
+       });
+  
+       console.log('estos son los puntos');
+  
+     
+    
+    }else{
+      swal({
+        title: 'Se presentó un problema',
+        text: 'El campo subcentro es requerido es requerido',
         type: 'error'
        });
+    }
+    }else{
+      swal({
+        title: 'Se presentó un problema',
+        text: 'El campo código es requerido',
+        type: 'error'
+       });
+    }
+  }else{
+      swal({
+        title: 'Se presentó un problema',
+        text: 'El campo descripción es requerido',
+        type: 'error'
+       });
+    }
+  
+     }
 
-       console.log(error);
-     });
-   }
 
    sendEmailEstimate(){
     
@@ -3271,6 +3303,8 @@ console.log('acaaaaaaaaaaaaa');
     let workforceHourValueTemp = this.changeFormatDecimal(this.workforceHourValue);
     let value =  this.workforcequantity*workforceHourValueTemp;
     this.workforceSubtotal = Number(value).toFixed(0);
+    let totalWorkforce =  Number((workforceHourValueTemp*this.workforcequantity)-((workforceHourValueTemp*this.workforcequantity)*(this.discountWorkforce/100))).toFixed(0);
+    this.totalPriceWorkforce= this.finalFormat(totalWorkforce);
     console.log('this.workforceSubtotal ----- '+this.workforceSubtotal);
     this.finalFormaHourValueSubtotal();
    // this.workforceSubtotal =  this.changeFormatDecimal(this.workforceSubtotal);
@@ -3290,6 +3324,8 @@ console.log('acaaaaaaaaaaaaa');
     let workforceHourValueTempUpdate = this.changeFormatDecimal(this.workforceHourValueUpdate);
     let value =  this.workforcequantityUpdate*workforceHourValueTempUpdate;
     this.workforceSubtotalUpdate = Number(value).toFixed(0);
+    let totalWorkforce =  Number((workforceHourValueTempUpdate*this.workforcequantityUpdate)-((workforceHourValueTempUpdate*this.workforcequantityUpdate)*(this.discountWorkforceUpdate/100))).toFixed(0);
+    this.totalPriceWorkforceUpdate= this.finalFormat(totalWorkforce);
     console.log('this.workforceSubtotalUpdate ----- '+this.workforceSubtotalUpdate);
     this.finalFormaHourValueSubtotalUpdate();
    // this.workforceSubtotal =  this.changeFormatDecimal(this.workforceSubtotal);
@@ -3752,6 +3788,8 @@ console.log('Solo se permiten numeros');
           this.workforceHourValue=0;
           this.workforceSubtotal=0;
           this.workforceDelivery=0;
+          this.selectedSubcostCenterWorkforceId=0;
+          this.discountWorkforce=0;
         }
 
         clearFormDetailWorkUpdate(){
@@ -3761,6 +3799,8 @@ console.log('Solo se permiten numeros');
           this.workforceHourValue=0;
           this.workforceSubtotal=0;
           this.workforceDeliveryUpdate=0;
+          this.selectedSubcostCenterWorkforceUpdateId=0;
+          this.discountWorkforceUpdate=0;
         }
   
         cancelFormDetail(){

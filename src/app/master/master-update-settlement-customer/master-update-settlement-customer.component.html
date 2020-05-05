@@ -156,7 +156,7 @@
               <button type="button" style="display:none;" class="btn btn-default waves-effect" id="createItemHide" (click)="modalRegisterItem.hide()">Cancelar</button>
              
               <button type="button" class="btn btn-default waves-effect" id="createItemHideDetail" (click)="cancelFormDetail()">Cancelar</button>
-              <button type="submit " class="btn btn-primary m-b-0 "  (click)="createEstimateDetail()">Crear Item</button>
+              <button type="submit " class="btn btn-primary m-b-0 "  (click)="createSettlementDetail()">Crear Item</button>
 
           </div>
       </div>
@@ -256,7 +256,7 @@
               <button type="button" class="btn btn-default waves-effect" id="createItemHideDetailWorkforce" (click)="cancelFormWorkCreate()">Cancelar</button>
               
              <!-- <button type="button" class="btn btn-default waves-effect" id="createItemHideDetailWorkforce" (click)="modalRegisterItemWorkforce.hide()">Cancelar</button> -->
-              <button type="submit " class="btn btn-primary m-b-0 "  (click)="createEstimateDetailWorkforce()">Crear Item</button>
+              <button type="submit " class="btn btn-primary m-b-0 "  (click)="createSettlementDetailWorkforce()">Crear Item</button>
           </div>
       </div>
   </div>
@@ -435,8 +435,13 @@
       <div>
           <div class="row">
               <div class="col-sm-6">
-                  <h6>Código </h6>
-                  <input type="text" [(ngModel)]="workforceCodeUpdate"  class="form-control">
+                <h6>Código </h6>
+                <input  type="text" class="form-control" (change)="onChangeworkforceCode(workforceCodeUpdate)"  [(ngModel)]="workforceCodeUpdate" list="browsers">
+                <datalist  id="browsers">
+                  <!--  <div  > -->
+                      <option  *ngFor="let detailCode of detailCodes"   [ngValue]="detailCode"> {{detailCode.full_description}} </option>
+                   <!-- </div> -->                  
+                </datalist>
               </div>
               <div class="col-sm-6">
                   <h6>Servicio </h6>
@@ -460,6 +465,37 @@
           </div>
 
           <br>
+          <div class="row">
+            <div class="col-sm-4">
+                <h6>Subcentro </h6>
+      <!--          <select class="form-control">
+                        <option value="0" selected>Seleccionar Subcentro</option>
+                        <option value="2">Centro1 </option>
+                        <option value="3">Centro2 </option>
+                      </select>--> 
+
+                      <select class="form-control" class="form-control" name="select"  [(ngModel)]="selectedSubcostCenterWorkforceUpdateId">
+                        <option value="0" selected>Seleccionar Subcentro</option>
+                    <option  *ngFor="let subcenterCost of subcentersCost " [ngValue]="subcenterCost.id"> {{subcenterCost.description}} </option>
+                   </select>
+
+
+            </div>
+            <div class="col-sm-4">
+                <h6>Descuento% </h6>
+                <input type="number" [(ngModel)]="discountWorkforceUpdate"  (blur)="calculateSubtotalWorkUpdate()" class="form-control">
+            </div>
+
+            <div class="col-sm-4">
+                <h6>Total </h6>
+                <input  [(ngModel)]="totalPriceWorkforceUpdate" class="form-control" disabled>
+              </div>        
+          </div>
+
+
+          <br>
+
+
           <div class="row">
               <div class="col-sm-4">
                   <h6>Entrega </h6>
@@ -1189,12 +1225,12 @@
           <ngx-datatable #table class="data-table"  style="height: 300px; overflow-y:visible" [rows]="rowsItemsWorkforce"  [columnMode]="'flex'" [headerHeight]="50" [footerHeight]="50" [rowHeight]="'auto'"
           [limit]="5">
 
-          <ngx-datatable-column  name="Código"   [flexGrow]="1" [sortable]="false" [resizeable]="false" [canAutoResize]="true" prop="code"></ngx-datatable-column>
+          <ngx-datatable-column  name="Código"   [flexGrow]="1" [sortable]="false" [resizeable]="false" [canAutoResize]="true" prop="full_code"></ngx-datatable-column>
           <ngx-datatable-column  name="Servicio"  [flexGrow]="3" [sortable]="false" [resizeable]="false" [canAutoResize]="true" prop="service"></ngx-datatable-column>
            <ngx-datatable-column  name="Cant."   [flexGrow]="1" [sortable]="false" [resizeable]="false" [canAutoResize]="true" prop="quantity"></ngx-datatable-column>
          <ngx-datatable-column  name="Vlr Hora"   [flexGrow]="1"[sortable]="false" [resizeable]="false" [canAutoResize]="true" prop="hour_value_decimal"></ngx-datatable-column>
          <ngx-datatable-column  name="Subtotal"   [flexGrow]="1" [sortable]="false" [resizeable]="false" [canAutoResize]="true" prop="subtotal_decimal"></ngx-datatable-column>
-         <ngx-datatable-column  name="Descuento"   [flexGrow]="1"[sortable]="false" [resizeable]="false" [canAutoResize]="true" prop="delivery"></ngx-datatable-column>
+         <ngx-datatable-column  name="Descuento"   [flexGrow]="1"[sortable]="false" [resizeable]="false" [canAutoResize]="true" prop="discount"></ngx-datatable-column>
           <ngx-datatable-column  name="Acciones"  [flexGrow]="2" [sortable]="false" [resizeable]="false" [canAutoResize]="true" sortable="false" prop="id">
               <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
                   <button (click)="updateWorkForceItems(row)" class="btn btn-primary btn-icon"><i class="icofont icofont-pencil-alt-5"></i></button>

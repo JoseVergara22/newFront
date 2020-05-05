@@ -2427,7 +2427,7 @@ console.log('acaaaaaaaaaaaaa');
     let observationTemp = this.observation;
    // let forkliftTextTemp=  this. forkliftText;
 
-    this.settlementService.createEstimate(consecutiveTemp,customerIdTemp,documentCustomerTemp,
+    this.settlementService.createSettlement(consecutiveTemp,customerIdTemp,documentCustomerTemp,
       idDepartmentTemp, selectedCityTemp, contactTemp, cellphoneTemp, observationTemp,0,'',0,
       selectedRegionalIdTemp, selectedCostCenterIdTemp, selectedWarehouseIdTemp, numberEstimateTemp).then(data => {
       const resp: any = data;
