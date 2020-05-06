@@ -169,9 +169,9 @@ export class MasterSettlementAllComponent  extends NgbDatepickerI18n {
  guarantyEstimate: any='';
  validity: any='';
  payment_method: any='';
- subtotalHoursEstimate: any='';
- subtotalPartsEstimate : any='';
- totalEstimate: any='';
+ subtotalHours: any='';
+ subtotalParts : any='';
+ total: any='';
  observationEstimate: any='';
  numberSettlement: any='';
  numberInvoice: any='';
@@ -229,6 +229,12 @@ export class MasterSettlementAllComponent  extends NgbDatepickerI18n {
  warehouse: any;
  costCenter: any; 
  subCostCenter: any;
+
+ regionalDescription ;
+ costCenterDescription; 
+ warehouseDescription ;
+ estimate;
+ totalCost = 0; 
 
  constructor(private restService: RestService, private _i18n: I18n, private router: Router, private estimateService: EstimateService, private forkliftService: ForkliftService,
              private calendar: NgbCalendar, public formatter: NgbDateParserFormatter, private userService: UserService,  private uploadService: UploadService,   private formbuilder:FormBuilder, private settlementeService: SettlementService) {
@@ -459,6 +465,7 @@ export class MasterSettlementAllComponent  extends NgbDatepickerI18n {
  downloadPdf(item: any, ind: number){
    swal.showLoading();
  console.log('item :'+ JSON.stringify(item));
+ console.log(item);
  this.estimateId= item.id;
  this.user = 'Carlos'
  this.consecutive = item.settlement_consecutive;
@@ -472,18 +479,20 @@ export class MasterSettlementAllComponent  extends NgbDatepickerI18n {
    this.forkliftText = '';
  }
 
- this.guarantyEstimate =  item.guaranty;
- this.subtotalHoursEstimate = item.subtotal_hours;
- this.subtotalPartsEstimate = item.subtotal_parts;
- this.totalEstimate = item.total;
+ this.estimate = item.estimate_order;
+ this.subtotalHours = item.subtotal_hours;
+ this.subtotalParts = item.subtotal_parts;
+ this.total = item.total;
  this.observationEstimate= item.observation;
-
+ this.regionalDescription = item.regional.description;
+ this.costCenterDescription = item.cost_center.description;
+ this.warehouseDescription = item.warehouse.description;
   // 0 Solo para descargar y 1 para enviar;
 
 // this.pp( this.estimateId);
 console.log('download ole');
-this.loadPdfSendEmail(ind);
- //this.getEstimateParts(ind);
+
+ this.getEstimateParts(ind);
  }
 
 
@@ -493,7 +502,8 @@ this.loadPdfSendEmail(ind);
    console.log('entro parts');
    if(this.estimateId){
      this.estimateService.getEstimateDetailsParts(this.estimateId).then(data => {
-       console.log('información repuestos: '+data);
+       console.log('Datos de partes');
+       console.log(data);
        const resp: any = data;
        this.rowsItemsparts=resp.data;
       
@@ -963,7 +973,7 @@ console.log('este es el e:'+ +JSON.stringify(e));
      2: { fontSize:9, cellWidth:99, fillColor: null},
     },
     margin: { left: 15},
-    body: [['Cliente: Nestle','Bodega: 6_Bodega_Nestle_Buga','Fecha: 30/04/2020']]
+    body: [['Cliente: '+ this.nameCustomer,'Bodega: '+ this.warehouseDescription,'Fecha: '+ Date()]]
   });
 
    doc.autoTable({
@@ -976,7 +986,7 @@ console.log('este es el e:'+ +JSON.stringify(e));
      2: { fontSize:9, cellWidth:99, fillColor: null},
     },
     margin: { left: 15},
-    body: [['Sucursal: OCCIDENTE_Nestle_02','C.Costos: BUGALAGRANDE_16','OC/Cotización: Pedido No: 4562285978 ']]
+    body: [['Sucursal: '+ this.regionalDescription,'C.Costos: '+ this.costCenterDescription,'OC/Cotización: Pedido No: '+ this.estimate]]
   });
    
    doc.autoTable({
@@ -995,6 +1005,8 @@ console.log('este es el e:'+ +JSON.stringify(e));
    //**********************************************************     */
 
  
+
+ 
    doc.autoTable({
      startY: doc.autoTable.previous.finalY,
      theme:'grid',
@@ -1004,9 +1016,9 @@ console.log('este es el e:'+ +JSON.stringify(e));
      1: {halign: 'center', fontSize:9, cellWidth:30},
      2: {halign: 'center', fontSize:9, cellWidth:140},
      3: {halign: 'center', fontSize:9, cellWidth:50},
-     4: {halign: 'center', fontSize:9, cellWidth:25},
+     4: {halign: 'center', fontSize:9, cellWidth:26},
      5: {halign: 'center', fontSize:9, cellWidth:50},
-     6: {halign: 'center', fontSize:9, cellWidth:40},
+     6: {halign: 'center', fontSize:9, cellWidth:39},
      7: {halign: 'center', fontSize:9, cellWidth:55}
      },
      margin: { left: 15},
@@ -1016,10 +1028,19 @@ console.log('este es el e:'+ +JSON.stringify(e));
  // doc.save('Cotizacion_No_'+ this.consecutive+'.pdf');
  console.log('Info importante');
 
-   
-     body_table = [1, 'A-09123', 'Limpiado de maquina', 'GIRON', '3', '98,433','10%',
-     '265,769'];
-     
+ //ifff
+ 
+ if(this.rowsItemsparts.length>0){
+  for (let i = 0; i < this.rowsItemsparts.length; i++) {
+//Este total se debe remplazar por el subtotal_parts que se encuentra en la tabla de settlement
+let value=  Number(this.rowsItemsparts[i].subtotal);
+    this.totalCost = Number(this.totalCost + value); 
+    console.log('total'); 
+    console.log(this.rowsItemsparts[i].subtotal_decimal); 
+    console.log(this.totalCost); 
+    body_table = [i+1, this.rowsItemsparts[i].code, this.rowsItemsparts[i].description, this.rowsItemsparts[i].sub_cost_center, this.rowsItemsparts[i].quantity, '$'+this.rowsItemsparts[i].price_suggest_decimal, this.rowsItemsparts[i].discount,   '$'+this.rowsItemsparts[i].subtotal_decimal];
+
+
      doc.autoTable({
        startY: doc.autoTable.previous.finalY,
        theme:'grid',
@@ -1029,27 +1050,28 @@ console.log('este es el e:'+ +JSON.stringify(e));
         1: {halign: 'center', fontSize:9, cellWidth:30},
         2: {halign: 'center', fontSize:9, cellWidth:140},
         3: {halign: 'center', fontSize:9, cellWidth:50},
-        4: {halign: 'center', fontSize:9, cellWidth:25},
+        4: {halign: 'center', fontSize:9, cellWidth:26},
         5: {halign: 'center', fontSize:9, cellWidth:50},
-        6: {halign: 'center', fontSize:9, cellWidth:40},
+        6: {halign: 'center', fontSize:9, cellWidth:39},
         7: {halign: 'center', fontSize:9, cellWidth:55}
         },
        margin: { left: 15},
        body: [ body_table ]
      });
-
+    }
+  }
      doc.autoTable({
       startY: doc.autoTable.previous.finalY,
       theme:'grid',
       styles: {fillColor: [215,215,215],lineColor:[4,1,0],lineWidth:0.2},
       columnStyles: {
       0: {halign: 'center', fontSize:9, cellWidth:250},
-      1: {halign: 'center', fontSize:9, cellWidth:55},
-      2: {halign: 'center', fontSize:9, cellWidth:40},
-      3: {halign: 'center', fontSize:9, cellWidth:68},
+      1: {halign: 'center', fontSize:9, cellWidth:69},
+      2: {halign: 'center', fontSize:9, cellWidth:39},
+      3: {halign: 'center', fontSize:9, cellWidth:55},
       },
       margin: { left: 15},
-      body: [['','TOTAL','DESC%','265,769']]
+      body: [['','TOTAL','DESC%',this.totalCost]]
     });
 
   doc.autoTable({
@@ -1070,9 +1092,9 @@ console.log('este es el e:'+ +JSON.stringify(e));
     1: {halign: 'center', fontSize:9, cellWidth:30},
     2: {halign: 'center', fontSize:9, cellWidth:140},
     3: {halign: 'center', fontSize:9, cellWidth:50},
-    4: {halign: 'center', fontSize:9, cellWidth:25},
+    4: {halign: 'center', fontSize:9, cellWidth:26},
     5: {halign: 'center', fontSize:9, cellWidth:50},
-    6: {halign: 'center', fontSize:9, cellWidth:40},
+    6: {halign: 'center', fontSize:9, cellWidth:39},
     7: {halign: 'center', fontSize:9, cellWidth:55}
     },
     margin: { left: 15},
@@ -1091,9 +1113,9 @@ console.log('este es el e:'+ +JSON.stringify(e));
       1: {halign: 'center', fontSize:9, cellWidth:30},
       2: {halign: 'center', fontSize:9, cellWidth:140},
       3: {halign: 'center', fontSize:9, cellWidth:50},
-      4: {halign: 'center', fontSize:9, cellWidth:25},
+      4: {halign: 'center', fontSize:9, cellWidth:26},
       5: {halign: 'center', fontSize:9, cellWidth:50},
-      6: {halign: 'center', fontSize:9, cellWidth:40},
+      6: {halign: 'center', fontSize:9, cellWidth:39},
       7: {halign: 'center', fontSize:9, cellWidth:55}
       },
      margin: { left: 15},
@@ -1107,41 +1129,19 @@ console.log('este es el e:'+ +JSON.stringify(e));
     styles: {fillColor: [215,215,215],lineColor:[4,1,0],lineWidth:0.2},
     columnStyles: {
       0: {halign: 'center', fontSize:9, cellWidth:250},
-      1: {halign: 'center', fontSize:9, cellWidth:55},
-      2: {halign: 'center', fontSize:9, cellWidth:40},
-      3: {halign: 'center', fontSize:9, cellWidth:68}
+      1: {halign: 'center', fontSize:9, cellWidth:69},
+      2: {halign: 'center', fontSize:9, cellWidth:39},
+      3: {halign: 'center', fontSize:9, cellWidth:55}
     },
     margin: { left: 15},
     body: [['','TOTAL','DESC%','265,769']]
   });
 
   doc.save('Liquidación_No_'+ this.consecutive+'.pdf');
+  this.totalCost=0;
   // y=y+15;
   console.log(this.filesImage.length+' oleole');
-   //doc.addPage();
-  /*for (let i = 0; i < this.filesImage.length; i++) {
-     console.log('este es el valor de los i');
-     console.log(i);
-     console.log(this.filesImage[i]);
-     let a = this.filesImage[i].content;
-     let b = 1+i;
-     let j = 400;
-     let k= j*b;
-    
-
-   }*/
-
-
-
- /*  var img = new Image;
-   img.crossOrigin = "";
-   img.src = this.filesImage[0].url; 
-   var exts = this.filesImage[0].ext;
-   img.onload = function () {
-     doc.addImage(img, exts,  15, 200, 150,150);
-     doc.save('FirstPdf.pdf');
-   }
-*/
+ swal.close()
 
 var height=doc.autoTable.previous.finalY;
 if(doc.autoTable.previous.finalY+150>631){
@@ -2096,7 +2096,7 @@ doc.autoTable({
  styles: {fillColor: null,valign:"top",lineColor:[4,1,0],lineWidth:0.2},
  columnStyles: {0: {halign: 'left', fontSize:8, cellWidth:85}, 1: {halign: 'left', fontSize:8, cellWidth:86},2: {halign: 'left', fontSize:8, cellWidth:81},3: {halign: 'left', fontSize:8, cellWidth:80},4: {halign: 'center', fontSize:8, cellWidth:81} },
  margin: {top: 60, right: 15, bottom: 0, left: 15},
- body: [['Validez Oferta: '+  this.validity  +' días','Forma Pago: ' + this.payment_method + ' días','Garantía: '+ this.guarantyEstimate +' días','Subtotal Repuestos:',this.subtotalPartsEstimate]]
+ body: [['Validez Oferta: '+  this.validity  +' días','Forma Pago: ' + this.payment_method + ' días','Garantía: '+ this.guarantyEstimate +' días','Subtotal Repuestos:',this.subtotalParts]]
 });
 
 
@@ -2107,8 +2107,8 @@ doc.autoTable({
      columnStyles: {0: {halign: 'left', fontSize:8, cellWidth:85}, 1: {halign: 'left', fontSize:8, cellWidth:86},2: {halign: 'left', fontSize:8, cellWidth:81},3: {halign: 'left', fontSize:8, cellWidth:80},4: {halign: 'center', fontSize:8, cellWidth:81} },
      margin: { left: 15},
      body: [
-     [{content: this.observationEstimate, colSpan: 3, rowSpan: 3, styles: {halign: 'left'}},'Subtotal Mano de Obra',this.subtotalHoursEstimate],
-      ['Total',this.totalEstimate],
+     [{content: this.observationEstimate, colSpan: 3, rowSpan: 3, styles: {halign: 'left'}},'Subtotal Mano de Obra',this.subtotalHours],
+      ['Total',this.total],
       [{content: 'NOTA: VALORES ANTES DE IVA', colSpan: 2,  styles: {halign: 'left'}}]]
    });
 
@@ -2613,7 +2613,7 @@ doc.autoTable({
  styles: {fillColor: null,valign:"top",lineColor:[4,1,0],lineWidth:0.2},
  columnStyles: {0: {halign: 'left', fontSize:8, cellWidth:85}, 1: {halign: 'left', fontSize:8, cellWidth:86},2: {halign: 'left', fontSize:8, cellWidth:81},3: {halign: 'left', fontSize:8, cellWidth:80},4: {halign: 'center', fontSize:8, cellWidth:81} },
  margin: {top: 60, right: 15, bottom: 0, left: 15},
- body: [['Validez Oferta: '+ this.validity  +' días','Forma Pago: ' + this.payment_method + ' días','Garantía: '+ this.guarantyEstimate +' días','Subtotal Repuestos:',this.subtotalPartsEstimate]]
+ body: [['Validez Oferta: '+ this.validity  +' días','Forma Pago: ' + this.payment_method + ' días','Garantía: '+ this.guarantyEstimate +' días','Subtotal Repuestos:',this.subtotalParts]]
 });
 
 
@@ -2624,8 +2624,8 @@ doc.autoTable({
      columnStyles: {0: {halign: 'left', fontSize:8, cellWidth:85}, 1: {halign: 'left', fontSize:8, cellWidth:86},2: {halign: 'left', fontSize:8, cellWidth:81},3: {halign: 'left', fontSize:8, cellWidth:80},4: {halign: 'center', fontSize:8, cellWidth:81} },
      margin: { left: 15},
      body: [
-     [{content: this.observationEstimate, colSpan: 3, rowSpan: 3, styles: {halign: 'left'}},'Subtotal Mano de Obra',this.subtotalHoursEstimate],
-      ['Total',this.totalEstimate],
+     [{content: this.observationEstimate, colSpan: 3, rowSpan: 3, styles: {halign: 'left'}},'Subtotal Mano de Obra',this.subtotalHours],
+      ['Total',this.total],
       [{content: 'NOTA: VALORES ANTES DE IVA', colSpan: 2,  styles: {halign: 'left'}}]]
    });
 
@@ -3702,15 +3702,7 @@ this.getImgFromUrl(logo_url, function (img) {
        cont++;
      }
    }
-
-   if(this.codepart!=''){
-     if(cont>0){
-       params=params+'&&codepart_query='+this.codepart;
-     }else{
-       params=params+'codepart_query='+this.codepart;
-       cont++;
-     }
-   }
+   
  
    if(this.numberSettlement!=''){
      if(cont>0){
@@ -4409,7 +4401,8 @@ updateForklift(forklift:any) {
           console.log('este es el indice'+ind);
            if(ind==0){
              console.log('ingreso a la descarga');
-             this.download3(ind);
+             //this.download3(ind);
+             this.loadPdfSendEmail(ind);
              
            }else{
              console.log('ingreso al envio del correo');
@@ -4434,8 +4427,8 @@ updateForklift(forklift:any) {
        console.log(ind);
        if(ind==0){
          console.log('ingreso a la descarg6a');
-         this.download3(ind);
-         
+        // this.download3(ind);
+        this.loadPdfSendEmail(ind);
        }else{
          console.log('ingreso al envio del corre6o');
              this.downloadSend(ind); //Este es el problema

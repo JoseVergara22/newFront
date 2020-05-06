@@ -671,7 +671,7 @@ export class EstimateService {
 
     let now = year+'-'+ month+'-'+day;
 
-      this.http.get('https://trm-colombia.makaw-dev.now.sh/?datekk='+now)
+      this.http.get('https://trm-colombia.makaw-dev.now.sh/?date='+now)
         .map(res => res).subscribe(data => {
           console.log('TRM TRM TRM');
           console.log(data);
