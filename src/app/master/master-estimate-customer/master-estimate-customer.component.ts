@@ -1529,11 +1529,11 @@ console.log('yeison');
 
   let operationFreight=0;
 
-  if(this.conditionValidation==2){
+ /* if(this.conditionValidation==2){
      operationFreight = Number(Number(this.freightGeneral).toFixed(2))*1;
-  }else{
+  }else{*/
      operationFreight = Number(Number(this.freightGeneral).toFixed(2))*this.finalWeight;
-  }
+  //}
 
 
   console.log('fase final'+ Number(operationFreight));
@@ -1589,6 +1589,11 @@ console.log('yeison');
 
   this.price=Number(this.salePrice).toFixed(0)
   this.subtotal=(Number(this.salePrice)*Number(this.quantity)).toFixed(0);
+
+  // YCV 070520
+  this.suggestedPrice= this.finalFormat(this.suggestedPrice);
+  this.price= this.finalFormat(this.price);
+  this.subtotal= this.finalFormat(this.subtotal);
 }
 
 
@@ -1616,11 +1621,11 @@ finalOperationUpdate(country:number){
 
   let operationFreight=0;
 
-  if(this.conditionValidation==2){
+/*  if(this.conditionValidation==2){
      operationFreight = Number(Number(this.freightGeneral).toFixed(2))*1;
-  }else{
+  }else{*/
      operationFreight = Number(Number(this.freightGeneral).toFixed(2))*this.finalWeight;
-  }
+  //}
 
   console.log('driving '+drivingCost);
   // let operationFreight = this.freightGeneral*this.finalWeight;
@@ -1668,6 +1673,11 @@ finalOperationUpdate(country:number){
 
   this.priceUpdate=Number(this.salePriceUpdate).toFixed(0);
   this.subtotalUpdate=(Number(this.salePriceUpdate)*Number(this.quantityUpdate)).toFixed(0);
+
+  //YCV 070520
+ this.suggestedPriceUpdate= this.finalFormat(this.suggestedPriceUpdate);
+ this.priceUpdate= this.finalFormat(this.priceUpdate);
+ this.subtotalUpdate= this.finalFormat(this.subtotalUpdate);
 }
 
 

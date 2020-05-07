@@ -398,7 +398,7 @@ createScheduleSettlement(params: string) {
       });
     }
 
-    getSettlementEstimateForklift(idCustomer:number) {
+    getSettlementEstimateForklift(idCustomer:number,  numberPage:number) {
       return new Promise(resolve => {
         const headers = new HttpHeaders();
         headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user'))); // 'Bearer ' +
@@ -410,7 +410,7 @@ createScheduleSettlement(params: string) {
             'Accept': 'application/json'
           })
         };
-        this.http.get(this.apiEndPoint+'api/settlement_estimate_forklift?customer_id='+idCustomer, httpOptions)
+        this.http.get(this.apiEndPoint+'api/settlement_estimate_forklift?customer_id='+idCustomer+'&&page='+numberPage, httpOptions)
           .map(res => res).subscribe(data => {
             console.log(data);
             resolve(data);
@@ -419,6 +419,29 @@ createScheduleSettlement(params: string) {
           });
       });
     }
+
+    getSettlementEstimateCopyClient(idSettlement:number) {
+      return new Promise(resolve => {
+        const headers = new HttpHeaders();
+        headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user'))); // 'Bearer ' +
+        headers.append('Content-Type', 'application/json');
+        const httpOptions = {
+          headers: new HttpHeaders({
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + localStorage.getItem('token_user'),
+            'Accept': 'application/json'
+          })
+        };
+        this.http.get(this.apiEndPoint+'api/settlement_estimate_copy_client?settlement_id='+idSettlement, httpOptions)
+          .map(res => res).subscribe(data => {
+            console.log(data);
+            resolve(data);
+          }, error => {
+            resolve(error);
+          });
+      });
+    }
+
 
     getSettlementCodes() { // Falta implementar desde el backend
       return new Promise(resolve => {
@@ -579,8 +602,7 @@ createScheduleSettlement(params: string) {
   }
 
   createSettlementDetailsCustomer(settlement_id: number, code: string, description: string,
-      quantity: number, unit_cost: number, price_suggest: number, weight: number,
-      price: number, subtotal: number, delivery: number, total: string,
+      quantity: number, unit_cost: number, price: number, subtotal: number, delivery: number, total: string,
       status: number, subcenter_id: number, discount: number, fullCode:string) {
   return new Promise(resolve => {
   const headers = new HttpHeaders();
@@ -602,8 +624,6 @@ createScheduleSettlement(params: string) {
   description: description,
   quantity: quantity,
   unit_cost: unit_cost,
-  price_suggest: price_suggest,
-  weight:weight,
   price: price,
   subtotal: subtotal,
   delivery: delivery,

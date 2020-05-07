@@ -230,12 +230,14 @@ export class MasterSettlementAllComponent  extends NgbDatepickerI18n {
  costCenter: any; 
  subCostCenter: any;
 
+ rowsItemsCustomer: any;
+
  regionalDescription ;
  costCenterDescription; 
  warehouseDescription ;
  estimate;
  totalCost = 0; 
-
+num: any;
  constructor(private restService: RestService, private _i18n: I18n, private router: Router, private estimateService: EstimateService, private forkliftService: ForkliftService,
              private calendar: NgbCalendar, public formatter: NgbDateParserFormatter, private userService: UserService,  private uploadService: UploadService,   private formbuilder:FormBuilder, private settlementeService: SettlementService) {
                super();
@@ -492,22 +494,22 @@ export class MasterSettlementAllComponent  extends NgbDatepickerI18n {
 // this.pp( this.estimateId);
 console.log('download ole');
 
- this.getEstimateParts(ind);
+ this.getSettlementParts(ind);
  }
 
 
+ 
 
-
- getEstimateParts(ind: number) {
+ getSettlementParts(ind: number) {
    console.log('entro parts');
    if(this.estimateId){
-     this.estimateService.getEstimateDetailsParts(this.estimateId).then(data => {
+     this.settlementeService.getSettlementDetailsParts(this.estimateId).then(data => {
        console.log('Datos de partes');
        console.log(data);
        const resp: any = data;
        this.rowsItemsparts=resp.data;
       
-       this.getEstimateWorkforce(ind);
+       this.getSettlementWorkforce(ind);
       
      }).catch(error => {
        console.log(error);
@@ -515,22 +517,39 @@ console.log('download ole');
    }
   }
 
-  getEstimateWorkforce(ind: number) 
-{     console.log('Ingreso a la mano de obra');
+  getSettlementWorkforce(ind: number) 
+{     
+  console.log('Ingreso a la mano de obra');
    if(this.estimateId){
-     this.estimateService.getEstimateDetailsWorkforce(this.estimateId).then(data => {
+     this.settlementeService.getSettlementDetailsWorkforce(this.estimateId).then(data => {
        const resp: any = data;
-       console.log('Ingreso a la mano de obra: '+ resp.data);
+       console.log('data de horas');
+       console.log(data);
        this.rowsItemsWorkforce=resp.data;
+       // this.download3(ind);
+       this.getSettlementDetailCustomer(ind);
+     }).catch(error => {
+       console.log(error);
+     });
+   }
+  }
+
+ getSettlementDetailCustomer(ind: number){
+  
+  console.log('Ingreso a la mano de obra');
+   if(this.estimateId){
+     this.settlementeService.getSettlementDetailsCustomer(this.estimateId).then(data => {
+       const resp: any = data;
+       console.log('datos de customer con settlemente');
+       console.log(data);
+       this.rowsItemsCustomer=resp.data;
        // this.download3(ind);
         this.getFilesImage(ind);    //Se omite carga de imagenes
      }).catch(error => {
        console.log(error);
      });
    }
-  }
-
-
+ }
 
   // Estos consumos es para la vista de aprobación
 
@@ -604,7 +623,7 @@ console.log('download ole');
    // Si el estatus es
    
    let ind=1; // 0 Solo para descargar y 1 para enviar;
-   this.getEstimateParts(ind);
+   this.getSettlementParts(ind);
   }
 
 
@@ -962,7 +981,7 @@ console.log('este es el e:'+ +JSON.stringify(e));
     margin: {top: 60, right: 15, bottom: 0, left: 135},
     body: [ ['Creado Por: '+ this.user,'No. ' + this.consecutive ]]
   });
-
+ let date = new Date();
    doc.autoTable({
     startY: doc.autoTable.previous.finalY,
     theme:'grid',
@@ -973,8 +992,14 @@ console.log('este es el e:'+ +JSON.stringify(e));
      2: { fontSize:9, cellWidth:99, fillColor: null},
     },
     margin: { left: 15},
-    body: [['Cliente: '+ this.nameCustomer,'Bodega: '+ this.warehouseDescription,'Fecha: '+ Date()]]
+    body: [['Cliente: '+ this.nameCustomer,'Bodega: '+ this.warehouseDescription,'Fecha: '+ date]]
   });
+
+  console.log('this.estimate')
+  console.log(this.estimate)
+  if(this.estimate == null){
+    this.estimate = '';
+  }
 
    doc.autoTable({
     startY: doc.autoTable.previous.finalY,
@@ -1029,7 +1054,7 @@ console.log('este es el e:'+ +JSON.stringify(e));
  console.log('Info importante');
 
  //ifff
- 
+ let j = 1;
  if(this.rowsItemsparts.length>0){
   for (let i = 0; i < this.rowsItemsparts.length; i++) {
 //Este total se debe remplazar por el subtotal_parts que se encuentra en la tabla de settlement
@@ -1038,7 +1063,7 @@ let value=  Number(this.rowsItemsparts[i].subtotal);
     console.log('total'); 
     console.log(this.rowsItemsparts[i].subtotal_decimal); 
     console.log(this.totalCost); 
-    body_table = [i+1, this.rowsItemsparts[i].code, this.rowsItemsparts[i].description, this.rowsItemsparts[i].sub_cost_center, this.rowsItemsparts[i].quantity, '$'+this.rowsItemsparts[i].price_suggest_decimal, this.rowsItemsparts[i].discount,   '$'+this.rowsItemsparts[i].subtotal_decimal];
+    body_table = [i+1, this.rowsItemsparts[i].code, this.rowsItemsparts[i].description, this.rowsItemsparts[i].sub_cost_center.description, this.rowsItemsparts[i].quantity, '$'+this.rowsItemsparts[i].price_suggest_decimal, this.rowsItemsparts[i].discount,   '$'+this.rowsItemsparts[i].subtotal_decimal];
 
 
      doc.autoTable({
@@ -1058,8 +1083,49 @@ let value=  Number(this.rowsItemsparts[i].subtotal);
        margin: { left: 15},
        body: [ body_table ]
      });
+     j ++;
     }
+    
   }
+
+ if(this.rowsItemsWorkforce.length>0){
+  for (let i = 0; i < this.rowsItemsWorkforce.length; i++) {
+//Este total se debe remplazar por el subtotal_parts que se encuentra en la tabla de settlement
+let value=  Number(this.rowsItemsWorkforce[i].total);
+    this.totalCost = Number(this.totalCost + value); 
+
+    console.log('total'); 
+    console.log(this.rowsItemsWorkforce[i].subtotal_decimal); 
+    console.log(this.totalCost); 
+
+    body_table = [j+1, this.rowsItemsWorkforce[i].code, this.rowsItemsWorkforce[i].service, this.rowsItemsWorkforce[i].sub_cost_center.description, this.rowsItemsWorkforce[i].quantity, '$'+this.rowsItemsWorkforce[i].subtotal_decimal, this.rowsItemsWorkforce[i].discount,   '$'+this.rowsItemsWorkforce[i].total_decimal];
+
+
+     doc.autoTable({
+       startY: doc.autoTable.previous.finalY,
+       theme:'grid',
+       styles: {fillColor: null,lineColor:[4,1,0],lineWidth:0.2},
+       columnStyles: {
+        0: {halign: 'center', fontSize:9, cellWidth:20},
+        1: {halign: 'center', fontSize:9, cellWidth:30},
+        2: {halign: 'center', fontSize:9, cellWidth:140},
+        3: {halign: 'center', fontSize:9, cellWidth:50},
+        4: {halign: 'center', fontSize:9, cellWidth:26},
+        5: {halign: 'center', fontSize:9, cellWidth:50},
+        6: {halign: 'center', fontSize:9, cellWidth:39},
+        7: {halign: 'center', fontSize:9, cellWidth:55}
+        },
+       margin: { left: 15},
+       body: [ body_table ]
+     });
+     j++;
+    }
+    
+  }
+
+  let total = this.finalFormatPrice(this.totalCost);
+  console.log('total')
+  console.log(total)
      doc.autoTable({
       startY: doc.autoTable.previous.finalY,
       theme:'grid',
@@ -1071,16 +1137,16 @@ let value=  Number(this.rowsItemsparts[i].subtotal);
       3: {halign: 'center', fontSize:9, cellWidth:55},
       },
       margin: { left: 15},
-      body: [['','TOTAL','DESC%',this.totalCost]]
+      body: [['','TOTAL','DESC%','$' + total]]
     });
-
+    this.totalCost = 0;
   doc.autoTable({
     startY: doc.autoTable.previous.finalY,
     theme:'grid',
     styles: {fillColor: [215,215,215],valign:"top",lineColor:[4,1,0],lineWidth:0.2},
     columnStyles: {0: {halign: 'center'},  }, // Cells in first column centered and green
     margin: {top: 60, right: 15, bottom: 0, left: 15},
-    body: [['Factura CLiente']]
+    body: [['Factura Cliente']]
   });
 
   doc.autoTable({
@@ -1100,10 +1166,21 @@ let value=  Number(this.rowsItemsparts[i].subtotal);
     margin: { left: 15},
     body: [['','REFERENCIA','DESCRIPCIÓN','SUB. CCOST','CANT.','VLR. UNIT.','DESC%','TOTAL']]
   });
+  
  
- body_table = [1, 'A-09123', 'Limpiado de maquina', 'GIRON', '3', '98,433','10%',
- '265,769'];
-   
+
+  if(this.rowsItemsCustomer.length>0){
+    for (let i = 0; i < this.rowsItemsCustomer.length; i++) {
+  //Este total se debe remplazar por el subtotal_parts que se encuentra en la tabla de settlement
+  let value=  Number(this.rowsItemsCustomer[i].subtotal);
+      this.totalCost = Number(this.totalCost + value); 
+
+      console.log('total'); 
+      console.log(this.rowsItemsCustomer[i].subtotal_decimal); 
+      console.log(this.totalCost); 
+
+      body_table = [i+1, this.rowsItemsCustomer[i].code, this.rowsItemsCustomer[i].description, this.rowsItemsCustomer[i].sub_cost_center.description, this.rowsItemsCustomer[i].quantity, '$'+this.rowsItemsCustomer[i].price_suggest_decimal, this.rowsItemsCustomer[i].discount,   '$'+this.rowsItemsCustomer[i].subtotal_decimal];
+  
    doc.autoTable({
      startY: doc.autoTable.previous.finalY,
      theme:'grid',
@@ -1121,7 +1198,13 @@ let value=  Number(this.rowsItemsparts[i].subtotal);
      margin: { left: 15},
      body: [ body_table ]
    });
+  }
+}
   // y=y+15;
+
+  total = this.finalFormatPrice(this.totalCost);
+  console.log('total')
+  console.log(total)
 
   doc.autoTable({
     startY: doc.autoTable.previous.finalY,
@@ -1134,7 +1217,7 @@ let value=  Number(this.rowsItemsparts[i].subtotal);
       3: {halign: 'center', fontSize:9, cellWidth:55}
     },
     margin: { left: 15},
-    body: [['','TOTAL','DESC%','265,769']]
+    body: [['','TOTAL','DESC%','$' + total]]
   });
 
   doc.save('Liquidación_No_'+ this.consecutive+'.pdf');
@@ -4512,6 +4595,25 @@ finalApproval(){
    }
 
 }
+
+finalFormatPrice(value: number){
+  this.num = value; //.toString().replace('.','').replace(',','.');
+  console.log('num') //.toString().replace('.','').replace(',','.');
+  console.log(this.num) //.toString().replace('.','').replace(',','.');
+  this.num +='';
+  var splitStr = this.num.split('.');
+  var splitLeft = splitStr[0];
+  var splitRight = splitStr.length > 1 ? ',' + splitStr[1] : '';
+  var regx = /(\d+)(\d{3})/;
+  while (regx.test(splitLeft)) {
+  splitLeft = splitLeft.replace(regx, '$1' + '.' + '$2');
+  console.log(splitLeft);
+  }
+  console.log('Importante oleole');
+  console.log(splitLeft +splitRight);
+  let price=splitLeft +splitRight;
+  return price;
+  }
 
 
 rejectQuote(){
