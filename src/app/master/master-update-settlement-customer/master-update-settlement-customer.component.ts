@@ -80,6 +80,19 @@ export class MasterUpdateSettlementCustomerComponent implements OnInit {
   itemEstimate:itemEstimateInterface;
   itemsDetailEstimate: Array<itemEstimateDetailInterface> = [];
   itemDetailEstimate: itemEstimateDetailInterface;
+
+
+  itemsEstimateForklift: Array <itemEstimateInterface> = [];
+  itemEstimateForklift:itemEstimateInterface;
+  itemsDetailEstimateForklift: Array<itemEstimateDetailInterface> = [];
+  itemDetailEstimateForklift: itemEstimateDetailInterface;
+  
+
+  itemsCopyClient: Array <itemEstimateInterface> = [];
+  itemCopyClient:itemEstimateInterface;
+  itemsDetailCopyClient: Array<itemEstimateDetailInterface> = [];
+  itemDetailCopyClient: itemEstimateDetailInterface;
+  
   detailCodes: any;
   selectedItemsDetail=[];
   subcentersCost:any;
@@ -87,10 +100,11 @@ export class MasterUpdateSettlementCustomerComponent implements OnInit {
   fullCode: any=null;
   fullCodeUpdate: any=null;
   fullCodeCustomer: any=null;
-
+  fullCodeCustomerUpdate: any=null;
   fullCodeWorkforce: any=null;
   fullCodeWorkforceUpdate: any=null;
   fullCodeCustomerWorkforce: any=null;
+
   
   myForm: FormGroup;
   myFormUpdate: FormGroup;
@@ -118,6 +132,9 @@ export class MasterUpdateSettlementCustomerComponent implements OnInit {
 
   indicatorFullCodeCreateWorkforce=0;
   indicatorFullCodeCreateWorkforceUpdate=0;
+
+  indicatorFullCodeCreateCustomer=0;
+  indicatorFullCodeCreateCustomerUpdate=0;
 
   scheduleSettlementCustomer: any;
   change = true;
@@ -164,6 +181,7 @@ export class MasterUpdateSettlementCustomerComponent implements OnInit {
   discountWorkforce:any=0;
   discountWorkforceUpdate:any=0;
   discountCustomer:any=0;
+  discountCustomerUpdate:any=0;
 
   deliveryPart:any = 0;
   deliveryPartUpdate:any = 0;
@@ -184,7 +202,9 @@ export class MasterUpdateSettlementCustomerComponent implements OnInit {
 
   totalPriceWorkforce;
   totalPriceWorkforceUpdate;
-  totalPriceCustomer=0;
+  totalPriceCustomer:any;
+
+  totalPriceCustomerUpdate:any;
  
   now:any;
   user:any;
@@ -204,6 +224,7 @@ export class MasterUpdateSettlementCustomerComponent implements OnInit {
   selectedSubcostCenterWorkforceUpdateId:any=0;
   selectedSubcostCenterWorkforceId:any=0;
   selectedSubcostCenterCustomerId:any=0;
+  selectedSubcostCenterCustomerUpdateId:any=0;
 
   selectedScheduleOptionOne:any=0;
   switchScheduleOptionOne:any= false;
@@ -247,6 +268,7 @@ export class MasterUpdateSettlementCustomerComponent implements OnInit {
 
   settlementEstimatesCustomer:any;
   settlementEstimatesForklift:any;
+  settlementEstimatesCopyClient:any;
   
   settlementId=null;
   currentSettlement:any;
@@ -284,7 +306,7 @@ export class MasterUpdateSettlementCustomerComponent implements OnInit {
   customerquantity: any;
   customerSubtotal: any;
   customerDelivery: any;
-  customerPrice:any=0;
+  customerPrice:any;
 
 
   workforceCode: any;
@@ -301,6 +323,14 @@ export class MasterUpdateSettlementCustomerComponent implements OnInit {
   workforceSubtotalUpdate: any;
   workforceDeliveryUpdate: any;
   workforceDetailIdUpdate: any;
+
+  customerCodeUpdate: any;
+  customerServiceUpdate: any;
+  customerquantityUpdate: any;
+  customerPriceUpdate: any;
+  customerSubtotalUpdate: any;
+  customerDeliveryUpdate: any;
+  customerDetailIdUpdate: any;
 
   idCustomerCreated:any;
   itemEnd = [];
@@ -519,7 +549,7 @@ export class MasterUpdateSettlementCustomerComponent implements OnInit {
     if(this.settlementId){
       this.settlementService.getSettlementDetailsCustomer(this.settlementId).then(data => {
         const resp: any = data;
-        console.log('Partes '+JSON.stringify(data));
+        console.log('CUSTOMER '+JSON.stringify(data));
 
       this.rowsItemscustomer=resp.data;
       console.log('rowsItemscustomer'+ this.rowsItemscustomer);
@@ -1023,7 +1053,7 @@ getWarehouses() {
    }
 
 
-   updateSettlementDetail(){
+   updateSettlementDetailWorkforce(){
     swal({
       title: 'Validando información ...',
       allowOutsideClick: false
@@ -1055,7 +1085,7 @@ getWarehouses() {
      let serviceTemp= this.workforceServiceUpdate;
      let quantityTemp = this.workforcequantityUpdate;
      let hourValueTemp = this.changeFormatDecimal(this.workforceHourValueUpdate);
-     let subtotalTemp = this.changeFormatDecimal(this.workforceSubtotalUpdate);
+     let subtotalTemp = this.changeFormatDecimal(this.totalPriceWorkforceUpdate);
      let deliveryTemp = this.workforceDeliveryUpdate;
      let statusTemp = 0;
      let typeServiceTemp = 1;
@@ -1064,7 +1094,7 @@ getWarehouses() {
      let discountTemp= this.discountWorkforceUpdate;
 
      this.settlementService.updateSettlementDetailWorkforce(settlementIdDetailTemp,codeTemp,serviceTemp,
-      quantityTemp,  hourValueTemp, subtotalTemp, deliveryTemp, subtotalTemp,statusTemp, totalTemp, subCenterCostIdWorkforce, discountTemp, fullCodeTemp ).then(data => {
+      quantityTemp,  hourValueTemp, subtotalTemp, deliveryTemp, subtotalTemp,statusTemp, typeServiceTemp, subCenterCostIdWorkforce, discountTemp, fullCodeTemp ).then(data => {
        const resp: any = data;
        swal({
         title: 'Item actualizado',
@@ -1111,13 +1141,214 @@ getWarehouses() {
      });
   }
 
+   }
+
+// ------------------------------------------
+
+   updateSettlementDetailCustomer(){
+    swal({
+      title: 'Validando información ...',
+      allowOutsideClick: false
+    });
+    swal.showLoading();
+     // console.log(this.lowPrice+ '--' +this.price+ '--'+ this.higherPrice);
+     let priceUpdateTemp=  this.changeFormatDecimal(this.priceUpdate);// 
+     this.lowPriceUpdate = this.changeFormatDecimal(this.suggestedPriceUpdate);
+     this.higherPriceUpdate = Number(this.lowPriceUpdate *(1+(this.suggestedMaximum/100))).toFixed(0);
+     console.log('info de importante');
+     console.log('----'+priceUpdateTemp+ '----'+ this.lowPriceUpdate+'---'+  this.higherPriceUpdate + '---' + this.suggestedMaximum);
+     // cambio YCV 
+     if(this.workforceServiceUpdate!==''){
+      if(this.workforceCodeUpdate!==''){
+      let indSubcenter= this.validationFullCodeWorkforceUpdate();
+      
+      if(indSubcenter!=2){
+      let codeTemp;
+      if(this.fullCodeWorkforceUpdate){
+       codeTemp=this.fullCodeWorkforceUpdate.code;
+      }else{
+       codeTemp= this.workforceCodeUpdate;
+      }
+
+     let fullCodeTemp = this.workforceCodeUpdate;
+
+    
+     let settlementIdDetailTemp= this.workforceDetailIdUpdate;
+     let serviceTemp= this.workforceServiceUpdate;
+     let quantityTemp = this.workforcequantityUpdate;
+     let hourValueTemp = this.changeFormatDecimal(this.workforceHourValueUpdate);
+     let subtotalTemp = this.changeFormatDecimal(this.totalPriceWorkforceUpdate);
+     let deliveryTemp = this.workforceDeliveryUpdate;
+     let statusTemp = 0;
+     let typeServiceTemp = 1;
+     let totalTemp;
+     let subCenterCostIdWorkforce= this.selectedSubcostCenterWorkforceUpdateId;
+     let discountTemp= this.discountWorkforceUpdate;
+
+     this.settlementService.updateSettlementDetailWorkforce(settlementIdDetailTemp,codeTemp,serviceTemp,
+      quantityTemp,  hourValueTemp, subtotalTemp, deliveryTemp, subtotalTemp,statusTemp, typeServiceTemp, subCenterCostIdWorkforce, discountTemp, fullCodeTemp ).then(data => {
+       const resp: any = data;
+       swal({
+        title: 'Item actualizado',
+        type: 'success'
+       });
+       
+       document.getElementById( 'updateItemHideDetailWorkforce').click();
+
+       this.clearFormDetailWorkUpdate();
+      // this.getEstimateDetails();
+       this.getSettlementWorkforce();
+       this.getSettlementParts();
+
+       console.log(resp);
+     }).catch(error => {
+
+      swal({
+        title: 'Se presento un problema, para guardar este item',
+        type: 'error'
+       });
+
+       console.log(error);
+     });
+ 
+  }else{
+    swal({
+      title: 'Se presentó un problema',
+      text: 'El campo subcentro es requerido es requerido',
+      type: 'error'
+     });
+  }
+  }else{
+    swal({
+      title: 'Se presentó un problema',
+      text: 'El campo código es requerido',
+      type: 'error'
+     });
+  }
+}else{
+    swal({
+      title: 'Se presentó un problema',
+      text: 'El campo descripción es requerido',
+      type: 'error'
+     });
+  }
+
+   }
+
+   // -------------------------------------------------
+
+   updateSettlementDetail(){
+    swal({
+      title: 'Validando información ...',
+      allowOutsideClick: false
+    });
+    swal.showLoading();
+     // console.log(this.lowPrice+ '--' +this.price+ '--'+ this.higherPrice);
+     let priceUpdateTemp=  this.changeFormatDecimal(this.priceUpdate);// 
+     this.lowPriceUpdate = this.changeFormatDecimal(this.suggestedPriceUpdate);
+     this.higherPriceUpdate = Number(this.lowPriceUpdate *(1+(this.suggestedMaximum/100))).toFixed(0);
+     console.log('info de importante');
+     console.log('----'+priceUpdateTemp+ '----'+ this.lowPriceUpdate+'---'+  this.higherPriceUpdate + '---' + this.suggestedMaximum);
+     // cambio YCV 
+     if(this.descriptionUpdate!==''){
+      if(this.codeUpdate!==''){
+      let indSubcenter= this.validationFullCodeCreatePartUpdate();
+      
+      if(indSubcenter!=2){
+
+     if(Number(priceUpdateTemp) >= Number(this.lowPriceUpdate) && Number(priceUpdateTemp) <= Number(this.higherPriceUpdate)){
+
+      let codeTemp;
+      if(this.fullCodeUpdate){
+       codeTemp=this.fullCodeUpdate.code;
+      }else{
+       codeTemp= this.codeUpdate;
+      }
+
+     let fullCodeTemp = this.codeUpdate;
+     let settlementIdDetailTemp= this.idDetail;//this.settlementId;
+    
+     let descriptionTemp= this.descriptionUpdate;
+     let quantityTemp = this.quantityUpdate;
+     let unitCostTemp = this.unitCostUpdate;
+     let priceListTemp = this.priceListUpdate;
+     let priceSuggestTemp = this.changeFormatDecimal(this.suggestedPriceUpdate);
+     //let daysTemp = this.daysUpdate;
+     // let priceTemp = this.priceUpdate;
+     let deliveryPartTemp = this.deliveryPartUpdate;
+     let weightTemp = this.weightUpdate;
+     let totalTemp = this.changeFormatDecimal(this.subtotalUpdate);
+     let observationTemp = this.observationUpdate;
+     let statusTemp = 0;
+     let discountTemp= this.discountPartUpdate;
+     console.log('Antes de guardar');
+     console.log(this.subtotalUpdate);
+     let subtotalTemp = this.changeFormatDecimal(this.subtotalUpdate);
+     let typeServiceTemp = 0;
+     let weightTypeTemp = this.weightTypeListUpdate;
+     let subcenterId= this.selectedSubcostCenterUpdateId;
+
+     this.settlementService.updateSettlementDetails(settlementIdDetailTemp,codeTemp,descriptionTemp,
+      quantityTemp, unitCostTemp, priceListTemp, priceSuggestTemp, weightTemp,
+      priceUpdateTemp, subtotalTemp, deliveryPartTemp, totalTemp,statusTemp, typeServiceTemp,weightTypeTemp,subcenterId,
+       discountTemp, fullCodeTemp ).then(data => {
+       const resp: any = data;
+       swal({
+        title: 'Item actualizado',
+        type: 'success'
+       });
+       
+       document.getElementById( 'updateItemHide').click();
+       this.clearFormDetailUpdate();
+      // this.getEstimateDetails();
+       this.getSettlementWorkforce();
+       this.getSettlementParts();
+       // this.getSettlementCustomer();
+
+       console.log(resp);
+     }).catch(error => {
+
+      swal({
+        title: 'Se presento un problema, para guardar este item',
+        type: 'error'
+       });
+
+       console.log(error);
+     });
+    }else{
+      swal({
+        title: 'Se presentó un problema',
+        text: 'El precio asignado está por debajo del sugerido o está por encima del porcentaje permitido',
+        type: 'error'
+       });
+    }
+  }else{
+    swal({
+      title: 'Se presentó un problema',
+      text: 'El campo subcentro es requerido es requerido',
+      type: 'error'
+     });
+  }
+  }else{
+    swal({
+      title: 'Se presentó un problema',
+      text: 'El campo código es requerido',
+      type: 'error'
+     });
+  }
+}else{
+    swal({
+      title: 'Se presentó un problema',
+      text: 'El campo descripción es requerido',
+      type: 'error'
+     });
+  }
+
 
 
 
 
    }
-
-
 
 
    sendPriceCountries() {
@@ -1271,7 +1502,23 @@ this.totalPriceUpdate= this.finalFormatStandard( Number(item.subtotal).toFixed(0
         document.getElementById( 'uploadWorkforceItem').click();
       }
 
+    updateCustomerItems(item:any) {
 
+        this.onChangeCodeUpdate(item.full_code);
+        this.customerDetailIdUpdate = item.id;
+        this.customerCodeUpdate = item.code;
+        this.customerServiceUpdate = item.description;
+        this.customerquantityUpdate = item.quantity;
+        this.customerPriceUpdate = this.finalFormatStandard((Number(item.price)).toFixed(0));
+        this.customerSubtotalUpdate = (Number(item.subtotal)).toFixed(0);
+        this.customerDeliveryUpdate = item.delivery;
+        this.selectedSubcostCenterCustomerUpdateId = item.subcost_center_id;
+        this.discountCustomerUpdate= item.discount;
+        this.totalPriceCustomerUpdate= this.finalFormatStandard( Number(item.subtotal).toFixed(0));
+        
+            console.log(item);
+            document.getElementById('uploadCustomerItem').click();
+          }
 
 
   deletePriceCountry(item: any) {
@@ -1727,6 +1974,18 @@ console.log('Importante informacion: '+ this.conditionValidation);
     console.log(JSON.stringify(this.fullCode));    
   }
 
+
+  onChangeCustomerCodeUpdate(detailCode:any){
+    console.log(detailCode);
+
+    for (let i = 0; i < this.detailCodes.length; i++) {
+      if(this.detailCodes[i].full_description==detailCode){
+            this.fullCodeCustomerUpdate=this.detailCodes[i];
+      }
+    }
+    console.log(JSON.stringify(this.fullCode));    
+  }
+
   getConfigEstimatesInitial(){
     this.estimateService.getConfigEstimates().then(data => {
       const resp: any = data;
@@ -1996,11 +2255,11 @@ console.log(country+'-'+item.estimate_countries_id+'-'+item.conexion_id_validati
   
     let operationFreight=0;
   
-    if(this.conditionValidation==2){
+   /* if(this.conditionValidation==2){
        operationFreight = Number(Number(this.freightGeneral).toFixed(2))*1;
-    }else{
+    }else{*/
        operationFreight = Number(Number(this.freightGeneral).toFixed(2))*this.finalWeight;
-    }
+    //}
   
     console.log('driving '+drivingCost);
     // let operationFreight = this.freightGeneral*this.finalWeight;
@@ -2880,11 +3139,11 @@ showSettlementEstimateCustomer(){
   console.log(this.currentSettlement.customer_id);
   
   this.settlementService.getSettlementEstimateCustomer(this.currentSettlement.customer_id, this.numberPage).then(data => {
-    let respSettlementCustomer:any= data;
+    let respSettlement:any= data;
     this.itemsEstimate=[];
-    this.limitPage=respSettlementCustomer.data.last_page;
+    this.limitPage=respSettlement.data.last_page;
     console.log('limite de paginas '+this.limitPage);
-    this.settlementEstimatesCustomer=respSettlementCustomer.data.data;
+    this.settlementEstimatesCustomer=respSettlement.data.data;
 
 
     this.settlementEstimatesCustomer.forEach((item)=>{
@@ -2933,6 +3192,11 @@ showSettlementEstimateCustomer(){
     });
 } 
 
+
+
+
+
+
 checkChangeActive(event:any, item:any){
    
   console.log('valor para editar');
@@ -2978,6 +3242,144 @@ backPage(){
 
 }
 
+
+
+
+
+showSettlementEstimateForklift(){
+  swal({
+    title: 'Validando información ...',
+    allowOutsideClick: false
+  });
+  swal.showLoading();
+  console.log('--------------');
+  console.log(this.currentSettlement);
+  console.log(this.currentSettlement.customer_id);
+  
+  this.settlementService.getSettlementEstimateForklift(this.currentSettlement.customer_id, this.numberPage).then(data => {
+    let respSettlementForklift:any= data;
+    this.itemsEstimate=[];
+    this.limitPage=respSettlementForklift.last_page;
+    console.log('limite de paginas '+this.limitPage);
+    this.settlementEstimatesForklift=respSettlementForklift.data;
+
+
+    this.settlementEstimatesForklift.forEach((item)=>{
+    
+      this.itemsDetailEstimateForklift=[];
+      item.details.forEach((itemDetail)=>{
+      
+        let activeDetail=false;
+        console.log('consolidado '+this.selectedItemsDetail+' '+itemDetail.id);
+        if(this.selectedItemsDetail.length>0){
+          var index = this.selectedItemsDetail.indexOf(itemDetail.id);//gestionar seleccionados
+          if (index !== -1) {
+             activeDetail=true;
+          }
+        }
+        this.itemDetailEstimateForklift={
+          id:itemDetail.id,
+          code: itemDetail.code,
+          description: itemDetail.description,
+          quantity: itemDetail.quantity,
+          subtotal: itemDetail.total_decimal,
+          active: activeDetail
+        }
+        
+        this.itemsDetailEstimateForklift.push(this.itemDetailEstimateForklift);
+      });
+      console.log('serie '+item.forklift.serie);
+      this.itemEstimateForklift={
+        estimate_consecutive: item.forklift.serie,
+        item:this.itemsDetailEstimateForklift
+      }
+
+      this.itemsEstimateForklift.push(this.itemEstimateForklift);
+    });
+
+    console.log('--oleole-------------');
+    console.log('resultado final: ' +JSON.stringify( this.itemsEstimateForklift));
+    console.log(this.settlementEstimatesForklift);
+
+    document.getElementById('checkEstimateForklift').click();
+    swal.close();
+
+    }).catch(error => {
+    console.log(error);
+    swal.close();
+    });
+} 
+
+
+
+showSettlementCopyClient(){
+  swal({
+    title: 'Validando información ...',
+    allowOutsideClick: false
+  });
+  swal.showLoading();
+  console.log('--------------');
+  console.log(this.currentSettlement);
+  console.log(this.currentSettlement.id);
+  
+  this.settlementService.getSettlementEstimateCopyClient(this.currentSettlement.id).then(data => {
+    let respSettlementCopyCllient:any= data;
+    this.itemsEstimate=[];
+    this.limitPage=respSettlementCopyCllient.last_page;
+    console.log('limite de paginas '+this.limitPage);
+    this.settlementEstimatesCopyClient=respSettlementCopyCllient.data;
+
+
+    this.settlementEstimatesCopyClient.forEach((item)=>{
+    
+      this.itemsDetailCopyClient=[];
+      item.settlement_details.forEach((itemDetail)=>{
+      
+        let activeDetail=false;
+        console.log('consolidado '+this.selectedItemsDetail+' '+itemDetail.id);
+        if(this.selectedItemsDetail.length>0){
+          var index = this.selectedItemsDetail.indexOf(itemDetail.id);//gestionar seleccionados
+          if (index !== -1) {
+             activeDetail=true;
+          }
+        }
+        this.itemDetailCopyClient={
+          id:itemDetail.id,
+          code: itemDetail.code,
+          description: itemDetail.description,
+          quantity: itemDetail.quantity,
+          subtotal: itemDetail.total_decimal,
+          active: activeDetail
+        }
+        
+        this.itemsDetailCopyClient.push(this.itemDetailCopyClient);
+      });
+     
+      this.itemCopyClient={
+        estimate_consecutive: item.settlement_consecutive,
+        item:this.itemsDetailCopyClient
+      }
+
+      this.itemsCopyClient.push(this.itemCopyClient);
+    });
+
+    console.log('--oleole-------------');
+    console.log('resultado final: ' +JSON.stringify( this.itemsCopyClient));
+    console.log(this.settlementEstimatesCopyClient);
+
+    document.getElementById('modalCopyCustomerFormShow').click();
+    swal.close();
+
+    }).catch(error => {
+    console.log(error);
+    swal.close();
+    });
+} 
+
+
+
+
+/*
 showSettlementEstimateForklift(){
   swal({
     title: 'Validando información ...',
@@ -2997,7 +3399,7 @@ showSettlementEstimateForklift(){
     console.log(error);
     swal.close();
     });
-} 
+} */
 
 createDetailsEstimateSettlement(){
   swal({
@@ -3182,6 +3584,25 @@ console.log('acaaaaaaaaaaaaa');
  // es validar el 2 si devuelve 2 se pide subcenter 
     }  
 
+
+    validationFullCodeCreateCustomer(){
+      if(this.fullCodeCustomer){
+      // this.indicatorFullCodeCreatePart 
+       if(this.fullCodeCustomer.required_subcenter==1){ // Si es true se debe validar subcenter obligatorio
+         if(this.selectedSubcostCenterCustomerId!=0){
+           return this.indicatorFullCodeCreateCustomer=1; //asignamos 1 si esta el subcentro
+         }else{
+           return this.indicatorFullCodeCreateCustomer=2; //asignamos 2 si no hay subcento
+         }
+       }else{
+         return this.indicatorFullCodeCreateCustomer=3; // no require subcenter
+        }
+      }else{
+       return this.indicatorFullCodeCreateCustomer=4; // no hay code
+      }
+   // es validar el 2 si devuelve 2 se pide subcenter 
+      }  
+  
    
 
     createSettlementDetailWorkforce(){
@@ -3271,6 +3692,94 @@ console.log('acaaaaaaaaaaaaa');
      }
 
 
+
+     createSettlementDetailCustomer(){
+      swal({
+        title: 'Validando información ...',
+        allowOutsideClick: false
+      });
+      swal.showLoading();
+  
+       if(this.customerDescription!==''){
+       if(this.customerCode!==''){
+       let indSubcenter= this.validationFullCodeCreateCustomer();
+         if(indSubcenter!=2){
+  
+       let codeTemp;
+       if(this.fullCodeCustomer){
+        codeTemp=this.fullCodeCustomer.code;
+       }else{
+        codeTemp= this.customerCode;
+       }
+
+
+       let settlementIdTemp= this.settlementId;
+       let fullCodeTemp= this.customerCode;
+       let serviceTemp = this.customerDescription;
+       let quantityTemp = this.customerquantity;
+       let priceTemp = this.changeFormatDecimal(this.customerPrice);
+       let subtotalTemp = this.changeFormatDecimal(this.customerSubtotal);
+       let deliveryTemp = this.customerDelivery;
+       let statusTemp = 0;
+       let subcenterId= this.selectedSubcostCenterCustomerId;
+       let discountTemp = this.discountCustomer;
+
+
+       this.settlementService.createSettlementDetailsCustomer(settlementIdTemp,codeTemp,serviceTemp,
+        quantityTemp, priceTemp, subtotalTemp, subtotalTemp, deliveryTemp, subtotalTemp,statusTemp, 
+        subcenterId,discountTemp,fullCodeTemp).then(data => {
+         const resp: any = data;
+         swal({
+          title: 'Item creado',
+          type: 'success'
+         });
+         
+         document.getElementById('createItemHideDetailCustomer').click();
+         this.clearFormDetailWork();
+        // this.getEstimateDetails();
+         this.getSettlementParts();
+         this.getSettlementWorkforce();
+         this.getSettlementCustomer();
+         console.log(resp);
+       }).catch(error => {
+  
+        swal({
+          title: 'Se presento un problema, para guardar este item',
+          type: 'error'
+         });
+  
+         console.log(error);
+       });
+  
+       console.log('estos son los puntos');
+  
+     
+    
+    }else{
+      swal({
+        title: 'Se presentó un problema',
+        text: 'El campo subcentro es requerido es requerido',
+        type: 'error'
+       });
+    }
+    }else{
+      swal({
+        title: 'Se presentó un problema',
+        text: 'El campo código es requerido',
+        type: 'error'
+       });
+    }
+  }else{
+      swal({
+        title: 'Se presentó un problema',
+        text: 'El campo descripción es requerido',
+        type: 'error'
+       });
+    }
+  
+     }
+
+
    sendEmailEstimate(){
     
     this.estimateService.sendEstimateEmail(
@@ -3310,14 +3819,22 @@ console.log('acaaaaaaaaaaaaa');
    // this.workforceSubtotal =  this.changeFormatDecimal(this.workforceSubtotal);
    }
 
+
+
    calculateSubtotalCustomer(){
     console.log('calular de subtotal actualizar');
+    console.log(this.customerPrice);
+    
     let customerPriceTemp = this.changeFormatDecimal(this.customerPrice);
     let value =  this.customerquantity*customerPriceTemp;
     this.customerSubtotal = Number(value).toFixed(0);
+    let totalCustomer =  Number((customerPriceTemp*this.customerquantity)-((customerPriceTemp*this.customerquantity)*(this.discountCustomer/100))).toFixed(0);
+    this.totalPriceCustomer= this.finalFormat(totalCustomer);
+    console.log('this.workforceSubtotal ----- '+this.workforceSubtotal);
     this.finalFormaCustomerSubtotal();
    // this.workforceSubtotal =  this.changeFormatDecimal(this.workforceSubtotal);
-   }
+  
+  }
 
    calculateSubtotalWorkUpdate(){
     console.log('calular de subtotal actualizar');
@@ -3330,6 +3847,20 @@ console.log('acaaaaaaaaaaaaa');
     this.finalFormaHourValueSubtotalUpdate();
    // this.workforceSubtotal =  this.changeFormatDecimal(this.workforceSubtotal);
    }
+
+   calculateSubtotalCustomerUpdate(){
+    console.log('calular de subtotal actualizar');
+    let customerPriceUpdate = this.changeFormatDecimal(this.customerPriceUpdate);
+    let value =  this.customerquantityUpdate*customerPriceUpdate;
+    this.workforceSubtotalUpdate = Number(value).toFixed(0);
+    let totalCustomer =  Number((customerPriceUpdate*this.customerquantityUpdate)-((customerPriceUpdate*this.customerquantityUpdate)*(this.discountCustomerUpdate/100))).toFixed(0);
+    this.totalPriceCustomerUpdate= this.finalFormat(totalCustomer);
+    console.log('this.workforceSubtotalUpdate ----- '+this.workforceSubtotalUpdate);
+    this.finalFormaCustomerSubtotalUpdate();
+   // this.workforceSubtotal =  this.changeFormatDecimal(this.workforceSubtotal);
+   }
+
+
 
    createNewCustomer() {
       swal({
@@ -3642,8 +4173,8 @@ console.log('Solo se permiten numeros');
       this.workforceHourValue=splitLeft +splitRight;
       }
 
-      finalFormaHourValueUpdate(){
-        var num = this.changeFormatDecimal(this.workforceHourValueUpdate); // this.changeFormatDecimal(this.workforceHourValue);
+      finalFormaHourValueCustomer(){
+        var num = this.changeFormatDecimal(this.customerPrice); // this.changeFormatDecimal(this.workforceHourValue);
         console.log(num);
         num +='';
         var splitStr = num.split('.');
@@ -3656,7 +4187,24 @@ console.log('Solo se permiten numeros');
         }
         console.log('Importante oleole');
         console.log(splitLeft +splitRight);
-        this.workforceHourValueUpdate=splitLeft +splitRight;
+        this.customerPrice=splitLeft +splitRight;
+        }
+
+      finalFormaCustomerUpdate(){
+        var num = this.changeFormatDecimal(this.customerPriceUpdate); // this.changeFormatDecimal(this.workforceHourValue);
+        console.log(num);
+        num +='';
+        var splitStr = num.split('.');
+        var splitLeft = splitStr[0];
+        var splitRight = splitStr.length > 1 ? ',' + splitStr[1] : '';
+        var regx = /(\d+)(\d{3})/;
+        while (regx.test(splitLeft)) {
+        splitLeft = splitLeft.replace(regx, '$1' + '.' + '$2');
+        console.log(splitLeft);
+        }
+        console.log('Importante oleole');
+        console.log(splitLeft +splitRight);
+        this.customerPriceUpdate=splitLeft +splitRight;
         }
 
       finalFormaHourValueSubtotal(){
@@ -3693,6 +4241,23 @@ console.log('Solo se permiten numeros');
           console.log(splitLeft +splitRight);
           this.customerSubtotal=splitLeft +splitRight;
           }
+
+          finalFormaCustomerSubtotalUpdate(){
+            var num = this.customerSubtotalUpdate;//this.changeFormatDecimal(this.workforceSubtotalUpdate); // this.changeFormatDecimal(this.workforceHourValue);
+            console.log(num);
+            num +='';
+            var splitStr = num.split('.');
+            var splitLeft = splitStr[0];
+            var splitRight = splitStr.length > 1 ? ',' + splitStr[1] : '';
+            var regx = /(\d+)(\d{3})/;
+            while (regx.test(splitLeft)) {
+            splitLeft = splitLeft.replace(regx, '$1' + '.' + '$2');
+            console.log(splitLeft);
+            }
+            console.log('Importante oleole');
+            console.log(splitLeft +splitRight);
+            this.customerSubtotalUpdate=splitLeft +splitRight;
+            }
 
         finalFormaHourValueSubtotalUpdate(){
           var num = this.workforceSubtotalUpdate;//this.changeFormatDecimal(this.workforceSubtotalUpdate); // this.changeFormatDecimal(this.workforceHourValue);
@@ -3792,6 +4357,18 @@ console.log('Solo se permiten numeros');
           this.discountWorkforce=0;
         }
 
+
+        clearFormDetailCustomer(){
+          this.customerCode='';
+          this.customerDescription='';
+          this.customerquantity=1;
+          this.customerPrice=0;
+          this.customerSubtotal=0;
+          this.customerDelivery=0;
+          this.selectedSubcostCenterCustomerId=0;
+          this.discountCustomer=0;
+        }
+
         clearFormDetailWorkUpdate(){
           this.workforceCode='';
           this.workforceService='';
@@ -3820,13 +4397,19 @@ console.log('Solo se permiten numeros');
 
 
         cancelFormCustomerCreate(){
-          document.getElementById('createHideCustomer').click();
+          document.getElementById('createItemHideDetailCustomer').click();
          // this.clearFormDetailWork();
         }
+
 
         cancelFormDetailWorkforceUpdate(){
           document.getElementById('updateHideWorkforce').click();
           this.clearFormDetailWorkUpdate();
+        }
+
+        cancelFormCustomerUpdate(){
+          document.getElementById('updateHideCustomer').click();
+        // s  this.clearFormDetailWorkUpdate();
         }
         //funcion limpiar y validar campos obligatorios
 }

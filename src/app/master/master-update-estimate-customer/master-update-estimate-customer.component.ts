@@ -1704,11 +1704,11 @@ finalOperation(country:number){
 
   let operationFreight=0;
 
-  if(this.conditionValidation==2){
+ /* if(this.conditionValidation==2){
      operationFreight = Number(Number(this.freightGeneral).toFixed(2))*1;
-  }else{
+  }else{*/
      operationFreight = Number(Number(this.freightGeneral).toFixed(2))*this.finalWeight;
-  }
+ // }
 
   console.log('driving '+drivingCost);
   // let operationFreight = this.freightGeneral*this.finalWeight;
@@ -1789,11 +1789,11 @@ finalOperationUpdate(country:number){
 
   let operationFreight=0;
 
-  if(this.conditionValidation==2){
+  /*if(this.conditionValidation==2){
      operationFreight = Number(Number(this.freightGeneral).toFixed(2))*1;
-  }else{
+  }else{*/
      operationFreight = Number(Number(this.freightGeneral).toFixed(2))*this.finalWeight;
-  }
+  //}
 
   console.log('driving '+drivingCost);
   // let operationFreight = this.freightGeneral*this.finalWeight;

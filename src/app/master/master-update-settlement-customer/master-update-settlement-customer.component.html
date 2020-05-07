@@ -299,7 +299,7 @@
                 </div>
                 <div class="col-sm-4">
                     <h6>Precio</h6>
-                    <input type="text" [(ngModel)]="customerPrice"    (blur)="calculateSubtotalCustomer()"  (keyup)="finalFormaHourValue()"  class="form-control">
+                    <input type="text" [(ngModel)]="customerPrice"    (blur)="calculateSubtotalCustomer()"  (keyup)="finalFormaHourValueCustomer()"  class="form-control">
                 </div>
                 <div class="col-sm-4">
                     <h6>Subtotal </h6>
@@ -351,11 +351,105 @@
           <br>
             <div class="align-buttons">
   
-                <button type="button" style="display:none;" class="btn btn-default waves-effect" id="createHideCustomer" (click)="createHideCustomer.hide()">Cancelar</button>
+                <button type="button" style="display:none;" class="btn btn-default waves-effect" id="createItemHideDetailCustomer" (click)="modalRegisterItemCustomer.hide()">Cancelar</button>
                 <button type="button" class="btn btn-default waves-effect" id="createItemHideDetailWorkforce" (click)="cancelFormCustomerCreate()">Cancelar</button>
                 
                <!-- <button type="button" class="btn btn-default waves-effect" id="createItemHideDetailWorkforce" (click)="modalRegisterItemWorkforce.hide()">Cancelar</button> -->
-                <button type="submit " class="btn btn-primary m-b-0 "  (click)="createEstimateDetailWorkforce()">Crear Item</button>
+                <button type="submit " class="btn btn-primary m-b-0 "  (click)="createSettlementDetailCustomer()">Crear Item</button>
+            </div>
+        </div>
+    </div>
+  </app-modal-basic>
+
+
+  <app-modal-basic #modalUpdateItemCustomer [dialogClass]="'modal-lg'">
+    <div class="app-modal-header">
+        <h4 class="modal-title">Actualizar Item</h4>
+    </div>
+    <div class="app-modal-body">
+        <div>
+            <div class="row">
+                <div class="col-sm-6">
+                  <h6>Código </h6>
+                  <input  type="text" class="form-control" (change)="onChangeCustomerCodeUpdate(customerCodeUpdate)"  [(ngModel)]="customerCodeUpdate" list="browsers">
+                  <datalist  id="browsers">
+                    <!--  <div  > -->
+                        <option  *ngFor="let detailCode of detailCodes"   [ngValue]="detailCode"> {{detailCode.full_description}} </option>
+                     <!-- </div> -->                  
+                  </datalist>
+                </div>
+                <div class="col-sm-6">
+                    <h6>Servicio </h6>
+                    <input type="text" [(ngModel)]="customerServiceUpdate" class="form-control">
+                </div>
+            </div>
+            <br>
+            <div class="row">
+                <div class="col-sm-4">
+                    <h6>Cantidad</h6>
+                    <input type="number" [(ngModel)]="customerquantityUpdate" class="form-control"  (blur)="calculateSubtotalCustomerUpdate()">
+                </div>
+                <div class="col-sm-4">
+                    <h6>Precio</h6>
+                    <input type="text" [(ngModel)]="customerPriceUpdate"   (keyup)="finalFormaCustomerUpdate()"   (blur)="calculateSubtotalCustomerUpdate()" class="form-control">
+                </div>
+                <div class="col-sm-4">
+                    <h6>Subtotal </h6>
+                    <input type="text" [(ngModel)]="customerSubtotalUpdate" class="form-control">
+                </div>
+            </div>
+  
+            <br>
+            <div class="row">
+              <div class="col-sm-4">
+                  <h6>Subcentro </h6>
+        <!--          <select class="form-control">
+                          <option value="0" selected>Seleccionar Subcentro</option>
+                          <option value="2">Centro1 </option>
+                          <option value="3">Centro2 </option>
+                        </select>--> 
+  
+                        <select class="form-control" class="form-control" name="select"  [(ngModel)]="selectedSubcostCenterCustomerUpdateId">
+                          <option value="0" selected>Seleccionar Subcentro</option>
+                      <option  *ngFor="let subcenterCost of subcentersCost " [ngValue]="subcenterCost.id"> {{subcenterCost.description}} </option>
+                     </select>
+  
+  
+              </div>
+              <div class="col-sm-4">
+                  <h6>Descuento% </h6>
+                  <input type="number" [(ngModel)]="discountCustomerUpdate"  (blur)="calculateSubtotalCustomerUpdate()" class="form-control">
+              </div>
+  
+              <div class="col-sm-4">
+                  <h6>Total </h6>
+                  <input  [(ngModel)]="totalPriceCustomerUpdate" class="form-control" disabled>
+                </div>        
+            </div>
+  
+  
+            <br>
+  
+  
+            <div class="row">
+                <div class="col-sm-4">
+                    <h6>Entrega </h6>
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <input type="number"   [(ngModel)]="customerDeliveryUpdate" class="form-control">
+                        </div><h6>Días</h6> 
+                    </div>     
+                </div>
+  
+            </div>
+            <br>
+            <div class="align-buttons">
+      
+                <button type="button" style="display:none;" class="btn btn-default waves-effect" id="updateHideCustomer" (click)="modalUpdateItemCustomer.hide()">Cancelar</button>
+                <button type="button" class="btn btn-default waves-effect" id="updateItemHideDetailCustomer" (click)="cancelFormCustomerUpdate()">Cancelar</button>
+  
+                <button type="submit " class="btn btn-primary m-b-0 "  (click)="updateSettlementDetailWorkforce()">Actualizar Item</button>
+             
             </div>
         </div>
     </div>
@@ -513,7 +607,7 @@
               <button type="button" style="display:none;" class="btn btn-default waves-effect" id="updateHideWorkforce" (click)="modalUpdateItemWorkforce.hide()">Cancelar</button>
               <button type="button" class="btn btn-default waves-effect" id="updateItemHideDetailWorkforce" (click)="cancelFormDetailWorkforceUpdate()">Cancelar</button>
 
-              <button type="submit " class="btn btn-primary m-b-0 "  (click)="updateEstimateDetailWorkforce()">Actualizar Item</button>
+              <button type="submit " class="btn btn-primary m-b-0 "  (click)="updateSettlementDetailWorkforce()">Actualizar Item</button>
            
           </div>
       </div>
@@ -691,6 +785,9 @@
              <button type="button" style="display:none;" class="btn btn-default waves-effect" id="hideModalProgramming" (click)="modalProgramming.hide()">Mostrar Programación</button>
              <button type="button" style="display:none;" class="btn btn-default waves-effect" id="checkEstimateCustomers" (click)="modalEstimateCustomers.show()">Cancelar</button>
              <button type="button" style="display:none;" class="btn btn-default waves-effect" id="hideEstimateCustomers" (click)="modalEstimateCustomers.hide()">Cancelar</button>
+
+             <button type="button" style="display:none;" class="btn btn-default waves-effect" id="checkEstimateForklift" (click)="modalEstimateForklifts.show()">Cancelar</button>
+             <button type="button" style="display:none;" class="btn btn-default waves-effect" id="hideEstimateForklift" (click)="modalEstimateForklifts.hide()">Cancelar</button>
             
              <!--  <button type="button" class="btn btn-default waves-effect" id="updateItemHide" (click)="modalUpdateItem.hide()">Cancelar</button>-->
               <button type="submit " class="btn btn-primary m-b-0 "  (click)="updateSettlementDetail()">Actualizar Item</button>
@@ -868,6 +965,145 @@
 
             <div class="align-buttons">
                 <button type="button" class="btn btn-default waves-effect" id="storageDetailHide" (click)="deleteItemsSelect()">Cancelar</button>
+                <button type="submit " class="btn btn-primary m-b-0 "   (click)="createDetailsEstimateSettlement()">Copiar</button>
+            </div>
+    </div>
+</app-modal-basic>
+
+                    <!-- Cotizaciones por maquinas-->
+<!-- Modal Cotizaciones por empresa-->
+<app-modal-basic #modalEstimateForklifts [dialogClass]="'modal-lg'">
+    <div class="app-modal-header">
+        <h4 class="modal-title">Copiar cotizaciones por equipos</h4>
+    </div>
+    <div class="app-modal-body">
+        <app-card  [blockClass]="'accordion-block'" [cardOptionBlock]="true">
+            <ngb-accordion  *ngFor="let estimateForklift of itemsEstimateForklift" [closeOthers]="false" #acc="ngbAccordion" class="ngb-accordion">
+              <ngb-panel id="ngb-close-p1" title="Equipo: {{estimateForklift.estimate_consecutive}}">
+                <ng-template ngbPanelContent>
+                    <div class="form-group row">
+                        <div class="col-sm-12">
+                             <!--    <input type="checkbox"  value="m1" [checked]="checkAllPart"  (change)="checkUncheckAllPart($event)"/> <strong>Seleccionar todo</strong> -->      
+                                          <div class="table-responsive">
+                                            <div class="table-scroll"> 
+                                            <table class="table table-framed">
+                                              <thead>
+                                              <tr>
+                                                <th style="width: 5%"> </th>
+                                                <th style="width: 10%">Código</th>
+                                                <th style="width: 70%">Descripción</th>
+                                                <th style="width: 5%;">Cantidad</th>
+                                                <th style="width: 10%;">Subtotal</th>
+                                              </tr>
+                                              </thead>
+                                              <tbody>
+                                        <!--  value="{{item.id}}" (change)="partChangeActive($event,item)"[checked]="item.active" -->   
+                                             <tr *ngFor="let item of estimateForklift.item;let pointIdex=index">   
+                                                <td scope="row">
+                                                   <input type="checkbox"  name="list_name" value="{{item.id}}" (change)="checkChangeActive($event,item)"[checked]="item.active"/> 
+                                                </td>
+                                                <td>{{item.code}}</td>
+                                                <td>{{item.description}}</td>
+                                                <td>{{item.quantity}}</td>
+                                                <td>{{item.subtotal}} </td>
+                                               </tr> 
+                                              </tbody>
+                                            </table>
+                                          </div>
+                                        </div>
+                        </div>
+                    </div>
+            
+                </ng-template>
+              </ngb-panel>
+            </ngb-accordion>
+            <div class="form-group row">
+                <div class="col-sm-4">
+              
+                </div>
+                <div class="col-sm-4">
+              
+                </div>
+                <div class="col-sm-4">
+                    <button class="btn btn-primary btn-round" *ngIf="numberPage>1" (click)="backPage()" >Atras</button> <button (click)="nextPage()" class="btn btn-primary btn-round" *ngIf="numberPage<limitPage">Siguiente</button>
+                   <!--  <button class="btn btn-info btn-round">Atras</button>   <button class="btn btn-info btn-round">Siguiente</button> -->
+                </div>
+             </div>       
+           
+          </app-card>
+
+            <div class="align-buttons">
+                <button type="button" class="btn btn-default waves-effect" id="storageDetailHide" (click)="modalEstimateForklifts.hide()">Cancelar</button>
+                <button type="submit " class="btn btn-primary m-b-0 "   (click)="createDetailsEstimateSettlement()">Copiar</button>
+            </div>
+    </div>
+</app-modal-basic>
+
+
+
+
+<app-modal-basic #modalCopyCustomer [dialogClass]="'modal-lg'">
+    <div class="app-modal-header">
+        <h4 class="modal-title">Copiar detalles a factura</h4>
+    </div>
+    <div class="app-modal-body">
+        <app-card  [blockClass]="'accordion-block'" [cardOptionBlock]="true">
+            <ngb-accordion  *ngFor="let itemCopyClient of itemsCopyClient" [closeOthers]="true" #acc="ngbAccordion" class="ngb-accordion">
+              <ngb-panel id="ngb-close-p1" title="Items: {{itemCopyClient.estimate_consecutive}}">
+                <ng-template ngbPanelContent>
+                    <div class="form-group row">
+                        <div class="col-sm-12">
+                             <!--    <input type="checkbox"  value="m1" [checked]="checkAllPart"  (change)="checkUncheckAllPart($event)"/> <strong>Seleccionar todo</strong> -->      
+                                          <div class="table-responsive">
+                                            <div class="table-scroll"> 
+                                            <table class="table table-framed">
+                                              <thead>
+                                              <tr>
+                                                <th style="width: 5%"> </th>
+                                                <th style="width: 10%">Código</th>
+                                                <th style="width: 70%">Descripción</th>
+                                                <th style="width: 5%;">Cantidad</th>
+                                                <th style="width: 10%;">Subtotal</th>
+                                              </tr>
+                                              </thead>
+                                              <tbody>
+                                        <!--  value="{{item.id}}" (change)="partChangeActive($event,item)"[checked]="item.active" -->   
+                                             <tr *ngFor="let item of itemCopyClient.item;let pointIdex=index">   
+                                                <td scope="row">
+                                                   <input type="checkbox"  name="list_name" value="{{item.id}}" (change)="checkChangeActive($event,item)"[checked]="item.active"/> 
+                                                </td>
+                                                <td>{{item.code}}</td>
+                                                <td>{{item.description}}</td>
+                                                <td>{{item.quantity}}</td>
+                                                <td>{{item.subtotal}} </td>
+                                               </tr> 
+                                              </tbody>
+                                            </table>
+                                          </div>
+                                        </div>
+                        </div>
+                    </div>
+            
+                </ng-template>
+              </ngb-panel>
+            </ngb-accordion>
+            <div class="form-group row">
+                <div class="col-sm-4">
+              
+                </div>
+                <div class="col-sm-4">
+              
+                </div>
+                <div class="col-sm-4">
+                    <button class="btn btn-primary btn-round" *ngIf="numberPage>1" (click)="backPage()" >Atras</button> <button (click)="nextPage()" class="btn btn-primary btn-round" *ngIf="numberPage<limitPage">Siguiente</button>
+                   <!--  <button class="btn btn-info btn-round">Atras</button>   <button class="btn btn-info btn-round">Siguiente</button> -->
+                </div>
+             </div>       
+           
+          </app-card>
+
+            <div class="align-buttons">
+                <button type="button" class="btn btn-default waves-effect" id="storageDetailHide" (click)="modalCopyCustomer.hide()">Cancelar</button>
                 <button type="submit " class="btn btn-primary m-b-0 "   (click)="createDetailsEstimateSettlement()">Copiar</button>
             </div>
     </div>
@@ -1144,6 +1380,12 @@
                   <div class="align-buttons">
                       <button type="button" style="display:none;" id="uploadItem" class="btn btn-primary waves-effect" (click)="modalUpdateItem.show()">Actualizar item</button>
                       <button type="button" style="display:none;" id="uploadWorkforceItem" class="btn btn-primary waves-effect" (click)="modalUpdateItemWorkforce.show()">Actualizar item</button>
+                      <button type="button" style="display:none;" id="uploadCustomerItem" class="btn btn-primary waves-effect" (click)="modalUpdateItemCustomer.show()">Actualizar item</button>
+
+                      <button type="button" style="display:none;" id="modalCopyCustomerFormShow" class="btn btn-primary waves-effect" (click)="modalCopyCustomer.show()">Actualizar item</button>
+                      <button type="button" style="display:none;" id="modalCopyCustomerFormHide" class="btn btn-primary waves-effect" (click)="modalCopyCustomer.hive()">Actualizar item</button>
+
+                      
                    <!--   <button type="button"  class="btn btn-primary waves-effect" (click)="createSettlementCondition()" *ngIf="showSettlementId">Actualizar liquidación</button>--> 
                       <button type="button" id="registerCountry" class="btn btn-primary waves-effect" (click)="updateSettlementCondition()"  *ngIf="showCreateItem">Actualizar liquidación</button>
                   </div>
@@ -1160,7 +1402,11 @@
                     </div> 
                      
                     <div class="col-sm-1">
-                        <button  class="btn btn-primary btn-icon" placement="top" ngbTooltip="Copiar item en factura cliente">  <img src="assets/images/list.png"  width="50" height="50" > </button>
+                        <button  class="btn btn-primary btn-icon" (click)="showSettlementCopyClient()"   placement="top" ngbTooltip="Copiar item en factura cliente">  <img src="assets/images/list.png"  width="50" height="50" > </button>
+                    </div> 
+
+                    <div class="col-sm-1">
+                        <button  class="btn btn-primary btn-icon"   placement="top" ngbTooltip="Agregar correos">  <img src="assets/images/envelope.png"  width="50" height="50" > </button>
                     </div> 
                   <div class="col-sm-6">
                    
@@ -1244,7 +1490,7 @@
       <br>
       <div class="col-sm-12">
         <div class="labelItem">
-            <button type="button" id="registerCountry" class="btn btn-primary waves-effect" (click)="modalRegisterItemWorkforce.show()" *ngIf="showCreateItem">Crear item</button>
+            <button type="button" id="registerCountry" class="btn btn-primary waves-effect" (click)="modalRegisterItemCustomer.show()" *ngIf="showCreateItem">Crear item</button>
         </div>
          </div>
       <div class="row">
@@ -1264,10 +1510,10 @@
     <ngx-datatable-column  name="Precio sugerido" [flexGrow]="1"   [sortable]="false" [resizeable]="false" [canAutoResize]="true" prop="price_suggest_decimal"></ngx-datatable-column>
         <ngx-datatable-column  name="Precio"  [flexGrow]="1"  [sortable]="false" [resizeable]="false" [canAutoResize]="true" prop="price_decimal"></ngx-datatable-column>
           <ngx-datatable-column  name="Subtotal" [flexGrow]="1"  [sortable]="false" [resizeable]="false" [canAutoResize]="true" prop="subtotal_decimal"></ngx-datatable-column>
-            <ngx-datatable-column  name="Descuento" [flexGrow]="1" [sortable]="false" [resizeable]="false" [canAutoResize]="true" prop="delivery"></ngx-datatable-column>
+            <ngx-datatable-column  name="Descuento" [flexGrow]="1" [sortable]="false" [resizeable]="false" [canAutoResize]="true" prop="discount"></ngx-datatable-column>
     <ngx-datatable-column  name="Acciones" [flexGrow]="2"  [sortable]="false" [resizeable]="false" [canAutoResize]="true" sortable="false" prop="id">
         <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
-            <button (click)="updateItems(row)" class="btn btn-primary btn-icon"><i class="icofont icofont-pencil-alt-5"></i></button>
+            <button (click)="updateCustomerItems(row)" class="btn btn-primary btn-icon"><i class="icofont icofont-pencil-alt-5"></i></button>
             <button (click)="deleteEstimateDetail(row)" class="btn btn-danger btn-icon"><i class="icofont icofont-ui-delete"></i></button>
         </ng-template>
     </ngx-datatable-column>

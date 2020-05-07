@@ -2452,6 +2452,8 @@ console.log('acaaaaaaaaaaaaa');
           type: 'success'
          });
 
+
+         this.router.navigateByUrl('maintenance/settlementCustomerUpdate/'+this.settlementId);
          console.log('llego hasta aqui');
 
         // swal.close();
