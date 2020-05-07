@@ -1529,11 +1529,21 @@ console.log('yeison');
 
   let operationFreight=0;
 
- /* if(this.conditionValidation==2){
-     operationFreight = Number(Number(this.freightGeneral).toFixed(2))*1;
-  }else{*/
+  if(this.conditionValidation==2){
+    console.log('peso para inicccio '+this.finalWeight);
+    if(this.weightTypeList==1){
+      this.finalWeight=this.weight/2.2;
+      }else{
+        this.finalWeight=this.weight;
+      }
+      this.finalWeight =  this.finalWeight*1.1;
+
+      console.log('peso para inicccio '+this.finalWeight);
+      
      operationFreight = Number(Number(this.freightGeneral).toFixed(2))*this.finalWeight;
-  //}
+  }else{
+     operationFreight = Number(Number(this.freightGeneral).toFixed(2))*this.finalWeight;
+  }
 
 
   console.log('fase final'+ Number(operationFreight));
@@ -1621,11 +1631,19 @@ finalOperationUpdate(country:number){
 
   let operationFreight=0;
 
-/*  if(this.conditionValidation==2){
-     operationFreight = Number(Number(this.freightGeneral).toFixed(2))*1;
-  }else{*/
+ if(this.conditionValidation==2){
+  console.log('peso para inicio '+this.finalWeight);
+    if(this.weightTypeList==1){
+      this.finalWeight=this.weight/2.2;
+      }else{
+        this.finalWeight=this.weight;
+      }
+      this.finalWeight =  this.finalWeight*1.1;
+      console.log('peso para validar '+this.finalWeight);
      operationFreight = Number(Number(this.freightGeneral).toFixed(2))*this.finalWeight;
-  //}
+  }else{
+     operationFreight = Number(Number(this.freightGeneral).toFixed(2))*this.finalWeight;
+  }
 
   console.log('driving '+drivingCost);
   // let operationFreight = this.freightGeneral*this.finalWeight;
