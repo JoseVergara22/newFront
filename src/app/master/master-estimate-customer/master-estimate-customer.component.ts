@@ -1539,7 +1539,7 @@ console.log('yeison');
       this.finalWeight =  this.finalWeight*1.1;
 
       console.log('peso para inicccio '+this.finalWeight);
-      
+
      operationFreight = Number(Number(this.freightGeneral).toFixed(2))*this.finalWeight;
   }else{
      operationFreight = Number(Number(this.freightGeneral).toFixed(2))*this.finalWeight;
@@ -1601,9 +1601,9 @@ console.log('yeison');
   this.subtotal=(Number(this.salePrice)*Number(this.quantity)).toFixed(0);
 
   // YCV 070520
-  this.suggestedPrice= this.finalFormat(this.suggestedPrice);
-  this.price= this.finalFormat(this.price);
-  this.subtotal= this.finalFormat(this.subtotal);
+  // this.suggestedPrice= this.finalFormat(this.suggestedPrice);
+  // this.price= this.finalFormat(this.price);
+  // this.subtotal= this.finalFormat(this.subtotal);
 }
 
 
@@ -1693,9 +1693,9 @@ finalOperationUpdate(country:number){
   this.subtotalUpdate=(Number(this.salePriceUpdate)*Number(this.quantityUpdate)).toFixed(0);
 
   //YCV 070520
- this.suggestedPriceUpdate= this.finalFormat(this.suggestedPriceUpdate);
- this.priceUpdate= this.finalFormat(this.priceUpdate);
- this.subtotalUpdate= this.finalFormat(this.subtotalUpdate);
+ //this.suggestedPriceUpdate= this.finalFormat(this.suggestedPriceUpdate);
+ //this.priceUpdate= this.finalFormat(this.priceUpdate);
+ //this.subtotalUpdate= this.finalFormat(this.subtotalUpdate);
 }
 
 
