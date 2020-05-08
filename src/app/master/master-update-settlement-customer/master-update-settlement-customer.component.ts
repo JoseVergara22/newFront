@@ -2255,11 +2255,20 @@ console.log(country+'-'+item.estimate_countries_id+'-'+item.conexion_id_validati
   
     let operationFreight=0;
   
-   /* if(this.conditionValidation==2){
-       operationFreight = Number(Number(this.freightGeneral).toFixed(2))*1;
-    }else{*/
+    if(this.conditionValidation==2){
+
+      console.log('peso para inicccio '+this.finalWeight);
+    if(this.weightTypeList==1){
+      this.finalWeight=this.weight/2.2;
+      }else{
+        this.finalWeight=this.weight;
+      }
+      this.finalWeight =  this.finalWeight*1.1;
+
        operationFreight = Number(Number(this.freightGeneral).toFixed(2))*this.finalWeight;
-    //}
+    }else{
+       operationFreight = Number(Number(this.freightGeneral).toFixed(2))*this.finalWeight;
+    }
   
     console.log('driving '+drivingCost);
     // let operationFreight = this.freightGeneral*this.finalWeight;
@@ -2346,7 +2355,16 @@ finalOperationUpdate(country:number){
   let operationFreight=0;
 
   if(this.conditionValidation==2){
-     operationFreight = Number(Number(this.freightGeneral).toFixed(2))*1;
+    console.log('peso para inicccio '+this.finalWeight);
+    if(this.weightTypeList==1){
+      this.finalWeight=this.weight/2.2;
+      }else{
+        this.finalWeight=this.weight;
+      }
+      this.finalWeight =  this.finalWeight*1.1;
+
+      console.log('peso para inicccio '+this.finalWeight);
+     operationFreight = Number(Number(this.freightGeneral).toFixed(2))*this.finalWeight;
   }else{
      operationFreight = Number(Number(this.freightGeneral).toFixed(2))*this.finalWeight;
   }

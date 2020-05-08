@@ -238,6 +238,8 @@ export class MasterSettlementAllComponent  extends NgbDatepickerI18n {
  estimate;
  totalCost = 0; 
 num: any;
+date: any;
+
  constructor(private restService: RestService, private _i18n: I18n, private router: Router, private estimateService: EstimateService, private forkliftService: ForkliftService,
              private calendar: NgbCalendar, public formatter: NgbDateParserFormatter, private userService: UserService,  private uploadService: UploadService,   private formbuilder:FormBuilder, private settlementeService: SettlementService) {
                super();
@@ -489,6 +491,7 @@ num: any;
  this.regionalDescription = item.regional.description;
  this.costCenterDescription = item.cost_center.description;
  this.warehouseDescription = item.warehouse.description;
+ this.date = item.create_at_date;
   // 0 Solo para descargar y 1 para enviar;
 
 // this.pp( this.estimateId);
@@ -960,7 +963,7 @@ console.log('este es el e:'+ +JSON.stringify(e));
    });
 
      
-   doc.text('Liquidación de Facturacion', 230, 55, 'center');
+   doc.text('Liquidación de Facturación', 230, 55, 'center');
    doc.addImage(imageurl, 'PNG', 15, 60, 120, 42); 
    //doc.text('Cotizacción', 230, doc.image.previous.finalY, 'center');
    
@@ -981,7 +984,7 @@ console.log('este es el e:'+ +JSON.stringify(e));
     margin: {top: 60, right: 15, bottom: 0, left: 135},
     body: [ ['Creado Por: '+ this.user,'No. ' + this.consecutive ]]
   });
- let date = new Date();
+
    doc.autoTable({
     startY: doc.autoTable.previous.finalY,
     theme:'grid',
@@ -992,7 +995,7 @@ console.log('este es el e:'+ +JSON.stringify(e));
      2: { fontSize:9, cellWidth:99, fillColor: null},
     },
     margin: { left: 15},
-    body: [['Cliente: '+ this.nameCustomer,'Bodega: '+ this.warehouseDescription,'Fecha: '+ date]]
+    body: [['Cliente: '+ this.nameCustomer,'Bodega: '+ this.warehouseDescription,'Fecha: '+ this.date]]
   });
 
   console.log('this.estimate')
@@ -1063,7 +1066,7 @@ let value=  Number(this.rowsItemsparts[i].subtotal);
     console.log('total'); 
     console.log(this.rowsItemsparts[i].subtotal_decimal); 
     console.log(this.totalCost); 
-    body_table = [i+1, this.rowsItemsparts[i].code, this.rowsItemsparts[i].description, this.rowsItemsparts[i].sub_cost_center.description, this.rowsItemsparts[i].quantity, '$'+this.rowsItemsparts[i].price_suggest_decimal, this.rowsItemsparts[i].discount,   '$'+this.rowsItemsparts[i].subtotal_decimal];
+    body_table = [i+1, this.rowsItemsparts[i].code, this.rowsItemsparts[i].description, this.rowsItemsparts[i].sub_cost_center, this.rowsItemsparts[i].quantity, '$'+this.rowsItemsparts[i].price_suggest_decimal, this.rowsItemsparts[i].discount,   '$'+this.rowsItemsparts[i].subtotal_decimal];
 
 
      doc.autoTable({
@@ -1073,7 +1076,7 @@ let value=  Number(this.rowsItemsparts[i].subtotal);
        columnStyles: {
         0: {halign: 'center', fontSize:9, cellWidth:20},
         1: {halign: 'center', fontSize:9, cellWidth:30},
-        2: {halign: 'center', fontSize:9, cellWidth:140},
+        2: {fontSize:9, cellWidth:140},
         3: {halign: 'center', fontSize:9, cellWidth:50},
         4: {halign: 'center', fontSize:9, cellWidth:26},
         5: {halign: 'center', fontSize:9, cellWidth:50},
@@ -1098,7 +1101,7 @@ let value=  Number(this.rowsItemsWorkforce[i].total);
     console.log(this.rowsItemsWorkforce[i].subtotal_decimal); 
     console.log(this.totalCost); 
 
-    body_table = [j+1, this.rowsItemsWorkforce[i].code, this.rowsItemsWorkforce[i].service, this.rowsItemsWorkforce[i].sub_cost_center.description, this.rowsItemsWorkforce[i].quantity, '$'+this.rowsItemsWorkforce[i].subtotal_decimal, this.rowsItemsWorkforce[i].discount,   '$'+this.rowsItemsWorkforce[i].total_decimal];
+    body_table = [j+1, this.rowsItemsWorkforce[i].code, this.rowsItemsWorkforce[i].service, this.rowsItemsWorkforce[i].sub_cost_center, this.rowsItemsWorkforce[i].quantity, '$'+this.rowsItemsWorkforce[i].subtotal_decimal, this.rowsItemsWorkforce[i].discount,   '$'+this.rowsItemsWorkforce[i].total_decimal];
 
 
      doc.autoTable({
@@ -1108,7 +1111,7 @@ let value=  Number(this.rowsItemsWorkforce[i].total);
        columnStyles: {
         0: {halign: 'center', fontSize:9, cellWidth:20},
         1: {halign: 'center', fontSize:9, cellWidth:30},
-        2: {halign: 'center', fontSize:9, cellWidth:140},
+        2: {fontSize:9, cellWidth:140},
         3: {halign: 'center', fontSize:9, cellWidth:50},
         4: {halign: 'center', fontSize:9, cellWidth:26},
         5: {halign: 'center', fontSize:9, cellWidth:50},
@@ -1188,7 +1191,7 @@ let value=  Number(this.rowsItemsWorkforce[i].total);
      columnStyles: {
       0: {halign: 'center', fontSize:9, cellWidth:20},
       1: {halign: 'center', fontSize:9, cellWidth:30},
-      2: {halign: 'center', fontSize:9, cellWidth:140},
+      2: {fontSize:9, cellWidth:140},
       3: {halign: 'center', fontSize:9, cellWidth:50},
       4: {halign: 'center', fontSize:9, cellWidth:26},
       5: {halign: 'center', fontSize:9, cellWidth:50},
@@ -1231,6 +1234,8 @@ if(doc.autoTable.previous.finalY+150>631){
  doc.addPage();
  height=100;
 }
+doc.save('Liquidación_No_'+ this.consecutive+'.pdf');
+swal.close();
 
 var imagesLong= this.filesImage.length;
 

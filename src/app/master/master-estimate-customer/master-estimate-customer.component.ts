@@ -1529,11 +1529,21 @@ console.log('yeison');
 
   let operationFreight=0;
 
- /* if(this.conditionValidation==2){
-     operationFreight = Number(Number(this.freightGeneral).toFixed(2))*1;
-  }else{*/
+  if(this.conditionValidation==2){
+    console.log('peso para inicccio '+this.finalWeight);
+    if(this.weightTypeList==1){
+      this.finalWeight=this.weight/2.2;
+      }else{
+        this.finalWeight=this.weight;
+      }
+      this.finalWeight =  this.finalWeight*1.1;
+
+      console.log('peso para inicccio '+this.finalWeight);
+
      operationFreight = Number(Number(this.freightGeneral).toFixed(2))*this.finalWeight;
-  //}
+  }else{
+     operationFreight = Number(Number(this.freightGeneral).toFixed(2))*this.finalWeight;
+  }
 
 
   console.log('fase final'+ Number(operationFreight));
@@ -1591,9 +1601,9 @@ console.log('yeison');
   this.subtotal=(Number(this.salePrice)*Number(this.quantity)).toFixed(0);
 
   // YCV 070520
-  this.suggestedPrice= this.finalFormat(this.suggestedPrice);
-  this.price= this.finalFormat(this.price);
-  this.subtotal= this.finalFormat(this.subtotal);
+  // this.suggestedPrice= this.finalFormat(this.suggestedPrice);
+  // this.price= this.finalFormat(this.price);
+  // this.subtotal= this.finalFormat(this.subtotal);
 }
 
 
@@ -1621,11 +1631,19 @@ finalOperationUpdate(country:number){
 
   let operationFreight=0;
 
-/*  if(this.conditionValidation==2){
-     operationFreight = Number(Number(this.freightGeneral).toFixed(2))*1;
-  }else{*/
+ if(this.conditionValidation==2){
+  console.log('peso para inicio '+this.finalWeight);
+    if(this.weightTypeList==1){
+      this.finalWeight=this.weight/2.2;
+      }else{
+        this.finalWeight=this.weight;
+      }
+      this.finalWeight =  this.finalWeight*1.1;
+      console.log('peso para validar '+this.finalWeight);
      operationFreight = Number(Number(this.freightGeneral).toFixed(2))*this.finalWeight;
-  //}
+  }else{
+     operationFreight = Number(Number(this.freightGeneral).toFixed(2))*this.finalWeight;
+  }
 
   console.log('driving '+drivingCost);
   // let operationFreight = this.freightGeneral*this.finalWeight;
@@ -1675,9 +1693,9 @@ finalOperationUpdate(country:number){
   this.subtotalUpdate=(Number(this.salePriceUpdate)*Number(this.quantityUpdate)).toFixed(0);
 
   //YCV 070520
- this.suggestedPriceUpdate= this.finalFormat(this.suggestedPriceUpdate);
- this.priceUpdate= this.finalFormat(this.priceUpdate);
- this.subtotalUpdate= this.finalFormat(this.subtotalUpdate);
+ //this.suggestedPriceUpdate= this.finalFormat(this.suggestedPriceUpdate);
+ //this.priceUpdate= this.finalFormat(this.priceUpdate);
+ //this.subtotalUpdate= this.finalFormat(this.subtotalUpdate);
 }
 
 
