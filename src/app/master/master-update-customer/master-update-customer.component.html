@@ -1,13 +1,13 @@
 <app-modal-basic #modalRegisterOffice [dialogClass]="'modal-lg'">
     <div class="app-modal-header">
 
-        <h4 class="modal-title">Registrar sucursal</h4>
+        <h4 class="modal-title">Registrar sede</h4>
     </div>
     <div class="app-modal-body">
         <form [formGroup]="myFormCreateOffice" (ngSubmit)="sendOffice()">
             <div class="form-group row">
                 <div class="col-sm-4">
-                    <h6>Nombre de sucursal <span style="color:red;">*</span></h6>
+                    <h6>Nombre de sede <span style="color:red;">*</span></h6>
                     <input type="text" class="form-control" formControlName="nameOffice" [ngClass]="{ 'is-invalid': submittedOffice && checkFormOffice.nameOffice.errors }">
                     <div *ngIf="submittedOffice && checkFormOffice.nameOffice.errors" class="invalid-feedback">
                         <div class="messages text-danger" *ngIf="checkFormOffice.nameOffice.errors.required">Este campo es requerido</div>
@@ -65,7 +65,7 @@
 
             <div class="align-buttons">
                 <button type="button" class="btn btn-default waves-effect" id="createBrandHide" (click)="modalRegisterOffice.hide()">Cancelar</button>
-                <button type="submit " class="btn btn-primary m-b-0 ">Crear sucursal</button>
+                <button type="submit " class="btn btn-primary m-b-0 ">Crear sede</button>
 
             </div>
         </form>
@@ -75,13 +75,13 @@
 
 <app-modal-basic #modalUpdateOffice [dialogClass]="'modal-lg'">
     <div class="app-modal-header">
-        <h4 class="modal-title">Actualizar sucursal</h4>
+        <h4 class="modal-title">Actualizar sede</h4>
     </div>
     <div class="app-modal-body">
         <form [formGroup]="myFormUpdateOffice" (ngSubmit)="updatedOffice()">
             <div class="form-group row">
                 <div class="col-sm-4">
-                    <h6>Nombre de sucursal <span style="color:red;">*</span></h6>
+                    <h6>Nombre de sede <span style="color:red;">*</span></h6>
                     <input type="text" class="form-control" formControlName="nameOfficeUpdate" [ngClass]="{ 'is-invalid': submittedOfficeUpdated && checkFormOfficeUpdate.nameOfficeUpdate.errors }">
                     <div *ngIf="submittedOfficeUpdated && checkFormOfficeUpdate.nameOfficeUpdate.errors" class="invalid-feedback">
                         <div class="messages text-danger" *ngIf="checkFormOfficeUpdate.nameOfficeUpdate.errors.required">Este campo es requerido</div>
@@ -139,7 +139,7 @@
 
             <div class="align-buttons">
                 <button type="button" class="btn btn-default waves-effect" id="updateBrandHide" (click)="modalUpdateOffice.hide()">Cancelar</button>
-                <button type="submit " class="btn btn-primary m-b-0 ">Actualizar sucursal</button>
+                <button type="submit " class="btn btn-primary m-b-0 ">Actualizar sede</button>
 
             </div>
         </form>
@@ -163,8 +163,8 @@
 
             <h5>Información cliente </h5>
             <br>
-            <h6 *ngIf=" showButtonUpdated == 0">Luego de crear el cliente, puedes crear sucursales</h6>
-            <h6 *ngIf=" showButtonUpdated == 1">Ya puedes crear sucursales</h6>
+            <h6 *ngIf=" showButtonUpdated == 0">Luego de crear el cliente, puedes crear sedes</h6>
+            <h6 *ngIf=" showButtonUpdated == 1">Ya puedes crear sedes</h6>
             <br>
             <!--                       //////////////////////////////////                      -->
 
@@ -347,16 +347,16 @@
         <app-card>
 
 
-            <!--   <button type="button" id="registerBrand" class="btn btn-primary waves-effect" (click)="modalRegisterOffice.show()">Crear Sucursal</button> -->
-            <h5>Registrar Sucursal </h5>
+            <!--   <button type="button" id="registerBrand" class="btn btn-primary waves-effect" (click)="modalRegisterOffice.show()">Crear sede</button> -->
+            <h5>Registrar sede </h5>
             <br>
             <div class="align-buttons">
-                <button type="button" style="display:none;" id="uploadBrand" class="btn btn-primary waves-effect" (click)="modalUpdateOffice.show()">Crear Sucursal</button>
+                <button type="button" style="display:none;" id="uploadBrand" class="btn btn-primary waves-effect" (click)="modalUpdateOffice.show()">Crear sede</button>
                 <div *ngIf="currentCustomerId !==0 ">
-                    <button type="button" id="registerBrand" class="btn btn-primary waves-effect" (click)="modalRegisterOffice.show()">Crear Sucursal</button>
+                    <button type="button" id="registerBrand" class="btn btn-primary waves-effect" (click)="modalRegisterOffice.show()">Crear sede</button>
                 </div>
                 <div *ngIf="currentCustomerId == 0 ">
-                    <button type="button" id="registerBrand" class="btn btn-primary waves-effect" (click)="messageError()">Crear Sucursal</button>
+                    <button type="button" id="registerBrand" class="btn btn-primary waves-effect" (click)="messageError()">Crear sede</button>
                 </div>
             </div>
             <br>
@@ -364,7 +364,7 @@
             <ngx-datatable #table class="data-table" [rows]="dataOffices" [columns]="[{name:'Descripción', prop:'description'},{name:'Estado', prop:'status'},{prop:'id'}]" [columnMode]="'force'" [headerHeight]="50" [footerHeight]="50" [rowHeight]="'auto'" [limit]="25">
 
                 <!--   <ngx-datatable-column [resizeable]="false" name="Compañia" [sortable]="false" [draggable]="false" prop="business_name"></ngx-datatable-column> -->
-                <ngx-datatable-column [resizeable]="false" name="Sucursal" [sortable]="false" [draggable]="false" prop="branch_name"></ngx-datatable-column>
+                <ngx-datatable-column [resizeable]="false" name="Sede" [sortable]="false" [draggable]="false" prop="branch_name"></ngx-datatable-column>
                 <ngx-datatable-column [resizeable]="false" name="Estado" [sortable]="false" [draggable]="false" prop="status">
                     <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
                         <label (click)="blockAgents(value)" class="label label-md label-primary" *ngIf="value==0">Activo</label>
@@ -395,10 +395,10 @@
 <div class="row">
         <div class="col-sm-12">
             <h5>
-                Relacionar regionales.
+                Relacionar sucursales
             </h5>
             <div class="align-buttons">
-                <button type="submit " class="btn btn-primary m-b-0 " (click)="finalRegional()">Actualizar Regionales</button>
+                <button type="submit " class="btn btn-primary m-b-0 " (click)="finalRegional()">Actualizar sucursales</button>
             </div>
             <br>
             <input type="checkbox"  value="m1" [checked]="checkAllRegional"  (change)="checkUncheckAllPart($event)"/> <strong>Seleccionar todo</strong>

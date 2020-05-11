@@ -8,7 +8,7 @@ import { ActivatedRoute, Params } from '@angular/router';
 import { UserInternalInterface } from '../../master-models/user-internal';
 import { Router } from '@angular/router';
 
-// Esta interfaz es para listar las sucursales
+// Esta interfaz es para listar las sedes
 interface UserOfficesInterface {
   idCustomer: number;
   id: number;
@@ -59,7 +59,7 @@ export class MasterExternalUserUpdateComponent implements OnInit {
   userInternal: UserInternalInterface;
   officesUpdated: Array <UserOfficesInterface> = [];
   userOfficeRelationShips: Array <UserOfficesInterface> = []; // Enfocado a las suscursales
-  clientOfficeRelationShips: Array <UserOfficesClienteInterface> = []; // Enfocado a los clientes y sucursales
+  clientOfficeRelationShips: Array <UserOfficesClienteInterface> = []; // Enfocado a los clientes y sedes
   clientOfficeRelationShip: UserOfficesClienteInterface;
   clientOfficeRelationShipUpdate: UserOfficesClienteInterface;
   officesTemp: UserOfficesInterface;
@@ -212,7 +212,7 @@ export class MasterExternalUserUpdateComponent implements OnInit {
 
        /* this.userService.getUsersCustomerUpdate(id).then(data => {
           const resp: any = data;
-          console.log('información de sucursales y usuarios')
+          console.log('información de sedes y usuarios')
           console.log(data);
          // swal.close();
           console.log(resp);
@@ -226,7 +226,7 @@ export class MasterExternalUserUpdateComponent implements OnInit {
           console.log(resp);
           if (resp.success == false) {
             swal({
-              titleText: 'No se encontraron sucursales asociadas.'
+              titleText: 'No se encontraron sedes asociadas.'
              });
           } else {
             console.log('info de userOffices para update');
@@ -726,7 +726,7 @@ export class MasterExternalUserUpdateComponent implements OnInit {
     }
 
     branchOfficesNumbeUpdate.splice(0,1);
-   //Borrar sucursales y volver agregar
+   //Borrar sedes y volver agregar
    console.log('definitivas '+ branchOfficesNumbeUpdate);
    this.deleteAllOfficesBranchUser(this.currentUserIdParam, this.currentCustomerUpdated, branchOfficesNumbeUpdate);
 
@@ -734,7 +734,7 @@ export class MasterExternalUserUpdateComponent implements OnInit {
       this.restService.createRelationshipUserOffices(this.currentUser.data.id,  branchOfficesNumbeUpdate,  this.currentCustomerUpdated).then(data => {
       const resp: any = data;
       swal({
-        title: 'Sucursales actualizadas',
+        title: 'Sedes actualizadas',
         type: 'success'
        })
      // this.getRelationshipUserOffices();
@@ -1065,7 +1065,7 @@ updateCustomerOffices(customer) {
             this.restService.createRelationshipUserOffices(idUser,  branchOfficesNumbeUpdate,  this.currentCustomerUpdated).then(data => {
             const resp: any = data;
             swal({
-              title: 'Sucursales actualizadas',
+              title: 'Sedes actualizadas',
               type: 'success'
              })
            // this.getRelationshipUserOffices();

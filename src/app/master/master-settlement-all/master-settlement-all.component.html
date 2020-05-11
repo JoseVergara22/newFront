@@ -420,10 +420,10 @@
                 
             
               <div class="col-sm-4">
-                  <h6>Regionales</h6>
+                  <h6>Sucursales</h6>
 
                   <select class="form-control" [(ngModel)]="selectedRegional" (change)="getWarehouese()" (change)="getSubCostCenter()" (change)="getCostCenter()"> 
-                              <option value="0" selected>Seleccionar regional </option>
+                              <option value="0" selected>Seleccionar sucursal </option>
                               <option   *ngFor="let reg of regional" [ngValue]="reg.id"> {{reg.description}}  </option>
                           <!--  <option value="0" selected>Seleccionar perfil</option> -->
                          </select>
@@ -643,7 +643,7 @@
    <ngx-datatable-column [flexGrow]="2" [sortable]="false" [resizeable]="false"   name="Cliente" [sortable]="false"  prop="customer.business_name"></ngx-datatable-column>
    <ngx-datatable-column [flexGrow]="2" [sortable]="false" [resizeable]="false"   name="Observación" [sortable]="false"  prop="observation"></ngx-datatable-column>
    <ngx-datatable-column [flexGrow]="2" [sortable]="false" [resizeable]="false"   name="Teléfono " [sortable]="false"  prop="telephone"></ngx-datatable-column>
-   <ngx-datatable-column [flexGrow]="2" [sortable]="false" [resizeable]="false"   name="Regional " [sortable]="false"  prop="regional.description"></ngx-datatable-column>
+   <ngx-datatable-column [flexGrow]="2" [sortable]="false" [resizeable]="false"   name="Sucursal " [sortable]="false"  prop="regional.description"></ngx-datatable-column>
      <ngx-datatable-column [flexGrow]="2" [sortable]="false" [resizeable]="false"  name="Sbt.Horas" [sortable]="false"  prop="subtotal_hours"></ngx-datatable-column>
     <ngx-datatable-column  [flexGrow]="2" [sortable]="false" [resizeable]="false"  name="Sbt.Repuestos" [sortable]="false"  prop="subtotal_parts"></ngx-datatable-column>
     <ngx-datatable-column  [flexGrow]="2" [sortable]="false" [resizeable]="false"  name="Total" [sortable]="false"  prop="total"></ngx-datatable-column>

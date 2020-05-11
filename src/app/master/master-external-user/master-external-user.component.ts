@@ -7,7 +7,7 @@ import swal from 'sweetalert2';
 import { UserInternalInterface } from '../../master-models/user-internal';
 import { Router } from '@angular/router';
 
-// Esta interfaz es para listar las sucursales
+// Esta interfaz es para listar las sedes
 interface UserOfficesInterface {
   idCustomer: number;
   id: number;
@@ -58,7 +58,7 @@ export class MasterExternalUserComponent implements OnInit {
   userInternal: UserInternalInterface;
   officesUpdated: Array <UserOfficesInterface> = [];
   userOfficeRelationShips: Array <UserOfficesInterface> = []; // Enfocado a las suscursales
-  clientOfficeRelationShips: Array <UserOfficesClienteInterface> = []; // Enfocado a los clientes y sucursales
+  clientOfficeRelationShips: Array <UserOfficesClienteInterface> = []; // Enfocado a los clientes y sedes
   clientOfficeRelationShip: UserOfficesClienteInterface;
   clientOfficeRelationShipUpdate: UserOfficesClienteInterface;
   officesTemp: UserOfficesInterface;
@@ -655,7 +655,7 @@ export class MasterExternalUserComponent implements OnInit {
     }
 
     branchOfficesNumbeUpdate.splice(0,1);
-   //Borrar sucursales y volver agregar
+   //Borrar sedes y volver agregar
    console.log('definitivas '+ branchOfficesNumbeUpdate);
    this.deleteAllOfficesBranchUser(this.currentUser.data.id, this.currentCustomerUpdated, branchOfficesNumbeUpdate);
 
@@ -663,7 +663,7 @@ export class MasterExternalUserComponent implements OnInit {
       this.restService.createRelationshipUserOffices(this.currentUser.data.id,  branchOfficesNumbeUpdate,  this.currentCustomerUpdated).then(data => {
       const resp: any = data;
       swal({
-        title: 'Sucursales actualizadas',
+        title: 'sedes actualizadas',
         type: 'success'
        })
      // this.getRelationshipUserOffices();
@@ -997,7 +997,7 @@ updateCustomerOffices(customer) {
             this.restService.createRelationshipUserOffices(this.currentUser.data.id,  branchOfficesNumbeUpdate,  this.currentCustomerUpdated).then(data => {
             const resp: any = data;
             swal({
-              title: 'Sucursales actualizadas',
+              title: 'Sedes actualizadas',
               type: 'success'
              })
            // this.getRelationshipUserOffices();

@@ -106,8 +106,8 @@ export class MasterRegionalsComponent implements OnInit {
         console.log(resp);
         if (resp.success === false) {
           swal({
-            title: 'Esta regional ya esta registrada',
-            text: 'Esta regional no se pudo registrar',
+            title: 'Esta sucursal ya esta registrada',
+            text: 'Esta sucursal no se pudo registrar',
             type: 'error'
            });
         } else {
@@ -116,7 +116,7 @@ export class MasterRegionalsComponent implements OnInit {
           document.getElementById('createRegionalHide').click();
           this.loadingData();
      swal({
-      title: 'Regional agregada',
+      title: 'Sucursal agregada',
       type: 'success'
      });
 
@@ -162,7 +162,7 @@ export class MasterRegionalsComponent implements OnInit {
         if (resp.success === false) {
           swal({
             title: 'Falla en la actualizacion',
-            text: 'Esta regional no se pudo actualizar',
+            text: 'Esta sucursal no se pudo actualizar',
             type: 'error'
            });
         } else {
@@ -170,7 +170,7 @@ export class MasterRegionalsComponent implements OnInit {
           document.getElementById('updateBrandHide').click();
           this.loadingData();
      swal({
-      title: 'Regional actualizada.',
+      title: 'Sucursal actualizada.',
       type: 'success'
      });
       }
@@ -212,8 +212,8 @@ export class MasterRegionalsComponent implements OnInit {
 
             if (resp.success === false) {
               swal({
-                title: 'Esta regional presenta problemas',
-                text: 'Esta regional no se puede eliminar',
+                title: 'Esta sucursal presenta problemas',
+                text: 'Esta sucursal no se puede eliminar',
                 type: 'error'
                });
             } else {

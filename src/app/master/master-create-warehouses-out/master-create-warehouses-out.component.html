@@ -13,9 +13,9 @@
         </div>
 
         <div class="col-sm-4">
-          <h6>Sucursal <span style="color:red;">*</span></h6>
+          <h6>Sede <span style="color:red;">*</span></h6>
           <select class="form-control" (change)="ChangingValueBranch()" name="select" [(ngModel)]="selectedBranchOffice" formControlName="branchOffice">
-                <option value="0" selected>Seleccionar la sucursal</option>
+                <option value="0" selected>Seleccionar la sede</option>
                 <option  *ngFor="let office of branchOffices" [ngValue]="office.id"> {{office.description}} </option>
               </select>
         </div>

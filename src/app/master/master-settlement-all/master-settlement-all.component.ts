@@ -1014,7 +1014,7 @@ console.log('este es el e:'+ +JSON.stringify(e));
      2: { fontSize:9, cellWidth:99, fillColor: null},
     },
     margin: { left: 15},
-    body: [['Sucursal: '+ this.regionalDescription,'C.Costos: '+ this.costCenterDescription,'OC/Cotización: Pedido No: '+ this.estimate]]
+    body: [['Sede: '+ this.regionalDescription,'C.Costos: '+ this.costCenterDescription,'OC/Cotización: Pedido No: '+ this.estimate]]
   });
    
    doc.autoTable({

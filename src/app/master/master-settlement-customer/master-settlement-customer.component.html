@@ -659,10 +659,10 @@
                              </select>
               </div>
               <div class="col-sm-3">
-                      <h6>Regionales  <span style="color:red;">*</span> </h6>
+                      <h6>Sucursales  <span style="color:red;">*</span> </h6>
 
                       <select class="form-control" (change)="getCenterCost()"  [(ngModel)]="selectedRegionalId" > 
-                                  <option value="0" selected>Seleccionar regional </option>
+                                  <option value="0" selected>Seleccionar sucursal </option>
                                    <option   *ngFor="let regional of regionals" [ngValue]="regional"   > {{regional.description}}  </option>
                               <!--  <option value="0" selected>Seleccionar perfil</option> -->
                              </select>

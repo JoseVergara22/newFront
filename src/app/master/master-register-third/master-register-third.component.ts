@@ -276,7 +276,7 @@ checkUncheckAllPart(event:any){
          });
         }else{
           swal({
-            title: 'Regionales guardadas',
+            title: 'Sucursales guardadas',
             type: 'success'
            });
         }
@@ -563,8 +563,8 @@ console.log('llego');
       console.log(resp);
       if (resp.success === false) {
         swal({
-          title: 'Este sucursal ya esta registrado',
-          text: 'Este sucursal no se puede registrar',
+          title: 'Esta sede ya esta registrada',
+          text: 'Esta sede no se puede registrar',
           type: 'error'
          });
       } else {
@@ -574,7 +574,7 @@ console.log('llego');
 
 
      /*swal({
-      title: 'sucursal agregada',
+      title: 'sede agregada',
       type: 'success'
      });*/
    //   this.router.navigateByUrl('master/registerBrand');
@@ -585,7 +585,7 @@ console.log('llego');
    document.getElementById( 'createBrandHide').click();
    this.getOffices(this.currentCustomerId);
    swal({
-    title: 'Sucursal agregado',
+    title: 'Sede agregada',
     type: 'success'
    });
     }
@@ -610,7 +610,7 @@ console.log(error);
 messageError() {
   swal({
     title: 'Debe crear un cliente',
-    text: 'Luego de crear el cliente, puedes crear sucursales',
+    text: 'Luego de crear el cliente, puedes crear sedes',
     type: 'error'
    });
 }
@@ -712,8 +712,8 @@ updatedOfficePro() {
         console.log(resp);
         if (resp.success === false) {
           swal({
-            title: 'Este sucursal ya esta registrado',
-            text: 'Este sucursal no se puede registrar',
+            title: 'Esta sede ya esta registrada',
+            text: 'Esta sede no se puede registrar',
             type: 'error'
            });
         } else {
@@ -722,7 +722,7 @@ updatedOfficePro() {
      this.getOffices(this.currentCustomerId);
      document.getElementById('updateBrandHide').click();
      swal({
-      title: 'Sucursal Actualizado',
+      title: 'Sede Actualizado',
       type: 'success'
      });
       }
