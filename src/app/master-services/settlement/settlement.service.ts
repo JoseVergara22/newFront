@@ -711,9 +711,9 @@ createScheduleSettlement(params: string) {
                 resolve(error);
               });
           });
-      }
+    }
 
-      getSubCostCenter(id: number){
+    getSubCostCenter(id: number){
               console.log('ole ole ole');
               console.log(id);
               return new Promise(resolve => {
@@ -736,9 +736,9 @@ createScheduleSettlement(params: string) {
                     resolve(error);
                   });
               });
-            }
+    }
 
-            getCostCenter(id: number){
+    getCostCenter(id: number){
                     console.log('ole ole ole');
                     console.log(id);
                     return new Promise(resolve => {
@@ -761,9 +761,9 @@ createScheduleSettlement(params: string) {
                           resolve(error);
                         });
                     });
-                  }
+   }
 
-                  showSettlementFilter(paramsFilter: string) { 
+    showSettlementFilter(paramsFilter: string) { 
                           console.log()
                           return new Promise(resolve => {
                             const headers = new HttpHeaders();
@@ -784,6 +784,35 @@ createScheduleSettlement(params: string) {
                                 resolve(error);
                               });
                           });
-                        }
+    }
+
+    assingInvoice(invoice: number, id: number){
+      console.log(invoice)
+      console.log(id)
+                          return new Promise(resolve => {
+                            const headers = new HttpHeaders();
+                            headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user'))); // 'Bearer ' +
+                            headers.append('Content-Type', 'application/json');
+                            const httpOptions = {
+                              headers: new HttpHeaders({
+                                'Content-Type': 'application/json',
+                                'Authorization': 'Bearer ' + localStorage.getItem('token_user'),
+                                'Accept': 'application/json'
+                              })
+                            };
+                            const postParams = {
+                              invoice: invoice,
+                              id: id
+                            };
+                            console.log(postParams);
+                            this.http.post(this.apiEndPoint+'api/get_settlement', postParams, httpOptions)
+                              .map(res => res).subscribe(data => {
+                                console.log(data);
+                                resolve(data);
+                              }, error => {
+                                resolve(error);
+                              });
+                          });
+    }
 
 }

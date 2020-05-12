@@ -237,8 +237,10 @@ export class MasterSettlementAllComponent  extends NgbDatepickerI18n {
  warehouseDescription ;
  estimate;
  totalCost = 0; 
-num: any;
-date: any;
+ num: any;
+ date: any;
+ invoice: any;
+ settlementId: any;
 
  constructor(private restService: RestService, private _i18n: I18n, private router: Router, private estimateService: EstimateService, private forkliftService: ForkliftService,
              private calendar: NgbCalendar, public formatter: NgbDateParserFormatter, private userService: UserService,  private uploadService: UploadService,   private formbuilder:FormBuilder, private settlementeService: SettlementService) {
@@ -751,9 +753,30 @@ console.log('este es el e:'+ +JSON.stringify(e));
 
    assignInvoice(){
     console.log('entro a email');
+    console.log(this.invoice);
+    swal.showLoading();
+    this.settlementeService.assingInvoice(this.invoice, this.settlementId).then(data => {
+      console.log(data);
+      const resp: any = data;
+      console.log('envio');
+         console.log(resp);
+         document.getElementById('assignInvoiceHide').click();
+         swal({
+           title: 'Factura Asignada',
+           type: 'success'
+          });  
+       }).catch(error => {
+         console.log(error);
+       });   
+   }
 
-    document.getElementById( 'showEmail').click();
-   };
+
+   showAssignInvoice(row){
+    console.log(row)
+    this.settlementId = row.id;
+    document.getElementById( 'showAssignInvoice').click();
+
+   }
 
    showCheckItems(row: any){
      let rowCurrent= row;

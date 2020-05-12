@@ -296,18 +296,19 @@
     
                 <div class="col-sm-6">
                     <h6>Numero de Factura</h6>
-                    <input type="text" [(ngModel)]="subject" class="form-control">
+                    <input type="text" [(ngModel)]="invoice" class="form-control">
                 </div>
             </div>
         </div>
-    </div>
-            <br>
+    
+
             
             <div class="align-buttons">
-                <button type="button" class="btn btn-default waves-effect" id="sendEmail" (click)="modalAssignInvoice.hide()">Cancelar</button>
+                <button type="button" class="btn btn-default waves-effect" id="assignInvoiceHide" (click)="modalAssignInvoice.hide()">Cancelar</button>
                 <button type="submit " class="btn btn-primary m-b-0 "  (click)="assignInvoice()">Guardar</button>
 
             </div>
+        </div>
 </app-modal-basic>
 
 <app-modal-basic #modalUpdateBrand [dialogClass]="'modal-lg'">
@@ -500,7 +501,7 @@
                     <div >
                     <button type="button" style="display:none;" id="showSendEmail" class="btn btn-primary waves-effect" (click)="modalSendEmail.show()">Crear Equipo</button>
 
-                    <button type="button" style="display:none;" id="showCheckItem" class="btn btn-primary waves-effect" (click)="modalApprovalItems.show()">Checkear</button>
+                    <button type="button" style="display:none;" id="showAssignInvoice" class="btn btn-primary waves-effect" (click)="modalAssignInvoice.show()">Checkear</button>
                     
                     <button type="button" style="display:none;" id="hideCheckItem" class="btn btn-primary waves-effect" (click)=" modalApprovalItems.hide()">Checkear</button>
 
@@ -661,14 +662,14 @@
      <label class="link" (click)="updateEstimate(row)">Editar</label>
      <label class="link" (click)="sendEstimateEmail(row)" >Enviar</label>
 <!-- <label class="link" (click)="modalSendEmail.show()" >Enviar</label>  -->  
-     <label class="link" (click)="showCheckItems(row)">Asignar</label>
+     <label class="link" (click)="showAssignInvoice(row)">Asignar</label>
      <label class="link" (click)="rejectionEstimate(row)">Rechazar</label>
     </div>
 
     <div *ngIf="value==1">
         <label class="link" (click)="sendEstimateEmail(row)" >Enviar</label>
    <!-- <label class="link" (click)="modalSendEmail.show()" >Enviar</label>  -->  
-        <label class="link" (click)="showCheckItems(row)">Asignar</label>
+        <label class="link" (click)="showAssignInvoice(row)">Asignar</label>
     </div>
    
     <div *ngIf="value==2">  
