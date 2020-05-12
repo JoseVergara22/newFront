@@ -82,7 +82,8 @@ export class MasterSettlementCustomerComponent implements OnInit {
   enabledUpdated = false;
   selectedDepartmentId = 0;
   selectedCityId = 0;
-
+  switchStatus=false;
+  
   filterIndicatorText = false;
   filterIndicatorCheck = false;
 
