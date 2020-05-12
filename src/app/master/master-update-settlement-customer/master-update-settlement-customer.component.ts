@@ -569,7 +569,10 @@ export class MasterUpdateSettlementCustomerComponent implements OnInit {
     }
    }
 
+   finalFormaHourValueUpdate(){
 
+   }
+   
    getCustomers() {
     this.restService.getCustomer().then(data => {
       const resp: any = data;

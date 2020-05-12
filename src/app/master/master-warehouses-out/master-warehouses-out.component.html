@@ -16,9 +16,9 @@
         </div>
 
         <div class="col-sm-4">
-          <h6>Sucursal <span style="color:red;">*</span></h6>
+          <h6>Sede <span style="color:red;">*</span></h6>
           <select class="form-control" (change)="ChangingValueBranch()" name="select" [(ngModel)]="selectedBranchOffice" formControlName="branchOffice" [ngClass]="{ 'is-invalid': submitted && checkForm.branchOffice.errors }">
-                <option value="0" selected>Seleccionar la sucursal</option>
+                <option value="0" selected>Seleccionar la sede</option>
                 <option  *ngFor="let office of branchOffices" [ngValue]="office"> {{office.branch_name}} </option>
               </select>
               
@@ -218,9 +218,9 @@
         </div>
 
         <div class="col-sm-4">
-          <h6>Sucursal <span style="color:red;">*</span></h6>
+          <h6>Sede <span style="color:red;">*</span></h6>
           <select class="form-control" (change)="ChangingValueBranchUpdate()" name="select" [(ngModel)]="selectedBranchOfficeUpdate" formControlName="branchOfficeUpdate" [ngClass]="{ 'is-invalid': submitted && checkFormUpdate.branchOfficeUpdate.errors }" >
-                <option value="0" selected>Seleccionar la sucursal</option>
+                <option value="0" selected>Seleccionar la sede</option>
                 <option  *ngFor="let office of branchOffices" [ngValue]="office.id"> {{office.branch_name}} </option>
               </select>
         </div>
@@ -446,9 +446,9 @@
                   </div>
               
                   <div class="col-sm-3">
-                    <h6>Sucursal</h6>
+                    <h6>Sede</h6>
                     <select class="form-control" [(ngModel)]="selectedBranchId" (click)="changingValueBranch()"> 
-                        <option value="0" selected>Seleccionar Sucursal </option>
+                        <option value="0" selected>Seleccionar sede </option>
                     <option   *ngFor="let branch of branchOffices" [ngValue]="branch.id"> {{branch.branch_name}}  </option>
                    </select>
                 </div>
@@ -470,7 +470,7 @@
             <div class="col-sm-3">
               <h6>Tecnico</h6>
               <select class="form-control" [(ngModel)]="selectedUserId" > 
-                  <option value="0" selected>Seleccionar Sucursal </option>
+                  <option value="0" selected>Seleccionar sede </option>
               <option   *ngFor="let tech of technicians" [ngValue]="tech.id"> {{tech.name}}  </option>
              </select>
           </div>
@@ -643,7 +643,7 @@
           </ng-template>
         </ngx-datatable-row-detail>
         <!--Principal:
-        Fecha, cantidad, referencia, tecnico, Empresa, sucursal, valor total
+        Fecha, cantidad, referencia, tecnico, Empresa, sede, valor total
         Detalle: 
         Los demas valores-->
         <ngx-datatable-column
@@ -687,7 +687,7 @@
             <strong>{{row['business_name']}}</strong>
           </ng-template>
         </ngx-datatable-column>
-        <ngx-datatable-column name="Sucursal">
+        <ngx-datatable-column name="Sede">
           <ng-template let-row="row" ngx-datatable-cell-template>
             <strong>{{row['branch_name']}}</strong>
           </ng-template>

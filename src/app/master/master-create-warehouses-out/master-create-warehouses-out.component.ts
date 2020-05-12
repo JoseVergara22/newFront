@@ -130,7 +130,7 @@ export class MasterCreateWarehousesOutComponent implements OnInit {
   }
 
   ChangingValueBranch(){
-    console.log('Cambio sucursal');
+    console.log('Cambio sede');
     console.log(this.selectedBranchOffice);
     console.log(this.selectedBranchOffice.id);
     this.getForkLift(this.selectedBranchOffice.id);

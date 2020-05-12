@@ -121,7 +121,7 @@ const MENUITEMS = [
           },/*
           {
             state: 'regionalsAll',
-            name: 'Administrar Regionales'
+            name: 'Administrar Sucursales'
           },
          {
             state: 'techniciansAll',

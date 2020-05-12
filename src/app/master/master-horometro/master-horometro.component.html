@@ -53,9 +53,9 @@
                 </div>
 
                 <div class="col-sm-6">
-                    <h6>Sucursal</h6>
+                    <h6>Sede</h6>
                     <select class="form-control" [(ngModel)]="selectedOfficeId" (change)="getOfficeForklift()">
-                        <option value="0" selected>Seleccionar sucursal </option>
+                        <option value="0" selected>Seleccionar sede </option>
                     <option   *ngFor="let office of customerOffices" [ngValue]="office.id"> {{office.branch_name}}  </option>
                     <!--  <option value="0" selected>Seleccionar perfil</option> -->
                    </select>
@@ -99,7 +99,7 @@
                 <ngx-datatable-column [resizeable]="false" name="Marca" [sortable]="false" [draggable]="false" prop="brand_description"></ngx-datatable-column>
                 <ngx-datatable-column [resizeable]="false" name="Modelo" [sortable]="false" [draggable]="false" prop="model_description"></ngx-datatable-column>
                 <ngx-datatable-column [resizeable]="false" name="Tercero" [sortable]="false" [draggable]="false" prop="business_name"></ngx-datatable-column>
-                <ngx-datatable-column [resizeable]="false" name="Sucursal" [sortable]="false" [draggable]="false" prop="branch_name"></ngx-datatable-column>
+                <ngx-datatable-column [resizeable]="false" name="Sede" [sortable]="false" [draggable]="false" prop="branch_name"></ngx-datatable-column>
                 <ngx-datatable-column [resizeable]="false" name="Tipo Maquina" [sortable]="false" [draggable]="false" prop="machine_description"></ngx-datatable-column>
                 <ngx-datatable-column [resizeable]="false" name="H. Inicial" [sortable]="false" [draggable]="false" prop="h_initial"></ngx-datatable-column>
                 <ngx-datatable-column [resizeable]="false" name="H. Actual" [sortable]="false" [draggable]="false" prop="h_current"></ngx-datatable-column>

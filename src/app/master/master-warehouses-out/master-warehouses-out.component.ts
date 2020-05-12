@@ -590,21 +590,21 @@ export class MasterWarehousesOutComponent implements NgbDatepickerI18n {
   }
 
   ChangingValueBranch(){
-    console.log('Cambio sucursal');
+    console.log('Cambio sede');
     console.log(this.selectedBranchOffice);
     console.log(this.selectedBranchOffice.id);
     this.getForkLift(this.selectedBranchOffice.id);
   }
 
   changingValueBranch(){
-    console.log('Cambio sucursal');
+    console.log('Cambio sede');
     console.log(this.selectedBranchId);
     console.log(this.selectedBranchId.id);
     this.getForkLift(this.selectedBranchId);
   }
 
   ChangingValueBranchUpdate(){
-    console.log('Cambio sucursal');
+    console.log('Cambio sede');
     console.log(this.selectedBranchOfficeUpdate);
     console.log(this.selectedBranchOfficeUpdate.id);
     this.getForkLift(this.selectedBranchOfficeUpdate.id);

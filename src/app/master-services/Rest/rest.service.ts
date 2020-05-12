@@ -1771,7 +1771,7 @@ updateRegional(id:number, description:string, code:string){
           'Accept': 'application/json'
         })
       };
-      this.http.post(this.apiEndPoint+'api/show_regionals', httpOptions)
+      this.http.get(this.apiEndPoint+'api/show_regionals_all', httpOptions)
         .map(res => res).subscribe(data => {
           console.log(data);
           resolve(data);

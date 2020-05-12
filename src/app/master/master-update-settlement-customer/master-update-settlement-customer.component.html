@@ -780,7 +780,7 @@
              <button type="button" style="display:none;" class="btn btn-default waves-effect" id="updateItemHide" (click)="modalUpdateItem.hide()">Cancelar</button>
              <button type="button" class="btn btn-default waves-effect" id="updateDetailItemHide" (click)="cancelFormDetailUpdate()">Cancelar</button>
             
-             <button type="button" style="display:none;" class="btn btn-default waves-effect" id="showModalApproval" (click)="modalApprovalItems.show()">Mostrar cotizaciones</button>
+           <!--   <button type="button" style="display:none;" class="btn btn-default waves-effect" id="showModalApproval" (click)="modalApprovalItems.show()">Mostrar cotizaciones</button> -->
              <button type="button" style="display:none;" class="btn btn-default waves-effect" id="showModalProgramming" (click)="modalProgramming.show()">Mostrar Programación</button>
              <button type="button" style="display:none;" class="btn btn-default waves-effect" id="hideModalProgramming" (click)="modalProgramming.hide()">Mostrar Programación</button>
              <button type="button" style="display:none;" class="btn btn-default waves-effect" id="checkEstimateCustomers" (click)="modalEstimateCustomers.show()">Cancelar</button>
@@ -1249,10 +1249,10 @@
                              </select>
               </div>
               <div class="col-sm-3">
-                      <h6>Regionales  <span style="color:red;">*</span> </h6>
+                      <h6>Sucursales  <span style="color:red;">*</span> </h6>
 
                       <select class="form-control" (change)="getCenterCost()"  [(ngModel)]="selectedRegionalId" > 
-                                  <option value="0" selected>Seleccionar regional </option>
+                                  <option value="0" selected>Seleccionar sucursal </option>
                                    <option   *ngFor="let regional of regionals" [ngValue]="regional.id"   > {{regional.description}}  </option>
                               <!--  <option value="0" selected>Seleccionar perfil</option> -->
                              </select>

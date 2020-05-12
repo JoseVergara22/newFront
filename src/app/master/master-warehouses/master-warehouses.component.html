@@ -8,9 +8,9 @@
 
           <div class="form-group row">
             <div class="col-sm-5">
-              <h6 class="regional">Selecciona la regional a la cual pertenece<span style="color: red;">*</span></h6>
+              <h6 class="regional">Selecciona la sucursal a la cual pertenece<span style="color: red;">*</span></h6>
               <select class="form-control" name="select" [(ngModel)]="selectedRegional" formControlName="regional">
-                <option value="0" selected>Seleccionar la regional</option>
+                <option value="0" selected>Seleccionar la sucursal</option>
                 <option  *ngFor="let reg of regionals" [ngValue]="reg"> {{reg.description}} </option>
               </select>
             </div>
@@ -55,9 +55,9 @@
 
           <div class="form-group row">
               <div class="col-sm-5">
-                <h6 class="regional">Selecciona la regional a la cual pertenece<span style="color: red;">*</span></h6>
+                <h6 class="regional">Selecciona la sucursal a la cual pertenece<span style="color: red;">*</span></h6>
                 <select class="form-control" (change)="changeValue()" name="select" [(ngModel)]="selectedRegionalUpdate" formControlName="regionalUpdate">
-                  <option value="0" selected>Seleccionar la regional</option>
+                  <option value="0" selected>Seleccionar la sucursal</option>
                   <option  *ngFor="let reg of regionals" [ngValue]="reg.id"> {{reg.description}} </option>
                 </select>
               </div>
@@ -112,7 +112,7 @@
 
             <ngx-datatable-column [resizeable]="false" [flexGrow]="1" name="Codigo"  [canAutoResize]="true" [sortable]="false" [draggable]="false" prop="code"></ngx-datatable-column>
             <ngx-datatable-column [resizeable]="false" [flexGrow]="1" name="Nombre"  [canAutoResize]="true" [sortable]="false" [draggable]="false" prop="description"></ngx-datatable-column>
-            <ngx-datatable-column [resizeable]="false" [flexGrow]="1" name="Regional"  [canAutoResize]="true" [sortable]="false" [draggable]="false" prop="regionalDescription"></ngx-datatable-column>
+            <ngx-datatable-column [resizeable]="false" [flexGrow]="1" name="Sucursal"  [canAutoResize]="true" [sortable]="false" [draggable]="false" prop="regionalDescription"></ngx-datatable-column>
             <ngx-datatable-column [resizeable]="false" [flexGrow]="2" name="Acciones"  [canAutoResize]="true" [sortable]="false" [draggable]="false" sortable="false" prop="id">
                 <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
 
