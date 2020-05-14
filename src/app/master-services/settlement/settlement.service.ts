@@ -805,7 +805,7 @@ createScheduleSettlement(params: string) {
                               id: id
                             };
                             console.log(postParams);
-                            this.http.post(this.apiEndPoint+'api/get_settlement', postParams, httpOptions)
+                            this.http.post(this.apiEndPoint+'api/assign_invoice', postParams, httpOptions)
                               .map(res => res).subscribe(data => {
                                 console.log(data);
                                 resolve(data);
@@ -815,4 +815,64 @@ createScheduleSettlement(params: string) {
                           });
     }
 
+    sendSettlementEmailAmazon(idUser: number, idCustomer: number, idEstimate:number, info:string,  comment: string, subject: string) {
+      return new Promise(resolve => {
+        const headers = new HttpHeaders();
+        headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user'))); // 'Bearer ' +
+        headers.append('Content-Type', 'application/json');
+        const httpOptions = {
+          headers: new HttpHeaders({
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + localStorage.getItem('token_user'),
+            'Accept': 'application/json'
+          })
+        };
+        console.log('id_user='+ idUser+'&id_customer='+idCustomer
+        +'&id_estimate='+idEstimate+'&info='+info+'&comment='+comment+'&subject='+subject);
+  
+       console.log(' ingreso al correo sobre el info'+info);
+  
+        const postParams = {
+          id_user: idUser,
+          id_estimate: idEstimate,
+          info: info,
+          id_customer: idCustomer,
+          subject:subject,
+          comment:comment
+        };
+  
+       this.http.get(this.apiEndPoint+'api/send_amazon_mail_settlement?id_user='+ idUser+'&id_customer='+idCustomer
+        +'&id_estimate='+idEstimate+'&info='+info+'&comment='+comment+'&subject='+subject,httpOptions)
+       // this.http.get(this.apiEndPoint+'api/send_amazon_mail?id_user=197&subject="Buen dia"&id_customer= 118&id_estimate= 277&info=jasoncv0294@gmail.com|eee|ycastrillon0294@gmail.com|lll&comment= "Oiga pues"',httpOptions)
+          .map(res => res).subscribe(data => {
+            resolve(data);
+          }, error => {
+            resolve(error);
+          });
+      });
+    }
+
+    updateSettlementStatus(id:number, status:number) {
+      return new Promise(resolve => {
+        const headers = new HttpHeaders();
+        headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user'))); // 'Bearer ' +
+        headers.append('Content-Type', 'application/json');
+        const httpOptions = {
+          headers: new HttpHeaders({
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + localStorage.getItem('token_user'),
+            'Accept': 'application/json'
+          })
+        };
+        const postParams = {
+          status: status
+        };
+        this.http.patch(this.apiEndPoint+'api/update_settlement_status/' + id, postParams, httpOptions)
+          .map(res => res).subscribe(data => {
+            resolve(data);
+          }, error => {
+            resolve(error);
+          });
+      });
+    }
 }

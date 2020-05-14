@@ -634,7 +634,7 @@ console.log('download ole');
 
   sendEmailEstimateAmazon(){
     console.log('IMPORTANTE INGRESO');
-   let nameFileEstimate ='Cotizacion_No_'+this.estimateCurrent.estimate_consecutive+'.pdf';
+   let nameFileEstimate ='Liquidación_No_'+this.estimateCurrent.estimate_consecutive+'.pdf';
    this.uploadService.uploadFilesAllEstimate(this.blobGlobal, this.estimateCurrent.id,3,nameFileEstimate).then(res=>{
    console.log('s3info'+JSON.stringify(res));
    this.s3info=res;
@@ -706,9 +706,11 @@ console.log('este es el e:'+ +JSON.stringify(e));
      this.contact = row.contact;
      this.cellphone =   row.email;
 
-
+*/
+console.log(row)
      this.estimateId= row.id;
-     this.user = row.elaborate_user.username;
+    //  this.user = row.elaborate_user.username;
+     this.user = 'Carlos';
      this.consecutive = row.estimate_consecutive;
      this.documentCustomer = row.customer_document;
      this.nameCustomer = row.customer.business_name;
@@ -720,18 +722,19 @@ console.log('este es el e:'+ +JSON.stringify(e));
      }else{
        this.forkliftText = '';
      } 
-     this.cityEstimate =  row.city.name;
-     this.guarantyEstimate =  row.guaranty;
-     this.validity = row.validity;
-     this.payment_method= row.payment_method;
-     this.subtotalHoursEstimate = row.subtotal_hours_decimal;
-     this.subtotalPartsEstimate = row.subtotal_parts_decimal;
-     this.totalEstimate = row.total_decimal;
-     this.observationEstimate= row.observation;
+     this.estimate = row.estimate_order;
+      this.subtotalHours = row.subtotal_hours;
+      this.subtotalParts = row.subtotal_parts;
+      this.total = row.total;
+      this.observationEstimate= row.observation;
+      this.regionalDescription = row.regional.description;
+      this.costCenterDescription = row.cost_center.description;
+      this.warehouseDescription = row.warehouse.description;
+      this.date = row.create_at_date;
 
      this.emailsSend = [];
      this.subject = '';
-     this.comment = '';*/
+     this.comment = '';
      console.log('entro a email');
      console.log('cotización actual:'+ row);
      this.estimateCurrent= row;
@@ -759,12 +762,20 @@ console.log('este es el e:'+ +JSON.stringify(e));
       console.log(data);
       const resp: any = data;
       console.log('envio');
-         console.log(resp);
+      console.log(resp);
+      this.settlementeService.updateSettlementStatus(
+        this.estimateCurrent.id, 1).then(data => {
+        const resp: any = data;
+        console.log('envio');
+        console.log(resp);   
          document.getElementById('assignInvoiceHide').click();
          swal({
            title: 'Factura Asignada',
            type: 'success'
           });  
+       }).catch(error => {
+         console.log(error);
+       });   
        }).catch(error => {
          console.log(error);
        });   
@@ -861,7 +872,7 @@ console.log('este es el e:'+ +JSON.stringify(e));
        console.log('importante el subject:'+this.subject)
        subjectTemp= this.subject;
      }else{
-       subjectTemp= 'Montacargas Master Cotización '+ this.estimateCurrent.estimate_consecutive;
+       subjectTemp= 'Montacargas Master Liquidacion '+ this.estimateCurrent.estimate_consecutive;
      }
     // concatenar los correos y nos con ","
    let emailsName = '';
@@ -884,15 +895,15 @@ console.log('este es el e:'+ +JSON.stringify(e));
      if(this.emailsSend.length>0){
      
 
-     this.estimateService.sendEstimateEmailAmazon(//sendEstimateEmailAmazon
+     this.settlementeService.sendSettlementEmailAmazon(//sendEstimateEmailAmazon
        this.estimateCurrent.elaborate_user_id, this.estimateCurrent.customer_id, this.estimateCurrent.id,
        emailsName.trim(),this.comment,subjectTemp).then(data => {
        const resp: any = data;
        console.log('envio');
        console.log(resp);
     
-        this.estimateService.updateEstimateStatus(
-         this.estimateCurrent.id, 1).then(data => {
+        this.settlementeService.updateSettlementStatus(
+         this.estimateCurrent.id, 2).then(data => {
          const resp: any = data;
          console.log('envio');
          console.log(resp);
@@ -1950,6 +1961,7 @@ img.onload = function() {
    const doc = new jsPDF('p', 'px', 'a4');
    
 
+
    var width = doc.internal.pageSize.width;
    var height = doc.internal.pageSize.height;
    
@@ -1966,485 +1978,269 @@ img.onload = function() {
    });
 
      
-   doc.text('Cotización', 230, 55, 'center');
+   doc.text('Liquidación de Facturación', 230, 55, 'center');
    doc.addImage(imageurl, 'PNG', 15, 60, 120, 42); 
    //doc.text('Cotizacción', 230, doc.image.previous.finalY, 'center');
    
    doc.autoTable({
      startY: 60,
-     columnStyles:{2: { cellWidth:105, fontSize:9,   fillColor: null},  1: {cellWidth:102,fontSize:9, halign: 'left',fillColor: null},  0: {cellWidth:88,fontSize:9, halign: 'left', fillColor: null} },
+     columnStyles:{0: { cellWidth:105, fontSize:9,   fillColor: null} },
      alternateRowStyles:{fontSize:9},
      margin: {top: 60, right: 15, bottom: 0, left: 135},
-     body: [['MONTACARGAS MASTER Nit. 900.204.935-2              Medellín - Colombia     ','PBX. (57-4) 444 6055               CLL 10 B sur # 51 42', '' ]]
+     body: [['Soluciones integrales para el movimiento interno de sus mercancias' ]]
    
    });
    
    doc.autoTable({
-    
-     startY: 85,
-     columnStyles:{0: { cellWidth:180, fontSize:9,  fillColor: null},  1: {fontSize:12, halign: 'center', fillColor: null, textColor:[255, 0, 0] }},
-     alternateRowStyles:{fontSize:9},
-     margin: {top: 60, right: 15, bottom: 0, left: 135},
-     body: [ ['Creado Por: '+ this.user,'No. ' + this.consecutive ]]
-   });
+     
+    startY: 85,
+    columnStyles:{0: { cellWidth:180, fontSize:9,  fillColor: null},  1: {fontSize:12, halign: 'center', fillColor: null, textColor:[255, 0, 0] }},
+    alternateRowStyles:{fontSize:9},
+    margin: {top: 60, right: 15, bottom: 0, left: 135},
+    body: [ ['Creado Por: '+ this.user,'No. ' + this.consecutive ]]
+  });
 
+   doc.autoTable({
+    startY: doc.autoTable.previous.finalY,
+    theme:'grid',
+    styles: {fillColor: [215,215,215],lineColor:[4,1,0],lineWidth:0.2},
+    columnStyles: {
+     0: { fontSize:9, cellWidth:215, fillColor: null},
+     1: { fontSize:9, cellWidth:100, fillColor: null},
+     2: { fontSize:9, cellWidth:99, fillColor: null},
+    },
+    margin: { left: 15},
+    body: [['Cliente: '+ this.nameCustomer,'Bodega: '+ this.warehouseDescription,'Fecha: '+ this.date]]
+  });
+
+  console.log('this.estimate')
+  console.log(this.estimate)
+  if(this.estimate == null){
+    this.estimate = '';
+  }
+
+   doc.autoTable({
+    startY: doc.autoTable.previous.finalY,
+    theme:'grid',
+    styles: {fillColor: [215,215,215],lineColor:[4,1,0],lineWidth:0.2},
+    columnStyles: {
+     0: { fontSize:9, cellWidth:215, fillColor: null},
+     1: { fontSize:9, cellWidth:100, fillColor: null},
+     2: { fontSize:9, cellWidth:99, fillColor: null},
+    },
+    margin: { left: 15},
+    body: [['Sede: '+ this.regionalDescription,'C.Costos: '+ this.costCenterDescription,'OC/Cotización: Pedido No: '+ this.estimate]]
+  });
    
    doc.autoTable({
-     startY: doc.autoTable.previous.finalY,
-     theme:'grid',
-     styles: {fillColor: [215,215,215],valign:"top",lineColor:[4,1,0],lineWidth:0.2},
-     columnStyles: {0: {halign: 'center'},  }, // Cells in first column centered and green
-     margin: {top: 60, right: 15, bottom: 0, left: 15},
-     body: [['CLIENTE']]
-   });
-   
-   doc.autoTable({
-     startY: doc.autoTable.previous.finalY,
-     theme:'grid',
-     styles: {fillColor: [215,215,215],lineColor:[4,1,0],lineWidth:0.2},
-     columnStyles: {0: { cellWidth: 230, fontSize:9,  fillColor: null},  1: {fontSize:9, halign: 'left', fillColor: null, cellWidth:185}},
-     margin: { left: 15},
-     body: [['Nit: ' + this.documentCustomer+' '+this.nameCustomer, 'Contacto: '+ this.contact]]
-   });
-   
-   doc.autoTable({
-     startY:doc.autoTable.previous.finalY,
-     theme:'grid',
-     styles: {fillColor: [215,215,215],lineColor:[4,1,0],lineWidth:0.2},
-     columnStyles: {0: { cellWidth:100, fontSize:9,  fillColor: null},  1: {fontSize:9, halign: 'left', fillColor: null, cellWidth:100},  2: {fontSize:9, halign: 'left', fillColor: null, cellWidth:214}},
-     margin: { left: 15},
-     body: [['Telefono: '+ this.cellphone, 'Ciudad: '+ this.cityEstimate, 'Maquina: '+  this.forkliftText  ]]
-   });
+    startY: doc.autoTable.previous.finalY,
+    theme:'grid',
+    styles: {fillColor: [215,215,215],valign:"top",lineColor:[4,1,0],lineWidth:0.2},
+    columnStyles: {0: {halign: 'center'},  }, // Cells in first column centered and green
+    margin: {top: 60, right: 15, bottom: 0, left: 15},
+    body: [['Factura HGI']]
+  });
+
+ 
    //Vamos en este punto
+  
 
    //**********************************************************     */
 
-
-   doc.autoTable({
-     startY:doc.autoTable.previous.finalY,
-     theme:'grid',
-     styles: {fillColor: [215,215,215],valign:"top",lineColor:[4,1,0],lineWidth:0.2},
-     columnStyles: {0: {halign: 'center'},  }, // Cells in first column centered and green
-     margin: {top: 60, right: 15, bottom: 0, left: 15},
-     body: [['MANO DE OBRA Y SERVICIOS']]
-   });
  
-   if(this.checkHideCode==false){
-     console.log('Ingreso codigo'+ this.checkHideCode);
+
+ 
    doc.autoTable({
      startY: doc.autoTable.previous.finalY,
      theme:'grid',
      styles: {fillColor: [215,215,215],lineColor:[4,1,0],lineWidth:0.2},
-     columnStyles: {0: {halign: 'center', fontSize:9, cellWidth:23}, 1: {halign: 'center', fontSize:9, cellWidth:55},2: {halign: 'center', fontSize:9, cellWidth:175},3: {halign: 'center', fontSize:9, cellWidth:27},4: {halign: 'center', fontSize:9, cellWidth:45}, 5: {halign: 'center', fontSize:9, cellWidth:45}, 6: {halign: 'center', fontSize:9, cellWidth:42}  },
+     columnStyles: {
+     0: {halign: 'center', fontSize:9, cellWidth:20},
+     1: {halign: 'center', fontSize:9, cellWidth:30},
+     2: {halign: 'center', fontSize:9, cellWidth:140},
+     3: {halign: 'center', fontSize:9, cellWidth:50},
+     4: {halign: 'center', fontSize:9, cellWidth:26},
+     5: {halign: 'center', fontSize:9, cellWidth:50},
+     6: {halign: 'center', fontSize:9, cellWidth:39},
+     7: {halign: 'center', fontSize:9, cellWidth:55}
+     },
      margin: { left: 15},
-     body: [['ITEM','CÓDIGO','DESCRIPCIÓN','CANT.','VLR. UNIT.','TOTAL','ENTREGA']]
-   });
- }else{
-   console.log('Ingreso para ocultar codigo');
-   doc.autoTable({
-     startY: doc.autoTable.previous.finalY,
-     theme:'grid',
-     styles: {fillColor: [215,215,215],lineColor:[4,1,0],lineWidth:0.2},
-     columnStyles: {0: {halign: 'center', fontSize:9, cellWidth:23},1: {halign: 'center', fontSize:9, cellWidth:190},2: {halign: 'center', fontSize:9, cellWidth:27},3: {halign: 'center', fontSize:9, cellWidth:63}, 4: {halign: 'center', fontSize:9, cellWidth:63}, 5: {halign: 'center', fontSize:9, cellWidth:46}  },
-     margin: { left: 15},
-     body: [['ITEM','DESCRIPCIÓN','CANT.','VLR. UNIT.','TOTAL','ENTREGA']]
-   });
- }
-// importante cambio
-   if(this.rowsItemsWorkforce.length>0){
-
-     if(this.checkHideCode==false){
-   doc.autoTable({
-     startY:doc.autoTable.previous.finalY,
-     theme:'grid',
-     styles: {fillColor: [215,215,215],valign:"top",lineColor:[4,1,0],lineWidth:0.2},
-     columnStyles: {0: {halign: 'center'},  }, // Cells in first column centered and green
-     margin: {top: 60, right: 15, bottom: 0, left: 15},
-     body: [['MANO DE OBRA']]
+     body: [['','REFERENCIA','DESCRIPCIÓN','SUB. CCOST','CANT.','VLR. UNIT.','DESC%','TOTAL']]
    });
 
-   /*doc.autoTable({
-     startY: doc.autoTable.previous.finalY,
-     theme:'grid',
-     styles: {fillColor: [215,215,215],lineColor:[4,1,0],lineWidth:0.2},
-     columnStyles: {0: {halign: 'center', fontSize:9, cellWidth:23}, 1: {halign: 'center', fontSize:9, cellWidth:55},2: {halign: 'center', fontSize:9, cellWidth:185},3: {halign: 'center', fontSize:9, cellWidth:27},4: {halign: 'center', fontSize:9, cellWidth:40}, 5: {halign: 'center', fontSize:9, cellWidth:39}, 6: {halign: 'center', fontSize:9, cellWidth:42}  },
-     margin: { left: 15},
-     body: [['ITEM','CÓDIGO','DESCRIPCIÓN','CANT.','VLR. UNIT.','TOTAL','ENTREGA']]
-   });*/
+ // doc.save('Cotizacion_No_'+ this.consecutive+'.pdf');
+ console.log('Info importante');
 
-   for (let i = 0; i < this.rowsItemsWorkforce.length; i++) {
-   
-     body_table = [i+1, this.rowsItemsWorkforce[i].code, this.rowsItemsWorkforce[i].service, this.rowsItemsWorkforce[i].quantity, this.rowsItemsWorkforce[i].hour_value_decimal, this.rowsItemsWorkforce[i].subtotal_decimal,
-     this.rowsItemsWorkforce[i].delivery+' días'];
-     
-     doc.autoTable({
-       startY: doc.autoTable.previous.finalY,
-       theme:'grid',
-       styles: {fillColor: null,lineColor:[4,1,0],lineWidth:0.2},
-       columnStyles: {0: {halign: 'center', fontSize:8, cellWidth:23},1: {halign: 'left', fontSize:8, cellWidth:55}, 2: {halign: 'left', fontSize:8, cellWidth:175}, 3: {halign: 'center', fontSize:8, cellWidth:28}, 4: {halign: 'center', fontSize:8, cellWidth:45}, 5: {halign: 'center', fontSize:8, cellWidth:45},  6: {halign: 'center', fontSize:8, cellWidth:40}  },
-       margin: { left: 15},
-       body: [ body_table ]
-     });
-    // y=y+15;
-   } 
- }else{
-
-   doc.autoTable({
-     startY:doc.autoTable.previous.finalY,
-     theme:'grid',
-     styles: {fillColor: [215,215,215],valign:"top",lineColor:[4,1,0],lineWidth:0.2},
-     columnStyles: {0: {halign: 'center'},  }, // Cells in first column centered and green
-     margin: {top: 60, right: 15, bottom: 0, left: 15},
-     body: [['MANO DE OBRA']]
-   });
-
-  /* doc.autoTable({
-     startY: doc.autoTable.previous.finalY,
-     theme:'grid',
-     styles: {fillColor: [215,215,215],lineColor:[4,1,0],lineWidth:0.2},
-     columnStyles: {0: {halign: 'center', fontSize:9, cellWidth:23}, 1: {halign: 'center', fontSize:9, cellWidth:55},2: {halign: 'center', fontSize:9, cellWidth:185},3: {halign: 'center', fontSize:9, cellWidth:27},4: {halign: 'center', fontSize:9, cellWidth:40}, 5: {halign: 'center', fontSize:9, cellWidth:39}, 6: {halign: 'center', fontSize:9, cellWidth:42}  },
-     margin: { left: 15},
-     body: [['ITEM','DESCRIPCIÓN','CANT.','VLR. UNIT.','TOTAL','ENTREGA']]
-   });*/
-
-   for (let i = 0; i < this.rowsItemsWorkforce.length; i++) {
-   
-     body_table = [i+1, this.rowsItemsWorkforce[i].service, this.rowsItemsWorkforce[i].quantity, this.rowsItemsWorkforce[i].hour_value_decimal, this.rowsItemsWorkforce[i].subtotal_decimal,
-     this.rowsItemsWorkforce[i].delivery+ ' días'];
-     
-     doc.autoTable({
-       startY: doc.autoTable.previous.finalY,
-       theme:'grid',
-       styles: {fillColor: null,lineColor:[4,1,0],lineWidth:0.2},
-       columnStyles: {0: {halign: 'center', fontSize:9, cellWidth:23},1: {halign: 'left', fontSize:9, cellWidth:190},2: {halign: 'center', fontSize:9, cellWidth:27},3: {halign: 'center', fontSize:9, cellWidth:63}, 4: {halign: 'center', fontSize:9, cellWidth:63}, 5: {halign: 'center', fontSize:9, cellWidth:46}  },
-       margin: { left: 15},
-       body: [ body_table ]
-     });
-    // y=y+15;
-   } 
-
- }
- }
-
+ //ifff
+ let j = 1;
  if(this.rowsItemsparts.length>0){
-
-   if(this.checkHideCode==false){
- doc.autoTable({
-   startY:doc.autoTable.previous.finalY,
-   theme:'grid',
-   styles: {fillColor: [215,215,215],valign:"top",lineColor:[4,1,0],lineWidth:0.2},
-   columnStyles: {0: {halign: 'center'},  }, // Cells in first column centered and green
-   margin: {top: 60, right: 15, bottom: 0, left: 15},
-   body: [['REPUESTOS']]
- });
-
-/* doc.autoTable({
-   startY: doc.autoTable.previous.finalY,
-   theme:'grid',
-   styles: {fillColor: [215,215,215],lineColor:[4,1,0],lineWidth:0.2},
-   columnStyles: {0: {halign: 'center', fontSize:9, cellWidth:23}, 1: {halign: 'center', fontSize:9, cellWidth:55},2: {halign: 'center', fontSize:9, cellWidth:185},3: {halign: 'center', fontSize:9, cellWidth:27},4: {halign: 'center', fontSize:9, cellWidth:40}, 5: {halign: 'center', fontSize:9, cellWidth:39}, 6: {halign: 'center', fontSize:9, cellWidth:42}  },
-   margin: { left: 15},
-   body: [['ITEM','CÓDIGO','DESCRIPCIÓN','CANT.','VLR. UNIT.','TOTAL','ENTREGA']]
- });*/
-
- for (let i = 0; i < this.rowsItemsparts.length; i++) {
- 
-   body_table = [i+1, this.rowsItemsparts[i].code, this.rowsItemsparts[i].description, this.rowsItemsparts[i].quantity, this.rowsItemsparts[i].price_decimal, this.rowsItemsparts[i].subtotal_decimal,
-   this.rowsItemsparts[i].delivery+' días'];
-   
-   doc.autoTable({
-     startY: doc.autoTable.previous.finalY,
-     theme:'grid',
-     styles: {fillColor: null,lineColor:[4,1,0],lineWidth:0.2},
-     columnStyles: {0: {halign: 'center', fontSize:8, cellWidth:23}, 1: {halign: 'left', fontSize:8, cellWidth:55},2: {halign: 'left', fontSize:8, cellWidth:175},3: {halign: 'center', fontSize:8, cellWidth:27},4: {halign: 'center', fontSize:8, cellWidth:45}, 5: {halign: 'center', fontSize:8, cellWidth:45}, 6: {halign: 'center', fontSize:8, cellWidth:41}  },
-     margin: { left: 15},
-     body: [ body_table ]
-   });
-  // y=y+15;
- } 
-}else{
-
- doc.autoTable({
-   startY:doc.autoTable.previous.finalY,
-   theme:'grid',
-   styles: {fillColor: [215,215,215],valign:"top",lineColor:[4,1,0],lineWidth:0.2},
-   columnStyles: {0: {halign: 'center'},  }, // Cells in first column centered and green
-   margin: {top: 60, right: 15, bottom: 0, left: 15},
-   body: [['REPUESTOS']]
- });
-
-/* doc.autoTable({
-   startY: doc.autoTable.previous.finalY,
-   theme:'grid',
-   styles: {fillColor: [215,215,215],lineColor:[4,1,0],lineWidth:0.2},
-   columnStyles: {0: {halign: 'center', fontSize:9, cellWidth:23}, 1: {halign: 'center', fontSize:9, cellWidth:55},2: {halign: 'center', fontSize:9, cellWidth:185},3: {halign: 'center', fontSize:9, cellWidth:27},4: {halign: 'center', fontSize:9, cellWidth:40}, 5: {halign: 'center', fontSize:9, cellWidth:39}, 6: {halign: 'center', fontSize:9, cellWidth:42}  },
-   margin: { left: 15},
-   body: [['ITEM','DESCRIPCIÓN','CANT.','VLR. UNIT.','TOTAL','ENTREGA']]
- });*/
-
- for (let i = 0; i < this.rowsItemsparts.length; i++) {
- 
-   body_table = [i+1, this.rowsItemsparts[i].description, this.rowsItemsparts[i].quantity, this.rowsItemsparts[i].price_decimal, this.rowsItemsparts[i].subtotal_decimal,
-   this.rowsItemsparts[i].delivery + ' días'];
-   
-   doc.autoTable({
-     startY: doc.autoTable.previous.finalY,
-     theme:'grid',
-     styles: {fillColor: null,lineColor:[4,1,0],lineWidth:0.2},
-     columnStyles: {0: {halign: 'center', fontSize:9, cellWidth:23},1: {halign: 'left', fontSize:9, cellWidth:190},2: {halign: 'center', fontSize:9, cellWidth:27},3: {halign: 'center', fontSize:9, cellWidth:63}, 4: {halign: 'center', fontSize:9, cellWidth:63}, 5: {halign: 'center', fontSize:9, cellWidth:46}  },
-     margin: { left: 15},
-     body: [ body_table ]
-   });
-  // y=y+15;
- } 
-
-}
-}
-
-doc.autoTable({
- startY:doc.autoTable.previous.finalY,
- theme:'grid',
- styles: {fillColor: null,valign:"top",lineColor:[4,1,0],lineWidth:0.2},
- columnStyles: {0: {halign: 'left', fontSize:8, cellWidth:85}, 1: {halign: 'left', fontSize:8, cellWidth:86},2: {halign: 'left', fontSize:8, cellWidth:81},3: {halign: 'left', fontSize:8, cellWidth:80},4: {halign: 'center', fontSize:8, cellWidth:81} },
- margin: {top: 60, right: 15, bottom: 0, left: 15},
- body: [['Validez Oferta: '+  this.validity  +' días','Forma Pago: ' + this.payment_method + ' días','Garantía: '+ this.guarantyEstimate +' días','Subtotal Repuestos:',this.subtotalParts]]
-});
+  for (let i = 0; i < this.rowsItemsparts.length; i++) {
+//Este total se debe remplazar por el subtotal_parts que se encuentra en la tabla de settlement
+let value=  Number(this.rowsItemsparts[i].subtotal);
+    this.totalCost = Number(this.totalCost + value); 
+    console.log('total'); 
+    console.log(this.rowsItemsparts[i].subtotal_decimal); 
+    console.log(this.totalCost); 
+    body_table = [i+1, this.rowsItemsparts[i].code, this.rowsItemsparts[i].description, this.rowsItemsparts[i].sub_cost_center, this.rowsItemsparts[i].quantity, '$'+this.rowsItemsparts[i].price_suggest_decimal, this.rowsItemsparts[i].discount,   '$'+this.rowsItemsparts[i].subtotal_decimal];
 
 
-   doc.autoTable({
-     startY:  doc.autoTable.previous.finalY,
-     theme:'grid',
-     styles: {fillColor: null,lineColor:[4,1,0],lineWidth:0.2},
-     columnStyles: {0: {halign: 'left', fontSize:8, cellWidth:85}, 1: {halign: 'left', fontSize:8, cellWidth:86},2: {halign: 'left', fontSize:8, cellWidth:81},3: {halign: 'left', fontSize:8, cellWidth:80},4: {halign: 'center', fontSize:8, cellWidth:81} },
-     margin: { left: 15},
-     body: [
-     [{content: this.observationEstimate, colSpan: 3, rowSpan: 3, styles: {halign: 'left'}},'Subtotal Mano de Obra',this.subtotalHours],
-      ['Total',this.total],
-      [{content: 'NOTA: VALORES ANTES DE IVA', colSpan: 2,  styles: {halign: 'left'}}]]
-   });
-
-   if(this.filesImage.length>0){
-     console.log('MOSTRAME POR FAVOR LA URL'+ this.filesImage[0].url);
-   var img4 = new Image;
-   img4.crossOrigin = "";  
-   img4.src =this.filesImage[0].content; 
-   var exts = this.filesImage[0].ext;
+     doc.autoTable({
+       startY: doc.autoTable.previous.finalY,
+       theme:'grid',
+       styles: {fillColor: null,lineColor:[4,1,0],lineWidth:0.2},
+       columnStyles: {
+        0: {halign: 'center', fontSize:9, cellWidth:20},
+        1: {halign: 'center', fontSize:9, cellWidth:30},
+        2: {fontSize:9, cellWidth:140},
+        3: {halign: 'center', fontSize:9, cellWidth:50},
+        4: {halign: 'center', fontSize:9, cellWidth:26},
+        5: {halign: 'center', fontSize:9, cellWidth:50},
+        6: {halign: 'center', fontSize:9, cellWidth:39},
+        7: {halign: 'center', fontSize:9, cellWidth:55}
+        },
+       margin: { left: 15},
+       body: [ body_table ]
+     });
+     j ++;
+    }
     
-   
-   // img4.onload = function() {
-       doc.addImage(img4, exts,  15,  doc.autoTable.previous.finalY+20, 150,150);
-       console.log('ingreso por este 4');
-   
-     }
-       // doc.save('CuatroFirstPdf.pdf');
-      // this.blobGlobal = doc.output('blob');
-    // };
-   
+  }
+
+ if(this.rowsItemsWorkforce.length>0){
+  for (let i = 0; i < this.rowsItemsWorkforce.length; i++) {
+//Este total se debe remplazar por el subtotal_parts que se encuentra en la tabla de settlement
+let value=  Number(this.rowsItemsWorkforce[i].total);
+    this.totalCost = Number(this.totalCost + value); 
+
+    console.log('total'); 
+    console.log(this.rowsItemsWorkforce[i].subtotal_decimal); 
+    console.log(this.totalCost); 
+
+    body_table = [j+1, this.rowsItemsWorkforce[i].code, this.rowsItemsWorkforce[i].service, this.rowsItemsWorkforce[i].sub_cost_center, this.rowsItemsWorkforce[i].quantity, '$'+this.rowsItemsWorkforce[i].subtotal_decimal, this.rowsItemsWorkforce[i].discount,   '$'+this.rowsItemsWorkforce[i].total_decimal];
+
+
+     doc.autoTable({
+       startY: doc.autoTable.previous.finalY,
+       theme:'grid',
+       styles: {fillColor: null,lineColor:[4,1,0],lineWidth:0.2},
+       columnStyles: {
+        0: {halign: 'center', fontSize:9, cellWidth:20},
+        1: {halign: 'center', fontSize:9, cellWidth:30},
+        2: {fontSize:9, cellWidth:140},
+        3: {halign: 'center', fontSize:9, cellWidth:50},
+        4: {halign: 'center', fontSize:9, cellWidth:26},
+        5: {halign: 'center', fontSize:9, cellWidth:50},
+        6: {halign: 'center', fontSize:9, cellWidth:39},
+        7: {halign: 'center', fontSize:9, cellWidth:55}
+        },
+       margin: { left: 15},
+       body: [ body_table ]
+     });
+     j++;
+    }
+    
+  }
+
+  let total = this.finalFormatPrice(this.totalCost);
+  console.log('total')
+  console.log(total)
+     doc.autoTable({
+      startY: doc.autoTable.previous.finalY,
+      theme:'grid',
+      styles: {fillColor: [215,215,215],lineColor:[4,1,0],lineWidth:0.2},
+      columnStyles: {
+      0: {halign: 'center', fontSize:9, cellWidth:250},
+      1: {halign: 'center', fontSize:9, cellWidth:69},
+      2: {halign: 'center', fontSize:9, cellWidth:39},
+      3: {halign: 'center', fontSize:9, cellWidth:55},
+      },
+      margin: { left: 15},
+      body: [['','TOTAL','DESC%','$' + total]]
+    });
+    this.totalCost = 0;
+  doc.autoTable({
+    startY: doc.autoTable.previous.finalY,
+    theme:'grid',
+    styles: {fillColor: [215,215,215],valign:"top",lineColor:[4,1,0],lineWidth:0.2},
+    columnStyles: {0: {halign: 'center'},  }, // Cells in first column centered and green
+    margin: {top: 60, right: 15, bottom: 0, left: 15},
+    body: [['Factura Cliente']]
+  });
+
+  doc.autoTable({
+    startY: doc.autoTable.previous.finalY,
+    theme:'grid',
+    styles: {fillColor: [215,215,215],lineColor:[4,1,0],lineWidth:0.2},
+    columnStyles: {
+    0: {halign: 'center', fontSize:9, cellWidth:20},
+    1: {halign: 'center', fontSize:9, cellWidth:30},
+    2: {halign: 'center', fontSize:9, cellWidth:140},
+    3: {halign: 'center', fontSize:9, cellWidth:50},
+    4: {halign: 'center', fontSize:9, cellWidth:26},
+    5: {halign: 'center', fontSize:9, cellWidth:50},
+    6: {halign: 'center', fontSize:9, cellWidth:39},
+    7: {halign: 'center', fontSize:9, cellWidth:55}
+    },
+    margin: { left: 15},
+    body: [['','REFERENCIA','DESCRIPCIÓN','SUB. CCOST','CANT.','VLR. UNIT.','DESC%','TOTAL']]
+  });
+  
+ 
+
+  if(this.rowsItemsCustomer.length>0){
+    for (let i = 0; i < this.rowsItemsCustomer.length; i++) {
+  //Este total se debe remplazar por el subtotal_parts que se encuentra en la tabla de settlement
+  let value=  Number(this.rowsItemsCustomer[i].subtotal);
+      this.totalCost = Number(this.totalCost + value); 
+
+      console.log('total'); 
+      console.log(this.rowsItemsCustomer[i].subtotal_decimal); 
+      console.log(this.totalCost); 
+
+      body_table = [i+1, this.rowsItemsCustomer[i].code, this.rowsItemsCustomer[i].description, this.rowsItemsCustomer[i].sub_cost_center.description, this.rowsItemsCustomer[i].quantity, '$'+this.rowsItemsCustomer[i].price_suggest_decimal, this.rowsItemsCustomer[i].discount,   '$'+this.rowsItemsCustomer[i].subtotal_decimal];
+  
+   doc.autoTable({
+     startY: doc.autoTable.previous.finalY,
+     theme:'grid',
+     styles: {fillColor: null,lineColor:[4,1,0],lineWidth:0.2},
+     columnStyles: {
+      0: {halign: 'center', fontSize:9, cellWidth:20},
+      1: {halign: 'center', fontSize:9, cellWidth:30},
+      2: {fontSize:9, cellWidth:140},
+      3: {halign: 'center', fontSize:9, cellWidth:50},
+      4: {halign: 'center', fontSize:9, cellWidth:26},
+      5: {halign: 'center', fontSize:9, cellWidth:50},
+      6: {halign: 'center', fontSize:9, cellWidth:39},
+      7: {halign: 'center', fontSize:9, cellWidth:55}
+      },
+     margin: { left: 15},
+     body: [ body_table ]
+   });
+  }
+}
+  // y=y+15;
+
+  total = this.finalFormatPrice(this.totalCost);
+  console.log('total')
+  console.log(total)
+
+  doc.autoTable({
+    startY: doc.autoTable.previous.finalY,
+    theme:'grid',
+    styles: {fillColor: [215,215,215],lineColor:[4,1,0],lineWidth:0.2},
+    columnStyles: {
+      0: {halign: 'center', fontSize:9, cellWidth:250},
+      1: {halign: 'center', fontSize:9, cellWidth:69},
+      2: {halign: 'center', fontSize:9, cellWidth:39},
+      3: {halign: 'center', fontSize:9, cellWidth:55}
+    },
+    margin: { left: 15},
+    body: [['','TOTAL','DESC%','$' + total]]
+  });
    
    this.blobGlobal = doc.output('blob');
    console.log('ingreso a ja');
    this.sendEmailEstimateAmazon();
-
- //  console.log(this.filesImage.length+' oleole');
-   //doc.addPage();
-  /*for (let i = 0; i < this.filesImage.length; i++) {
-     console.log('este es el valor de los i');
-     console.log(i);
-     console.log(this.filesImage[i]);
-     let a = this.filesImage[i].content;
-     let b = 1+i;
-     let j = 400;
-     let k= j*b;
-    
-
-   }*/
-
-
-
- /*  var img = new Image;
-   img.crossOrigin = "";
-   img.src = this.filesImage[0].url; 
-   var exts = this.filesImage[0].ext;
-   img.onload = function () {
-     doc.addImage(img, exts,  15, 200, 150,150);
-     doc.save('FirstPdf.pdf');
-   }
-*/
-
-// var height=doc.autoTable.previous.finalY;
-// if(doc.autoTable.previous.finalY+150>631){
-//  doc.addPage();
-//  height=100;
-// }
-
-/*
-var imagesLong= this.filesImage.length;
-
-
-var src;
-var img;
-var exts;
-var img2;
-var src2; 
-var exts2;
-var img3;
-var src3; 
-var exts3;
-var img4;
-var src4; 
-var exts4 ;
-
-
-if(this.filesImage[0]){
-  img = new Image;
-  this.extImageOne = this.filesImage[0].ext;
-  src = this.filesImage[0].url; 
-}
-if(this.filesImage[1]){
-  img2 = new Image;
-  src2 = this.filesImage[1].url; 
-  this.extImageTwo = this.filesImage[1].ext;
-}
-  
-if(this.filesImage[2]){
-  img3 = new Image;
-  src3 = this.filesImage[2].url; 
-  this.extImageThree = this.filesImage[2].ext;
-}
-if(this.filesImage[3]){
-  img4 = new Image;
-  src4 = this.filesImage[3].url; 
-  this.extImageFour = this.filesImage[3].ext;
-}
-
-
-var extOne=this.extImageOne;
-var extTwo=this.extImageTwo;
-var extThree=this.extImageThree;
-var extFour=this.extImageFour;
-
-if(imagesLong>0){ // Si hay imagenes
-   
-
-
-
-img.onload = function() {
-
-
-     height=height+10;
-     doc.addImage(img, extOne,  15,  height, 150,150);
-     //doc.save('FirstPdf.pdf');
-     //doc.addPage();
-
-
-     if(height+150>631){
-       doc.addPage();
-       height=20;
-     }else{
-       height=height+151;
-     }
-     if(2<=imagesLong){
-     img2.onload = function() {
-       doc.addImage(img2, extTwo,  15,  height, 150,150);
-      
-     //  doc.save('FirstPdf.pdf');
-      // doc.addPage();
-      if(height+150>631){
-       doc.addPage();
-       height=20;
-     }else{
-       height=height+151;
-     }
-      if(3<=imagesLong){
-      img3.onload = function() {
-       doc.addImage(img3, extThree,  15,  height, 150,150);
-      
-     //  doc.save('FirstPdf.pdf');
-     //  doc.addPage();
-     if(height+150>631){
-       doc.addPage();
-       height=100;
-     }else{
-       height=height+151;
-     }
-     if(4<=imagesLong){
-     img4.onload = function() {
-       doc.addImage(img4, extFour,  15, height, 150,150);
-       console.log('ingreso por este 4');
-       doc.save('CuatroFirstPdf.pdf');
-       
-   };
-   img4.crossOrigin = "";  
-   img4.src = src4; 
-   var exts = exts4;
-//----------------
-//----------------
-}
-       
-   };
-       
-   img3.crossOrigin = "";  
-   img3.src = src3; 
-   var exts = exts3;
-//----------------
-}else{
- doc.save('TresFirstPdf.pdf');
- 
-}
-
-   };
-   img2.crossOrigin = "";  
-   img2.src = src2; 
-   var exts = exts2;
-
-   //-------
- }else{
-   doc.save('DosFirstPdf.pdf');
- }
- };
- img.crossOrigin = "";  
- img.src = src; 
-
-} */
-
-    /*   if(this.filesImage[0]){
-         console.log('0');
-         console.log(this.filesImage[0].ext);
-         doc.addImage(this.filesImage[0].content,this.filesImage[0].ext,  15, 200, 150,150);
-       }
-       
-     
-       if(this.filesImage[1]){
-         console.log('1');
-         console.log(this.filesImage[1].ext);
-         doc.addImage(this.filesImage[1].content, this.filesImage[1].ext,  15, 350, 100, 100);
-       }*/
-
-
-   
-
-       /*
-       if(this.filesImage[2]){
-         console.log('2');
-         console.log(this.filesImage[2].ext);
-         doc.addImage(this.filesImage[2].content, this.filesImage[2].ext,  15, 500, 222, 100);
-       }*/
-
-    
-
-  
-
-
- 
-  /* if(ind==0){
-   doc.save('FirstPdf.pdf');
-   
-   }else{
-     this.blobGlobal = doc.output('blob');
-     console.log('ingreso a ja');
-     this.ja();
-   }*/
-
 
    console.log('el ja tiene el metodo para enviar el correo');
    }
