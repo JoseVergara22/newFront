@@ -485,16 +485,25 @@
             </div>
             <br>
              <div class="row">
-                <div class="col-sm-6">
+                <div class="col-sm-4">
                         <h6>Cliente</h6>
                   
-                        <select class="form-control" (change)="getForklifs()" [(ngModel)]="selectedBusinessId"> 
+                        <select class="form-control" (change)="getBranchOffices()" [(ngModel)]="selectedBusinessId"> 
                                     <option value="0" selected>Seleccionar cliente </option>
                                 <option   *ngFor="let customer of customers" [ngValue]="customer"> {{customer.business_name}}  </option>
                                 <!--  <option value="0" selected>Seleccionar perfil</option> -->
                                </select>
                 </div>
-                <div class="col-sm-6">
+                <div class="col-sm-4">
+                    <h6>Sede</h6>
+
+                    <select class="form-control" (change)="getForklifs()"  [(ngModel)]="selectedBranchOfficeId" > 
+                                <option value="0" selected>Seleccionar sede </option>
+                                <option   *ngFor="let branchOffice of branchOffices" [ngValue]="branchOffice"   > {{branchOffice.branch_name}}  </option>
+                            <!--  <option value="0" selected>Seleccionar perfil</option> -->
+                           </select>
+                 </div>
+                <div class="col-sm-4">
                         <h6>Equipo</h6>
 
                         <select class="form-control" (change)="getForkliftText()"  [(ngModel)]="selectedForkliftId" > 

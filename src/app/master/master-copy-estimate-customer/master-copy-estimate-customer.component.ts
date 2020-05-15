@@ -1429,7 +1429,7 @@ upload(idForklift: number) {
 console.log();
     this.estimateService.createEstimate(consecutiveTemp,customerIdTemp,documentCustomerTemp,
       idDepartmentTemp, selectedCityTemp, selectedForkliftIdTemp,
-      contactTemp, daysTemp, guarantyTemp, validityTemp, cellphoneTemp, observationTemp,0,this.email,0,forkliftTextTemp).then(data => {
+      contactTemp, daysTemp, guarantyTemp, validityTemp, cellphoneTemp, observationTemp,0,this.email,0,forkliftTextTemp,0).then(data => {
       const resp: any = data;
       this.estimateId= resp.data.id;
       this.showEstimateId = false;

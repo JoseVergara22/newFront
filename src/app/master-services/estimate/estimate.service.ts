@@ -716,7 +716,7 @@ export class EstimateService {
   createEstimate(estimate_consecutive: number, customer_id: number, customer_document: string,
                  department_id: number, city_id: number, forklift_id: number, contact: string,
                  payment_method: number, guaranty: number, validity: number, telephone: string,
-                 observation: string, total: number, email:string, status:number, forklift_text:string) {
+                 observation: string, total: number, email:string, status:number, forklift_text:string, branch_office_id:number) {
     return new Promise(resolve => {
       const headers = new HttpHeaders();
       headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user'))); // 'Bearer ' +
@@ -738,6 +738,7 @@ export class EstimateService {
         department_id: department_id,
         city_id: city_id,
         forklift_id: forklift_id,
+        branch_office_id: branch_office_id,
         contact: contact,
         payment_method: payment_method,
         guaranty: guaranty,
@@ -765,7 +766,7 @@ export class EstimateService {
   updateEstimate(id:number, customer_id: number, customer_document: string,
     department_id: number, city_id: number, forklift_id: number, contact: string,
     payment_method: number, guaranty: number, validity: number, telephone: string,
-    observation: string, forklift_text:string ) {
+    observation: string, forklift_text:string, branch_office_id:number) {
       return new Promise(resolve => {
       const headers = new HttpHeaders();
       headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user'))); // 'Bearer ' +
@@ -783,6 +784,7 @@ export class EstimateService {
       department_id: department_id,
       city_id: city_id,
       forklift_id: forklift_id,
+      branch_office_id: branch_office_id,
       contact: contact,
       payment_method: payment_method,
       guaranty: guaranty,
@@ -790,7 +792,7 @@ export class EstimateService {
       telephone: telephone,
       observation: observation,
       email:'',
-      forklift_text:forklift_text
+      forklift_text:forklift_text,
       };
 
 

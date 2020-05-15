@@ -128,6 +128,7 @@ export class MasterEstimateAllComponent extends NgbDatepickerI18n {
 
   customers: any;
   forklifts: any;
+  branchOffices: any;
 
   part:any='';
   codepart:any='';
@@ -147,6 +148,7 @@ export class MasterEstimateAllComponent extends NgbDatepickerI18n {
   
   selectedBusinessId: any = 0;
   selectedForkliftId:any = 0;
+  selectedBranchOfficeId:any = 0;
   selectedOfficeId: any = 0;
   selectedUserId: any =0;
   customerOffices: any = 0;
@@ -3495,8 +3497,8 @@ this.getImgFromUrl(logo_url, function (img) {
 
    getForklifs() {
    
-    if(this.selectedBusinessId!=0){
-    this.forkliftService.getForkliftsCustomerFull(this.selectedBusinessId).then(data => {
+    if(this.selectedBranchOfficeId!=0){
+      this.forkliftService.getForkliftBranchOfficesFull(this.selectedBranchOfficeId.id).then(data => {
       const resp: any = data;
       console.log(data);
       swal.close();
@@ -3509,6 +3511,25 @@ this.getImgFromUrl(logo_url, function (img) {
       console.log(error);
     });
   }
+   }
+
+   getBranchOffices(){
+     console.log('ingreso');
+    if(this.selectedBusinessId!=0){
+      console.log(this.selectedBusinessId);
+      this.restService.getOffice(this.selectedBusinessId).then(data => {
+        const resp: any = data;
+        console.log(data);
+        swal.close();
+        this.branchOffices  = resp.data;
+        // this.rowsClient = resp.data;
+        // this.rowStatic =  resp.data;
+        // this.rowsTemp = resp.data;
+        // console.log( this.rowsClient);
+      }).catch(error => {
+        console.log(error);
+      });
+    }
    }
 
 
@@ -3637,7 +3658,7 @@ this.getImgFromUrl(logo_url, function (img) {
 
     if(this.considerDate == false && this.selectedBusinessId == 0 &&  this.part == 0 &&
       this.codepart == 0 && this.numberEstimate == 0  &&  this.selectedForkliftId == 0 &&
-      this.selectedUserId == 0 && this.listStatus.length == 0){
+      this.selectedUserId == 0 && this.listStatus.length == 0  && this.selectedBranchOfficeId == 0){
         swal({
           title:'Importante',
           text: 'Debes seleccionar por lo menos uno de los filtros o activar casilla para tener en cuenta las fechas',
@@ -3719,6 +3740,15 @@ this.getImgFromUrl(logo_url, function (img) {
       params=params+'&&forklift_id='+this.selectedForkliftId;
       }else{
         params=params+'forklift_id='+this.selectedForkliftId;
+        cont++;
+      }
+    }
+
+    if(this.selectedBranchOfficeId!=0){
+      if(cont>0){
+      params=params+'&&branch_office_id='+this.selectedBranchOfficeId;
+      }else{
+        params=params+'branch_office_id='+this.selectedBranchOfficeId;
         cont++;
       }
     }
