@@ -118,11 +118,11 @@ const MENUITEMS = [
           {
             state:'horometro',
             name:'Administrar Horometro'
-          },/*
+          },
           {
             state: 'regionalsAll',
             name: 'Administrar Sucursales'
-          },
+          },/*
          {
             state: 'techniciansAll',
             name: 'Administrar Tecnicos'
@@ -292,6 +292,10 @@ const MENUCREATOR = [
           {
             state: 'customers',
             name: 'Administrar clientes'
+          },
+          {
+            state: 'regionalsAll',
+            name: 'Administrar Sucursales'
           },
           {
             state: 'forkliftShow',

@@ -83,7 +83,7 @@ export class MasterSettlementCustomerComponent implements OnInit {
   selectedDepartmentId = 0;
   selectedCityId = 0;
   switchStatus=false;
-  
+
   filterIndicatorText = false;
   filterIndicatorCheck = false;
 
@@ -2733,7 +2733,7 @@ console.log('acaaaaaaaaaaaaa');
     this.estimateService.updateEstimate(this.settlementId, customerIdTemp,documentCustomerTemp,
       idDepartmentTemp, selectedCityTemp, selectedForkliftIdTemp,
       contactTemp, daysTemp, guarantyTemp, validityTemp, cellphoneTemp, observationTemp,
-      forkliftTextTemp).then(data => {
+      forkliftTextTemp,0).then(data => {
       const resp: any = data;
       this.settlementId= resp.data.id;
       this.showSettlementId = false;

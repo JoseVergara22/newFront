@@ -321,7 +321,7 @@ checkUncheckAllPart(event:any){
          });
         }else{
           swal({
-            title: 'Regionales guardadas',
+            title: 'Sucursales guardadas',
             type: 'success'
            });
         }

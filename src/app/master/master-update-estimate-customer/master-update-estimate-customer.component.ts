@@ -150,7 +150,9 @@ export class MasterUpdateEstimateCustomerComponent implements OnInit {
   user:any;
   customers:any;
   forklifts:any;
+  branchOffices:any;
   selectedForkliftId:any=0;
+  selectedBranchOfficeId:any=0;
   managementVariables=0;
   managmentTariff=0;
   finalWeight=0;
@@ -415,9 +417,19 @@ export class MasterUpdateEstimateCustomerComponent implements OnInit {
       this.now =(this.currentEstimate.create_at).substring(0,10);
       this.consecutive= this.currentEstimate.estimate_consecutive;
       this.selectedBusinessId = this.currentEstimate.customer_id; // Number(this.currentEstimate.customer.id);
+     
+    
+     
       if(this.currentEstimate.forklift){
         this.selectedForkliftId = this.currentEstimate.forklift_id; //this.currentEstimate.forklift_id;
         this.forkliftText= this.currentEstimate.forklift_text;
+        console.log('Ingreso asigno id '+  this.selectedForkliftId);
+      }
+
+      
+
+      if(this.currentEstimate.branch_office){
+        this.selectedBranchOfficeId = this.currentEstimate.branch_office_id; //this.currentEstimate.forklift_id;
       }
     
       this.documentCustomer =  this.currentEstimate.customer_document;
@@ -443,6 +455,7 @@ export class MasterUpdateEstimateCustomerComponent implements OnInit {
       this.getConfigTrmInitial();
   
       this.getCustomers();
+      this.getBranchOffices();
       this.getForklifs();
       this.getDepartments();
       this.getCities();
@@ -588,15 +601,36 @@ this.trmGeneralUsa= inputTrm.value.replace(/[^\d\.]*/g,'');
    }
 
    getForklifs() {
+    console.log('este es el valor de customerId:'+ this.selectedBranchOfficeId);
+    if(this.selectedBranchOfficeId!=0){
+      console.log('Entro a las montacargas');
+      this.forkliftService.getForkliftBranchOfficesFull(this.selectedBranchOfficeId).then(data => {
+        const resp: any = data;
+        console.log('equipos: '+JSON.stringify(data));
+        swal.close();
+        this.forklifts  = resp.data;
+        console.log(this.forklifts);
+          // business_name,  last_name,name, email cellphone
+        // this.rowsClient = resp.data;
+        // this.rowStatic =  resp.data;
+        // this.rowsTemp = resp.data;
+        // console.log( this.rowsClient);
+      }).catch(error => {
+        console.log(error);
+      });
+    }
+   }
+
+   getBranchOffices() {
     console.log('este es el valor de customerId:'+ this.selectedBusinessId);
     if(this.selectedBusinessId!=0){
       console.log('Entro a las montacargas');
    
-      this.forkliftService.getForkliftsCustomerFull(this.selectedBusinessId).then(data => {
+      this.restService.getOffice(this.selectedBusinessId).then(data => {
         const resp: any = data;
         console.log(data);
         swal.close();
-        this.forklifts  = resp.data;
+        this.branchOffices  = resp.data;
         console.log(this.forklifts);
           // business_name,  last_name,name, email cellphone
         // this.rowsClient = resp.data;
@@ -1425,10 +1459,17 @@ if(this.conditionTrmUsa.id==2){
 
 
   getForkliftText(){
-    this.forkliftText=this.selectedForkliftId.full_name;
+    console.log(this.selectedForkliftId);
+    if(this.selectedForkliftId > 0){
+      for (let item of  this.forklifts) {
+        if(item.id == this.selectedForkliftId){
+          this.forkliftText=item.full_name;
+        }
+      }
+    }
+    console.log(this.forkliftText);
   }
-  
-  
+
 
   getConfigEstimatesInitial(){
     this.estimateService.getConfigEstimates().then(data => {
@@ -2594,6 +2635,7 @@ upload() {
     let idDepartmentTemp = this.selectedDepartmentId;
     let selectedCityTemp = this.selectedCityId;
     let selectedForkliftIdTemp = this.selectedForkliftId.id;
+    let selectedBranchOfficeIdTemp= this.selectedBranchOfficeId.id;
     let contactTemp = this.contact;
     let daysTemp = this.days;
     let guarantyTemp = this.guaranty;
@@ -2605,7 +2647,7 @@ upload() {
 console.log();
     this.estimateService.createEstimate(consecutiveTemp,customerIdTemp,documentCustomerTemp,
       idDepartmentTemp, selectedCityTemp, selectedForkliftIdTemp,
-      contactTemp, daysTemp, guarantyTemp, validityTemp, cellphoneTemp, observationTemp,0,'',0, forkliftTextTemp).then(data => {
+      contactTemp, daysTemp, guarantyTemp, validityTemp, cellphoneTemp, observationTemp,0,'',0, forkliftTextTemp, selectedBranchOfficeIdTemp).then(data => {
       const resp: any = data;
       console.log(resp);
       this.estimateId= resp.data.id;
@@ -2890,7 +2932,9 @@ console.log();
     let nameCustomerTemp = this.nameCustomer;
     let idDepartmentTemp = this.selectedDepartmentId;
     let selectedCityTemp = this.selectedCityId;
-    let selectedForkliftIdTemp = this.selectedForkliftId.id;
+    let selectedForkliftIdTemp = this.selectedForkliftId;
+    console.log(this.selectedBranchOfficeId);
+    let selectedBranchOfficeIdTemp = this.selectedBranchOfficeId;
     let contactTemp = this.contact;
     let daysTemp = this.days;
     let guarantyTemp = this.guaranty;
@@ -2899,11 +2943,11 @@ console.log();
     let observationTemp = this.observation;
     let forkliftTextTemp=  this.forkliftText;
 
-    console.log('Ole'+forkliftTextTemp);
+    console.log('Ole '+forkliftTextTemp);
     this.estimateService.updateEstimate(this.estimateId, customerIdTemp,documentCustomerTemp,
       idDepartmentTemp, selectedCityTemp, selectedForkliftIdTemp,
       contactTemp, daysTemp, guarantyTemp, validityTemp, cellphoneTemp, observationTemp,
-      forkliftTextTemp).then(data => {
+      forkliftTextTemp,selectedBranchOfficeIdTemp).then(data => {
       const resp: any = data;
       this.estimateId= resp.data.id;
       this.showEstimateId = false;

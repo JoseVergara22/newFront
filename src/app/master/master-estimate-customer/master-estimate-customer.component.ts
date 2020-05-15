@@ -132,11 +132,13 @@ export class MasterEstimateCustomerComponent implements OnInit {
   deliveryUpdate:any;
 
  
+  branchOffices:any;
   now:any;
   user:any;
   customers:any;
   forklifts:any;
   selectedForkliftId:any=0;
+  selectedBranchOfficeId:any=0;
   managementVariables=0;
   managmentTariff=0;
   finalWeight=0;
@@ -501,31 +503,11 @@ this.trmGeneralUsa= inputTrm.value.replace(/[^\d\.]*/g,'');
    }
 
    getForklifs() {
-    if(this.selectedBusinessId!=0){
-    console.log('valor de selección');
-    
-    console.log(this.selectedBusinessId.document_id);
-
-    this.documentCustomer = this.selectedBusinessId.document_id;
-    this.nameCustomer = this.selectedBusinessId.business_name;
-    console.log('this.selectedBusinessId.business_name');
-    console.log(this.selectedBusinessId.business_name);
-    this.cellphone = this.selectedBusinessId.telephone;
-    this.contact =  '';
-   //  this.email =  this.selectedBusinessId.email;
-    this.days = this.selectedBusinessId.day;
-    this.selectedDepartmentId = this.selectedBusinessId.department_id;
+    if(this.selectedBranchOfficeId!=0){
    
-    this.getCities();
- // if(this.selectedBusinessId.id!=0){
-
- //   if(this.selectedBusinessId!=0){
-    console.log('this.selectedBusinessId.id');
-    console.log(this.selectedBusinessId.id);
-
-    this.forkliftService.getForkliftsCustomerFull(this.selectedBusinessId.id).then(data => {
+    this.forkliftService.getForkliftBranchOfficesFull(this.selectedBranchOfficeId.id).then(data => {
       const resp: any = data;
-      console.log(data);
+      console.log('maquinas: '+data);
       swal.close();
       this.forklifts  = resp.data;
   
@@ -544,12 +526,53 @@ this.trmGeneralUsa= inputTrm.value.replace(/[^\d\.]*/g,'');
     this.nameCustomer ='';
     this.cellphone = '';
     this.contact =  '';
+    this.forkliftText= '';
+    this.selectedForkliftId=0;
    //  this.email =  this.selectedBusinessId.email;
     this.days =0;
   }
-
    }
 
+   
+  getBranchOffices(){
+    if(this.selectedBusinessId!=0){
+      console.log('valor de selección');
+      
+      console.log(this.selectedBusinessId.document_id);
+  
+      this.documentCustomer = this.selectedBusinessId.document_id;
+      this.nameCustomer = this.selectedBusinessId.business_name;
+      console.log('this.selectedBusinessId.business_name');
+      console.log(this.selectedBusinessId.business_name);
+      this.cellphone = this.selectedBusinessId.telephone;
+      this.contact =  '';
+     //  this.email =  this.selectedBusinessId.email;
+      this.days = this.selectedBusinessId.day;
+      this.selectedDepartmentId = this.selectedBusinessId.department_id;
+     
+      this.getCities();
+      console.log('this.selectedBusinessId.id');
+      console.log(this.selectedBusinessId.id);
+  
+      this.restService.getOffice(this.selectedBusinessId.id).then(data => {
+        const resp: any = data;
+        console.log('oficinas: '+data);
+        swal.close();
+        this.branchOffices  = resp.data;
+      }).catch(error => {
+        console.log(error);
+      });
+    }else{
+      this.selectedDepartmentId=0;
+      this.selectedCityId=0;
+      this.documentCustomer = '';
+      this.nameCustomer ='';
+      this.cellphone = '';
+      this.contact =  '';
+     //  this.email =  this.selectedBusinessId.email;
+      this.days =0;
+    }
+  }
 
    loadingData() {
     swal({
@@ -1252,6 +1275,8 @@ if(this.conditionTrmUsa.id==2){
 
 
   getForkliftText(){
+    console.log(this.selectedForkliftId.full_name);
+    console.log(this.selectedForkliftId);
     this.forkliftText=this.selectedForkliftId.full_name;
   }
   
@@ -2369,6 +2394,7 @@ console.log('acaaaaaaaaaaaaa');
     let idDepartmentTemp = this.selectedDepartmentId;
     let selectedCityTemp = this.selectedCityId;
     let selectedForkliftIdTemp = this.selectedForkliftId.id;
+    let selectedBranchOfficeIdTemp = this.selectedBranchOfficeId.id;
     let contactTemp = this.contact;
     let daysTemp = this.days;
     let guarantyTemp = this.guaranty;
@@ -2380,7 +2406,7 @@ console.log('acaaaaaaaaaaaaa');
 console.log();
     this.estimateService.createEstimate(consecutiveTemp,customerIdTemp,documentCustomerTemp,
       idDepartmentTemp, selectedCityTemp, selectedForkliftIdTemp,
-      contactTemp, daysTemp, guarantyTemp, validityTemp, cellphoneTemp, observationTemp,0,'',0, forkliftTextTemp).then(data => {
+      contactTemp, daysTemp, guarantyTemp, validityTemp, cellphoneTemp, observationTemp,0,'',0, forkliftTextTemp,selectedBranchOfficeIdTemp).then(data => {
       const resp: any = data;
       console.log('respuesta de la api de creacion');
       console.log(resp);
@@ -2669,6 +2695,7 @@ console.log();
     let idDepartmentTemp = this.selectedDepartmentId;
     let selectedCityTemp = this.selectedCityId;
     let selectedForkliftIdTemp = this.selectedForkliftId.id;
+    let selectedBranchOfficeIdTemp = this.selectedBranchOfficeId.id;
     let contactTemp = this.contact;
     let daysTemp = this.days;
     let guarantyTemp = this.guaranty;
@@ -2681,7 +2708,7 @@ console.log();
     this.estimateService.updateEstimate(this.estimateId, customerIdTemp,documentCustomerTemp,
       idDepartmentTemp, selectedCityTemp, selectedForkliftIdTemp,
       contactTemp, daysTemp, guarantyTemp, validityTemp, cellphoneTemp, observationTemp,
-      forkliftTextTemp).then(data => {
+      forkliftTextTemp,selectedBranchOfficeIdTemp).then(data => {
       const resp: any = data;
       this.estimateId= resp.data.id;
       this.showEstimateId = false;

@@ -128,6 +128,7 @@ export class MasterEstimateAllComponent extends NgbDatepickerI18n {
 
   customers: any;
   forklifts: any;
+  branchOffices: any;
 
   part:any='';
   codepart:any='';
@@ -147,6 +148,7 @@ export class MasterEstimateAllComponent extends NgbDatepickerI18n {
   
   selectedBusinessId: any = 0;
   selectedForkliftId:any = 0;
+  selectedBranchOfficeId:any = 0;
   selectedOfficeId: any = 0;
   selectedUserId: any =0;
   customerOffices: any = 0;
@@ -403,10 +405,14 @@ export class MasterEstimateAllComponent extends NgbDatepickerI18n {
   this.nameCustomer = item.customer.business_name;
   this.contact = item.contact;
   this.cellphone =   item.telephone;
-
-  if( this.forkliftText){
+  console.log(this.forkliftText);
+  console.log(item.forklift_text);
+  if( item.forklift_text){
+      console.log("entro if");
     this.forkliftText = item.forklift_text;
+    console.log(this.forkliftText);
   }else{
+    console.log("entro else");
     this.forkliftText = '';
   }
  
@@ -417,7 +423,18 @@ export class MasterEstimateAllComponent extends NgbDatepickerI18n {
   this.subtotalHoursEstimate = item.subtotal_hours_decimal;
   this.subtotalPartsEstimate = item.subtotal_parts_decimal;
   this.totalEstimate = item.total_decimal;
-  this.observationEstimate= item.observation;
+
+  console.log(this.observationEstimate);
+  console.log(item.observation);
+  if( item.observation){
+      console.log("entro if");
+      this.observationEstimate= item.observation;
+    console.log(this.observationEstimate);
+  }else{
+    console.log("entro else");
+    this.observationEstimate = 'Observación';
+  }
+  
 
    // 0 Solo para descargar y 1 para enviar;
 
@@ -3495,8 +3512,8 @@ this.getImgFromUrl(logo_url, function (img) {
 
    getForklifs() {
    
-    if(this.selectedBusinessId!=0){
-    this.forkliftService.getForkliftsCustomerFull(this.selectedBusinessId).then(data => {
+    if(this.selectedBranchOfficeId!=0){
+      this.forkliftService.getForkliftBranchOfficesFull(this.selectedBranchOfficeId.id).then(data => {
       const resp: any = data;
       console.log(data);
       swal.close();
@@ -3509,6 +3526,25 @@ this.getImgFromUrl(logo_url, function (img) {
       console.log(error);
     });
   }
+   }
+
+   getBranchOffices(){
+     console.log('ingreso');
+    if(this.selectedBusinessId!=0){
+      console.log(this.selectedBusinessId);
+      this.restService.getOffice(this.selectedBusinessId).then(data => {
+        const resp: any = data;
+        console.log(data);
+        swal.close();
+        this.branchOffices  = resp.data;
+        // this.rowsClient = resp.data;
+        // this.rowStatic =  resp.data;
+        // this.rowsTemp = resp.data;
+        // console.log( this.rowsClient);
+      }).catch(error => {
+        console.log(error);
+      });
+    }
    }
 
 
@@ -3637,7 +3673,7 @@ this.getImgFromUrl(logo_url, function (img) {
 
     if(this.considerDate == false && this.selectedBusinessId == 0 &&  this.part == 0 &&
       this.codepart == 0 && this.numberEstimate == 0  &&  this.selectedForkliftId == 0 &&
-      this.selectedUserId == 0 && this.listStatus.length == 0){
+      this.selectedUserId == 0 && this.listStatus.length == 0  && this.selectedBranchOfficeId == 0){
         swal({
           title:'Importante',
           text: 'Debes seleccionar por lo menos uno de los filtros o activar casilla para tener en cuenta las fechas',
@@ -3719,6 +3755,15 @@ this.getImgFromUrl(logo_url, function (img) {
       params=params+'&&forklift_id='+this.selectedForkliftId;
       }else{
         params=params+'forklift_id='+this.selectedForkliftId;
+        cont++;
+      }
+    }
+
+    if(this.selectedBranchOfficeId!=0){
+      if(cont>0){
+      params=params+'&&branch_office_id='+this.selectedBranchOfficeId;
+      }else{
+        params=params+'branch_office_id='+this.selectedBranchOfficeId;
         cont++;
       }
     }

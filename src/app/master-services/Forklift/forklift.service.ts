@@ -75,7 +75,27 @@ constructor(private http: HttpClient, private router: Router) { }
         });
     });
   }
-
+  
+  getForkliftBranchOfficesFull(idCustomer: number){
+    return new Promise(resolve => {
+      const httpOptions = {
+        headers: new HttpHeaders({
+          'Content-Type':  'application/json',
+          'Authorization': 'Bearer ' + localStorage.getItem('token_user'),
+          'Accept': 'application/json'
+        })
+      };
+      this.http.get(this.apiEndPoint+'api/forklifts_branch_office_full/'+idCustomer, httpOptions)
+      .map(res => res).subscribe(data => {
+      console.log("a mostrar data");
+      console.log(data);
+      resolve(data);
+      }, error => {
+        console.log("error en servicio");
+                resolve(error);
+        });
+    });
+  }
   
   getForkliftsBranch(idBranch: number){
     return new Promise(resolve => {
