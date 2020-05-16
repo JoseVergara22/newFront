@@ -405,10 +405,14 @@ export class MasterEstimateAllComponent extends NgbDatepickerI18n {
   this.nameCustomer = item.customer.business_name;
   this.contact = item.contact;
   this.cellphone =   item.telephone;
-
-  if( this.forkliftText){
+  console.log(this.forkliftText);
+  console.log(item.forklift_text);
+  if( item.forklift_text){
+      console.log("entro if");
     this.forkliftText = item.forklift_text;
+    console.log(this.forkliftText);
   }else{
+    console.log("entro else");
     this.forkliftText = '';
   }
  
@@ -419,7 +423,18 @@ export class MasterEstimateAllComponent extends NgbDatepickerI18n {
   this.subtotalHoursEstimate = item.subtotal_hours_decimal;
   this.subtotalPartsEstimate = item.subtotal_parts_decimal;
   this.totalEstimate = item.total_decimal;
-  this.observationEstimate= item.observation;
+
+  console.log(this.observationEstimate);
+  console.log(item.observation);
+  if( item.observation){
+      console.log("entro if");
+      this.observationEstimate= item.observation;
+    console.log(this.observationEstimate);
+  }else{
+    console.log("entro else");
+    this.observationEstimate = 'Observación';
+  }
+  
 
    // 0 Solo para descargar y 1 para enviar;
 

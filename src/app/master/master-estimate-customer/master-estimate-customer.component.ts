@@ -1276,6 +1276,8 @@ if(this.conditionTrmUsa.id==2){
 
 
   getForkliftText(){
+    console.log(this.selectedForkliftId.full_name);
+    console.log(this.selectedForkliftId);
     this.forkliftText=this.selectedForkliftId.full_name;
   }
   

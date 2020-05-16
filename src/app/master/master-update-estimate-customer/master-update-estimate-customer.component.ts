@@ -607,7 +607,7 @@ this.trmGeneralUsa= inputTrm.value.replace(/[^\d\.]*/g,'');
       console.log('Entro a las montacargas');
       this.forkliftService.getForkliftBranchOfficesFull(this.selectedBranchOfficeId).then(data => {
         const resp: any = data;
-        console.log('equipos '+JSON.stringify(data));
+        console.log('equipos: '+JSON.stringify(data));
         swal.close();
         this.forklifts  = resp.data;
         console.log(this.forklifts);
@@ -1460,10 +1460,17 @@ if(this.conditionTrmUsa.id==2){
 
 
   getForkliftText(){
-    this.forkliftText=this.selectedForkliftId.full_name;
+    console.log(this.selectedForkliftId);
+    if(this.selectedForkliftId > 0){
+      for (let item of  this.forklifts) {
+        if(item.id == this.selectedForkliftId){
+          this.forkliftText=item.full_name;
+        }
+      }
+    }
+    console.log(this.forkliftText);
   }
-  
-  
+
 
   getConfigEstimatesInitial(){
     this.estimateService.getConfigEstimates().then(data => {
@@ -2945,7 +2952,8 @@ console.log();
     let idDepartmentTemp = this.selectedDepartmentId;
     let selectedCityTemp = this.selectedCityId;
     let selectedForkliftIdTemp = this.selectedForkliftId;
-    let selectedBranchOfficeIdTemp = this.selectedBranchOfficeId.id;
+    console.log(this.selectedBranchOfficeId);
+    let selectedBranchOfficeIdTemp = this.selectedBranchOfficeId;
     let contactTemp = this.contact;
     let daysTemp = this.days;
     let guarantyTemp = this.guaranty;
@@ -2954,7 +2962,7 @@ console.log();
     let observationTemp = this.observation;
     let forkliftTextTemp=  this.forkliftText;
 
-    console.log('Ole'+forkliftTextTemp);
+    console.log('Ole '+forkliftTextTemp);
     this.estimateService.updateEstimate(this.estimateId, customerIdTemp,documentCustomerTemp,
       idDepartmentTemp, selectedCityTemp, selectedForkliftIdTemp,
       contactTemp, daysTemp, guarantyTemp, validityTemp, cellphoneTemp, observationTemp,

@@ -717,11 +717,16 @@ console.log(row)
      this.contact = row.contact;
      this.cellphone =   row.telephone;
     
-     if( this.forkliftText){
-       this.forkliftText = row.forklift_text;
-     }else{
-       this.forkliftText = '';
-     } 
+     console.log(this.forkliftText);
+  console.log(row.forklift_text);
+  if( row.forklift_text){
+      console.log("entro if");
+    this.forkliftText = row.forklift_text;
+    console.log(this.forkliftText);
+  }else{
+    console.log("entro else");
+    this.forkliftText = '';
+  }
      this.estimate = row.estimate_order;
       this.subtotalHours = row.subtotal_hours;
       this.subtotalParts = row.subtotal_parts;
@@ -1024,8 +1029,8 @@ console.log(row)
     theme:'grid',
     styles: {fillColor: [215,215,215],lineColor:[4,1,0],lineWidth:0.2},
     columnStyles: {
-     0: { fontSize:9, cellWidth:215, fillColor: null},
-     1: { fontSize:9, cellWidth:100, fillColor: null},
+     0: { fontSize:9, cellWidth:190, fillColor: null},
+     1: { fontSize:9, cellWidth:125, fillColor: null},
      2: { fontSize:9, cellWidth:99, fillColor: null},
     },
     margin: { left: 15},
@@ -1043,12 +1048,24 @@ console.log(row)
     theme:'grid',
     styles: {fillColor: [215,215,215],lineColor:[4,1,0],lineWidth:0.2},
     columnStyles: {
-     0: { fontSize:9, cellWidth:215, fillColor: null},
-     1: { fontSize:9, cellWidth:100, fillColor: null},
-     2: { fontSize:9, cellWidth:99, fillColor: null},
+     0: { fontSize:9, cellWidth:120, fillColor: null},
+     1: { fontSize:9, cellWidth:150, fillColor: null},
+     2: { fontSize:9, cellWidth:144, fillColor: null},
     },
     margin: { left: 15},
     body: [['Sede: '+ this.regionalDescription,'C.Costos: '+ this.costCenterDescription,'OC/Cotización: Pedido No: '+ this.estimate]]
+  });
+
+   doc.autoTable({
+    startY: doc.autoTable.previous.finalY,
+    theme:'grid',
+    styles: {fillColor: [215,215,215],lineColor:[4,1,0],lineWidth:0.2},
+    columnStyles: {
+     0: { fontSize:9, cellWidth:214, fillColor: null},
+     1: { fontSize:9, cellWidth:200, fillColor: null},
+    },
+    margin: { left: 15},
+    body: [['Maquina: ' + this.forkliftText, '']]
   });
    
    doc.autoTable({
@@ -1080,7 +1097,7 @@ console.log(row)
      3: {halign: 'center', fontSize:9, cellWidth:50},
      4: {halign: 'center', fontSize:9, cellWidth:26},
      5: {halign: 'center', fontSize:9, cellWidth:50},
-     6: {halign: 'center', fontSize:9, cellWidth:39},
+     6: {halign: 'center', fontSize:9, cellWidth:40},
      7: {halign: 'center', fontSize:9, cellWidth:55}
      },
      margin: { left: 15},
