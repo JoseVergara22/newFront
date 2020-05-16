@@ -1460,8 +1460,8 @@ if(this.conditionTrmUsa.id==2){
 
 
   getForkliftText(){
-    console.log(this.selectedForkliftId);
     if(this.selectedForkliftId > 0){
+      console.log(this.selectedForkliftId);
       for (let item of  this.forklifts) {
         if(item.id == this.selectedForkliftId){
           this.forkliftText=item.full_name;
