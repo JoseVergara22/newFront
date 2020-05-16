@@ -163,14 +163,14 @@ const MENUITEMS = [
             state: 'estimateCustomer',
             name:  'Crear Cotizacion'
           },
-         /* {
+         {
             state: 'settlementAll',
             name:  'Liquidaciones'
           },
           {
             state: 'settlementCustomer',
             name:  'Crear Liquidación'
-          },*/
+          },
           {
             state: 'estimateCountries',
             name:  'Administrar paises cotización'
