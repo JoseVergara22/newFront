@@ -776,7 +776,7 @@ createScheduleSettlement(params: string) {
                                 'Accept': 'application/json'
                               })
                             };
-                            this.http.get(this.apiEndPoint+'api/get_settlement?' + paramsFilter, httpOptions)
+                            this.http.get(this.apiEndPoint+'api/get_settlement' + paramsFilter, httpOptions)
                               .map(res => res).subscribe(data => {
                                 console.log(data);
                                 resolve(data);

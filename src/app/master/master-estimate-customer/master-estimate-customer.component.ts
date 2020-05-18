@@ -142,6 +142,7 @@ export class MasterEstimateCustomerComponent implements OnInit {
   managementVariables=0;
   managmentTariff=0;
   finalWeight=0;
+  finalWeightUpdate=0;
   showShippingCountriesDhlFilter: any;
   configDetailEstimates: any; // configuración de detalles
   configTrm: any;
@@ -1171,7 +1172,7 @@ this.conditionValidation = 3;
 }
 
 console.log('condición final: '+this.conditionValidation);
-this.finalWeight=weight;
+this.finalWeightUpdate=weight;
 this.showShippingCountriesDhl(this.conditionValidation,this.priceListUpdate, weight,1);// update
 console.log('Importante informacion: '+ this.conditionValidation);
 }
@@ -1657,17 +1658,17 @@ finalOperationUpdate(country:number){
   let operationFreight=0;
 
  if(this.conditionValidation==2){
-  console.log('peso para inicio '+this.finalWeight);
+  console.log('peso para inicio '+this.finalWeightUpdate);
     if(this.weightTypeList==1){
-      this.finalWeight=this.weight/2.2;
+      this.finalWeightUpdate=this.weightUpdate/2.2;
       }else{
-        this.finalWeight=this.weight;
+        this.finalWeightUpdate=this.weightUpdate;
       }
-      this.finalWeight =  this.finalWeight*1.1;
-      console.log('peso para validar '+this.finalWeight);
-     operationFreight = Number(Number(this.freightGeneral).toFixed(2))*this.finalWeight;
+      this.finalWeightUpdate =  this.finalWeightUpdate*1.1;
+      console.log('peso para validar '+this.finalWeightUpdate);
+     operationFreight = Number(Number(this.freightGeneral).toFixed(2))*this.finalWeightUpdate;
   }else{
-     operationFreight = Number(Number(this.freightGeneral).toFixed(2))*this.finalWeight;
+     operationFreight = Number(Number(this.freightGeneral).toFixed(2))*this.finalWeightUpdate;
   }
 
   console.log('driving '+drivingCost);

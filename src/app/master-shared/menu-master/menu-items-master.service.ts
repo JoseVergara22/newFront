@@ -163,7 +163,7 @@ const MENUITEMS = [
             state: 'estimateCustomer',
             name:  'Crear Cotizacion'
           },
-         /* {
+          /*{
             state: 'settlementAll',
             name:  'Liquidaciones'
           },

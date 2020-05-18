@@ -156,6 +156,7 @@ export class MasterUpdateEstimateCustomerComponent implements OnInit {
   managementVariables=0;
   managmentTariff=0;
   finalWeight=0;
+  finalWeightUpdate=0;
   showShippingCountriesDhlFilter: any;
   configDetailEstimates: any; // configuración de detalles
   configTrm: any;
@@ -1285,7 +1286,7 @@ this.conditionValidation = 3;
 }
 
 console.log('condición final: '+this.conditionValidation);
-this.finalWeight=weight;
+this.finalWeightUpdate=weight;
 this.showShippingCountriesDhl(this.conditionValidation,this.priceListUpdate, weight,1);// update
 console.log('Importante informacion: '+ this.conditionValidation);
 }
@@ -1459,8 +1460,8 @@ if(this.conditionTrmUsa.id==2){
 
 
   getForkliftText(){
-    console.log(this.selectedForkliftId);
     if(this.selectedForkliftId > 0){
+      console.log(this.selectedForkliftId);
       for (let item of  this.forklifts) {
         if(item.id == this.selectedForkliftId){
           this.forkliftText=item.full_name;
@@ -1745,11 +1746,21 @@ finalOperation(country:number){
 
   let operationFreight=0;
 
- /* if(this.conditionValidation==2){
-     operationFreight = Number(Number(this.freightGeneral).toFixed(2))*1;
-  }else{*/
+  if(this.conditionValidation==2){
+    console.log('peso para inicccio '+this.finalWeight);
+    if(this.weightTypeList==1){
+      this.finalWeight=this.weight/2.2;
+      }else{
+        this.finalWeight=this.weight;
+      }
+      this.finalWeight =  this.finalWeight*1.1;
+
+      console.log('peso para inicccio '+this.finalWeight);
+
      operationFreight = Number(Number(this.freightGeneral).toFixed(2))*this.finalWeight;
- // }
+  }else{
+     operationFreight = Number(Number(this.freightGeneral).toFixed(2))*this.finalWeight;
+  }
 
   console.log('driving '+drivingCost);
   // let operationFreight = this.freightGeneral*this.finalWeight;
@@ -1830,11 +1841,19 @@ finalOperationUpdate(country:number){
 
   let operationFreight=0;
 
-  /*if(this.conditionValidation==2){
-     operationFreight = Number(Number(this.freightGeneral).toFixed(2))*1;
-  }else{*/
-     operationFreight = Number(Number(this.freightGeneral).toFixed(2))*this.finalWeight;
-  //}
+  if(this.conditionValidation==2){
+    console.log('peso para inicio '+this.finalWeightUpdate);
+      if(this.weightTypeList==1){
+        this.finalWeightUpdate=this.weightUpdate/2.2;
+        }else{
+          this.finalWeightUpdate=this.weightUpdate;
+        }
+        this.finalWeightUpdate =  this.finalWeightUpdate*1.1;
+        console.log('peso para validar '+this.finalWeightUpdate);
+       operationFreight = Number(Number(this.freightGeneral).toFixed(2))*this.finalWeightUpdate;
+    }else{
+       operationFreight = Number(Number(this.freightGeneral).toFixed(2))*this.finalWeightUpdate;
+    }
 
   console.log('driving '+drivingCost);
   // let operationFreight = this.freightGeneral*this.finalWeight;
@@ -2642,7 +2661,7 @@ upload() {
     let validityTemp = this.validity;
     let cellphoneTemp = this.cellphone;
     let observationTemp = this.observation;
-    let forkliftTextTemp=  this. forkliftText;
+    let forkliftTextTemp=  this.forkliftText;
 
 console.log();
     this.estimateService.createEstimate(consecutiveTemp,customerIdTemp,documentCustomerTemp,
