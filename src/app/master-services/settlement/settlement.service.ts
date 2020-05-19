@@ -41,7 +41,8 @@ export class SettlementService {
   createSettlement(settlement_consecutive: number, customer_id: number, customer_document: string,
     department_id: number, city_id: number, contact: string,
     telephone: string, observation: string, total: number, email:string, status:number,
-    regional_id: number, cost_center_id:number,warehouse_id:number, estimate_order:number) {
+    regional_id: number, cost_center_id:number,warehouse_id:number, estimate_order:number, branch_office_id:number,
+     forklift_id:number, forklift_text: string) {
 return new Promise(resolve => {
 const headers = new HttpHeaders();
 headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user'))); // 'Bearer ' +
@@ -57,7 +58,7 @@ headers: new HttpHeaders({
 //payment_method: payment_method,
 //guaranty: guaranty,
 //validity: validity,
-
+console.log('oficina '+branch_office_id);
 console.log( localStorage.getItem('userid'));
 const postParams = {
 elaborate_user_id:  localStorage.getItem('userid'),
@@ -75,7 +76,10 @@ status:status,
 regional_id: regional_id,
 cost_center_id: cost_center_id,
 warehouse_id: warehouse_id,
-estimate_order: estimate_order
+estimate_order: estimate_order,
+branch_office_id:branch_office_id, 
+forklift_id:forklift_id,
+forklift_text:forklift_text
 };
 
 

@@ -269,9 +269,9 @@ apiEndPoint = environment.apiBaseUrl;
     payment_condition_id: number,
     city_id: number,
     department_id: number,
-    regional_id) {
+    regional_id: number) {
     console.log(business_name + ',' + type_document_id + ',' + document_id + ',' + telephone +
-      ',' + address + ',' + status + ',' + margin_price + ',' + payment_condition_id + ',' + city_id + ',' + department_id);
+      ',' + address + ',' + status + ',' + margin_price + ',' + payment_condition_id + ',' + city_id + ',' + department_id + ',' + regional_id);
     return new Promise(resolve => {
       const headers = new HttpHeaders();
       headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user'))); // 'Bearer ' +
@@ -2504,6 +2504,28 @@ updateRegional(id:number, description:string, code:string){
         })
       };
       this.http.get(this.apiEndPoint+'api/customers', httpOptions)
+        .map(res => res).subscribe(data => {
+          console.log(data);
+          resolve(data);
+        }, error => {
+          resolve(error);
+        });
+    });
+  }
+
+  getRegionalCustomers(idRegional: number) {
+    return new Promise(resolve => {
+      const headers = new HttpHeaders();
+      headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user'))); // 'Bearer ' +
+      headers.append('Content-Type', 'application/json');
+      const httpOptions = {
+        headers: new HttpHeaders({
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + localStorage.getItem('token_user'),
+          'Accept': 'application/json'
+        })
+      };
+      this.http.get(this.apiEndPoint+'api/show_customers_regional/'+idRegional, httpOptions)
         .map(res => res).subscribe(data => {
           console.log(data);
           resolve(data);

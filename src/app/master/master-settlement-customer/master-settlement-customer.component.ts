@@ -135,6 +135,7 @@ export class MasterSettlementCustomerComponent implements OnInit {
   user:any;
   customers:any;
   forklifts:any;
+  branchOffices:any;
 
   // variables settlement
   regionals: any;
@@ -145,6 +146,8 @@ export class MasterSettlementCustomerComponent implements OnInit {
   selectedRegionalId:any=0;
   selectedCostCenterId:any=0;
   selectedWarehouseId:any=0;
+  selectedBranchOfficeId:any=0;
+
   managementVariables=0;
   managmentTariff=0;
   finalWeight=0;
@@ -441,6 +444,25 @@ export class MasterSettlementCustomerComponent implements OnInit {
     });
    }
 
+   getCustomerRegionals() {
+    this.restService.getRegionalCustomers(this.selectedRegionalId.id).then(data => {
+      const resp: any = data;
+      console.log(data);
+      swal.close();
+      this.customers  = resp.data;
+      
+      //asignar valores customer;
+     
+    
+
+      // this.rowsClient = resp.data;
+      // this.rowStatic =  resp.data;
+      // this.rowsTemp = resp.data;
+      // console.log( this.rowsClient);
+    }).catch(error => {
+      console.log(error);
+    });
+   }
    
 
    getTrmCurrent() {
@@ -525,8 +547,8 @@ this.trmGeneralUsa= inputTrm.value.replace(/[^\d\.]*/g,'');
    }
 
    getForklifs() {
-    if(this.selectedBusinessId!=0){
-    console.log('valor de selección');
+    if(this.selectedBranchOfficeId!=0){
+  /*  console.log('valor de selección');
     
     console.log(this.selectedBusinessId.document_id);
 
@@ -540,14 +562,14 @@ this.trmGeneralUsa= inputTrm.value.replace(/[^\d\.]*/g,'');
     this.days = this.selectedBusinessId.day;
     this.selectedDepartmentId = this.selectedBusinessId.department_id;
    
-    this.getCities();
+    this.getCities();*/
  // if(this.selectedBusinessId.id!=0){
 
  //   if(this.selectedBusinessId!=0){
     console.log('this.selectedBusinessId.id');
-    console.log(this.selectedBusinessId.id);
+    console.log(this.selectedBranchOfficeId.id);
 
-    this.forkliftService.getForkliftsCustomerFull(this.selectedBusinessId.id).then(data => {
+  this.forkliftService.getForkliftBranchOfficesFull(this.selectedBranchOfficeId.id).then(data => {
       const resp: any = data;
       console.log(data);
       swal.close();
@@ -568,6 +590,7 @@ this.trmGeneralUsa= inputTrm.value.replace(/[^\d\.]*/g,'');
     this.nameCustomer ='';
     this.cellphone = '';
     this.contact =  '';
+    this.selectedForkliftId=0;
    //  this.email =  this.selectedBusinessId.email;
     this.days =0;
   }
@@ -576,7 +599,7 @@ this.trmGeneralUsa= inputTrm.value.replace(/[^\d\.]*/g,'');
 
    }
 
-   getRegionals() {
+   getBranchOffices() {
     if(this.selectedBusinessId!=0){
     
     // Llenar información de cliente
@@ -584,19 +607,29 @@ this.trmGeneralUsa= inputTrm.value.replace(/[^\d\.]*/g,'');
     this.nameCustomer = this.selectedBusinessId.business_name;
     this.cellphone = this.selectedBusinessId.telephone;
     this.contact =  '';
-    this.days = this.selectedBusinessId.day;
+    // this.days = this.selectedBusinessId.day;
     this.selectedDepartmentId = this.selectedBusinessId.department_id;
     // Se cargan las las ciudades y la ciudad del cliente
     this.getCities();
 
-    this.restService.getRegionalCustomer(this.selectedBusinessId.id).then(data => {
+    this.restService.getOffice(this.selectedBusinessId.id).then(data => {
+      const resp: any = data;
+      console.log('oficinas: '+data);
+      swal.close();
+      this.branchOffices  = resp.data;
+    }).catch(error => {
+      console.log(error);
+    });
+
+    /*this.restService.getRegionalCustomer(this.selectedBusinessId.id).then(data => {
       const resp: any = data;
       console.log(data);
       swal.close();
       this.regionals  = resp.data_customerRegionals;
     }).catch(error => {
       console.log(error);
-    });
+    });*/
+
   }else{
     this.selectedDepartmentId=0;
     this.selectedCityId=0;
@@ -605,10 +638,13 @@ this.trmGeneralUsa= inputTrm.value.replace(/[^\d\.]*/g,'');
     this.cellphone = '';
     this.contact =  '';
     this.days =0;
+    this.selectedBranchOfficeId=0;
+    this.selectedForkliftId=0;
   }
 }
 
 getCenterCost() {
+  this.getCustomerRegionals();
   this.getWarehouses();
   //selectedCostCenterId
   this.restService.getCostCenterSettlement(this.selectedRegionalId.id).then(data => {
@@ -1325,7 +1361,12 @@ console.log('Importante informacion: '+ this.conditionValidation);
 
 
   getForkliftText(){
-    this.forkliftText=this.selectedForkliftId.full_name;
+    if(this.selectedForkliftId!=0){
+      this.forkliftText=this.selectedForkliftId.full_name;
+    }else{
+      this.forkliftText='';
+    }
+   
   }
   
   
@@ -2413,12 +2454,15 @@ console.log('acaaaaaaaaaaaaa');
     let nameCustomerTemp = this.nameCustomer;
     let idDepartmentTemp = this.selectedDepartmentId;
     let selectedCityTemp = this.selectedCityId;
-    let selectedForkliftIdTemp = this.selectedForkliftId.id;
+  
     let contactTemp = this.contact;
     let selectedRegionalIdTemp= this.selectedRegionalId.id;
     let selectedCostCenterIdTemp= this.selectedCostCenterId.id;
     let selectedWarehouseIdTemp= this.selectedWarehouseId.id;
     let numberEstimateTemp= this.numberEstimate;
+    let branchOfficeTemp= this.selectedBranchOfficeId.id;
+    let selectedForkliftIdTemp = this.selectedForkliftId.id;
+
 
 
    // let daysTemp = this.days;
@@ -2426,11 +2470,13 @@ console.log('acaaaaaaaaaaaaa');
    // let validityTemp = this.validity;
     let cellphoneTemp = this.cellphone;
     let observationTemp = this.observation;
-   // let forkliftTextTemp=  this. forkliftText;
+    let forkliftTextTemp=  this. forkliftText;
+
 
     this.settlementService.createSettlement(consecutiveTemp,customerIdTemp,documentCustomerTemp,
       idDepartmentTemp, selectedCityTemp, contactTemp, cellphoneTemp, observationTemp,0,'',0,
-      selectedRegionalIdTemp, selectedCostCenterIdTemp, selectedWarehouseIdTemp, numberEstimateTemp).then(data => {
+      selectedRegionalIdTemp, selectedCostCenterIdTemp, selectedWarehouseIdTemp, numberEstimateTemp, branchOfficeTemp,
+      selectedForkliftIdTemp,forkliftTextTemp).then(data => {
       const resp: any = data;
       console.log('respuesta de la api de creacion');
       console.log(resp);
@@ -2584,12 +2630,12 @@ console.log('acaaaaaaaaaaaaa');
       });
       swal.showLoading();
 
-      let margin=Number(this.newCustomerMargin)/100;
+      let margin=Number(this.newCustomerMargin);
 
       console.log('Ingreso a crear un nuevo cliente');
 
       this.restService.createCustomerNewCustomer(this.nameCustomer,3, this.documentCustomer,
-      this.cellphone, 'Sin Dirección', 0,margin,1,  this.selectedCityId, this.selectedDepartmentId, this.selectedRegionalId)
+      this.cellphone, 'Sin Dirección', 0,margin,1,  this.selectedCityId, this.selectedDepartmentId, this.selectedRegionalId.id)
       .then(data => {
         const resp: any = data;
         console.log(resp);

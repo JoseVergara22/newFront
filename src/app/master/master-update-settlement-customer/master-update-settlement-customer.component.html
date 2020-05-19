@@ -1239,35 +1239,58 @@
           </div>
           <br>
            <div class="row">
+            <div class="col-sm-6">
+                <h6>Sucursales  <span style="color:red;">*</span> </h6>
+
+                <select class="form-control" (change)="getCenterCost()"  [(ngModel)]="selectedRegionalId" > 
+                            <option value="0" selected>Seleccionar sucursal </option>
+                             <option   *ngFor="let regional of regionals" [ngValue]="regional.id"   > {{regional.description}}  </option>
+                        <!--  <option value="0" selected>Seleccionar perfil</option> -->
+                       </select>
+              </div>
               <div class="col-sm-6">
                       <h6>Cliente</h6>
                 
-                      <select class="form-control" (change)="getRegionals()" [(ngModel)]="selectedBusinessId"> 
+                      <select class="form-control" (change)="getBranchOffices()" [(ngModel)]="selectedBusinessId"> 
                                   <option value="0" selected>Seleccionar cliente </option>
                               <option   *ngFor="let customer of customers" [ngValue]="customer.id"> {{customer.business_name}}  </option>
                               <!--  <option value="0" selected>Seleccionar perfil</option> -->
                              </select>
               </div>
-              <div class="col-sm-3">
-                      <h6>Sucursales  <span style="color:red;">*</span> </h6>
-
-                      <select class="form-control" (change)="getCenterCost()"  [(ngModel)]="selectedRegionalId" > 
-                                  <option value="0" selected>Seleccionar sucursal </option>
-                                   <option   *ngFor="let regional of regionals" [ngValue]="regional.id"   > {{regional.description}}  </option>
-                              <!--  <option value="0" selected>Seleccionar perfil</option> -->
-                             </select>
-              </div>
-              <div class="col-sm-3">
-               <h6>Centro de costos  <span style="color:red;">*</span> </h6>
-
-                <select class="form-control"   [(ngModel)]="selectedCostCenterId" > 
-                            <option value="0" selected>Seleccionar centro </option>
-                            <option   *ngFor="let costCenter of costCenters" [ngValue]="costCenter.id"   > {{costCenter.description}}  </option>
-                     
-                       </select>
-        </div>
           </div>
-<br>
+        <br>
+        <div class="row">
+            <div class="col-sm-4">
+                <h6>Sede</h6>
+
+                <select class="form-control" (change)="getForklifs()"  [(ngModel)]="selectedBranchOfficeId" > 
+                            <option value="0" selected>Seleccionar sede </option>
+                            <option   *ngFor="let branchOffice of branchOffices" [ngValue]="branchOffice.id"   > {{branchOffice.branch_name}}  </option>
+                        <!--  <option value="0" selected>Seleccionar perfil</option> -->
+                    </select>
+            </div>
+
+        <div class="col-sm-4">
+            <h6>Equipo</h6>
+
+            <select class="form-control" (change)="getForkliftText()"  [(ngModel)]="selectedForkliftId" > 
+                        <option value="0" selected>Seleccionar equipo </option>
+                        <option   *ngFor="let forklift of forklifts" [ngValue]="forklift.id"   > {{forklift.full_name}}  </option>
+                    <!--  <option value="0" selected>Seleccionar perfil</option> -->
+                </select>
+        </div>
+
+        <div class="col-sm-4">
+        <h6>Centro de costos  <span style="color:red;">*</span> </h6>
+
+            <select class="form-control"   [(ngModel)]="selectedCostCenterId" > 
+                        <option value="0" selected>Seleccionar centro </option>
+                        <option   *ngFor="let costCenter of costCenters" [ngValue]="costCenter.id"   > {{costCenter.description}}  </option>
+                
+                </select>
+        </div>
+        </div>
+        <br>
             <div class="row">
               <div class="col-sm-4">
                   <h6>Documento <span style="color:red;">*</span> </h6>
@@ -1309,18 +1332,10 @@
                        </select>
               </div>
               <div class="col-sm-4">
-
-                 
-                  <h6>OC/Cotización  </h6>
-                  <input type="text"   [(ngModel)]="numberEstimate"  value={{numberEstimate}}  class="form-control">
-              
-      
-       
+                <h6>Equipo </h6>
+                <input type="text"   [(ngModel)]="forkliftText"   class="form-control">
               </div>
-          
       </div>
-
-
 <br>
             <div class="row">
               <div class="col-sm-4">
@@ -1336,6 +1351,16 @@
                       <h6>Teléfono  <span style="color:red;">*</span>  </h6>
                          <input type="text"   [(ngModel)]="cellphone"  value={{cellphone}}  class="form-control">
                      </div> 
+
+                     <div class="col-sm-4">
+
+                 
+                        <h6>OC/Cotización  </h6>
+                        <input type="text"   [(ngModel)]="numberEstimate"  value={{numberEstimate}}  class="form-control">
+                    
+            
+             
+                    </div>
 
                    <!---   <div class="col-sm-2">
                   <h6>TRM </h6>
