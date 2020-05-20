@@ -33,6 +33,11 @@ interface itemEstimateDetailInterface {// item para mostrar selccionados
   active?: boolean;
 }
 
+interface itemForkliftTextInterface {// item para mostrar selccionados
+  id?: number;
+  full_name?: string;
+}
+
 @Component({
   selector: 'app-master-update-settlement-customer',
   templateUrl: './master-update-settlement-customer.component.html',
@@ -92,6 +97,9 @@ export class MasterUpdateSettlementCustomerComponent implements OnInit {
   itemCopyClient:itemEstimateInterface;
   itemsDetailCopyClient: Array<itemEstimateDetailInterface> = [];
   itemDetailCopyClient: itemEstimateDetailInterface;
+
+
+  itemForklift: itemForkliftTextInterface;
   
   detailCodes: any;
   selectedItemsDetail=[];
@@ -104,7 +112,7 @@ export class MasterUpdateSettlementCustomerComponent implements OnInit {
   fullCodeWorkforce: any=null;
   fullCodeWorkforceUpdate: any=null;
   fullCodeCustomerWorkforce: any=null;
-
+  branchOffices:any;
   
   myForm: FormGroup;
   myFormUpdate: FormGroup;
@@ -265,6 +273,7 @@ export class MasterUpdateSettlementCustomerComponent implements OnInit {
   cities: any;
   observation:any;
   selectedBusinessId:any=0;
+  selectedBranchOfficeId: any=0;
 
   settlementEstimatesCustomer:any;
   settlementEstimatesForklift:any;
@@ -574,6 +583,8 @@ export class MasterUpdateSettlementCustomerComponent implements OnInit {
    }
    
    getCustomers() {
+
+    // Cambiar para que quede como la creación
     this.restService.getCustomer().then(data => {
       const resp: any = data;
       console.log(data);
@@ -593,6 +604,72 @@ export class MasterUpdateSettlementCustomerComponent implements OnInit {
     });
    }
 
+   getCustomerRegionals() {
+    this.restService.getRegionalCustomers(this.selectedRegionalId).then(data => {
+      const resp: any = data;
+      console.log(data);
+      swal.close();
+      this.customers  = resp.data;
+      
+      //asignar valores customer;
+     
+    
+
+      // this.rowsClient = resp.data;
+      // this.rowStatic =  resp.data;
+      // this.rowsTemp = resp.data;
+      // console.log( this.rowsClient);
+    }).catch(error => {
+      console.log(error);
+    });
+   }
+
+
+   getBranchOffices() {
+    if(this.selectedBusinessId!=0){
+    
+    // Llenar información de cliente
+    //this.documentCustomer = this.selectedBusinessId.document_id;
+    //this.nameCustomer = this.selectedBusinessId.business_name;
+    //this.cellphone = this.selectedBusinessId.telephone;
+    //this.contact =  '';
+    // this.days = this.selectedBusinessId.day;
+    //this.selectedDepartmentId = this.selectedBusinessId.department_id;
+    // Se cargan las las ciudades y la ciudad del cliente
+   // this.getCities();
+
+    this.restService.getOffice(this.selectedBusinessId).then(data => {
+      const resp: any = data;
+      console.log('oficinas: '+data);
+      swal.close();
+      this.branchOffices  = resp.data;
+    }).catch(error => {
+      console.log(error);
+    });
+
+    /*this.restService.getRegionalCustomer(this.selectedBusinessId.id).then(data => {
+      const resp: any = data;
+      console.log(data);
+      swal.close();
+      this.regionals  = resp.data_customerRegionals;
+    }).catch(error => {
+      console.log(error);
+    });*/
+
+  }else{
+    this.selectedDepartmentId=0;
+    this.selectedCityId=0;
+    this.documentCustomer = '';
+    this.nameCustomer ='';
+    this.cellphone = '';
+    this.contact =  '';
+    this.days =0;
+    this.selectedBranchOfficeId=0;
+    this.selectedForkliftId=0;
+    this.selectedCityId=0;
+    this.forkliftText='';
+  }
+}
 
    getSettlementCodes() {
     if(this.settlementId){
@@ -750,34 +827,31 @@ this.trmGeneralUsa= inputTrm.value.replace(/[^\d\.]*/g,'');
    }
 
    getForklifs() {
-    if(this.selectedBusinessId!=0){
-    console.log('valor de selección');
-    
-    console.log(this.selectedBusinessId.document_id);
-
-    this.documentCustomer = this.selectedBusinessId.document_id;
-    this.nameCustomer = this.selectedBusinessId.business_name;
-    console.log('this.selectedBusinessId.business_name');
-    console.log(this.selectedBusinessId.business_name);
-    this.cellphone = this.selectedBusinessId.telephone;
-    this.contact =  '';
-   //  this.email =  this.selectedBusinessId.email;
-    this.days = this.selectedBusinessId.day;
-    this.selectedDepartmentId = this.selectedBusinessId.department_id;
+    if(this.selectedBranchOfficeId!=0){
    
-    this.getCities();
+    //this.documentCustomer = this.selectedBusinessId.document_id;
+    //this.nameCustomer = this.selectedBusinessId.business_name;
+    //this.cellphone = this.selectedBusinessId.telephone;
+    //this.contact =  '';
+   //  this.email =  this.selectedBusinessId.email;
+    //this.days = this.selectedBusinessId.day;
+     //this.selectedDepartmentId = this.selectedBusinessId.department_id;
+
+    //this.getCities();
  // if(this.selectedBusinessId.id!=0){
 
  //   if(this.selectedBusinessId!=0){
     console.log('this.selectedBusinessId.id');
     console.log(this.selectedBusinessId.id);
 
-    this.forkliftService.getForkliftsCustomerFull(this.selectedBusinessId.id).then(data => {
+    this.forkliftService.getForkliftBranchOfficesFull(this.selectedBranchOfficeId).then(data => {
       const resp: any = data;
       console.log(data);
       swal.close();
       this.forklifts  = resp.data;
   
+     
+
         // business_name,  last_name,name, email cellphone
       // this.rowsClient = resp.data;
       // this.rowStatic =  resp.data;
@@ -786,7 +860,7 @@ this.trmGeneralUsa= inputTrm.value.replace(/[^\d\.]*/g,'');
     }).catch(error => {
       console.log(error);
     });
-  }else{
+  }/*else{
     this.selectedDepartmentId=0;
     this.selectedCityId=0;
     this.documentCustomer = '';
@@ -795,7 +869,7 @@ this.trmGeneralUsa= inputTrm.value.replace(/[^\d\.]*/g,'');
     this.contact =  '';
    //  this.email =  this.selectedBusinessId.email;
     this.days =0;
-  }
+  }*/
 
   
 
@@ -812,7 +886,7 @@ this.trmGeneralUsa= inputTrm.value.replace(/[^\d\.]*/g,'');
     this.days = this.selectedBusinessId.day;
     this.selectedDepartmentId = this.selectedBusinessId.department_id;
     // Se cargan las las ciudades y la ciudad del cliente
-    this.getCities();
+    // this.getCities();
 
     this.restService.getRegionalCustomer(this.selectedBusinessId.id).then(data => {
       const resp: any = data;
@@ -834,6 +908,7 @@ this.trmGeneralUsa= inputTrm.value.replace(/[^\d\.]*/g,'');
 }
 
 getCenterCost() {
+  this.getCustomerRegionals();
   this.getWarehouses();
   //selectedCostCenterId
   this.restService.getCostCenterSettlement(this.selectedRegionalId).then(data => {
@@ -1939,7 +2014,17 @@ console.log('Importante informacion: '+ this.conditionValidation);
 
 
   getForkliftText(){
-    this.forkliftText=this.selectedForkliftId.full_name;
+    if(this.selectedForkliftId!=0){
+      this.forklifts.forEach((item)=>{      
+        if(item.id==this.selectedForkliftId){
+           this.forkliftText= item.full_name;
+        }
+        console.log(item);
+      });
+    }else{
+      this.forkliftText= '';
+    }
+   // this.forkliftText=this.selectedForkliftId.full_name;
   }
   
   onChangeCode(detailCode:any){
@@ -2688,24 +2773,29 @@ getSettlementSpecific(id:number) {
     this.currentSettlement=resp.data;      
     console.log('ingreso');
     console.log(resp.data);
-    this.getCustomers();
+    this.selectedRegionalId =  this.currentSettlement.regional_id;
+    this.getCustomerRegionals();
     console.log('paso00000000001234');
     console.log('cotizacion actual '+ JSON.stringify(this.currentSettlement));
     this.now =(this.currentSettlement.create_at).substring(0,10);
     this.consecutive= this.currentSettlement.settlement_consecutive;
     console.log('customer '+this.currentSettlement.customer_id);
     this.selectedBusinessId = this.currentSettlement.customer_id; // Number(this.currentSettlement.customer.id);
+    this.selectedBranchOfficeId = this.currentSettlement.branch_office_id;
+    this.getBranchOffices();
+    this.getForklifs();
     console.log(this.selectedBusinessId);
     if(this.currentSettlement.forklift){
       this.selectedForkliftId = this.currentSettlement.forklift_id; //this.currentSettlement.forklift_id;
       this.forkliftText= this.currentSettlement.forklift_text;
     }
-    this.selectedRegionalId =  this.currentSettlement.regional_id;
+  
     this.documentCustomer =  this.currentSettlement.customer_document;
     this.nameCustomer =  this.currentSettlement.customer.business_name;
     console.log('departamento '+this.currentSettlement.department_id);
     this.selectedDepartmentId = this.currentSettlement.department_id;
     this.numberEstimate = this.currentSettlement.estimate_order;
+    
     this.getConfigEstimatesInitial();
     this.getConfigTrmInitial();
     this.getCities();
@@ -2713,6 +2803,10 @@ getSettlementSpecific(id:number) {
     this.getCenterCost();
     this.getSettlementSubCenterCost();
     this.selectedCityId = this.currentSettlement.city_id;
+   
+   
+
+    console.log('id de la oficina'+this.selectedBranchOfficeId)
     this.selectedCostCenterId = this.currentSettlement.cost_center_id;
     this.selectedWarehouseId = this.currentSettlement.warehouse_id;
   //  this.days = this.currentSettlement.payment_method;
@@ -3516,7 +3610,7 @@ console.log('acaaaaaaaaaaaaa');
 
     this.settlementService.createSettlement(consecutiveTemp,customerIdTemp,documentCustomerTemp,
       idDepartmentTemp, selectedCityTemp, contactTemp, cellphoneTemp, observationTemp,0,'',0,
-      selectedRegionalIdTemp, selectedCostCenterIdTemp, selectedWarehouseIdTemp, numberEstimateTemp).then(data => {
+      selectedRegionalIdTemp, selectedCostCenterIdTemp, selectedWarehouseIdTemp, numberEstimateTemp,0,0,'ol2').then(data => {
       const resp: any = data;
       console.log('respuesta de la api de creacion');
       console.log(resp);
