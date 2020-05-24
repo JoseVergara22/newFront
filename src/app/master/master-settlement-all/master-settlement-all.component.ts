@@ -3899,7 +3899,7 @@ this.getImgFromUrl(logo_url, function (img) {
 
  updateEstimate(row:any){
    console.log(row);
-   this.router.navigateByUrl('maintenance/estimateCustomerUpdate/'+row.id);
+   this.router.navigateByUrl('maintenance/settlementCustomerUpdate/'+row.id);
  }
 
  copyEstimateProcess(row:any){
