@@ -1,7 +1,7 @@
 <app-modal-basic #modalRegisterItem [dialogClass]="'modal-lg'">
   <div class="app-modal-header">
 
-      <h4 class="modal-title">Registrar Item Test</h4>
+      <h4 class="modal-title">Registrar Item</h4>
   </div>
   <div class="app-modal-body">
       <div>
@@ -164,6 +164,110 @@
 </app-modal-basic>
 
 <!--  -->
+
+<app-modal-basic #modalEmailsSettlement [dialogClass]="'modal-lg'">
+    <div class="app-modal-header">
+        <h4 class="modal-title">Agregar Correos Electrónico</h4>
+    </div>
+    <div class="app-modal-body">
+            <div class="form-group row">
+                <div class="col-sm-12">
+                    <h6>Asunto</h6>
+                    <input type="text" class="form-control" [(ngModel)]="settlementSubject" >
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-sm-12">
+                    <div class="row">
+                        <div class="col-sm-12 col-xs-12 col-md-12  col-lg-11">
+                            <h6>Agregar Correo Electrónico</h6>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="row">
+                        <div class="col-sm-6 col-xs-6 col-md-6  col-lg-5" >
+                            <h6> Correo  </h6>
+                        </div>
+                        <div class="col-sm-6 col-xs-6 col-md-6  col-lg-5">
+                           <h6> Nombre  </h6> 
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6 col-xs-6 col-md-6  col-lg-5">
+                        
+
+                          <input  type="text" class="form-control"   [(ngModel)]="masterEmail" >
+                         <!-- <datalist  id="browsers">
+                             <div  *ngFor="let customerEmail of emailCustomer">
+                                <option    value={{customerEmail.email}}>
+                             </div> 
+                           
+                          </datalist> -->
+
+
+                        </div>
+                        <div class="col-sm-6 col-xs-6 col-md-6  col-lg-5">
+                            <input type="text" class="form-control" [(ngModel)]="masterName">
+                        
+                          
+                        
+                        </div>
+                        <div class="col-sm-1" style="margin-top: 0.5%">
+                            <button class="btn btn-warning btn-icon" (click)="addEmail()"><i class="icofont icofont-ui-add"></i></button>
+                        </div>
+                    </div>
+                    <br>
+                    <br>
+                    <div>
+                        <h6>Lista Correos Electrónicos</h6>
+            
+                        <br>
+                        <div  *ngIf="emailsCurrentSettlement">
+                       
+                        
+                        <div  *ngFor="let email of emailsCurrentSettlement;let pointIdex=index">
+                            <div class="row">
+                                <div class="col-sm-6 col-xs-6 col-md-6  col-lg-5">
+                                    <input type="text" class="form-control"  value='{{email.email}}'  disabled>
+                                </div>
+                                <div class="col-sm-6 col-xs-6 col-md-6  col-lg-5">
+                                    <input type="text" class="form-control"  value='{{email.contact}}' disabled>
+                                </div>
+                                <div class="col-sm-1" style="margin-top: 0.5%">
+                                    <button class="btn btn-default btn-icon" (click)="deleteEmail(email.id)"><i class="icofont icofont-ui-remove"></i></button>
+                                </div>
+                            </div>
+                            <br>
+                            <!-- <div *ngIf="submitted && detailform.part.errors" class="invalid-feedback">
+                                        <div class="messages text-danger" *ngIf="detailform.part.errors.required">Este campo es requerido</div>
+                                    </div> -->
+                        </div>
+                    </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-sm-12">
+                    <h6>Mensaje</h6>
+                    <textarea type="text" rows="5" class="form-control" id="comment"  [(ngModel)]="settlementComment"></textarea>
+                </div>
+            </div>
+            <div class="col-sm-12">
+                <input type="checkbox" name="Ocultar codigo de repuesto"  [(ngModel)]="settlementCheckHideCode" (change)="onChangeCodeEmails($event)"  />
+                <label>Ocultar codigo de repuesto</label>
+            </div>
+
+            <div class="align-buttons">
+                <button type="button" class="btn btn-default waves-effect" id="emailDetailHide" (click)="modalEmailsSettlement.hide()">Cancelar</button>
+                <button type="submit " class="btn btn-primary m-b-0 " (click)="saveEmailSettlement()">Enviar Correo</button>
+
+            </div>
+       
+    </div>
+
+</app-modal-basic>
+
+<!-- -->
 <app-modal-basic #modalRegisterItemWorkforce [dialogClass]="'modal-lg'">
   <div class="app-modal-header">
       <h4 class="modal-title">Registrar Item</h4>
@@ -364,7 +468,7 @@
 
   <app-modal-basic #modalUpdateItemCustomer [dialogClass]="'modal-lg'">
     <div class="app-modal-header">
-        <h4 class="modal-title">Actualizar Item testUpload</h4>
+        <h4 class="modal-title">Actualizar Item </h4>
     </div>
     <div class="app-modal-body">
         <div>
@@ -523,7 +627,7 @@
 
 <app-modal-basic #modalUpdateItemWorkforce [dialogClass]="'modal-lg'">
   <div class="app-modal-header">
-      <h4 class="modal-title">Actualizar Item lllllll</h4>
+      <h4 class="modal-title">Actualizar Item </h4>
   </div>
   <div class="app-modal-body">
       <div>
@@ -606,7 +710,7 @@
     
               <button type="button" style="display:none;" class="btn btn-default waves-effect" id="updateHideWorkforce" (click)="modalUpdateItemWorkforce.hide()">Cancelar</button>
               <button type="button" class="btn btn-default waves-effect" id="updateItemHideDetailWorkforce" (click)="cancelFormDetailWorkforceUpdate()">Cancelar</button>
-              <button type="button" class="btn btn-default waves-effect" id="updateItemHideDetaiCustomer" (click)="cancelFormCustomerUpdate()">Cancelar</button>
+        <!-- <button type="button" class="btn btn-default waves-effect" id="updateItemHideDetaiCustomer" (click)="cancelFormCustomerUpdate()">Cancelar</button> -->
               <button type="submit " class="btn btn-primary m-b-0 "  (click)="updateSettlementDetailWorkforce()">Actualizar Item</button>
            
           </div>
@@ -620,7 +724,7 @@
 <app-modal-basic #modalUpdateItem [dialogClass]="'modal-lg'">
   <div class="app-modal-header">
 
-      <h4 class="modal-title">Actualizar Item ffffff</h4>
+      <h4 class="modal-title">Actualizar Item</h4>
   </div>
   <div class="app-modal-body">
       <div>
@@ -788,6 +892,8 @@
 
              <button type="button" style="display:none;" class="btn btn-default waves-effect" id="checkEstimateForklift" (click)="modalEstimateForklifts.show()">Cancelar</button>
              <button type="button" style="display:none;" class="btn btn-default waves-effect" id="hideEstimateForklift" (click)="modalEstimateForklifts.hide()">Cancelar</button>
+
+             <button type="button" style="display:none;" class="btn btn-default waves-effect" id="showModalEmailsSettlement" (click)="modalEmailsSettlement.show()">Cancelar</button>
             
              <!--  <button type="button" class="btn btn-default waves-effect" id="updateItemHide" (click)="modalUpdateItem.hide()">Cancelar</button>-->
               <button type="submit " class="btn btn-primary m-b-0 "  (click)="updateSettlementDetail()">Actualizar Item</button>
@@ -1002,7 +1108,7 @@
                                         <!--  value="{{item.id}}" (change)="partChangeActive($event,item)"[checked]="item.active" -->   
                                              <tr *ngFor="let item of estimateForklift.item;let pointIdex=index">   
                                                 <td scope="row">
-                                                   <input type="checkbox"  name="list_name" value="{{item.id}}" (change)="checkChangeActive($event,item)"[checked]="item.active"/> 
+                                                   <input type="checkbox"  name="list_name" value="{{item.id}}" (change)="checkChangeActiveForklift($event,item)"[checked]="item.active"/> 
                                                 </td>
                                                 <td>{{item.code}}</td>
                                                 <td>{{item.description}}</td>
@@ -1039,7 +1145,7 @@
 
             <div class="align-buttons">
                 <button type="button" class="btn btn-default waves-effect" id="storageDetailHide" (click)="modalEstimateForklifts.hide()">Cancelar</button>
-                <button type="submit " class="btn btn-primary m-b-0 "   (click)="createDetailsEstimateSettlement()">Copiar</button>
+                <button type="submit " class="btn btn-primary m-b-0 "   (click)="createDetailsEstimateSettlementForklift()">Copiar</button>
             </div>
     </div>
 </app-modal-basic>
@@ -1075,7 +1181,7 @@
                                         <!--  value="{{item.id}}" (change)="partChangeActive($event,item)"[checked]="item.active" -->   
                                              <tr *ngFor="let item of itemCopyClient.item;let pointIdex=index">   
                                                 <td scope="row">
-                                                   <input type="checkbox"  name="list_name" value="{{item.id}}" (change)="checkChangeActive($event,item)"[checked]="item.active"/> 
+                                                   <input type="checkbox"  name="list_name" value="{{item.id}}" (change)="checkChangeActiveClients($event,item)"[checked]="item.active"/> 
                                                 </td>
                                                 <td>{{item.code}}</td>
                                                 <td>{{item.description}}</td>
@@ -1092,7 +1198,7 @@
                 </ng-template>
               </ngb-panel>
             </ngb-accordion>
-            <div class="form-group row">
+         <!-- <div class="form-group row">
                 <div class="col-sm-4">
               
                 </div>
@@ -1101,15 +1207,15 @@
                 </div>
                 <div class="col-sm-4">
                     <button class="btn btn-primary btn-round" *ngIf="numberPage>1" (click)="backPage()" >Atras</button> <button (click)="nextPage()" class="btn btn-primary btn-round" *ngIf="numberPage<limitPage">Siguiente</button>
-                   <!--  <button class="btn btn-info btn-round">Atras</button>   <button class="btn btn-info btn-round">Siguiente</button> -->
+                 
                 </div>
-             </div>       
+             </div>  -->    
            
           </app-card>
 
             <div class="align-buttons">
                 <button type="button" class="btn btn-default waves-effect" id="storageDetailHide" (click)="modalCopyCustomer.hide()">Cancelar</button>
-                <button type="submit " class="btn btn-primary m-b-0 "   (click)="createDetailsEstimateSettlement()">Copiar</button>
+                <button type="submit " class="btn btn-primary m-b-0 "   (click)="createDetailsSettlementCustomer()">Copiar</button>
             </div>
     </div>
 </app-modal-basic>
@@ -1413,8 +1519,11 @@
                       <button type="button" style="display:none;" id="uploadCustomerItem" class="btn btn-primary waves-effect" (click)="modalUpdateItemCustomer.show()">Actualizar item</button>
 
                       <button type="button" style="display:none;" id="modalCopyCustomerFormShow" class="btn btn-primary waves-effect" (click)="modalCopyCustomer.show()">Actualizar item</button>
-                      <button type="button" style="display:none;" id="modalCopyCustomerFormHide" class="btn btn-primary waves-effect" (click)="modalCopyCustomer.hive()">Actualizar item</button>
+                      <button type="button" style="display:none;" id="modalCopyCustomerFormHide" class="btn btn-primary waves-effect" (click)="modalCopyCustomer.hide()">Actualizar item</button>
 
+                      <button type="button" style="display:none;" id="modalEmailSettlementHide" class="btn btn-primary waves-effect" (click)="modalEmailsSettlement.hide()">Actualizar item</button>
+                      
+                      <button type="button" style="display:none;" id="modalProgrammingHide" class="btn btn-primary waves-effect" (click)="showModalCopyForklift.hide()">Actualizar item</button>
                       
                    <!--   <button type="button"  class="btn btn-primary waves-effect" (click)="createSettlementCondition()" *ngIf="showSettlementId">Actualizar liquidación</button>--> 
                       <button type="button" id="registerCountry" class="btn btn-primary waves-effect" (click)="updateSettlementCondition()"  *ngIf="showCreateItem">Actualizar liquidación</button>
@@ -1436,7 +1545,7 @@
                     </div> 
 
                     <div class="col-sm-1">
-                        <button  class="btn btn-primary btn-icon"   placement="top" ngbTooltip="Agregar correos">  <img src="assets/images/envelope.png"  width="50" height="50" > </button>
+                        <button  class="btn btn-primary btn-icon"  (click)="showSettlementEmails()"   placement="top" ngbTooltip="Agregar correos">  <img src="assets/images/envelope.png"  width="50" height="50" > </button>
                     </div> 
                   <div class="col-sm-6">
                    
@@ -1551,7 +1660,7 @@
       
 <br>
 <br>
-<div   *ngIf="showSaveFile" class="row">
+<div  class="row">
   <div class="col-sm-4">
   </div>
 
@@ -1616,13 +1725,13 @@
                               <!-- <img src="assets/images/blog/blog-r-1.jpg" alt="img" class="img-fluid img-100"> -->
              <!-- <img [src]="url" height="200" *ngIf="url" alt="img" class="img-fluid img-100">  --> 
 
-              <h6  *ngIf="file"> {{ file }}</h6>
+              <h6  *ngIf="file"> {{ file.url }}</h6>
                               <!--  <img [src]="imgURL " height="200 " *ngIf="imgURL " alt="img" class="img-fluid img-100">
                               <h6 class="m-t-15 m-b-0">Ejemplo</h6>
                               <p class="text-muted m-b-0"><small>PNG-100KB</small></p> -->
               </td>
               <td>
-              <button (click)="deleteFile(i)" class="btn btn-danger btn-icon"><i class="icofont icofont-ui-delete"></i></button>
+              <button (click)="deleteFiles(file,i)" class="btn btn-danger btn-icon"><i class="icofont icofont-ui-delete"></i></button>
 
               </td>
               </tbody>
@@ -1640,7 +1749,7 @@
           </div>
           <div class="col-sm-4">
               <div class="labelItem">
-                  <button  [routerLink]="['/master/estimateAll']" class="btn btn-primary">Guardar liquidación</button>
+                  <button    (click)="validationDifference()" class="btn btn-primary">Guardar liquidación</button>
               </div>
           </div>
       </div>
