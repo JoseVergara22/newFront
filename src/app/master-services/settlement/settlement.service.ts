@@ -140,6 +140,30 @@ getSettlemetSpecific(id:number) { // Falta implementar desde el backend
   });
 }
 
+
+getValidationDifference(settlement_id:number) { // Falta implementar desde el backend
+  return new Promise(resolve => {
+    const headers = new HttpHeaders();
+    headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user'))); // 'Bearer ' +
+    headers.append('Content-Type', 'application/json');
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + localStorage.getItem('token_user'),
+        'Accept': 'application/json'
+      })
+    };
+    this.http.get(this.apiEndPoint+'api/total_comparison?settlement_id='+ settlement_id, httpOptions)
+      .map(res => res).subscribe(data => {
+        console.log(data);
+        resolve(data);
+      }, error => {
+        resolve(error);
+      });
+  });
+}
+
+
 updateSettlement(id:number, customer_id: number, customer_document: string,
   department_id: number, city_id: number, contact: string, telephone: string, observation: string,
    regional_id: number, cost_center_id: number, warehouse_id:number, estimate_order:string, branch_office_id:number,
@@ -253,6 +277,7 @@ updateSettlementDetailCustomer(settlement_detail_customer_id: number, code: stri
     discount: discount,
     full_code:fullCode,
     };
+    console.log('este es el id '+settlement_detail_customer_id);
     this.http.patch(this.apiEndPoint+'api/update_settlement_details_customer/'+settlement_detail_customer_id, postParams, httpOptions)
     .map(res => res).subscribe(data => {
     resolve(data);
@@ -283,6 +308,119 @@ getSettlementDetails(idSettlement:number) {
         resolve(error);
       });
   });
+}
+
+
+createEmailsSettlement(settlement_id: number, subject: string, comment: string,
+  check_hide_code :number, params:string) {
+    console.log(params);
+return new Promise(resolve => {
+const headers = new HttpHeaders();
+headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user'))); // 'Bearer ' +
+headers.append('Content-Type', 'application/json');
+const httpOptions = {
+headers: new HttpHeaders({
+'Content-Type': 'application/json',
+'Authorization': 'Bearer ' + localStorage.getItem('token_user'),
+'Accept': 'application/json'
+})
+};
+const patchParams = {
+settlement_id:  settlement_id,
+subject: subject,
+comment: comment,
+check_hide_code: check_hide_code,
+params: params
+};
+this.http.patch(this.apiEndPoint+'api/update_emails_settlement', patchParams, httpOptions)
+.map(res => res).subscribe(data => {
+resolve(data);
+}, error => {
+resolve(error);
+});
+});
+}
+
+
+
+
+getSettlementDetailFiles(idSettlement:number) {
+  return new Promise(resolve => {
+    const headers = new HttpHeaders();
+    headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user'))); // 'Bearer ' +
+    headers.append('Content-Type', 'application/json');
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + localStorage.getItem('token_user'),
+        'Accept': 'application/json'
+      })
+    };
+    console.log('idsettlement '+idSettlement);
+    this.http.get(this.apiEndPoint+'api/get_idsettlement_files?settlement_id='+idSettlement+'&type=0', httpOptions)
+      .map(res => res).subscribe(data => {
+        console.log(data);
+        resolve(data);
+      }, error => {
+        resolve(error);
+      });
+  });
+}
+
+
+deleteSettlementFile(id: number) {
+  console.log('ole ole ole');
+  console.log(status);
+  return new Promise(resolve => {
+    const headers = new HttpHeaders();
+    headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user'))); // 'Bearer ' +
+    headers.append('Content-Type', 'application/json');
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + localStorage.getItem('token_user'),
+        'Accept': 'application/json'
+      })
+    };
+    const postParams = {
+    };
+    this.http.delete(this.apiEndPoint+'api/delete_settlement_file/' + id, httpOptions)
+      .map(res => res).subscribe(data => {
+        resolve(data);
+      }, error => {
+        resolve(error);
+      });
+  });
+}
+
+
+createSettlementFile(settlement_id: number, bucket: string, url: string, type: number, nameFile:string) {
+  console.log('info de detalle');
+  return new Promise(resolve => {
+  const headers = new HttpHeaders();
+  headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user'))); // 'Bearer ' +
+  headers.append('Content-Type', 'application/json');
+  const httpOptions = {
+  headers: new HttpHeaders({
+  'Content-Type': 'application/json',
+  'Authorization': 'Bearer ' + localStorage.getItem('token_user'),
+  'Accept': 'application/json'
+  })
+  };
+  const postParams = {
+  settlement_id: settlement_id,
+  bucket: bucket,
+  url:url,
+  type: type,
+  name: nameFile
+  };
+  this.http.post(this.apiEndPoint+'api/create_settlement_file', postParams, httpOptions)
+  .map(res => res).subscribe(data => {
+  resolve(data);
+  }, error => {
+  resolve(error);
+ });
+});
 }
 
 getSettlementDetailsWorkforce(idSettlement:number) {
@@ -320,6 +458,29 @@ getSettlementDetailsParts(idSettlement:number) {
       })
     };
     this.http.get(this.apiEndPoint+'api/settlement_details_general_parts/'+idSettlement, httpOptions)
+      .map(res => res).subscribe(data => {
+        console.log(data);
+        resolve(data);
+      }, error => {
+        resolve(error);
+      });
+  });
+}
+
+
+getSettlementEmails(idSettlement:number) {
+  return new Promise(resolve => {
+    const headers = new HttpHeaders();
+    headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user'))); // 'Bearer ' +
+    headers.append('Content-Type', 'application/json');
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + localStorage.getItem('token_user'),
+        'Accept': 'application/json'
+      })
+    };
+    this.http.get(this.apiEndPoint+'api/get_settlement_emails_client/'+idSettlement, httpOptions)
       .map(res => res).subscribe(data => {
         console.log(data);
         resolve(data);
@@ -496,7 +657,7 @@ createScheduleSettlement(params: string) {
       });
     }
 
-    getSettlementEstimateForklift(idCustomer:number, idBranchOffice:number,  numberPage:number) {
+    getSettlementEstimateForklift(idCustomer:number, idBranchOffice:number) {
       return new Promise(resolve => {
         const headers = new HttpHeaders();
         headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user'))); // 'Bearer ' +
@@ -509,7 +670,7 @@ createScheduleSettlement(params: string) {
           })
         };
         console.log(idCustomer+'-'+idBranchOffice);
-        this.http.get(this.apiEndPoint+'api/settlement_estimate_forklift?customer_id='+idCustomer+'&&branch_office_id='+idBranchOffice+'&&page='+numberPage, httpOptions)
+        this.http.get(this.apiEndPoint+'api/settlement_estimate_forklift?customer_id='+idCustomer+'&&branch_office_id='+idBranchOffice, httpOptions)
           .map(res => res).subscribe(data => {
             console.log(data);
             resolve(data);
@@ -600,6 +761,8 @@ createScheduleSettlement(params: string) {
         })
         };
         console.log( localStorage.getItem('userid'));
+
+        console.log(settlementId,  estimateItems);
         const postParams = {
           settlement_id: settlementId,
           details_id:estimateItems
@@ -612,6 +775,34 @@ createScheduleSettlement(params: string) {
         });
         });
       }
+
+      copySettlementCustomer(settlementId: number, estimateItems:Array<Number>) {
+        return new Promise(resolve => {
+          const headers = new HttpHeaders();
+          headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user'))); // 'Bearer ' +
+          headers.append('Content-Type', 'application/json');
+          const httpOptions = {
+          headers: new HttpHeaders({
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + localStorage.getItem('token_user'),
+          'Accept': 'application/json'
+          })
+          };
+          console.log( localStorage.getItem('userid'));
+  
+          console.log(settlementId,  estimateItems);
+          const postParams = {
+            settlement_id: settlementId,
+            details_id:estimateItems
+          };
+          this.http.post(this.apiEndPoint+'api/copy_estimate_settlement_customer', postParams, httpOptions)
+          .map(res => res).subscribe(data => {
+          resolve(data);
+          }, error => {
+          resolve(error);
+          });
+          });
+        }
 
       createSettlementDetails(settlement_id: number, code: string, description: string,
         quantity: number, unit_cost: number, price_list: number, price_suggest: number, weight: number,
@@ -997,7 +1188,9 @@ createScheduleSettlement(params: string) {
       });
     }
 
-    createSettlementFile(estimate_id: number, bucket: string, url: string, type: number, nameFile:string) {
+    //Nombre original de este metodo es createSettlementFiles se le agrega uns S
+  // por duplicidad de nombre al hacer pull
+    createSettlementFiles(estimate_id: number, bucket: string, url: string, type: number, nameFile:string) {
       console.log('info de detalle');
       return new Promise(resolve => {
       const headers = new HttpHeaders();

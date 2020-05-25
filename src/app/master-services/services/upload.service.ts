@@ -1,17 +1,17 @@
 import { Injectable } from '@angular/core';
 import { EstimateService } from '../estimate/estimate.service';
+import { SettlementService } from '../settlement/settlement.service';
 import { WorkService } from '../../master-services/Work/work.service';
 import * as AWS from 'aws-sdk/global';
 import * as S3 from 'aws-sdk/clients/s3';
 import { UUID } from 'angular2-uuid';
-import { SettlementService } from '../settlement/settlement.service';
 
 
 @Injectable()
 export class UploadService {
 
-  constructor(private workService:WorkService, private estimateService:EstimateService, 
-    private settlementeService:SettlementService) { }
+ 
+  constructor(private workService:WorkService, private estimateService:EstimateService, private settlementService:SettlementService) { }
   uploadFile(file) {
       return new Promise(resolve =>{
         const contentType = file.type;
@@ -409,6 +409,63 @@ uploadFilesAll(file:any, estimateId:number, type: number, fileName:string) {
   })   
 }
 
+
+
+uploadFilesAllSettlement(file:any, settlementId:number, type: number, fileName:string) {
+  return new Promise(resolve =>{
+
+    const contentType = file.type;
+    
+    console.log('tipo de archivo '+contentType);
+    let ext = fileName.split('.').pop();
+    let nameTemp = fileName.split('.');
+    const bucket = new S3(
+          {
+              accessKeyId: 'AKIAQTIVBK67FU3N4ZPV',
+              secretAccessKey: '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',
+              region: 'us-east-1'
+          }
+      );
+      const uuid = UUID.UUID();
+    
+      const extension = ext ;
+      console.log(extension);
+      // let nameFile ='https://masterforklift.s3.amazonaws.com/'+uuid +''+ extension;
+      let nameFile =nameTemp[0]+'.'+ extension;
+      console.log(nameFile);
+      const params = {
+          Bucket: 'masterforklift/settlement_files',
+          Key: nameFile,
+          Body: file,
+          ACL: 'public-read',
+          ContentType: contentType
+      };
+
+      bucket.upload(params).promise().then(resp=>{
+          console.log(resp);
+        resolve(resp);
+        // let nameFileFinal='https://masterforklift.s3.amazonaws.com/'+nameFile;
+      
+        let bucketF='masterforklift/settlement_files';
+        let url='https://masterforklift.s3.amazonaws.com/settlement_files/'+nameFile;
+        let typeF=type;
+        
+        this.settlementService.createSettlementFile(settlementId, bucketF, url, typeF, fileName).then(data => {
+            const resp: any = data;
+            console.log(data);
+           // swal.close();
+            console.log(resp);
+          }).catch(error => {
+            console.log(error);
+          });
+
+      }).catch(error => {
+  console.log(error);
+});
+
+  })   
+}
+
   uploadFilesAllEstimate(file:any, estimateId:number, type: number, fileName:string) {
     return new Promise(resolve =>{
 
@@ -465,7 +522,9 @@ uploadFilesAll(file:any, estimateId:number, type: number, fileName:string) {
   
     })   
   }
-  uploadFilesAllSettlement(file:any, estimateId:number, type: number, fileName:string) {
+  //Nombre original de este metodo es uploadFilesAllSettlement, se le agrega uns S
+  // por duplicidad de nombre al hacer pull
+  uploadFilesAllSettlements(file:any, estimateId:number, type: number, fileName:string) {
     return new Promise(resolve =>{
 
       console.log('ingresoa la fuction        guardar en s3');
@@ -506,7 +565,7 @@ uploadFilesAll(file:any, estimateId:number, type: number, fileName:string) {
           let url='https://masterforklift.s3.amazonaws.com/estimate_files/'+nameFile;
           let typeF=type;
           
-          this.settlementeService.createSettlementFile(estimateId, bucketF, url, typeF, fileName).then(data => {
+          this.settlementService.createSettlementFile(estimateId, bucketF, url, typeF, fileName).then(data => {
               const resp: any = data;
               console.log(data);
              // swal.close();
