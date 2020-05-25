@@ -148,14 +148,15 @@ export class MasterSettlementAllComponent  extends NgbDatepickerI18n {
  listStatus: any =[];
  
  selectedBusinessId: any = 0;
- selectedRegional:any = 0;
- selectedOfficeId: any = 0;
+ selectedRegionalId:any = 0;
+ selectedBranchOfficeId: any = 0;
  selectedUserId: any =0;
  selectedCostCenter: any = 0;
  selectWarehouses: any = 0;
  selectedSubCostCenter: any = 0;
-
-
+ selectedForkliftId: any = 0;
+ selectedDepartmentId = 0;
+ selectedCityId = 0;
 
  customerOffices: any = 0;
  rowsUser:any;
@@ -226,9 +227,10 @@ export class MasterSettlementAllComponent  extends NgbDatepickerI18n {
 
 
  regional: any;
- warehouse: any;
- costCenter: any; 
+ warehouses: any;
+ costCenters: any; 
  subCostCenter: any;
+ branchOffices: any;
 
  rowsItemsCustomer: any;
 
@@ -241,6 +243,9 @@ export class MasterSettlementAllComponent  extends NgbDatepickerI18n {
  date: any;
  invoice: any;
  settlementId: any;
+ days:any=0;
+ departments: any;
+ cities: any;
 
  constructor(private restService: RestService, private _i18n: I18n, private router: Router, private estimateService: EstimateService, private forkliftService: ForkliftService,
              private calendar: NgbCalendar, public formatter: NgbDateParserFormatter, private userService: UserService,  private uploadService: UploadService,   private formbuilder:FormBuilder, private settlementeService: SettlementService) {
@@ -267,7 +272,14 @@ export class MasterSettlementAllComponent  extends NgbDatepickerI18n {
                var ngbDateStruct = { day: date.getDate(), month: date.getMonth()+1, year: date.getFullYear()};
                
                
-               
+               this.restService.getRegionalAll().then(data => {
+                const resp: any = data;
+                console.log(data);
+                swal.close();
+                this.regional  = resp.data;
+              }).catch(error => {
+                console.log(error);
+              });
                
                
                this.fromDate=ngbDateStruct;
@@ -305,7 +317,6 @@ export class MasterSettlementAllComponent  extends NgbDatepickerI18n {
  
 
    this.loadingData();
-   this.getCustomers();
 
    const description = new FormControl('', Validators.required);
    const descriptionUpdate = new FormControl('', Validators.required);
@@ -380,35 +391,23 @@ export class MasterSettlementAllComponent  extends NgbDatepickerI18n {
    return this.getMonthShortName(month);
  }
 
- getRegional(){
-   console.log('customer');
-   console.log(this.selectedBusinessId);
-   this.restService.getRegionalId(this.selectedBusinessId).then(data => {
-    console.log(data);
+
+getWarehouses() {
+  //selectedCostCenterId
+  this.restService.getWarehousesSettlement(this.selectedRegionalId.id).then(data => {
     const resp: any = data;
-    this.regional=resp.data_customerRegionals;
+    console.log(data);
+    swal.close();
+    this.warehouses  = resp.data_warehouses;
   }).catch(error => {
     console.log(error);
   });
- }
-
- getWarehouese(){
-   console.log('regional-bodega');
-   console.log(this.selectedRegional);
-   this.settlementeService.getWarehouese(this.selectedRegional).then(data => {
-    console.log(data);
-    const resp: any = data;
-    this.warehouse=resp.data;
-  }).catch(error => {
-    console.log(error);
- });
 }
-
 
  getSubCostCenter(){
   console.log('regional-costCenter');
-  console.log(this.selectedRegional);
-  this.settlementeService.getSubCostCenter(this.selectedRegional).then(data => {
+  console.log(this.selectedRegionalId);
+  this.settlementeService.getSubCostCenter(this.selectedRegionalId).then(data => {
     console.log(data);
     const resp: any = data;
     this.subCostCenter=resp.data;
@@ -417,17 +416,98 @@ export class MasterSettlementAllComponent  extends NgbDatepickerI18n {
  });
 }
 
- getCostCenter(){
-  console.log('regional-subCostCenter');
-  console.log(this.selectedRegional);
-  this.settlementeService.getCostCenter(this.selectedRegional).then(data => {
-    console.log(data);
+getCenterCost() {
+  this.getCustomerRegionals();
+  this.getWarehouses();
+  //selectedCostCenterId
+  this.restService.getCostCenterSettlement(this.selectedRegionalId.id).then(data => {
     const resp: any = data;
-    this.costCenter=resp.data;
+    console.log(data);
+    swal.close();
+    this.costCenters  = resp.data_costcenters;
   }).catch(error => {
     console.log(error);
- });
+  });
 }
+
+
+getCustomerRegionals() {
+  this.restService.getRegionalCustomers(this.selectedRegionalId.id).then(data => {
+    const resp: any = data;
+    console.log(data);
+    swal.close();
+    this.customers  = resp.data;
+    
+    //asignar valores customer;
+  
+  }).catch(error => {
+    console.log(error);
+  });
+ }
+ 
+ getBranchOffices() {
+  if(this.selectedBusinessId!=0){
+  
+  // Llenar información de cliente
+  this.documentCustomer = this.selectedBusinessId.document_id;
+  this.nameCustomer = this.selectedBusinessId.business_name;
+  this.cellphone = this.selectedBusinessId.telephone;
+  this.contact =  '';
+  // this.days = this.selectedBusinessId.day;
+  this.selectedDepartmentId = this.selectedBusinessId.department_id;
+  // Se cargan las las ciudades y la ciudad del cliente
+  this.getCities();
+
+  this.restService.getOffice(this.selectedBusinessId.id).then(data => {
+    const resp: any = data;
+    console.log('oficinas: '+data);
+    swal.close();
+    this.branchOffices  = resp.data;
+  }).catch(error => {
+    console.log(error);
+  });
+
+  /*this.restService.getRegionalCustomer(this.selectedBusinessId.id).then(data => {
+    const resp: any = data;
+    console.log(data);
+    swal.close();
+    this.regionals  = resp.data_customerRegionals;
+  }).catch(error => {
+    console.log(error);
+  });*/
+
+}else{
+  this.selectedDepartmentId=0;
+  this.selectedCityId=0;
+  this.documentCustomer = '';
+  this.nameCustomer ='';
+  this.cellphone = '';
+  this.contact =  '';
+  this.days =0;
+  this.selectedBranchOfficeId=0;
+  this.selectedForkliftId=0;
+}
+}
+
+getCities() {
+  console.log('oleole');
+  console.log(this.selectedDepartmentId);
+  this.restService.getCities(this.selectedDepartmentId).then(data => {
+    const resp: any = data;
+    console.log(data);
+    swal.close();
+    this.cities = resp.data;
+    if(this.selectedBusinessId.city_id){
+      console.log('this.selectedBusinessId.city_id');
+      console.log(this.selectedBusinessId.city_id);
+      this.selectedCityId=this.selectedBusinessId.city_id;
+    }
+    console.log( this.cities);
+  }).catch(error => {
+    console.log(error);
+  });
+}
+
 
  changeConsiderDate(event: any){
  if(this.considerDate==true){
@@ -556,6 +636,32 @@ console.log('download ole');
    }
  }
 
+
+ totalComparison(totalCustomer:number, totalDetail:number){
+  console.log('Total de factura detalle' + totalDetail);
+  console.log('Total de factura cliente' + totalCustomer);
+   if(this.estimateId){
+     this.settlementeService.totalComparisonSettlement(totalCustomer, totalDetail).then(data => {
+       const resp: any = data;
+       console.log('datos de customer con settlemente');
+       console.log(data);
+       
+       let diference = resp.data;
+
+       if(diference. value == 0){
+        this.sendEmailEstimateAmazon();
+       }else{
+        swal({
+        type: 'error',
+        title: 'Oops a currido un error',
+        text: 'Los totales de Factura HGI y Factura Cliente son diferentes'
+        });
+       }
+     }).catch(error => {
+       console.log(error);
+     });
+   }
+ }
   // Estos consumos es para la vista de aprobación
 
   getEstimatePartsApproval(ind: number) {
@@ -634,8 +740,9 @@ console.log('download ole');
 
   sendEmailEstimateAmazon(){
     console.log('IMPORTANTE INGRESO');
-   let nameFileEstimate ='Liquidación_No_'+this.estimateCurrent.estimate_consecutive+'.pdf';
-   this.uploadService.uploadFilesAllEstimate(this.blobGlobal, this.estimateCurrent.id,3,nameFileEstimate).then(res=>{
+
+   let nameFileEstimate ='Liquidación_No_'+this.consecutive+'.pdf';
+   this.uploadService.uploadFilesAllSettlement(this.blobGlobal, this.estimateCurrent.id,3,nameFileEstimate).then(res=>{
    console.log('s3info'+JSON.stringify(res));
    this.s3info=res;
    console.log(this.s3info);
@@ -644,7 +751,7 @@ console.log('download ole');
    this.sendEmailFinal();
    
    swal({
-     title: 'cotización almacenada',
+     title: 'Liquidacion almacenada',
      type: 'success'
     });
   
@@ -654,7 +761,7 @@ console.log('download ole');
    swal({
      type: 'error',
      title: 'oops a currido un error',
-     text:'se ha presentado un error al subir la imagen',
+     text:'se ha presentado un error',
      allowOutsideClick: false
    });
  });
@@ -877,7 +984,7 @@ console.log(row)
        console.log('importante el subject:'+this.subject)
        subjectTemp= this.subject;
      }else{
-       subjectTemp= 'Montacargas Master Liquidacion '+ this.estimateCurrent.estimate_consecutive;
+       subjectTemp= 'Montacargas Master Liquidacion '+ this.consecutive;
      }
     // concatenar los correos y nos con ","
    let emailsName = '';
@@ -1233,7 +1340,7 @@ let value=  Number(this.rowsItemsWorkforce[i].total);
       console.log(this.rowsItemsCustomer[i].subtotal_decimal); 
       console.log(this.totalCost); 
 
-      body_table = [i+1, this.rowsItemsCustomer[i].code, this.rowsItemsCustomer[i].description, this.rowsItemsCustomer[i].sub_cost_center.description, this.rowsItemsCustomer[i].quantity, '$'+this.rowsItemsCustomer[i].price_suggest_decimal, this.rowsItemsCustomer[i].discount,   '$'+this.rowsItemsCustomer[i].subtotal_decimal];
+      body_table = [i+1, this.rowsItemsCustomer[i].code, this.rowsItemsCustomer[i].description, this.rowsItemsCustomer[i].sub_cost_center, this.rowsItemsCustomer[i].quantity, '$'+this.rowsItemsCustomer[i].price_suggest_decimal, this.rowsItemsCustomer[i].discount,   '$'+this.rowsItemsCustomer[i].subtotal_decimal];
   
    doc.autoTable({
      startY: doc.autoTable.previous.finalY,
@@ -1274,7 +1381,7 @@ let value=  Number(this.rowsItemsWorkforce[i].total);
     body: [['','TOTAL','DESC%','$' + total]]
   });
 
-  doc.save('Liquidación_No_'+ this.consecutive+'.pdf');
+  // doc.save('Liquidación_No_'+ this.consecutive+'.pdf');
   this.totalCost=0;
   // y=y+15;
   console.log(this.filesImage.length+' oleole');
@@ -2098,6 +2205,7 @@ let value=  Number(this.rowsItemsparts[i].subtotal);
     console.log('total'); 
     console.log(this.rowsItemsparts[i].subtotal_decimal); 
     console.log(this.totalCost); 
+
     body_table = [i+1, this.rowsItemsparts[i].code, this.rowsItemsparts[i].description, this.rowsItemsparts[i].sub_cost_center, this.rowsItemsparts[i].quantity, '$'+this.rowsItemsparts[i].price_suggest_decimal, this.rowsItemsparts[i].discount,   '$'+this.rowsItemsparts[i].subtotal_decimal];
 
 
@@ -2158,9 +2266,9 @@ let value=  Number(this.rowsItemsWorkforce[i].total);
     
   }
 
-  let total = this.finalFormatPrice(this.totalCost);
+  let totalHGI = parseInt(this.finalFormatPrice(this.totalCost));
   console.log('total')
-  console.log(total)
+  console.log(totalHGI)
      doc.autoTable({
       startY: doc.autoTable.previous.finalY,
       theme:'grid',
@@ -2172,7 +2280,7 @@ let value=  Number(this.rowsItemsWorkforce[i].total);
       3: {halign: 'center', fontSize:9, cellWidth:55},
       },
       margin: { left: 15},
-      body: [['','TOTAL','DESC%','$' + total]]
+      body: [['','TOTAL','DESC%','$' + totalHGI]]
     });
     this.totalCost = 0;
   doc.autoTable({
@@ -2214,7 +2322,7 @@ let value=  Number(this.rowsItemsWorkforce[i].total);
       console.log(this.rowsItemsCustomer[i].subtotal_decimal); 
       console.log(this.totalCost); 
 
-      body_table = [i+1, this.rowsItemsCustomer[i].code, this.rowsItemsCustomer[i].description, this.rowsItemsCustomer[i].sub_cost_center.description, this.rowsItemsCustomer[i].quantity, '$'+this.rowsItemsCustomer[i].price_suggest_decimal, this.rowsItemsCustomer[i].discount,   '$'+this.rowsItemsCustomer[i].subtotal_decimal];
+      body_table = [i+1, this.rowsItemsCustomer[i].code, this.rowsItemsCustomer[i].description, this.rowsItemsCustomer[i].sub_cost_center, this.rowsItemsCustomer[i].quantity, '$'+this.rowsItemsCustomer[i].price_suggest_decimal, this.rowsItemsCustomer[i].discount,   '$'+this.rowsItemsCustomer[i].subtotal_decimal];
   
    doc.autoTable({
      startY: doc.autoTable.previous.finalY,
@@ -2237,9 +2345,9 @@ let value=  Number(this.rowsItemsWorkforce[i].total);
 }
   // y=y+15;
 
-  total = this.finalFormatPrice(this.totalCost);
+  let totalCustomer = parseInt(this.finalFormatPrice(this.totalCost));
   console.log('total')
-  console.log(total)
+  console.log(totalCustomer)
 
   doc.autoTable({
     startY: doc.autoTable.previous.finalY,
@@ -2252,12 +2360,13 @@ let value=  Number(this.rowsItemsWorkforce[i].total);
       3: {halign: 'center', fontSize:9, cellWidth:55}
     },
     margin: { left: 15},
-    body: [['','TOTAL','DESC%','$' + total]]
+    body: [['','TOTAL','DESC%','$' + totalCustomer]]
   });
    
    this.blobGlobal = doc.output('blob');
    console.log('ingreso a ja');
-   this.sendEmailEstimateAmazon();
+   this.totalComparison(totalHGI, totalCustomer);
+   
 
    console.log('el ja tiene el metodo para enviar el correo');
    }
@@ -3415,22 +3524,33 @@ this.getImgFromUrl(logo_url, function (img) {
   }
 
   getForklifs() {
-  
-   if(this.selectedBusinessId!=0){
-   this.forkliftService.getForkliftsCustomerFull(this.selectedBusinessId).then(data => {
-     const resp: any = data;
-     console.log(data);
-     swal.close();
-     this.forklifts  = resp.data;
-     // this.rowsClient = resp.data;
-     // this.rowStatic =  resp.data;
-     // this.rowsTemp = resp.data;
-     // console.log( this.rowsClient);
-   }).catch(error => {
-     console.log(error);
-   });
- }
+    if(this.selectedBranchOfficeId!=0){
+    console.log('this.selectedBusinessId.id');
+    console.log(this.selectedBranchOfficeId.id);
+
+  this.forkliftService.getForkliftBranchOfficesFull(this.selectedBranchOfficeId.id).then(data => {
+      const resp: any = data;
+      console.log(data);
+      swal.close();
+      this.forklifts  = resp.data;
+ 
+    }).catch(error => {
+      console.log(error);
+    });
+  }else{
+    this.selectedDepartmentId=0;
+    this.selectedCityId=0;
+    this.documentCustomer = '';
+    this.nameCustomer ='';
+    this.cellphone = '';
+    this.contact =  '';
+    this.selectedForkliftId=0;
+   //  this.email =  this.selectedBusinessId.email;
+    this.days =0;
   }
+}
+
+  getForkliftText(){}
 
 
   partChange(event:any, item:any){
@@ -3557,9 +3677,9 @@ this.getImgFromUrl(logo_url, function (img) {
   getEstimateFilters() {
 
    if(this.considerDate == false && this.selectedBusinessId == 0 &&  this.part == 0 &&
-     this.codepart == 0 && this.numberEstimate == 0  &&  this.selectedRegional == 0 &&
+     this.codepart == 0 && this.numberEstimate == 0  &&  this.selectedRegionalId == 0 &&
      this.programate == false && this.selectedUserId == 0 && this.selectWarehouses == 0 &&
-     this.selectedCostCenter == 0  && this.selectedSubCostCenter == 0 ){
+     this.selectedCostCenter == 0  && this.selectedSubCostCenter == 0 && this.selectedBranchOfficeId == 0 && this.selectedForkliftId == 0){
        swal({
          title:'Importante',
          text: 'Debes seleccionar por lo menos uno de los filtros o activar casilla para tener en cuenta las fechas',
@@ -3599,12 +3719,12 @@ this.getImgFromUrl(logo_url, function (img) {
    }
 
    if(this.selectedBusinessId!=0){
-     console.log('imprimir cont');
+    console.log('imprimir cont');
      console.log(cont);
      if(cont>0){
-       params=params+'&&customer_id='+this.selectedBusinessId;
+       params=params+'&&customer_id='+this.selectedBusinessId.id;
      }else{
-       params=params+'customer_id='+this.selectedBusinessId;
+       params=params+'customer_id='+this.selectedBusinessId.id;
        cont++;
      }     
    }
@@ -3655,15 +3775,38 @@ this.getImgFromUrl(logo_url, function (img) {
      }
    }
 
-   if(this.selectedRegional!=0){
+   if(this.selectedRegionalId!=0){
+     console.log(cont);
      if(cont>0){
-     params=params+'&&regional_id='+this.selectedRegional;
+     params=params+'&&regional_id='+this.selectedRegionalId.id;
      }else{
-       params=params+'regional_id='+this.selectedRegional;
+       params=params+'regional_id='+this.selectedRegionalId.id;
        cont++;
      }
    }
+
+   if(this.selectedBranchOfficeId!=0){
+    console.log(cont);
+     if(cont>0){
+     params=params+'&&branch_office_id='+this.selectedBranchOfficeId.id;
+     }else{
+       params=params+'branch_office_id='+this.selectedBranchOfficeId.id;
+       cont++;
+     }
+   }
+
+   if(this.selectedForkliftId!=0){
+    console.log(cont);
+     if(cont>0){
+     params=params+'&&forklift_id='+this.selectedForkliftId.id;
+     }else{
+       params=params+'forklift_id='+this.selectedForkliftId.id;
+       cont++;
+     }
+   }
+   
    if(this.selectedUserId!=0){
+    console.log(cont);
      if(cont>0){
      params=params+'&&user_id='+this.selectedUserId;
      }else{
@@ -3672,6 +3815,7 @@ this.getImgFromUrl(logo_url, function (img) {
      }
    }
    if(this.selectWarehouses!=0){
+    console.log(cont);
      if(cont>0){
      params=params+'&&warehouses_id='+this.selectWarehouses;
      }else{
@@ -3680,6 +3824,7 @@ this.getImgFromUrl(logo_url, function (img) {
      }
    }
    if(this.selectedCostCenter!=0){
+    console.log(cont);
      if(cont>0){
      params=params+'&&cost_center_id='+this.selectedCostCenter;
      }else{
@@ -3688,6 +3833,7 @@ this.getImgFromUrl(logo_url, function (img) {
      }
    }
    if(this.selectedSubCostCenter!=0){
+    console.log(cont);
      if(cont>0){
      params=params+'&&sub_cots_center_id='+this.selectedSubCostCenter;
      }else{
@@ -3817,7 +3963,7 @@ this.getImgFromUrl(logo_url, function (img) {
  }
 
  getOfficeForklift() {
-  this.getBranchOfficeForklift(this.selectedOfficeId);
+  this.getBranchOfficeForklift(this.selectedBranchOfficeId);
  }
 
  onChangeCreate(check: any) {

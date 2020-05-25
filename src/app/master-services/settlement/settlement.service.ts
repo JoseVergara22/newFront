@@ -996,4 +996,59 @@ createScheduleSettlement(params: string) {
           });
       });
     }
+
+    createSettlementFile(estimate_id: number, bucket: string, url: string, type: number, nameFile:string) {
+      console.log('info de detalle');
+      return new Promise(resolve => {
+      const headers = new HttpHeaders();
+      headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user'))); // 'Bearer ' +
+      headers.append('Content-Type', 'application/json');
+      const httpOptions = {
+      headers: new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ' + localStorage.getItem('token_user'),
+      'Accept': 'application/json'
+      })
+      };
+      const postParams = {
+      estimate_id: estimate_id,
+      bucket: bucket,
+      url:url,
+      type: type,
+      name: nameFile
+      };
+      this.http.post(this.apiEndPoint+'api/create_settlement_file', postParams, httpOptions)
+      .map(res => res).subscribe(data => {
+      resolve(data);
+      }, error => {
+      resolve(error);
+     });
+    });
+  }
+
+  totalComparisonSettlement(totalCustomer:number, totalDetail:number) {
+    return new Promise(resolve => {
+      const headers = new HttpHeaders();
+      headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user'))); // 'Bearer ' +
+      headers.append('Content-Type', 'application/json');
+      const httpOptions = {
+        headers: new HttpHeaders({
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + localStorage.getItem('token_user'),
+          'Accept': 'application/json'
+        })
+      };
+      const postParams = {
+        totalCustomer: totalCustomer,
+        totalDetail: totalDetail,
+      };
+      this.http.get(this.apiEndPoint+'api/total_comparison?totalCustomer='+totalCustomer+'&totalDetail='+totalDetail, httpOptions)
+        .map(res => res).subscribe(data => {
+          console.log(data);
+          resolve(data);
+        }, error => {
+          resolve(error);
+        });
+    });
+  }
 }

@@ -4,12 +4,14 @@ import { WorkService } from '../../master-services/Work/work.service';
 import * as AWS from 'aws-sdk/global';
 import * as S3 from 'aws-sdk/clients/s3';
 import { UUID } from 'angular2-uuid';
+import { SettlementService } from '../settlement/settlement.service';
 
 
 @Injectable()
 export class UploadService {
 
-  constructor(private workService:WorkService, private estimateService:EstimateService) { }
+  constructor(private workService:WorkService, private estimateService:EstimateService, 
+    private settlementeService:SettlementService) { }
   uploadFile(file) {
       return new Promise(resolve =>{
         const contentType = file.type;
@@ -449,6 +451,62 @@ uploadFilesAll(file:any, estimateId:number, type: number, fileName:string) {
           let typeF=type;
           
           this.estimateService.createEstimateFile(estimateId, bucketF, url, typeF, fileName).then(data => {
+              const resp: any = data;
+              console.log(data);
+             // swal.close();
+              console.log(resp);
+            }).catch(error => {
+              console.log(error);
+            });
+  
+        }).catch(error => {
+    console.log('error para subir a s3'+error);
+  });
+  
+    })   
+  }
+  uploadFilesAllSettlement(file:any, estimateId:number, type: number, fileName:string) {
+    return new Promise(resolve =>{
+
+      console.log('ingresoa la fuction        guardar en s3');
+      const contentType = file.type;
+      const bucket = new S3(
+            {
+                accessKeyId: 'AKIAQTIVBK67FU3N4ZPV',
+                secretAccessKey: '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',
+                region: 'us-east-1'
+            }
+        );
+  
+        //YCV CAMBIO PARA MONTAR COTIZACIÓN
+       // const uuid = UUID.UUID();
+      
+       // const extension ='.pdf';
+       
+        // let nameFile ='https://masterforklift.s3.amazonaws.com/'+uuid +''+ extension;
+        let nameFile = fileName;
+        console.log(nameFile);
+        const params = {
+            Bucket: 'masterforklift/estimate_files',
+            Key: nameFile,
+            Body: file,
+            ACL: 'public-read',
+            ContentType: 'application/pdf'
+        };
+  
+        console.log('ingreso a la carga');
+        bucket.upload(params).promise().then(resp=>{
+            console.log('esta es la respuesta'+resp);
+          resolve(resp);
+          // let nameFileFinal='https://masterforklift.s3.amazonaws.com/'+nameFile;
+
+
+        
+          let bucketF='masterforklift/estimate_files';
+          let url='https://masterforklift.s3.amazonaws.com/estimate_files/'+nameFile;
+          let typeF=type;
+          
+          this.settlementeService.createSettlementFile(estimateId, bucketF, url, typeF, fileName).then(data => {
               const resp: any = data;
               console.log(data);
              // swal.close();

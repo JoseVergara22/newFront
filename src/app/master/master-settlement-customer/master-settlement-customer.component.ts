@@ -266,7 +266,6 @@ export class MasterSettlementCustomerComponent implements OnInit {
     this.getConfigEstimatesInitial();
     this.getConfigTrmInitial();
 
-    this.getCustomers();
     this.getDepartments();
     this.getTrmCurrent();
 
