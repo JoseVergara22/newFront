@@ -3844,9 +3844,9 @@ this.getImgFromUrl(logo_url, function (img) {
 
    if(this.programate == true){
      if(cont>0){
-     params=params+'&&status=['+1+']';
+     params=params+'&&programmed='+1;
      }else{
-       params=params+'status=['+1+']';
+       params=params+'programmed='+1;
        cont++;
      }
    }
@@ -3971,16 +3971,11 @@ this.getImgFromUrl(logo_url, function (img) {
    console.log(check);
  }
 
- 
- selectStatus(item:any){
-   let position =  this.listStatus.indexOf(item.id); 
-   console.log(position);
-   if(position>=0){
-     this.listStatus.splice(position,1);
-   }else{
-     this.listStatus.push(item.id);
-   }
-   console.log(this.listStatus);
+  
+ selectStatus(event:any){
+   console.log(this.programate);
+   this.programate =  event.target.checked;  
+   console.log(this.programate);
  }
 
  onChangeUpdate(check: any) {
