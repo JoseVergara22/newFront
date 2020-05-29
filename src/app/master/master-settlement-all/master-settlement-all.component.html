@@ -459,7 +459,7 @@
                   <h6>Bodega</h6>
                   <select class="form-control" [(ngModel)]="selectWarehouses" > 
                       <option value="0" selected>Seleccionar centro </option>
-                  <option   *ngFor="let user of rowsUser" [ngValue]="user.id"> {{user.description}}  </option>
+                  <option   *ngFor="let user of warehouses" [ngValue]="user.id"> {{user.description}}  </option>
                   <!--  <option value="0" selected>Seleccionar perfil</option> -->
                  </select>
               </div>
@@ -468,7 +468,7 @@
                   <h6>Centro de costos</h6>
                   <select class="form-control" [(ngModel)]="selectedCostCenter" > 
                       <option value="0" selected>Seleccionar centro </option>
-                  <option   *ngFor="let user of rowsUser" [ngValue]="user.id"> {{user.description}}  </option>
+                  <option   *ngFor="let user of costCenters" [ngValue]="user.id"> {{user.description}}  </option>
                   <!--  <option value="0" selected>Seleccionar perfil</option> -->
                  </select>
               </div>

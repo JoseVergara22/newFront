@@ -641,14 +641,16 @@ console.log('download ole');
   console.log('Total de factura detalle' + totalDetail);
   console.log('Total de factura cliente' + totalCustomer);
    if(this.estimateId){
-     this.settlementeService.totalComparisonSettlement(totalCustomer, totalDetail).then(data => {
+     this.settlementeService.totalComparisonSettlement(this.estimateId).then(data => {
        const resp: any = data;
        console.log('datos de customer con settlemente');
        console.log(data);
        
-       let diference = resp.data;
-
-       if(diference. value == 0){
+       let difference = resp.data;
+      console.log(resp.data);
+      console.log(resp.data.difference);
+      console.log(difference.difference);
+       if(resp.data.difference == 0){
         this.sendEmailEstimateAmazon();
        }else{
         swal({
@@ -741,7 +743,7 @@ console.log('download ole');
   sendEmailEstimateAmazon(){
     console.log('IMPORTANTE INGRESO');
 
-   let nameFileEstimate ='Liquidación_No_'+this.consecutive+'.pdf';
+   let nameFileEstimate ='Liquidacion_No_'+this.consecutive+'.pdf';
    this.uploadService.uploadFilesAllSettlement(this.blobGlobal, this.estimateCurrent.id,3,nameFileEstimate).then(res=>{
    console.log('s3info'+JSON.stringify(res));
    this.s3info=res;
@@ -751,7 +753,7 @@ console.log('download ole');
    this.sendEmailFinal();
    
    swal({
-     title: 'Liquidacion almacenada',
+     title: 'Liquidación almacenada',
      type: 'success'
     });
   
@@ -818,7 +820,7 @@ console.log(row)
      this.estimateId= row.id;
     //  this.user = row.elaborate_user.username;
      this.user = 'Carlos';
-     this.consecutive = row.estimate_consecutive;
+     this.consecutive = row.settlement_consecutive;
      this.documentCustomer = row.customer_document;
      this.nameCustomer = row.customer.business_name;
      this.contact = row.contact;
@@ -979,12 +981,15 @@ console.log(row)
 
 
     sendEmailFinal(){
-     let subjectTemp; //= 'Montacargas Master Cotización '+ this.estimateCurrent.estimate_consecutive;
+     let subjectTemp; //= 'Montacargas Master Cotización '+ 
+    //  console.log(this.estimateCurrent.estimate_consecutive);
+     console.log('Sujet importante');
      if((this.subject.trim()).length>0){
        console.log('importante el subject:'+this.subject)
        subjectTemp= this.subject;
-     }else{
-       subjectTemp= 'Montacargas Master Liquidacion '+ this.consecutive;
+      }else{
+        subjectTemp= 'Montacargas Master Liquidacion '+ this.consecutive;
+        console.log('subjectTemp el subject: '+subjectTemp)
      }
     // concatenar los correos y nos con ","
    let emailsName = '';
@@ -1012,7 +1017,9 @@ console.log(row)
        emailsName.trim(),this.comment,subjectTemp).then(data => {
        const resp: any = data;
        console.log('envio');
+       console.log(JSON.stringify(resp));
        console.log(resp);
+       console.log(resp.data);
     
         this.settlementeService.updateSettlementStatus(
          this.estimateCurrent.id, 2).then(data => {
@@ -3768,9 +3775,9 @@ this.getImgFromUrl(logo_url, function (img) {
  
    if(this.numberEstimate!=''){
      if(cont>0){
-       params=params+'&&estiamte='+this.numberEstimate;
+       params=params+'&&estimate='+this.numberEstimate;
      }else{
-       params=params+'estiamte='+this.numberEstimate;
+       params=params+'estimate='+this.numberEstimate;
        cont++;
      }
    }

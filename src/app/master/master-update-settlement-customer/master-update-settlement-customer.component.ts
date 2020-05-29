@@ -4096,7 +4096,7 @@ validationDifference(){
           title: 'Se creo liquidación correctamente',
           type: 'success'
          });
-         this.router.navigateByUrl('master/estimateAll')
+         this.router.navigateByUrl('maintenance/settlementAll')
       }else{
         let textDifference =' Se presento un problema, los totales presentan diferencia<br> <br> TOTAL HGI: '+resp.data.totalDetail+' <br>  TOTAL CLIENTE: '+resp.data.totalCustomer;
         swal({

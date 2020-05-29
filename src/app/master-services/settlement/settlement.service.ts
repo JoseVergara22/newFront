@@ -767,6 +767,7 @@ createScheduleSettlement(params: string) {
           settlement_id: settlementId,
           details_id:estimateItems
         };
+        console.log(postParams);
         this.http.post(this.apiEndPoint+'api/copy_estimate_settlement', postParams, httpOptions)
         .map(res => res).subscribe(data => {
         resolve(data);
@@ -1157,8 +1158,11 @@ createScheduleSettlement(params: string) {
         +'&id_estimate='+idEstimate+'&info='+info+'&comment='+comment+'&subject='+subject,httpOptions)
        // this.http.get(this.apiEndPoint+'api/send_amazon_mail?id_user=197&subject="Buen dia"&id_customer= 118&id_estimate= 277&info=jasoncv0294@gmail.com|eee|ycastrillon0294@gmail.com|lll&comment= "Oiga pues"',httpOptions)
           .map(res => res).subscribe(data => {
+            console.log(data);
             resolve(data);
           }, error => {
+            console.log(error.error.error);
+            console.log(JSON.stringify(error));
             resolve(error);
           });
       });
@@ -1219,7 +1223,7 @@ createScheduleSettlement(params: string) {
     });
   }
 
-  totalComparisonSettlement(totalCustomer:number, totalDetail:number) {
+  totalComparisonSettlement(settlement_id:number) {
     return new Promise(resolve => {
       const headers = new HttpHeaders();
       headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user'))); // 'Bearer ' +
@@ -1232,10 +1236,9 @@ createScheduleSettlement(params: string) {
         })
       };
       const postParams = {
-        totalCustomer: totalCustomer,
-        totalDetail: totalDetail,
+        settlement_id: settlement_id,
       };
-      this.http.get(this.apiEndPoint+'api/total_comparison?totalCustomer='+totalCustomer+'&totalDetail='+totalDetail, httpOptions)
+      this.http.get(this.apiEndPoint+'api/total_comparison?settlement_id='+settlement_id, httpOptions)
         .map(res => res).subscribe(data => {
           console.log(data);
           resolve(data);

@@ -330,6 +330,7 @@ export class EstimateService {
       +'&id_estimate='+idEstimate+'&info='+info+'&comment='+comment+'&subject='+subject,httpOptions)
      // this.http.get(this.apiEndPoint+'api/send_amazon_mail?id_user=197&subject="Buen dia"&id_customer= 118&id_estimate= 277&info=jasoncv0294@gmail.com|eee|ycastrillon0294@gmail.com|lll&comment= "Oiga pues"',httpOptions)
         .map(res => res).subscribe(data => {
+          console.log(data);
           resolve(data);
         }, error => {
           resolve(error);
