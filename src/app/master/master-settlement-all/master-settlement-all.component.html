@@ -477,7 +477,7 @@
                 <h6>Subcentro de costos</h6>
                 <select class="form-control" [(ngModel)]="selectedSubCostCenter" > 
                     <option value="0" selected>Seleccionar subcentro </option>
-                <option   *ngFor="let user of rowsUser" [ngValue]="user.id"> {{user.username}}  </option>
+                <option   *ngFor="let user of subCostCenter" [ngValue]="user.id"> {{user.description}}  </option>
                 <!--  <option value="0" selected>Seleccionar perfil</option> -->
                </select>
               </div>

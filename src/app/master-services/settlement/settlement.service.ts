@@ -1020,7 +1020,7 @@ createScheduleSettlement(params: string) {
                 };
                 const postParams = {
                 };
-                this.http.get(this.apiEndPoint+'api/get_subcost_centers_center_id?idRegional='+ id, httpOptions)
+                this.http.get(this.apiEndPoint+'api/get_subcost_centers_center_id?idRegional='+id, httpOptions)
                   .map(res => res).subscribe(data => {
                     resolve(data);
                   }, error => {

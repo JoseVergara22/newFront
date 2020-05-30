@@ -407,10 +407,10 @@ getWarehouses() {
  getSubCostCenter(){
   console.log('regional-costCenter');
   console.log(this.selectedRegionalId);
-  this.settlementeService.getSubCostCenter(this.selectedRegionalId).then(data => {
+  this.settlementeService.getSubCostCenter(this.selectedRegionalId.id).then(data => {
     console.log(data);
     const resp: any = data;
-    this.subCostCenter=resp.data;
+    this.subCostCenter=resp.data_subcostcenters;
   }).catch(error => {
     console.log(error);
  });
@@ -419,6 +419,7 @@ getWarehouses() {
 getCenterCost() {
   this.getCustomerRegionals();
   this.getWarehouses();
+  this.getSubCostCenter();
   //selectedCostCenterId
   this.restService.getCostCenterSettlement(this.selectedRegionalId.id).then(data => {
     const resp: any = data;
@@ -883,6 +884,7 @@ console.log(row)
         console.log('envio');
         console.log(resp);   
          document.getElementById('assignInvoiceHide').click();
+         this.getEstimateFiltersInitial();
          swal({
            title: 'Factura Asignada',
            type: 'success'
@@ -3766,9 +3768,9 @@ this.getImgFromUrl(logo_url, function (img) {
  
    if(this.numberInvoice!=''){
      if(cont>0){
-       params=params+'&&invoice='+this.numberInvoice;
+       params=params+'&&invoice_text='+this.numberInvoice;
      }else{
-       params=params+'invoice='+this.numberInvoice;
+       params=params+'invoice_text='+this.numberInvoice;
        cont++;
      }
    }
