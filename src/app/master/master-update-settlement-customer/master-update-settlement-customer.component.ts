@@ -682,7 +682,8 @@ export class MasterUpdateSettlementCustomerComponent implements OnInit {
 
     this.restService.getOffice(this.selectedBusinessId).then(data => {
       const resp: any = data;
-      console.log('oficinas: '+data);
+      console.log('oficinas: ');
+      console.log(data);
       swal.close();
       this.branchOffices  = resp.data;
     }).catch(error => {
@@ -1344,7 +1345,7 @@ getWarehouses() {
         type: 'success'
        });
        
-       document.getElementById('updateItemHideDetaiCustomer').click();
+       document.getElementById('updateHideCustomer').click();
 
        this.clearFormDetailWorkUpdate();
       // this.getEstimateDetails();

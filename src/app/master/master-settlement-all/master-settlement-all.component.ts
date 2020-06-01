@@ -883,8 +883,8 @@ console.log(row)
         const resp: any = data;
         console.log('envio');
         console.log(resp);   
+        this.getEstimateFiltersInitial();
          document.getElementById('assignInvoiceHide').click();
-         this.getEstimateFiltersInitial();
          swal({
            title: 'Factura Asignada',
            type: 'success'
