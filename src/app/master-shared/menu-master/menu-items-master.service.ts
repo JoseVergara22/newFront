@@ -81,7 +81,7 @@ const MENUITEMS = [
           {
             state: 'register',
             name: 'Administrar usuarios'
-          },/*
+          },
           {
             state: 'costCenter',
             name: 'Administrar Centros de Costo'
