@@ -2681,15 +2681,18 @@ finalOperationUpdate(country:number){
   console.log( this.costPesosGlobal);
 
   let margin;
-  if(this.selectedBusinessId){
-    if(this.selectedBusinessId.price_margin){
-        margin= (Number(this.selectedBusinessId.price_margin))/100;
-    }else{
-      margin=Number(this.newCustomerMargin)/100
-    }
-  }else{
-    margin=Number(this.newCustomerMargin)/100
-  }
+  console.log(this.currentSettlement);
+  console.log('actual '+this.currentSettlement.price_margin);
+   if(this.currentSettlement){
+     console.log('entro');
+     if( this.currentSettlement.customer.price_margin != 0){
+         margin= (Number(this.currentSettlement.customer.price_margin))/100;
+     }else{
+       margin=Number(this.newCustomerMargin)/100
+     }
+   }else{
+     margin=Number(this.newCustomerMargin)/100
+   }
 
   console.log('margin');
 
@@ -3028,7 +3031,7 @@ getSettlementSpecific(id:number) {
     this.getConfigEstimatesInitial();
     this.getConfigTrmInitial();
     this.getCities();
-    this.getTrmCurrent();
+    // this.getTrmCurrent();
     this.getCenterCost();
     this.getSettlementSubCenterCost();
     this.selectedCityId = this.currentSettlement.city_id;

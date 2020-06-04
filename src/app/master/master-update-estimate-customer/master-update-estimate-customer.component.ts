@@ -408,7 +408,9 @@ export class MasterUpdateEstimateCustomerComponent implements OnInit {
    getEstimateSpecific(id:number) {
    
     this.estimateService.getEstimateSpecific(id).then(data => { 
-      const resp: any = data;      
+    
+      const resp: any = data;
+      console.log('info sobre currentEstimate '+ JSON.stringify(data));      
       this.currentEstimate=resp.data;      
       console.log('ingreso');
       console.log(resp.data);
@@ -458,9 +460,10 @@ export class MasterUpdateEstimateCustomerComponent implements OnInit {
       this.getCustomers();
       this.getBranchOffices();
       this.getForklifs();
+     // this.getTrmCurrent();
       this.getDepartments();
       this.getCities();
-      this.getTrmCurrent();
+
 
       // Cambio para carga bien data inicio de actualización
     }).catch(error => {
@@ -1777,6 +1780,8 @@ finalOperation(country:number){
     dolar=this.trmGeneralUsa;
   }
 
+
+
   console.log(this.costTotalGlobal+'--------------------'+dolar);
   let costPesos=this.costTotalGlobal*dolar;
   this.costPesosGlobal= costPesos;
@@ -1785,7 +1790,7 @@ finalOperation(country:number){
   console.log( this.costPesosGlobal);
 
   let margin;
-  console.log(this.currentEstimate);
+  console.log('margin123'+this.currentEstimate.customer.price_margin);
  console.log('actual '+this.currentEstimate.price_margin);
   if(this.currentEstimate){
     console.log('entro');
@@ -1864,6 +1869,7 @@ finalOperationUpdate(country:number){
   console.log('Costo total '+ this.unitCostUpdate+'-'+operationFreight+'-'+drivingCost);
  
   let dolar; //llamar api medata
+  console.log('-->'+this.trmGeneralUsa);
   if(country==3){
     dolar=this.trmGeneralEsp;
   }else{
@@ -1871,6 +1877,7 @@ finalOperationUpdate(country:number){
   }
 
   console.log(this.costTotalGlobalUpdate+'--------------------'+dolar);
+  console.log(dolar);
   let costPesos=this.costTotalGlobalUpdate*dolar;
   this.costPesosGlobalUpdate= costPesos;
 
@@ -1878,9 +1885,10 @@ finalOperationUpdate(country:number){
   console.log( this.costPesosGlobal);
 
   let margin;
-  if(this.selectedBusinessId){
-    if(this.selectedBusinessId.price_margin){
-        margin= (Number(this.selectedBusinessId.price_margin))/100;
+  if(this.currentEstimate){
+    console.log('entro');
+    if( this.currentEstimate.customer.price_margin != 0){
+        margin= (Number(this.currentEstimate.customer.price_margin))/100;
     }else{
       margin=Number(this.newCustomerMargin)/100
     }
