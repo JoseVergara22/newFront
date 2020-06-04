@@ -267,7 +267,7 @@ export class MasterSettlementCustomerComponent implements OnInit {
     this.getConfigTrmInitial();
 
     this.getDepartments();
-    this.getTrmCurrent();
+   // this.getTrmCurrent();
 
 
     var date = new Date();

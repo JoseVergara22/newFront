@@ -279,6 +279,14 @@ const MENUCREATOR = [
             name:  'Crear Cotizacion'
           },
           {
+            state: 'settlementAll',
+            name:  'Liquidaciones'
+          },
+          {
+            state: 'settlementCustomer',
+            name:  'Crear Liquidación'
+          },
+          {
             state:'work_dashboard',
             name:'Administrar rutinas'
           },
@@ -305,6 +313,18 @@ const MENUCREATOR = [
           {
             state: 'regionalsAll',
             name: 'Administrar Sucursales'
+          },
+          {
+            state: 'costCenter',
+            name: 'Administrar Centros de Costo'
+          },
+          {
+              state: 'subCostCenter',
+              name: 'Administrar Sub Centros de Costo'
+          },
+          {
+            state: 'warehouses',
+            name: 'Administrar Bodegas'
           },
           {
             state: 'forkliftShow',

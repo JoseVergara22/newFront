@@ -249,7 +249,7 @@ export class MasterEstimateCustomerComponent implements OnInit {
 
     this.getCustomers();
     this.getDepartments();
-    this.getTrmCurrent();
+   // this.getTrmCurrent();
 
 
     var date = new Date();
