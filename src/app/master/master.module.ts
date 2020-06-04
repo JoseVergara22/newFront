@@ -64,7 +64,10 @@ import { MasterCreateWarehousesOutComponent } from './master-create-warehouses-o
 import { MasterSettlementCustomerComponent } from './master-settlement-customer/master-settlement-customer.component';
 import { MasterSettlementAllComponent } from './master-settlement-all/master-settlement-all.component';
 import { MasterUpdateSettlementCustomerComponent } from './master-update-settlement-customer/master-update-settlement-customer.component';
-
+import { MasterModuleComponent } from './master-module/master-module.component';
+import { MasterRegisterModuleComponent } from './master-register-module/master-register-module.component';
+import { MasterUpdateModuleComponent } from './master-update-module/master-update-module.component';
+import { MasterLogTrmComponent } from './master-log-trm/master-log-trm.component';
 
 // import { MasterAdminComponent } from '../master-layout/master-admin/master-admin.component';
 
@@ -80,6 +83,8 @@ import { ForkliftService } from '../master-services/Forklift/forklift.service';
 import { EstimateService } from '../master-services/estimate/estimate.service';
 import { FilexcelService } from '../master-services/FileExcel/filexcel.service';
 import { SettlementService } from '../master-services/settlement/settlement.service';
+import { ModulesService } from '../master-services/modules/modules.service';
+
 
 import {AutocompleteLibModule} from 'angular-ng-autocomplete';
 
@@ -154,7 +159,11 @@ import {AutocompleteLibModule} from 'angular-ng-autocomplete';
     MasterCreateWarehousesOutComponent,
     MasterSettlementCustomerComponent,
     MasterSettlementAllComponent,
-    MasterUpdateSettlementCustomerComponent
+    MasterUpdateSettlementCustomerComponent,
+    MasterModuleComponent,
+    MasterRegisterModuleComponent,
+    MasterUpdateModuleComponent,
+    MasterLogTrmComponent
    // MasterAdminComponent
   ],
   providers: [
@@ -173,6 +182,7 @@ import {AutocompleteLibModule} from 'angular-ng-autocomplete';
     ForkliftService,
     EstimateService,
     FilexcelService,
-    SettlementService]
+    SettlementService,
+    ModulesService]
 })
 export class MasterModule { }

@@ -638,11 +638,14 @@ console.log('este es el e:'+ +JSON.stringify(e));
       this.contact = row.contact;
       this.cellphone =   row.telephone;
      
-      if( this.forkliftText){
-        this.forkliftText = row.forklift_text;
-      }else{
-        this.forkliftText = '';
-      } 
+      if( row.forklift_text){
+        console.log("entro if");
+      this.forkliftText = row.forklift_text;
+      console.log(this.forkliftText);
+    }else{
+      console.log("entro else");
+      this.forkliftText = '';
+    }
       this.cityEstimate =  row.city.name;
       this.guarantyEstimate =  row.guaranty;
       this.validity = row.validity;

@@ -83,6 +83,10 @@ const MENUITEMS = [
             name: 'Administrar usuarios'
           },
           {
+            state: 'modules',
+            name:  'Administrar Modules'
+          },
+          {
             state: 'costCenter',
             name: 'Administrar Centros de Costo'
           },
@@ -182,7 +186,12 @@ const MENUITEMS = [
           {
             state: 'estimateConfiguration',
             name:  'Configuración de cotizaciones'
-          }
+          },
+          {
+            state: 'LogTrm',
+            name:  'Administraciones de TRM'
+          },
+          
         ]
       }
     ]

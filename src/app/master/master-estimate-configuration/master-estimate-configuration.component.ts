@@ -123,6 +123,8 @@ export class MasterEstimateConfigurationComponent implements OnInit {
   formulaBelThirdManagementVariables:any;
   formulaBelThirdTariff:any;
 
+  trm:any;//Este va a representar la trm dinamica
+
   constructor(private restService: RestService, private router: Router,
               private estimateService:EstimateService) {
   /*  swal({
@@ -682,20 +684,33 @@ updateBrand(brand) {
       allowOutsideClick: false
     });
     swal.showLoading();
-
+    
+    let token = localStorage.getItem('username');
+    console.log(token);
     let optionOneUsaActive=0;
     let optionSecondUsaActive=0;
     let optionThirdUsaActive=0;
 
+    let logTrm = 'user='+token+'&&'
+
     if(this.radioSelectedUsa===1){
       optionOneUsaActive=1;
+      logTrm = logTrm +'configuration='+this.optionOneUsa.description+'&&value='+0+'&&';
     }
     if(this.radioSelectedUsa===2){
       optionSecondUsaActive=1;
+      logTrm = logTrm +'configuration='+this.optionSecondUsa.description+'&&value='+this.trmConstant+'&&';
     }
     if(this.radioSelectedUsa===3){
       optionThirdUsaActive=1;
+      logTrm = logTrm + 'configuration='+this.optionThirdUsa.description+'&&value='+this.trmPlusConstant+'&&';
     }
+
+    if(this.constantEsp != this.itemEsp.constant){
+      logTrm = logTrm + 'ingresar_constante&&='+this.constantEsp; 
+    }
+
+    console.log(logTrm);
 
     this.trmCofiguration= this.optionOneUsa.id+'@'+0+'@'+optionOneUsaActive+'@'+this.optionSecondUsa.id+'@'+this.trmConstant+'@'+
                           optionSecondUsaActive+'@'+ this.optionThirdUsa.id+'@'+this.trmPlusConstant+'@'+
@@ -706,10 +721,16 @@ updateBrand(brand) {
     this.estimateService.updateConfigTrmFull(this.trmCofiguration).then(data => {
       const resp: any = data;
       console.log(data);
+      this.restService.registerLog(logTrm).then(data => {
+        const resp: any = data;
+        console.log(data);
       swal({
         title: 'Actualización con exito',
         type: 'success'
        });
+      }).catch(error => {
+        console.log(error);
+      });
     }).catch(error => {
       console.log(error);
     });

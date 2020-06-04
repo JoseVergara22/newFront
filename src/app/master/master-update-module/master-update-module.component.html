@@ -1,0 +1,141 @@
+
+<app-modal-basic #modalRegisterSubModule [dialogClass]="'modal-lg'">
+  <div class="app-modal-header">
+
+      <h4 class="modal-title">Registrar sede</h4>
+  </div>
+  <div class="app-modal-body">
+      <form [formGroup]="myFormSubModules" (ngSubmit)="sendOffice()">
+        <div class=" form-group row ">     
+          <h6>Descripcion <span style="color:red; ">*</span></h6>
+          <input type="text " class="form-control" value={{description}} formControlName="documentIdUpdate" [ngClass]="{ 'is-invalid': submittedUpdated && checkFormOSubModules.descriptionUpdate.errors } ">
+          <div *ngIf="submittedUpdated && checkFormOSubModules.descriptionUpdate.errors " class="invalid-feedback ">
+              <div class="messages text-danger " *ngIf="checkFormOSubModules.descriptionUpdate.errors.required ">Este campo es requerido</div>
+          </div>
+        </div>
+
+              <div class="col-sm-4">
+                  <h6>Activo</h6>
+                  <ui-switch class="js-single" color="#4680ff" switchColor="#fff" size="medium" (change)="onChangeCreatedOffice($event)" [checked]="enabledCreatedOffice"></ui-switch><br>
+              </div>
+
+
+          <div class="align-buttons">
+              <button type="button" class="btn btn-default waves-effect" id="createBrandHide" (click)="myFormSubModules.hide()">Cancelar</button>
+              <button type="submit " class="btn btn-primary m-b-0 ">Crear sede</button>
+
+          </div>
+      </form>
+  </div>
+</app-modal-basic>
+
+
+<app-modal-basic #modalUpdateSubModule [dialogClass]="'modal-lg'">
+  <div class="app-modal-header">
+      <h4 class="modal-title">Actualizar sede</h4>
+  </div>
+  <div class="app-modal-body">
+      <form [formGroup]="myFormUpdateSubModules" (ngSubmit)="updatedOffice()">
+        <div class=" form-group row ">     
+          <h6>Descripcion <span style="color:red; ">*</span></h6>
+          <input type="text " class="form-control" value={{description}} formControlName="documentIdUpdate" [ngClass]="{ 'is-invalid': submittedUpdated && checkFormUpdateSubModules.descriptionUpdate.errors } ">
+          <div *ngIf="submittedUpdated && checkFormUpdateSubModules.descriptionUpdate.errors " class="invalid-feedback ">
+              <div class="messages text-danger " *ngIf="checkFormUpdateSubModules.descriptionUpdate.errors.required ">Este campo es requerido</div>
+          </div>
+        </div>
+
+              <div class="col-sm-4">
+                  <h6>Activo</h6>
+                  <ui-switch class="js-single" color="#4680ff" switchColor="#fff" size="medium" (change)="onChangeCreatedOfficeUpdate($event)" [checked]="enabledCreatedOfficeUpdate"></ui-switch><br>
+              </div>
+
+          <div class="align-buttons">
+              <button type="button" class="btn btn-default waves-effect" id="updateBrandHide" (click)="myFormUpdateSubModules.hide()">Cancelar</button>
+              <button type="submit " class="btn btn-primary m-b-0 ">Actualizar sede</button>
+
+          </div>
+      </form>
+  </div>
+</app-modal-basic>
+
+
+
+<div class="row">
+  <div class="col-sm-12">
+
+      <app-card [title]="'Registro Clientes'" [headerContent]="''" [cardOptionBlock]="true">
+
+
+          <h5>Información cliente </h5>
+          <br>
+          <br>
+
+          <form [formGroup]="myFormUpdate" (ngSubmit)="updatedCustomer()">
+
+              <div class=" form-group row ">     
+                      <h6>Descripcion <span style="color:red; ">*</span></h6>
+                      <input type="text " class="form-control" value={{description}} formControlName="documentIdUpdate" [ngClass]="{ 'is-invalid': submittedUpdated && checkFormUpdate.descriptionUpdate.errors } ">
+                      <div *ngIf="submittedUpdated && checkFormUpdate.descriptionUpdate.errors " class="invalid-feedback ">
+                          <div class="messages text-danger " *ngIf="checkFormUpdate.descriptionUpdate.errors.required ">Este campo es requerido</div>
+                      </div>
+                  </div>
+
+              <div class="form-group row ">
+                  <div class="col-sm-4 ">
+                      <h6>Activo</h6>
+                      <ui-switch class="js-single" color="#4680ff" switchColor="#fff" size="medium" (change)="onChangeCreatedOfficeUpdate($event)" [checked]="enabledCreatedOfficeUpdate"></ui-switch><br>
+                  </div>
+              </div>
+              <div class="align-buttons">
+                  <button type="submit " class="btn btn-primary m-b-0 ">Actualizar Modulo</button>
+              </div>
+
+          </form>
+
+</app-card>
+  </div>
+</div>
+
+<div class="row ">
+  <div class="col-sm-12 ">
+      <app-card>
+
+
+          <!--   <button type="button" id="registerBrand" class="btn btn-primary waves-effect" (click)="modalRegisterOffice.show()">Crear sede</button> -->
+          <h5>Registrar Sub Modulo </h5>
+          <br>
+          <div class="align-buttons">
+              <button type="button" style="display:none;" id="uploadSubModule" class="btn btn-primary waves-effect" (click)="modalUpdateSubModule.show()">Actualizar SubModulo</button>
+              <button type="button"  id="registerBrand" class="btn btn-primary waves-effect" (click)="modalRegisterSubModule.show()">Agregar SubModulo</button>
+          </div>
+          <br>
+
+          <ngx-datatable #table class="data-table" [rows]="dataSubModule" [columns]="[{name:'Descripción', prop:'description'},{name:'Estado', prop:'status'},{prop:'id'}]" [columnMode]="'force'" [headerHeight]="50" [footerHeight]="50" [rowHeight]="'auto'" [limit]="25">
+
+              <!--   <ngx-datatable-column [resizeable]="false" name="Compañia" [sortable]="false" [draggable]="false" prop="business_name"></ngx-datatable-column> -->
+              <ngx-datatable-column [resizeable]="false" name="Nombre SubModulo" [sortable]="false" [draggable]="false" prop="description"></ngx-datatable-column>
+              <ngx-datatable-column [resizeable]="false" name="Estado" [sortable]="false" [draggable]="false" prop="status">
+                  <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+                      <label (click)="blockAgents(value)" class="label label-md label-primary" *ngIf="value==0">Activo</label>
+                      <label class="label label-md label-danger" *ngIf="value==1">Inactivo</label>
+                  </ng-template>
+              </ngx-datatable-column>
+              <ngx-datatable-column [resizeable]="false" name="Acciones" [sortable]="false" [draggable]="false" sortable="false" prop="id">
+                  <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+
+                      <!--<button md-icon-button (click)="blockAgents(value)">
+                            <i class="fa fa-ban"></i>
+                          </button> -->
+
+                      <button (click)="updateBrand(row)" class="btn btn-primary btn-icon"><i class="icofont icofont-pencil-alt-5"></i></button>
+                      <button (click)="deleteSubModulo(row)" class="btn btn-danger btn-icon"><i class="icofont icofont-ui-delete"></i></button>
+                  </ng-template>
+              </ngx-datatable-column>
+
+          </ngx-datatable>
+             <br>
+             <br>
+       
+      </app-card>
+  </div>
+</div>

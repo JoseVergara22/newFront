@@ -49,7 +49,10 @@ import { MasterCreateWarehousesOutComponent } from './master-create-warehouses-o
 import { MasterSettlementCustomerComponent } from './master-settlement-customer/master-settlement-customer.component';
 import { MasterSettlementAllComponent } from './master-settlement-all/master-settlement-all.component';
 import { MasterUpdateSettlementCustomerComponent } from './master-update-settlement-customer/master-update-settlement-customer.component';
-
+import { MasterModuleComponent } from './master-module/master-module.component';
+import { MasterRegisterModuleComponent } from './master-register-module/master-register-module.component';
+import { MasterUpdateModuleComponent } from './master-update-module/master-update-module.component';
+import { MasterLogTrmComponent } from './master-log-trm/master-log-trm.component';
 
 const routes: Routes = [
   {
@@ -232,6 +235,18 @@ const routes: Routes = [
   },{
     path:'settlementCustomerUpdate/:id',
     component: MasterUpdateSettlementCustomerComponent
+  },{
+    path:'modules',
+    component: MasterModuleComponent
+  },{
+    path:'moduleRegister',
+    component: MasterRegisterModuleComponent
+  },{
+    path:'moduleUpdate/:id',
+    component: MasterUpdateModuleComponent
+  },{
+    path:'LogTrm',
+    component: MasterLogTrmComponent
   }
   
  

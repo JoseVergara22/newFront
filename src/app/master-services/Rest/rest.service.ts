@@ -2337,7 +2337,7 @@ updateRegional(id:number, description:string, code:string){
   }
 
   showWarehouseOutFilter(paramsFilter: string) { 
-    console.log()
+    console.log(paramsFilter)
     return new Promise(resolve => {
       const headers = new HttpHeaders();
       headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user'))); // 'Bearer ' +
@@ -2676,6 +2676,52 @@ updateRegional(id:number, description:string, code:string){
         status: status
       };
       this.http.patch(this.apiEndPoint+'api/branch_offices/' + id, postParams, httpOptions)
+        .map(res => res).subscribe(data => {
+          resolve(data);
+        }, error => {
+          resolve(error);
+        });
+    });
+  }
+
+  showLogFilter(paramsFilter: string){
+    console.log(paramsFilter)
+    return new Promise(resolve => {
+      const headers = new HttpHeaders();
+      headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user'))); // 'Bearer ' +
+      headers.append('Content-Type', 'application/json');
+      const httpOptions = {
+        headers: new HttpHeaders({
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + localStorage.getItem('token_user'),
+          'Accept': 'application/json'
+        })
+      };
+      this.http.get(this.apiEndPoint+'api/get_log?' + paramsFilter, httpOptions)
+        .map(res => res).subscribe(data => {
+          console.log(data);
+          resolve(data);
+        }, error => {
+          resolve(error);
+        });
+    });
+  }
+  
+  registerLog(params: string) {
+    return new Promise(resolve => {
+      const headers = new HttpHeaders();
+      headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user'))); // 'Bearer ' +
+      headers.append('Content-Type', 'application/json');
+      const httpOptions = {
+        headers: new HttpHeaders({
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + localStorage.getItem('token_user'),
+          'Accept': 'application/json'
+        })
+      };
+      const postParams = {
+      };
+      this.http.post(this.apiEndPoint+'api/create_log?', params, httpOptions)
         .map(res => res).subscribe(data => {
           resolve(data);
         }, error => {

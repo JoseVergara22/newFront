@@ -562,8 +562,12 @@ export class MasterUpdateEstimateCustomerComponent implements OnInit {
   num = num.toString().split('').reverse().join('').replace(/(?=\d*\.?)(\d{3})/g,'$1.');
   num = num.split('').reverse().join('').replace(/^[\.]/,'');
   this.trmGeneralUsa= num;
+  console.log('trm en metodo');
+  console.log(this.trmGeneralUsa);
 }else{ 
-alert('Solo se permiten numeros');
+  alert('Solo se permiten numeros');
+  console.log('trm en metodo');
+  console.log(this.trmGeneralUsa);
 this.trmGeneralUsa= inputTrm.value.replace(/[^\d\.]*/g,'');
 }
 }
@@ -1331,7 +1335,7 @@ if(this.conditionTrmUsa.id==2){
 
     
     this.trmGeneralEsp= ( this.trmGeneralUsa*this.conditionTrmEsp.constant).toFixed(2);
-    console.log('este es la TRMESPAÑA '+ this.trmGeneralUsa);
+    console.log('este es la TRMESPAÑA '+ this.trmGeneralEsp);
   }
 }else{
   this.estimateService.showTrmCurrent().then(data => {
@@ -1359,7 +1363,7 @@ if(this.conditionTrmUsa.id==2){
   
   
     this.trmGeneralEsp= ( this.trmGeneralUsa*this.conditionTrmEsp.constant).toFixed(2);
-    console.log('este es la TRMESPAÑA '+ this.trmGeneralUsa);
+    console.log('este es la TRMESPAÑA '+ this.trmGeneralEsp);
   
   
   
@@ -1774,11 +1778,14 @@ finalOperation(country:number){
   if(country==3){
     dolar=this.trmGeneralEsp;
   }else{
-    dolar=this.trmGeneralUsa;
+    console.log(this.trmGeneralUsa);
+    // dolar=this.trmGeneralUsa;
+    dolar=this.changeFormatDecimal(this.trmGeneralUsa);
   }
 
   console.log(this.costTotalGlobal+'--------------------'+dolar);
   let costPesos=this.costTotalGlobal*dolar;
+  console.log(costPesos)
   this.costPesosGlobal= costPesos;
 
 
@@ -1867,7 +1874,7 @@ finalOperationUpdate(country:number){
   if(country==3){
     dolar=this.trmGeneralEsp;
   }else{
-    dolar=this.trmGeneralUsa;
+    dolar=this.changeFormatDecimal(this.trmGeneralUsa);
   }
 
   console.log(this.costTotalGlobalUpdate+'--------------------'+dolar);
