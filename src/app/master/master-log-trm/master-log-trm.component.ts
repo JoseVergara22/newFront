@@ -34,10 +34,11 @@ export class MasterLogTrmComponent implements OnInit {
     public formatter: NgbDateParserFormatter,) {
 
     var date = new Date();
-    var ngbDateStruct = { day: date.getDate(), month: date.getMonth()+1, year: date.getFullYear()};
+    var ngbDateStruct = { day: date.getDate(), month: date.getMonth(), year: date.getFullYear()};
+    var ngDateStruct = { day: date.getDate(), month: date.getMonth()+1, year: date.getFullYear()};
     
        this.fromDate=ngbDateStruct;
-       this.untilDate=ngbDateStruct;
+       this.untilDate=ngDateStruct;
 
        this.loadingData();
        this.getEstimateFiltersInitial();
@@ -118,6 +119,13 @@ changeConsiderDate(event: any){
       console.log('info de filter');
       console.log(data);
       swal.close();
+
+      for (let item of  resp.data) {
+        console.log(item.value);
+        item.value = this.finalFormatStandard(Number(item.value).toFixed(2));
+        console.log(resp.data.value);
+      }
+      console.log(resp.data);
      // this.customers  = resp.data;
        this.rowsClient = resp.data;
       // this.rowStatic =  resp.data;
@@ -127,6 +135,27 @@ changeConsiderDate(event: any){
       console.log(error);
     });
    }
+
+   finalFormatStandard(priceUpdate:any){
+    var num = priceUpdate; // this.changeFormatDecimal(this.workforceHourValue);
+    console.log('num');
+    console.log(num);
+    num +='';
+    var splitStr = num.split('.');
+    var splitLeft = splitStr[0];
+    var splitRight = splitStr.length > 1 ? ',' + splitStr[1] : '';
+    var regx = /(\d+)(\d{3})/;
+    while (regx.test(splitLeft)) {
+    splitLeft = splitLeft.replace(regx, '$1' + '.' + '$2');
+    console.log(splitLeft);
+    }
+    console.log('Importante oleole');
+    console.log(splitLeft +splitRight);
+    num=splitLeft +splitRight;
+    console.log('Boom');
+    console.log(num);
+    return num;  
+  }
   ngOnInit() {
   }
 

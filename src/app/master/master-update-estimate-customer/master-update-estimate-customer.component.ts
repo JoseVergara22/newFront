@@ -768,17 +768,12 @@ this.trmGeneralUsa= inputTrm.value.replace(/[^\d\.]*/g,'');
       let priceTempStr = price.toString();
       priceTempStr = priceTempStr.split('.').join('');
       let priceTemp= priceTempStr.replace(',','.');
-      console.log('precio decimal --- '+priceTemp);
-      console.log('contador=----- '+this.contador);
-      
+      console.log('precio decimal --- '+priceTemp);      
       return priceTemp;
       
      }catch(error){
       console.log('error--- '+ error);
-      
      }
-    
-    
    }
 
    updateEstimateDetail(){

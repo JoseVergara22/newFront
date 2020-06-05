@@ -695,7 +695,7 @@ updateBrand(brand) {
 
     if(this.radioSelectedUsa===1){
       optionOneUsaActive=1;
-      logTrm = logTrm +'configuration=TRM DINAMICA&&value='+0+'&&';
+      logTrm = logTrm +'configuration=TRM DINAMICA&&value='+this.changeFormatDecimal(this.trmGeneral)+'&&';
     }
     if(this.radioSelectedUsa===2){
       optionSecondUsaActive=1;
@@ -734,6 +734,21 @@ updateBrand(brand) {
     }).catch(error => {
       console.log(error);
     });
+  }
+
+  changeFormatDecimal(price: any){
+    console.log('price');
+    console.log(price);
+    try{
+     let priceTempStr = price.toString();
+     priceTempStr = priceTempStr.split('.').join('');
+     let priceTemp= priceTempStr.replace(',','.');
+     console.log('precio decimal --- '+priceTemp);      
+     return priceTemp;
+     
+    }catch(error){
+     console.log('error--- '+ error);
+    }
   }
 
 
