@@ -84,7 +84,7 @@ const MENUITEMS = [
           },
           {
             state: 'modules',
-            name:  'Administrar Modules'
+            name:  'Administrar Modulo'
           },
           {
             state: 'costCenter',

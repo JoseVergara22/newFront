@@ -151,7 +151,7 @@ export class MasterModuleComponent implements OnInit {
   }
 
   sendCustomer(){
-    this.router.navigateByUrl('/maintenance/registerModules');
+    this.router.navigateByUrl('maintenance/moduleRegister');
   }
 
   updateBrand(row: any) {
