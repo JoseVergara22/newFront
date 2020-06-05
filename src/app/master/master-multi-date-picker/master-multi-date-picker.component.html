@@ -42,7 +42,7 @@
           </app-modal-basic>
 <div *ngFor="let item of dateInitials">
  <div class="col-3">
-    <ngb-datepicker #dp [displayMonths]="1" [navigation]="'none'"  [minDate]="{year: item.year, month: item.month, day: 1}"  [maxDate]="{year: item.year, month: item.month, day: 31}" [startDate]="{year: item.year, month: item.month}" outsideDays="hidden" [dayTemplate]="t"></ngb-datepicker>
+    <ngb-datepicker #dp [displayMonths]="1" [navigation]="'none'"  [minDate]="{year: item.year, month: item.month, day: 1}"  [maxDate]="{year: item.year, month: item.month, day: 31}" [startDate]="{year: item.year, month: item.month}"  placement="bottom-right"  [dayTemplate]="t"></ngb-datepicker>
  </div>
  <hr>
 </div>
