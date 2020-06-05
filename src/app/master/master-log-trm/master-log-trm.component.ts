@@ -39,7 +39,16 @@ export class MasterLogTrmComponent implements OnInit {
        this.fromDate=ngbDateStruct;
        this.untilDate=ngbDateStruct;
 
+       this.loadingData();
        this.getEstimateFiltersInitial();
+   }
+
+   loadingData() {
+    swal({
+      title: 'Validando información ...',
+      allowOutsideClick: false
+    });
+    swal.showLoading();
    }
 
 

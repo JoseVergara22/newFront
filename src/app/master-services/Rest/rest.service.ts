@@ -2719,9 +2719,7 @@ updateRegional(id:number, description:string, code:string){
           'Accept': 'application/json'
         })
       };
-      const postParams = {
-      };
-      this.http.post(this.apiEndPoint+'api/create_log?', params, httpOptions)
+      this.http.post(this.apiEndPoint+'api/create_log?'+params, httpOptions)
         .map(res => res).subscribe(data => {
           resolve(data);
         }, error => {

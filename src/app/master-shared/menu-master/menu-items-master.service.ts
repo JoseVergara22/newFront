@@ -189,7 +189,7 @@ const MENUITEMS = [
           },
           {
             state: 'LogTrm',
-            name:  'Administraciones de TRM'
+            name:  'Historico de TRM'
           },
           
         ]

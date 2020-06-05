@@ -695,15 +695,15 @@ updateBrand(brand) {
 
     if(this.radioSelectedUsa===1){
       optionOneUsaActive=1;
-      logTrm = logTrm +'configuration='+this.optionOneUsa.description+'&&value='+0+'&&';
+      logTrm = logTrm +'configuration=TRM DINAMICA&&value='+0+'&&';
     }
     if(this.radioSelectedUsa===2){
       optionSecondUsaActive=1;
-      logTrm = logTrm +'configuration='+this.optionSecondUsa.description+'&&value='+this.trmConstant+'&&';
+      logTrm = logTrm +'configuration=TRM FIJA&&value='+this.trmConstant+'&&';
     }
     if(this.radioSelectedUsa===3){
       optionThirdUsaActive=1;
-      logTrm = logTrm + 'configuration='+this.optionThirdUsa.description+'&&value='+this.trmPlusConstant+'&&';
+      logTrm = logTrm + 'configuration=TRM DINAMICA+VALOR&&value='+this.trmPlusConstant+'&&';
     }
 
     if(this.constantEsp != this.itemEsp.constant){
