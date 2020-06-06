@@ -141,6 +141,9 @@ export class MasterAdminComponent  implements OnInit {
     }else if( this.profileUserCurrent==2){
       this.profileText='Comercial';
       this.itemsFinalMenu=menuItems.getSeller();
+    }else if( this.profileUserCurrent==5){
+      this.profileText='Financiera';
+      this.itemsFinalMenu=menuItems.getFinancial();
     }
 
     this.navType = 'st2';
