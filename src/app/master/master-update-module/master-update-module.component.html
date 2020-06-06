@@ -5,27 +5,7 @@
       <h4 class="modal-title">Registrar sede</h4>
   </div>
   <div class="app-modal-body">
-      <form [formGroup]="myFormSubModules" (ngSubmit)="sendOffice()">
-        <div class=" form-group row ">     
-          <h6>Descripcion <span style="color:red; ">*</span></h6>
-          <input type="text " class="form-control" value={{description}} formControlName="documentIdUpdate" [ngClass]="{ 'is-invalid': submittedUpdated && checkFormOSubModules.descriptionUpdate.errors } ">
-          <div *ngIf="submittedUpdated && checkFormOSubModules.descriptionUpdate.errors " class="invalid-feedback ">
-              <div class="messages text-danger " *ngIf="checkFormOSubModules.descriptionUpdate.errors.required ">Este campo es requerido</div>
-          </div>
-        </div>
-
-              <div class="col-sm-4">
-                  <h6>Activo</h6>
-                  <ui-switch class="js-single" color="#4680ff" switchColor="#fff" size="medium" (change)="onChangeCreatedOffice($event)" [checked]="enabledCreatedOffice"></ui-switch><br>
-              </div>
-
-
-          <div class="align-buttons">
-              <button type="button" class="btn btn-default waves-effect" id="createBrandHide" (click)="myFormSubModules.hide()">Cancelar</button>
-              <button type="submit " class="btn btn-primary m-b-0 ">Crear sede</button>
-
-          </div>
-      </form>
+    
   </div>
 </app-modal-basic>
 
@@ -35,7 +15,7 @@
       <h4 class="modal-title">Actualizar sede</h4>
   </div>
   <div class="app-modal-body">
-      <form [formGroup]="myFormUpdateSubModules" (ngSubmit)="updatedOffice()">
+      <form [formGroup]="myFormUpdateSubModules">
         <div class=" form-group row ">     
           <h6>Descripcion <span style="color:red; ">*</span></h6>
           <input type="text " class="form-control" value={{description}} formControlName="documentIdUpdate" [ngClass]="{ 'is-invalid': submittedUpdated && checkFormUpdateSubModules.descriptionUpdate.errors } ">
@@ -46,11 +26,11 @@
 
               <div class="col-sm-4">
                   <h6>Activo</h6>
-                  <ui-switch class="js-single" color="#4680ff" switchColor="#fff" size="medium" (change)="onChangeCreatedOfficeUpdate($event)" [checked]="enabledCreatedOfficeUpdate"></ui-switch><br>
+                <!--   <ui-switch class="js-single" color="#4680ff" switchColor="#fff" size="medium" (change)="onChangeCreatedOfficeUpdate($event)" [checked]="enabledCreatedOfficeUpdate"></ui-switch><br> -->
               </div>
 
           <div class="align-buttons">
-              <button type="button" class="btn btn-default waves-effect" id="updateBrandHide" (click)="myFormUpdateSubModules.hide()">Cancelar</button>
+           <!--   <button type="button" class="btn btn-default waves-effect" id="updateBrandHide" (click)="myFormUpdateSubModules.hide()">Cancelar</button> -->
               <button type="submit " class="btn btn-primary m-b-0 ">Actualizar sede</button>
 
           </div>

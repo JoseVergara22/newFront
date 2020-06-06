@@ -125,7 +125,7 @@ export class MasterUpdateModuleComponent implements OnInit {
       }
       console.log('kakakaka');
   
-      this.moduleService.updateCustomer(Number(this.currentModelId), this.myFormUpdate.get('descriptionUpdate').value.toUpperCase())
+     /* this.moduleService.updateCustomer(Number(this.currentModelId), this.myFormUpdate.get('descriptionUpdate').value.toUpperCase())
       .then(data => {
         const resp: any = data;
         console.log(JSON.stringify(resp));
@@ -143,7 +143,7 @@ export class MasterUpdateModuleComponent implements OnInit {
       }
       }).catch(error => {
         console.log(error);
-      });
+      });*/
       
     } else {
       swal({
