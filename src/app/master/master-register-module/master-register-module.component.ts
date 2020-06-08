@@ -77,8 +77,8 @@ export class MasterRegisterModuleComponent implements OnInit {
       });
     } else {
       swal({
-        title: 'Debe llenar el campos obligatorio',
-        text: 'Debe llenar el campos obligatorio',
+        title: 'Debe llenar el campo obligatorio',
+        text: 'Debe llenar el campo obligatorio',
         type: 'error'
        });
     }

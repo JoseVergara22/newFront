@@ -35,6 +35,9 @@ export class MasterUpdateModuleComponent implements OnInit {
 
   elementDelete: any;
 
+  submitted = false;
+  enabledCreated = true;
+
   constructor(private moduleService: ModulesService, private router: Router, private rutaActiva: ActivatedRoute) {
 
     this.currentModelId = this.rutaActiva.snapshot.params.id;
@@ -46,7 +49,7 @@ export class MasterUpdateModuleComponent implements OnInit {
   
     const descriptionUpdateSub = new FormControl('', Validators.required);
   
-    const description = new FormControl('', Validators.required);
+    const descriptionSub = new FormControl('', Validators.required);
   
 
     this.myFormUpdateSubModules = new FormGroup({
@@ -58,7 +61,7 @@ export class MasterUpdateModuleComponent implements OnInit {
       descriptionUpdate: descriptionUpdate,
     });
     this.myFormSubModules = new FormGroup({
-      description: description,
+      descriptionSub: descriptionSub,
     });
    }
 
@@ -103,6 +106,56 @@ export class MasterUpdateModuleComponent implements OnInit {
       });
   }
 
+  sendSubModule(){
+    
+      console.log('Ole ole ole');
+  
+        this.submitted = true;
+       if ( !this.myFormSubModules.invalid) {
+        swal({
+          title: 'Validando información ...',
+          allowOutsideClick: false
+        });
+        swal.showLoading();
+    
+        let statusTemp = 0;
+        if ( this.enabledCreated === false) {
+          statusTemp = 1;
+        }
+    
+        this.moduleService.createSubModule(this.myFormSubModules.get('descriptionSub').value.toUpperCase(),this.currentModelId)
+        .then(data => {
+          const resp: any = data;
+          console.log(resp);
+          console.log('id customer' + resp.data.id);
+          this.currentSubModule =  resp.data.id;
+          if (resp.success === false) {
+            swal({
+              title: 'Este SubModulo ya esta registrado',
+              text: 'Este SubModulo no se puede registrar',
+              type: 'error'
+             });
+          } else {
+       swal({
+        title: 'SubModulo agregado',
+        type: 'success'
+       });
+       this.myFormSubModules.reset();
+       document.getElementById( 'updateBrandHide').click();
+       this.getSubModules(this.currentModelId);
+      }
+        }).catch(error => {
+          console.log(error);
+        });
+      } else {
+        swal({
+          title: 'Debe llenar el campo obligatorio',
+          text: 'Debe llenar el campo obligatorio',
+          type: 'error'
+         });
+      }
+    }
+
    updatedCustomer() {
 
     console.log('Ole ole ole kakaakkaka');
@@ -125,14 +178,14 @@ export class MasterUpdateModuleComponent implements OnInit {
       }
       console.log('kakakaka');
   
-     /* this.moduleService.updateCustomer(Number(this.currentModelId), this.myFormUpdate.get('descriptionUpdate').value.toUpperCase())
+     this.moduleService.updateModule(Number(this.currentModelId), this.myFormUpdate.get('descriptionUpdate').value.toUpperCase())
       .then(data => {
         const resp: any = data;
         console.log(JSON.stringify(resp));
         if (resp.success === false) {
           swal({
-            title: 'Este tercero ya esta registrado',
-            text: 'Este tercero no se puede registrar',
+            title: 'Falla en la actualizacion',
+            text: 'No se pudo actualizar el Modulo',
             type: 'error'
            });
         } else {
@@ -143,12 +196,12 @@ export class MasterUpdateModuleComponent implements OnInit {
       }
       }).catch(error => {
         console.log(error);
-      });*/
+      });
       
     } else {
       swal({
-        title: 'Debe llenar el campos obligatorio',
-        text: 'Debe llenar el campos obligatorio',
+        title: 'Debe llenar el campo obligatorio',
+        text: 'Debe llenar el campo obligatorio',
         type: 'error'
        });
     }
@@ -173,6 +226,58 @@ export class MasterUpdateModuleComponent implements OnInit {
      }
 
     document.getElementById( 'uploadSubModule').click();
+  }
+
+  sendUpdateSubModule(){
+    console.log('Ole ole ole kakaakkaka');
+  
+   // console.log(this.selectedPriceListIdUpdate);
+    console.log(this.enabledCreatedOfficeUpdate);
+  
+      this.submittedUpdated = true;
+     if ( !this.myFormUpdateSubModules.invalid) {
+      swal({
+        title: 'Validando información ...',
+        allowOutsideClick: false
+      });
+      swal.showLoading();
+  
+      let statusTemp = 1;
+
+      if ( this.enabledCreatedOfficeUpdate) {
+        statusTemp = 0;
+      }
+      console.log('kakakaka');
+  
+     this.moduleService.updateSubModule(Number(this.currentSubModule), this.myFormUpdate.get('descriptionUpdate').value.toUpperCase())
+      .then(data => {
+        const resp: any = data;
+        console.log(JSON.stringify(resp));
+        if (resp.success === false) {
+          swal({
+            title: 'Falla en la actualizacion',
+            text: 'No se pudo actualizar el SubModulo',
+            type: 'error'
+           });
+        } else {
+          this.myFormUpdateSubModules.reset();
+          document.getElementById( 'updateBrandHide').click();
+     swal({
+      title: 'SubModulo Actualizado',
+      type: 'success'
+     });
+      }
+      }).catch(error => {
+        console.log(error);
+      });
+      
+    } else {
+      swal({
+        title: 'Debe llenar el campo obligatorio',
+        text: 'Debe llenar el campo obligatorio',
+        type: 'error'
+       });
+    }
   }
    
   deleteSubModulo(row: any) {
@@ -231,7 +336,7 @@ export class MasterUpdateModuleComponent implements OnInit {
       }
 
    get checkFormUpdate() { return this.myFormUpdate.controls; }
-   get checkFormOSubModules() { return this.myFormSubModules.controls; }
+   get checkFormSubModules() { return this.myFormSubModules.controls; }
    get checkFormUpdateSubModules() { return this.myFormUpdateSubModules.controls; }
   ngOnInit() {
   }

@@ -95,7 +95,7 @@ export class ModulesService {
           description: description,
           status:status
         };
-        this.http.post(this.apiEndPoint+'api/create_module ', postParams, httpOptions)
+        this.http.post(this.apiEndPoint+'api/create_module?description='+description, httpOptions)
           .map(res => res).subscribe(data => {
             resolve(data);
           }, error => {
@@ -157,7 +157,7 @@ export class ModulesService {
       });
     }
 
-    updateSubModule(id: number, description: string, module_id:number) {
+    updateSubModule(id: number, description: string) {
       console.log(id + ',' + description );
       return new Promise(resolve => {
         const headers = new HttpHeaders();
@@ -171,7 +171,6 @@ export class ModulesService {
           })
         };
         const postParams = {
-          module_id: module_id,
           description: description,
         };
         this.http.patch(this.apiEndPoint+'api/update_function_module/' + id, postParams, httpOptions)
