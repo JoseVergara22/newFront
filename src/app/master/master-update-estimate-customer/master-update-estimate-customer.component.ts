@@ -1778,7 +1778,8 @@ finalOperation(country:number){
   }else{
     console.log(this.trmGeneralUsa);
     // dolar=this.trmGeneralUsa;
-    dolar=this.changeFormatDecimal(this.trmGeneralUsa);
+    dolar=this.trmGeneralUsa;
+    console.log(dolar);
   }
 
 
@@ -1875,7 +1876,8 @@ finalOperationUpdate(country:number){
   if(country==3){
     dolar=this.trmGeneralEsp;
   }else{
-    dolar=this.changeFormatDecimal(this.trmGeneralUsa);
+    dolar=this.trmGeneralUsa;
+    console.log(dolar);
   }
 
   console.log(this.costTotalGlobalUpdate+'--------------------'+dolar);
