@@ -20,7 +20,7 @@
             </div>
 
         <div class="align-buttons">
-            <button type="button" class="btn btn-default waves-effect" id="updateBrandHide" (click)="modalRegisterSubModule.hide()">Cancelar</button> -->
+            <button type="button" class="btn btn-default waves-effect" id="updateBrandHide" (click)="modalRegisterSubModule.hide()">Cancelar</button>
             <button type="submit " class="btn btn-primary m-b-0 ">Crear SubModulo</button>
 
         </div>
@@ -37,7 +37,7 @@
       <form [formGroup]="myFormUpdateSubModules" (ngSubmit)="sendUpdateSubModule()">
         <div class=" form-group row ">     
           <h6>Descripcion <span style="color:red; ">*</span></h6>
-          <input type="text " class="form-control" value={{description}} formControlName="documentIdUpdate" [ngClass]="{ 'is-invalid': submittedUpdated && checkFormUpdateSubModules.descriptionUpdate.errors } ">
+          <input type="text " class="form-control" value={{description}} formControlName="descriptionUpdateSub" [ngClass]="{ 'is-invalid': submittedUpdated && checkFormUpdateSubModules.descriptionUpdate.errors } ">
           <div *ngIf="submittedUpdated && checkFormUpdateSubModules.descriptionUpdate.errors " class="invalid-feedback ">
               <div class="messages text-danger " *ngIf="checkFormUpdateSubModules.descriptionUpdate.errors.required ">Este campo es requerido</div>
           </div>
@@ -49,7 +49,7 @@
               </div>
 
           <div class="align-buttons">
-             <button type="button" class="btn btn-default waves-effect" id="updateBrandHide" (click)="modalUpdateSubModule.hide()">Cancelar</button> 
+             <button type="button" class="btn btn-default waves-effect" id="updateSubmoduleHide" (click)="modalUpdateSubModule.hide()">Cancelar</button> 
               <button type="submit " class="btn btn-primary m-b-0 ">Actualizar</button>
 
           </div>
@@ -73,7 +73,7 @@
 
               <div class=" form-group row ">     
                       <h6>Descripcion <span style="color:red; ">*</span></h6>
-                      <input type="text " class="form-control" value={{description}} formControlName="documentIdUpdate" [ngClass]="{ 'is-invalid': submittedUpdated && checkFormUpdate.descriptionUpdate.errors } ">
+                      <input type="text " class="form-control" value={{description}} formControlName="descriptionUpdate" [ngClass]="{ 'is-invalid': submittedUpdated && checkFormUpdate.descriptionUpdate.errors } ">
                       <div *ngIf="submittedUpdated && checkFormUpdate.descriptionUpdate.errors " class="invalid-feedback ">
                           <div class="messages text-danger " *ngIf="checkFormUpdate.descriptionUpdate.errors.required ">Este campo es requerido</div>
                       </div>

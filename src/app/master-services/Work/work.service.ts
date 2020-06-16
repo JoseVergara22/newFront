@@ -57,6 +57,142 @@ export class WorkService {
     });
   }
 
+  getSystem(id:number){
+    return new Promise(resolve => {
+      const httpOptions = {
+        headers: new HttpHeaders({
+          'Content-Type':  'application/json',
+          'Authorization': 'Bearer ' + localStorage.getItem('token_user'),
+          'Accept': 'application/json'
+        })
+      };
+      
+      this.http.get(this.apiEndPoint+'api/get_system/'+id, httpOptions)
+      .map(res => res).subscribe(data => {
+        console.log("a mostrar data");
+      console.log(data);
+      resolve(data);
+      }, error => {
+        console.log("error en servicio");
+                resolve(error);
+        });
+    });
+  }
+
+  getComponent(id:number){
+    return new Promise(resolve => {
+      const httpOptions = {
+        headers: new HttpHeaders({
+          'Content-Type':  'application/json',
+          'Authorization': 'Bearer ' + localStorage.getItem('token_user'),
+          'Accept': 'application/json'
+        })
+      };
+      
+      this.http.get(this.apiEndPoint+'api/get_component/'+id, httpOptions)
+      .map(res => res).subscribe(data => {
+        console.log("a mostrar data");
+      console.log(data);
+      resolve(data);
+      }, error => {
+        console.log("error en servicio");
+                resolve(error);
+        });
+    });
+  }
+
+  getPart(id:number){
+    return new Promise(resolve => {
+      const httpOptions = {
+        headers: new HttpHeaders({
+          'Content-Type':  'application/json',
+          'Authorization': 'Bearer ' + localStorage.getItem('token_user'),
+          'Accept': 'application/json'
+        })
+      };
+      
+      this.http.get(this.apiEndPoint+'api/get_part/'+id, httpOptions)
+      .map(res => res).subscribe(data => {
+        console.log("a mostrar data");
+      console.log(data);
+      resolve(data);
+      }, error => {
+        console.log("error en servicio");
+                resolve(error);
+        });
+    });
+  }
+
+  deleteSystems(id:number){
+    return new Promise(resolve => {
+      const httpOptions = {
+        headers: new HttpHeaders({
+          'Content-Type':  'application/json',
+          'Authorization': 'Bearer ' + localStorage.getItem('token_user'),
+          'Accept': 'application/json'
+        })
+      };
+      
+      this.http.delete(this.apiEndPoint+'api/delete_system/'+id, httpOptions)
+      .map(res => res).subscribe(data => {
+        console.log("a mostrar data");
+      console.log(data);
+      resolve(data);
+      }, error => {
+        console.log("error en servicio");
+                resolve(error);
+        });
+    });
+  }
+
+
+  deleteComponents(id:number){
+    return new Promise(resolve => {
+      const httpOptions = {
+        headers: new HttpHeaders({
+          'Content-Type':  'application/json',
+          'Authorization': 'Bearer ' + localStorage.getItem('token_user'),
+          'Accept': 'application/json'
+        })
+      };
+      
+      this.http.delete(this.apiEndPoint+'api/delete_component/'+id, httpOptions)
+      .map(res => res).subscribe(data => {
+        console.log("a mostrar data");
+      console.log(data);
+      resolve(data);
+      }, error => {
+        console.log("error en servicio");
+                resolve(error);
+        });
+    });
+  }
+ 
+ 
+  deleteParts(id:number){
+    return new Promise(resolve => {
+      const httpOptions = {
+        headers: new HttpHeaders({
+          'Content-Type':  'application/json',
+          'Authorization': 'Bearer ' + localStorage.getItem('token_user'),
+          'Accept': 'application/json'
+        })
+      };
+      
+      this.http.delete(this.apiEndPoint+'api/delete_part/'+id, httpOptions)
+      .map(res => res).subscribe(data => {
+        console.log("a mostrar data");
+      console.log(data);
+      resolve(data);
+      }, error => {
+        console.log("error en servicio");
+                resolve(error);
+        });
+    });
+  }
+ 
+ 
+
   deleteWorkDetail(id:number){
     return new Promise(resolve => {
       const httpOptions = {
@@ -214,6 +350,32 @@ export class WorkService {
     });
   }
 
+  storeSystem(id_rutines:number,description:string){
+    return new Promise(resolve => {
+      const httpOptions = {
+        headers: new HttpHeaders({
+          'Content-Type':  'application/json',
+          'Authorization': 'Bearer ' + localStorage.getItem('token_user'),
+          'Accept': 'application/json'
+        })
+      };
+      const postParams = {
+        preventive_id: id_rutines,
+        description: description
+      };
+      
+      this.http.post(this.apiEndPoint+'api/create_system', postParams, httpOptions)
+      .map(res => res).subscribe(data => {
+        console.log("a mostrar data");
+      console.log(data);
+      resolve(data);
+      }, error => {
+        console.log("error en servicio");
+                resolve(error);
+        });
+    });
+  }
+
   updateWorkDetail(id:number,comment:string,parts:string,system:string){
     console.log("en servicio");
     console.log(parts);
@@ -233,6 +395,146 @@ export class WorkService {
       }
       
       this.http.patch(this.apiEndPoint+'api/routine_works/'+id, postParams,httpOptions)
+      .map(res => res).subscribe(data => {
+        console.log("a mostrar data");
+      console.log(data);
+      resolve(data);
+      }, error => {
+        console.log("error en servicio");
+                resolve(error);
+        });
+    });
+  }
+
+  
+  updateSystem(id:number,system:string){
+    console.log("en servicio");
+    console.log();
+    return new Promise(resolve => {
+      const httpOptions = {
+        headers: new HttpHeaders({
+          'Content-Type':  'application/json',
+          'Authorization': 'Bearer ' + localStorage.getItem('token_user'),
+          'Accept': 'application/json'
+        })
+      };
+      const postParams={
+        description:system,
+      }
+      
+      this.http.patch(this.apiEndPoint+'api/update_system/'+id, postParams,httpOptions)
+      .map(res => res).subscribe(data => {
+        console.log("a mostrar data");
+      console.log(data);
+      resolve(data);
+      }, error => {
+        console.log("error en servicio");
+                resolve(error);
+        });
+    });
+  }
+  updateComponets(id:number,component:string){
+    console.log("en servicio");
+    console.log();
+    return new Promise(resolve => {
+      const httpOptions = {
+        headers: new HttpHeaders({
+          'Content-Type':  'application/json',
+          'Authorization': 'Bearer ' + localStorage.getItem('token_user'),
+          'Accept': 'application/json'
+        })
+      };
+      const postParams={
+        description:component,
+      }
+      
+      this.http.patch(this.apiEndPoint+'api/update_component/'+id, postParams,httpOptions)
+      .map(res => res).subscribe(data => {
+        console.log("a mostrar data");
+      console.log(data);
+      resolve(data);
+      }, error => {
+        console.log("error en servicio");
+                resolve(error);
+        });
+    });
+  }
+
+  storeComponent(system_id:number,description:string){
+    return new Promise(resolve => {
+      const httpOptions = {
+        headers: new HttpHeaders({
+          'Content-Type':  'application/json',
+          'Authorization': 'Bearer ' + localStorage.getItem('token_user'),
+          'Accept': 'application/json'
+        })
+      };
+      const postParams = {
+        system_id: system_id,
+        description: description
+      };
+      
+      this.http.post(this.apiEndPoint+'api/create_component', postParams, httpOptions)
+      .map(res => res).subscribe(data => {
+        console.log("a mostrar data");
+      console.log(data);
+      resolve(data);
+      }, error => {
+        console.log("error en servicio");
+                resolve(error);
+        });
+    });
+  }
+
+  storeParts(component_id:number,description:string,work:string,supplice:string,parameter:string){
+    return new Promise(resolve => {
+      const httpOptions = {
+        headers: new HttpHeaders({
+          'Content-Type':  'application/json',
+          'Authorization': 'Bearer ' + localStorage.getItem('token_user'),
+          'Accept': 'application/json'
+        })
+      };
+      const postParams = {
+        component_id: component_id,
+        description: description,
+        work: work,
+        supplice: supplice,
+        parameter: parameter
+      };
+      console.log(postParams);
+      
+      this.http.post(this.apiEndPoint+'api/create_parts', postParams, httpOptions)
+      .map(res => res).subscribe(data => {
+        console.log("a mostrar data");
+      console.log(data);
+      resolve(data);
+      }, error => {
+        console.log("error en servicio");
+                resolve(error);
+        });
+    });
+  }
+
+  updatePart(id:number,description:string,work:string,supplice:string,parameter:string){
+    console.log("en servicio");
+    console.log();
+    return new Promise(resolve => {
+      const httpOptions = {
+        headers: new HttpHeaders({
+          'Content-Type':  'application/json',
+          'Authorization': 'Bearer ' + localStorage.getItem('token_user'),
+          'Accept': 'application/json'
+        })
+      };
+      const postParams={
+        description:description,
+        work:work,
+        supplice:supplice,
+        parameter:parameter,
+      }
+      
+      this.http.patch(this.apiEndPoint+'api/update_part/'+id, postParams,httpOptions)
       .map(res => res).subscribe(data => {
         console.log("a mostrar data");
       console.log(data);

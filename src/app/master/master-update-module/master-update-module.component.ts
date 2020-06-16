@@ -7,7 +7,8 @@ import { Router, ActivatedRoute } from '@angular/router';
 @Component({
   selector: 'app-master-update-module',
   templateUrl: './master-update-module.component.html',
-  styleUrls: ['./master-update-module.component.scss']
+  styleUrls: ['./master-update-module.component.scss',
+  '../../../assets/icon/icofont/css/icofont.scss']
 })
 export class MasterUpdateModuleComponent implements OnInit {
 
@@ -75,11 +76,11 @@ export class MasterUpdateModuleComponent implements OnInit {
     this.moduleService.getModuleById(Id).then(data => {
       const resp: any = data;
       console.log(data);
-      this.description = resp.data.description
+      this.description = resp.data[0].description
       this.getSubModules(Id);
       swal.close();
 
-      console.log( this.rowsClient);
+      console.log( this.description);
     }).catch(error => {
       console.log(error);
     });
@@ -91,11 +92,10 @@ export class MasterUpdateModuleComponent implements OnInit {
         console.log('que mas ps');
         const resp: any = data;
         console.log(resp);
-        this.dataSubModule = resp.data_branchoffices;
+        this.dataSubModule = resp.data;
  
         console.log('Importante ver la info');
         console.log( this.dataSubModule);
-      console.log("antes de consulta "+resp.data_branchoffices[0].department_id);
      //   this.dataOffices = this.dataOffices.data;
         console.log('master');
         swal.close();
@@ -249,7 +249,7 @@ export class MasterUpdateModuleComponent implements OnInit {
       }
       console.log('kakakaka');
   
-     this.moduleService.updateSubModule(Number(this.currentSubModule), this.myFormUpdate.get('descriptionUpdate').value.toUpperCase())
+     this.moduleService.updateSubModule(Number(this.currentModelId), this.myFormUpdateSubModules.get('descriptionUpdateSub').value.toUpperCase())
       .then(data => {
         const resp: any = data;
         console.log(JSON.stringify(resp));
@@ -260,12 +260,13 @@ export class MasterUpdateModuleComponent implements OnInit {
             type: 'error'
            });
         } else {
+          document.getElementById( 'updateSubmoduleHide').click();
+          swal({
+            title: 'SubModulo Actualizado',
+            type: 'success'
+          });
           this.myFormUpdateSubModules.reset();
-          document.getElementById( 'updateBrandHide').click();
-     swal({
-      title: 'SubModulo Actualizado',
-      type: 'success'
-     });
+     this.getSubModules(this.currentSubModule.id);
       }
       }).catch(error => {
         console.log(error);
