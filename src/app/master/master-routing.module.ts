@@ -53,9 +53,13 @@ import { MasterModuleComponent } from './master-module/master-module.component';
 import { MasterRegisterModuleComponent } from './master-register-module/master-register-module.component';
 import { MasterUpdateModuleComponent } from './master-update-module/master-update-module.component';
 import { MasterLogTrmComponent } from './master-log-trm/master-log-trm.component';
+<<<<<<< HEAD
 import { MasterChecklistsComponent } from './master-checklists/master-checklists.component';
 import { MasterRegisterChecklistsComponent } from './master-register-checklists/master-register-checklists.component';
 import { MasterUpdateChecklistsComponent } from './master-update-checklists/master-update-checklists.component';
+=======
+import { MasterSettlementListComponent } from './master-settlement-list/master-settlement-list.component';
+>>>>>>> a5d39d9f756b6ee8b04a3cc0da6879697e7a0654
 
 const routes: Routes = [
   {
@@ -251,6 +255,7 @@ const routes: Routes = [
     path:'LogTrm',
     component: MasterLogTrmComponent
   },{
+<<<<<<< HEAD
     path:'checklists',
     component: MasterChecklistsComponent
   },{
@@ -259,6 +264,10 @@ const routes: Routes = [
   },{
     path: 'updateChecklist',
     component:MasterUpdateChecklistsComponent
+=======
+    path:'settlementList',
+    component: MasterSettlementListComponent
+>>>>>>> a5d39d9f756b6ee8b04a3cc0da6879697e7a0654
   }
   
  

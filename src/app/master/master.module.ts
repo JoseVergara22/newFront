@@ -73,6 +73,7 @@ import { MasterRegisterChecklistsComponent } from './master-register-checklists/
 import { MasterUpdateChecklistsComponent } from './master-update-checklists/master-update-checklists.component';
 
 
+import { MasterSettlementListComponent } from './master-settlement-list/master-settlement-list.component';
 // import { MasterAdminComponent } from '../master-layout/master-admin/master-admin.component';
 
 // Servicios
@@ -170,7 +171,9 @@ import {AutocompleteLibModule} from 'angular-ng-autocomplete';
     MasterLogTrmComponent,
     MasterChecklistsComponent,
     MasterRegisterChecklistsComponent,
-    MasterUpdateChecklistsComponent
+    MasterUpdateChecklistsComponent,
+    MasterSettlementListComponent
+    
    // MasterAdminComponent
   ],
   providers: [

@@ -170,7 +170,10 @@ const MENUITEMS = [
           {
             state: 'settlementAll',
             name:  'Liquidaciones'
-          },
+          },   {
+            state: 'settlementList',
+            name:  'Liquidaciones Lista'
+          },          
           {
             state: 'settlementCustomer',
             name:  'Crear Liquidación'
