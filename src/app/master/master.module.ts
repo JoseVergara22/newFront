@@ -68,7 +68,7 @@ import { MasterModuleComponent } from './master-module/master-module.component';
 import { MasterRegisterModuleComponent } from './master-register-module/master-register-module.component';
 import { MasterUpdateModuleComponent } from './master-update-module/master-update-module.component';
 import { MasterLogTrmComponent } from './master-log-trm/master-log-trm.component';
-
+import { MasterSettlementListComponent } from './master-settlement-list/master-settlement-list.component';
 // import { MasterAdminComponent } from '../master-layout/master-admin/master-admin.component';
 
 // Servicios
@@ -163,7 +163,9 @@ import {AutocompleteLibModule} from 'angular-ng-autocomplete';
     MasterModuleComponent,
     MasterRegisterModuleComponent,
     MasterUpdateModuleComponent,
-    MasterLogTrmComponent
+    MasterLogTrmComponent,
+    MasterSettlementListComponent
+    
    // MasterAdminComponent
   ],
   providers: [
