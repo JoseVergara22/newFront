@@ -68,6 +68,10 @@ import { MasterModuleComponent } from './master-module/master-module.component';
 import { MasterRegisterModuleComponent } from './master-register-module/master-register-module.component';
 import { MasterUpdateModuleComponent } from './master-update-module/master-update-module.component';
 import { MasterLogTrmComponent } from './master-log-trm/master-log-trm.component';
+import { MasterChecklistsComponent } from './master-checklists/master-checklists.component';
+import { MasterRegisterChecklistsComponent } from './master-register-checklists/master-register-checklists.component';
+import { MasterUpdateChecklistsComponent } from './master-update-checklists/master-update-checklists.component';
+
 
 // import { MasterAdminComponent } from '../master-layout/master-admin/master-admin.component';
 
@@ -163,7 +167,10 @@ import {AutocompleteLibModule} from 'angular-ng-autocomplete';
     MasterModuleComponent,
     MasterRegisterModuleComponent,
     MasterUpdateModuleComponent,
-    MasterLogTrmComponent
+    MasterLogTrmComponent,
+    MasterChecklistsComponent,
+    MasterRegisterChecklistsComponent,
+    MasterUpdateChecklistsComponent
    // MasterAdminComponent
   ],
   providers: [

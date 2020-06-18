@@ -208,9 +208,8 @@ export class MasterWorkDetailsComponent implements OnInit {
       console.log('carga de partes');
       console.log(resp);
       if (resp.success==true) {
-        const details=resp.data.routine_works;
-        this.dataPart = resp.data.routine_works;
-        console.log(details);
+        this.dataPart = resp.data;
+        console.log(this.dataPart);
 
       } else {
         this.generalAlert("ha ocurrido un error","ha ocurrido un error al mostrar la informacion","error");
@@ -672,9 +671,9 @@ export class MasterWorkDetailsComponent implements OnInit {
       console.log(resp);
       if (resp.success==1) {
         this.generalAlert('Proceso exitoso','Se ha guardado el detalle correctamente','success');
-        this.getPart(this.componentForPart);
         this.partform.reset();
         document.getElementById('storagePartHide').click();
+        this.getPart(this.componentForPart);
         swal.close();
       } else {
         this.generalAlert('No se puede guardar','Ha ocurrido un error en la ejecucion','error');

@@ -53,6 +53,9 @@ import { MasterModuleComponent } from './master-module/master-module.component';
 import { MasterRegisterModuleComponent } from './master-register-module/master-register-module.component';
 import { MasterUpdateModuleComponent } from './master-update-module/master-update-module.component';
 import { MasterLogTrmComponent } from './master-log-trm/master-log-trm.component';
+import { MasterChecklistsComponent } from './master-checklists/master-checklists.component';
+import { MasterRegisterChecklistsComponent } from './master-register-checklists/master-register-checklists.component';
+import { MasterUpdateChecklistsComponent } from './master-update-checklists/master-update-checklists.component';
 
 const routes: Routes = [
   {
@@ -247,6 +250,15 @@ const routes: Routes = [
   },{
     path:'LogTrm',
     component: MasterLogTrmComponent
+  },{
+    path:'checklists',
+    component: MasterChecklistsComponent
+  },{
+    path:'registerChecklist',
+    component: MasterRegisterChecklistsComponent
+  },{
+    path: 'updateChecklist',
+    component:MasterUpdateChecklistsComponent
   }
   
  
