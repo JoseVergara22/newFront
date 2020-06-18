@@ -1470,7 +1470,7 @@ deleteCostCenter(id: number){
           'Accept': 'application/json'
         })
       };
-      this.http.post(this.apiEndPoint+'api/show_cost_centers', httpOptions)
+      this.http.get(this.apiEndPoint+'api/show_cost_centers', httpOptions)
         .map(res => res).subscribe(data => {
           console.log(data);
           resolve(data);
@@ -1644,7 +1644,7 @@ deleteCostCenter(id: number){
           'Accept': 'application/json'
         })
       };
-      this.http.post(this.apiEndPoint+'api/show_technicians', httpOptions)
+      this.http.get(this.apiEndPoint+'api/show_technicians', httpOptions)
         .map(res => res).subscribe(data => {
           console.log(data);
           resolve(data);
@@ -1923,7 +1923,7 @@ updateRegional(id:number, description:string, code:string){
             'Accept': 'application/json'
           })
         };
-        this.http.post(this.apiEndPoint+'api/show_sub_cost_centers', httpOptions)
+        this.http.get(this.apiEndPoint+'api/show_sub_cost_centers', httpOptions)
           .map(res => res).subscribe(data => {
             console.log(data);
             resolve(data);
@@ -2030,7 +2030,7 @@ updateRegional(id:number, description:string, code:string){
             'Accept': 'application/json'
           })
         };
-        this.http.post(this.apiEndPoint+'api/show_warehouses', httpOptions)
+        this.http.get(this.apiEndPoint+'api/show_warehouses', httpOptions)
           .map(res => res).subscribe(data => {
             console.log(data);
             resolve(data);
