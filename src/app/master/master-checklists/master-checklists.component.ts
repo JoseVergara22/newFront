@@ -15,11 +15,11 @@ export class MasterChecklistsComponent implements OnInit {
   rowtodelete:any;
   
   constructor(private workService:WorkService,    private router:Router, private checkServices:ChecklistService) {
-    this.getWorks();
+    this.getChecklist();
    }
 
-   getWorks() {
-    this.workService.getWorks().then(data => {
+   getChecklist() {
+    this.checkServices.showChecklist().then(data => {
       const resp: any = data;
       if (resp.error) {
         swal({
@@ -46,9 +46,9 @@ export class MasterChecklistsComponent implements OnInit {
     this.router.navigateByUrl('maintenance/registerChecklist');
   }
 
-  goToTpdateView(workrow:any){
-    console.log(workrow.description);
-    this.router.navigateByUrl('maintenance/work_detailsUpdate/'+workrow.description);
+  goToTpdateView(row:any){
+    console.log(row.id);
+    this.router.navigateByUrl('maintenance/updateChecklist'+row.id);
   }
   deleteWorkHeader(workrow:any){
     swal({
@@ -69,7 +69,7 @@ export class MasterChecklistsComponent implements OnInit {
             this.generalAlert('Error','ocurrio un error durante el procesado',"error");
           }else{
             this.generalAlert('Rutina eliminada','Rutina eliminada correctamente','success');
-            this.getWorks();
+            this.getChecklist();
           }
         }).catch(err=>{
           console.log(err);

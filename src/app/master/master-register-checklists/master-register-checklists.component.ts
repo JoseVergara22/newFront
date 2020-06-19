@@ -3,11 +3,13 @@ import { WorkService } from '../../master-services/Work/work.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { FormBuilder } from '@angular/forms';
 import swal from 'sweetalert2';
+import { ChecklistService } from '../../master-services/checklist/checklist.service';
 
 @Component({
   selector: 'app-master-register-checklists',
   templateUrl: './master-register-checklists.component.html',
-  styleUrls: ['./master-register-checklists.component.scss']
+  styleUrls: ['./master-register-checklists.component.scss',
+  '../../../assets/icon/icofont/css/icofont.scss']
 })
 export class MasterRegisterChecklistsComponent implements OnInit {
 
@@ -18,7 +20,7 @@ export class MasterRegisterChecklistsComponent implements OnInit {
   headerinfo:any;
 
   constructor(private workservice: WorkService, private router: Router,  private activatedroute: ActivatedRoute,
-    private formbuilder:FormBuilder) { 
+    private formbuilder:FormBuilder, private checkServices:ChecklistService) { 
       
     }
 
@@ -30,13 +32,13 @@ export class MasterRegisterChecklistsComponent implements OnInit {
         allowOutsideClick: false
       });
       swal.showLoading();
-      this.workservice.storeWorkHeader(1,this.title1,this.hours1,this.observation1).then(data=>{
+      this.checkServices.createChecklist(this.title1,this.hours1,this.observation1).then(data=>{
         const resp:any=data;
         this.headerinfo=resp.data;
         console.log("header information");
         console.log(this.headerinfo)
         swal.close();
-        this.router.navigateByUrl('maintenance/updateChecklist'+this.headerinfo.id);
+        this.router.navigateByUrl('maintenance/updateChecklist/'+this.headerinfo.id);
       }).catch(err=>{
 
         console.log(err);

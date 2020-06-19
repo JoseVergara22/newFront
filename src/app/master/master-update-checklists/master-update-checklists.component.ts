@@ -3,11 +3,13 @@ import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms'
 import { WorkService } from '../../master-services/Work/work.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import swal from 'sweetalert2';
+import { ChecklistService } from '../../master-services/checklist/checklist.service';
 
 @Component({
   selector: 'app-master-update-checklists',
   templateUrl: './master-update-checklists.component.html',
-  styleUrls: ['./master-update-checklists.component.scss']
+  styleUrls: ['./master-update-checklists.component.scss',
+  '../../../assets/icon/icofont/css/icofont.scss']
 })
 export class MasterUpdateChecklistsComponent implements OnInit {
 
@@ -32,11 +34,12 @@ export class MasterUpdateChecklistsComponent implements OnInit {
   dataPart: any;
   headerinfo: any;
 
-  constructor(private workservice: WorkService, private router: Router,  private rutaActiva: ActivatedRoute) { 
+  constructor(private workservice: WorkService, private router: Router,  private rutaActiva: ActivatedRoute, private checkServices:ChecklistService) { 
 
 
     this.checklistId = this.rutaActiva.snapshot.params.id;
 
+    this.getChecklist(this.checklistId);
     this.getComponent(this.checklistId);
     //component
     const component = new FormControl('',Validators.required);
@@ -77,8 +80,34 @@ export class MasterUpdateChecklistsComponent implements OnInit {
     });
   }
 
+  getChecklist(id: number) {
+    this.checkServices.getChecklistId(id).then(data => {
+      const resp: any = data;
+      console.log(data);
+      if (resp.error) {
+        swal({
+          title:'Error',
+          text: 'Ha ocurrido un error',
+          type: 'error'
+         });
+        } else {
+          console.log( resp.data);
+        this.title2 = resp.data.description;
+        this.hours2 = resp.data.hours;
+        this.observation2 = resp.data.observation;
+    }
+    }).catch(error => {
+      swal({
+        title:'Error',
+        text: 'Ha ocurrido un error',
+        type: 'error'
+       });
+      console.log(error);
+    });
+  }
+
   getComponent(id: any){
-    this.workservice.getComponent(id).then(data=>{
+    this.checkServices.getComponentId(id).then(data=>{
       const resp:any=data;
       console.log('carga de componentes');
       console.log(resp);
@@ -101,7 +130,7 @@ export class MasterUpdateChecklistsComponent implements OnInit {
  
 
   getPart(id: any){
-    this.workservice.getPart(id).then(data=>{
+    this.checkServices.getPartId(id).then(data=>{
       const resp:any=data;
       console.log('carga de partes');
       console.log(resp);
@@ -136,7 +165,7 @@ export class MasterUpdateChecklistsComponent implements OnInit {
     const system=formValue.component;
   
     if((system!=null)&&(system!="")){
-    this.workservice.storeComponent(this.checklistId,this.componentform.get('component').value).then(data=>{
+    this.checkServices.createComponent(this.checklistId,this.componentform.get('component').value).then(data=>{
       const resp:any=data;
       console.log(data);
       console.log(resp);
@@ -167,17 +196,12 @@ export class MasterUpdateChecklistsComponent implements OnInit {
     
     console.log(formValue.value);
     console.log(formValue.value.partdescription);
-    console.log(formValue.value.partwork);
-    console.log(formValue.value.partsupplice);
-    console.log(formValue.value.partparameter);
 
     const description=formValue.value.partdescription;
-    const work=formValue.value.partwork;
-    const supplice=formValue.value.partsupplice;
-    const parameter=formValue.value.partparameter;
   
-    if(((description!=null)&&(description!="")) && ((work!=null)&&(work!="")) && ((supplice!=null)&&(supplice!="")) &&  ((parameter!=null)&&(parameter!=""))){
-    this.workservice.storeParts(this.componentForPart,description,work,supplice,parameter).then(data=>{
+  
+    if((description!=null)&&(description!="")){
+    this.checkServices.createPart(this.componentForPart,description).then(data=>{
       const resp:any=data;
       console.log(data);
       console.log(resp);
@@ -216,7 +240,7 @@ export class MasterUpdateChecklistsComponent implements OnInit {
           console.log(item);
           console.log(    this.elementDelete);
           swal.showLoading();
-          this.workservice.deleteComponents(Number(this.elementDelete.id))
+          this.checkServices.deleteComponent(Number(this.elementDelete.id))
           .then(data => {
             swal.showLoading();
             const resp: any = data;
@@ -263,7 +287,7 @@ export class MasterUpdateChecklistsComponent implements OnInit {
           console.log(item);
           console.log(    this.elementDelete);
           swal.showLoading();
-          this.workservice.deleteParts(Number(this.elementDelete.id))
+          this.checkServices.deletePart(Number(this.elementDelete.id))
           .then(data => {
             swal.showLoading();
             const resp: any = data;
@@ -308,7 +332,7 @@ export class MasterUpdateChecklistsComponent implements OnInit {
         allowOutsideClick: false
       });
       swal.showLoading();
-      this.workservice.updateSystem(this.currentComponent.id,system.updatecomponent).then(data=>{
+      this.checkServices.updateComponent(this.currentComponent.id,system.updatecomponent).then(data=>{
         const resp:any=data;
         this.headerinfo=resp.data;
         console.log("header information");
@@ -331,10 +355,6 @@ export class MasterUpdateChecklistsComponent implements OnInit {
     this.currentPart = row;
     console.log( this.currentPart );
     this.updatepartform.get('partupdatedescription').setValue(this.currentPart.description);
-    this.updatepartform.get('partupdatework').setValue(this.currentPart.work);
-    this.updatepartform.get('partupdatesupplice').setValue(this.currentPart.supplice);
-    this.updatepartform.get('partupdateparameter').setValue(this.currentPart.parameter);
-
    document.getElementById( 'showUpdatePart').click();
   }
 
@@ -345,21 +365,16 @@ export class MasterUpdateChecklistsComponent implements OnInit {
     });
     console.log(updatedetailform);
     console.log(updatedetailform.partdescription);
-    console.log(updatedetailform.partwork);
-    console.log(updatedetailform.partsupplice);
-    console.log(updatedetailform.partparameter);
 
     const description=updatedetailform.partupdatedescription;
-    const work=updatedetailform.partupdatework;
-    const supplice=updatedetailform.partupdatesupplice;
-    const parameter=updatedetailform.partupdateparameter;
-    if(((description!=null)&&(description!="")) && ((work!=null)&&(work!="")) && ((supplice!=null)&&(supplice!="")) &&  ((parameter!=null)&&(parameter!=""))){
+ 
+    if((description!=null)&&(description!="")){
       swal({
         title: 'Obteniendo información ...',
         allowOutsideClick: false
       });
       swal.showLoading();
-      this.workservice.updatePart(this.currentPart.id,description,work,supplice,parameter).then(data=>{
+      this.checkServices.updatePart(this.currentPart.id,description).then(data=>{
         const resp:any=data;
         this.headerinfo=resp.data;
         console.log("header information");
@@ -399,6 +414,14 @@ export class MasterUpdateChecklistsComponent implements OnInit {
     }else{
       this.generalAlert("ha ocurrido un herror","complete todos los campos obligatorios","error");
     }
+  }
+
+  updateSecurity(){
+
+  }
+
+  deleteSecurity(){
+
   }
 
   goAdminRoutines(){
