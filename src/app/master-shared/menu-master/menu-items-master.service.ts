@@ -74,18 +74,18 @@ const MENUITEMS = [
         type: 'sub',
         icon: 'ti-pulse',
         children: [
-          {
+         /* {
             state:'work_dashboard',
             name:'Administrar Rutinas'
-          },
+          },*/
           {
             state: 'register',
             name: 'Administrar Usuarios'
-          },{
+          }, /*{
             state:'checklists',
             name: 'Crear Checklist'
           },
-         /* {
+         {
             state: 'modules',
             name:  'Administrar Modules'
           }, */
@@ -389,10 +389,10 @@ const MENUCREATOR = [
             state: 'settlementCustomer',
             name:  'Crear Liquidación'
           },
-          {
+         /* {
             state:'work_dashboard',
             name:'Administrar rutinas'
-          },
+          },*/
           {
             state: 'forkliftShow',
             name: 'Administrar Montacargas'
