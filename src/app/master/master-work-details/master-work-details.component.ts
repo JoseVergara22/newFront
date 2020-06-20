@@ -661,10 +661,10 @@ export class MasterWorkDetailsComponent implements OnInit {
 
     const description=formValue.value.partdescription;
     const work=formValue.value.partwork;
-    const supplice=formValue.value.partsupplice;
+    const supplice= "";//formValue.value.partsupplice;
     const parameter=formValue.value.partparameter;
   
-    if(((description!=null)&&(description!="")) && ((work!=null)&&(work!="")) && ((supplice!=null)&&(supplice!="")) &&  ((parameter!=null)&&(parameter!=""))){
+    if(((description!=null)&&(description!="")) && ((work!=null)&&(work!=""))  &&  ((parameter!=null)&&(parameter!=""))){
     this.workservice.storeParts(this.componentForPart,description,work,supplice,parameter).then(data=>{
       const resp:any=data;
       console.log(data);
