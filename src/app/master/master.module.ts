@@ -89,6 +89,7 @@ import { EstimateService } from '../master-services/estimate/estimate.service';
 import { FilexcelService } from '../master-services/FileExcel/filexcel.service';
 import { SettlementService } from '../master-services/settlement/settlement.service';
 import { ModulesService } from '../master-services/modules/modules.service';
+import { ChecklistService } from '../master-services/checklist/checklist.service';
 
 
 import {AutocompleteLibModule} from 'angular-ng-autocomplete';
@@ -193,6 +194,7 @@ import {AutocompleteLibModule} from 'angular-ng-autocomplete';
     EstimateService,
     FilexcelService,
     SettlementService,
-    ModulesService]
+    ModulesService,
+    ChecklistService]
 })
 export class MasterModule { }

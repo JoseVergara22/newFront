@@ -258,7 +258,7 @@ const routes: Routes = [
     path:'registerChecklist',
     component: MasterRegisterChecklistsComponent
   },{
-    path: 'updateChecklist',
+    path: 'updateChecklist/:id',
     component:MasterUpdateChecklistsComponent
   },{
     path:'settlementList',

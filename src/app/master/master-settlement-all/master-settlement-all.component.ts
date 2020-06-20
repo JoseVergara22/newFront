@@ -4276,7 +4276,7 @@ updateForklift(forklift:any) {
 
 
  rejectEstimateFinal(){
-   this.estimateService.updateEstimateStatus(
+   this.settlementeService.updateSettlementStatus(
      this.estimateCurrent.id, 5).then(data => {
      const resp: any = data;
      console.log('envio');

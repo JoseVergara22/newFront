@@ -29,7 +29,7 @@
 
               <div class="col-sm-5">
 
-                  <h6>Descripccion<span style="color:red;">*</span></h6>
+                  <h6>Descripción<span style="color:red;">*</span></h6>
                   <input type="text" class="form-control" formControlName="description" [ngClass]="{ 'is-invalid': submitted && checkForm.description.errors }">
                   <div *ngIf="submitted && checkForm.description.errors" class="invalid-feedback">
                       <div class="messages text-danger" *ngIf="checkForm.description.errors.required">Este campo es requerido</div>
@@ -73,7 +73,7 @@
                 <div class="col-sm-2"></div>
 
                 <div class="col-sm-5 ">
-                    <h6>Descripccion <span style="color:red; ">*</span></h6>
+                    <h6>Descripción <span style="color:red; ">*</span></h6>
                     <input type="text " class="form-control " formControlName="descriptionUpdate" [ngClass]="{ 'is-invalid': submittedUpdated && checkFormUpdate.descriptionUpdate.errors } ">
                     <div *ngIf="submittedUpdated && checkFormUpdate.descriptionUpdate.errors " class="invalid-feedback ">
                         <div class="messages text-danger " *ngIf="checkFormUpdate.descriptionUpdate.errors.required ">Este campo es requerido</div>
