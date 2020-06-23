@@ -88,6 +88,8 @@
                     </ngx-datatable-column>
       
                 </ngx-datatable>
+                <br>
+                  <br>
               </div>
                   <br>
                   <br>
@@ -97,10 +99,13 @@
 
 <app-card>
     <br>
+    <div>
+        <h6>Check de seguridad</h6>
+    </div>
     <br>
     <div class="align-buttons">
         <button class="btn btn-primary m-b-0" (click)="modalSecurity.show()" >Crear Check Seguridad</button>
-        <button style="display: none;" class="btn btn-primary m-b-0" id="showUpdatePart" (click)="modalUpdatePart.show()" >Actualizar</button>
+        <button style="display: none;" class="btn btn-primary m-b-0" id="showUpdatePart" (click)="modalUpdateSecurity.show()" >Actualizar</button>
     </div>
     <br>
     <br>
@@ -231,20 +236,20 @@
         <h4 class="modal-title">Agregar Seguridad</h4>
     </div>
     <div class="app-modal-body">
-        <form [formGroup]="componentform">
+        <form [formGroup]="securityform">
             <div class="form-group row">
                 <div class="col-sm-2"> </div>
   
                 <div class="col-sm-8">
                     <h6>Nombre <span style="color:red;">*</span></h6>
-                    <input type="text" class="form-control" id="component" formControlName="component" required>
+                    <input type="text" class="form-control" id="security" formControlName="component" required>
                 </div>
   
                 <div class="col-sm-2"> </div>
             </div>
             <div class="align-buttons">
-                <button type="button" class="btn btn-default waves-effect" id="storageComponentlHide" (click)="modalComponent.hide()">Cancelar</button>
-                <button type="submit " class="btn btn-primary m-b-0 " (click)="storageComponent(componentform.value)">Crear Componente</button>
+                <button type="button" class="btn btn-default waves-effect" id="storageComponentlHide" (click)="modalSecurity.hide()">Cancelar</button>
+                <button type="submit " class="btn btn-primary m-b-0 " (click)="storageSecurity(componentform.value)">Crear Seguridad</button>
             </div>
         </form>
     </div>
@@ -267,7 +272,7 @@
                 <div class="col-sm-2"> </div>
             </div>
             <div class="align-buttons">
-                <button type="button" class="btn btn-default waves-effect" id="updateComponentHide" (click)="modalUpdateComponent.hide()">Cancelar</button>
+                <button type="button" class="btn btn-default waves-effect" id="updateComponentHide" (click)="modalUpdateSecurity.hide()">Cancelar</button>
                 <button type="submit " class="btn btn-primary m-b-0 " (click)="sendUpdateComponent(updatecomponentform.value)">Actualizar Componente</button>
   
             </div>

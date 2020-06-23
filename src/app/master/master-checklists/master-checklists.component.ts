@@ -7,7 +7,8 @@ import { ChecklistService } from '../../master-services/checklist/checklist.serv
 @Component({
   selector: 'app-master-checklists',
   templateUrl: './master-checklists.component.html',
-  styleUrls: ['./master-checklists.component.scss']
+  styleUrls: ['./master-checklists.component.scss',
+'../../../assets/icon/icofont/css/icofont.scss']
 })
 export class MasterChecklistsComponent implements OnInit {
 

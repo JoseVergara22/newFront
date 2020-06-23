@@ -18,6 +18,7 @@ export class MasterUpdateChecklistsComponent implements OnInit {
   observation2:string;
 
   componentform: FormGroup;
+  securityform: FormGroup;
   updatecomponentform: FormGroup;
   partform: FormGroup;
   updatepartform: FormGroup;
@@ -46,6 +47,12 @@ export class MasterUpdateChecklistsComponent implements OnInit {
    
     this.componentform= new FormGroup({
       component:component
+    });
+
+    const security = new FormControl('',Validators.required);
+   
+    this.securityform= new FormGroup({
+      security:security
     });
 
     const updatecomponent = new FormControl('',Validators.required);
@@ -349,6 +356,41 @@ export class MasterUpdateChecklistsComponent implements OnInit {
     }
   }
 
+  storageSecurity(formValue:any){
+    swal({
+      title: 'Obteniendo información ...',
+      allowOutsideClick: false
+    });
+    swal.showLoading();
+    
+    console.log(formValue.value);
+    console.log(formValue.value.security);
+
+    const description=formValue.value.security;
+  
+  
+    if((description!=null)&&(description!="")){
+    this.checkServices.createSecutity(this.checklistId,description).then(data=>{
+      const resp:any=data;
+      console.log(data);
+      console.log(resp);
+      if (resp.success==1) {
+        this.generalAlert('Proceso exitoso','Se ha guardado el detalle correctamente','success');
+        this.partform.reset();
+        document.getElementById('storagePartHide').click();
+        this.getPart(this.componentForPart);
+        swal.close();
+      } else {
+        this.generalAlert('No se puede guardar','Ha ocurrido un error en la ejecucion','error');
+      }
+      }).catch(error=>{
+        console.log(error);
+        this.generalAlert('No se puede guardar','Ha ocurrido un error en la ejecucion','error')
+      });
+    }else{
+      this.generalAlert('No se puede guardar','Debe Completar todos los campos obligatorios','error')
+    }
+  }
 
   updatePart(row: any){
     
