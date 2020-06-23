@@ -19,6 +19,7 @@ export class MasterUpdateChecklistsComponent implements OnInit {
 
   componentform: FormGroup;
   securityform: FormGroup;
+  updatesecurityform: FormGroup;
   updatecomponentform: FormGroup;
   partform: FormGroup;
   updatepartform: FormGroup;
@@ -33,6 +34,7 @@ export class MasterUpdateChecklistsComponent implements OnInit {
 
   checklistId: any
   dataPart: any;
+  dataSecurity: any;
   headerinfo: any;
 
   constructor(private workservice: WorkService, private router: Router,  private rutaActiva: ActivatedRoute, private checkServices:ChecklistService) { 
@@ -42,6 +44,8 @@ export class MasterUpdateChecklistsComponent implements OnInit {
 
     this.getChecklist(this.checklistId);
     this.getComponent(this.checklistId);
+    this.getSecurity(this.checklistId);
+
     //component
     const component = new FormControl('',Validators.required);
    
@@ -54,6 +58,13 @@ export class MasterUpdateChecklistsComponent implements OnInit {
     this.securityform= new FormGroup({
       security:security
     });
+
+    const updatesecurity = new FormControl('',Validators.required);
+
+    this.updatesecurityform= new FormGroup({
+      updatesecurity: updatesecurity
+    });
+
 
     const updatecomponent = new FormControl('',Validators.required);
 
@@ -147,6 +158,24 @@ export class MasterUpdateChecklistsComponent implements OnInit {
 
       } else {
         this.generalAlert("ha ocurrido un error","ha ocurrido un error al mostrar la informacion","error");
+      }
+    }).catch(error=>{
+      console.log(error);
+      this.generalAlert("ha ocurrido un error","ha ocurrido un error al mostrar la informacion","error");
+    });
+  }
+
+  getSecurity(id: any){
+    this.checkServices.getSecurityId(id).then(data=>{
+      const resp:any=data;
+      console.log('carga de SEGURIDAD');
+      console.log(resp);
+      if (resp.success==true) {
+        this.dataSecurity = resp.data;
+        console.log(this.dataSecurity);
+
+      } else {
+        console.log(resp.data);
       }
     }).catch(error=>{
       console.log(error);
@@ -363,7 +392,7 @@ export class MasterUpdateChecklistsComponent implements OnInit {
     });
     swal.showLoading();
     
-    console.log(formValue.value);
+    console.log(formValue);
     console.log(formValue.value.security);
 
     const description=formValue.value.security;
@@ -377,8 +406,8 @@ export class MasterUpdateChecklistsComponent implements OnInit {
       if (resp.success==1) {
         this.generalAlert('Proceso exitoso','Se ha guardado el detalle correctamente','success');
         this.partform.reset();
-        document.getElementById('storagePartHide').click();
-        this.getPart(this.componentForPart);
+        document.getElementById('storageSecurityHide').click();
+        this.getSecurity(this.checklistId);
         swal.close();
       } else {
         this.generalAlert('No se puede guardar','Ha ocurrido un error en la ejecucion','error');
@@ -458,8 +487,43 @@ export class MasterUpdateChecklistsComponent implements OnInit {
     }
   }
 
-  updateSecurity(){
+  updateSecurity(row: any){
+    this.currentPart = row;
+    console.log( this.currentPart );
+    this.updatepartform.get('partupdatedescription').setValue(this.currentPart.description);
+   document.getElementById( 'showUpdatePart').click();
+  }
 
+  sendUpdateSecurity(updatedetailform: any){
+    swal({
+      title: 'Obteniendo información ...',
+      allowOutsideClick: false
+    });
+    console.log(updatedetailform);
+    console.log(updatedetailform.partdescription);
+
+    const description=updatedetailform.partupdatedescription;
+ 
+    if((description!=null)&&(description!="")){
+      swal({
+        title: 'Obteniendo información ...',
+        allowOutsideClick: false
+      });
+      swal.showLoading();
+      this.checkServices.updatePart(this.currentPart.id,description).then(data=>{
+        const resp:any=data;
+        this.headerinfo=resp.data;
+        console.log("header information");
+        console.log(this.headerinfo);
+        this.generalAlert("Proceso completado","Proceso completado correctamente!","success");
+        document.getElementById( 'updateSecurityHide').click();
+      }).catch(err=>{
+        console.log(err);
+        this.generalAlert("ha ocurrido un herror","ocurrio un error durante la ecucion","error");
+      });
+    }else{
+      this.generalAlert("ha ocurrido un herror","complete todos los campos obligatorios","error");
+    }
   }
 
   deleteSecurity(){

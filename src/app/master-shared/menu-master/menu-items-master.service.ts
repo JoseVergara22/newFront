@@ -81,10 +81,10 @@ const MENUITEMS = [
           {
             state: 'register',
             name: 'Administrar Usuarios'
-          }, /*{
+          }, {
             state:'checklists',
             name: 'Crear Checklist'
-          },
+          },/*
          {
             state: 'modules',
             name:  'Administrar Modules'

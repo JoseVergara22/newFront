@@ -109,7 +109,7 @@
     </div>
     <br>
     <br>
-    <ngx-datatable #table class="data-table" [rows]="dataPart"   [columnMode]="'flex'" [headerHeight]="50" [footerHeight]="50" [rowHeight]="'auto'" [limit]="20">
+    <ngx-datatable #table class="data-table" [rows]="dataSecurity"   [columnMode]="'flex'" [headerHeight]="50" [footerHeight]="50" [rowHeight]="'auto'" [limit]="20">
 
         <!--   <ngx-datatable-column [resizeable]="false" name="Compañia" [sortable]="false" [draggable]="false" prop="business_name"></ngx-datatable-column> -->
         <ngx-datatable-column [flexGrow]="2" [sortable]="false" [resizeable]="false"   name="Descripción" [sortable]="false"  prop="description"></ngx-datatable-column>
@@ -242,14 +242,14 @@
   
                 <div class="col-sm-8">
                     <h6>Nombre <span style="color:red;">*</span></h6>
-                    <input type="text" class="form-control" id="security" formControlName="component" required>
+                    <input type="text" class="form-control" id="security" formControlName="security" required>
                 </div>
   
                 <div class="col-sm-2"> </div>
             </div>
             <div class="align-buttons">
-                <button type="button" class="btn btn-default waves-effect" id="storageComponentlHide" (click)="modalSecurity.hide()">Cancelar</button>
-                <button type="submit " class="btn btn-primary m-b-0 " (click)="storageSecurity(componentform.value)">Crear Seguridad</button>
+                <button type="button" class="btn btn-default waves-effect" id="storageSecurityHide" (click)="modalSecurity.hide()">Cancelar</button>
+                <button type="submit " class="btn btn-primary m-b-0 " (click)="storageSecurity(securityform)">Crear Seguridad</button>
             </div>
         </form>
     </div>
@@ -260,20 +260,20 @@
         <h4 class="modal-title">Actualizar Seguridad</h4>
     </div>
     <div class="app-modal-body">
-        <form [formGroup]="updatecomponentform">            
+        <form [formGroup]="updatesecurityform">            
             <div class="form-group row">
                 <div class="col-sm-2"> </div>
   
                 <div class="col-sm-8">
                     <h6>Nombre <span style="color:red;">*</span></h6>
-                    <input type="text" class="form-control" id="updatecomponent" formControlName="updatecomponent">
+                    <input type="text" class="form-control" id="updatesecurity" formControlName="updatesecurity">
                 </div>
   
                 <div class="col-sm-2"> </div>
             </div>
             <div class="align-buttons">
-                <button type="button" class="btn btn-default waves-effect" id="updateComponentHide" (click)="modalUpdateSecurity.hide()">Cancelar</button>
-                <button type="submit " class="btn btn-primary m-b-0 " (click)="sendUpdateComponent(updatecomponentform.value)">Actualizar Componente</button>
+                <button type="button" class="btn btn-default waves-effect" id="updateSecurityHide" (click)="modalUpdateSecurity.hide()">Cancelar</button>
+                <button type="submit " class="btn btn-primary m-b-0 " (click)="sendUpdateSecurity(updatesecurityform.value)">Actualizar Componente</button>
   
             </div>
         </form>
