@@ -38,7 +38,7 @@ export class MasterSubCostCenterComponent implements OnInit {
   costCenter: any;
   selectedCostCenter: any = 0;
   idSubConstCenter;
-  currentCostCenter= 0;
+  currentSubCostCenter: any = 0;
   myFormUpdate: FormGroup;
   submittedUpdated = false;
 
@@ -131,6 +131,7 @@ export class MasterSubCostCenterComponent implements OnInit {
           this.idSubConstCenter = resp.data.id;
           console.log('Cambio');
           document.getElementById('createSubCostCenterHide').click();
+          this.myForm.reset();
           this.loadingData();
      swal({
       title: 'Sub centro de costos agregado',
@@ -152,15 +153,15 @@ export class MasterSubCostCenterComponent implements OnInit {
 
   updateSubCostCenter(row) {
     console.log(row);
-    this.currentCostCenter = row;
-    console.log( this.currentCostCenter );
+    this.currentSubCostCenter = row;
+    console.log( this.currentSubCostCenter );
     this.myFormUpdate.get('descriptionUpdate').setValue(row.description);
     this.myFormUpdate.get('codeUpdate').setValue(row.code);
 
     document.getElementById( 'updateSubCostCenter').click();
     
     this.getCostCenter();
-    this.selectedCostCenterUpdate = row.costCenter_id;
+    this.selectedCostCenterUpdate = row.regional_id;
     console.log(this.selectedCostCenterUpdate);
    }
  
@@ -179,7 +180,7 @@ export class MasterSubCostCenterComponent implements OnInit {
       });
       swal.showLoading();
       console.log('kakakaka');
-      this.restService.updatSubCostCenters(Number(this.idSubConstCenter), this.myFormUpdate.get('descriptionUpdate').value.toUpperCase(),
+      this.restService.updatSubCostCenters(Number(this.currentSubCostCenter.id), this.myFormUpdate.get('descriptionUpdate').value.toUpperCase(),
        this.myFormUpdate.get('codeUpdate').value, this.selectedCostCenterUpdate)
       .then(data => {
         const resp: any = data;

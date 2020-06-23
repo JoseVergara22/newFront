@@ -49,7 +49,7 @@
   <div class="app-modal-header">
       <h4 class="modal-title">Actualizar Sub Centro de Costo</h4>
   </div>
-  <div *ngIf="currentCostCenter" class="app-modal-body">
+  <div *ngIf="currentSubCostCenter" class="app-modal-body">
       <form [formGroup]="myFormUpdate" (ngSubmit)="updateSubCostCenters()">
 
           <div class="form-group row">
@@ -82,7 +82,7 @@
             </div>
 
             <div class="align-buttons">
-              <button type="button" class="btn btn-default waves-effect" id="updateCostCenterHide" (click)="modalUpdateSubCostCenter.hide()">Cancelar</button>
+              <button type="button" class="btn btn-default waves-effect" id="modalUpdateSubCostCenter" (click)="modalUpdateSubCostCenter.hide()">Cancelar</button>
               <button type="submit " class="btn btn-primary m-b-0 ">Actualizar Centro de costo</button>
           </div>
       </form>
@@ -112,7 +112,7 @@
 
             <ngx-datatable-column [resizeable]="false" [flexGrow]="1" name="Codigo"  [canAutoResize]="true" [sortable]="false" [draggable]="false" prop="code"></ngx-datatable-column>
             <ngx-datatable-column [resizeable]="false" [flexGrow]="1" name="Nombre"  [canAutoResize]="true" [sortable]="false" [draggable]="false" prop="description"></ngx-datatable-column>
-            <ngx-datatable-column [resizeable]="false" [flexGrow]="1" name="Regional"  [canAutoResize]="true" [sortable]="false" [draggable]="false" prop="costCenterDescription"></ngx-datatable-column>
+            <ngx-datatable-column [resizeable]="false" [flexGrow]="1" name="Regional"  [canAutoResize]="true" [sortable]="false" [draggable]="false" prop="regionalDescription"></ngx-datatable-column>
             <ngx-datatable-column [resizeable]="false" [flexGrow]="2" name="Acciones"  [canAutoResize]="true" [sortable]="false" [draggable]="false" sortable="false" prop="id">
 
 

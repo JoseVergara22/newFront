@@ -1844,7 +1844,7 @@ updateRegional(id:number, description:string, code:string){
       const postParams = {
         code: code,
         description: description,
-        cost_center_id: costCenter_id
+        regional_id: costCenter_id
       };
       this.http.post(this.apiEndPoint+'api/create_sub_cost_centers', postParams, httpOptions)
         .map(res => res).subscribe(data => {
@@ -1875,8 +1875,9 @@ updateRegional(id:number, description:string, code:string){
           id: id,
           description: description,
           code: code,
-          cost_center_id: costCenter
+          regional_id: costCenter
         };
+        console.log(postParams);
         this.http.patch(this.apiEndPoint+'api/update_sub_cost_centers/' + id, postParams, httpOptions)
           .map(res => res).subscribe(data => {
             resolve(data);
