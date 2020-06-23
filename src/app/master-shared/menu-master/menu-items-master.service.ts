@@ -74,10 +74,10 @@ const MENUITEMS = [
         type: 'sub',
         icon: 'ti-pulse',
         children: [
-         /* {
+          {
             state:'work_dashboard',
             name:'Administrar Rutinas'
-          },*/
+          },
           {
             state: 'register',
             name: 'Administrar Usuarios'

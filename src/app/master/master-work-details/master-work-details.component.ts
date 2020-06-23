@@ -164,8 +164,10 @@ export class MasterWorkDetailsComponent implements OnInit {
       console.log(resp);
       if (resp.success==true) {
         this.maintenanceSystem = resp.data;
+        console.log(this.maintenanceSystem)
 
         for (let system of this.maintenanceSystem){
+          console.log(system.id);
           this.getComponent(system.id);
         }
       } else {
@@ -180,6 +182,7 @@ export class MasterWorkDetailsComponent implements OnInit {
   
 
   getComponent(id: any){
+    console.log(id);
     this.workservice.getComponent(id).then(data=>{
       const resp:any=data;
       console.log('carga de componentes');
@@ -630,6 +633,7 @@ export class MasterWorkDetailsComponent implements OnInit {
       console.log(resp);
       if (resp.success==1) {
         this.generalAlert('Proceso exitoso','Se ha guardado el detalle correctamente','success');
+        console.log(this.systemForComponent);
         this.getComponent(this.systemForComponent);
         this.componentform.reset();
         document.getElementById('storageComponentlHide').click();
