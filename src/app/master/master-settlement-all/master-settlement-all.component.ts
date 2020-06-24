@@ -554,7 +554,7 @@ getCities() {
  console.log('item :'+ JSON.stringify(item));
  console.log(item);
  this.estimateId= item.id;
- this.user = 'Carlos'
+ this.user = item.elaborate_user.username
  this.consecutive = item.settlement_consecutive;
  this.documentCustomer = item.customer_document;
  this.nameCustomer = item.customer.business_name;
@@ -807,20 +807,9 @@ console.log('este es el e:'+ +JSON.stringify(e));
    }
 
    sendEstimateEmail(row:any){
-     
-  /*   this.estimateId= row.id;
-     this.user = row.elaborate_user.username;
-     this.consecutive = row.estimate_consecutive;
-     this.documentCustomer = row.customer_document;
-     this.nameCustomer = row.business_name;
-     this.contact = row.contact;
-     this.cellphone =   row.email;
-
-*/
-console.log(row)
+  console.log(row)
      this.estimateId= row.id;
-    //  this.user = row.elaborate_user.username;
-     this.user = 'Carlos';
+     this.user = row.elaborate_user.username;
      this.consecutive = row.settlement_consecutive;
      this.documentCustomer = row.customer_document;
      this.nameCustomer = row.customer.business_name;
@@ -879,12 +868,13 @@ console.log(row)
       console.log('envio');
       console.log(resp);
       this.settlementeService.updateSettlementStatus(
-        this.estimateCurrent.id, 1).then(data => {
+        this.settlementId, 1).then(data => {
         const resp: any = data;
         console.log('envio');
         console.log(resp);   
         this.getEstimateFiltersInitial();
          document.getElementById('assignInvoiceHide').click();
+         this.invoice = "";
          swal({
            title: 'Factura Asignada',
            type: 'success'
@@ -1169,7 +1159,7 @@ console.log(row)
      2: { fontSize:9, cellWidth:144, fillColor: null},
     },
     margin: { left: 15},
-    body: [['Sede: '+ this.regionalDescription,'C.Costos: '+ this.costCenterDescription,'OC/Cotización: Pedido No: '+ this.estimate]]
+    body: [['Sucursal: '+ this.regionalDescription,'C.Costos: '+ this.costCenterDescription,'OC/Cotización: Pedido No: '+ this.estimate]]
   });
 
    doc.autoTable({
@@ -1208,8 +1198,8 @@ console.log(row)
      styles: {fillColor: [215,215,215],lineColor:[4,1,0],lineWidth:0.2},
      columnStyles: {
      0: {halign: 'center', fontSize:9, cellWidth:20},
-     1: {halign: 'center', fontSize:9, cellWidth:30},
-     2: {halign: 'center', fontSize:9, cellWidth:140},
+     1: {halign: 'center', fontSize:9, cellWidth:50},
+     2: {halign: 'center', fontSize:9, cellWidth:120},
      3: {halign: 'center', fontSize:9, cellWidth:50},
      4: {halign: 'center', fontSize:9, cellWidth:26},
      5: {halign: 'center', fontSize:9, cellWidth:50},
@@ -1242,8 +1232,8 @@ let value=  Number(this.rowsItemsparts[i].subtotal);
        styles: {fillColor: null,lineColor:[4,1,0],lineWidth:0.2},
        columnStyles: {
         0: {halign: 'center', fontSize:9, cellWidth:20},
-        1: {halign: 'center', fontSize:9, cellWidth:30},
-        2: {fontSize:9, cellWidth:140},
+        1: {halign: 'center', fontSize:9, cellWidth:50},
+        2: {fontSize:9, cellWidth:120},
         3: {halign: 'center', fontSize:9, cellWidth:50},
         4: {halign: 'center', fontSize:9, cellWidth:26},
         5: {halign: 'center', fontSize:9, cellWidth:50},
@@ -1268,7 +1258,7 @@ let value=  Number(this.rowsItemsWorkforce[i].total);
     console.log(this.rowsItemsWorkforce[i].subtotal_decimal); 
     console.log(this.totalCost); 
 
-    body_table = [j+1, this.rowsItemsWorkforce[i].code, this.rowsItemsWorkforce[i].service, this.rowsItemsWorkforce[i].sub_cost_center, this.rowsItemsWorkforce[i].quantity, '$'+this.rowsItemsWorkforce[i].subtotal_decimal, this.rowsItemsWorkforce[i].discount,   '$'+this.rowsItemsWorkforce[i].total_decimal];
+    body_table = [j+1, this.rowsItemsWorkforce[i].code, this.rowsItemsWorkforce[i].service, this.rowsItemsWorkforce[i].sub_cost_center, this.rowsItemsWorkforce[i].quantity, '$'+this.rowsItemsWorkforce[i].hour_value_decimal, this.rowsItemsWorkforce[i].discount,   '$'+this.rowsItemsWorkforce[i].total_decimal];
 
 
      doc.autoTable({
@@ -1277,8 +1267,8 @@ let value=  Number(this.rowsItemsWorkforce[i].total);
        styles: {fillColor: null,lineColor:[4,1,0],lineWidth:0.2},
        columnStyles: {
         0: {halign: 'center', fontSize:9, cellWidth:20},
-        1: {halign: 'center', fontSize:9, cellWidth:30},
-        2: {fontSize:9, cellWidth:140},
+        1: {halign: 'center', fontSize:9, cellWidth:50},
+        2: {fontSize:9, cellWidth:120},
         3: {halign: 'center', fontSize:9, cellWidth:50},
         4: {halign: 'center', fontSize:9, cellWidth:26},
         5: {halign: 'center', fontSize:9, cellWidth:50},
@@ -1307,7 +1297,7 @@ let value=  Number(this.rowsItemsWorkforce[i].total);
       3: {halign: 'center', fontSize:9, cellWidth:55},
       },
       margin: { left: 15},
-      body: [['','TOTAL','DESC%','$' + total]]
+      body: [['','TOTAL','DESC%','$' + this.total]]
     });
     this.totalCost = 0;
   doc.autoTable({
@@ -1325,8 +1315,8 @@ let value=  Number(this.rowsItemsWorkforce[i].total);
     styles: {fillColor: [215,215,215],lineColor:[4,1,0],lineWidth:0.2},
     columnStyles: {
     0: {halign: 'center', fontSize:9, cellWidth:20},
-    1: {halign: 'center', fontSize:9, cellWidth:30},
-    2: {halign: 'center', fontSize:9, cellWidth:140},
+    1: {halign: 'center', fontSize:9, cellWidth:50},
+    2: {halign: 'center', fontSize:9, cellWidth:120},
     3: {halign: 'center', fontSize:9, cellWidth:50},
     4: {halign: 'center', fontSize:9, cellWidth:26},
     5: {halign: 'center', fontSize:9, cellWidth:50},
@@ -1349,7 +1339,7 @@ let value=  Number(this.rowsItemsWorkforce[i].total);
       console.log(this.rowsItemsCustomer[i].subtotal_decimal); 
       console.log(this.totalCost); 
 
-      body_table = [i+1, this.rowsItemsCustomer[i].code, this.rowsItemsCustomer[i].description, this.rowsItemsCustomer[i].sub_cost_center, this.rowsItemsCustomer[i].quantity, '$'+this.rowsItemsCustomer[i].price_suggest_decimal, this.rowsItemsCustomer[i].discount,   '$'+this.rowsItemsCustomer[i].subtotal_decimal];
+      body_table = [i+1, this.rowsItemsCustomer[i].code, this.rowsItemsCustomer[i].description, this.rowsItemsCustomer[i].sub_cost_center, this.rowsItemsCustomer[i].quantity, '$'+this.rowsItemsCustomer[i].price_decimal, this.rowsItemsCustomer[i].discount,   '$'+this.rowsItemsCustomer[i].subtotal_decimal];
   
    doc.autoTable({
      startY: doc.autoTable.previous.finalY,
@@ -1357,8 +1347,8 @@ let value=  Number(this.rowsItemsWorkforce[i].total);
      styles: {fillColor: null,lineColor:[4,1,0],lineWidth:0.2},
      columnStyles: {
       0: {halign: 'center', fontSize:9, cellWidth:20},
-      1: {halign: 'center', fontSize:9, cellWidth:30},
-      2: {fontSize:9, cellWidth:140},
+      1: {halign: 'center', fontSize:9, cellWidth:50},
+      2: {fontSize:9, cellWidth:120},
       3: {halign: 'center', fontSize:9, cellWidth:50},
       4: {halign: 'center', fontSize:9, cellWidth:26},
       5: {halign: 'center', fontSize:9, cellWidth:50},
@@ -1387,7 +1377,16 @@ let value=  Number(this.rowsItemsWorkforce[i].total);
       3: {halign: 'center', fontSize:9, cellWidth:55}
     },
     margin: { left: 15},
-    body: [['','TOTAL','DESC%','$' + total]]
+    body: [['','TOTAL','DESC%','$' + this.total]]
+  });
+console.log(this.observationEstimate);
+  doc.autoTable({
+    startY: doc.autoTable.previous.finalY,
+    theme:'grid',
+    styles: {fillColor: [215,215,215],valign:"top",lineColor:[4,1,0],lineWidth:0.2},
+    columnStyles: {0: {halign: 'left'},  }, // Cells in first column centered and green
+    margin: {top: 60, right: 15, bottom: 0, left: 15},
+    body: [['Observación: '+this.observationEstimate]]
   });
 
   // doc.save('Liquidación_No_'+ this.consecutive+'.pdf');
@@ -2162,7 +2161,7 @@ img.onload = function() {
      2: { fontSize:9, cellWidth:99, fillColor: null},
     },
     margin: { left: 15},
-    body: [['Sede: '+ this.regionalDescription,'C.Costos: '+ this.costCenterDescription,'OC/Cotización: Pedido No: '+ this.estimate]]
+    body: [['Sucursal: '+ this.regionalDescription,'C.Costos: '+ this.costCenterDescription,'OC/Cotización: Pedido No: '+ this.estimate]]
   });
    
    doc.autoTable({
@@ -2189,8 +2188,8 @@ img.onload = function() {
      styles: {fillColor: [215,215,215],lineColor:[4,1,0],lineWidth:0.2},
      columnStyles: {
      0: {halign: 'center', fontSize:9, cellWidth:20},
-     1: {halign: 'center', fontSize:9, cellWidth:30},
-     2: {halign: 'center', fontSize:9, cellWidth:140},
+     1: {halign: 'center', fontSize:9, cellWidth:50},
+     2: {halign: 'center', fontSize:9, cellWidth:120},
      3: {halign: 'center', fontSize:9, cellWidth:50},
      4: {halign: 'center', fontSize:9, cellWidth:26},
      5: {halign: 'center', fontSize:9, cellWidth:50},
@@ -2224,8 +2223,8 @@ let value=  Number(this.rowsItemsparts[i].subtotal);
        styles: {fillColor: null,lineColor:[4,1,0],lineWidth:0.2},
        columnStyles: {
         0: {halign: 'center', fontSize:9, cellWidth:20},
-        1: {halign: 'center', fontSize:9, cellWidth:30},
-        2: {fontSize:9, cellWidth:140},
+        1: {halign: 'center', fontSize:9, cellWidth:50},
+        2: {fontSize:9, cellWidth:120},
         3: {halign: 'center', fontSize:9, cellWidth:50},
         4: {halign: 'center', fontSize:9, cellWidth:26},
         5: {halign: 'center', fontSize:9, cellWidth:50},
@@ -2250,7 +2249,7 @@ let value=  Number(this.rowsItemsWorkforce[i].total);
     console.log(this.rowsItemsWorkforce[i].subtotal_decimal); 
     console.log(this.totalCost); 
 
-    body_table = [j+1, this.rowsItemsWorkforce[i].code, this.rowsItemsWorkforce[i].service, this.rowsItemsWorkforce[i].sub_cost_center, this.rowsItemsWorkforce[i].quantity, '$'+this.rowsItemsWorkforce[i].subtotal_decimal, this.rowsItemsWorkforce[i].discount,   '$'+this.rowsItemsWorkforce[i].total_decimal];
+    body_table = [j+1, this.rowsItemsWorkforce[i].code, this.rowsItemsWorkforce[i].service, this.rowsItemsWorkforce[i].sub_cost_center, this.rowsItemsWorkforce[i].quantity, '$'+this.rowsItemsWorkforce[i].hour_value_decimal, this.rowsItemsWorkforce[i].discount,   '$'+this.rowsItemsWorkforce[i].total_decimal];
 
 
      doc.autoTable({
@@ -2259,8 +2258,8 @@ let value=  Number(this.rowsItemsWorkforce[i].total);
        styles: {fillColor: null,lineColor:[4,1,0],lineWidth:0.2},
        columnStyles: {
         0: {halign: 'center', fontSize:9, cellWidth:20},
-        1: {halign: 'center', fontSize:9, cellWidth:30},
-        2: {fontSize:9, cellWidth:140},
+        1: {halign: 'center', fontSize:9, cellWidth:50},
+        2: {fontSize:9, cellWidth:120},
         3: {halign: 'center', fontSize:9, cellWidth:50},
         4: {halign: 'center', fontSize:9, cellWidth:26},
         5: {halign: 'center', fontSize:9, cellWidth:50},
@@ -2289,7 +2288,7 @@ let value=  Number(this.rowsItemsWorkforce[i].total);
       3: {halign: 'center', fontSize:9, cellWidth:55},
       },
       margin: { left: 15},
-      body: [['','TOTAL','DESC%','$' + totalHGI]]
+      body: [['','TOTAL','DESC%','$' + this.total]]
     });
     this.totalCost = 0;
   doc.autoTable({
@@ -2307,8 +2306,8 @@ let value=  Number(this.rowsItemsWorkforce[i].total);
     styles: {fillColor: [215,215,215],lineColor:[4,1,0],lineWidth:0.2},
     columnStyles: {
     0: {halign: 'center', fontSize:9, cellWidth:20},
-    1: {halign: 'center', fontSize:9, cellWidth:30},
-    2: {halign: 'center', fontSize:9, cellWidth:140},
+    1: {halign: 'center', fontSize:9, cellWidth:50},
+    2: {halign: 'center', fontSize:9, cellWidth:120},
     3: {halign: 'center', fontSize:9, cellWidth:50},
     4: {halign: 'center', fontSize:9, cellWidth:26},
     5: {halign: 'center', fontSize:9, cellWidth:50},
@@ -2331,7 +2330,7 @@ let value=  Number(this.rowsItemsWorkforce[i].total);
       console.log(this.rowsItemsCustomer[i].subtotal_decimal); 
       console.log(this.totalCost); 
 
-      body_table = [i+1, this.rowsItemsCustomer[i].code, this.rowsItemsCustomer[i].description, this.rowsItemsCustomer[i].sub_cost_center, this.rowsItemsCustomer[i].quantity, '$'+this.rowsItemsCustomer[i].price_suggest_decimal, this.rowsItemsCustomer[i].discount,   '$'+this.rowsItemsCustomer[i].subtotal_decimal];
+      body_table = [i+1, this.rowsItemsCustomer[i].code, this.rowsItemsCustomer[i].description, this.rowsItemsCustomer[i].sub_cost_center, this.rowsItemsCustomer[i].quantity, '$'+this.rowsItemsCustomer[i].price_decimal, this.rowsItemsCustomer[i].discount,   '$'+this.rowsItemsCustomer[i].subtotal_decimal];
   
    doc.autoTable({
      startY: doc.autoTable.previous.finalY,
@@ -2339,8 +2338,8 @@ let value=  Number(this.rowsItemsWorkforce[i].total);
      styles: {fillColor: null,lineColor:[4,1,0],lineWidth:0.2},
      columnStyles: {
       0: {halign: 'center', fontSize:9, cellWidth:20},
-      1: {halign: 'center', fontSize:9, cellWidth:30},
-      2: {fontSize:9, cellWidth:140},
+      1: {halign: 'center', fontSize:9, cellWidth:50},
+      2: {fontSize:9, cellWidth:120},
       3: {halign: 'center', fontSize:9, cellWidth:50},
       4: {halign: 'center', fontSize:9, cellWidth:26},
       5: {halign: 'center', fontSize:9, cellWidth:50},
@@ -2369,7 +2368,16 @@ let value=  Number(this.rowsItemsWorkforce[i].total);
       3: {halign: 'center', fontSize:9, cellWidth:55}
     },
     margin: { left: 15},
-    body: [['','TOTAL','DESC%','$' + totalCustomer]]
+    body: [['','TOTAL','DESC%','$' + this.total]]
+  });
+
+  doc.autoTable({
+    startY: doc.autoTable.previous.finalY,
+    theme:'grid',
+    styles: {fillColor: [215,215,215],valign:"top",lineColor:[4,1,0],lineWidth:0.2},
+    columnStyles: {0: {halign: 'left'},  }, // Cells in first column centered and green
+    margin: {top: 60, right: 15, bottom: 0, left: 15},
+    body: [['Observación: '+this.observationEstimate]]
   });
    
    this.blobGlobal = doc.output('blob');

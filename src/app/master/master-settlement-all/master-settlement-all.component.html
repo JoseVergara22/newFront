@@ -388,7 +388,6 @@
     <div *ngIf="value==0">
      <label class="link" (click)="updateEstimate(row)">Editar</label>
      <label class="link" (click)="sendEstimateEmail(row)" >Enviar</label>
-     <label class="link" (click)="rejectionEstimate(row)">Rechazar</label>
     </div>
 
     <div *ngIf="value==1">
@@ -399,9 +398,7 @@
         <label class="link" (click)="showAssignInvoice(row)">Asignar</label>
         <label class="link" (click)="sendEstimateEmail(row)" >Enviar</label>
     </div>
-   
-    <div *ngIf="value==5">
-    </div>
+
        
     </ng-template>
 </ngx-datatable-column>
