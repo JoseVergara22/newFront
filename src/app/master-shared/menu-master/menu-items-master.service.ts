@@ -83,7 +83,7 @@ const MENUITEMS = [
             name: 'Administrar Usuarios'
           }, {
             state:'checklists',
-            name: 'Crear Checklist'
+            name: 'Administrar Checklist'
           },/*
          {
             state: 'modules',

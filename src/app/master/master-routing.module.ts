@@ -76,7 +76,7 @@ const routes: Routes = [
     component: MasterWorkDetailsComponent
   },
   {
-    path: 'work_detailsUpdate/:name',
+    path: 'work_detailsUpdate/:id/:description/:hours/:observation',
     component: MasterWorkDetailsComponent
   },
   {

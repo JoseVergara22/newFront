@@ -56,7 +56,7 @@ export class MasterWorkDashboardComponent implements OnInit {
 
   goToTpdateView(workrow:any){
     console.log(workrow.description);
-    this.router.navigateByUrl('maintenance/work_detailsUpdate/'+workrow.description);
+    this.router.navigateByUrl('maintenance/work_detailsUpdate/'+workrow.id+'/'+workrow.description+'/'+workrow.hours+'/'+workrow.observation);
   }
   deleteWorkHeader(workrow:any){
     swal({
@@ -76,8 +76,12 @@ export class MasterWorkDashboardComponent implements OnInit {
           if (resp.success==false){
             this.generalAlert('Error','ocurrio un error durante el procesado',"error");
           }else{
-            this.generalAlert('Rutina eliminada','Rutina eliminada correctamente','success');
-            this.getWorks();
+            if(resp.indicator==0){
+              this.generalAlert('Rutina eliminada','Rutina eliminada correctamente','success');
+              this.getWorks();
+            }else{
+              this.generalAlert('Error','Esta rutina tiene asignado componentes',"error");
+            }
           }
         }).catch(err=>{
           console.log(err);

@@ -57,7 +57,9 @@ export class WorkService {
     });
   }
 
-  getSystem(id:number){
+
+
+  getRoutineDetails(id:number){
     return new Promise(resolve => {
       const httpOptions = {
         headers: new HttpHeaders({
@@ -67,7 +69,7 @@ export class WorkService {
         })
       };
       
-      this.http.get(this.apiEndPoint+'api/get_system/'+id, httpOptions)
+      this.http.get(this.apiEndPoint+'api/get_routine_details/'+id, httpOptions)
       .map(res => res).subscribe(data => {
         console.log("a mostrar data");
       console.log(data);
