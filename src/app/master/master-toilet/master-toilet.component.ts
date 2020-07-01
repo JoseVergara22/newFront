@@ -7,7 +7,8 @@ import { ToiletService } from '../../master-services/toliet/toilet.service';
 @Component({
   selector: 'app-master-toilet',
   templateUrl: './master-toilet.component.html',
-  styleUrls: ['./master-toilet.component.scss']
+  styleUrls: ['./master-toilet.component.scss',
+'../../../assets/icon/icofont/css/icofont.scss']
 })
 export class MasterToiletComponent implements OnInit {
 
@@ -50,20 +51,20 @@ export class MasterToiletComponent implements OnInit {
   constructor(private toiletService: ToiletService, private router: Router) {
    this.loadingData();
    
-   const code = new FormControl('', Validators.required);
+   
    const description = new FormControl('', Validators.required);
 
-   const codeUpdate = new FormControl('', Validators.required);
+   
    const descriptionUpdate  = new FormControl('', Validators.required);
 
    this.myForm = new FormGroup({
-     code: code,
+    
      description: description,
      
    });
 
    this.myFormUpdate = new FormGroup({
-    codeUpdate: codeUpdate,
+   
     descriptionUpdate: descriptionUpdate
   });
    }
@@ -72,8 +73,8 @@ export class MasterToiletComponent implements OnInit {
     console.log(row);
     this.currentRegional = row;
     console.log( this.currentRegional );
-    this.myFormUpdate.get('descriptionUpdate').setValue(row.description);
-    this.myFormUpdate.get('codeUpdate').setValue(row.code);
+    this.myFormUpdate.get('descriptionUpdate').setValue(row.delivery_review);
+
       this.enabledUpdated = true;
     
     document.getElementById( 'updateReg').click();
@@ -81,7 +82,7 @@ export class MasterToiletComponent implements OnInit {
 
    sendRegional() {
     console.log('Ole ole ole');
-    console.log(this.code);
+
     console.log(this.description);
 
      if ( !this.myForm.invalid) {
@@ -98,24 +99,24 @@ export class MasterToiletComponent implements OnInit {
         statusTemp = 1;
       }
 
-      this.toiletService.createToilet(this.myForm.get('description').value.toUpperCase(),
-       this.myForm.get('code').value)
+      this.toiletService.createToilet(this.myForm.get('description').value.toUpperCase())
       .then(data => {
         const resp: any = data;
         console.log(resp);
         if (resp.success === false) {
           swal({
-            title: 'Esta sucursal ya esta registrada',
-            text: 'Esta sucursal no se pudo registrar',
+            title: 'Esta aseo ya esta registrada',
+            text: 'Esta aseo no se pudo registrar',
             type: 'error'
            });
         } else {
           this.idRegionalCreate = resp.data.id;
           console.log('Cambio');
           document.getElementById('createRegionalHide').click();
+          this.myForm.reset();
           this.loadingData();
      swal({
-      title: 'Sucursal agregada',
+      title: 'Item agregada',
       type: 'success'
      });
 
@@ -135,7 +136,7 @@ export class MasterToiletComponent implements OnInit {
 
   updatedRegional() {
     console.log('Ole ole ole kakaakkaka');
-    console.log(this.codeUpdate);
+
     console.log(this.descriptionUpdate);
 
     if ( !this.myFormUpdate.invalid) {
@@ -153,15 +154,14 @@ export class MasterToiletComponent implements OnInit {
       }
       console.log('kakakaka');
   
-      this.toiletService.updateToilet(Number(this.currentRegional.id), this.myFormUpdate.get('descriptionUpdate').value.toUpperCase(),
-       this.myFormUpdate.get('codeUpdate').value)
+      this.toiletService.updateToilet(Number(this.currentRegional.id), this.myFormUpdate.get('descriptionUpdate').value.toUpperCase())
       .then(data => {
         const resp: any = data;
         console.log(JSON.stringify(resp));
         if (resp.success === false) {
           swal({
             title: 'Falla en la actualizacion',
-            text: 'Esta sucursal no se pudo actualizar',
+            text: 'Esta item no se pudo actualizar',
             type: 'error'
            });
         } else {
@@ -218,7 +218,7 @@ export class MasterToiletComponent implements OnInit {
             } else {
            this.loadingData();
            swal({
-            title: 'Reigonal eliminado',
+            title: 'Item eliminado',
             type: 'success'
            });
           }

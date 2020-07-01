@@ -1,12 +1,12 @@
 <app-modal-basic #modalRegisterBrand [dialogClass]="'modal-lg'">
   <div class="app-modal-header">
 
-      <h4 class="modal-title">Registrar sucursal</h4>
+      <h4 class="modal-title">Registrar aseo</h4>
   </div>
   <div class="app-modal-body">
       <form [formGroup]="myForm" (ngSubmit)="sendRegional()">
           <div class="form-group row">
-              <div class="col-sm-5">
+          
               
               <div class="col-sm-5">
 
@@ -21,7 +21,7 @@
 
             <div class="align-buttons">
               <button type="button" class="btn btn-default waves-effect" id="createRegionalHide" (click)="modalRegisterBrand.hide()">Cancelar</button>
-              <button type="submit " class="btn btn-primary m-b-0 ">Agregar sucursal</button>
+              <button type="submit " class="btn btn-primary m-b-0 ">Agregar aseo</button>
             </div>
 
         </form>
@@ -30,12 +30,12 @@
 
 <app-modal-basic #modalUpdateBrand [dialogClass]="'modal-lg'">
   <div class="app-modal-header">
-      <h4 class="modal-title">Actualizar sucursal</h4>
+      <h4 class="modal-title">Actualizar aseo</h4>
   </div>
   <div *ngIf="currentRegional" class="app-modal-body">
       <form [formGroup]="myFormUpdate" (ngSubmit)="updatedRegional()">
           <div class=" form-group row ">
-              <div class="col-sm-5 ">
+            
 
               <div class="col-sm-5 ">
 
@@ -49,7 +49,7 @@
 
           <div class="align-buttons">
               <button type="button" class="btn btn-default waves-effect" id="updateBrandHide" (click)="modalUpdateBrand.hide()">Cancelar</button>
-              <button type="submit " class="btn btn-primary m-b-0 ">Actualizar sucursal</button>
+              <button type="submit " class="btn btn-primary m-b-0 ">Actualizar</button>
           </div>
       </form>
   </div>
@@ -59,7 +59,7 @@
 
 <div class="col-sm-12">
     <app-card  style="position: sticky; top: 300px;">
-        <h5>Registrar sucursal </h5>
+        <h5>Registrar lista de aseo </h5>
         <br>
         <div class="row">
             <div class="col-sm-6">
@@ -68,7 +68,7 @@
             
             <div class="col-sm-3">
                 <div class="align-buttons">
-                    <button type="button" id="registerRegionals" class="btn btn-primary waves-effect" (click)="modalRegisterBrand.show()">Crear sucursal</button>
+                    <button type="button" id="registerRegionals" class="btn btn-primary waves-effect" (click)="modalRegisterBrand.show()">Crear Aseo</button>
                   </div>
               </div>
           </div>
@@ -76,7 +76,7 @@
           <ngx-datatable #table class="data-table" [rows]="rowsClient" [columnMode]="'flex'" [headerHeight]="50" [footerHeight]="50" [rowHeight]="'auto'"
           [limit]="25">
           
-          <ngx-datatable-column [resizeable]="false" [flexGrow]="1" name="Nombre"  [canAutoResize]="true" [sortable]="false" [draggable]="false" prop="description"></ngx-datatable-column>
+          <ngx-datatable-column [resizeable]="false" [flexGrow]="1" name="Nombre"  [canAutoResize]="true" [sortable]="false" [draggable]="false" prop="delivery_review"></ngx-datatable-column>
           <ngx-datatable-column [resizeable]="false" [flexGrow]="2" name="Acciones"  [canAutoResize]="true" [sortable]="false" [draggable]="false" sortable="false" prop="id">
               
               

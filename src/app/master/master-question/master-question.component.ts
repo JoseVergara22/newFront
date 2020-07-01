@@ -7,7 +7,8 @@ import swal from 'sweetalert2';
 @Component({
   selector: 'app-master-question',
   templateUrl: './master-question.component.html',
-  styleUrls: ['./master-question.component.scss']
+  styleUrls: ['./master-question.component.scss',
+  '../../../assets/icon/icofont/css/icofont.scss']
 })
 export class MasterQuestionComponent implements OnInit {
 
@@ -36,7 +37,9 @@ export class MasterQuestionComponent implements OnInit {
   enabledCreatedOfficeUpdate:boolean;
 
   elementDelete: any;
+  idAnswer: any;
   idQuestion: any;
+  currentAnswer: any;
   currentQuestion: any;
   filterIndicatorCheck = false;
 
@@ -120,8 +123,13 @@ export class MasterQuestionComponent implements OnInit {
           this.idQuestion = resp.data.id;
           this.switchUpdate = true;
           console.log('Cambio');
-          document.getElementById('createRegionalHide').click();
-          this.loadingData();
+          this.currentQuestion = resp.data;
+          document.getElementById('createAnswerHide').click();
+           document.getElementById('createQuestionHide').click();
+           this.myFormUpdate.get('descriptionUpdate').setValue(this.currentQuestion.description);
+           this.getAnswer(this.idQuestion);
+           document.getElementById('updateReg').click();
+  
      swal({
       title: 'Pregunta agregada',
       type: 'success'
@@ -147,6 +155,7 @@ export class MasterQuestionComponent implements OnInit {
     this.currentQuestion = row;
     this.myFormUpdate.get('descriptionUpdate').setValue(this.currentQuestion.description);
     this.getAnswer(this.currentQuestion.id);
+    document.getElementById('updateReg').click();
   }
 
   updateQuestion(){
@@ -158,10 +167,7 @@ export class MasterQuestionComponent implements OnInit {
         allowOutsideClick: false
       });
       swal.showLoading();
-  
-  
       console.log('kakakaka');
-  
       this.questionService.updateQuestion(Number(this.currentQuestion.id), this.myFormUpdate.get('descriptionUpdate').value.toUpperCase())
       .then(data => {
         const resp: any = data;
@@ -255,7 +261,7 @@ export class MasterQuestionComponent implements OnInit {
       const resp: any = data;
       console.log(data);
       swal.close();
-      this.rowsClient = resp.data;
+      this.rowsAnswer = resp.data;
       console.log( this.rowsClient);
     }).catch(error => {
       console.log(error);
@@ -264,7 +270,7 @@ export class MasterQuestionComponent implements OnInit {
 
   sendAnswer(){
 
-      if ( !this.myForm.invalid) {
+      if ( !this.myFormAnswer.invalid) {
        this.submitted = true;
        swal({
          title: 'Validando información ...',
@@ -272,7 +278,7 @@ export class MasterQuestionComponent implements OnInit {
        });
        swal.showLoading();
  
-       this.questionService.createAnswer(this.idQuestion,this.myForm.get('description').value.toUpperCase())
+       this.questionService.createAnswer(this.currentQuestion.id,this.myFormAnswer.get('descriptionAnswers').value.toUpperCase())
        .then(data => {
          const resp: any = data;
          console.log(resp);
@@ -283,12 +289,11 @@ export class MasterQuestionComponent implements OnInit {
              type: 'error'
             });
          } else {
-           this.idQuestion = resp.data.id;
+           this.idAnswer = resp.data.id;
            
            console.log('Cambio');
+           this.getAnswer(this.currentQuestion.id);
            document.getElementById('createAnswerHide').click();
-           document.getElementById('updateReg').click();
-           this.getAnswer(this.idQuestion);
       swal({
        title: 'Respuesta agregada',
        type: 'success'
@@ -308,7 +313,56 @@ export class MasterQuestionComponent implements OnInit {
      }
   }
   
-   updateAns(){}
+   updateAns(row: any){
+     console.log(row);
+     this.currentAnswer = row;
+     this.myFormUpdateAnswer.get('descriptionUpdateAnswers').setValue(this.currentAnswer.description);
+     document.getElementById('updateRes').click();
+   }
+
+   updateAnswer(){
+
+    console.log('Ole ole ole kakaakkaka');
+    if ( !this.myFormUpdateAnswer.invalid) {
+      this.submittedUpdated = true;
+      swal({
+        title: 'Validando información ...',
+        allowOutsideClick: false
+      });
+      swal.showLoading();
+      console.log('kakakaka');
+      this.questionService.updateAnswer(Number(this.currentAnswer.id), this.myFormUpdateAnswer.get('descriptionUpdateAnswers').value.toUpperCase())
+      .then(data => {
+        const resp: any = data;
+        console.log(JSON.stringify(resp));
+        if (resp.success === false) {
+          swal({
+            title: 'Falla en la actualizacion',
+            text: 'Esta respuesta no se pudo actualizar',
+            type: 'error'
+           });
+        } else {
+          console.log('Cambio');
+          document.getElementById('updateAnswerHide').click();
+          this.getAnswer(resp.data.questions_id);
+     swal({
+      title: 'Respuesta actualizada.',
+      type: 'success'
+     });
+      }
+      }).catch(error => {
+        console.log(error);
+      });
+      
+    } else {
+      swal({
+        title: 'Debe seleccionar todos los campos obligatorios',
+        text: 'Debe seleccionar todos los campos obligatorios',
+        type: 'error'
+       });
+    }
+  }
+
 
 
    deleteAns(row:any){swal({
@@ -339,7 +393,7 @@ export class MasterQuestionComponent implements OnInit {
               type: 'error'
              });
           } else {
-         this.loadingData();
+            this.getAnswer(this.elementDelete.questions_id)
          swal({
           title: 'Respuesta eliminada',
           type: 'success'
