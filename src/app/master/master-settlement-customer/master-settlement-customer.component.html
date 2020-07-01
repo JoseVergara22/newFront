@@ -653,7 +653,7 @@
             <div class="col-sm-6">
                 <h6>Sucursales  <span style="color:red;">*</span> </h6>
 
-                <select class="form-control" (change)="getCenterCost()"  [(ngModel)]="selectedRegionalId" > 
+                <select class="form-control" (change)="getCenterCost()" (change)="hideFiled()"  [(ngModel)]="selectedRegionalId" > 
                             <option value="0" selected>Seleccionar sucursal </option>
                              <option   *ngFor="let regional of regionals" [ngValue]="regional"   > {{regional.description}}  </option>
                         <!--  <option value="0" selected>Seleccionar perfil</option> -->
@@ -673,7 +673,7 @@
        
             </div>
             <br>
-
+        <div *ngIf="hideFileds==0">
             <div class="row">
                 <div class="col-sm-4">
                     <h6>Sede</h6>
@@ -703,9 +703,9 @@
                             <option   *ngFor="let costCenter of costCenters" [ngValue]="costCenter"   > {{costCenter.description}}  </option>
                      
                        </select>
-        </div>
-          </div>
-<br>
+            </div>
+             </div>
+            <br>
             <div class="row">
               <div class="col-sm-4">
                   <h6>Documento <span style="color:red;">*</span> </h6>
@@ -727,8 +727,8 @@
                              </select>
               </div>
           </div>
-<br>
-      <div class="row">
+            <br>
+            <div class="row">
               <div class="col-sm-4">
                   <h6>Departamento<span style="color:red;">*</span></h6>
 
@@ -756,20 +756,17 @@
        
               </div>
           
-      </div>
+            </div>
 
 
-<br>
+            <br>
             <div class="row">
               <div class="col-sm-4">
                <h6>Contacto <span style="color:red;">*</span>  </h6>
                   <input type="text"  [(ngModel)]="contact"  value={{contact}}   class="form-control">
                      </div>
             
-                <!-- <div class="col-sm-4">
-               <h6>Correo <span style="color:red;">*</span>  </h6>
-                  <input type="email"  [(ngModel)]="email"  value={{email}} class="form-control">
-                     </div> --> 
+           
                      <div class="col-sm-4">
                       <h6>Teléfono  <span style="color:red;">*</span>  </h6>
                          <input type="text"   [(ngModel)]="cellphone"  value={{cellphone}}  class="form-control">
@@ -784,13 +781,90 @@
             
              
                     </div>
-                   <!---   <div class="col-sm-2">
-                  <h6>TRM </h6>
-              <h3> {{  this.trmGeneralUsa }}</h3>
-
-              ESP <h3> {{  this.trmGeneralEsp }}</h3>
-                     </div>-->
+           
           </div>
+        </div>
+        <!-- Para cuando sea modificado -->
+        <div *ngIf="hideFileds==1">
+            <div class="row">
+              
+                <div class="col-sm-4">
+                    <h6>Documento <span style="color:red;">*</span> </h6>
+                    <input type="text"  [(ngModel)]="documentCustomer"  value={{documentCustomer}} class="form-control" >
+                       </div>
+  
+                 <div class="col-sm-4">
+                    <h6>Cliente<span style="color:red;">*</span> </h6>
+                    <input type="text" [(ngModel)]="nameCustomer"  value={{nameCustomer}}  class="form-control">
+                       </div>
+              
+              <div class="col-sm-4">
+               <h6>Centro de costos  <span style="color:red;">*</span> </h6>
+
+                <select class="form-control"   [(ngModel)]="selectedCostCenterId" > 
+                            <option value="0" selected>Seleccionar centro </option>
+                            <option   *ngFor="let costCenter of costCenters" [ngValue]="costCenter"   > {{costCenter.description}}  </option>
+                     
+                       </select>
+            </div>
+             </div>
+            <br>
+            <div class="row">
+              
+
+                     <div class="col-sm-4">
+                      <h6>Bodegas  <span style="color:red;">*</span> </h6>
+      
+                      <select class="form-control"   [(ngModel)]="selectedWarehouseId" > 
+                                  <option value="0" selected>Seleccionar bodega </option>
+                                  <option   *ngFor="let warehouse of warehouses" [ngValue]="warehouse"   > {{warehouse.description}}  </option>
+                              <!--  <option value="0" selected>Seleccionar perfil</option> -->
+                             </select>
+              </div>
+
+              <div class="col-sm-4">
+                <h6>Departamento<span style="color:red;">*</span></h6>
+
+                <select class="form-control" [(ngModel)]="selectedDepartmentId" (change)="getCities()">
+                      <option value="0" selected>Seleccionar departamento </option>
+                  <option   *ngFor="let department of departments" [ngValue]="department.id"> {{department.name}}  </option>
+                  <!--  <option value="0" selected>Seleccionar perfil</option> -->
+                 </select>
+             </div>
+
+             <div class="col-sm-4">
+                <h6>Ciudad<span style="color:red;">*</span></h6>
+                <select class="form-control" class="form-control" name="select"  [(ngModel)]="selectedCityId">
+                          <option value="0" selected>Seleccionar ciudad </option>
+                      <option  *ngFor="let city of cities " [ngValue]="city.id"> {{city.city}} </option>
+                     </select>
+            </div>
+          </div>
+            <br>
+            <div class="row">
+              <div class="col-sm-4">
+               <h6>Contacto <span style="color:red;">*</span>  </h6>
+                  <input type="text"  [(ngModel)]="contact"  value={{contact}}   class="form-control">
+                     </div>
+            
+           
+                     <div class="col-sm-4">
+                      <h6>Teléfono  <span style="color:red;">*</span>  </h6>
+                         <input type="text"   [(ngModel)]="cellphone"  value={{cellphone}}  class="form-control">
+                     </div> 
+
+                     <div class="col-sm-4">
+
+                 
+                        <h6>OC/Cotización  </h6>
+                        <input type="text"   [(ngModel)]="numberEstimate"  value={{numberEstimate}}  class="form-control">
+                    
+            
+             
+                    </div>
+           
+          </div>
+        </div>
           <br>
           <div class="row">
              
@@ -799,29 +873,6 @@
                       <textarea type="text" class="form-control" [(ngModel)]="observation"></textarea>
                      </div> 
           </div>
-
-              <!-- <div class="col-sm-6"> -->
-                 <!--  <h6>País<span style="color:red;">*</span></h6>
-                  <select class="form-control" (change)="ChangingValue()" name="select" [(ngModel)]="selectedEstimateCountryId">
-                          <option value="0" selected>Seleccionar país</option>
-                          <option  *ngFor="let estimateCountry of estimateCountries" [ngValue]="estimateCountry"> {{estimateCountry.name}} </option>
-                        </select> -->
-                  <!--  <input type="text" class="form-control" placeholder="Filtrar" (keyup)="updateFilter($event)"> -->
-                  <!--  <input type="text" style="padding:8px;margin:15px auto;width:30%;" placeholder="Type to filter the name column..." (keyup)="updateFilter($event)" /> -->
-           <!--   </div> -->
-            <!--  <div class="col-sm-3"> -->
-                  <!--     <div class="checkbox-color checkbox-primary">
-                  <input id="checkbox18" type="checkbox" (change)="onChangeActive($event)">
-                  <label for="checkbox18">
-                         Activo
-                        </label>
-              </div>
-              <div class="checkbox-color checkbox-danger">
-                  <input id="checkbox16" type="checkbox" (change)="onChangeInactive($event)">
-                  <label for="checkbox16">
-                              Inactivo
-                            </label>
-              </div>-->
            <br>
              
                   <div class="align-buttons">
@@ -891,12 +942,12 @@
           <br>
           <br>
           <br>
+          <div *ngIf="hideFileds==0">
           <div class="col-sm-12">
               <div class="labelItem">
                   <button type="button" id="registerCountry" class="btn btn-primary waves-effect" (click)="modalRegisterItemWorkforce.show()" *ngIf="showCreateItem">Crear item</button>
               </div>
                </div>
-        
           <div class="row">
               <div class="col-sm-12">
                   <div class="partLabel">
@@ -923,6 +974,7 @@
 
 
       </ngx-datatable>
+    </div>
       <br>
       <br>
       <div class="col-sm-12">

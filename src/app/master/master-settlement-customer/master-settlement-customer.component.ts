@@ -148,6 +148,8 @@ export class MasterSettlementCustomerComponent implements OnInit {
   selectedWarehouseId:any=0;
   selectedBranchOfficeId:any=0;
 
+  hideFileds = 0;
+
   managementVariables=0;
   managmentTariff=0;
   finalWeight=0;
@@ -547,24 +549,7 @@ this.trmGeneralUsa= inputTrm.value.replace(/[^\d\.]*/g,'');
 
    getForklifs() {
     if(this.selectedBranchOfficeId!=0){
-  /*  console.log('valor de selección');
-    
-    console.log(this.selectedBusinessId.document_id);
-
-    this.documentCustomer = this.selectedBusinessId.document_id;
-    this.nameCustomer = this.selectedBusinessId.business_name;
-    console.log('this.selectedBusinessId.business_name');
-    console.log(this.selectedBusinessId.business_name);
-    this.cellphone = this.selectedBusinessId.telephone;
-    this.contact =  '';
-   //  this.email =  this.selectedBusinessId.email;
-    this.days = this.selectedBusinessId.day;
-    this.selectedDepartmentId = this.selectedBusinessId.department_id;
-   
-    this.getCities();*/
- // if(this.selectedBusinessId.id!=0){
-
- //   if(this.selectedBusinessId!=0){
+ 
     console.log('this.selectedBusinessId.id');
     console.log(this.selectedBranchOfficeId.id);
 
@@ -574,11 +559,6 @@ this.trmGeneralUsa= inputTrm.value.replace(/[^\d\.]*/g,'');
       swal.close();
       this.forklifts  = resp.data;
   
-        // business_name,  last_name,name, email cellphone
-      // this.rowsClient = resp.data;
-      // this.rowStatic =  resp.data;
-      // this.rowsTemp = resp.data;
-      // console.log( this.rowsClient);
     }).catch(error => {
       console.log(error);
     });
@@ -620,14 +600,7 @@ this.trmGeneralUsa= inputTrm.value.replace(/[^\d\.]*/g,'');
       console.log(error);
     });
 
-    /*this.restService.getRegionalCustomer(this.selectedBusinessId.id).then(data => {
-      const resp: any = data;
-      console.log(data);
-      swal.close();
-      this.regionals  = resp.data_customerRegionals;
-    }).catch(error => {
-      console.log(error);
-    });*/
+ 
 
   }else{
     this.selectedDepartmentId=0;
@@ -654,6 +627,14 @@ getCenterCost() {
   }).catch(error => {
     console.log(error);
   });
+}
+
+hideFiled(){
+if(this.selectedRegionalId.hide_fileds == 1){
+  this.hideFileds = 1;
+}else{
+  this.hideFileds = 0;
+}
 }
 
 

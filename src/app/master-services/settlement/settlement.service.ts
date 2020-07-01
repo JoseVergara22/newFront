@@ -635,7 +635,11 @@ createScheduleSettlement(params: string) {
       });
     }
 
-    getSettlementEstimateCustomer(idCustomer:number, idBranchOffice:number, numberPage:number) {
+    getSettlementEstimateCustomer(idCustomer:number, idBranchOffice:number, numberPage:number, from_date,to_date) {
+      console.log('customer_id='+idCustomer+'&&branch_office_id='+idBranchOffice+'&&page='+numberPage+'&&from_date'+from_date+'&&to_date'+to_date);
+      console.log(idCustomer);
+      console.log('customer_id='+idCustomer+'&&branch_office_id='+idBranchOffice+'&&page='+numberPage+'&&from_date'+from_date+'&&to_date='+to_date);
+      console.log('customer_id='+idCustomer+'&&branch_office_id='+idBranchOffice+'&&page='+numberPage+'&&from_date'+from_date+'&&to_date'+to_date);
       return new Promise(resolve => {
         const headers = new HttpHeaders();
         headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user'))); // 'Bearer ' +
@@ -647,7 +651,8 @@ createScheduleSettlement(params: string) {
             'Accept': 'application/json'
           })
         };
-        this.http.get(this.apiEndPoint+'api/settlement_estimate_customer?customer_id='+idCustomer+'&&branch_office_id='+idBranchOffice+'&&page='+numberPage, httpOptions)
+        
+        this.http.get(this.apiEndPoint+'api/settlement_estimate_customer?customer_id='+idCustomer+'&&branch_office_id='+idBranchOffice+'&&page='+numberPage+'&&from_date='+from_date+'&&to_date='+to_date, httpOptions)
           .map(res => res).subscribe(data => {
             console.log(data);
             resolve(data);
@@ -657,7 +662,8 @@ createScheduleSettlement(params: string) {
       });
     }
 
-    getSettlementEstimateForklift(idCustomer:number, idBranchOffice:number) {
+    getSettlementEstimateForklift(idCustomer:number, idBranchOffice:number,from_date,to_date) {
+      console.log('customer_id='+idCustomer+'&&branch_office_id='+idBranchOffice+'&&from_date='+from_date+'&&to_date='+to_date);
       return new Promise(resolve => {
         const headers = new HttpHeaders();
         headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user'))); // 'Bearer ' +
@@ -669,8 +675,8 @@ createScheduleSettlement(params: string) {
             'Accept': 'application/json'
           })
         };
-        console.log(idCustomer+'-'+idBranchOffice);
-        this.http.get(this.apiEndPoint+'api/settlement_estimate_forklift?customer_id='+idCustomer+'&&branch_office_id='+idBranchOffice, httpOptions)
+        
+        this.http.get(this.apiEndPoint+'api/settlement_estimate_forklift?customer_id='+idCustomer+'&&branch_office_id='+idBranchOffice+'&&from_date='+from_date+'&&to_date='+to_date, httpOptions)
           .map(res => res).subscribe(data => {
             console.log(data);
             resolve(data);
