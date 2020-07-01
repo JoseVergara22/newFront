@@ -1,0 +1,160 @@
+<app-modal-basic #modalRegisterBrand [dialogClass]="'modal-lg'">
+  <div class="app-modal-header">
+
+      <h4 class="modal-title">Registrar Pregunta</h4>
+  </div>
+  <div class="app-modal-body">
+      <form [formGroup]="myForm" (ngSubmit)="sendQuestion()">
+          <div class="form-group row">
+            
+            <div class="col-sm-5 ">
+                  <h6>Descripción<span style="color:red;">*</span></h6>
+                  <input type="text" class="form-control" formControlName="description" [ngClass]="{ 'is-invalid': submitted && checkForm.description.errors }">
+                  <div *ngIf="submitted && checkForm.description.errors" class="invalid-feedback">
+                      <div class="messages text-danger" *ngIf="checkForm.description.errors.required">Este campo es requerido</div>
+                  </div>
+              </div>
+          </div>
+
+            <div class="align-buttons">
+              <button *ngIf="switchUpdate==false" type="button" class="btn btn-default waves-effect" id="createRegionalHide" (click)="modalRegisterBrand.hide()">Cancelar</button>
+              <button type="submit " class="btn btn-primary m-b-0 ">Agregar Pregunta</button>
+            </div>
+        <div *ngIf="switchUpdate==true">
+          <div class="col-sm-3">
+                <div class="align-buttons">
+                    <button type="button" id="registerRegionals" class="btn btn-primary waves-effect" (click)="modalRegisterAnswer.show()">Crear Pregunta</button>
+                  </div>
+              </div>
+
+            <ngx-datatable #table class="data-table" [rows]="rowsAnswer" [columnMode]="'flex'" [headerHeight]="50" [footerHeight]="50" [rowHeight]="'auto'"
+          [limit]="25">
+          
+          <ngx-datatable-column [resizeable]="false" [flexGrow]="1" name="Description"  [canAutoResize]="true" [sortable]="false" [draggable]="false" prop="description"></ngx-datatable-column>
+          <ngx-datatable-column [resizeable]="false" [flexGrow]="2" name="Acciones"  [canAutoResize]="true" [sortable]="false" [draggable]="false" sortable="false" prop="id">
+              
+              <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+                  
+                  <button type="button" style="display:none;" id="updateReg" class="btn btn-primary waves-effect" (click)="modalUpdateBrand.show()">Actualizar Respuesta</button>
+                  <button (click)="updateAns(row)" class="btn btn-primary btn-icon"><i class="icofont icofont-pencil-alt-5"></i></button>
+                  <button (click)="deleteAns(row)" class="btn btn-danger btn-icon"><i class="icofont icofont-ui-delete"></i></button>
+                </ng-template>
+            </ngx-datatable-column>
+
+
+        </ngx-datatable>
+      </div>
+        <button *ngIf="switchUpdate==true" type="button" class="btn btn-default waves-effect" id="createRegionalHide" (click)="loadingData()" (click)="modalRegisterBrand.hide()">Salir</button>
+        </form>
+  </div>
+</app-modal-basic>
+
+<app-modal-basic #modalUpdateBrand [dialogClass]="'modal-lg'">
+  <div class="app-modal-header">
+      <h4 class="modal-title">Actualizar Pregunta</h4>
+  </div>
+  <div *ngIf="currentQuestion" class="app-modal-body">
+      <form [formGroup]="myFormUpdate" (ngSubmit)="updateQuestion()">
+          <div class=" form-group row ">
+              
+
+              <div class="col-sm-5 ">
+
+                  <h6>Descripción <span style="color:red; ">*</span></h6>
+                  <input type="text " class="form-control " formControlName="descriptionUpdate" [ngClass]="{ 'is-invalid': submittedUpdated && checkFormUpdate.descriptionUpdate.errors } ">
+                  <div *ngIf="submittedUpdated && checkFormUpdate.descriptionUpdate.errors " class="invalid-feedback ">
+                      <div class="messages text-danger " *ngIf="checkFormUpdate.descriptionUpdate.errors.required ">Este campo es requerido</div>
+                  </div>
+              </div>
+          </div>
+
+          <div class="align-buttons">
+              <button type="submit " class="btn btn-primary m-b-0 ">Actualizar Pregunta</button>
+          </div>
+          <ngx-datatable #table class="data-table" [rows]="rowsAnswer" [columnMode]="'flex'" [headerHeight]="50" [footerHeight]="50" [rowHeight]="'auto'"
+          [limit]="25">
+          
+          <ngx-datatable-column [resizeable]="false" [flexGrow]="1" name="Description"  [canAutoResize]="true" [sortable]="false" [draggable]="false" prop="description"></ngx-datatable-column>
+          <ngx-datatable-column [resizeable]="false" [flexGrow]="2" name="Acciones"  [canAutoResize]="true" [sortable]="false" [draggable]="false" sortable="false" prop="id">
+              
+              <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+                  
+                  <button type="button" style="display:none;" id="updateReg" class="btn btn-primary waves-effect" (click)="modalUpdateBrand.show()">Actualizar sucursal</button>
+                  <button (click)="updateQue(row)" class="btn btn-primary btn-icon"><i class="icofont icofont-pencil-alt-5"></i></button>
+                  <button (click)="deleteAns(row)" class="btn btn-danger btn-icon"><i class="icofont icofont-ui-delete"></i></button>
+                </ng-template>
+            </ngx-datatable-column>
+
+
+        </ngx-datatable>
+        <button type="button" class="btn btn-default waves-effect" id="createRegionalHide" (click)="loadingData()" (click)="modalRegisterBrand.hide()">Salir</button>
+      </form>
+  </div>
+</app-modal-basic>
+
+<app-modal-basic #modalRegisterAnswer [dialogClass]="'modal-lg'">
+  <div class="app-modal-header">
+
+      <h4 class="modal-title">Registrar Respuesta</h4>
+  </div>
+  <div class="app-modal-body">
+      <form [formGroup]="myFormAnswer" (ngSubmit)="sendAnswer()">
+          <div class="form-group row">
+                          
+              <div class="col-sm-5">
+
+                  <h6>Respuesta<span style="color:red;">*</span></h6>
+                  <input type="text" class="form-control" formControlName="descriptionAnswers" [ngClass]="{ 'is-invalid': submitted && checkFormAnswer.descriptionAnswers.errors }">
+                  <div *ngIf="submitted && checkFormAnswer.descriptionAnswers.errors" class="invalid-feedback">
+                      <div class="messages text-danger" *ngIf="checkFormAnswer.descriptionAnswers.errors.required">Este campo es requerido</div>
+                  </div>
+              </div>
+
+          </div>
+
+            <div class="align-buttons">
+              <button type="button" class="btn btn-default waves-effect" id="createAnswerHide" (click)="cancelRegisterAnswer()" (click)="modalRegisterAnswer.hide()">Cancelar</button>
+              <button type="submit " class="btn btn-primary m-b-0 ">Agregar Respuesta</button>
+            </div>
+
+        </form>
+  </div>
+</app-modal-basic>
+
+<div class="row">
+
+<div class="col-sm-12">
+    <app-card  style="position: sticky; top: 300px;">
+        <h5>Registrar pregunta de encuesta </h5>
+        <br>
+        <div class="row">
+            <div class="col-sm-6">
+                <input type="text" class="form-control" placeholder="Filtrar" (keyup)="updateFilter($event)">
+            </div>
+            
+            <div class="col-sm-3">
+                <div class="align-buttons">
+                    <button type="button" id="registerQuestion" class="btn btn-primary waves-effect" (click)="modalRegisterBrand.show()">Crear sucursal</button>
+                  </div>
+              </div>
+          </div>
+          <br>
+          <ngx-datatable #table class="data-table" [rows]="rowsClient" [columnMode]="'flex'" [headerHeight]="50" [footerHeight]="50" [rowHeight]="'auto'"
+          [limit]="25">
+          
+          <ngx-datatable-column [resizeable]="false" [flexGrow]="1" name="Description"  [canAutoResize]="true" [sortable]="false" [draggable]="false" prop="description"></ngx-datatable-column>
+          <ngx-datatable-column [resizeable]="false" [flexGrow]="2" name="Acciones"  [canAutoResize]="true" [sortable]="false" [draggable]="false" sortable="false" prop="id">
+              
+              <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+                  
+                  <button type="button" style="display:none;" id="updateReg" class="btn btn-primary waves-effect" (click)="modalUpdateBrand.show()">Actualizar sucursal</button>
+                  <button (click)="updateQue(row)" class="btn btn-primary btn-icon"><i class="icofont icofont-pencil-alt-5"></i></button>
+                  <button (click)="deleteQuestion(row)" class="btn btn-danger btn-icon"><i class="icofont icofont-ui-delete"></i></button>
+                </ng-template>
+            </ngx-datatable-column>
+
+
+        </ngx-datatable>
+    </app-card>
+</div>
+</div>

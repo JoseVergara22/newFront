@@ -71,6 +71,8 @@ import { MasterLogTrmComponent } from './master-log-trm/master-log-trm.component
 import { MasterChecklistsComponent } from './master-checklists/master-checklists.component';
 import { MasterRegisterChecklistsComponent } from './master-register-checklists/master-register-checklists.component';
 import { MasterUpdateChecklistsComponent } from './master-update-checklists/master-update-checklists.component';
+import { MasterQuestionComponent } from './master-question/master-question.component';
+import { MasterToiletComponent } from './master-toilet/master-toilet.component';
 
 
 import { MasterSettlementListComponent } from './master-settlement-list/master-settlement-list.component';
@@ -90,6 +92,8 @@ import { FilexcelService } from '../master-services/FileExcel/filexcel.service';
 import { SettlementService } from '../master-services/settlement/settlement.service';
 import { ModulesService } from '../master-services/modules/modules.service';
 import { ChecklistService } from '../master-services/checklist/checklist.service';
+import { QuestionService } from '../master-services/question/question.service';
+import { ToiletService } from '../master-services/toliet/toilet.service';
 
 
 import {AutocompleteLibModule} from 'angular-ng-autocomplete';
@@ -173,7 +177,10 @@ import {AutocompleteLibModule} from 'angular-ng-autocomplete';
     MasterChecklistsComponent,
     MasterRegisterChecklistsComponent,
     MasterUpdateChecklistsComponent,
-    MasterSettlementListComponent
+    MasterSettlementListComponent,
+    MasterQuestionComponent,
+    MasterToiletComponent
+    
     
    // MasterAdminComponent
   ],
@@ -195,6 +202,8 @@ import {AutocompleteLibModule} from 'angular-ng-autocomplete';
     FilexcelService,
     SettlementService,
     ModulesService,
-    ChecklistService]
+    ChecklistService,
+    QuestionService,
+    ToiletService]
 })
 export class MasterModule { }
