@@ -624,7 +624,8 @@ export class MasterWorkDetailsComponent implements OnInit {
     const system=formValue.system;
   
     if((system!=null)&&(system!="")){
-    this.workService.storeSystem( this.headerInfo,this.detailForm.get('system').value).then(data=>{
+      console.log()
+    this.workService.storeSystem(this.headerId,this.detailForm.get('system').value).then(data=>{
       const resp:any=data;
       console.log(data);
       console.log(resp);

@@ -82,7 +82,7 @@ const MENUITEMS = [
             state: 'register',
             name: 'Administrar Usuarios'
           }, 
-          {
+         /* {
             state:'question',
             name: 'Administrar Encuesta de mantenimiento'
           },
@@ -93,7 +93,7 @@ const MENUITEMS = [
           {
             state:'checklists',
             name: 'Administrar Checklist'
-          },
+          },*/
           /*
          {
             state: 'modules',

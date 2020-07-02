@@ -1,6 +1,6 @@
 <div class="row">
   <div class="col-sm-12">
-      <app-card [title]="'Registro rutinas'" [headerContent]="''" [cardOptionBlock]="true">
+      <app-card [title]="'Registro checklist'" [headerContent]="''" [cardOptionBlock]="true">
 
 
           <h5>Información checklist </h5>
@@ -11,7 +11,7 @@
 
               <div class="form-group row">
                   <div class="col-sm-8 col-xs-12">
-                      <h6>Nombre del check <span style="color:red;">*</span></h6>
+                      <h6>Nombre del checklist <span style="color:red;">*</span></h6>
                       <input type="text" class="form-control" [(ngModel)]="title1" #ctrl="ngModel" id="worktitle" required>
                   </div>
 
@@ -25,7 +25,7 @@
 
               <div class="form-group row">
                   <div class="col-sm-12" >
-                      <h6>Observacion del check<span style="color:red;"></span></h6>
+                      <h6>Observacion del checklist<span style="color:red;"></span></h6>
                       <textarea type="text" class="form-control" [(ngModel)]="observation1" #ctrl="ngModel" id="workobservation" required></textarea>
                   </div>
 
