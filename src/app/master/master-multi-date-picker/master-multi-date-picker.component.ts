@@ -1,7 +1,9 @@
 import {Component, Input, Output, EventEmitter, OnInit} from '@angular/core';
 import {NgbDateStruct, NgbCalendar} from '@ng-bootstrap/ng-bootstrap';
 import { WorkService } from '../../master-services/Work/work.service';
+import { RestService } from '../../master-services/Rest/rest.service';
 import swal from 'sweetalert2';
+import { ChecklistService } from '../../master-services/checklist/checklist.service';
 
 
 interface dateInterface {
@@ -88,9 +90,24 @@ export class MasterMultiDatePickerComponent implements OnInit {
 
   routineSelecteds: Array <itemSelectInterface> = [];
   routineSelected: itemSelectInterface;
+
+  checklisSelecteds: Array <itemSelectInterface> = [];
+  checklistSelected: itemSelectInterface;
+
+  technicianSelecteds: Array <itemSelectInterface> = [];
+  technicianSelected: itemSelectInterface;
  
   _currentDateRoutines: Array <currentDateInterface> = [];
   currentDateRoutine: currentDateInterface;
+
+  preventive: boolean = false;
+  corrective: boolean = false;
+  checklist: boolean = false;
+
+  correctives: any;
+  preventives: any;
+  checklists: any;
+  technician: any;
   
   ngOnInit() {
   }
@@ -121,7 +138,8 @@ export class MasterMultiDatePickerComponent implements OnInit {
 
  //  currentDateRoutines: Array <currentDateInterface> = [];
 
-  constructor(calendar: NgbCalendar, private workService:WorkService) {
+  constructor(calendar: NgbCalendar, private workService:WorkService, private restService: RestService,
+    private checklistService: ChecklistService) {
 
   console.log('Importante data de fechas');
   console.log(this.currentDateRoutines);
@@ -129,7 +147,7 @@ export class MasterMultiDatePickerComponent implements OnInit {
   
   this.datesSelected=[];
   console.log('Ver rutinas')
-  this.getWorks();
+  this.getTechnician();
   let numberMonthCurrent = dateDay.getMonth() + 1;
   let numberAnioCurrent = dateDay.getFullYear();
 
@@ -194,6 +212,89 @@ if (numberMonthCurrent !== 13) {
     }
   }
 
+  selectItem(event: any){
+    console.log(event);
+    console.log(event.target.checked);
+
+    if(event.target.value == 0){
+
+      if(event.target.checked == true ){
+        this.preventive = true;
+        this.getWorks();
+      }else{
+        this.preventive = false;
+      }
+    }
+
+    if(event.target.value == 1){
+
+      if(event.target.checked == true ){
+        this.corrective = true;
+        this.getCorrevtive();
+      }else{
+        this.corrective = false;
+      }
+    }
+
+    if(event.target.value == 2){
+
+      if(event.target.checked == true ){
+        this.checklist = true;
+        this.getChecklist();
+      }else{
+        this.checklist = false;
+      }
+    }
+  }
+
+  getCorrevtive(){
+
+  }
+
+  getChecklist(){
+    swal({
+      title: 'Obteniendo información ...',
+      allowOutsideClick: false
+    });
+    swal.showLoading();
+    this.checklistService.showChecklist().then(data => {
+      const resp: any = data;
+      if (resp.error) {
+        swal({
+          title:'Error',
+          text: 'Ha ocurrido un error',
+          type: 'error'
+         });
+      } else {
+        console.log(data);
+        swal.close();
+        this.checklists = resp.data;
+        for (let item of  this.checklists) {
+          console.log(item); // 1, "string", false
+
+          this.checklistSelected= {
+            id: item.id,
+            item: item.description,
+            select: false
+          }
+          this.checklisSelecteds.push(this.checklistSelected);
+      }
+
+      console.log("ole ole");
+      console.log(this.checklisSelecteds);
+
+
+    }
+    }).catch(error => {
+      swal.close();
+      swal({
+        title:'Error',
+        text: 'Ha ocurrido un error',
+        type: 'error'
+       });
+      console.log(error);
+    });
+  }
 
   getWorks() {
     swal({
@@ -230,6 +331,49 @@ if (numberMonthCurrent !== 13) {
 
         console.log( this.rowsWork);
     }
+    }).catch(error => {
+      swal.close();
+      swal({
+        title:'Error',
+        text: 'Ha ocurrido un error',
+        type: 'error'
+       });
+      console.log(error);
+    });
+  }
+
+  getTechnician(){
+    swal({
+      title: 'Obteniendo información ...',
+      allowOutsideClick: false
+    });
+    swal.showLoading();
+    this.restService.getTechnician().then(data => {
+      const resp: any = data;
+      if (resp.error) {
+        swal({
+          title:'Error',
+          text: 'Ha ocurrido un error',
+          type: 'error'
+         });
+      } else {
+        console.log(data);
+        swal.close();
+        this.technician = resp.data;
+        for (let item of  this.technician) {
+          console.log(item); // 1, "string", false
+
+          this.technicianSelected= {
+            id: item.id,
+            item: item.name,
+            select: false
+          }
+          this.technicianSelecteds.push(this.technicianSelected);
+        
+    }
+    console.log( this.technicianSelecteds);
+        console.log( this.technician);
+  }
     }).catch(error => {
       swal.close();
       swal({
@@ -326,12 +470,30 @@ if (numberMonthCurrent !== 13) {
       
       //}      //If exist, remove the datedateCurrentCancel
       // else {
-       
-        for (let item of this.routineSelecteds) {
+       if(this.preventive==true){
+         for (let item of this.routineSelecteds) {
+            if(item.select){
+             this.checkedList = this.checkedList +','+ item.id;
+            }
+          }
+       }
+
+      //  if(this.corrective==true){
+      //   for (let item of this.routineSelecteds) {
+      //     if(item.select){
+      //       this.checkedList = this.checkedList +','+ item.id;
+      //     }
+      //   }
+      // }
+      
+      if(this.checklist==true){
+        for (let item of this.checklisSelecteds) {
           if(item.select){
             this.checkedList = this.checkedList +','+ item.id;
           }
       }
+    }
+        
 
       console.log(this.checkedList.length);
 

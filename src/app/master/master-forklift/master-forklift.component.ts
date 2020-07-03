@@ -373,6 +373,7 @@ export class MasterForkliftComponent extends NgbDatepickerI18n {
    change(value: NgbDateStruct[])
    {
      this.datesSelected = value;
+     console.log(this.datesSelected);
    }
 
    getCustomerModel() {

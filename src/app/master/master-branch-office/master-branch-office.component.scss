@@ -1,17 +1,3 @@
-.card2 {
-    .card-header {
-        .card-header-right {
-            .card-option {
-                width: 190px;
-                transition: unset;
-            }
-        }
-        &+.card-block-hid {
-            .card-block,
-            .card-block-big,
-            .card-block-small {
-                padding-top: 0;
-            }
-        }
-    }
+.align-buttons {
+    text-align: right;
 }

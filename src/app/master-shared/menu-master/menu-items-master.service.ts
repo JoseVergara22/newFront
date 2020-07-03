@@ -129,6 +129,10 @@ const MENUITEMS = [
             name: 'Administrar Clientes'
           },
           {
+            state: 'registerOffice',
+            name: 'Administrar Sedes'
+          },
+          {
             state: 'forkliftShow',
             name: 'Administrar Montacargas'
           },

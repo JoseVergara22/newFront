@@ -2602,14 +2602,7 @@ updateRegional(id:number, description:string, code:string){
     });
   }
 
-  createOffice(customer_id: number,
-    branch_name: string,
-    address: string,
-    telephone: string,
-    status: number,
-    city_id: number,
-    department_id: number
-  ) {
+  createOffice(customer_id: number, branch_name: string) {
 
     return new Promise(resolve => {
       const headers = new HttpHeaders();
@@ -2624,12 +2617,7 @@ updateRegional(id:number, description:string, code:string){
       };
       const postParams = {
         customer_id: customer_id,
-        branch_name: branch_name,
-        address: address,
-        telephone: telephone,
-        city_id: city_id,
-        department_id: department_id,
-        status: status
+        branch_name: branch_name
       };
       this.http.post(this.apiEndPoint+'api/branch_offices ', postParams, httpOptions)
         .map(res => res).subscribe(data => {
@@ -2643,21 +2631,13 @@ updateRegional(id:number, description:string, code:string){
   updateOffice(id: number,
     customer_id: number,
     branch_name: string,
-    address: string,
-    telephone: string,
-    status: number,
-    city_id: number,
-    department_id: number
+
   ) {
     console.log("en servicio");
     console.log(id);
     console.log(customer_id);
     console.log(branch_name);
-    console.log(address);
-    console.log(telephone);
-    console.log(status);
-    console.log(city_id);
-    console.log(department_id);
+
 
     return new Promise(resolve => {
       const httpOptions = {
@@ -2669,12 +2649,7 @@ updateRegional(id:number, description:string, code:string){
       };
       const postParams = {
         customer_id: customer_id,
-        branch_name: branch_name,
-        address: address,
-        telephone: telephone,
-        city_id: city_id,
-        department_id: department_id,
-        status: status
+        branch_name: branch_name
       };
       this.http.patch(this.apiEndPoint+'api/branch_offices/' + id, postParams, httpOptions)
         .map(res => res).subscribe(data => {

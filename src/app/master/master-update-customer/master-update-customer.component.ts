@@ -782,9 +782,7 @@ updatedOffice() {
         statusTemp = 1;
       }
   console.log('llego');
-      this.restService.updateOffice(this.currentOffice.id,this.currentCustomerId, this.myFormUpdateOffice.get('nameOfficeUpdate').value.toUpperCase(),
-      this.myFormUpdateOffice.get('addressOfficeUpdate').value, this.myFormUpdateOffice.get('telephoneOfficeUpdate').value,
-       statusTemp, this.selectedCityOfficeIdUpdate, this.selectedDepartmentOfficeIdUpdate)
+      this.restService.updateOffice(this.currentOffice.id,this.currentCustomerId, this.myFormUpdateOffice.get('nameOfficeUpdate').value.toUpperCase())
       .then(data => {
         const resp: any = data;
         console.log(resp);
@@ -866,9 +864,7 @@ sendOffice() {
 console.log('llego');
 
 
-    this.restService.createOffice(this.currentCustomerId, this.myFormCreateOffice.get('nameOffice').value.toUpperCase(),
-     this.myFormCreateOffice.get('addressOffice').value, this.myFormCreateOffice.get('telephoneOffice').value,
-     statusTemp, this.selectedCityOfficeId.id, this.selectedDepartmentOfficeId.id)
+    this.restService.createOffice(this.currentCustomerId, this.myFormCreateOffice.get('nameOffice').value.toUpperCase())
     .then(data => {
       const resp: any = data;
       console.log(resp);

@@ -1,70 +1,97 @@
-<div class="row">
-    <div class="col-sm-12">
-        <!-- <app-master-spinner></app-master-spinner>  -->
-        <!-- Basic Inputs Validation start -->
+<app-modal-basic #modalRegisterOffice [dialogClass]="'modal-lg'">
+    <div class="app-modal-header">
 
-
-
-        <app-card [title]="'Registro de sedes'" [headerContent]="''" [cardOptionBlock]="true">
-
-            <h5>Información sede </h5>
-            <br>
-            <div class="form-group row">
-                <div class="col-sm-4">
-                    <h6>Nombre de sede <span style="color:red;">*</span></h6>
-                    <input type="text" class="form-control" id="Officename">
-                </div>
-
-                <div class="col-sm-4">
-                    <h6> Teléfono <span style="color:red;">*</span></h6>
-                    <input type="number" class="form-control" id="password">
-                    <!--  <div class="messages text-danger error" *ngIf="myForm.controls.password.touched &&  !myForm.controls.password.valid">Este campo es requerido</div> -->
-                </div>
-                <div class="col-sm-4">
-                    <h6>Pais<span style="color:red;">*</span></h6>
-                    <select class="form-control" name="select">
-                        <!--  <option value="0" selected>Seleccionar perfil</option> -->
-                         <option value="1">Colombia</option>
-                       </select>
-                </div>
-
-            </div>
-            <div class="form-group row">
-                <div class="col-sm-4">
-                    <h6>Ciudad<span style="color:red;">*</span></h6>
-                    <select class="form-control" class="form-control" name="select">
-                        <!--  <option value="0" selected>Seleccionar perfil</option> -->
-                         <option value="1">Antioquia</option>
-                         <option value="2">Arauca</option>
-                         <option value="2">Cundinamarca</option>  
-                       </select>
-                </div>
-
-                <div class="col-sm-4">
-                    <h6> Dirección <span style="color:red;">*</span></h6>
-                    <input type="text" class="form-control" id="password">
-                    <!--  <div class="messages text-danger error" *ngIf="myForm.controls.password.touched &&  !myForm.controls.password.valid">Este campo es requerido</div> -->
-                </div>
-
-                <div class="col-sm-4">
-                    <h6>Activo</h6>
-                    <ui-switch class="js-single" color="#4680ff" switchColor="#fff" size="medium" checked></ui-switch><br>
-                </div>
-
-
-
-            </div>
-            <br>
-
-
-            <div class="form-group row ">
-                <div class="col-sm-10 ">
-                    <button type="submit " class="btn btn-primary m-b-0 ">Agregar sede</button>
-                </div>
-            </div>
-
-
-            <!--   <button type="button " class="btn btn-warning alert-confirm m-b-10 " (click)="openAjaxSwal() ">Confirm</button> -->
-        </app-card>
+        <h4 class="modal-title">Registrar Sede</h4>
     </div>
+    <div class="app-modal-body">
+        <form [formGroup]="myForm" (ngSubmit)="sendOffice()">
+            <div class="form-group row">
+               
+                <div class="col-sm-5">
+
+                    <h6>Descripccion<span style="color:red;">*</span></h6>
+                    <input type="text" class="form-control" formControlName="description" [ngClass]="{ 'is-invalid': submittedOffice && checkForm.description.errors }">
+                    <div *ngIf="submittedOffice && checkForm.description.errors" class="invalid-feedback">
+                        <div class="messages text-danger" *ngIf="checkForm.description.errors.required">Este campo es requerido</div>
+                    </div>
+                </div>
+            </div>            
+            
+              <div class="align-buttons">
+                <button type="button" class="btn btn-default waves-effect" id="createBrandHide" (click)="modalRegisterOffice.hide()">Cancelar</button>
+                <button type="submit " class="btn btn-primary m-b-0 ">Agregar Sede</button>
+              </div>
+            
+          </form>
+    </div>
+</app-modal-basic>
+
+<app-modal-basic #modalUpdateOffice [dialogClass]="'modal-lg'">
+    <div class="app-modal-header">
+        <h4 class="modal-title">Actualizar Sede</h4>
+    </div>
+    <div *ngIf="currentOffice" class="app-modal-body">
+        <form [formGroup]="myFormUpdate" (ngSubmit)="updatedOffice()">
+
+              <div class=" form-group row ">
+                 
+                  <div class="col-sm-5 ">
+                      <h6>Descripccion <span style="color:red; ">*</span></h6>
+                      <input type="text " class="form-control " formControlName="descriptionUpdate" [ngClass]="{ 'is-invalid': submittedUpdated && checkFormUpdate.descriptionUpdate.errors } ">
+                      <div *ngIf="submittedUpdated && checkFormUpdate.descriptionUpdate.errors " class="invalid-feedback ">
+                          <div class="messages text-danger " *ngIf="checkFormUpdate.descriptionUpdate.errors.required ">Este campo es requerido</div>
+                      </div>
+                  </div>
+              </div>
+
+              <div class="align-buttons">
+                <button type="button" class="btn btn-default waves-effect" id="updateBrandHide" (click)="modalUpdateOffice.hide()">Cancelar</button>
+                <button type="submit " class="btn btn-primary m-b-0 ">Actualizar Sede</button>
+            </div>
+        </form>
+    </div>
+</app-modal-basic>
+
+<div class="row">
+  <div class="col-sm-12">
+      <app-card  style="position: sticky; top: 300px;">
+          <h5>Registrar Sede </h5>
+          <br>
+          <div class="form-group row">
+            <div class="col-sm-5">
+              <h6 class="regional">Selecciona el cliente<span style="color: red;">*</span></h6>
+              <select class="form-control" name="select" [(ngModel)]="selectedRegional" (change)="getOffices()">
+                <option value="0" selected>Seleccionar cliente</option>
+                <option  *ngFor="let reg of rowsClient" [ngValue]="reg.id"> {{reg.business_name}} </option>
+              </select>
+            </div>
+          </div>
+              
+                  <div class="align-buttons">
+                      <button type="button" id="registerOffices" class="btn btn-primary waves-effect" (click)="showCreate()" >Crear Sede</button>
+                      <button type="button" id="registerOffice" style="display: none;" class="btn btn-primary waves-effect" (click)="modalRegisterOffice.show()" >Crear Sede</button>
+                  </div>
+          <br>
+
+          <ngx-datatable #table class="data-table" [rows]="rowsTemp" [columnMode]="'flex'" [headerHeight]="50" [footerHeight]="50" [rowHeight]="'auto'"
+              [limit]="25">
+
+              <ngx-datatable-column [resizeable]="false" [flexGrow]="2" name="Nombre"  [canAutoResize]="true" [sortable]="false" [draggable]="false" prop="branch_name"></ngx-datatable-column>
+              <ngx-datatable-column [resizeable]="false" [flexGrow]="1" name="Acciones"  [canAutoResize]="true" [sortable]="false" [draggable]="false" sortable="false" prop="id">
+
+
+
+                  <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+
+
+                    <button type="button" style="display:none;" id="uploadBrand" class="btn btn-primary waves-effect" (click)="modalUpdateOffice.show()">Actualizar Centro de costo</button>
+                      <button (click)="updateBrand(row)" class="btn btn-primary btn-icon"><i class="icofont icofont-pencil-alt-5"></i></button>
+                      <button (click)="deleteBrand(row)" class="btn btn-danger btn-icon"><i class="icofont icofont-ui-delete"></i></button>
+                  </ng-template>
+              </ngx-datatable-column>
+
+
+          </ngx-datatable>
+      </app-card>
+  </div>
 </div>

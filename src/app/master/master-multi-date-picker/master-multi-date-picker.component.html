@@ -31,9 +31,51 @@
               </button>-->
             </div>
             <div class="app-modal-body">
-            <div   *ngFor="let item of routineSelecteds">
-            <h5><input type="checkbox" [(ngModel)]="item.select"  data-md-icheck /> {{item.item}}</h5> <br><br>
-            </div>
+              <input type="checkbox" value="0" (change)="selectItem($event)" >Preventivo
+              <br>
+              <input type="checkbox" value="1" (change)="selectItem($event)" >Correctivo
+              <br>
+              <input type="checkbox" value="2" (change)="selectItem($event)" >Checklist
+              <br>
+              <br>
+              <app-card>
+              <div *ngIf="preventive==true" style="overflow-y: scroll; height: 250px;">
+                <h5>Preventivo</h5>
+                
+                <div   *ngFor="let item of routineSelecteds">
+                  <input type="checkbox" [(ngModel)]="item.select"  data-md-icheck /> {{item.item}}<br>
+                </div>
+              </div>
+            </app-card>
+              <br>
+              <app-card>
+              <div *ngIf="corrective==true" style="overflow-y: scroll; height: 250px;">
+                <h5>Correctivo</h5>
+                
+                <div   *ngFor="let item of routineSelecteds">
+                  <input type="checkbox" [(ngModel)]="item.select"  data-md-icheck /> {{item.item}}<br>
+                </div>
+              </div>
+            </app-card>
+              <br>
+              <app-card>
+              <div *ngIf="checklist==true" style="overflow-y: scroll; height: 250px;">
+                <h5>Checklist</h5>
+                
+                <div   *ngFor="let item of checklisSelecteds">
+                  <input type="checkbox" [(ngModel)]="item.select"  data-md-icheck /> {{item.item}}<br>
+                </div>
+              </div>
+            </app-card>
+              <br>
+              <app-card>
+              <div style="overflow-y: scroll; height: 250px;">
+              <h5>Tecnicos</h5>
+              <div   *ngFor="let item of technicianSelecteds" >
+                <input type="checkbox" [(ngModel)]="item.select"  data-md-icheck /> {{item.item}}<br>
+                </div>
+              </div>
+            </app-card>
             </div>
             <div class="app-modal-footer">
               <button type="button" class="btn btn-default waves-effect"  (click)="addCancelDate()"  >Cerrar</button>
