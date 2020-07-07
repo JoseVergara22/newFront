@@ -386,7 +386,10 @@ const MENUCREATOR = [
         type: 'sub',
         icon: 'ti-pulse',
         children: [
-  
+          {
+            state: 'registerOffice',
+            name: 'Administrar Sedes'
+          },
           {
             state: 'estimateAll',
             name:  'Cotizaciones'
