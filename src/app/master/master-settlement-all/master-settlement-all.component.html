@@ -387,16 +387,16 @@
               </button> -->
     <div *ngIf="value==0">
      <label class="link" (click)="updateEstimate(row)">Editar</label>
-     <label class="link" (click)="sendEstimateEmail(row)" >Enviar</label>
+     <label class="link" (click)="sendSettlementEmail(row)" >Enviar</label>
     </div>
 
     <div *ngIf="value==1">
-        <label class="link" (click)="sendEstimateEmail(row)" >Enviar</label>
+        <label class="link" (click)="sendSettlementEmail(row)" >Enviar</label>
     </div>
     
     <div *ngIf="value==2">  
         <label class="link" (click)="showAssignInvoice(row)">Asignar</label>
-        <label class="link" (click)="sendEstimateEmail(row)" >Enviar</label>
+        <label class="link" (click)="sendSettlementEmail(row)" >Enviar</label>
     </div>
 
        

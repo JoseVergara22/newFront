@@ -342,12 +342,9 @@
     </div>
 </div>
 
-<div class="row ">
+<!-- <div class="row ">
     <div class="col-sm-12 ">
         <app-card>
-
-
-            <!--   <button type="button" id="registerBrand" class="btn btn-primary waves-effect" (click)="modalRegisterOffice.show()">Crear sede</button> -->
             <h5>Registrar sede </h5>
             <br>
             <div class="align-buttons">
@@ -360,10 +357,7 @@
                 </div>
             </div>
             <br>
-
             <ngx-datatable #table class="data-table" [rows]="dataOffices" [columns]="[{name:'Descripción', prop:'description'},{name:'Estado', prop:'status'},{prop:'id'}]" [columnMode]="'force'" [headerHeight]="50" [footerHeight]="50" [rowHeight]="'auto'" [limit]="25">
-
-                <!--   <ngx-datatable-column [resizeable]="false" name="Compañia" [sortable]="false" [draggable]="false" prop="business_name"></ngx-datatable-column> -->
                 <ngx-datatable-column [resizeable]="false" name="Sede" [sortable]="false" [draggable]="false" prop="branch_name"></ngx-datatable-column>
                 <ngx-datatable-column [resizeable]="false" name="Estado" [sortable]="false" [draggable]="false" prop="status">
                     <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
@@ -374,10 +368,6 @@
                 <ngx-datatable-column [resizeable]="false" name="Acciones" [sortable]="false" [draggable]="false" sortable="false" prop="id">
                     <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
 
-                        <!--<button md-icon-button (click)="blockAgents(value)">
-                              <i class="fa fa-ban"></i>
-                            </button> -->
-
                         <button (click)="updateBrand(row)" class="btn btn-primary btn-icon"><i class="icofont icofont-pencil-alt-5"></i></button>
                         <button (click)="deleteBrand(row)" class="btn btn-danger btn-icon"><i class="icofont icofont-ui-delete"></i></button>
                     </ng-template>
@@ -386,10 +376,9 @@
             </ngx-datatable>
                <br>
                <br>
-         
         </app-card>
     </div>
-</div>
+</div>-->
 
 <app-card >
 <div class="row">

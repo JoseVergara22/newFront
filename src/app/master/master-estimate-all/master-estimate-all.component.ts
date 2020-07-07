@@ -1101,7 +1101,7 @@ console.log('este es el e:'+ +JSON.stringify(e));
 
   for (let i = 0; i < this.rowsItemsparts.length; i++) {
   
-    body_table = [i+1, this.rowsItemsparts[i].description, this.rowsItemsparts[i].quantity, this.rowsItemsparts[i].price_decimal, this.rowsItemsparts[i].subtotal_decimal,
+    body_table = [i+1, this.rowsItemsparts[i].description, this.rowsItemsparts[i].quantity, '$'+this.rowsItemsparts[i].price_decimal, '$'+this.rowsItemsparts[i].subtotal_decimal,
     this.rowsItemsparts[i].delivery];
     
     doc.autoTable({
@@ -1554,7 +1554,7 @@ img.onload = function() {
   
     for (let i = 0; i < this.rowsItemsparts.length; i++) {
     
-      body_table = [i+1, this.rowsItemsparts[i].code, this.rowsItemsparts[i].description, this.rowsItemsparts[i].quantity, this.rowsItemsparts[i].price_decimal, this.rowsItemsparts[i].subtotal_decimal,
+      body_table = [i+1, this.rowsItemsparts[i].code, this.rowsItemsparts[i].description, this.rowsItemsparts[i].quantity, '$'+this.rowsItemsparts[i].price_decimal, '$'+this.rowsItemsparts[i].subtotal_decimal,
       this.rowsItemsparts[i].delivery+' días'];
       
       doc.autoTable({
@@ -1589,7 +1589,7 @@ img.onload = function() {
   
     for (let i = 0; i < this.rowsItemsparts.length; i++) {
     
-      body_table = [i+1, this.rowsItemsparts[i].description, this.rowsItemsparts[i].quantity, this.rowsItemsparts[i].price_decimal, this.rowsItemsparts[i].subtotal_decimal,
+      body_table = [i+1, this.rowsItemsparts[i].description, this.rowsItemsparts[i].quantity, '$'+this.rowsItemsparts[i].price_decimal, '$'+this.rowsItemsparts[i].subtotal_decimal,
       this.rowsItemsparts[i].delivery];
       
       doc.autoTable({
@@ -1986,7 +1986,7 @@ img.onload = function() {
 
     for (let i = 0; i < this.rowsItemsWorkforce.length; i++) {
     
-      body_table = [i+1, this.rowsItemsWorkforce[i].code, this.rowsItemsWorkforce[i].service, this.rowsItemsWorkforce[i].quantity, this.rowsItemsWorkforce[i].hour_value_decimal, this.rowsItemsWorkforce[i].subtotal_decimal,
+      body_table = [i+1, this.rowsItemsWorkforce[i].code, this.rowsItemsWorkforce[i].service, this.rowsItemsWorkforce[i].quantity, '$'+this.rowsItemsWorkforce[i].hour_value_decimal, '$'+this.rowsItemsWorkforce[i].subtotal_decimal,
       this.rowsItemsWorkforce[i].delivery+' días'];
       
       doc.autoTable({
@@ -2021,7 +2021,7 @@ img.onload = function() {
 
     for (let i = 0; i < this.rowsItemsWorkforce.length; i++) {
     
-      body_table = [i+1, this.rowsItemsWorkforce[i].service, this.rowsItemsWorkforce[i].quantity, this.rowsItemsWorkforce[i].hour_value_decimal, this.rowsItemsWorkforce[i].subtotal_decimal,
+      body_table = [i+1, this.rowsItemsWorkforce[i].service, this.rowsItemsWorkforce[i].quantity, '$'+this.rowsItemsWorkforce[i].hour_value_decimal, '$'+this.rowsItemsWorkforce[i].subtotal_decimal,
       this.rowsItemsWorkforce[i].delivery+ ' días'];
       
       doc.autoTable({
@@ -2061,7 +2061,7 @@ img.onload = function() {
 
   for (let i = 0; i < this.rowsItemsparts.length; i++) {
   
-    body_table = [i+1, this.rowsItemsparts[i].code, this.rowsItemsparts[i].description, this.rowsItemsparts[i].quantity, this.rowsItemsparts[i].price_decimal, this.rowsItemsparts[i].subtotal_decimal,
+    body_table = [i+1, this.rowsItemsparts[i].code, this.rowsItemsparts[i].description, this.rowsItemsparts[i].quantity, '$'+this.rowsItemsparts[i].price_decimal, '$'+this.rowsItemsparts[i].subtotal_decimal,
     this.rowsItemsparts[i].delivery+' días'];
     
     doc.autoTable({
@@ -2096,7 +2096,7 @@ img.onload = function() {
 
   for (let i = 0; i < this.rowsItemsparts.length; i++) {
   
-    body_table = [i+1, this.rowsItemsparts[i].description, this.rowsItemsparts[i].quantity, this.rowsItemsparts[i].price_decimal, this.rowsItemsparts[i].subtotal_decimal,
+    body_table = [i+1, this.rowsItemsparts[i].description, this.rowsItemsparts[i].quantity, '$'+this.rowsItemsparts[i].price_decimal, '$'+this.rowsItemsparts[i].subtotal_decimal,
     this.rowsItemsparts[i].delivery + ' días'];
     
     doc.autoTable({
@@ -2119,7 +2119,7 @@ doc.autoTable({
   styles: {fillColor: null,valign:"top",lineColor:[4,1,0],lineWidth:0.2},
   columnStyles: {0: {halign: 'left', fontSize:8, cellWidth:85}, 1: {halign: 'left', fontSize:8, cellWidth:86},2: {halign: 'left', fontSize:8, cellWidth:81},3: {halign: 'left', fontSize:8, cellWidth:80},4: {halign: 'center', fontSize:8, cellWidth:81} },
   margin: {top: 60, right: 15, bottom: 0, left: 15},
-  body: [['Validez Oferta: '+  this.validity  +' días','Forma Pago: ' + this.payment_method + ' días','Garantía: '+ this.guarantyEstimate +' días','Subtotal Repuestos:',this.subtotalPartsEstimate]]
+  body: [['Validez Oferta: '+  this.validity  +' días','Forma Pago: ' + this.payment_method + ' días','Garantía: '+ this.guarantyEstimate +' días','Subtotal Repuestos:','$'+this.subtotalPartsEstimate]]
 });
 
 
@@ -2130,8 +2130,8 @@ doc.autoTable({
       columnStyles: {0: {halign: 'left', fontSize:8, cellWidth:85}, 1: {halign: 'left', fontSize:8, cellWidth:86},2: {halign: 'left', fontSize:8, cellWidth:81},3: {halign: 'left', fontSize:8, cellWidth:80},4: {halign: 'center', fontSize:8, cellWidth:81} },
       margin: { left: 15},
       body: [
-      [{content: this.observationEstimate, colSpan: 3, rowSpan: 3, styles: {halign: 'left'}},'Subtotal Mano de Obra',this.subtotalHoursEstimate],
-       ['Total',this.totalEstimate],
+      [{content: this.observationEstimate, colSpan: 3, rowSpan: 3, styles: {halign: 'left'}},'Subtotal Mano de Obra','$'+this.subtotalHoursEstimate],
+       ['Total','$'+this.totalEstimate],
        [{content: 'NOTA: VALORES ANTES DE IVA', colSpan: 2,  styles: {halign: 'left'}}]]
     });
 
@@ -2503,7 +2503,7 @@ img.onload = function() {
 
     for (let i = 0; i < this.rowsItemsWorkforce.length; i++) {
     
-      body_table = [i+1, this.rowsItemsWorkforce[i].code, this.rowsItemsWorkforce[i].service, this.rowsItemsWorkforce[i].quantity, this.rowsItemsWorkforce[i].hour_value_decimal, this.rowsItemsWorkforce[i].subtotal_decimal,
+      body_table = [i+1, this.rowsItemsWorkforce[i].code, this.rowsItemsWorkforce[i].service, this.rowsItemsWorkforce[i].quantity, '$'+this.rowsItemsWorkforce[i].hour_value_decimal, '$'+this.rowsItemsWorkforce[i].subtotal_decimal,
       this.rowsItemsWorkforce[i].delivery+' días'];
       
       doc.autoTable({
@@ -2538,7 +2538,7 @@ img.onload = function() {
 
     for (let i = 0; i < this.rowsItemsWorkforce.length; i++) {
     
-      body_table = [i+1, this.rowsItemsWorkforce[i].service, this.rowsItemsWorkforce[i].quantity, this.rowsItemsWorkforce[i].hour_value_decimal, this.rowsItemsWorkforce[i].subtotal_decimal,
+      body_table = [i+1, this.rowsItemsWorkforce[i].service, this.rowsItemsWorkforce[i].quantity, '$'+this.rowsItemsWorkforce[i].hour_value_decimal, '$'+this.rowsItemsWorkforce[i].subtotal_decimal,
       this.rowsItemsWorkforce[i].delivery+ ' días'];
       
       doc.autoTable({
@@ -2578,7 +2578,7 @@ img.onload = function() {
 
   for (let i = 0; i < this.rowsItemsparts.length; i++) {
   
-    body_table = [i+1, this.rowsItemsparts[i].code, this.rowsItemsparts[i].description, this.rowsItemsparts[i].quantity, this.rowsItemsparts[i].price_decimal, this.rowsItemsparts[i].subtotal_decimal,
+    body_table = [i+1, this.rowsItemsparts[i].code, this.rowsItemsparts[i].description, this.rowsItemsparts[i].quantity, '$'+this.rowsItemsparts[i].price_decimal, '$'+this.rowsItemsparts[i].subtotal_decimal,
     this.rowsItemsparts[i].delivery+' días'];
     
     doc.autoTable({
@@ -2613,7 +2613,7 @@ img.onload = function() {
 
   for (let i = 0; i < this.rowsItemsparts.length; i++) {
   
-    body_table = [i+1, this.rowsItemsparts[i].description, this.rowsItemsparts[i].quantity, this.rowsItemsparts[i].price_decimal, this.rowsItemsparts[i].subtotal,
+    body_table = [i+1, this.rowsItemsparts[i].description, this.rowsItemsparts[i].quantity, '$'+this.rowsItemsparts[i].price_decimal, '$'+this.rowsItemsparts[i].subtotal,
     this.rowsItemsparts[i].delivery + ' días'];
     
     doc.autoTable({
@@ -2636,7 +2636,7 @@ doc.autoTable({
   styles: {fillColor: null,valign:"top",lineColor:[4,1,0],lineWidth:0.2},
   columnStyles: {0: {halign: 'left', fontSize:8, cellWidth:85}, 1: {halign: 'left', fontSize:8, cellWidth:86},2: {halign: 'left', fontSize:8, cellWidth:81},3: {halign: 'left', fontSize:8, cellWidth:80},4: {halign: 'center', fontSize:8, cellWidth:81} },
   margin: {top: 60, right: 15, bottom: 0, left: 15},
-  body: [['Validez Oferta: '+ this.validity  +' días','Forma Pago: ' + this.payment_method + ' días','Garantía: '+ this.guarantyEstimate +' días','Subtotal Repuestos:',this.subtotalPartsEstimate]]
+  body: [['Validez Oferta: '+ this.validity  +' días','Forma Pago: ' + this.payment_method + ' días','Garantía: '+ this.guarantyEstimate +' días','Subtotal Repuestos:','$'+this.subtotalPartsEstimate]]
 });
 
 
@@ -2647,8 +2647,8 @@ doc.autoTable({
       columnStyles: {0: {halign: 'left', fontSize:8, cellWidth:85}, 1: {halign: 'left', fontSize:8, cellWidth:86},2: {halign: 'left', fontSize:8, cellWidth:81},3: {halign: 'left', fontSize:8, cellWidth:80},4: {halign: 'center', fontSize:8, cellWidth:81} },
       margin: { left: 15},
       body: [
-      [{content: this.observationEstimate, colSpan: 3, rowSpan: 3, styles: {halign: 'left'}},'Subtotal Mano de Obra',this.subtotalHoursEstimate],
-       ['Total',this.totalEstimate],
+      [{content: this.observationEstimate, colSpan: 3, rowSpan: 3, styles: {halign: 'left'}},'Subtotal Mano de Obra','$'+this.subtotalHoursEstimate],
+       ['Total','$'+this.totalEstimate],
        [{content: 'NOTA: VALORES ANTES DE IVA', colSpan: 2,  styles: {halign: 'left'}}]]
     });
 
@@ -2769,7 +2769,7 @@ img.onload = function() {
       //doc.addPage();
 
 
-      if(height+150>631){
+      if(height+150>631){s
         doc.addPage();
         height=20;
       }else{

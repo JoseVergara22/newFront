@@ -952,7 +952,7 @@
               </div>
               <div class="col-sm-3">
                   <h6>Peso</h6>
-                  <input type="number" [(ngModel)]="weightUpdate"  (blur)="calculateFreightValuesUpdate()" [disabled]="priceListUpdate == 5 || priceListUpdate == 6 || priceListUpdate== 7" class="form-control" disabled>
+                  <input type="number" [(ngModel)]="weightUpdate"  (blur)="calculateFreightValuesUpdate()"  class="form-control" disabled>
               </div>
          
           </div>
@@ -961,7 +961,7 @@
           <div class="row">
               <div class="col-sm-3">
                   <h6>Lista Tipo Peso </h6>
-                  <select class="form-control" [(ngModel)]="weightTypeListUpdate"  (blur)="calculateFreightValuesUpdate()" [disabled]="priceListUpdate == 5 || priceListUpdate == 6 || priceListUpdate== 7" disabled>
+                  <select class="form-control" [(ngModel)]="weightTypeListUpdate"  (blur)="calculateFreightValuesUpdate()"  disabled>
                               <option value="0" selected>Seleccionar peso</option>
                               <option value="1">LB </option>
                               <option value="2">KL </option>
@@ -1001,7 +1001,7 @@
             </div>
             <div class="col-sm-4">
                 <h6>Descuento% </h6>
-                <input type="number" [(ngModel)]="discountPartUpdate"  (blur)="calculateSubtotalUpdate()" class="form-control" disabled>
+                <input type="number" [(ngModel)]="discountPartUpdate"  (blur)="calculateSubtotalUpdate()" class="form-control">
             </div>
 
               <div class="col-sm-4">
@@ -1034,7 +1034,7 @@
           <div class="align-buttons">
              <!-- <button type="button" class="btn btn-default waves-effect" id="createItemHide" (click)="modalRegisterItem.hide()">Cancelar</button> -->
 
-             <button type="button"  class="btn btn-default waves-effect" id="updateItemHide" (click)="modalUpdateItemCopy.hide()">Cancelar</button>
+             <button type="button"  class="btn btn-default waves-effect" id="updateItemHideCopy" (click)="modalUpdateItemCopy.hide()">Cancelar</button>
               <button type="submit " class="btn btn-primary m-b-0 "  (click)="updateSettlementDetail()">Actualizar Item</button>
              
           </div>

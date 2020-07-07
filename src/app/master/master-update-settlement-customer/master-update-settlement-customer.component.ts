@@ -1551,7 +1551,9 @@ getWarehouses() {
         type: 'success'
        });
        
-       document.getElementById( 'updateItemHide').click();
+       document.getElementById('updateItemHide').click();
+       document.getElementById('updateItemHideCopy').click();
+       
        this.clearFormDetailUpdate();
       // this.getEstimateDetails();
        this.getSettlementWorkforce();
@@ -2491,6 +2493,8 @@ console.log(country+'-'+item.estimate_countries_id+'-'+item.conexion_id_validati
         this.suggestedPrice =Number(Number(this.unitCost/this.thirdService)).toFixed(0);
         this.price =   this.suggestedPrice;
         this.subtotal=  this.suggestedPrice*this.quantity;
+        console.log('ingreso ps');
+        this.totalPrice= this.finalFormat(this.subtotal);
         this.lowPrice = this.suggestedPrice;
         this.higherPrice=Number(this.suggestedPrice *(1+(this.suggestedMaximum/100))).toFixed(0);
         console.log('Precio : ' + this.suggestedPrice);
@@ -2500,6 +2504,7 @@ console.log(country+'-'+item.estimate_countries_id+'-'+item.conexion_id_validati
         this.suggestedPrice =Number(Number(this.unitCost/ this.nationalService)).toFixed(0);
         this.price =   this.suggestedPrice;
         this.subtotal=  this.suggestedPrice*this.quantity;
+        this.totalPrice= this.finalFormat(this.subtotal);
         this.lowPrice = this.suggestedPrice;
         this.higherPrice=Number(this.suggestedPrice *(1+(this.suggestedMaximum/100))).toFixed(0);
         console.log('Precio : ' + this.suggestedPrice);
@@ -2519,6 +2524,7 @@ console.log(country+'-'+item.estimate_countries_id+'-'+item.conexion_id_validati
         this.suggestedPrice = Number(this.unitCost);
         this.price = this.suggestedPrice;
         this.subtotal = Number(this.suggestedPrice*this.quantity).toFixed(0);
+        this.totalPrice= this.finalFormat(this.subtotal);
         this.lowPrice = this.suggestedPrice;
         this.higherPrice = Number(this.suggestedPrice *(1+(this.suggestedMaximum/100))).toFixed(0);
         console.log('Precion bajo: ' + this.lowPrice);
@@ -2533,6 +2539,7 @@ console.log(country+'-'+item.estimate_countries_id+'-'+item.conexion_id_validati
           this.suggestedPrice = Number(Number(this.unitCost/this.thirdService)).toFixed(0);
           this.price =   this.suggestedPrice;
           this.subtotal=  this.suggestedPrice*this.quantity;
+          this.totalPrice= this.finalFormat(this.subtotal);
           this.lowPrice = this.suggestedPrice;
           this.higherPrice=Number(this.suggestedPrice *(1+(this.suggestedMaximum/100))).toFixed(0);
           console.log('Precio : ' + this.suggestedPrice);
@@ -2542,6 +2549,7 @@ console.log(country+'-'+item.estimate_countries_id+'-'+item.conexion_id_validati
           this.suggestedPrice =Number(Number(this.unitCost/ this.nationalService)).toFixed(0);
           this.price =   this.suggestedPrice;
           this.subtotal=  this.suggestedPrice*this.quantity;
+          this.totalPrice= this.finalFormat(this.subtotal);
           this.lowPrice = this.suggestedPrice;
           this.higherPrice=Number(this.suggestedPrice *(1+(this.suggestedMaximum/100))).toFixed(0);
           console.log('Precio : ' + this.suggestedPrice);
@@ -2569,6 +2577,7 @@ console.log(country+'-'+item.estimate_countries_id+'-'+item.conexion_id_validati
         this.suggestedPrice =Number(Number(this.unitCostUpdate/this.thirdService).toFixed(0));
         this.priceUpdate =   this.suggestedPriceUpdate;
         this.subtotalUpdate =  this.suggestedPriceUpdate*this.quantityUpdate;
+        this.totalPriceUpdate = this.finalFormat( this.subtotalUpdate);
         this.lowPriceUpdate = this.suggestedPriceUpdate;
         this.higherPriceUpdate=Number(this.suggestedPriceUpdate *(1+(this.suggestedMaximum/100))).toFixed(0);
         console.log('Precion bajo: ' + this.lowPriceUpdate);
@@ -2577,6 +2586,7 @@ console.log(country+'-'+item.estimate_countries_id+'-'+item.conexion_id_validati
         this.suggestedPriceUpdate =Number(Number(this.unitCostUpdate/ this.nationalService).toFixed(0));
         this.priceUpdate =   this.suggestedPriceUpdate;
         this.subtotalUpdate =  this.suggestedPriceUpdate*this.quantityUpdate;
+        this.totalPriceUpdate= this.finalFormat( this.subtotalUpdate);
         this.lowPriceUpdate = this.suggestedPriceUpdate;
         this.higherPriceUpdate=Number(this.suggestedPriceUpdate *(1+(this.suggestedMaximum/100))).toFixed(0);
         console.log('Precion bajo: ' + this.lowPriceUpdate);
@@ -2593,6 +2603,7 @@ console.log(country+'-'+item.estimate_countries_id+'-'+item.conexion_id_validati
         this.suggestedPriceUpdate =Number(this.unitCostUpdate);
         this.priceUpdate =   this.suggestedPriceUpdate;
         this.subtotalUpdate = Number(this.suggestedPriceUpdate*this.quantityUpdate).toFixed(0);
+        this.totalPriceUpdate = this.finalFormat( this.subtotalUpdate);
         this.lowPriceUpdate = this.suggestedPriceUpdate;
         this.higherPriceUpdate=Number(this.suggestedPriceUpdate *(1+(this.suggestedMaximum/100))).toFixed(0);
         console.log('Precion bajo: ' + this.lowPriceUpdate);
@@ -2606,6 +2617,7 @@ console.log(country+'-'+item.estimate_countries_id+'-'+item.conexion_id_validati
           this.suggestedPriceUpdate = Number(Number(this.unitCostUpdate/this.thirdService).toFixed(0));
           this.priceUpdate =   this.suggestedPriceUpdate;
           this.subtotalUpdate =  this.suggestedPriceUpdate*this.quantityUpdate;
+          this.totalPriceUpdate = this.finalFormat( this.subtotalUpdate);
           this.lowPriceUpdate = this.suggestedPriceUpdate;
           this.higherPriceUpdate=Number(this.suggestedPriceUpdate *(1+(this.suggestedMaximum/100))).toFixed(0);
           console.log('Precion bajo: ' + this.lowPriceUpdate);
@@ -2614,6 +2626,7 @@ console.log(country+'-'+item.estimate_countries_id+'-'+item.conexion_id_validati
           this.suggestedPriceUpdate =Number(Number(this.unitCostUpdate/ this.nationalService).toFixed(0));
           this.priceUpdate =   this.suggestedPriceUpdate;
           this.subtotalUpdate =  this.suggestedPriceUpdate*this.quantityUpdate;
+          this.totalPriceUpdate = this.finalFormat( this.subtotalUpdate);
           this.lowPriceUpdate = this.suggestedPriceUpdate;
           this.higherPriceUpdate=Number(this.suggestedPriceUpdate *(1+(this.suggestedMaximum/100))).toFixed(0);
           console.log('Precion bajo: ' + this.lowPriceUpdate);

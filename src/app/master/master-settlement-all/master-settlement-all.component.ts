@@ -806,7 +806,7 @@ console.log('este es el e:'+ +JSON.stringify(e));
    });
    }
 
-   sendEstimateEmail(row:any){
+   sendSettlementEmail(row:any){
   console.log(row)
      this.estimateId= row.id;
      this.user = row.elaborate_user.username;
@@ -980,7 +980,7 @@ console.log('este es el e:'+ +JSON.stringify(e));
        console.log('importante el subject:'+this.subject)
        subjectTemp= this.subject;
       }else{
-        subjectTemp= 'Montacargas Master Liquidacion '+ this.consecutive;
+        subjectTemp= 'Montacargas Master Liquidación '+ this.consecutive;
         console.log('subjectTemp el subject: '+subjectTemp)
      }
     // concatenar los correos y nos con ","
@@ -1037,15 +1037,15 @@ console.log('este es el e:'+ +JSON.stringify(e));
      });
    }else if( this.masterEmail != '' &&  this.masterName != '' ){
 
-     this.estimateService.sendEstimateEmailAmazon(//sendEstimateEmailAmazon
+    this.settlementeService.sendSettlementEmailAmazon(//sendEstimateEmailAmazon
        this.estimateCurrent.elaborate_user_id, this.estimateCurrent.customer_id, this.estimateCurrent.id,
        emailsName.trim(),this.comment,subjectTemp).then(data => {
        const resp: any = data;
        console.log('envio');
        console.log(resp);
     
-        this.estimateService.updateEstimateStatus(
-         this.estimateCurrent.id, 1).then(data => {
+       this.settlementeService.updateSettlementStatus(
+         this.estimateCurrent.id, 2).then(data => {
          const resp: any = data;
          console.log('envio');
          console.log(resp);

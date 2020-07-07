@@ -9,7 +9,7 @@
                
                 <div class="col-sm-5">
 
-                    <h6>Descripccion<span style="color:red;">*</span></h6>
+                    <h6>Descripción<span style="color:red;">*</span></h6>
                     <input type="text" class="form-control" formControlName="description" [ngClass]="{ 'is-invalid': submittedOffice && checkForm.description.errors }">
                     <div *ngIf="submittedOffice && checkForm.description.errors" class="invalid-feedback">
                         <div class="messages text-danger" *ngIf="checkForm.description.errors.required">Este campo es requerido</div>
@@ -36,7 +36,7 @@
               <div class=" form-group row ">
                  
                   <div class="col-sm-5 ">
-                      <h6>Descripccion <span style="color:red; ">*</span></h6>
+                      <h6>Descripción <span style="color:red; ">*</span></h6>
                       <input type="text " class="form-control " formControlName="descriptionUpdate" [ngClass]="{ 'is-invalid': submittedUpdated && checkFormUpdate.descriptionUpdate.errors } ">
                       <div *ngIf="submittedUpdated && checkFormUpdate.descriptionUpdate.errors " class="invalid-feedback ">
                           <div class="messages text-danger " *ngIf="checkFormUpdate.descriptionUpdate.errors.required ">Este campo es requerido</div>
@@ -76,7 +76,7 @@
           <ngx-datatable #table class="data-table" [rows]="rowsTemp" [columnMode]="'flex'" [headerHeight]="50" [footerHeight]="50" [rowHeight]="'auto'"
               [limit]="25">
 
-              <ngx-datatable-column [resizeable]="false" [flexGrow]="2" name="Nombre"  [canAutoResize]="true" [sortable]="false" [draggable]="false" prop="branch_name"></ngx-datatable-column>
+              <ngx-datatable-column [resizeable]="false" [flexGrow]="2" name="Descripción"  [canAutoResize]="true" [sortable]="false" [draggable]="false" prop="branch_name"></ngx-datatable-column>
               <ngx-datatable-column [resizeable]="false" [flexGrow]="1" name="Acciones"  [canAutoResize]="true" [sortable]="false" [draggable]="false" sortable="false" prop="id">
 
 

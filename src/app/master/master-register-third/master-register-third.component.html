@@ -504,12 +504,9 @@
     </div>
 </div>
 
-<div class="row ">
+<!-- <div class="row ">
     <div class="col-sm-12 ">
         <app-card>
-
-
-            <!--   <button type="button" id="registerBrand" class="btn btn-primary waves-effect" (click)="modalRegisterOffice.show()">Crear sede</button> -->
             <h5>Registrar sede </h5>
             <br>
             <div class="align-buttons">
@@ -524,8 +521,6 @@
             <br>
 
             <ngx-datatable #table class="data-table" [rows]="dataOffices" [columns]="[{name:'Descripción', prop:'description'},{name:'Estado', prop:'status'},{prop:'id'}]" [columnMode]="'force'" [headerHeight]="50" [footerHeight]="50" [rowHeight]="'auto'" [limit]="5">
-
-                <!--   <ngx-datatable-column [resizeable]="false" name="Compañia" [sortable]="false" [draggable]="false" prop="business_name"></ngx-datatable-column> -->
                 <ngx-datatable-column [resizeable]="false" name="Sede" [sortable]="false" [draggable]="false" prop="branch_name"></ngx-datatable-column>
                 <ngx-datatable-column [resizeable]="false" name="Estado" [sortable]="false" [draggable]="false" prop="status">
                     <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
@@ -535,11 +530,6 @@
                 </ngx-datatable-column>
                 <ngx-datatable-column [resizeable]="false" name="Acciones" [sortable]="false" [draggable]="false" sortable="false" prop="id">
                     <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
-
-                        <!--<button md-icon-button (click)="blockAgents(value)">
-                                <i class="fa fa-ban"></i>
-                              </button> -->
-
                         <button (click)="updateBrand(row)" class="btn btn-primary btn-icon"><i class="icofont icofont-pencil-alt-5"></i></button>
                         <button (click)="deleteBrand(row)" class="btn btn-danger btn-icon"><i class="icofont icofont-ui-delete"></i></button>
                     </ng-template>
@@ -553,13 +543,16 @@
             </ngx-datatable>
         </app-card>
     </div>
-</div>
+</div>-->
 
 <div class="row">
     <div class="col-sm-12 ">
             <h5>
                 Selecciona la sucursal a la cual el cliente esta relacionado.
             </h5>
+            <div class="align-buttons">
+                <button type="submit " class="btn btn-primary m-b-0 " (click)="finalRegional()">Guardar sucursales</button>
+            </div>
             <br>
             <input type="checkbox"  value="m1" [checked]="checkAllRegional"  (change)="checkUncheckAllPart($event)"/> <strong>Seleccionar todo</strong>
             <br>    
@@ -583,9 +576,11 @@
                  </table>
                </div>
              </div>
-
+           
+             <br>
              <div class="align-buttons">
-                <button type="submit " class="btn btn-primary m-b-0 " (click)="finalRegional()">Guardar sucursales</button>
+                <button class="btn btn-primary m-b-0 " (click)="goAdminCustomer()">Volver Administración Clientes</button>
             </div>
+           
     </div>
 </div>
