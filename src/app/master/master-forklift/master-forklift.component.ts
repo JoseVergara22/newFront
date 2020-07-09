@@ -26,7 +26,11 @@ interface itemSelectInterface {// item para mostrar selccionados
 
 interface currentDateInterface {// vector seleccionado
   date?: number;
-  item?: string;
+  dateText?: string;
+  preventive?: string;
+  corrective?: string;
+  checklist?: string;
+  technician?: string;
 }
 
 
@@ -65,6 +69,7 @@ const after = (one: NgbDateStruct, two: NgbDateStruct) =>
 export class MasterForkliftComponent extends NgbDatepickerI18n {
  // @Input() currentDateRoutines: Array <currentDateInterface> = [];
 
+  test: string;
   datesSelected:NgbDateStruct[]=[]; 
   currentDateRoutines: Array <currentDateInterface> = [];
   nothingToshowText: any = 'Nothing to show'; // "By default" => There are no events scheduled that day. 
@@ -374,6 +379,21 @@ export class MasterForkliftComponent extends NgbDatepickerI18n {
    {
      this.datesSelected = value;
      console.log(this.datesSelected);
+
+   }
+   change2(value: any)
+   {
+     this.test = value;
+
+     console.log(this.test);
+
+   }
+
+   change3(value: any)
+   {
+     this.currentDateRoutines = value;
+     console.log(this.currentDateRoutines);
+
    }
 
    getCustomerModel() {
@@ -552,16 +572,23 @@ this.selectedFuelId);
 
 
     sendRoutinesForklift(idForlift: number){
+    console.log(this.currentDateRoutines);
+    console.log(this.datesSelected);
     
-      for (let i = 0; i < this.currentDateRoutines.length ; i++) {
+    for (let i = 0; i < this.currentDateRoutines.length ; i++) {
       
-        // 2019-09-19 17:04:12
-    
+      // 2019-09-19 17:04:12
+      
+      
+      let day = this.datesSelected[i].day.toString();
+      let month = this.datesSelected[i].month.toString();
+      let year =  this.datesSelected[i].year.toString();
+      let preventive = this.currentDateRoutines[i].preventive;
+      let corrective = this.currentDateRoutines[i].corrective;
+      let checklist = this.currentDateRoutines[i].checklist;
+      let technician = this.currentDateRoutines[i].technician;
+      console.log(this.currentDateRoutines[i].dateText.split("-"));
 
-        let day = this.datesSelected[i].day.toString();
-        let month = this.datesSelected[i].month.toString();
-        let year =  this.datesSelected[i].year.toString();
-        let routines = this.currentDateRoutines[i].item;
 
         if(day.toString().length < 2){
           day = '0'+ day.toString();
@@ -574,17 +601,42 @@ this.selectedFuelId);
         let dateComplete = year.toString() +'-'+ month.toString() +'-'+day.toString()+' 00:00:00';
       //  console.log('fecha organizada');
       //  console.log(dateComplete);
+      if(preventive){
 
-     this.workService.storeWorkDetailForklift(routines,idForlift,dateComplete).then(data => {
-      const resp: any = data;
-      console.log(data);
-     // swal.close();
-      console.log(resp);
-    }).catch(error => {
-      console.log(error);
-    });
+        this.workService.storeWorkPreventive(preventive,idForlift,technician,dateComplete).then(data => {
+        const resp: any = data;
+        console.log(data);
+        // swal.close();
+        console.log(resp);
+      }).catch(error => {
+        console.log(error);
+      });
       }
+
+      // if(corrective){
+      //   this.workService.storeWorkCorrective(corrective,idForlift,technician,dateComplete).then(data => {
+      //     const resp: any = data;
+      //     console.log(data);
+      //     // swal.close();
+      //     console.log(resp);
+      //   }).catch(error => {
+      //     console.log(error);
+      //   });
+      // }
+
+      // if(checklist){
+      //   this.workService.storeWorkCheclist(checklist,idForlift,technician,dateComplete).then(data => {
+      //     const resp: any = data;
+      //     console.log(data);
+      //     // swal.close();
+      //     console.log(resp);
+      //   }).catch(error => {
+      //     console.log(error);
+      //   });
+      // }
+
     }
+  }
 
 
     onChangeAlarm(check: any) {

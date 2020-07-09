@@ -549,7 +549,59 @@ export class WorkService {
   }
 
   
-  storeWorkDetailForklift(id_rutines:string,id_forklift:number,date:string){
+  storeWorkPreventive(id_rutines:string,id_forklift:number,technician_id: any, date:string){
+    return new Promise(resolve => {
+      const httpOptions = {
+        headers: new HttpHeaders({
+          'Content-Type':  'application/json',
+          'Authorization': 'Bearer ' + localStorage.getItem('token_user'),
+          'Accept': 'application/json'
+        })
+      };
+      const postParams = {
+        preventive_routines_id: id_rutines,
+        forklift_id: id_forklift,
+        technician_id: technician_id,
+        date: date
+      };
+      console.log(postParams);
+      
+      this.http.post(this.apiEndPoint+'api/create_forklift_routne', postParams, httpOptions)
+      .map(res => res).subscribe(data => {
+        console.log("a mostrar data");
+      console.log(data);
+      resolve(data);
+      }, error => {
+        console.log("error en servicio");
+                resolve(error);
+        });
+    });
+  }
+
+  getWorkPreventive(id:number){
+    console.log(id);
+    return new Promise(resolve => {
+      const httpOptions = {
+        headers: new HttpHeaders({
+          'Content-Type':  'application/json',
+          'Authorization': 'Bearer ' + localStorage.getItem('token_user'),
+          'Accept': 'application/json'
+        })
+      };
+      
+      this.http.get(this.apiEndPoint+'api/get_forklift_routines/'+id, httpOptions)
+      .map(res => res).subscribe(data => {
+        console.log("a mostrar data");
+      console.log(data);
+      resolve(data);
+      }, error => {
+        console.log("error en servicio");
+        console.log(error);
+                resolve(error);
+        });
+    });
+  }
+  storeWorkCorrective(id_rutines:string,id_forklift:number,technician_id: string,date:string){
     return new Promise(resolve => {
       const httpOptions = {
         headers: new HttpHeaders({
@@ -561,8 +613,35 @@ export class WorkService {
       const postParams = {
         id_routines: id_rutines,
         id_forklift: id_forklift,
+        technician_id: technician_id,
         date: date,
-        status: 0
+      };
+      
+      this.http.post(this.apiEndPoint+'api/routine_details', postParams, httpOptions)
+      .map(res => res).subscribe(data => {
+        console.log("a mostrar data");
+      console.log(data);
+      resolve(data);
+      }, error => {
+        console.log("error en servicio");
+                resolve(error);
+        });
+    });
+  }
+  storeWorkCheclist(id_checklist:string,id_forklift:number,technician_id: string,date:string){
+    return new Promise(resolve => {
+      const httpOptions = {
+        headers: new HttpHeaders({
+          'Content-Type':  'application/json',
+          'Authorization': 'Bearer ' + localStorage.getItem('token_user'),
+          'Accept': 'application/json'
+        })
+      };
+      const postParams = {
+        id_routines: id_checklist,
+        id_forklift: id_forklift,
+        technician_id: technician_id,
+        date: date,
       };
       
       this.http.post(this.apiEndPoint+'api/routine_details', postParams, httpOptions)

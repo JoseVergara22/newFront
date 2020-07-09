@@ -28,7 +28,11 @@ interface itemSelectInterface {// item para mostrar selccionados
 
 interface currentDateInterface {// vector seleccionado
   date?: number;
-  item?: string;
+  dateText?: string;
+  preventive?: string;
+  corrective?: string;
+  checklist?: string;
+  technician?: string;
 }
 
 interface putDateInterface {// vector seleccionado
@@ -183,6 +187,7 @@ export class MasterForkliftUpdateComponent extends NgbDatepickerI18n {
 
   disabled = true;
   forkliftCurrent: any;
+  routines: any;
 
 
 
@@ -426,15 +431,14 @@ export class MasterForkliftUpdateComponent extends NgbDatepickerI18n {
   }
 
   if(this.forkliftCurrent.routine_id===3){
+    console.log(this.forkliftCurrent.routine_id)
      this.tooglecalendar=true;
+    //  this.getRutinesPreventive();
   }
 
-
- 
-
-
-    this.forkliftService.getDetailsForkliftRoutine(Number(this.currentForkId)).then(data => {
+    this.workService. getWorkPreventive(Number(this.currentForkId)).then(data => {
       const resp: any = data;
+      console.log(resp)
       this.forkliftRoutine = data;
        this.forkliftRoutine = this.forkliftRoutine.data;
        console.log('aaaaaaaaaaaaaaaa');
@@ -452,19 +456,25 @@ export class MasterForkliftUpdateComponent extends NgbDatepickerI18n {
          };
         
         let dateCurrentComplete =day+''+month+''+year;
+        let dateText =day+'-'+month+'-'+year;
         let dateFinal=Number(dateCurrentComplete);
         this.datesSelected.push(this.daysForklift);
 
          this.currentDayItem={
             'date': dateFinal,
-            'item': forkliftRou.id_routines
+            'dateText': dateText,
+            'preventive': forkliftRou.preventive,
+            'corrective': forkliftRou.corrective,
+            'checklist': forkliftRou.checklits,
+            'technician': forkliftRou.technician
          }
-        
+      
         this.currentDateRoutines.push(this.currentDayItem);
      
       }
       console.log('información BHHHHH');
       console.log(data);
+      console.log(this.currentDateRoutines);
       swal.close();
     }).catch(error => {
       console.log(error);
@@ -494,6 +504,22 @@ export class MasterForkliftUpdateComponent extends NgbDatepickerI18n {
     }).catch(error => {
       console.log(error);
     });
+   }
+
+   getRutinesPreventive(){
+    this.workService. getWorkPreventive(this.forkliftCurrent).then(data => {
+      const resp: any = data;
+      console.log('ole ole');
+      console.log(resp);
+      this.routines = resp.data;
+      swal.close();
+    }).catch(error => {
+      console.log(error);
+    });
+   }
+
+   getRutinesCorrective(){
+
    }
 
 
@@ -702,9 +728,13 @@ this.selectedFuelId);
     
 
         let day = this.datesSelected[i].day.toString();
-        let month = this.datesSelected[i].month.toString();
-        let year =  this.datesSelected[i].year.toString();
-        let routines = this.currentDateRoutines[i].item;
+      let month = this.datesSelected[i].month.toString();
+      let year =  this.datesSelected[i].year.toString();
+      let preventive = this.currentDateRoutines[i].preventive;
+      let corrective = this.currentDateRoutines[i].corrective;
+      let checklist = this.currentDateRoutines[i].checklist;
+      let technician = this.currentDateRoutines[i].technician;
+      console.log(this.currentDateRoutines[i].dateText.split("-"));
 
         if(day.toString().length < 2){
           day = '0'+ day.toString();
@@ -718,7 +748,7 @@ this.selectedFuelId);
       //  console.log('fecha organizada');
       //  console.log(dateComplete);
 
-     this.workService.storeWorkDetailForklift(routines,idForlift,dateComplete).then(data => {
+     this.workService.storeWorkPreventive(preventive,idForlift,technician,dateComplete).then(data => {
       const resp: any = data;
       console.log(data);
      // swal.close();

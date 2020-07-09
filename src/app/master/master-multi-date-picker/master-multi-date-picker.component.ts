@@ -19,7 +19,11 @@ interface itemSelectInterface {// item para mostrar selccionados
 
 interface currentDateInterface {// vector seleccionado
   date?: number;
-  item?: string;
+  dateText?: string;
+  preventive?: string;
+  corrective?: string;
+  checklist?: string;
+  technician?: string;
 }
 
 const equals = (one: NgbDateStruct, two: NgbDateStruct) =>
@@ -86,7 +90,10 @@ export class MasterMultiDatePickerComponent implements OnInit {
   dateMax: NgbDateStruct = { year: 1789, month: 7, day: 30 };
   dateShow: string;
   rowsWork: any;
-  checkedList: string='1';
+  preventiveList: string='';
+  correctiveList: string='';
+  checkedList: string='';
+  technicianList: string='';
 
   routineSelecteds: Array <itemSelectInterface> = [];
   routineSelected: itemSelectInterface;
@@ -108,6 +115,8 @@ export class MasterMultiDatePickerComponent implements OnInit {
   preventives: any;
   checklists: any;
   technician: any;
+  _test: string;
+  routines: any
   
   ngOnInit() {
   }
@@ -132,8 +141,29 @@ export class MasterMultiDatePickerComponent implements OnInit {
     return this._currentDateRoutines?this._currentDateRoutines:[];
   }
 
+  @Input()
+  set test(value:string)  
+  {
+     this._test=value;
+  }
+  get test():string
+  {
+    return this._test;
+  }
+
+  @Input()
+  set forklift(value:any)  
+  {
+     this.routines=value;
+  }
+  get forklift():any
+  {
+    return this.routines;
+  }
+
   @Output() datesSelectedChange=new EventEmitter<NgbDateStruct[]>();
   @Output() currentDateRoutinesChange=new EventEmitter<currentDateInterface[]>();
+  @Output() testChange = new EventEmitter<string>();
 
 
  //  currentDateRoutines: Array <currentDateInterface> = [];
@@ -143,6 +173,10 @@ export class MasterMultiDatePickerComponent implements OnInit {
 
   console.log('Importante data de fechas');
   console.log(this.currentDateRoutines);
+  console.log(this._currentDateRoutines);
+  console.log(this._datesSelected);
+  console.log('id maquina');
+  console.log(this.routines);
   const dateDay = new Date();
   
   this.datesSelected=[];
@@ -192,11 +226,10 @@ if (numberMonthCurrent !== 13) {
           console.log('kaka1');
       } 
       else
+      console.log('antes de entrar add date');
       { this.addDate(date);
-        console.log('kaka2');
       }
 
-      this.datesSelectedChange.emit(this.datesSelected);
       this.datesSelectedChange.emit(this.datesSelected);
 
     } else if (this.fromDate && !this.toDate && after(date, this.fromDate)) {
@@ -391,6 +424,7 @@ if (numberMonthCurrent !== 13) {
   }
   addDate(date: NgbDateStruct)
   {
+    console.log('entro add date');
     this.dateCurrentCancel=date;
     console.log('Seguimiento a trinis');
     console.log(this.routineSelecteds);
@@ -404,7 +438,7 @@ if (numberMonthCurrent !== 13) {
         for (let currentRoutine of  this.currentDateRoutines) {
           console.log(currentRoutine); // 1, "string", false
           if(currentRoutine.date == dateComplete){
-            itemSelect = currentRoutine.item;
+            itemSelect = currentRoutine.preventive;
             break;
           }
           cont++;
@@ -471,9 +505,15 @@ if (numberMonthCurrent !== 13) {
       //}      //If exist, remove the datedateCurrentCancel
       // else {
        if(this.preventive==true){
+         console.log('entro');
+         console.log(this.routineSelecteds);
          for (let item of this.routineSelecteds) {
-            if(item.select){
-             this.checkedList = this.checkedList +','+ item.id;
+           console.log('entro');
+           if(item.select){
+            console.log(item);
+            console.log('entro');
+             this.preventiveList = this.preventiveList + item.id +',';
+             console.log('entro');
             }
           }
        }
@@ -481,23 +521,36 @@ if (numberMonthCurrent !== 13) {
       //  if(this.corrective==true){
       //   for (let item of this.routineSelecteds) {
       //     if(item.select){
-      //       this.checkedList = this.checkedList +','+ item.id;
+      //       this.correctiveList = this.correctiveList + item.id +',';
       //     }
       //   }
       // }
       
-      if(this.checklist==true){
-        for (let item of this.checklisSelecteds) {
-          if(item.select){
-            this.checkedList = this.checkedList +','+ item.id;
+      // if(this.checklist==true){
+      //   for (let item of this.checklisSelecteds) {
+      //     if(item.select){
+      //       this.checkedList = this.checkedList + item.id +',';
+      //     }
+      // }
+      console.log(this.technicianSelecteds);
+      for (let item of this.technicianSelecteds) {
+        console.log('entro');
+        if(item.select){
+          console.log(item);
+          console.log('entro');
+            this.technicianList = this.technicianList + item.id +',';
           }
-      }
-    }
+        }
+  
         
 
+    console.log(this.preventiveList.length);
+    console.log(this.preventiveList);
+    console.log(this.correctiveList.length);
       console.log(this.checkedList.length);
+      console.log(this.technicianList);
 
-      if(this.checkedList.length>2){   
+      if(this.checkedList.length>2 || this.preventiveList.length>2){   
 
    
       console.log("array de ids");
@@ -505,15 +558,23 @@ if (numberMonthCurrent !== 13) {
        console.log( this.checkedList);
 
         let dateComplete= Number(this.dateCurrentCancel.day+''+this.dateCurrentCancel.month+''+this.dateCurrentCancel.year);
+        let dateText = this.dateCurrentCancel.day+'-'+this.dateCurrentCancel.month+'-'+this.dateCurrentCancel.year
         console.log( dateComplete);
 
         this.currentDateRoutine={
           date: dateComplete,
-          item: this.checkedList
+          dateText: dateText,
+          preventive: this.preventiveList,
+          corrective: this.correctiveList,
+          checklist: this.checkedList,
+          technician: this.technicianList
         }
 
-
-        this.checkedList='1';
+console.log(this.currentDateRoutine);
+        this.preventiveList='';
+        this.correctiveList='';
+        this.checkedList='';
+        this.technicianList='';
         console.log('importante');
         console.log(  this.currentDateRoutines);
 
@@ -543,7 +604,9 @@ if (numberMonthCurrent !== 13) {
         this.datesSelected.push(this.dateCurrentCancel);
         document.getElementById( 'routineButtonCancel').click();
        // document.getElementById( 'routineButton').click();
-
+       console.log(this.currentDateRoutines);
+       this.testChange.emit('hola');
+       this.currentDateRoutinesChange.emit(this.currentDateRoutines);
       }else{
 
         let index=this.datesSelected.findIndex(f=>f.day== this.dateCurrentCancel.day && f.month== this.dateCurrentCancel.month && f.year== this.dateCurrentCancel.year);
@@ -584,6 +647,8 @@ if (numberMonthCurrent !== 13) {
          });
         console.log('Debes escoger por lo menos una rutina');
        */
+      console.log(this.currentDateRoutine);
+      console.log(this.currentDateRoutines);
       document.getElementById( 'routineButtonCancel').click();
       }
       // }  //a simple push
@@ -600,6 +665,8 @@ if (numberMonthCurrent !== 13) {
         {
             let date=new Date(time);
             //javascript getMonth give 0 to January, 1, to February...
+            console.log('antes de entrar add date');
+            
             this.addDate({year:date.getFullYear(),month:date.getMonth()+1,day:date.getDate()});
         }   
         this.datesSelectedChange.emit(this.datesSelected);

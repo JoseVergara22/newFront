@@ -179,7 +179,7 @@
                 <app-card *ngIf=(tooglecalendar) [title]="'Calendario'" [headerContent]="''" [cardOptionBlock]="true">
                   
 
-                    <app-master-multi-date-picker [datesSelected]="datesSelected" [currentDateRoutines]="currentDateRoutines" (currentDateRoutinesChange)="change($event)" (datesSelectedChange)="change($event)"></app-master-multi-date-picker>
+                    <app-master-multi-date-picker  [datesSelected]="datesSelected" [currentDateRoutines]="currentDateRoutines" [test]="test" (testChange)="change2($event)" (currentDateRoutinesChange)="change3($event)"  (datesSelectedChange)="change($event)"></app-master-multi-date-picker>
                     <hr>
               
                 </app-card>

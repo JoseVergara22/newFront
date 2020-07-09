@@ -714,7 +714,7 @@ this.selectedFuelId);
       //  console.log('fecha organizada');
       //  console.log(dateComplete);
 
-     this.workService.storeWorkDetailForklift(routines,idForlift,dateComplete).then(data => {
+     this.workService.storeWorkPreventive(routines,idForlift,'9I',dateComplete).then(data => {
       const resp: any = data;
       console.log(data);
      // swal.close();
