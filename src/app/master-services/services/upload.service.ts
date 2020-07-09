@@ -469,6 +469,20 @@ uploadFilesAllSettlement(file:any, settlementId:number, type: number, fileName:s
   uploadFilesAllEstimate(file:any, estimateId:number, type: number, fileName:string) {
     return new Promise(resolve =>{
 
+      // Cambio YCV
+      let bucketF='masterforklift/estimate_files';
+      let url='https://masterforklift.s3.amazonaws.com/estimate_files/'+fileName;
+      let typeF=type;
+      
+       this.estimateService.createEstimateFile(estimateId, bucketF, url, typeF, fileName).then(data => {
+          const resp: any = data;
+          console.log(data);
+         // swal.close();
+          console.log(resp);
+        }).catch(error => {
+          console.log(error);
+        });
+
       console.log('ingresoa la fuction        guardar en s3');
       const contentType = file.type;
       const bucket = new S3(
@@ -503,18 +517,18 @@ uploadFilesAllSettlement(file:any, settlementId:number, type: number, fileName:s
 
 
         
-          let bucketF='masterforklift/estimate_files';
+          /*   let bucketF='masterforklift/estimate_files';
           let url='https://masterforklift.s3.amazonaws.com/estimate_files/'+nameFile;
           let typeF=type;
           
-          this.estimateService.createEstimateFile(estimateId, bucketF, url, typeF, fileName).then(data => {
+       this.estimateService.createEstimateFile(estimateId, bucketF, url, typeF, fileName).then(data => {
               const resp: any = data;
               console.log(data);
              // swal.close();
               console.log(resp);
             }).catch(error => {
               console.log(error);
-            });
+            });*/
   
         }).catch(error => {
     console.log('error para subir a s3'+error);
