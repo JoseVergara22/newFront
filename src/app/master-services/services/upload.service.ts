@@ -415,10 +415,23 @@ uploadFilesAllSettlement(file:any, settlementId:number, type: number, fileName:s
   return new Promise(resolve =>{
 
     const contentType = file.type;
+
+    let bucketF='masterforklift/settlement_files';
+    let url='https://masterforklift.s3.amazonaws.com/settlement_files/'+fileName;
+    let typeF=type;
+    
+    this.settlementService.createSettlementFile(settlementId, bucketF, url, typeF, fileName).then(data => {
+        const resp: any = data;
+        console.log(data);
+       // swal.close();
+        console.log(resp);
+      }).catch(error => {
+        console.log(error);
+      });
     
     console.log('tipo de archivo '+contentType);
-    let ext = fileName.split('.').pop();
-    let nameTemp = fileName.split('.');
+    // let ext = fileName.split('.').pop();
+    // let nameTemp = fileName.split('.');
     const bucket = new S3(
           {
               accessKeyId: 'AKIAQTIVBK67FU3N4ZPV',
@@ -428,10 +441,11 @@ uploadFilesAllSettlement(file:any, settlementId:number, type: number, fileName:s
       );
       const uuid = UUID.UUID();
     
-      const extension = ext ;
-      console.log(extension);
+      // const extension = ext ;
+      // console.log(extension);
       // let nameFile ='https://masterforklift.s3.amazonaws.com/'+uuid +''+ extension;
-      let nameFile =nameTemp[0]+'.'+ extension;
+      // let nameFile =nameTemp[0]+'.'+ extension;
+      let nameFile =fileName;
       console.log(nameFile);
       const params = {
           Bucket: 'masterforklift/settlement_files',
@@ -446,18 +460,7 @@ uploadFilesAllSettlement(file:any, settlementId:number, type: number, fileName:s
         resolve(resp);
         // let nameFileFinal='https://masterforklift.s3.amazonaws.com/'+nameFile;
       
-        let bucketF='masterforklift/settlement_files';
-        let url='https://masterforklift.s3.amazonaws.com/settlement_files/'+nameFile;
-        let typeF=type;
-        
-        this.settlementService.createSettlementFile(settlementId, bucketF, url, typeF, fileName).then(data => {
-            const resp: any = data;
-            console.log(data);
-           // swal.close();
-            console.log(resp);
-          }).catch(error => {
-            console.log(error);
-          });
+       
 
       }).catch(error => {
   console.log(error);

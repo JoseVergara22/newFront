@@ -1150,10 +1150,10 @@ createScheduleSettlement(params: string) {
         +'&id_estimate='+idEstimate+'&info='+info+'&comment='+comment+'&subject='+subject);
   
        console.log(' ingreso al correo sobre el info'+info);
-  
+   
         const postParams = {
           id_user: idUser,
-          id_estimate: idEstimate,
+          id_settlement: idEstimate,
           info: info,
           id_customer: idCustomer,
           subject:subject,
@@ -1161,7 +1161,7 @@ createScheduleSettlement(params: string) {
         };
   
        this.http.get(this.apiEndPoint+'api/send_amazon_mail_settlement?id_user='+ idUser+'&id_customer='+idCustomer
-        +'&id_estimate='+idEstimate+'&info='+info+'&comment='+comment+'&subject='+subject,httpOptions)
+        +'&id_settlement='+idEstimate+'&info='+info+'&comment='+comment+'&subject='+subject,httpOptions)
        // this.http.get(this.apiEndPoint+'api/send_amazon_mail?id_user=197&subject="Buen dia"&id_customer= 118&id_estimate= 277&info=jasoncv0294@gmail.com|eee|ycastrillon0294@gmail.com|lll&comment= "Oiga pues"',httpOptions)
           .map(res => res).subscribe(data => {
             console.log(data);
