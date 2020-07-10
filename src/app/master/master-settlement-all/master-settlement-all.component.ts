@@ -3875,7 +3875,16 @@ this.getImgFromUrl(logo_url, function (img) {
      console.log(data);
     // this.customers  = resp.data;
       this.rowsClient = resp.data;
+      console.log(resp.error);
       swal.close();
+      if(resp.error){
+        console.log('entro')
+        swal({
+          title:'Tiempo de busqueda excedido',
+          text: 'El rango de tiempo seleccionado para la busqueda es muy amplio, seleccione uno mejor para una consulta mas optima.',
+          type: 'warning'
+         });
+      }
      // this.rowStatic =  resp.data;
      // this.rowsTemp = resp.data;
      // console.log( this.rowsClient);

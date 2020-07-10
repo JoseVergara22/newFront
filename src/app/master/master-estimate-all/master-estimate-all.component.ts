@@ -3802,8 +3802,8 @@ this.getImgFromUrl(logo_url, function (img) {
       if(resp.error){
         console.log('entro')
         swal({
-          title:'Tiempor de busqueda excedido',
-          text: 'El rango de tiempo seleccionado para la busqueda es muy amplio, seleccione uno mejor para una consulta mas optima',
+          title:'Tiempo de busqueda excedido',
+          text: 'El rango de tiempo seleccionado para la busqueda es muy amplio, seleccione uno mejor para una consulta mas optima.',
           type: 'warning'
          });
       }
