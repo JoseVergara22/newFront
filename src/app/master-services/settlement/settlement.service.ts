@@ -635,6 +635,28 @@ createScheduleSettlement(params: string) {
       });
     }
 
+    getSubCostCenters(id){
+      return new Promise(resolve => {
+        const headers = new HttpHeaders();
+        headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user'))); 
+        headers.append('Content-Type', 'application/json');
+        const httpOptions = {
+          headers: new HttpHeaders({
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + localStorage.getItem('token_user'),
+            'Accept': 'application/json'
+          })
+        };
+        this.http.get(this.apiEndPoint+'api/get_sub_cost_centers_id/'+id, httpOptions)
+          .map(res => res).subscribe(data => {
+            console.log(data);
+            resolve(data);
+          }, error => {
+            resolve(error);
+          });
+      });
+    }
+
     getSettlementEstimateCustomer(idCustomer:number, idBranchOffice:number, numberPage:number, from_date,to_date) {
       console.log('customer_id='+idCustomer+'&&branch_office_id='+idBranchOffice+'&&page='+numberPage+'&&from_date'+from_date+'&&to_date'+to_date);
       console.log(idCustomer);

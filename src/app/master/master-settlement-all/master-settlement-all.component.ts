@@ -246,6 +246,7 @@ export class MasterSettlementAllComponent  extends NgbDatepickerI18n {
  days:any=0;
  departments: any;
  cities: any;
+ subCenter:any;
 
  constructor(private restService: RestService, private _i18n: I18n, private router: Router, private estimateService: EstimateService, private forkliftService: ForkliftService,
              private calendar: NgbCalendar, public formatter: NgbDateParserFormatter, private userService: UserService,  private uploadService: UploadService,   private formbuilder:FormBuilder, private settlementeService: SettlementService) {
@@ -635,6 +636,27 @@ console.log('download ole');
        console.log(error);
      });
    }
+ }
+
+ async getSubCenter(id: any){
+  console.log('Id sub centro: '+id);
+  
+   await this.settlementeService.getSubCostCenters(id).then(data => {
+    const resp: any = data;
+      console.log('datos de sub centro con settlemente');
+      console.log(data);
+      this.subCenter=resp.data;
+      console.log(this.subCenter);
+      console.log(this.subCenter[0].description);
+      
+       this.subCenter=this.subCenter[0].description;
+      
+      return this.subCenter
+      
+    }).catch(error => {
+      console.log(error);
+    });
+  
  }
 
 
@@ -1220,10 +1242,14 @@ console.log('este es el e:'+ +JSON.stringify(e));
 //Este total se debe remplazar por el subtotal_parts que se encuentra en la tabla de settlement
 let value=  Number(this.rowsItemsparts[i].subtotal);
     this.totalCost = Number(this.totalCost + value); 
+    let sub = this.getSubCenter(this.rowsItemsparts[i].subcost_center_id);
+console.log(sub);
+console.log(this.getSubCenter(this.rowsItemsparts[i].subcost_center_id));
+console.log(this.subCenter);
     console.log('total'); 
     console.log(this.rowsItemsparts[i].subtotal_decimal); 
     console.log(this.totalCost); 
-    body_table = [i+1, this.rowsItemsparts[i].code, this.rowsItemsparts[i].description, this.rowsItemsparts[i].sub_cost_center, this.rowsItemsparts[i].quantity, '$'+this.rowsItemsparts[i].price_decimal, this.rowsItemsparts[i].discount,   '$'+this.rowsItemsparts[i].subtotal_decimal];
+    body_table = [i+1, this.rowsItemsparts[i].code, this.rowsItemsparts[i].description, this.subCenter, this.rowsItemsparts[i].quantity, '$'+this.rowsItemsparts[i].price_decimal, this.rowsItemsparts[i].discount,   '$'+this.rowsItemsparts[i].subtotal_decimal];
 
 
      doc.autoTable({
@@ -1253,12 +1279,13 @@ let value=  Number(this.rowsItemsparts[i].subtotal);
 //Este total se debe remplazar por el subtotal_parts que se encuentra en la tabla de settlement
 let value=  Number(this.rowsItemsWorkforce[i].total);
     this.totalCost = Number(this.totalCost + value); 
-
+   
+    this.getSubCenter(this.rowsItemsWorkforce[i].subcost_center_id);
     console.log('total'); 
     console.log(this.rowsItemsWorkforce[i].subtotal_decimal); 
     console.log(this.totalCost); 
 
-    body_table = [j+1, this.rowsItemsWorkforce[i].code, this.rowsItemsWorkforce[i].service, this.rowsItemsWorkforce[i].sub_cost_center, this.rowsItemsWorkforce[i].quantity, '$'+this.rowsItemsWorkforce[i].hour_value_decimal, this.rowsItemsWorkforce[i].discount,   '$'+this.rowsItemsWorkforce[i].total_decimal];
+    body_table = [j+1, this.rowsItemsWorkforce[i].code, this.rowsItemsWorkforce[i].service, this.subCenter, this.rowsItemsWorkforce[i].quantity, '$'+this.rowsItemsWorkforce[i].hour_value_decimal, this.rowsItemsWorkforce[i].discount,   '$'+this.rowsItemsWorkforce[i].total_decimal];
 
 
      doc.autoTable({
@@ -1335,11 +1362,12 @@ let value=  Number(this.rowsItemsWorkforce[i].total);
   let value=  Number(this.rowsItemsCustomer[i].subtotal);
       this.totalCost = Number(this.totalCost + value); 
 
+      this.getSubCenter(this.rowsItemsCustomer[i].subcost_center_id);      
       console.log('total'); 
       console.log(this.rowsItemsCustomer[i].subtotal_decimal); 
       console.log(this.totalCost); 
 
-      body_table = [i+1, this.rowsItemsCustomer[i].code, this.rowsItemsCustomer[i].description, this.rowsItemsCustomer[i].sub_cost_center, this.rowsItemsCustomer[i].quantity, '$'+this.rowsItemsCustomer[i].price_decimal, this.rowsItemsCustomer[i].discount,   '$'+this.rowsItemsCustomer[i].subtotal_decimal];
+      body_table = [i+1, this.rowsItemsCustomer[i].code, this.rowsItemsCustomer[i].description, this.subCenter, this.rowsItemsCustomer[i].quantity, '$'+this.rowsItemsCustomer[i].price_decimal, this.rowsItemsCustomer[i].discount,   '$'+this.rowsItemsCustomer[i].subtotal_decimal];
   
    doc.autoTable({
      startY: doc.autoTable.previous.finalY,
