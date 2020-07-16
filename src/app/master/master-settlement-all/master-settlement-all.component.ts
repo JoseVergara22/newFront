@@ -1242,14 +1242,11 @@ console.log('este es el e:'+ +JSON.stringify(e));
 //Este total se debe remplazar por el subtotal_parts que se encuentra en la tabla de settlement
 let value=  Number(this.rowsItemsparts[i].subtotal);
     this.totalCost = Number(this.totalCost + value); 
-    let sub = this.getSubCenter(this.rowsItemsparts[i].subcost_center_id);
-console.log(sub);
-console.log(this.getSubCenter(this.rowsItemsparts[i].subcost_center_id));
-console.log(this.subCenter);
+ 
     console.log('total'); 
     console.log(this.rowsItemsparts[i].subtotal_decimal); 
     console.log(this.totalCost); 
-    body_table = [i+1, this.rowsItemsparts[i].code, this.rowsItemsparts[i].description, this.subCenter, this.rowsItemsparts[i].quantity, '$'+this.rowsItemsparts[i].price_decimal, this.rowsItemsparts[i].discount,   '$'+this.rowsItemsparts[i].subtotal_decimal];
+    body_table = [i+1, this.rowsItemsparts[i].code, this.rowsItemsparts[i].description, this.rowsItemsparts[i].sub_cost_center.description, this.rowsItemsparts[i].quantity, '$'+this.rowsItemsparts[i].price_decimal, this.rowsItemsparts[i].discount,   '$'+this.rowsItemsparts[i].subtotal_decimal];
 
 
      doc.autoTable({
@@ -1280,12 +1277,12 @@ console.log(this.subCenter);
 let value=  Number(this.rowsItemsWorkforce[i].total);
     this.totalCost = Number(this.totalCost + value); 
    
-    this.getSubCenter(this.rowsItemsWorkforce[i].subcost_center_id);
+    
     console.log('total'); 
     console.log(this.rowsItemsWorkforce[i].subtotal_decimal); 
     console.log(this.totalCost); 
 
-    body_table = [j+1, this.rowsItemsWorkforce[i].code, this.rowsItemsWorkforce[i].service, this.subCenter, this.rowsItemsWorkforce[i].quantity, '$'+this.rowsItemsWorkforce[i].hour_value_decimal, this.rowsItemsWorkforce[i].discount,   '$'+this.rowsItemsWorkforce[i].total_decimal];
+    body_table = [j+1, this.rowsItemsWorkforce[i].code, this.rowsItemsWorkforce[i].service, this.rowsItemsparts[i].sub_cost_center.description, this.rowsItemsWorkforce[i].quantity, '$'+this.rowsItemsWorkforce[i].hour_value_decimal, this.rowsItemsWorkforce[i].discount,   '$'+this.rowsItemsWorkforce[i].total_decimal];
 
 
      doc.autoTable({
@@ -1362,12 +1359,12 @@ let value=  Number(this.rowsItemsWorkforce[i].total);
   let value=  Number(this.rowsItemsCustomer[i].subtotal);
       this.totalCost = Number(this.totalCost + value); 
 
-      this.getSubCenter(this.rowsItemsCustomer[i].subcost_center_id);      
+      this.getSubCenter(this.rowsItemsCustomer[i].sub_cost_center.description);      
       console.log('total'); 
       console.log(this.rowsItemsCustomer[i].subtotal_decimal); 
       console.log(this.totalCost); 
 
-      body_table = [i+1, this.rowsItemsCustomer[i].code, this.rowsItemsCustomer[i].description, this.subCenter, this.rowsItemsCustomer[i].quantity, '$'+this.rowsItemsCustomer[i].price_decimal, this.rowsItemsCustomer[i].discount,   '$'+this.rowsItemsCustomer[i].subtotal_decimal];
+      body_table = [i+1, this.rowsItemsCustomer[i].code, this.rowsItemsCustomer[i].description, this.rowsItemsCustomer[i].sub_cost_center.description, this.rowsItemsCustomer[i].quantity, '$'+this.rowsItemsCustomer[i].price_decimal, this.rowsItemsCustomer[i].discount,   '$'+this.rowsItemsCustomer[i].subtotal_decimal];
   
    doc.autoTable({
      startY: doc.autoTable.previous.finalY,
@@ -2242,7 +2239,7 @@ let value=  Number(this.rowsItemsparts[i].subtotal);
     console.log(this.rowsItemsparts[i].subtotal_decimal); 
     console.log(this.totalCost); 
 
-    body_table = [i+1, this.rowsItemsparts[i].code, this.rowsItemsparts[i].description, this.rowsItemsparts[i].sub_cost_center, this.rowsItemsparts[i].quantity, '$'+this.rowsItemsparts[i].price_suggest_decimal, this.rowsItemsparts[i].discount,   '$'+this.rowsItemsparts[i].subtotal_decimal];
+    body_table = [i+1, this.rowsItemsparts[i].code, this.rowsItemsparts[i].description, this.rowsItemsparts[i].sub_cost_center.description, this.rowsItemsparts[i].quantity, '$'+this.rowsItemsparts[i].price_suggest_decimal, this.rowsItemsparts[i].discount,   '$'+this.rowsItemsparts[i].subtotal_decimal];
 
 
      doc.autoTable({
@@ -2277,7 +2274,7 @@ let value=  Number(this.rowsItemsWorkforce[i].total);
     console.log(this.rowsItemsWorkforce[i].subtotal_decimal); 
     console.log(this.totalCost); 
 
-    body_table = [j+1, this.rowsItemsWorkforce[i].code, this.rowsItemsWorkforce[i].service, this.rowsItemsWorkforce[i].sub_cost_center, this.rowsItemsWorkforce[i].quantity, '$'+this.rowsItemsWorkforce[i].hour_value_decimal, this.rowsItemsWorkforce[i].discount,   '$'+this.rowsItemsWorkforce[i].total_decimal];
+    body_table = [j+1, this.rowsItemsWorkforce[i].code, this.rowsItemsWorkforce[i].service, this.rowsItemsWorkforce[i].sub_cost_center.description, this.rowsItemsWorkforce[i].quantity, '$'+this.rowsItemsWorkforce[i].hour_value_decimal, this.rowsItemsWorkforce[i].discount,   '$'+this.rowsItemsWorkforce[i].total_decimal];
 
 
      doc.autoTable({
@@ -2358,7 +2355,7 @@ let value=  Number(this.rowsItemsWorkforce[i].total);
       console.log(this.rowsItemsCustomer[i].subtotal_decimal); 
       console.log(this.totalCost); 
 
-      body_table = [i+1, this.rowsItemsCustomer[i].code, this.rowsItemsCustomer[i].description, this.rowsItemsCustomer[i].sub_cost_center, this.rowsItemsCustomer[i].quantity, '$'+this.rowsItemsCustomer[i].price_decimal, this.rowsItemsCustomer[i].discount,   '$'+this.rowsItemsCustomer[i].subtotal_decimal];
+      body_table = [i+1, this.rowsItemsCustomer[i].code, this.rowsItemsCustomer[i].description, this.rowsItemsCustomer[i].sub_cost_center.description, this.rowsItemsCustomer[i].quantity, '$'+this.rowsItemsCustomer[i].price_decimal, this.rowsItemsCustomer[i].discount,   '$'+this.rowsItemsCustomer[i].subtotal_decimal];
   
    doc.autoTable({
      startY: doc.autoTable.previous.finalY,

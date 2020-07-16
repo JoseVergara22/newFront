@@ -458,8 +458,9 @@ getSettlementDetailsParts(idSettlement:number) {
       })
     };
     this.http.get(this.apiEndPoint+'api/settlement_details_general_parts/'+idSettlement, httpOptions)
-      .map(res => res).subscribe(data => {
-        console.log(data);
+    .map(res => res).subscribe(data => {
+      console.log('uno');
+      console.log(data);
         resolve(data);
       }, error => {
         resolve(error);

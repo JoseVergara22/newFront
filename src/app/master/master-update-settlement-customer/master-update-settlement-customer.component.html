@@ -1863,6 +1863,14 @@
 
       <br>
       <br>
+      <label class="partLabel"><h4> Total repuestos: {{totalPart}}</h4></label>
+      <br>
+      <label class="partLabel"><h4>Total mano de obra: {{totalWorkforce}}</h4> </label>
+      <br>
+      <label class="partLabel"><h4>Total: {{totalSettlement}} </h4> </label>
+      <br>
+      <br>
+      <br>
       <div class="col-sm-12">
         <div class="labelItem">
             <button type="button" id="registerCountry" class="btn btn-primary waves-effect" (click)="modalRegisterItemCustomer.show()" *ngIf="showCreateItem">Crear item</button>
@@ -1877,7 +1885,7 @@
     </div>
     <ngx-datatable #table class="data-table"  style="height: 300px; overflow-y:visible"  [rows]="rowsItemscustomer"  [columnMode]="'flex'" [headerHeight]="50" [footerHeight]="50" [rowHeight]="'auto'"
     [limit]="5">
-
+ 
     <ngx-datatable-column  name="Código"  [flexGrow]="1"  [sortable]="false" [resizeable]="false" [canAutoResize]="true" prop="code"></ngx-datatable-column>
     <ngx-datatable-column  name="Descripción"  [flexGrow]="2"  [sortable]="false" [resizeable]="false" [canAutoResize]="true" prop="description"></ngx-datatable-column>
     <ngx-datatable-column  name="Cant"  [flexGrow]="1"  [sortable]="false" [resizeable]="false" [canAutoResize]="true" prop="quantity"></ngx-datatable-column>
