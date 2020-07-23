@@ -110,27 +110,17 @@ export class MasterUpdateChecklistsComponent implements OnInit {
  
     //part
     const partDescription = new FormControl('',Validators.required);
-    const partWork = new FormControl('',Validators.required);
-    const partSupplice = new FormControl('',Validators.required);
-    const partParameter = new FormControl('',Validators.required);
-   
+
     this.partForm= new FormGroup({
       partDescription:partDescription,
-      partWork:partWork,
-      partSupplice:partSupplice,
-      partParameter:partParameter
+
     });
 
     const partDescriptionUpdate = new FormControl('',Validators.required);
-    const partWorkUpdate = new FormControl('',Validators.required);
-    const partSuppliceUpdate = new FormControl('',Validators.required);
-    const partParameterUpdate = new FormControl('',Validators.required);
-   
+
     this.updatePartForm= new FormGroup({
       partDescriptionUpdate:partDescriptionUpdate,
-      partWorkUpdate:partWorkUpdate,
-      partSuppliceUpdate:partSuppliceUpdate,
-      partParameterUpdate:partParameterUpdate
+
     });
  
 
@@ -273,7 +263,7 @@ export class MasterUpdateChecklistsComponent implements OnInit {
   }
 
   getChecklistDetails(){
-    this.checkServices.getChecklistDetails(this.headerId).then(data=>{
+    this.checkServices.getChecklistDetails(this.checklistId).then(data=>{
       const resp:any=data;
       if (resp.success==true) {
         console.log('buena info');
@@ -295,139 +285,8 @@ export class MasterUpdateChecklistsComponent implements OnInit {
     });
   }
 
-  
-
-  getComponent(id: any){
-    console.log(id);
-    this.workService.getComponent(id).then(data=>{
-      const resp:any=data;
-      console.log('carga de componentes');
-      console.log(resp);
-      if (resp.success==true) {
-        this.componentSystem = resp.data;
-        console.log(this.componentSystem);
-
-        for (let com of this.componentSystem){
-          this.getPart(com.id);
-        }
-      } else {
-        this.generalAlert("ha ocurrido un error","ha ocurrido un error al mostrar la informacion","error");
-      }
-    }).catch(error=>{
-      console.log(error);
-      this.generalAlert("ha ocurrido un error","ha ocurrido un error al mostrar la informacion","error");
-    });
-  }
 
  
-
-  getPart(id: any){
-    this.workService.getPart(id).then(data=>{
-      const resp:any=data;
-      console.log('carga de partes');
-      console.log(resp);
-      if (resp.success==true) {
-        this.dataPart = resp.data;
-        console.log(this.dataPart);
-
-      } else {
-        this.generalAlert("ha ocurrido un error","ha ocurrido un error al mostrar la informacion","error");
-      }
-    }).catch(error=>{
-      console.log(error);
-      this.generalAlert("ha ocurrido un error","ha ocurrido un error al mostrar la informacion","error");
-    });
-  }
-
- 
-
-  updateSystem(system: any){
-  console.log(system)
-    this.currentSystem = system;
-    console.log( this.currentSystem );
-    this.updateDetailForm.get('updateSystem').setValue(this.currentSystem.system_description);
-   document.getElementById( 'showUpdateSystem').click();
-
-  }
-  
-
-  sendUpdateSystem(system: any){
-    console.log('valor de sistema'+ JSON.stringify(system));
-    if ((system.updateSystem!=null)&&(system.updateSystem!="")) {
-      swal({
-        title: 'Obteniendo información ...',
-        allowOutsideClick: false
-      });
-      swal.showLoading();
-      this.workService.updateSystem(this.currentSystem.id,system.updateSystem).then(data=>{
-        const resp:any=data;
-        this.generalAlert("Proceso completado","Proceso completado correctamente!","success");
-        document.getElementById( 'updateDetailHide').click();
-        this.getChecklistDetails();
-      }).catch(err=>{
-        console.log(err);
-        this.generalAlert("ha ocurrido un herror","ocurrio un error durante la ecucion","error");
-      });
-    }else{
-      this.generalAlert("ha ocurrido un herror","complete todos los campos obligatorios","error");
-    }
-  }
-
-  deleteSystem(item: any) {
-    swal({
-      title: 'Estás seguro de eliminar este elemento?',
-     // text: 'Once deleted, you will not be able to recover this imaginary file!',
-      type: 'warning',
-      showCancelButton: true,
-      showConfirmButton: true,
-      cancelButtonText: 'No',
-      confirmButtonText: 'Si'
-    })
-    .then((willDelete) => {
-        if (willDelete.value) {
-          this.elementDelete = item;
-          console.log(item);
-          console.log(    this.elementDelete);
-          swal.showLoading();
-          this.workService.deleteSystems(Number(this.elementDelete.id))
-          .then(data => {
-            swal.showLoading();
-            const resp: any = data;
-            console.log(resp);
-
-            if (resp.success === false) {
-              swal({
-                title: 'Este item presenta problemas',
-                text: 'Este item no se puede eliminar',
-                type: 'error'
-               });
-            } else {
-
-              if(resp.indicator==0){
-                this.getChecklistDetails();
-                // this.router.navigateByUrl('master/registerBrand');
-                swal({
-                 title: 'Elemento eliminado',
-                 type: 'success'
-                });
-              }else{
-                swal({
-                  title: 'Este sistema tiene asignado componentes',
-                  text: 'Este item no se puede eliminar',
-                  type: 'error'
-                 });
-              }
-          }
-          }).catch(error => {
-            console.log(error);
-          });
-          console.log(this.elementDelete.id);
-        } else {
-         // swal('Fail');
-        }
-      console.log(willDelete);
-    });
-  }
  
   deleteComponent(item: any) {
     swal({
@@ -445,7 +304,7 @@ export class MasterUpdateChecklistsComponent implements OnInit {
           console.log(item);
           console.log(    this.elementDelete);
           swal.showLoading();
-          this.workService.deleteComponents(Number(this.elementDelete.id))
+          this.checkServices.deleteComponent(Number(this.elementDelete.id))
           .then(data => {
             swal.showLoading();
             const resp: any = data;
@@ -458,7 +317,6 @@ export class MasterUpdateChecklistsComponent implements OnInit {
                 type: 'error'
                });
             } else {
-
             if(resp.indicator==0){
               this.getChecklistDetails();
               swal({
@@ -503,7 +361,54 @@ export class MasterUpdateChecklistsComponent implements OnInit {
           console.log(item);
           console.log(    this.elementDelete);
           swal.showLoading();
-          this.workService.deleteParts(Number(this.elementDelete.id))
+          this.checkServices.deletePart(Number(this.elementDelete.id))
+          .then(data => {
+            swal.showLoading();
+            const resp: any = data;
+            console.log(resp);
+
+            if (resp.success === false) {
+              swal({
+                title: 'Este item presenta problemas',
+                text: 'Este item no se puede eliminar',
+                type: 'error'
+               });
+            } else {
+           // this.router.navigateByUrl('master/registerBrand');
+           this.getChecklistDetails();
+           swal({
+            title: 'Elemento eliminado',
+            type: 'success'
+           });
+          }
+          }).catch(error => {
+            console.log(error);
+          });
+          console.log(this.elementDelete.id);
+        } else {
+         // swal('Fail');
+        }
+      console.log(willDelete);
+    });
+  }
+ 
+  deleteSecurity(item: any) {
+    swal({
+      title: 'Estás seguro de eliminar este elemento?',
+     // text: 'Once deleted, you will not be able to recover this imaginary file!',
+      type: 'warning',
+      showCancelButton: true,
+      showConfirmButton: true,
+      cancelButtonText: 'No',
+      confirmButtonText: 'Si'
+    })
+    .then((willDelete) => {
+        if (willDelete.value) {
+          this.elementDelete = item;
+          console.log(item);
+          console.log(    this.elementDelete);
+          swal.showLoading();
+          this.checkServices.deleteSecurity(Number(this.elementDelete.id))
           .then(data => {
             swal.showLoading();
             const resp: any = data;
@@ -544,13 +449,14 @@ export class MasterUpdateChecklistsComponent implements OnInit {
   }
 
   sendUpdateComponent(system: any){
+    console.log(system);
     if ((system.updateComponent!=null)&&(system.updateComponent!="")) {
       swal({
         title: 'Obteniendo información ...',
         allowOutsideClick: false
       });
       swal.showLoading();
-      this.workService.updateComponets(this.currentComponent.id,system.updateComponent).then(data=>{
+      this.checkServices.updateComponets(this.currentComponent.id,system.updateComponent).then(data=>{
         const resp:any=data;
         // this.headerInfo=resp.data;
         // console.log("header information");
@@ -568,14 +474,11 @@ export class MasterUpdateChecklistsComponent implements OnInit {
   }
 
 
-  updatePart(row: any){
+  updateParts(row: any){
     
     this.currentPart = row;
     console.log( this.currentPart );
     this.updatePartForm.get('partDescriptionUpdate').setValue(this.currentPart.description);
-    this.updatePartForm.get('partWorkUpdate').setValue(this.currentPart.work);
-    this.updatePartForm.get('partSuppliceUpdate').setValue(this.currentPart.supplice);
-    this.updatePartForm.get('partParameterUpdate').setValue(this.currentPart.parameter);
 
    document.getElementById( 'showUpdatePart').click();
   }
@@ -585,23 +488,19 @@ export class MasterUpdateChecklistsComponent implements OnInit {
       title: 'Obteniendo información ...',
       allowOutsideClick: false
     });
+    console.log(this.currentPart.id);
+    console.log(this.currentPart);
     console.log(updatePartForm);
-    console.log(updatePartForm.partDescription);
-    console.log(updatePartForm.partWork);
-    console.log(updatePartForm.partSupplice);
-    console.log(updatePartForm.partParameter);
-
+    console.log(updatePartForm.partDescriptionUpdate);
+   
     const description=updatePartForm.partDescriptionUpdate;
-    const work=updatePartForm.partWorkUpdate;
-    const supplice=updatePartForm.partSuppliceUpdate;
-    const parameter=updatePartForm.partParameterUpdate;
     if((description!=null)&&(description!="")){
       swal({
         title: 'Obteniendo información ...',
         allowOutsideClick: false
       });
       swal.showLoading();
-      this.workService.updatePart(this.currentPart.id,description,work,supplice,parameter).then(data=>{
+      this.checkServices.updatePart(this.currentPart.id,description).then(data=>{
         this.getChecklistDetails();
         this.generalAlert("Proceso completado","Proceso completado correctamente!","success");
         document.getElementById( 'updatePartHide').click();
@@ -614,6 +513,43 @@ export class MasterUpdateChecklistsComponent implements OnInit {
     }
   }
 
+  updateSecuritys(row: any){
+    
+    this.componentChecklist = row;
+    console.log( this.componentChecklist );
+    this.updateSecurityForm.get('updateSecurity').setValue(this.componentChecklist.description);
+
+   document.getElementById( 'showUpdateParts').click();
+  }
+
+  sendUpdateSecurity(updatePartForm: any){
+    console.log(updatePartForm);
+    swal({
+      title: 'Obteniendo información ...',
+      allowOutsideClick: false
+    });
+    console.log(updatePartForm);
+    console.log(updatePartForm.updateSecurity);
+   
+    const description=updatePartForm.updateSecurity;
+    if((description!=null)&&(description!="")){
+      swal({
+        title: 'Obteniendo información ...',
+        allowOutsideClick: false
+      });
+      swal.showLoading();
+      this.checkServices.updateSecurity(this.componentChecklist.id,description).then(data=>{
+        this.getChecklistDetails();
+        this.generalAlert("Proceso completado","Proceso completado correctamente!","success");
+        document.getElementById( 'updateSecurityHide').click();
+      }).catch(err=>{
+        console.log(err);
+        this.generalAlert("ha ocurrido un herror","ocurrio un error durante la ecucion","error");
+      });
+    }else{
+      this.generalAlert("ha ocurrido un herror","complete todos los campos obligatorios","error");
+    }
+  }
   updateheader(){
     console.log(this.routineDescriptionUpdate);
     if ((this.routineDescriptionUpdate!=null) || (this.routineDescriptionUpdate!="") || (this.routineHourUpdate==null)) {
@@ -622,7 +558,7 @@ export class MasterUpdateChecklistsComponent implements OnInit {
         allowOutsideClick: false
       });
       swal.showLoading();
-      this.workService.updateWorkHeader(this.headerId,1,this.routineDescriptionUpdate,this.routineHourUpdate,this.routineObservationUpdate).then(data=>{
+      this.checkServices.updateChecklist(this.headerId,this.routineDescriptionUpdate,this.routineHourUpdate,this.routineObservationUpdate).then(data=>{
         const resp:any=data;
         if(resp.success){
         this.headerInfo=resp.data;
@@ -756,41 +692,7 @@ export class MasterUpdateChecklistsComponent implements OnInit {
     // document.getElementById('storageDetailHide').click();
   }
   
-  /*storageComponent(formValue:any){
-    swal({
-      title: 'Obteniendo información ...',
-      allowOutsideClick: false
-    });
-    swal.showLoading();
-    console.log(formValue);
-    console.log(formValue.component);
-    const system=formValue.component;
-  
-    if((system!=null)&&(system!="")){
-    this.workService.storeComponent(this.systemForComponent,this.componentForm.get('component').value).then(data=>{
-      const resp:any=data;
-      console.log(data);
-      console.log(resp);
-      if (resp.success==1) {
-        this.generalAlert('Proceso exitoso','Se ha guardado el detalle correctamente','success');
-        console.log(this.systemForComponent);
-        //this.getComponent(this.systemForComponent);
-        this.getChecklistDetails()
-        this.componentForm.reset();
-        document.getElementById('storageComponentlHide').click();
-        swal.close();
-      } else {
-        this.generalAlert('No se puede guardar','Ha ocurrido un error en la ejecucion','error');
-      }
-      }).catch(error=>{
-        console.log(error);
-        this.generalAlert('No se puede guardar','Ha ocurrido un error en la ejecucion','error')
-      });
-    }else{
-      this.generalAlert('No se puede guardar','Debe Completar todos los campos obligatorios','error')
-    }
-  }*/
-
+ 
   storageComponent(formValue:any){
     swal({
       title: 'Obteniendo información ...',
@@ -824,48 +726,6 @@ export class MasterUpdateChecklistsComponent implements OnInit {
       this.generalAlert('No se puede guardar','Debe Completar todos los campos obligatorios','error')
     }
   }
-  
-  /*storagePart(formValue:any){
-    swal({
-      title: 'Obteniendo información ...',
-      allowOutsideClick: false
-    });
-    swal.showLoading();
-    
-    console.log(formValue.value);
-    console.log(formValue.value.partDescription);
-    console.log(formValue.value.partWork);
-    console.log(formValue.value.partSupplice);
-    console.log(formValue.value.partParameter);
-
-    const description=formValue.value.partDescription;
-    const work=formValue.value.partWork;
-    const supplice= formValue.value.partSupplice;
-    const parameter=formValue.value.partParameter;
-  
-    if(((description!=null)&&(description!="")) ){
-    this.workService.storeParts(this.componentForPart,description,work,supplice,parameter).then(data=>{
-      const resp:any=data;
-      console.log(data);
-      console.log(resp);
-      if (resp.success==1) {
-        this.generalAlert('Proceso exitoso','Se ha guardado el detalle correctamente','success');
-        this.partForm.reset();
-        document.getElementById('storagePartHide').click();
-        // this.getPart(this.componentForPart);
-        this.getChecklistDetails();
-        swal.close();
-      } else {
-        this.generalAlert('No se puede guardar','Ha ocurrido un error en la ejecucion','error');
-      }
-      }).catch(error=>{
-        console.log(error);
-        this.generalAlert('No se puede guardar','Ha ocurrido un error en la ejecucion','error')
-      });
-    }else{
-      this.generalAlert('No se puede guardar','Debe Completar todos los campos obligatorios','error')
-    }
-  }*/
 
   storagePart(formValue:any){
     swal({

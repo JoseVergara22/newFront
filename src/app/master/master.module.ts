@@ -73,7 +73,7 @@ import { MasterRegisterChecklistsComponent } from './master-register-checklists/
 import { MasterUpdateChecklistsComponent } from './master-update-checklists/master-update-checklists.component';
 import { MasterQuestionComponent } from './master-question/master-question.component';
 import { MasterToiletComponent } from './master-toilet/master-toilet.component';
-
+import { MasterResumenesComponent } from './master-resumenes/master-resumenes.component';
 
 import { MasterSettlementListComponent } from './master-settlement-list/master-settlement-list.component';
 // import { MasterAdminComponent } from '../master-layout/master-admin/master-admin.component';
@@ -94,6 +94,8 @@ import { ModulesService } from '../master-services/modules/modules.service';
 import { ChecklistService } from '../master-services/checklist/checklist.service';
 import { QuestionService } from '../master-services/question/question.service';
 import { ToiletService } from '../master-services/toliet/toilet.service';
+import { ResumenesService } from '../master-services/resumenes/resumenes.service';
+
 
 
 import {AutocompleteLibModule} from 'angular-ng-autocomplete';
@@ -179,7 +181,8 @@ import {AutocompleteLibModule} from 'angular-ng-autocomplete';
     MasterUpdateChecklistsComponent,
     MasterSettlementListComponent,
     MasterQuestionComponent,
-    MasterToiletComponent
+    MasterToiletComponent,
+    MasterResumenesComponent
     
     
    // MasterAdminComponent
@@ -204,6 +207,7 @@ import {AutocompleteLibModule} from 'angular-ng-autocomplete';
     ModulesService,
     ChecklistService,
     QuestionService,
-    ToiletService]
+    ToiletService,
+    ResumenesService]
 })
 export class MasterModule { }

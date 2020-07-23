@@ -59,6 +59,7 @@ import { MasterUpdateChecklistsComponent } from './master-update-checklists/mast
 import { MasterSettlementListComponent } from './master-settlement-list/master-settlement-list.component';
 import { MasterQuestionComponent } from './master-question/master-question.component';
 import { MasterToiletComponent } from './master-toilet/master-toilet.component';
+import { MasterResumenesComponent } from './master-resumenes/master-resumenes.component';
 
 const routes: Routes = [
   {
@@ -271,6 +272,9 @@ const routes: Routes = [
   },{
     path:'toilet',
     component: MasterToiletComponent
+  },{
+    path:'resumenes',
+    component: MasterResumenesComponent
   }
   
  

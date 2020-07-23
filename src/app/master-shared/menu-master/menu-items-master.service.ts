@@ -89,11 +89,11 @@ const MENUITEMS = [
           {
             state:'toilet',
             name: 'Registro aseo '
-          },
+          },*/
           {
             state:'checklists',
             name: 'Administrar Checklist'
-          },*/
+          },
           /*
          {
             state: 'modules',

@@ -49,7 +49,7 @@ export class MasterChecklistsComponent implements OnInit {
 
   goToTpdateView(row:any){
     console.log(row.id);
-    this.router.navigateByUrl('maintenance/updateChecklist'+row.id);
+    this.router.navigateByUrl('maintenance/updateChecklist/'+row.id);
   }
   deleteWorkHeader(workrow:any){
     swal({

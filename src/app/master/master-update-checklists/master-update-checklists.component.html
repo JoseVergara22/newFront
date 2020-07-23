@@ -101,7 +101,7 @@
                         <ngx-datatable-column  [flexGrow]="2" [sortable]="false" [resizeable]="false" name="Descripción" [sortable]="false" prop="description"></ngx-datatable-column>
                         <ngx-datatable-column  [flexGrow]="2" [sortable]="false" [resizeable]="false" name="Acciones" [sortable]="false"  prop="id">
                             <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
-                                <button (click)="updatePart(row)" class="btn btn-primary btn-icon"><i class="icofont icofont-pencil-alt-5"></i></button>
+                                <button (click)="updateParts(row)" class="btn btn-primary btn-icon"><i class="icofont icofont-pencil-alt-5"></i></button>
                                 <button (click)="deletePart(row)" class="btn btn-danger btn-icon"><i class="icofont icofont-ui-delete"></i></button>
                             </ng-template>
                         </ngx-datatable-column>
@@ -118,7 +118,7 @@
             <br>
             <div class="align-buttons">
                 <button class="btn btn-primary m-b-0" (click)="modalSecurity.show()" >Crear Item de Seguridad</button>
-                <button style="display: none;" class="btn btn-primary m-b-0" id="showUpdatePart" (click)="modalUpdateSecurity.show()" >Actualizar</button>
+                <button style="display: none;" class="btn btn-primary m-b-0" id="showUpdateParts" (click)="modalUpdateSecurity.show()" >Actualizar</button>
             </div>
             <app-card>
                 <br>
@@ -128,7 +128,7 @@
                     <ngx-datatable-column [flexGrow]="2" [sortable]="false" [resizeable]="false"   name="Descripción" [sortable]="false"  prop="description"></ngx-datatable-column>
                     <ngx-datatable-column  [flexGrow]="2" [sortable]="false" [resizeable]="false" name="Acciones" [sortable]="false"  prop="id">
                             <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
-                                <button (click)="updateSecurity(row)" class="btn btn-primary btn-icon"><i class="icofont icofont-pencil-alt-5"></i></button>
+                                <button (click)="updateSecuritys(row)" class="btn btn-primary btn-icon"><i class="icofont icofont-pencil-alt-5"></i></button>
                                 <button (click)="deleteSecurity(row)" class="btn btn-danger btn-icon"><i class="icofont icofont-ui-delete"></i></button>
                             </ng-template>
                     </ngx-datatable-column>
@@ -148,55 +148,7 @@
     </div>
 </div>
 
-<app-modal-basic #modalSystem [dialogClass]="'modal-lg'">
-    <div class="app-modal-header">
-        <h4 class="modal-title">Agregar Sistemas</h4>
-    </div>
-    <div class="app-modal-body">
-        <form [formGroup]="detailForm">
-            <div class="form-group row">
-                <div class="col-sm-2"> </div>
 
-                <div class="col-sm-8">
-                    <h6>Descripción <span style="color:red;">*</span></h6>
-                    <input type="text" class="form-control" id="system" formControlName="system" required>
-                </div>
-
-                <div class="col-sm-2"> </div>
-            </div>
-            <div class="align-buttons">
-                <button type="button" class="btn btn-default waves-effect" id="storageDetailHide" (click)="modalSystem.hide()">Cancelar</button>
-                <button type="submit " class="btn btn-primary m-b-0 " (click)="storageDetail(detailForm.value)">Crear Sistema</button>
-            </div>
-        </form>
-    </div>
-</app-modal-basic>
-
-<app-modal-basic #modalUpdateSystem [dialogClass]="'modal-lg'" >
-    <div class="app-modal-header">
-        <h4 class="modal-title">Actualizar Sistema</h4>
-    </div>
-    <div class="app-modal-body">
-        <form [formGroup]="updateDetailForm">            
-            <div class="form-group row">
-                <div class="col-sm-2"> </div>
-
-                <div class="col-sm-8">
-                    <h6>Descripción <span style="color:red;">*</span></h6>
-                    <input type="text" class="form-control" id="updateSystem" formControlName="updateSystem">
-                </div>
-
-                <div class="col-sm-2"> </div>
-            </div>
-            <div class="align-buttons">
-                <button type="button" class="btn btn-default waves-effect" id="updateDetailHide" (click)="modalUpdateSystem.hide()">Cancelar</button>
-                <button type="submit " class="btn btn-primary m-b-0 " (click)="sendUpdateSystem(updateDetailForm.value)">Actualizar Sistema</button>
-
-            </div>
-        </form>
-    </div>
-</app-modal-basic>
- 
 <app-modal-basic #modalComponent [dialogClass]="'modal-lg'">
     <div class="app-modal-header">
         <h4 class="modal-title">Agregar Componente</h4>
@@ -337,7 +289,7 @@
             </div>
             <div class="align-buttons">
                 <button type="button" class="btn btn-default waves-effect" id="updateSecurityHide" (click)="modalUpdateSecurity.hide()">Cancelar</button>
-              <!--  <button type="submit " class="btn btn-primary m-b-0 " (click)="sendUpdateSecurity(updateSecurityForm.value)">Actualizar Componente</button> -->
+               <button type="submit " class="btn btn-primary m-b-0 " (click)="sendUpdateSecurity(updateSecurityForm.value)">Actualizar Security</button>
   
             </div>
         </form>
@@ -358,28 +310,6 @@
                 </div>
 
             </div>
-
-            <div class="form-group row">
-
-                <div class="col-sm-12">
-                        <h6>Trabajo a realizar</h6>
-                        <textarea type="text" class="form-control"  formControlName="partWorkUpdate" required></textarea>
-                       </div>
-
-            </div>
-
-          <!--  <div class="form-group row">
-                <div class="col-sm-12">
-                    <h6>Insumos <span style="color:red;">*</span></h6>
-                    <input type="text" class="form-control" id="partSuppliceUpdate" formControlName="partSuppliceUpdate" required>
-                </div> 
-            </div>
-            <div class="form-group row">
-                <div class="col-sm-12">
-                    <h6>Parametro <span style="color:red;">*</span></h6>
-                    <input type="text" class="form-control" id="partParameterUpdate" formControlName="partParameterUpdate" required>
-                </div>
-            </div>-->
             <div class="align-buttons">
                 <button type="button" class="btn btn-default waves-effect" id="updatePartHide" (click)="modalUpdatePart.hide()">Cancelar</button>
                 <button type="submit " class="btn btn-primary m-b-0 " (click)="sendUpdatePart(updatePartForm.value)">Actualizar Parte</button>

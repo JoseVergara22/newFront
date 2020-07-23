@@ -188,7 +188,7 @@ getComponentId(id: number) { // Falta implementar desde el backend
   });
 }
 
-updateComponent(id: number, description: string) {
+updateComponets(id: number, description: string) {
   console.log(id + ',' + description );
   return new Promise(resolve => {
     const headers = new HttpHeaders();
@@ -204,7 +204,7 @@ updateComponent(id: number, description: string) {
     const postParams = {
       description: description,
     };
-    this.http.patch(this.apiEndPoint+'api/update_component/' + id, postParams, httpOptions)
+    this.http.patch(this.apiEndPoint+'api/update_component_checklist/' + id, postParams, httpOptions)
       .map(res => res).subscribe(data => {
         console.log(data);
         resolve(data);
@@ -231,7 +231,7 @@ deleteComponent(id: number) {
     };
     const postParams = {
     };
-    this.http.delete(this.apiEndPoint+'api/delete_component_id/' + id, httpOptions)
+    this.http.delete(this.apiEndPoint+'api/checklist_delete_component_id/' + id, httpOptions)
       .map(res => res).subscribe(data => {
         console.log(data)
         resolve(data);
@@ -258,7 +258,8 @@ createPart(components_checklist_id: number, description: string) {
     components_checklist_id: components_checklist_id,
     description: description,
   };
-  this.http.post(this.apiEndPoint+'api/create_checklist_part?', postParams, httpOptions)
+  console.log(postParams);
+  this.http.post(this.apiEndPoint+'api/checklist_create_checklist_part?', postParams, httpOptions)
   .map(res => res).subscribe(data => {
     console.log(data);
     resolve(data);
@@ -281,7 +282,7 @@ getPartId(id: number) { // Falta implementar desde el backend
         'Accept': 'application/json'
       })
     };
-    this.http.get(this.apiEndPoint+'api/get_part_id/'+id, httpOptions)
+    this.http.get(this.apiEndPoint+'api/checklist_get_part_id/'+id, httpOptions)
       .map(res => res).subscribe(data => {
         console.log(data);
         resolve(data);
@@ -307,7 +308,7 @@ updatePart(id: number, description: string) {
     const postParams = {
       description: description,
     };
-    this.http.patch(this.apiEndPoint+'api/update_part/' + id, postParams, httpOptions)
+    this.http.patch(this.apiEndPoint+'api/checklist_update_part/' + id, postParams, httpOptions)
       .map(res => res).subscribe(data => {
         console.log(data);
         resolve(data);
@@ -334,7 +335,7 @@ deletePart(id: number) {
     };
     const postParams = {
     };
-    this.http.delete(this.apiEndPoint+'api/delete_part_id/' + id, httpOptions)
+    this.http.delete(this.apiEndPoint+'api/checklist_delete_part_id/' + id, httpOptions)
       .map(res => res).subscribe(data => {
         console.log(data)
         resolve(data);
