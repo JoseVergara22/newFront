@@ -1,5 +1,5 @@
 import { Component, ViewChild, ElementRef, OnInit, Inject, Input, Injectable } from '@angular/core';
-import {FormControl, FormGroup, Validators} from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Params } from '@angular/router';
 import { RestService } from '../../master-services/Rest/rest.service';
 import { FilexcelService } from '../../master-services/FileExcel/filexcel.service';
@@ -421,7 +421,7 @@ export class MasterUpdateSettlementCustomerComponent extends NgbDatepickerI18n  
   untilDateForklift: NgbDateStruct;
   today = this.calendar.getToday();
 
-  totalPart: any = 0;
+  totalParts: any = 0;
   totalWorkforce: any = 0;
   totalSettlement: any = 0;
  
@@ -437,6 +437,7 @@ export class MasterUpdateSettlementCustomerComponent extends NgbDatepickerI18n  
   console.log('------------------');
   this.settlementId = this.rutaActiva.snapshot.params.id;
   this.showCreateItem = true;
+  
   
     this.showShippingCountriesDhlInitial();
     
@@ -657,13 +658,7 @@ onDateSelectionFromForklift(date: any) {
         /*for (let i = 0; i < this.rowsItems.length; i++) {
           this.itemEnd.push(+i+1+','+ this.rowsItems[i].code+','+this.rowsItems[i].description+','+this.rowsItems[i].quantity+','+this.rowsItems[i].unit_cost+','+this.rowsItems[i].price+','+this.rowsItems[i].delivery);
         }*/
-        for (let item of this.rowsItemsWorkforce){
-           this.totalWorkforce += Number(item.total);
-        }
-        console.log(this.totalWorkforce);
-        this.totalSettlement += Number(this.totalWorkforce)
-        this.totalWorkforce = this.finalFormatStandard((this.totalWorkforce).toFixed(0));
-        console.log(this.totalSettlement);
+        
         console.log('INFO PARA VER ITEMS PARA EL PDF');
         console.log('Importante');
         console.log(this.itemEnd.toString());
@@ -691,25 +686,41 @@ onDateSelectionFromForklift(date: any) {
      /*   for (let i = 0; i < this.rowsItems.length; i++) {
           this.itemEnd.push(+i+1+','+ this.rowsItems[i].code+','+this.rowsItems[i].description+','+this.rowsItems[i].quantity+','+this.rowsItems[i].unit_cost+','+this.rowsItems[i].price+','+this.rowsItems[i].delivery);
         }*/
-        for (let item of this.rowsItemsparts){
-          this.totalPart += Number(item.total);
-       }
-    
-       console.log(this.totalPart);
-       this.totalSettlement += Number(this.totalPart)
-       this.totalPart = this.finalFormatStandard((this.totalPart).toFixed(0));
-       this.totalSettlement = this.finalFormatStandard((this.totalSettlement).toFixed(0));
-       console.log(this.totalSettlement);
         console.log('INFO PARA VER ITEMS PARA EL PDF');
         console.log('Importante');
         console.log(this.itemEnd.toString());
         console.log('------------'+ this.itemEnd[0]);
       
         console.log(data);
+        // this.assingTotal();
       }).catch(error => {
         console.log(error);
       });
     }
+   }
+
+   assingTotal(){
+     console.log('asignacion de totales');
+
+      for (let item of this.rowsItemsWorkforce){
+      this.totalWorkforce =Number(Number(this.totalWorkforce) + Number(item.total));
+      }
+      console.log(this.totalWorkforce);
+    
+      console.log(this.totalParts);
+      for (let item of this.rowsItemsparts){
+        console.log(item);
+        this.totalParts = Number(Number(this.totalParts) + Number(item.total));
+      }
+      console.log(this.totalParts);
+
+      this.totalSettlement = Number(Number(this.totalWorkforce) + Number(this.totalParts));
+      console.log(this.totalSettlement);
+
+      this.totalWorkforce = this.finalFormatStandard((this.totalWorkforce).toFixed(0));
+      this.totalParts = this.finalFormatStandard((this.totalParts).toFixed(0));
+      this.totalSettlement = this.finalFormatStandard((this.totalSettlement).toFixed(0));
+
    }
 
    getSettlementCustomer() {
@@ -1195,9 +1206,12 @@ getWarehouses() {
       // this.getEstimateDetails();
       this.getSettlementParts();
        this.getSettlementWorkforce();
+
       // this.getSettlementCustomer();
+      this.getSettlementSpecific(this.settlementId); 
 
        console.log(resp);
+      //  this.assingTotal();
      }).catch(error => {
 
       swal({
@@ -1236,7 +1250,7 @@ getWarehouses() {
      });
   }
 
-   }
+}
 
    changeFormatDecimal(price: any){
     console.log(price);
@@ -3209,6 +3223,18 @@ getSettlementSpecific(id:number) {
     console.log('departamento '+this.currentSettlement.department_id);
     this.selectedDepartmentId = this.currentSettlement.department_id;
     this.numberEstimate = this.currentSettlement.estimate_order;
+    this.totalParts = Number(this.currentSettlement.subtotal_parts).toFixed(0);
+    this.totalWorkforce = Number(this.currentSettlement.subtotal_hours).toFixed(0);
+    this.totalSettlement = Number(this.currentSettlement.total).toFixed(0);
+
+      console.log((this.totalWorkforce));
+      console.log(this.totalWorkforce);
+      console.log(this.totalParts);
+      console.log(this.totalSettlement);
+      this.totalWorkforce = this.finalFormatStandard(this.totalWorkforce);
+      this.totalParts = this.finalFormatStandard(this.totalParts);
+      this.totalSettlement = this.finalFormatStandard(this.totalSettlement);
+
     this.getFilesSettlement();
     this.getConfigEstimatesInitial();
     this.getConfigTrmInitial();
@@ -4638,6 +4664,8 @@ deleteEmail(id:number){
         this.getSettlementWorkforce();
   
          console.log(resp);
+        //  this.assingTotal();
+        this.getSettlementSpecific(this.settlementId); 
        }).catch(error => {
   
         swal({
