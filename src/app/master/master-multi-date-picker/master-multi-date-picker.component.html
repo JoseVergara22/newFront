@@ -43,7 +43,7 @@
                 <h5>Preventivo</h5>
                 
                 <div   *ngFor="let item of routineSelecteds">
-                  <input type="checkbox" [(ngModel)]="item.select"  data-md-icheck /> {{item.item}}<br>
+                  <input type="checkbox"  (click)="addRoutinePreventive(item.id)" [(ngModel)]="item.select"  data-md-icheck /> {{item.item}}<br>
                 </div>
               </div>
             </app-card>
@@ -63,7 +63,7 @@
                 <h5>Checklist</h5>
                 
                 <div   *ngFor="let item of checklisSelecteds">
-                  <input type="checkbox" [(ngModel)]="item.select"  data-md-icheck /> {{item.item}}<br>
+                  <input type="checkbox"   (click)="addRoutineChecklist(item.id)" [(ngModel)]="item.select"  data-md-icheck /> {{item.item}}<br>
                 </div>
               </div>
             </app-card>
@@ -72,7 +72,7 @@
               <div style="overflow-y: scroll; height: 250px;">
               <h5>Tecnicos</h5>
               <div   *ngFor="let item of technicianSelecteds" >
-                <input type="checkbox" [(ngModel)]="item.select"  data-md-icheck /> {{item.item}}<br>
+                <input type="checkbox" (click)="SelectItemTechnician(item.id)" [(ngModel)]="item.select"  data-md-icheck /> {{item.item}}<br>
                 </div>
               </div>
             </app-card>

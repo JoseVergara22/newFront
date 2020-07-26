@@ -79,6 +79,9 @@ export class MasterMultiDatePickerComponent implements OnInit {
   toDate: NgbDateStruct;
   dateInitials: Array <dateInterface> = [];
   dateInitial: dateInterface;
+
+
+  
   dateGeneral: any;
   _datesSelected: NgbDateStruct[] = [];
   ole = '{year: 2019, month: 10}';
@@ -97,6 +100,9 @@ export class MasterMultiDatePickerComponent implements OnInit {
 
   routineSelecteds: Array <itemSelectInterface> = [];
   routineSelected: itemSelectInterface;
+
+ //  routineCorrectives: Array <itemSelectInterface> = [];
+ //  routineCorrective: itemSelectInterface;
 
   checklisSelecteds: Array <itemSelectInterface> = [];
   checklistSelected: itemSelectInterface;
@@ -263,7 +269,7 @@ if (numberMonthCurrent !== 13) {
 
       if(event.target.checked == true ){
         this.corrective = true;
-        this.getCorrevtive();
+        this.getCorretive();
       }else{
         this.corrective = false;
       }
@@ -280,7 +286,7 @@ if (numberMonthCurrent !== 13) {
     }
   }
 
-  getCorrevtive(){
+  getCorretive(){
 
   }
 
@@ -427,7 +433,7 @@ if (numberMonthCurrent !== 13) {
     console.log('entro add date');
     this.dateCurrentCancel=date;
     console.log('Seguimiento a trinis');
-    console.log(this.routineSelecteds);
+   //  console.log(this.routineSelecteds);
       let index=this.datesSelected.findIndex(f=>f.day==date.day && f.month==date.month && f.year==date.year);
 
       let dateComplete= Number(this.dateCurrentCancel.day+''+this.dateCurrentCancel.month+''+this.dateCurrentCancel.year);
@@ -464,6 +470,31 @@ if (numberMonthCurrent !== 13) {
         
     }
 
+    addRoutinePreventive(idPreventive: number){
+      console.log('jajaja');
+      console.log(this.routineSelecteds);
+      this.routineSelecteds.map(function(dato){
+        if(dato.id == idPreventive){
+         //dato.select = true;
+         console.log('ingreso');
+      }   
+        return dato;
+      });
+    }
+
+    addRoutineChecklist(idChecklist: number){
+      console.log('jajaja');
+      console.log(this.checklisSelecteds);
+      this.checklisSelecteds.map(function(dato){
+        if(dato.id == idChecklist){
+         dato.select = true;
+         console.log('ingreso');
+      }   
+        return dato;
+      });
+    }
+
+
 
     addCancelDate(){
           //If exist, remove the date
@@ -492,6 +523,18 @@ if (numberMonthCurrent !== 13) {
           console.log('hacer cambio');
         }
         
+        return dato;
+      });
+    }
+    
+    SelectItemTechnician(idTechnician: number){// Falta organizarlo
+      console.log('jajaja');
+      console.log(this.technicianSelecteds);
+      this.technicianSelecteds.map(function(dato){
+        if(dato.id == idTechnician){
+         dato.select = true;
+         console.log('ingreso');
+      }   
         return dato;
       });
     }
