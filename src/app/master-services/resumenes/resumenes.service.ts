@@ -22,12 +22,45 @@ export class ResumenesService {
           'Accept': 'application/json'
         })
       };
-      this.http.get(this.apiEndPoint+'api/get_settlement?' + paramsFilter, httpOptions)
+      console.log(paramsFilter);
+      this.http.get(this.apiEndPoint+'api/get_forklift_full?' + paramsFilter, httpOptions)
         .map(res => res).subscribe(data => {
           console.log(data);
           resolve(data);
         }, error => {
           resolve(error);
+          console.log(error)
+        });
+    });
+  }
+
+  storePreventive(id_forklift:number,customer_id:number,brach_id:number,id_rutines:string,technician_id: any, date:string){
+    return new Promise(resolve => {
+      const httpOptions = {
+        headers: new HttpHeaders({
+          'Content-Type':  'application/json',
+          'Authorization': 'Bearer ' + localStorage.getItem('token_user'),
+          'Accept': 'application/json'
+        })
+      };
+      const postParams = {
+        routines: id_rutines,
+        forklift_id: id_forklift,
+        technicians_id: technician_id,
+        brach_id: brach_id,
+        cutomer_id: customer_id,
+        date: date
+      };
+      console.log(postParams);
+      
+      this.http.post(this.apiEndPoint+'api/create_preventive', postParams, httpOptions)
+      .map(res => res).subscribe(data => {
+        console.log("a mostrar data");
+      console.log(data);
+      resolve(data);
+      }, error => {
+        console.log("error en servicio");
+                resolve(error);
         });
     });
   }

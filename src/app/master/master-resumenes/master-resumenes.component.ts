@@ -10,7 +10,8 @@ import { ResumenesService } from '../../master-services/resumenes/resumenes.serv
 @Component({
   selector: 'app-master-resumenes',
   templateUrl: './master-resumenes.component.html',
-  styleUrls: ['./master-resumenes.component.scss']
+  styleUrls: ['./master-resumenes.component.scss',
+  '../../../assets/icon/icofont/css/icofont.scss']
 })
 export class MasterResumenesComponent implements OnInit {
 
@@ -26,24 +27,18 @@ export class MasterResumenesComponent implements OnInit {
   forkliftText = '';
   rowsClient: any;
 
+  forklift: any = '';
+  customerName: any = '';
+  branch: any = '';
+
+
 
   constructor(private restService: RestService, private resumenesService: ResumenesService, private router: Router, 
      private forkliftService: ForkliftService,    private calendar: NgbCalendar, public formatter: NgbDateParserFormatter) { 
 
       this.getCustomers();
 
-      var date = new Date();
-
-    // poner los 0
-
-    var day = (date.getDate() < 10 ? '0' : '') + date.getDate();
-    // 01, 02, 03, ... 10, 11, 12
-    let month = ((date.getMonth() + 1) < 10 ? '0' : '') + (date.getMonth() + 1);
-    // 1970, 1971, ... 2015, 2016, ...
-    var year = date.getFullYear();
-
-
-    this.now = year +'-'+ month+'-'+ day;
+     
      }
 
   ngOnInit() {
@@ -80,27 +75,7 @@ export class MasterResumenesComponent implements OnInit {
     }
   }
 
-  getForklifs() {
-    if(this.selectedBranchOfficeId!=0){
-    console.log('this.selectedBusinessId.id');
-    console.log(this.selectedBranchOfficeId.id);
-
-    this.forkliftService.getForkliftBranchOfficesFull(this.selectedBranchOfficeId.id).then(data => {
-      const resp: any = data;
-      console.log(data);
-      swal.close();
-      this.forklifts  = resp.data;
- 
-      }).catch(error => {
-        console.log(error);
-      });
-    }else{
-    
-      this.selectedForkliftId=0;
-    //  this.email =  this.selectedBusinessId.email;
   
-    }
-  }
 
 getFilters() {
 
@@ -111,70 +86,75 @@ getFilters() {
         type: 'error'
        });
     }else{
-  swal({
-    title: 'Validando información ...',
-    allowOutsideClick: false
-  });
-  swal.showLoading();
+      swal({
+        title: 'Validando información ...',
+        allowOutsideClick: false
+      });
+      swal.showLoading();
 
-  let params='';
-  let cont=0;
+      let params='';
+      let cont=0;
 
-  if(this.selectedBusinessId!=0){
-   console.log('imprimir cont');
-    console.log(cont);
-    if(cont>0){
-      params=params+'&&customer_id='+this.selectedBusinessId.id;
-    }else{
-      params=params+'customer_id='+this.selectedBusinessId.id;
-      cont++;
-    }     
-  }
+      if(this.selectedBusinessId!=0){
+      console.log('imprimir cont');
+        console.log(cont);
+        if(cont>0){
+          params=params+'&&customer_id='+this.selectedBusinessId.id;
+        }else{
+          params=params+'customer_id='+this.selectedBusinessId.id;
+          cont++;
+        }     
+      }
 
-  if(this.forkliftText!=''){
-    if(cont>0){
-      params=params+'&&forkliftText='+this.forkliftText;
-    }else{
-      params=params+'forkliftText='+this.forkliftText;
-      cont++;
+      if(this.forkliftText!=''){
+        if(cont>0){
+          params=params+'&&forkliftText='+this.forkliftText;
+        }else{
+          params=params+'forkliftText='+this.forkliftText;
+          cont++;
+        }
+      }
+
+      if(this.selectedBranchOfficeId!=0){
+      console.log(cont);
+        if(cont>0){
+        params=params+'&&branch_office_id='+this.selectedBranchOfficeId.id;
+        }else{
+          params=params+'branch_office_id='+this.selectedBranchOfficeId.id;
+          cont++;
+        }
+      }
+
+
+      console.log('.---------->'+params);
+      this.resumenesService.showFilter(params).then(data => {
+        const resp: any = data;
+        console.log('info de filter');
+        console.log(data);
+      // this.customers  = resp.data;
+        this.rowsClient = resp.data;
+        console.log(resp.error);
+        swal.close();
+        if(resp.error){
+          console.log('entro')
+          swal({
+            title:'Oops',
+            text: 'Hubo un error en la consulta.',
+            type: 'error'
+            });
+        }
+        // this.rowStatic =  resp.data;
+        // this.rowsTemp = resp.data;
+        // console.log( this.rowsClient);
+      }).catch(error => {
+        console.log(error);
+      });  
     }
-  }
-
-  if(this.selectedBranchOfficeId!=0){
-   console.log(cont);
-    if(cont>0){
-    params=params+'&&branch_office_id='+this.selectedBranchOfficeId.id;
-    }else{
-      params=params+'branch_office_id='+this.selectedBranchOfficeId.id;
-      cont++;
-    }
-  }
-
-
-  console.log('.---------->'+params);
-  this.resumenesService.showFilter(params).then(data => {
-    const resp: any = data;
-    console.log('info de filter');
-    console.log(data);
-   // this.customers  = resp.data;
-     this.rowsClient = resp.data;
-     console.log(resp.error);
-     swal.close();
-     if(resp.error){
-       console.log('entro')
-       swal({
-         title:'Oops',
-         text: 'Hubo un error en la consulta.',
-         type: 'error'
-        });
-     }
-    // this.rowStatic =  resp.data;
-    // this.rowsTemp = resp.data;
-    // console.log( this.rowsClient);
-  }).catch(error => {
-    console.log(error);
-  });  
 }
+
+editResumenes(row: any){
+  console.log(row);
+  this.router.navigateByUrl('maintenance/editResumenes/'+row.id+'/'+row.full_name);
 }
 
 }

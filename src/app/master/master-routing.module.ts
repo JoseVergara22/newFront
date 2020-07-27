@@ -60,6 +60,7 @@ import { MasterSettlementListComponent } from './master-settlement-list/master-s
 import { MasterQuestionComponent } from './master-question/master-question.component';
 import { MasterToiletComponent } from './master-toilet/master-toilet.component';
 import { MasterResumenesComponent } from './master-resumenes/master-resumenes.component';
+import { MasterEditResumenesComponent } from './master-edit-resumenes/master-edit-resumenes.component';
 
 const routes: Routes = [
   {
@@ -275,6 +276,9 @@ const routes: Routes = [
   },{
     path:'resumenes',
     component: MasterResumenesComponent
+  },{
+    path:'editResumenes/:id/:full_name',
+    component: MasterEditResumenesComponent
   }
   
  
