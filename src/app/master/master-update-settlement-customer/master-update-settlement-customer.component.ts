@@ -1392,6 +1392,8 @@ getWarehouses() {
        this.getSettlementWorkforce();
 
        console.log(resp);
+
+       this.getSettlementSpecific(this.settlementId); 
      }).catch(error => {
 
       swal({
@@ -1590,7 +1592,7 @@ getWarehouses() {
       this.getSettlementParts();
        this.getSettlementWorkforce();
        // this.getSettlementCustomer();
-
+       this.getSettlementSpecific(this.settlementId); 
        console.log(resp);
      }).catch(error => {
 
@@ -1926,6 +1928,7 @@ getWarehouses() {
            this.getSettlementParts(); 
            this.getSettlementWorkforce();
           // this.getSettlementCustomer();
+          this.getSettlementSpecific(this.settlementId); 
           }
           }).catch(error => {
             console.log(error);
@@ -1980,6 +1983,7 @@ getWarehouses() {
            this.getSettlementParts(); 
            this.getSettlementWorkforce();
           // this.getSettlementCustomer();
+          this.getSettlementSpecific(this.settlementId); 
           }
           }).catch(error => {
             console.log(error);

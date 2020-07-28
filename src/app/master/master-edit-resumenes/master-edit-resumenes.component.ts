@@ -525,6 +525,7 @@ export class MasterEditResumenesComponent extends NgbDatepickerI18n {
       console.log(data);
       swal.close();
       this.currentCorrective  = resp.data;
+      this.currentCorrective  = this.currentCorrective.corrective;
 
 
     }).catch(error => {
@@ -535,7 +536,7 @@ export class MasterEditResumenesComponent extends NgbDatepickerI18n {
 
   getCChecklist(){
     // Llenar información de cliente  
-    this.resumenesService.getWorkForkliftPreventive(this.forkliftId).then(data => {
+    this.resumenesService.getWorkForkliftCorrective(this.forkliftId).then(data => {
       const resp: any = data;
       console.log(data);
       swal.close();
