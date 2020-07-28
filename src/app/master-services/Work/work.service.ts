@@ -30,6 +30,7 @@ export class WorkService {
       resolve(data);
       }, error => {
         console.log("error en servicio");
+        console.log(error);
                 resolve(error);
         });
     });

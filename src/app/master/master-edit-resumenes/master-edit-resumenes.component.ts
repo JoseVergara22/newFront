@@ -43,6 +43,7 @@ export class MasterEditResumenesComponent extends NgbDatepickerI18n {
 
   fromDate: NgbDateStruct;
   untilDate: NgbDateStruct;
+  correctiveDate: NgbDateStruct;
 
   forkliftId: any;
   forklift: any;
@@ -82,6 +83,11 @@ export class MasterEditResumenesComponent extends NgbDatepickerI18n {
   correctiveList: string='';
   checkedList: string='';
   technicianList: string='';
+  observationCorrective: string='';
+
+  currentPreventive: any;
+  currentChecklist: any;
+  currentCorrective: any;
   
   constructor(private restService: RestService, private resumenesService: ResumenesService, private router: Router, 
     private forkliftService: ForkliftService, private _i18n: I18n, private calendar: NgbCalendar, public formatter: NgbDateParserFormatter,
@@ -92,11 +98,12 @@ export class MasterEditResumenesComponent extends NgbDatepickerI18n {
       console.log(this.rutaActiva.snapshot.params);
       this.getForklifs(this.forkliftId);
       this.forkliftText = this.rutaActiva.snapshot.params.full_name;
-
+      
       var date = new Date();
       var ngbDateStruct = { day: date.getDate(), month: date.getMonth()+1, year: date.getFullYear()};
       this.fromDate=ngbDateStruct;
       this.untilDate=ngbDateStruct;
+      this.correctiveDate=ngbDateStruct;
      }
 
      getForklifs(id) {
@@ -125,6 +132,8 @@ export class MasterEditResumenesComponent extends NgbDatepickerI18n {
         this.tonne = this.forklift.tonne;
         this.tyre_description = this.forklift.tyre_description;
    
+        this.getPreventiveRoutines();
+        this.getCorrectiveRoutines();
         }).catch(error => {
           console.log(error);
         });
@@ -289,6 +298,11 @@ export class MasterEditResumenesComponent extends NgbDatepickerI18n {
   }
 
   createPreventive(){
+    swal({
+      title: 'Obteniendo información ...',
+      allowOutsideClick: false
+    });
+    swal.showLoading();
     let params;
      // poner los 0
      var day = (this.fromDate.day < 10 ? '0' : '') +this.fromDate.day;
@@ -297,15 +311,8 @@ export class MasterEditResumenesComponent extends NgbDatepickerI18n {
      // 1970, 1971, ... 2015, 2016, ...
      var year = this.fromDate.year;
 
-     // until poner los ceros
-     var dayUntil = (this.untilDate.day < 10 ? '0' : '') +this.untilDate.day;
-     // 01, 02, 03, ... 10, 11, 12
-     let monthUntil = ((this.untilDate.month) < 10 ? '0' : '') + (this.untilDate.month);
-     // 1970, 1971, ... 2015, 2016, ...
-     var yearUntil = this.untilDate.year;    
-
      var fromD = year +'-'+ month+'-'+ day;
-     var untilD = yearUntil +'-'+ monthUntil+'-'+ dayUntil;
+     
      //var fromD = this.fromDate.year+'-'+this.fromDate.month+'-'+this.fromDate.day; //31 de diciembre de 2015
      // var untilD = this.untilDate.year+'-'+this.untilDate.month+'-'+this.untilDate.day;
      params=fromD+' 00:00:00';
@@ -332,17 +339,217 @@ export class MasterEditResumenesComponent extends NgbDatepickerI18n {
             this.technicianList = this.technicianList + item.id +',';
           }
         }
-
+        console.log(this.forklift);
         this.resumenesService.storePreventive(this.forkliftId,this.forklift.customer_id,this.forklift.branch_offices_id,this.preventiveList,this.technicianList,params).then(data => {
           const resp: any = data;
           console.log(data);
+          if (resp.success == false) {
+            swal({
+              title:'Error',
+              text: 'Ha ocurrido un error',
+              type: 'error'
+             });
+          } else {
           swal.close();
-          this.forklift  = resp.data;
-          console.log(this.forklift);
-     
+          let result  = resp.data;
+          console.log(result);
+          document.getElementById('assignPrevetiveHide').click();
+          this.getTechnician();
+          this.getPreventiveRoutines();
+          }
           }).catch(error => {
+            swal.close();
+            swal({
+              title:'Error',
+              text: 'Ha ocurrido un error',
+              type: 'error'
+            });
             console.log(error);
           });
+  }
+
+  createChecklist(){
+    swal({
+      title: 'Obteniendo información ...',
+      allowOutsideClick: false
+    });
+    swal.showLoading();
+    let params;
+
+     // until poner los ceros
+     var dayUntil = (this.untilDate.day < 10 ? '0' : '') +this.untilDate.day;
+     // 01, 02, 03, ... 10, 11, 12
+     let monthUntil = ((this.untilDate.month) < 10 ? '0' : '') + (this.untilDate.month);
+     // 1970, 1971, ... 2015, 2016, ...
+     var yearUntil = this.untilDate.year;    
+
+     var untilD = yearUntil +'-'+ monthUntil+'-'+ dayUntil;
+     //var fromD = this.fromDate.year+'-'+this.fromDate.month+'-'+this.fromDate.day; //31 de diciembre de 2015
+     // var untilD = this.untilDate.year+'-'+this.untilDate.month+'-'+this.untilDate.day;
+     params=untilD+' 00:00:00';
+
+      console.log('entro');
+      console.log(this.checklisSelecteds);
+      for (let item of this.checklisSelecteds) {
+        console.log('entro');
+          if(item.select){
+            console.log(item);
+            console.log('entro');
+            this.checkedList = this.checkedList + item.id +',';
+          }
+      }
+
+      console.log(this.technicianSelecteds);
+      for (let item of this.technicianSelecteds) {
+        console.log('entro');
+        if(item.select){
+          console.log(item);
+          console.log('entro');
+            this.technicianList = this.technicianList + item.id +',';
+          }
+        }
+        console.log(this.forklift);
+        this.resumenesService.storeChecklist(this.forkliftId,this.forklift.customer_id,this.forklift.branch_offices_id,this.checkedList,this.technicianList,params).then(data => {
+          const resp: any = data;
+          console.log(data);
+          if (resp.success) {
+            swal({
+              title:'Error',
+              text: 'Ha ocurrido un error',
+              type: 'error'
+             });
+          } else {
+          swal.close();
+          let result  = resp.data;
+           console.log(result);
+          document.getElementById('assignChecklistHide').click();
+          }
+        }).catch(error => {
+            swal.close();
+            swal({
+              title:'Error',
+              text: 'Ha ocurrido un error',
+              type: 'error'
+            });
+        console.log(error);
+        });
+  }
+
+  createCorrective(){
+    swal({
+      title: 'Obteniendo información ...',
+      allowOutsideClick: false
+    });
+    swal.showLoading();
+    if(this.observationCorrective != ''){
+      let params;
+
+      // until poner los ceros
+      var dayUntil = (this.untilDate.day < 10 ? '0' : '') +this.untilDate.day;
+      // 01, 02, 03, ... 10, 11, 12
+      let monthUntil = ((this.untilDate.month) < 10 ? '0' : '') + (this.untilDate.month);
+      // 1970, 1971, ... 2015, 2016, ...
+      var yearUntil = this.untilDate.year;    
+ 
+      var untilD = yearUntil +'-'+ monthUntil+'-'+ dayUntil;
+      //var fromD = this.fromDate.year+'-'+this.fromDate.month+'-'+this.fromDate.day; //31 de diciembre de 2015
+      // var untilD = this.untilDate.year+'-'+this.untilDate.month+'-'+this.untilDate.day;
+      params=untilD+' 00:00:00';
+ 
+       console.log('entro');
+       
+ 
+       console.log(this.technicianSelecteds);
+       for (let item of this.technicianSelecteds) {
+         console.log('entro');
+         if(item.select){
+           console.log(item);
+           console.log('entro');
+             this.technicianList = this.technicianList + item.id +',';
+           }
+         }
+         console.log(this.forklift);
+         this.resumenesService.storeCorrective(this.forkliftId,this.forklift.customer_id,this.forklift.branch_offices_id,this.observationCorrective,this.technicianList,params).then(data => {
+           const resp: any = data;
+           console.log(data);
+           if (resp.success) {
+             swal({
+               title:'Error',
+               text: 'Ha ocurrido un error',
+               type: 'error'
+              });
+           } else {
+           swal.close();
+           let result  = resp.data;
+           console.log(result);
+           document.getElementById('assignCorrectiveHide').click();
+           this.getCorrectiveRoutines();
+           }
+         }).catch(error => {
+             swal.close();
+             swal({
+               title:'Error',
+               text: 'Ha ocurrido un error',
+               type: 'error'
+             });
+         console.log(error);
+         });
+    }else{
+      swal({
+        title:'Campo vacio',
+        text: 'Debe ingresar una observación',
+        type: 'warning'
+      });
+    }
+  }
+
+  getPreventiveRoutines(){
+    // Llenar información de cliente  
+    this.resumenesService.getWorkForkliftPreventive(this.forkliftId).then(data => {
+      const resp: any = data;
+      console.log(data);
+      swal.close();
+      this.currentPreventive  = resp.data;
+
+
+    }).catch(error => {
+      console.log(error);
+    });
+  
+  }
+
+  getCorrectiveRoutines(){
+    // Llenar información de cliente  
+    this.resumenesService.getWorkForkliftCorrective(this.forkliftId).then(data => {
+      const resp: any = data;
+      console.log(data);
+      swal.close();
+      this.currentCorrective  = resp.data;
+
+
+    }).catch(error => {
+      console.log(error);
+    });
+  
+  }
+
+  getCChecklist(){
+    // Llenar información de cliente  
+    this.resumenesService.getWorkForkliftPreventive(this.forkliftId).then(data => {
+      const resp: any = data;
+      console.log(data);
+      swal.close();
+      this.currentChecklist  = resp.data;
+
+
+    }).catch(error => {
+      console.log(error);
+    });
+  
+  }
+
+  toBack(){
+    this.router.navigateByUrl('maintenance/resumenes');
   }
 
   ngOnInit() {

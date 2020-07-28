@@ -107,14 +107,15 @@
         <button type="button " class="btn btn-primary m-b-0 " (click)="modalAssingPreventive.show()"  (click)="getWorks()" (click)="getTechnician()">Crear</button>
     </div>
       <h5>Rutinas preventivas</h5>
-      <ngx-datatable #table class="data-table" [rows]="rowsClient"   [columnMode]="'flex'" [headerHeight]="50" [footerHeight]="50" [rowHeight]="'auto'" [limit]="20">
+      <ngx-datatable #table class="data-table" [rows]="currentPreventive"   [columnMode]="'flex'" [headerHeight]="50" [footerHeight]="50" [rowHeight]="'auto'" [limit]="20">
 
-        <ngx-datatable-column  [flexGrow]="2" [sortable]="false" [resizeable]="false"  name="Montacarga" [sortable]="false"  prop="full_name"></ngx-datatable-column>
+        <ngx-datatable-column  [flexGrow]="2" [sortable]="false" [resizeable]="false"  name="Fecha" [sortable]="false"  prop="date"></ngx-datatable-column>
         <ngx-datatable-column  [flexGrow]="2" name="Ver" [sortable]="false"  sortable="false" prop="status">
         <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
 
-          <label class="link" (click)="editResumenes(row)">Ver</label> 
-
+          <button (click)="updateItems(row)" class="btn btn-primary btn-icon"><i class="icofont icofont-pencil-alt-5"></i></button>
+          <button (click)="deleteEstimateDetail(row)" class="btn btn-danger btn-icon"><i class="icofont icofont-ui-delete"></i></button>
+       
         </ng-template>
         </ngx-datatable-column>
       </ngx-datatable>
@@ -122,17 +123,18 @@
      
     <app-card>
       <div class="align-buttons">
-        <button type="button " class="btn btn-primary m-b-0 " >Crear</button>
+        <button type="button " class="btn btn-primary m-b-0" (click)="modalAssingCorrective.show()" (click)="getTechnician()" >Crear</button>
     </div>
       <h5>Rutinas Correctivas</h5>
-      <ngx-datatable #table class="data-table" [rows]="rowsClient"   [columnMode]="'flex'" [headerHeight]="50" [footerHeight]="50" [rowHeight]="'auto'" [limit]="20">
+      <ngx-datatable #table class="data-table" [rows]="currentCorrective"   [columnMode]="'flex'" [headerHeight]="50" [footerHeight]="50" [rowHeight]="'auto'" [limit]="20">
 
         <ngx-datatable-column  [flexGrow]="2" [sortable]="false" [resizeable]="false"  name="Montacarga" [sortable]="false"  prop="full_name"></ngx-datatable-column>
         <ngx-datatable-column  [flexGrow]="2" name="Ver" [sortable]="false"  sortable="false" prop="status">
         <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
 
-         <label class="link" (click)="editResumenes(row)">Ver</label> 
-
+          <button (click)="updateItems(row)" class="btn btn-primary btn-icon"><i class="icofont icofont-pencil-alt-5"></i></button>
+          <button (click)="deleteEstimateDetail(row)" class="btn btn-danger btn-icon"><i class="icofont icofont-ui-delete"></i></button>
+       
         </ng-template>
         </ngx-datatable-column>
       </ngx-datatable>
@@ -143,23 +145,23 @@
           <button type="button " class="btn btn-primary m-b-0 " (click)="modalAssingChecklist.show()" (click)="getChecklist()" (click)="getTechnician()">Crear</button>
       </div>
       <h5>Checklist</h5>
-      <ngx-datatable #table class="data-table" [rows]="rowsClient"   [columnMode]="'flex'" [headerHeight]="50" [footerHeight]="50" [rowHeight]="'auto'" [limit]="20">
+      <ngx-datatable #table class="data-table" [rows]="currentChecklist"   [columnMode]="'flex'" [headerHeight]="50" [footerHeight]="50" [rowHeight]="'auto'" [limit]="20">
 
         <ngx-datatable-column  [flexGrow]="2" [sortable]="false" [resizeable]="false"  name="Montacarga" [sortable]="false"  prop="full_name"></ngx-datatable-column>
         <ngx-datatable-column  [flexGrow]="2" name="Ver" [sortable]="false"  sortable="false" prop="status">
         <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
 
-         <label class="link" (click)="editResumenes(row)">Ver</label> 
-
+          <button (click)="updateItems(row)" class="btn btn-primary btn-icon"><i class="icofont icofont-pencil-alt-5"></i></button>
+          <button (click)="deleteEstimateDetail(row)" class="btn btn-danger btn-icon"><i class="icofont icofont-ui-delete"></i></button>
+       
         </ng-template>
         </ngx-datatable-column>
       </ngx-datatable>
     </app-card> 
 
     <div class="align-buttons">
-      
-        <button type="button" class="btn btn-default waves-effect" id="refusedHide" >Cancelar</button>
-        <button type="submit " class="btn btn-primary m-b-0 " >Aceptar</button>
+ 
+        <button type="submit " class="btn btn-primary m-b-0" (click)="toBack()">Volver al inicio</button>
       </div>
   </div>
 </div>
@@ -204,11 +206,12 @@
               </div>
             </app-card>
           </div>
-          <div class="align-buttons">
-              <button type="button" class="btn btn-default waves-effect" id="assignInvoiceHide" (click)="modalAssingPreventive.hide()">Cancelar</button>
+          <br>
+          <br>
+            <div class="align-buttons">
+              <button type="button" class="btn btn-default waves-effect" id="assignPrevetiveHide" (click)="modalAssingPreventive.hide()">Cancelar</button>
               <button type="submit " class="btn btn-primary m-b-0 " (click)="createPreventive()" >Guardar</button>
-
-  </div>
+            </div>
       </div>          
 </app-modal-basic>
 
@@ -219,14 +222,14 @@
   </div>
   <div class="app-modal-body">
 
-    <!-- <div class="col-4">
+    <div class="col-4">
       <h6>Fecha de asignación</h6>
       <div class="input-group" dir="ltr">
-        <input class="form-control" placeholder="dd-mm-yyyy"   [readonly]="true" 
-                name="fd" [(ngModel)]="fromDate" ngbDatepicker  #dFrom="ngbDatepicker"    (dateSelect)="onDateSelectionFrom($event)">
-            <button type="button"  class="btn btn-primary waves-effect"  (click)="dFrom.toggle()"><i class="icofont icofont-ui-calendar"></i></button>
-      </div>
-    </div> -->
+     <input class="form-control" placeholder="dd-mm-yyyy"   [readonly]="true" 
+              name="ud" [(ngModel)]="untilDate" ngbDatepicker  #dUntil="ngbDatepicker"    (dateSelect)="onDateSelectionUntil($event)">
+         <button type="button"  class="btn btn-primary waves-effect"  (click)="dUntil.toggle()"><i class="icofont icofont-ui-calendar"></i></button>
+    </div>
+    </div>
  
 
         <div class="form-group row">
@@ -253,11 +256,103 @@
               </div>
             </app-card>
           </div>
-    
-          <div class="align-buttons">
-              <button type="button" class="btn btn-default waves-effect" id="assignInvoiceHide" (click)="modalAssingChecklist.hide()">Cancelar</button>
-              <button type="submit " class="btn btn-primary m-b-0 "  >Guardar</button>
+    <br>
+    <br>
+            <div class="align-buttons">
+              <button type="button" class="btn btn-default waves-effect" id="assignChecklistHide" (click)="modalAssingChecklist.hide()">Cancelar</button>
+              <button type="submit " class="btn btn-primary m-b-0 " (click)="createChecklist()" >Guardar</button>
+            </div>
+    </div>
+</app-modal-basic>
 
+<app-modal-basic #modalAssingCorrective [dialogClass]="'modal-lg'">
+  <div class="app-modal-header">
+
+      <h4 class="modal-title">Asignar Correctivp</h4>
+  </div>
+  <div class="app-modal-body">
+
+    <div class="col-4">
+      <h6>Fecha de asignación</h6>
+      <div class="input-group" dir="ltr">
+     <input class="form-control" placeholder="dd-mm-yyyy"   [readonly]="true" 
+              name="ud" [(ngModel)]="correctiveDate" ngbDatepicker  #dCorrective="ngbDatepicker"    (dateSelect)="onDateSelectionUntil($event)">
+         <button type="button"  class="btn btn-primary waves-effect"  (click)="dCorrective.toggle()"><i class="icofont icofont-ui-calendar"></i></button>
+    </div>
+    </div>
+ 
+        <div class="form-group row">
+  
+          <app-card style="width: 100%; height: 300px;">
+            <div style="overflow-y: scroll; height: 300px">
+                <h5>Observación</h5>
+                <textarea type="text"  class="form-control" id="comment"  [(ngModel)]="observationCorrective"cols="30" rows="10"></textarea>
+              </div>
+            </app-card>
+        </div>
+            <br>
+            <br>
+            <div class="form-group row">
+              <app-card style="width: 100%; height: 300px;">
+                <div style="overflow-y: scroll; height: 300px">
+              <h5>Tecnicos</h5>
+              <div   *ngFor="let item of technicianSelecteds" >
+                <input type="checkbox" [(ngModel)]="item.select"  data-md-icheck /> {{item.item}}<br>
+                </div>
+              </div>
+            </app-card>
           </div>
+    <br>
+    <br>
+            <div class="align-buttons">
+              <button type="button" class="btn btn-default waves-effect" id="assignCorrectiveHide" (click)="modalAssingCorrective.hide()">Cancelar</button>
+              <button type="submit " class="btn btn-primary m-b-0 " (click)="createCorrective()" >Guardar</button>
+            </div>
+    </div>
+</app-modal-basic>
+
+<app-modal-basic #modalUpdateCorrective [dialogClass]="'modal-lg'">
+  <div class="app-modal-header">
+
+      <h4 class="modal-title">Asignar Correctivo</h4>
+  </div>
+  <div class="app-modal-body">
+
+    <div class="col-4">
+      <h6>Fecha de asignación</h6>
+        <div class="input-group" dir="ltr">
+          <input class="form-control" placeholder="dd-mm-yyyy"   [readonly]="true" 
+                name="ud" [(ngModel)]="correctiveDate" ngbDatepicker  #dCorrective="ngbDatepicker"    (dateSelect)="onDateSelectionUntil($event)">
+          <button type="button"  class="btn btn-primary waves-effect"  (click)="dCorrective.toggle()"><i class="icofont icofont-ui-calendar"></i></button>
+        </div>
+    </div>
+ 
+        <div class="form-group row">
+  
+          <app-card style="width: 100%; height: 300px;">
+            <div style="overflow-y: scroll; height: 300px">
+                <h5>Observación</h5>
+                <textarea type="text"  class="form-control" id="comment"  [(ngModel)]="observationCorrective"cols="30" rows="10"></textarea>
+              </div>
+            </app-card>
+        </div>
+            <br>
+            <br>
+            <div class="form-group row">
+              <app-card style="width: 100%; height: 300px;">
+                <div style="overflow-y: scroll; height: 300px">
+              <h5>Tecnicos</h5>
+              <div   *ngFor="let item of technicianSelecteds" >
+                <input type="checkbox" [(ngModel)]="item.select"  data-md-icheck /> {{item.item}}<br>
+                </div>
+              </div>
+            </app-card>
+          </div>
+    <br>
+    <br>
+            <div class="align-buttons">
+              <button type="button" class="btn btn-default waves-effect" id="assignCorrectiveHide" (click)="modalAssingChecklist.hide()">Cancelar</button>
+              <button type="submit " class="btn btn-primary m-b-0 " (click)="createCorrective()" >Guardar</button>
+            </div>
     </div>
 </app-modal-basic>

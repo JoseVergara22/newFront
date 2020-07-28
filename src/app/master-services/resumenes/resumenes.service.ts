@@ -44,11 +44,11 @@ export class ResumenesService {
         })
       };
       const postParams = {
-        routines: id_rutines,
         forklift_id: id_forklift,
+        customer_id: customer_id,
+        branch_id: brach_id,
+        routines: id_rutines,
         technicians_id: technician_id,
-        brach_id: brach_id,
-        cutomer_id: customer_id,
         date: date
       };
       console.log(postParams);
@@ -60,6 +60,116 @@ export class ResumenesService {
       resolve(data);
       }, error => {
         console.log("error en servicio");
+                resolve(error);
+        });
+    });
+  }
+
+  storeChecklist(checklists_id:number,customer_id:number,brach_id:number,checklists:string,technician_id: any, date:string){
+    return new Promise(resolve => {
+      const httpOptions = {
+        headers: new HttpHeaders({
+          'Content-Type':  'application/json',
+          'Authorization': 'Bearer ' + localStorage.getItem('token_user'),
+          'Accept': 'application/json'
+        })
+      };
+      const postParams = {
+        forklift_id: checklists_id,
+        customer_id: customer_id,
+        branch_id: brach_id,
+        checklists: checklists,
+        technicians_id: technician_id,
+        date: date
+      };
+      console.log(postParams);
+      
+      this.http.post(this.apiEndPoint+'api/create_checklist', postParams, httpOptions)
+      .map(res => res).subscribe(data => {
+        console.log("a mostrar data");
+      console.log(data);
+      resolve(data);
+      }, error => {
+        console.log("error en servicio");
+                resolve(error);
+        });
+    });
+  }
+
+  storeCorrective(forkliftId:number,customer_id:number,brach_id:number,observation:string,technician_id: any, date:string){
+    return new Promise(resolve => {
+      const httpOptions = {
+        headers: new HttpHeaders({
+          'Content-Type':  'application/json',
+          'Authorization': 'Bearer ' + localStorage.getItem('token_user'),
+          'Accept': 'application/json'
+        })
+      };
+      const postParams = {
+        forklift_id: forkliftId,
+        customer_id: customer_id,
+        branch_id: brach_id,
+        observation: observation,
+        technicians_id: technician_id,
+        date: date
+      };
+      console.log(postParams);
+      
+      this.http.post(this.apiEndPoint+'api/create_corrective', postParams, httpOptions)
+      .map(res => res).subscribe(data => {
+        console.log("a mostrar data");
+      console.log(data);
+      resolve(data);
+      }, error => {
+        console.log("error en servicio");
+                resolve(error);
+        });
+    });
+  }
+
+  getWorkForkliftPreventive(id:number){
+    console.log(id);
+    return new Promise(resolve => {
+      const httpOptions = {
+        headers: new HttpHeaders({
+          'Content-Type':  'application/json',
+          'Authorization': 'Bearer ' + localStorage.getItem('token_user'),
+          'Accept': 'application/json'
+        })
+      };
+      
+      this.http.get(this.apiEndPoint+'api/show_preventive/'+id, httpOptions)
+      .map(res => res).subscribe(data => {
+        console.log("a mostrar data");
+      console.log(data);
+      resolve(data);
+      }, error => {
+        console.log("error en servicio");
+        console.log(error);
+                resolve(error);
+        });
+    });
+  }
+
+  getWorkForkliftCorrective(id:number){
+    console.log(id);
+    return new Promise(resolve => {
+      const httpOptions = {
+        headers: new HttpHeaders({
+          'Content-Type':  'application/json',
+          'Authorization': 'Bearer ' + localStorage.getItem('token_user'),
+          'Accept': 'application/json'
+        })
+      };
+      
+      this.http.get(this.apiEndPoint+'api/show_corrective/'+id, httpOptions)
+      .map(res => res).subscribe(data => {
+        console.log("a mostrar data");
+      console.log(data);
+      resolve(data);
+      }, error => {
+        console.log("error en servicio");
+        console.log(error);
                 resolve(error);
         });
     });
