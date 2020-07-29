@@ -84,7 +84,7 @@ export class ResumenesService {
       };
       console.log(postParams);
       
-      this.http.post(this.apiEndPoint+'api/create_checklist', postParams, httpOptions)
+      this.http.post(this.apiEndPoint+'api/create_forklift_checklist', postParams, httpOptions)
       .map(res => res).subscribe(data => {
         console.log("a mostrar data");
       console.log(data);
@@ -163,6 +163,30 @@ export class ResumenesService {
       };
       
       this.http.get(this.apiEndPoint+'api/show_corrective/'+id, httpOptions)
+      .map(res => res).subscribe(data => {
+        console.log("a mostrar data");
+      console.log(data);
+      resolve(data);
+      }, error => {
+        console.log("error en servicio");
+        console.log(error);
+                resolve(error);
+        });
+    });
+  }
+
+  getWorkForkliftChecklist(id:number){
+    console.log(id);
+    return new Promise(resolve => {
+      const httpOptions = {
+        headers: new HttpHeaders({
+          'Content-Type':  'application/json',
+          'Authorization': 'Bearer ' + localStorage.getItem('token_user'),
+          'Accept': 'application/json'
+        })
+      };
+      
+      this.http.get(this.apiEndPoint+'api/show_checklist/'+id, httpOptions)
       .map(res => res).subscribe(data => {
         console.log("a mostrar data");
       console.log(data);

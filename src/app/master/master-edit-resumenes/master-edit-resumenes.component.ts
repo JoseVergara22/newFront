@@ -88,6 +88,9 @@ export class MasterEditResumenesComponent extends NgbDatepickerI18n {
   currentPreventive: any;
   currentChecklist: any;
   currentCorrective: any;
+
+  selectedMinutChecklist: any= 0;
+  selectedHourChecklist: any= 0;
   
   constructor(private restService: RestService, private resumenesService: ResumenesService, private router: Router, 
     private forkliftService: ForkliftService, private _i18n: I18n, private calendar: NgbCalendar, public formatter: NgbDateParserFormatter,
@@ -134,6 +137,7 @@ export class MasterEditResumenesComponent extends NgbDatepickerI18n {
    
         this.getPreventiveRoutines();
         this.getCorrectiveRoutines();
+        this.getForkliftChecklist();
         }).catch(error => {
           console.log(error);
         });
@@ -351,11 +355,16 @@ export class MasterEditResumenesComponent extends NgbDatepickerI18n {
              });
           } else {
           swal.close();
+          
           let result  = resp.data;
           console.log(result);
           document.getElementById('assignPrevetiveHide').click();
           this.getTechnician();
           this.getPreventiveRoutines();
+          swal({
+            title: 'Guardado con exito',
+            type: 'success'
+           });
           }
           }).catch(error => {
             swal.close();
@@ -412,7 +421,7 @@ export class MasterEditResumenesComponent extends NgbDatepickerI18n {
         this.resumenesService.storeChecklist(this.forkliftId,this.forklift.customer_id,this.forklift.branch_offices_id,this.checkedList,this.technicianList,params).then(data => {
           const resp: any = data;
           console.log(data);
-          if (resp.success) {
+          if (resp.success== false) {
             swal({
               title:'Error',
               text: 'Ha ocurrido un error',
@@ -423,6 +432,11 @@ export class MasterEditResumenesComponent extends NgbDatepickerI18n {
           let result  = resp.data;
            console.log(result);
           document.getElementById('assignChecklistHide').click();
+          this.getForkliftChecklist();
+          swal({
+            title: 'Guardado con exito',
+            type: 'success'
+           });
           }
         }).catch(error => {
             swal.close();
@@ -472,7 +486,7 @@ export class MasterEditResumenesComponent extends NgbDatepickerI18n {
          this.resumenesService.storeCorrective(this.forkliftId,this.forklift.customer_id,this.forklift.branch_offices_id,this.observationCorrective,this.technicianList,params).then(data => {
            const resp: any = data;
            console.log(data);
-           if (resp.success) {
+           if (resp.success== false) {
              swal({
                title:'Error',
                text: 'Ha ocurrido un error',
@@ -484,6 +498,10 @@ export class MasterEditResumenesComponent extends NgbDatepickerI18n {
            console.log(result);
            document.getElementById('assignCorrectiveHide').click();
            this.getCorrectiveRoutines();
+           swal({
+            title: 'Guardado con exito',
+            type: 'success'
+           });
            }
          }).catch(error => {
              swal.close();
@@ -534,9 +552,9 @@ export class MasterEditResumenesComponent extends NgbDatepickerI18n {
   
   }
 
-  getCChecklist(){
+  getForkliftChecklist(){
     // Llenar información de cliente  
-    this.resumenesService.getWorkForkliftCorrective(this.forkliftId).then(data => {
+    this.resumenesService.getWorkForkliftChecklist(this.forkliftId).then(data => {
       const resp: any = data;
       console.log(data);
       swal.close();

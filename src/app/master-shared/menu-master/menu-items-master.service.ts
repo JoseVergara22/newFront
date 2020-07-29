@@ -89,16 +89,21 @@ const MENUITEMS = [
           {
             state:'toilet',
             name: 'Registro aseo '
-          },
+          },*/
           {
             state:'checklists',
             name: 'Administrar Checklist'
           },
-      
+      /*
          {
             state: 'modules',
             name:  'Administrar Modules'
           }, */
+      
+         {
+            state: 'resumenes',
+            name:  'Administrar Hojas de Vida'
+          }, 
           {
             state: 'costCenter',
             name: 'Administrar Centros de Costo'
