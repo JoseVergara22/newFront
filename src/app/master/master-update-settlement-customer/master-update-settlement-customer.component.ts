@@ -859,7 +859,8 @@ onDateSelectionFromForklift(date: any) {
 
    getSettlementSubCenterCost() {
     if(this.settlementId){
-      this.settlementService.getRegionalSubCenterCost(this.selectedRegionalId).then(data => {
+     // this.settlementService.getRegionalSubCenterCost(this.selectedRegionalId).then(data => {
+      this.settlementService.getSubCostCenter(this.selectedRegionalId).then(data => {
         const resp: any = data;
         if(resp.success){
           this.subcentersCost =resp.data;
