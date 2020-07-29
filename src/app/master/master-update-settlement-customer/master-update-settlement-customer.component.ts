@@ -863,7 +863,7 @@ onDateSelectionFromForklift(date: any) {
       this.settlementService.getSubCostCenter(this.selectedRegionalId).then(data => {
         const resp: any = data;
         if(resp.success){
-          this.subcentersCost =resp.data;
+          this.subcentersCost =resp.data_subcostcenters;
         }
         console.log('codigos de parte '+JSON.stringify(data));
         console.log(data);
