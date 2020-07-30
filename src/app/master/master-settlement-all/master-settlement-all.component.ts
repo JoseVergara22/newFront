@@ -1240,7 +1240,7 @@ console.log('este es el e:'+ +JSON.stringify(e));
  if(this.rowsItemsparts.length>0){
   for (let i = 0; i < this.rowsItemsparts.length; i++) {
 //Este total se debe remplazar por el subtotal_parts que se encuentra en la tabla de settlement
-let value=  Number(this.rowsItemsparts[i].subtotal);
+    let value=  Number(this.rowsItemsparts[i].subtotal);
     this.totalCost = Number(this.totalCost + value); 
  
     console.log('total'); 
@@ -1318,9 +1318,9 @@ let value=  Number(this.rowsItemsWorkforce[i].total);
     
   }
 
-  let total = this.finalFormatPrice(this.totalCost);
-  console.log('total')
-  console.log(total)
+  // let total = this.finalFormatPrice(this.totalCost);
+  // console.log('total');
+  // console.log(total);
      doc.autoTable({
       startY: doc.autoTable.previous.finalY,
       theme:'grid',
@@ -1400,10 +1400,9 @@ let value=  Number(this.rowsItemsWorkforce[i].total);
   }
 }
   // y=y+15;
-
-  total = this.finalFormatPrice(this.totalCost);
-  console.log('total')
-  console.log(total)
+let totalCus = this.finalFormatPrice(this.totalCost);
+  console.log('total');
+  console.log(totalCus);
 
   doc.autoTable({
     startY: doc.autoTable.previous.finalY,
@@ -1416,7 +1415,7 @@ let value=  Number(this.rowsItemsWorkforce[i].total);
       3: {halign: 'center', fontSize:9, cellWidth:55}
     },
     margin: { left: 15},
-    body: [['','TOTAL','DESC%','$' + this.total]]
+    body: [['','TOTAL','DESC%','$' + totalCus]]
   });
 console.log(this.observationEstimate);
   doc.autoTable({
@@ -2402,8 +2401,8 @@ let value=  Number(this.rowsItemsWorkforce[i].total);
   // y=y+15;
 
   let totalCustomer = parseInt(this.finalFormatPrice(this.totalCost));
-  console.log('total')
-  console.log(totalCustomer)
+  console.log('totalcustomer')
+  let totalCusEnv = this.finalFormatPrice(this.totalCost);
 
   doc.autoTable({
     startY: doc.autoTable.previous.finalY,
@@ -2416,7 +2415,7 @@ let value=  Number(this.rowsItemsWorkforce[i].total);
       3: {halign: 'center', fontSize:9, cellWidth:55}
     },
     margin: { left: 15},
-    body: [['','TOTAL','DESC%','$' + this.total]]
+    body: [['','TOTAL','DESC%','$' + totalCusEnv]]
   });
 
   doc.autoTable({
