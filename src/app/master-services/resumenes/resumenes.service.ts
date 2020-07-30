@@ -198,4 +198,54 @@ export class ResumenesService {
         });
     });
   }
+
+  updatePreventive(forklift_id:number,id_rutines:string,technician_id: any,params: string) {
+    return new Promise(resolve => {
+      const headers = new HttpHeaders();
+      headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user'))); // 'Bearer ' +
+      headers.append('Content-Type', 'application/json');
+      const httpOptions = {
+      headers: new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ' + localStorage.getItem('token_user'),
+      'Accept': 'application/json'
+      })
+      };
+      console.log( localStorage.getItem('userid'));
+      const patchParams = {
+      params: params
+      };
+      this.http.patch(this.apiEndPoint+'api/update_scheduled_settlement', patchParams, httpOptions)
+      .map(res => res).subscribe(data => {
+      resolve(data);
+      }, error => {
+      resolve(error);
+      });
+      });
+    }
+
+  deletePreventive(id: number) {
+    console.log('ole ole ole');
+    console.log(status);
+    return new Promise(resolve => {
+      const headers = new HttpHeaders();
+      headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user'))); // 'Bearer ' +
+      headers.append('Content-Type', 'application/json');
+      const httpOptions = {
+        headers: new HttpHeaders({
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + localStorage.getItem('token_user'),
+          'Accept': 'application/json'
+        })
+      };
+      const postParams = {
+      };
+      this.http.delete(this.apiEndPoint+'api/delete_preventive/' + id, httpOptions)
+        .map(res => res).subscribe(data => {
+          resolve(data);
+        }, error => {
+          resolve(error);
+        });
+    });
+  }
 }

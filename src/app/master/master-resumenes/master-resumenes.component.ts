@@ -82,7 +82,7 @@ getFilters() {
   if( this.selectedBusinessId == 0 &&   this.selectedBranchOfficeId == 0 && this.forkliftText==''){
       swal({
         title:'Importante',
-        text: 'Debes seleccionar por lo menos uno de los filtros o activar casilla para tener en cuenta las fechas',
+        text: 'Debes seleccionar por lo menos uno de los filtros.',
         type: 'error'
        });
     }else{
