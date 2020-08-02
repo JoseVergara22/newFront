@@ -3,7 +3,7 @@
 
   <div class="col-sm-12">
       <app-card>
-          <h5>Administracion de hojas de vida </h5>
+          <h5>Administración de Mantenimiento Preventivo</h5>
           <br>
 
           <div class="form-group row">
@@ -62,7 +62,7 @@
           <div class=" align-buttons" >
             <div >
             
-            <button class="btn btn-primary" (click)="modalAssingPreventive.show()" (click)="getWorks()" (click)="getTechnician()"><i class="icofont icofont-search" ></i>Crear</button>
+            <button class="btn btn-primary" (click)="modalAssingPreventive.show()" ><i class="icofont icofont-search" ></i>Crear</button>
           </div>
           </div>
 
@@ -101,19 +101,18 @@
           </div>
         </div>
 
-        <div class="col-4">
+        <div class="col-3">
           <h6>Horas de asignación</h6>
           <select class="form-control"   [(ngModel)]="selectedHourPreventive">
-            <option value="0" selected>Seleccionar hora</option>
-            <option value="1">1 </option>
-            <option value="2">2 </option>
-            <option value="3">3 </option>
-            <option value="4">4</option>
-            <option value="5">5</option>
-            <option value="6">6</option>
-            <option value="7">7</option>
-            <option value="8">8</option>
-            <option value="9">9</option>
+            <option value="1">01 </option>
+            <option value="2">02 </option>
+            <option value="3">03 </option>
+            <option value="4">04</option>
+            <option value="5">05</option>
+            <option value="6">06</option>
+            <option value="7">07</option>
+            <option value="8">08</option>
+            <option value="9">09</option>
             <option value="10">10</option>
             <option value="11">11</option>
             <option value="12">12</option>
@@ -131,19 +130,18 @@
             <option value="24">24</option>
           </select>
         </div>
-        <div class="col-4">
+        <div class="col-3">
           <br>
           <select class="form-control"   [(ngModel)]="selectedMinutPreventive">
-            <option value="0" selected>Seleccionar minutos</option>
-            <option value="1">0</option>
-            <option value="2">1</option>
-            <option value="3">2</option>
-            <option value="4">3</option>
-            <option value="5">4</option>
-            <option value="6">5</option>
-            <option value="7">6</option>
-            <option value="8">7</option>
-            <option value="9">8</option>
+            <option value="1">00</option>
+            <option value="2">01</option>
+            <option value="3">02</option>
+            <option value="4">03</option>
+            <option value="5">04</option>
+            <option value="6">05</option>
+            <option value="7">06</option>
+            <option value="8">07</option>
+            <option value="9">08</option>
             <option value="10">9</option>
             <option value="11">10</option>
             <option value="12">11</option>
@@ -233,6 +231,7 @@
             </div>
       </div>          
 </app-modal-basic>
+
 <app-modal-basic #modalUpdatePreventive [dialogClass]="'modal-lg'">
   <div class="app-modal-header">
 

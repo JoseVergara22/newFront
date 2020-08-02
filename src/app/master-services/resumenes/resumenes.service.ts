@@ -199,7 +199,7 @@ export class ResumenesService {
     });
   }
 
-  updatePreventive(forklift_id:number,id_rutines:string,technician_id: any,params: string) {
+  updatePreventive(forklift_id:number,customer_id:number,branch_id:number,id_rutines:string,technician_id: any,date: string,newDate: string) {
     return new Promise(resolve => {
       const headers = new HttpHeaders();
       headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user'))); // 'Bearer ' +
@@ -210,19 +210,87 @@ export class ResumenesService {
       'Authorization': 'Bearer ' + localStorage.getItem('token_user'),
       'Accept': 'application/json'
       })
-      };
-      console.log( localStorage.getItem('userid'));
-      const patchParams = {
-      params: params
-      };
-      this.http.patch(this.apiEndPoint+'api/update_scheduled_settlement', patchParams, httpOptions)
+    };
+    console.log( localStorage.getItem('userid'));
+    const patchParams = {
+        forklift_id: forklift_id,
+        customer_id:customer_id,
+        branch_offices_id:branch_id,
+        routines: id_rutines,
+        technicians_id: technician_id,
+        date: date,
+        newDate: newDate
+    };
+    console.log(patchParams);
+    this.http.patch(this.apiEndPoint+'api/update_rutine_preventive', patchParams, httpOptions)
       .map(res => res).subscribe(data => {
-      resolve(data);
+        resolve(data);
       }, error => {
-      resolve(error);
+        resolve(error);
       });
+    });
+  }
+
+  updateChecklist(forklift_id:number,customer_id:number,branch_id:number,id_checklist:string,technician_id: any,date: string,newDate: string) {
+    return new Promise(resolve => {
+      const headers = new HttpHeaders();
+      headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user'))); // 'Bearer ' +
+      headers.append('Content-Type', 'application/json');
+      const httpOptions = {
+      headers: new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ' + localStorage.getItem('token_user'),
+      'Accept': 'application/json'
+      })
+    };
+    console.log( localStorage.getItem('userid'));
+    const patchParams = {
+        forklift_id: forklift_id,
+        customer_id:customer_id,
+        branch_offices_id:branch_id,
+        checklist: id_checklist,
+        technicians_id: technician_id,
+        date: date,
+        newDate: newDate
+    };
+    console.log(patchParams);
+    this.http.patch(this.apiEndPoint+'api/update_rutine_checklist', patchParams, httpOptions)
+      .map(res => res).subscribe(data => {
+        resolve(data);
+      }, error => {
+        resolve(error);
       });
-    }
+    });
+  }
+
+  updateCorrective(id: number,forklift_id:number,observation:string,technician_id: any,date: string) {
+    return new Promise(resolve => {
+      const headers = new HttpHeaders();
+      headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user'))); // 'Bearer ' +
+      headers.append('Content-Type', 'application/json');
+      const httpOptions = {
+      headers: new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ' + localStorage.getItem('token_user'),
+      'Accept': 'application/json'
+      })
+    };
+    console.log( localStorage.getItem('userid'));
+    const patchParams = {
+        forklift_id: forklift_id,
+        observation:observation,
+        technicians_id: technician_id,
+        date: date,
+    };
+    console.log(patchParams);
+    this.http.patch(this.apiEndPoint+'api/update_rutine_corrective/'+id, patchParams, httpOptions)
+      .map(res => res).subscribe(data => {
+        resolve(data);
+      }, error => {
+        resolve(error);
+      });
+    });
+  }
 
   deletePreventive(id: number) {
     console.log('ole ole ole');
@@ -241,6 +309,56 @@ export class ResumenesService {
       const postParams = {
       };
       this.http.delete(this.apiEndPoint+'api/delete_preventive/' + id, httpOptions)
+        .map(res => res).subscribe(data => {
+          resolve(data);
+        }, error => {
+          resolve(error);
+        });
+    });
+  }
+
+  deleteChecklist(id: number) {
+    console.log('ole ole ole');
+    console.log(status);
+    return new Promise(resolve => {
+      const headers = new HttpHeaders();
+      headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user'))); // 'Bearer ' +
+      headers.append('Content-Type', 'application/json');
+      const httpOptions = {
+        headers: new HttpHeaders({
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + localStorage.getItem('token_user'),
+          'Accept': 'application/json'
+        })
+      };
+      const postParams = {
+      };
+      this.http.delete(this.apiEndPoint+'api/delete_checklist/' + id, httpOptions)
+        .map(res => res).subscribe(data => {
+          resolve(data);
+        }, error => {
+          resolve(error);
+        });
+    });
+  }
+
+  deleteCorrective(id: number) {
+    console.log('ole ole ole');
+    console.log(status);
+    return new Promise(resolve => {
+      const headers = new HttpHeaders();
+      headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user'))); // 'Bearer ' +
+      headers.append('Content-Type', 'application/json');
+      const httpOptions = {
+        headers: new HttpHeaders({
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + localStorage.getItem('token_user'),
+          'Accept': 'application/json'
+        })
+      };
+      const postParams = {
+      };
+      this.http.delete(this.apiEndPoint+'api/update_rutine_corrective/' + id, httpOptions)
         .map(res => res).subscribe(data => {
           resolve(data);
         }, error => {

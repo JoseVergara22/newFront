@@ -76,7 +76,8 @@ import { MasterToiletComponent } from './master-toilet/master-toilet.component';
 import { MasterResumenesComponent } from './master-resumenes/master-resumenes.component';
 import { MasterEditResumenesComponent } from './master-edit-resumenes/master-edit-resumenes.component';
 import { MasterPreventiveMaintenanceComponent } from './master-preventive-maintenance/master-preventive-maintenance.component';
-// import { MasterCorrectiveMaintenanceComponent } from './master-corrective-maintenance/master-corrective-maintenance.component';
+import { MasterChecklistMaintenanceComponent } from './master-checklist-maintenance/master-checklist-maintenance.component';
+import { MasterCorrectiveMaintenanceComponent } from './master-corrective-maintenance/master-corrective-maintenance.component';
 
 
 //
@@ -189,7 +190,9 @@ import {AutocompleteLibModule} from 'angular-ng-autocomplete';
     MasterToiletComponent,
     MasterResumenesComponent,
     MasterEditResumenesComponent,
-    MasterPreventiveMaintenanceComponent
+    MasterPreventiveMaintenanceComponent,
+    MasterChecklistMaintenanceComponent,
+    MasterCorrectiveMaintenanceComponent
     
     
    // MasterAdminComponent

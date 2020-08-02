@@ -113,9 +113,8 @@
         <ngx-datatable-column  [flexGrow]="2" name="Ver" [sortable]="false"  sortable="false" prop="status">
         <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
 
-          <button (click)="updateItems(row)" class="btn btn-primary btn-icon"><i class="icofont icofont-pencil-alt-5"></i></button>
-          <button (click)="deleteEstimateDetail(row)" class="btn btn-danger btn-icon"><i class="icofont icofont-ui-delete"></i></button>
-       
+          <button (click)="updateItems(row)" class="btn btn-primary btn-icon"><i class="icofont icofont-eye-alt"></i></button>
+        
         </ng-template>
         </ngx-datatable-column>
       </ngx-datatable>
@@ -129,11 +128,11 @@
         <ngx-datatable-column  [flexGrow]="2" [sortable]="false" [resizeable]="false"  name="Obervación" [sortable]="false"  prop="work"></ngx-datatable-column>
         <ngx-datatable-column  [flexGrow]="2" [sortable]="false" [resizeable]="false"  name="Fecha" [sortable]="false"  prop="date"></ngx-datatable-column>
         <ngx-datatable-column  [flexGrow]="2" name="Ver" [sortable]="false"  sortable="false" prop="status">
-        <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+          <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
 
-          <button (click)="updateItems(row)" class="btn btn-primary btn-icon"><i class="icofont icofont-pencil-alt-5"></i></button>
-          
-        </ng-template>
+            <button (click)="updateItems(row)" class="btn btn-primary btn-icon"><i class="icofont icofont-eye-alt"></i></button>
+            
+          </ng-template>
         </ngx-datatable-column>
       </ngx-datatable>
     </app-card>
@@ -147,7 +146,7 @@
         <ngx-datatable-column  [flexGrow]="2" name="Ver" [sortable]="false"  sortable="false" prop="status">
         <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
 
-          <button (click)="updateItems(row)" class="btn btn-primary btn-icon"><i class="icofont icofont-pencil-alt-5"></i></button>
+          <button (click)="updateItems(row)"class="btn btn-primary btn-icon"><i class="icofont icofont-eye-alt"></i></button>
          
         </ng-template>
         </ngx-datatable-column>

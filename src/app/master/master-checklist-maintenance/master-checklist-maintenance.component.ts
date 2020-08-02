@@ -1,11 +1,12 @@
 import { Component, OnInit, Injectable } from '@angular/core';
-import { NgbDatepickerI18n, NgbDateStruct, NgbCalendar, NgbDateParserFormatter } from '@ng-bootstrap/ng-bootstrap';
+import { NgbDateStruct, NgbDatepickerI18n, NgbCalendar, NgbDateParserFormatter } from '@ng-bootstrap/ng-bootstrap';
+import { ForkliftService } from '../../master-services/Forklift/forklift.service';
 import { RestService } from '../../master-services/Rest/rest.service';
 import { ResumenesService } from '../../master-services/resumenes/resumenes.service';
-import { Router } from '@angular/router';
-import { ForkliftService } from '../../master-services/Forklift/forklift.service';
 import { WorkService } from '../../master-services/Work/work.service';
+import { Router } from '@angular/router';
 import swal from 'sweetalert2';
+import { ChecklistService } from '../../master-services/checklist/checklist.service';
 
 const I18N_VALUES = {
   'fr': {
@@ -27,15 +28,16 @@ interface itemSelectInterface {// item para mostrar selccionados
 }
 
 @Component({
-  selector: 'app-master-preventive-maintenance',
-  templateUrl: './master-preventive-maintenance.component.html',
-  styleUrls: ['./master-preventive-maintenance.component.scss',
+  selector: 'app-master-checklist-maintenance',
+  templateUrl: './master-checklist-maintenance.component.html',
+  styleUrls: ['./master-checklist-maintenance.component.scss',
   '../../../assets/icon/icofont/css/icofont.scss'],
-  providers: [I18n, {provide: NgbDatepickerI18n, useClass: MasterPreventiveMaintenanceComponent}]
+  providers: [I18n, {provide: NgbDatepickerI18n, useClass: MasterChecklistMaintenanceComponent}]
 })
-export class MasterPreventiveMaintenanceComponent extends NgbDatepickerI18n {
-  routineSelecteds: Array <itemSelectInterface> = [];
-  routineSelected: itemSelectInterface;
+export class MasterChecklistMaintenanceComponent extends NgbDatepickerI18n {
+
+  checklisSelecteds: Array <itemSelectInterface> = [];
+  checklistSelected: itemSelectInterface;
 
   technicianSelecteds: Array <itemSelectInterface> = [];
   technicianSelected: itemSelectInterface;
@@ -49,19 +51,19 @@ export class MasterPreventiveMaintenanceComponent extends NgbDatepickerI18n {
   selectedBranchOfficeId: any = 0;
   selectedForkliftId: any = 0;
   selectedHourPreventive: any = 0;
-  selectedMinutPreventive: any = 1;
+  selectedMinutPreventive: any = 0;
   branchOffices: any;
   forklifts: any;
   customers: any;
   regional: any;
-
+  now:any;
 
   rowsWork: any;
   technician: any;
   currentPreventive: any;
 
   technicianUpdate: any;
-  preventiveUpdate: any;
+  checklistUpdate: any;
 
   elementDelete: any;
 
@@ -72,13 +74,19 @@ export class MasterPreventiveMaintenanceComponent extends NgbDatepickerI18n {
   customerName: any = '';
   branch: any = '';
 
+  checkedList: string='';
   technicianList: string='';
-  preventiveList: string='';
-  oldDate:any;
+  oldDate: string;
+
+  checklists: any;
+  currentChecklist: any;
+
+  selectedMinutChecklist: any= 1;
+  selectedHourChecklist: any= 0;
 
   constructor(private restService: RestService, private resumenesService: ResumenesService, private router: Router, 
     private forkliftService: ForkliftService, private _i18n: I18n, private calendar: NgbCalendar, public formatter: NgbDateParserFormatter,
-    private workService: WorkService) { 
+    private checklistService: ChecklistService) { 
       super();
 
       var date = new Date();
@@ -87,7 +95,8 @@ export class MasterPreventiveMaintenanceComponent extends NgbDatepickerI18n {
       this.untilDate=ngbDateStruct;
 
       this.getRegional();
-      this.getWorks();
+    
+      this.getChecklist();
       this.getTechnician();
     }
     
@@ -156,14 +165,14 @@ export class MasterPreventiveMaintenanceComponent extends NgbDatepickerI18n {
       
     }
   }
-    
-  getWorks() {
+
+  getChecklist(){
     swal({
       title: 'Obteniendo información ...',
       allowOutsideClick: false
     });
     swal.showLoading();
-    this.workService.getWorks().then(data => {
+    this.checklistService.showChecklist().then(data => {
       const resp: any = data;
       if (resp.error) {
         swal({
@@ -174,23 +183,22 @@ export class MasterPreventiveMaintenanceComponent extends NgbDatepickerI18n {
       } else {
         console.log(data);
         swal.close();
-        this.rowsWork = resp.data;
-        for (let item of  this.rowsWork) {
+        this.checklists = resp.data;
+        for (let item of  this.checklists) {
           // console.log(item); // 1, "string", false
 
-          this.routineSelected= {
+          this.checklistSelected= {
             id: item.id,
             item: item.description,
             select: false
           }
-          this.routineSelecteds.push(this.routineSelected);
+          this.checklisSelecteds.push(this.checklistSelected);
       }
 
       console.log("ole ole");
-      console.log(this.routineSelecteds);
+      console.log(this.checklisSelecteds);
 
 
-        console.log( this.rowsWork);
     }
     }).catch(error => {
       swal.close();
@@ -202,7 +210,7 @@ export class MasterPreventiveMaintenanceComponent extends NgbDatepickerI18n {
       console.log(error);
     });
   }
-
+  
   getTechnician(){
     swal({
       title: 'Obteniendo información ...',
@@ -222,7 +230,7 @@ export class MasterPreventiveMaintenanceComponent extends NgbDatepickerI18n {
         swal.close();
         this.technician = resp.data;
         for (let item of  this.technician) {
-          console.log(item); // 1, "string", false
+          // console.log(item); // 1, "string", false
 
           this.technicianSelected= {
             id: item.id,
@@ -246,31 +254,7 @@ export class MasterPreventiveMaintenanceComponent extends NgbDatepickerI18n {
     });
   }
 
-  onDateSelectionFrom(date: any) {
-
-
-    var fromD = new Date(this.fromDate.year, this.fromDate.month, this.fromDate.day); //31 de diciembre de 2015
-    var untilD = new Date(this.untilDate.year, this.untilDate.month, this.untilDate.day);
-
-    console.log(this.fromDate.day);
-    if(fromD> untilD){
-      console.log('es mayor');
-      this.untilDate=this.fromDate;
-    }
-  }
-
-   onDateSelectionUntil(date: any) {
-      var fromD = new Date(this.fromDate.year, this.fromDate.month, this.fromDate.day); //31 de diciembre de 2015
-      var untilD = new Date(this.untilDate.year, this.untilDate.month, this.untilDate.day);
-      if( untilD< fromD){
-        console.log('es mayor');
-        this.fromDate=this.untilDate;
-      }
-  }
-
-
-
-  createPreventive(){
+  createChecklist(){
     swal({
       title: 'Obteniendo información ...',
       allowOutsideClick: false
@@ -284,11 +268,9 @@ export class MasterPreventiveMaintenanceComponent extends NgbDatepickerI18n {
      // 1970, 1971, ... 2015, 2016, ...
      var year = this.fromDate.year;
      
-     console.log( this.selectedHourPreventive);
-     console.log( this.selectedMinutPreventive);
-
-     var hour = this.selectedHourPreventive;
-     var minut = this.selectedMinutPreventive-1;
+  
+     var hour = this.selectedHourChecklist;
+     var minut = this.selectedMinutChecklist-1;
 
      console.log(hour);
      console.log( minut);
@@ -301,16 +283,14 @@ export class MasterPreventiveMaintenanceComponent extends NgbDatepickerI18n {
      params=fromD;
 
       console.log('entro');
-      console.log(this.routineSelecteds);
-
-      for (let item of this.routineSelecteds) {
+      console.log(this.checklisSelecteds);
+      for (let item of this.checklisSelecteds) {
         console.log('entro');
-        if(item.select){
-         console.log(item);
-         console.log('entro');
-          this.preventiveList = this.preventiveList + item.id +',';
-          console.log('entro');
-        }
+          if(item.select){
+            console.log(item);
+            console.log('entro');
+            this.checkedList = this.checkedList + item.id +',';
+          }
       }
 
       console.log(this.technicianSelecteds);
@@ -323,10 +303,10 @@ export class MasterPreventiveMaintenanceComponent extends NgbDatepickerI18n {
           }
         }
         console.log(this.forklift);
-        this.resumenesService.storePreventive(this.selectedForkliftId.id,this.selectedBusinessId.id,this.selectedBranchOfficeId.id,this.preventiveList,this.technicianList,params).then(data => {
+        this.resumenesService.storeChecklist(this.selectedForkliftId.id,this.selectedBusinessId.id,this.selectedBranchOfficeId.id,this.checkedList,this.technicianList,params).then(data => {
           const resp: any = data;
           console.log(data);
-          if (resp.success == false) {
+          if (resp.success== false) {
             swal({
               title:'Error',
               text: 'Ha ocurrido un error',
@@ -334,31 +314,29 @@ export class MasterPreventiveMaintenanceComponent extends NgbDatepickerI18n {
              });
           } else {
           swal.close();
-          
           let result  = resp.data;
-          console.log(result);
-          document.getElementById('assignPrevetiveHide').click();
-          
-          this.getPreventiveRoutines();
+           console.log(result);
+          document.getElementById('assignChecklistHide').click();
+          this.getForkliftChecklist();
+          this.cleanSelectChecklist();
+          this.cleanSelectTechnician();
           swal({
             title: 'Guardado con exito',
             type: 'success'
            });
           }
-          this.cleanSelectRoutines();
-          this.cleanSelectTechnician();
-          }).catch(error => {
+        }).catch(error => {
             swal.close();
             swal({
               title:'Error',
               text: 'Ha ocurrido un error',
               type: 'error'
             });
-            console.log(error);
-          });
+        console.log(error);
+        });
   }
 
-  getPreventiveRoutines(){
+  getForkliftChecklist(){
     // Llenar información de cliente  
     if( this.selectedForkliftId == 0 ){
       swal({
@@ -372,86 +350,36 @@ export class MasterPreventiveMaintenanceComponent extends NgbDatepickerI18n {
         allowOutsideClick: false
       });
       swal.showLoading();
-
-    this.resumenesService.getWorkForkliftPreventive(this.selectedForkliftId.id).then(data => {
+    this.resumenesService.getWorkForkliftChecklist(this.selectedForkliftId.id).then(data => {
       const resp: any = data;
       console.log(data);
       swal.close();
-      this.currentPreventive  = resp.data;
+      this.currentChecklist  = resp.data;
 
-    
+
     }).catch(error => {
       console.log(error);
     });
-  }
+    }
   }
 
   updateDate(row: any){
 
     console.log(row);
-    this.preventiveUpdate = row.result.preventiveRoutines;
+    this.checklistUpdate = row.result.checklistRoutines;
     this.technicianUpdate = row.result.technicians;
     this.oldDate = row.date;
-    for (let elemento of this.preventiveUpdate) {
+    for (let elemento of this.checklistUpdate) {
       console.log('ingreso a mirar checks');
-      this.SelectItemRoutines(elemento);
+      this.SelectItemChecklist(elemento);
       }
 
     for (let elemento of this.technicianUpdate) {
-      console.log('ingreso a mirar checks');
+      console.log('ingreso a mirar tecnicos');
       this.SelectItemTechnician(elemento);
       }
 
       document.getElementById( 'showUpdatePreventive').click();
-  }
-
-  deleteEstimateDetail(item: any) {
-    swal({
-      title: 'Estás seguro de eliminar este elemento?',
-     // text: 'Once deleted, you will not be able to recover this imaginary file!',
-      type: 'warning',
-      showCancelButton: true,
-      showConfirmButton: true,
-      cancelButtonText: 'No',
-      confirmButtonText: 'Si'
-
-    })
-    .then((willDelete) => {
-        if (willDelete.value) {
-          this.elementDelete = item;
-          console.log(item);
-          console.log(    this.elementDelete);
-          swal.showLoading();
-          this.resumenesService.deletePreventive(Number(this.elementDelete.id))
-          .then(data => {
-            swal.showLoading();
-            const resp: any = data;
-            console.log(resp);
-
-            if (resp.success === false) {
-              swal({
-                title: 'Esta rutina presenta problemas',
-                text: 'Esta rutina no se puede eliminar',
-                type: 'error'
-               });
-            } else {
-           // this.router.navigateByUrl('master/registerBrand');
-           swal({
-            title: 'Elemento eliminado',
-            type: 'success'
-           });
-
-           this.getPreventiveRoutines();
-          }
-          }).catch(error => {
-            console.log(error);
-          });
-          console.log(this.elementDelete.id);
-        } else {
-         // swal('Fail');
-        }
-      console.log(willDelete);
-    });
   }
 
   updatePreventive(){
@@ -485,14 +413,14 @@ export class MasterPreventiveMaintenanceComponent extends NgbDatepickerI18n {
      params=fromD;
 
      console.log('entro');
-      console.log(this.routineSelecteds);
+      console.log(this.checklisSelecteds);
 
-      for (let item of this.routineSelecteds) {
+      for (let item of this.checklisSelecteds) {
         console.log('entro');
         if(item.select){
          console.log(item);
          console.log('entro');
-          this.preventiveList = this.preventiveList + item.id +',';
+          this.checkedList = this.checkedList + item.id +',';
           console.log('entro');
         }
       }
@@ -507,7 +435,7 @@ export class MasterPreventiveMaintenanceComponent extends NgbDatepickerI18n {
           }
         }
         console.log(this.forklift);
-        this.resumenesService.updatePreventive(this.selectedForkliftId.id,this.selectedBusinessId.id,this.selectedBranchOfficeId.id,this.preventiveList,this.technicianList,this.oldDate,params).then(data => {
+        this.resumenesService.updateChecklist(this.selectedForkliftId.id,this.selectedBusinessId.id,this.selectedBranchOfficeId.id,this.checkedList,this.technicianList,this.oldDate,params).then(data => {
           const resp: any = data;
           console.log(data);
           if (resp.success == false) {
@@ -523,13 +451,13 @@ export class MasterPreventiveMaintenanceComponent extends NgbDatepickerI18n {
           console.log(result);
           document.getElementById('assignPrevetiveHide').click();
           
-          this.getPreventiveRoutines();
+          this.getForkliftChecklist();
           swal({
             title: 'Guardado con exito',
             type: 'success'
            });
           }
-          this.cleanSelectRoutines();
+          this.cleanSelectChecklist();
           this.cleanSelectTechnician();
           }).catch(error => {
             swal.close();
@@ -542,8 +470,59 @@ export class MasterPreventiveMaintenanceComponent extends NgbDatepickerI18n {
           });
   }
 
-  cleanSelectRoutines(){
-    this.routineSelecteds.map(function(dato){
+  
+  deleteEstimateDetail(item: any) {
+    swal({
+      title: 'Estás seguro de eliminar este elemento?',
+     // text: 'Once deleted, you will not be able to recover this imaginary file!',
+      type: 'warning',
+      showCancelButton: true,
+      showConfirmButton: true,
+      cancelButtonText: 'No',
+      confirmButtonText: 'Si'
+
+    })
+    .then((willDelete) => {
+        if (willDelete.value) {
+          this.elementDelete = item;
+          console.log(item);
+          console.log(    this.elementDelete);
+          swal.showLoading();
+          this.resumenesService.deleteChecklist(Number(this.elementDelete.id))
+          .then(data => {
+            swal.showLoading();
+            const resp: any = data;
+            console.log(resp);
+
+            if (resp.success === false) {
+              swal({
+                title: 'Esta rutina presenta problemas',
+                text: 'Esta rutina no se puede eliminar',
+                type: 'error'
+               });
+            } else {
+           
+           swal({
+            title: 'Elemento eliminado',
+            type: 'success'
+           });
+
+           this.getForkliftChecklist();
+          }
+          }).catch(error => {
+            console.log(error);
+          });
+          console.log(this.elementDelete.id);
+        } else {
+         // swal('Fail');
+        }
+      console.log(willDelete);
+    });
+  }
+
+
+  cleanSelectChecklist(){
+    this.checklisSelecteds.map(function(dato){
       //if(dato.Modelo == modelo){
         dato.select = false;
       //}
@@ -553,7 +532,7 @@ export class MasterPreventiveMaintenanceComponent extends NgbDatepickerI18n {
   }
 
   cleanSelectTechnician(){
-    this.routineSelecteds.map(function(dato){
+    this.technicianSelecteds.map(function(dato){
       //if(dato.Modelo == modelo){
         dato.select = false;
       //}
@@ -562,9 +541,9 @@ export class MasterPreventiveMaintenanceComponent extends NgbDatepickerI18n {
     });
   }
 
-  SelectItemRoutines(idItem: any){// Falta organizarlo
-    var item = idItem.preventive_routines_id;
-    this.routineSelecteds.map(function(dato){
+  SelectItemChecklist(idItem: any){// Falta organizarlo
+    var item = idItem.checklists_id;
+    this.checklisSelecteds.map(function(dato){
 
       console.log(idItem);
       console.log(dato);
@@ -578,7 +557,7 @@ export class MasterPreventiveMaintenanceComponent extends NgbDatepickerI18n {
   }
   
   SelectItemTechnician(idTechnician: any){// Falta organizarlo
-    var tech = idTechnician.technician_id
+    var tech = idTechnician.technicians_id
     console.log('jajaja');
     console.log(this.technicianSelecteds);
     this.technicianSelecteds.map(function(dato){
@@ -594,19 +573,40 @@ export class MasterPreventiveMaintenanceComponent extends NgbDatepickerI18n {
     //If exist, remove the date
     
     
-    this.cleanSelectRoutines();
+    this.cleanSelectChecklist();
     this.cleanSelectTechnician();
-    document.getElementById( 'assignPrevetiveHide').click();
+    document.getElementById( 'assignChecklistHide').click();
 }
   addCancelUpdateDate(){
     //If exist, remove the date
     
     
-    this.cleanSelectRoutines();
+    this.cleanSelectChecklist();
     this.cleanSelectTechnician();
-    document.getElementById( 'assignPreveUpdatetiveHide').click();
+    document.getElementById( 'assignUpdatePrevetiveHide').click();
 }
 
+onDateSelectionFrom(date: any) {
+
+
+  var fromD = new Date(this.fromDate.year, this.fromDate.month, this.fromDate.day); //31 de diciembre de 2015
+  var untilD = new Date(this.untilDate.year, this.untilDate.month, this.untilDate.day);
+
+  console.log(this.fromDate.day);
+  if(fromD> untilD){
+    console.log('es mayor');
+    this.untilDate=this.fromDate;
+  }
+}
+
+ onDateSelectionUntil(date: any) {
+    var fromD = new Date(this.fromDate.year, this.fromDate.month, this.fromDate.day); //31 de diciembre de 2015
+    var untilD = new Date(this.untilDate.year, this.untilDate.month, this.untilDate.day);
+    if( untilD< fromD){
+      console.log('es mayor');
+      this.fromDate=this.untilDate;
+    }
+}
 
   ngOnInit() {
   }
@@ -620,5 +620,5 @@ export class MasterPreventiveMaintenanceComponent extends NgbDatepickerI18n {
   getMonthFullName(month: number): string {
     return this.getMonthShortName(month);
   }
- 
+
 }

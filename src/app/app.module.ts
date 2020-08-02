@@ -15,7 +15,6 @@ import { MasterSharedModule } from './master-shared/master-shared.module';
 import {MenuItems} from './shared/menu-items/menu-items';
 import { MenuItemsMasterService } from './master-shared/menu-master/menu-items-master.service';
 import {AutocompleteLibModule} from 'angular-ng-autocomplete';
-import { MasterCorrectiveMaintenanceComponent } from './master-corrective-maintenance/master-corrective-maintenance.component';
 
 
 
@@ -37,7 +36,6 @@ import { MasterCorrectiveMaintenanceComponent } from './master-corrective-mainte
     AuthComponent,
     BreadcrumbsComponent,
     MasterAdminComponent,
-    MasterCorrectiveMaintenanceComponent,
     
     
 

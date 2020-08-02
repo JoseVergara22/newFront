@@ -62,6 +62,9 @@ import { MasterToiletComponent } from './master-toilet/master-toilet.component';
 import { MasterResumenesComponent } from './master-resumenes/master-resumenes.component';
 import { MasterEditResumenesComponent } from './master-edit-resumenes/master-edit-resumenes.component';
 import { MasterPreventiveMaintenanceComponent } from './master-preventive-maintenance/master-preventive-maintenance.component';
+import { MasterChecklistMaintenanceComponent } from './master-checklist-maintenance/master-checklist-maintenance.component';
+import { MasterCorrectiveMaintenanceComponent } from './master-corrective-maintenance/master-corrective-maintenance.component';
+
 
 
 const routes: Routes = [
@@ -284,6 +287,12 @@ const routes: Routes = [
   },{
     path:'prevetiveMaintenance',
     component: MasterPreventiveMaintenanceComponent
+  },{
+    path:'checklistMaintenance',
+    component: MasterChecklistMaintenanceComponent
+  },{
+    path:'correctiveMaintenance',
+    component: MasterCorrectiveMaintenanceComponent
   }
   
  

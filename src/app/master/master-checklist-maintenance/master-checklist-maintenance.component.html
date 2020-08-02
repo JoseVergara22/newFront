@@ -51,9 +51,9 @@
 
           <div class=" align-buttons" >
             <div >
-            <button type="button" style="display:none;" id="showUpdateCorrective" (click)="modalUpdateCorrective.show()" class="btn btn-primary waves-effect">Checkear</button>
+            <button type="button" style="display:none;" id="showUpdatePreventive" (click)="modalUpdateChecklist.show()" class="btn btn-primary waves-effect">Checkear</button>
 
-            <button class="btn btn-primary" (click)="getCorrectiveRoutines()"><i class="icofont icofont-search" ></i>Buscar</button>
+            <button class="btn btn-primary" (click)="getForkliftChecklist()"><i class="icofont icofont-search" ></i>Buscar</button>
           </div>
           </div>
           
@@ -61,17 +61,16 @@
           <div class=" align-buttons" >
             <div >
             
-            <button *ngIf="selectedForkliftId!=0" class="btn btn-primary" (click)="modalAssingCorrective.show()"><i class="icofont icofont-search" ></i>Crear</button>
+            <button *ngIf="selectedForkliftId!=0" class="btn btn-primary" (click)="modalAssingChecklist.show()"><i class="icofont icofont-search" ></i>Crear</button>
           </div>
           </div>
 
-          <ngx-datatable #table class="data-table" [rows]="currentCorrective"   [columnMode]="'flex'" [headerHeight]="50" [footerHeight]="50" [rowHeight]="'auto'" [limit]="20">
+          <ngx-datatable #table class="data-table" [rows]="currentChecklist"   [columnMode]="'flex'" [headerHeight]="50" [footerHeight]="50" [rowHeight]="'auto'" [limit]="20">
 
-            <ngx-datatable-column  [flexGrow]="2" [sortable]="false" [resizeable]="false"  name="Obervación" [sortable]="false"  prop="work"></ngx-datatable-column>
             <ngx-datatable-column  [flexGrow]="2" [sortable]="false" [resizeable]="false"  name="Fecha" [sortable]="false"  prop="date"></ngx-datatable-column>
             <ngx-datatable-column  [flexGrow]="2" name="Ver" [sortable]="false"  sortable="false" prop="status">
               <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
-    
+      
                 <button (click)="updateDate(row)"  class="btn btn-primary btn-icon"><i class="icofont icofont-pencil-alt-5"></i></button>
                 <button (click)="deleteEstimateDetail(row)" class="btn btn-danger btn-icon"><i class="icofont icofont-ui-delete"></i></button>
             
@@ -83,8 +82,7 @@
   </div>
 </div>
 
-
-<app-modal-basic #modalAssingCorrective [dialogClass]="'modal-lg'">
+<app-modal-basic #modalAssingChecklist [dialogClass]="'modal-lg'">
   <div class="app-modal-header">
 
       <h4 class="modal-title">Asignar Checklist</h4>
@@ -199,15 +197,18 @@
     </div>
   </div>
 
-    <div class="form-group row">
-    
-      <app-card style="width: 100%; height: 300px;">
-        <div style="overflow-y: scroll; height: 300px">
-            <h5>Observación</h5>
-            <textarea type="text"  class="form-control" id="comment"  [(ngModel)]="observationCorrective"cols="30" rows="10"></textarea>
-          </div>
-        </app-card>
-    </div>
+        <div class="form-group row">
+  
+          <app-card style="width: 100%; height: 300px;">
+            <div style="overflow-y: scroll; height: 300px">
+                <h5>Checklist</h5>
+                
+                <div   *ngFor="let item of checklisSelecteds">
+                  <input type="checkbox" [(ngModel)]="item.select"  data-md-icheck /> {{item.item}}<br>
+                </div>
+              </div>
+            </app-card>
+        </div>
             <br>
             <br>
             <div class="form-group row">
@@ -223,15 +224,15 @@
     <br>
     <br>
             <div class="align-buttons">
-              <button type="button" class="btn btn-default waves-effect" id="assignChecklistHide" (click)="addCancelDate()" (click)="modalAssingCorrective.hide()">Cancelar</button>
-              <button type="button" style="display: none;" class="btn btn-default waves-effect" id="assignCorrectiveHide" (click)="modalAssingCorrective.hide()">Cancelar</button>
-              <button type="submit " class="btn btn-primary m-b-0 " (click)="createCorrective()" >Guardar</button>
+              <button type="button" class="btn btn-default waves-effect" id="assignChecklistHide" (click)="addCancelDate()">Cancelar</button>
+              <button type="button" style="display: none;" class="btn btn-default waves-effect" id="assignChecklistHide" (click)="modalAssingChecklist.hide()">Cancelar</button>
+              <button type="submit " class="btn btn-primary m-b-0 " (click)="createChecklist()" >Guardar</button>
             </div>
     </div>
 </app-modal-basic>
 
 
-<app-modal-basic #modalUpdateCorrective [dialogClass]="'modal-lg'">
+<app-modal-basic #modalUpdateChecklist [dialogClass]="'modal-lg'">
   <div class="app-modal-header">
 
       <h4 class="modal-title">Actualizar asignación Checklist</h4>
@@ -348,15 +349,18 @@
 
     </div>
 
-    <div class="form-group row">
-    
-      <app-card style="width: 100%; height: 300px;">
-        <div style="overflow-y: scroll; height: 300px">
-            <h5>Observación</h5>
-            <textarea type="text"  class="form-control" id="comment"  [(ngModel)]="observationUpdateCorrective"cols="30" rows="10"></textarea>
+          <div class="form-group row">
+  
+            <app-card style="width: 100%; height: 300px;">
+              <div style="overflow-y: scroll; height: 300px">
+                  <h5>Checklist</h5>
+                  
+                  <div   *ngFor="let item of checklisSelecteds">
+                    <input type="checkbox" [(ngModel)]="item.select"  data-md-icheck /> {{item.item}}<br>
+                  </div>
+                </div>
+              </app-card>
           </div>
-        </app-card>
-    </div>
             <br>
             <br>
           <div class="form-group row">
@@ -372,9 +376,9 @@
           <br>
           <br>
             <div class="align-buttons">
-              <button type="button" class="btn btn-default waves-effect" id="assignPreveUpdatetiveHide" (click)="addCancelUpdateDate()" (click)="modalUpdateCorrective.hide()">Cancelar</button>
-              <button type="button" style="display: none;" class="btn btn-default waves-effect" id="assignUpdateCorrectiveHide" (click)="modalUpdateCorrective.hide()">Cancelar</button>
-              <button type="submit " class="btn btn-primary m-b-0 " (click)="updateCorrective()" >Guardar</button>
+              <button type="button" class="btn btn-default waves-effect" id="assignPreveUpdatetiveHide" (click)="addCancelUpdateDate()" (click)="modalUpdateChecklist.hide()">Cancelar</button>
+              <button type="button" style="display: none;" class="btn btn-default waves-effect" id="assignUpdatePrevetiveHide" (click)="modalUpdateChecklist.hide()">Cancelar</button>
+              <button type="submit " class="btn btn-primary m-b-0 " (click)="updatePreventive()" >Guardar</button>
             </div>
       </div>          
 </app-modal-basic>
