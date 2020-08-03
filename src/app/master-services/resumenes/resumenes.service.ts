@@ -292,7 +292,7 @@ export class ResumenesService {
     });
   }
 
-  deletePreventive(id: number) {
+  deletePreventive(forklift_id: number,routines: string,technicians_id: string) {
     console.log('ole ole ole');
     console.log(status);
     return new Promise(resolve => {
@@ -308,7 +308,7 @@ export class ResumenesService {
       };
       const postParams = {
       };
-      this.http.delete(this.apiEndPoint+'api/delete_preventive/' + id, httpOptions)
+      this.http.delete(this.apiEndPoint+'api/delete_preventive?forklift_id='+forklift_id+'&routines'+routines+'&technicians_id'+technicians_id, httpOptions)
         .map(res => res).subscribe(data => {
           resolve(data);
         }, error => {
@@ -317,7 +317,7 @@ export class ResumenesService {
     });
   }
 
-  deleteChecklist(id: number) {
+  deleteChecklist(forklift_id: number,checklist: string,technicians_id: string) {
     console.log('ole ole ole');
     console.log(status);
     return new Promise(resolve => {
@@ -333,7 +333,7 @@ export class ResumenesService {
       };
       const postParams = {
       };
-      this.http.delete(this.apiEndPoint+'api/delete_checklist/' + id, httpOptions)
+      this.http.delete(this.apiEndPoint+'api/delete_checklist?forklift_id='+forklift_id+'&checklist'+checklist+'&technicians_id'+technicians_id, httpOptions)
         .map(res => res).subscribe(data => {
           resolve(data);
         }, error => {
@@ -358,7 +358,7 @@ export class ResumenesService {
       };
       const postParams = {
       };
-      this.http.delete(this.apiEndPoint+'api/update_rutine_corrective/' + id, httpOptions)
+      this.http.delete(this.apiEndPoint+'api/delete_corrective/' + id, httpOptions)
         .map(res => res).subscribe(data => {
           resolve(data);
         }, error => {
