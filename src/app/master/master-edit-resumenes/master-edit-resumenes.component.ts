@@ -43,7 +43,6 @@ export class MasterEditResumenesComponent extends NgbDatepickerI18n {
 
   fromDate: NgbDateStruct;
   untilDate: NgbDateStruct;
-  correctiveDate: NgbDateStruct;
 
   forkliftId: any;
   forklift: any;
@@ -91,6 +90,10 @@ export class MasterEditResumenesComponent extends NgbDatepickerI18n {
 
   selectedMinutChecklist: any= 0;
   selectedHourChecklist: any= 0;
+
+  preventiveDate: any;
+  checklistDate: any;
+  correctiveDate: any;
   
   constructor(private restService: RestService, private resumenesService: ResumenesService, private router: Router, 
     private forkliftService: ForkliftService, private _i18n: I18n, private calendar: NgbCalendar, public formatter: NgbDateParserFormatter,
@@ -106,7 +109,6 @@ export class MasterEditResumenesComponent extends NgbDatepickerI18n {
       var ngbDateStruct = { day: date.getDate(), month: date.getMonth()+1, year: date.getFullYear()};
       this.fromDate=ngbDateStruct;
       this.untilDate=ngbDateStruct;
-      this.correctiveDate=ngbDateStruct;
      }
 
      getForklifs(id) {
@@ -301,229 +303,174 @@ export class MasterEditResumenesComponent extends NgbDatepickerI18n {
     }
   }
 
-  createPreventive(){
+  showPreventive(row: any){
     swal({
       title: 'Obteniendo información ...',
       allowOutsideClick: false
     });
     swal.showLoading();
-    let params;
-     // poner los 0
-     var day = (this.fromDate.day < 10 ? '0' : '') +this.fromDate.day;
+
+    console.log(row);
+    this.preventiveDate = row.date;
+    var preventive = row.result.preventiveRoutines;
+    var tech =  row.result.technicians;
+    for (let item of  preventive) {
+      console.log(item); // 1, "string", false
+
+      this.routineSelected= {
+        id: item.id,
+        item: item.description,
+        select: true
+      }
+      this.routineSelecteds.push(this.routineSelected);
+  }
+
+  console.log("ole ole");
+  console.log(this.routineSelecteds);
+
+
+    for (let item of  tech) {
+      console.log(item); // 1, "string", false
+
+      this.technicianSelected= {
+        id: item.id,
+        item: item.name,
+        select: true
+      }
+      this.technicianSelecteds.push(this.technicianSelected);
+    
+}
+  console.log( this.technicianSelecteds);
+
+  document.getElementById( 'showPreventives').click();
+
+  swal.close();
+  }
+
+  showCorrective(row: any){
+    swal({
+      title: 'Obteniendo información ...',
+      allowOutsideClick: false
+    });
+    swal.showLoading();
+    console.log(row);
+    this.correctiveDate = row.date;
+    this.observationCorrective = row.corrective.observation;
+    var tech =  row.result.technicians;
+    this.observationCorrective;
+
+
+    for (let item of  tech) {
+      console.log(item); // 1, "string", false
+
+      this.technicianSelected= {
+        id: item.id,
+        item: item.name,
+        select: true
+      }
+      this.technicianSelecteds.push(this.technicianSelected);
+    
+    }
+    console.log( this.technicianSelecteds);
+    document.getElementById( 'showCorrectives').click();
+    swal.close();
+  }
+
+  showChecklist(row: any){
+
+    swal({
+      title: 'Obteniendo información ...',
+      allowOutsideClick: false
+    });
+    swal.showLoading();
+
+    console.log(row);
+    this.preventiveDate = row.date;
+    var checklist = row.result.checklistRoutines;
+    var tech =  row.result.technicians;
+
+    for (let item of  checklist) {
+      console.log(item); // 1, "string", false
+
+      this.checklistSelected= {
+        id: item.id,
+        item: item.description,
+        select: true
+      }
+      this.checklisSelecteds.push(this.checklistSelected);
+  }
+
+  console.log("ole ole");
+  console.log(this.checklisSelecteds);
+
+
+
+    for (let item of  tech) {
+      console.log(item); // 1, "string", false
+
+      this.technicianSelected= {
+        id: item.id,
+        item: item.name,
+        select: true
+      }
+      this.technicianSelecteds.push(this.technicianSelected);
+    
+    }
+    console.log( this.technicianSelecteds);
+    document.getElementById( 'showChecklists').click();
+    swal.close();
+  }
+
+  getRoutinesFromDate(){
+    swal({
+      title: 'Validando información ...',
+      allowOutsideClick: false
+    });
+    let from_date='';
+    let to_date='';
+  
+    var day = (this.fromDate.day < 10 ? '0' : '') +this.fromDate.day;
      // 01, 02, 03, ... 10, 11, 12
      let month = ((this.fromDate.month) < 10 ? '0' : '') + (this.fromDate.month);
      // 1970, 1971, ... 2015, 2016, ...
      var year = this.fromDate.year;
-
-     var fromD = year +'-'+ month+'-'+ day;
-     
-     //var fromD = this.fromDate.year+'-'+this.fromDate.month+'-'+this.fromDate.day; //31 de diciembre de 2015
-     // var untilD = this.untilDate.year+'-'+this.untilDate.month+'-'+this.untilDate.day;
-     params=fromD+' 00:00:00';
-
-      console.log('entro');
-      console.log(this.routineSelecteds);
-
-      for (let item of this.routineSelecteds) {
-        console.log('entro');
-        if(item.select){
-         console.log(item);
-         console.log('entro');
-          this.preventiveList = this.preventiveList + item.id +',';
-          console.log('entro');
-        }
-      }
-
-      console.log(this.technicianSelecteds);
-      for (let item of this.technicianSelecteds) {
-        console.log('entro');
-        if(item.select){
-          console.log(item);
-          console.log('entro');
-            this.technicianList = this.technicianList + item.id +',';
-          }
-        }
-        console.log(this.forklift);
-        this.resumenesService.storePreventive(this.forkliftId,this.forklift.customer_id,this.forklift.branch_offices_id,this.preventiveList,this.technicianList,params).then(data => {
-          const resp: any = data;
-          console.log(data);
-          if (resp.success == false) {
-            swal({
-              title:'Error',
-              text: 'Ha ocurrido un error',
-              type: 'error'
-             });
-          } else {
-          swal.close();
-          
-          let result  = resp.data;
-          console.log(result);
-          document.getElementById('assignPrevetiveHide').click();
-          this.getTechnician();
-          this.getPreventiveRoutines();
-          swal({
-            title: 'Guardado con exito',
-            type: 'success'
-           });
-          }
-          }).catch(error => {
-            swal.close();
-            swal({
-              title:'Error',
-              text: 'Ha ocurrido un error',
-              type: 'error'
-            });
-            console.log(error);
-          });
-  }
-
-  createChecklist(){
-    swal({
-      title: 'Obteniendo información ...',
-      allowOutsideClick: false
-    });
-    swal.showLoading();
-    let params;
-
+  
      // until poner los ceros
      var dayUntil = (this.untilDate.day < 10 ? '0' : '') +this.untilDate.day;
      // 01, 02, 03, ... 10, 11, 12
      let monthUntil = ((this.untilDate.month) < 10 ? '0' : '') + (this.untilDate.month);
      // 1970, 1971, ... 2015, 2016, ...
      var yearUntil = this.untilDate.year;    
-
+  
+     var fromD = year +'-'+ month+'-'+ day;
      var untilD = yearUntil +'-'+ monthUntil+'-'+ dayUntil;
-     //var fromD = this.fromDate.year+'-'+this.fromDate.month+'-'+this.fromDate.day; //31 de diciembre de 2015
-     // var untilD = this.untilDate.year+'-'+this.untilDate.month+'-'+this.untilDate.day;
-     params=untilD+' 00:00:00';
-
-      console.log('entro');
-      console.log(this.checklisSelecteds);
-      for (let item of this.checklisSelecteds) {
-        console.log('entro');
-          if(item.select){
-            console.log(item);
-            console.log('entro');
-            this.checkedList = this.checkedList + item.id +',';
-          }
-      }
-
-      console.log(this.technicianSelecteds);
-      for (let item of this.technicianSelecteds) {
-        console.log('entro');
-        if(item.select){
-          console.log(item);
-          console.log('entro');
-            this.technicianList = this.technicianList + item.id +',';
-          }
-        }
-        console.log(this.forklift);
-        this.resumenesService.storeChecklist(this.forkliftId,this.forklift.customer_id,this.forklift.branch_offices_id,this.checkedList,this.technicianList,params).then(data => {
-          const resp: any = data;
-          console.log(data);
-          if (resp.success== false) {
-            swal({
-              title:'Error',
-              text: 'Ha ocurrido un error',
-              type: 'error'
-             });
-          } else {
-          swal.close();
-          let result  = resp.data;
-           console.log(result);
-          document.getElementById('assignChecklistHide').click();
-          this.getForkliftChecklist();
-          swal({
-            title: 'Guardado con exito',
-            type: 'success'
-           });
-          }
-        }).catch(error => {
-            swal.close();
-            swal({
-              title:'Error',
-              text: 'Ha ocurrido un error',
-              type: 'error'
-            });
-        console.log(error);
-        });
-  }
-
-  createCorrective(){
-    swal({
-      title: 'Obteniendo información ...',
-      allowOutsideClick: false
-    });
-    swal.showLoading();
-    if(this.observationCorrective != ''){
-      let params;
-
-      // until poner los ceros
-      var dayUntil = (this.untilDate.day < 10 ? '0' : '') +this.untilDate.day;
-      // 01, 02, 03, ... 10, 11, 12
-      let monthUntil = ((this.untilDate.month) < 10 ? '0' : '') + (this.untilDate.month);
-      // 1970, 1971, ... 2015, 2016, ...
-      var yearUntil = this.untilDate.year;    
- 
-      var untilD = yearUntil +'-'+ monthUntil+'-'+ dayUntil;
-      //var fromD = this.fromDate.year+'-'+this.fromDate.month+'-'+this.fromDate.day; //31 de diciembre de 2015
-      // var untilD = this.untilDate.year+'-'+this.untilDate.month+'-'+this.untilDate.day;
-      params=untilD+' 00:00:00';
- 
-       console.log('entro');
-       
- 
-       console.log(this.technicianSelecteds);
-       for (let item of this.technicianSelecteds) {
-         console.log('entro');
-         if(item.select){
-           console.log(item);
-           console.log('entro');
-             this.technicianList = this.technicianList + item.id +',';
-           }
-         }
-         console.log(this.forklift);
-         this.resumenesService.storeCorrective(this.forkliftId,this.forklift.customer_id,this.forklift.branch_offices_id,this.observationCorrective,this.technicianList,params).then(data => {
-           const resp: any = data;
-           console.log(data);
-           if (resp.success== false) {
-             swal({
-               title:'Error',
-               text: 'Ha ocurrido un error',
-               type: 'error'
-              });
-           } else {
-           swal.close();
-           let result  = resp.data;
-           console.log(result);
-           document.getElementById('assignCorrectiveHide').click();
-           this.getCorrectiveRoutines();
-           swal({
-            title: 'Guardado con exito',
-            type: 'success'
-           });
-           }
-         }).catch(error => {
-             swal.close();
-             swal({
-               title:'Error',
-               text: 'Ha ocurrido un error',
-               type: 'error'
-             });
-         console.log(error);
-         });
-    }else{
-      swal({
-        title:'Campo vacio',
-        text: 'Debe ingresar una observación',
-        type: 'warning'
-      });
-    }
+  
+     from_date=fromD+' 00:00:00';
+     to_date=untilD+' 23:59:59';
+    
+     this.getPreventiveRoutinesFilter(from_date,to_date);
+     this.getCorrectiveRoutinesFilter(from_date,to_date);
+     this.getForkliftChecklistFilter(from_date,to_date);
   }
 
   getPreventiveRoutines(){
     // Llenar información de cliente  
     this.resumenesService.getWorkForkliftPreventive(this.forkliftId).then(data => {
+      const resp: any = data;
+      console.log(data);
+      swal.close();
+      this.currentPreventive  = resp.data;
+
+
+    }).catch(error => {
+      console.log(error);
+    });
+  
+  }
+
+  getPreventiveRoutinesFilter(fromdate:string, to_date:string){
+    // Llenar información de cliente  
+    this.resumenesService.getWorkForkliftPreventiveFilter(this.forkliftId,fromdate,to_date).then(data => {
       const resp: any = data;
       console.log(data);
       swal.close();
@@ -552,9 +499,40 @@ export class MasterEditResumenesComponent extends NgbDatepickerI18n {
   
   }
 
+  getCorrectiveRoutinesFilter(fromdate:string, to_date:string){
+    // Llenar información de cliente  
+    this.resumenesService.getWorkForkliftCorrectiveFilter(this.forkliftId,fromdate,to_date).then(data => {
+      const resp: any = data;
+      console.log(data);
+      swal.close();
+      this.currentCorrective  = resp.data;
+      this.currentCorrective  = this.currentCorrective.corrective;
+
+
+    }).catch(error => {
+      console.log(error);
+    });
+  
+  }
+
   getForkliftChecklist(){
     // Llenar información de cliente  
     this.resumenesService.getWorkForkliftChecklist(this.forkliftId).then(data => {
+      const resp: any = data;
+      console.log(data);
+      swal.close();
+      this.currentChecklist  = resp.data;
+
+
+    }).catch(error => {
+      console.log(error);
+    });
+  
+  }
+
+  getForkliftChecklistFilter(fromdate:string, to_date:string){
+    // Llenar información de cliente  
+    this.resumenesService.getWorkForkliftChecklistFilter(this.forkliftId,fromdate,to_date).then(data => {
       const resp: any = data;
       console.log(data);
       swal.close();

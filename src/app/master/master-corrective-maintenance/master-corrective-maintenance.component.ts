@@ -86,6 +86,8 @@ export class MasterCorrectiveMaintenanceComponent extends NgbDatepickerI18n {
   currentCorrective: any;
   correctiveId: any;
 
+  row: any;
+
   constructor(private restService: RestService, private resumenesService: ResumenesService, private router: Router, 
     private forkliftService: ForkliftService, private _i18n: I18n, private calendar: NgbCalendar, public formatter: NgbDateParserFormatter) {
       super();
@@ -107,7 +109,7 @@ export class MasterCorrectiveMaintenanceComponent extends NgbDatepickerI18n {
         console.log(data);
         swal.close();
         this.currentCorrective  = resp.data;
-        this.currentCorrective  = this.currentCorrective.corrective;
+        this.row  = this.currentCorrective;
   
   
       }).catch(error => {
@@ -302,10 +304,10 @@ export class MasterCorrectiveMaintenanceComponent extends NgbDatepickerI18n {
   updateDate(row: any){
 
     console.log(row);
-    this.observationUpdateCorrective = row.corrective.observation;
-    this.technicianUpdate = row.technicians;
-    this.correctiveId = row.date;
-
+    this.observationUpdateCorrective = row.result.corrective.work;
+    this.technicianUpdate = row.result.technicians;
+    this.correctiveId = row.result.corrective.id;
+    this.untilDate = row.result.corrective.date;
     for (let elemento of this.technicianUpdate) {
       console.log('ingreso a mirar tecnicos');
       this.SelectItemTechnician(elemento);
@@ -321,7 +323,7 @@ export class MasterCorrectiveMaintenanceComponent extends NgbDatepickerI18n {
       allowOutsideClick: false
     });
     swal.showLoading();
-    if(this.observationCorrective != ''){
+    if(this.observationUpdateCorrective != ''){
     let params;
      // poner los 0
      var day = (this.fromDate.day < 10 ? '0' : '') +this.fromDate.day;
@@ -422,7 +424,7 @@ export class MasterCorrectiveMaintenanceComponent extends NgbDatepickerI18n {
           console.log(item);
           console.log(this.elementDelete);
           swal.showLoading();
-          this.resumenesService.deleteCorrective(Number(this.elementDelete.corrective.id))
+          this.resumenesService.deleteCorrective(Number(this.elementDelete.result.corrective.id))
           .then(data => {
             swal.showLoading();
             const resp: any = data;
@@ -455,13 +457,8 @@ export class MasterCorrectiveMaintenanceComponent extends NgbDatepickerI18n {
   }
 
   cleanSelectCorrective(){
-    this.checklisSelecteds.map(function(dato){
-      //if(dato.Modelo == modelo){
-        dato.select = false;
-      //}
-      
-      return dato;
-    });
+    this.observationUpdateCorrective = '';
+    this.observationCorrective = '';
   }
 
   cleanSelectTechnician(){
@@ -488,7 +485,7 @@ export class MasterCorrectiveMaintenanceComponent extends NgbDatepickerI18n {
     
     this.cleanSelectCorrective();
     this.cleanSelectTechnician();
-    document.getElementById( 'assignUpdatePrevetiveHide').click();
+    document.getElementById( 'assignUpdateCorrectiveHide').click();
 }
 
 SelectItemChecklist(idItem: any){// Falta organizarlo
@@ -507,7 +504,7 @@ SelectItemChecklist(idItem: any){// Falta organizarlo
 }
 
 SelectItemTechnician(idTechnician: any){// Falta organizarlo
-  var tech = idTechnician.technicians_id
+  var tech = idTechnician.technician_id
   console.log('jajaja');
   console.log(this.technicianSelecteds);
   this.technicianSelecteds.map(function(dato){

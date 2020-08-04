@@ -23,6 +23,7 @@ export class MasterResumenesComponent implements OnInit {
   forklifts: any;
   customers: any;
   now:any;
+  regional:any;
 
   forkliftText = '';
   rowsClient: any;
@@ -36,7 +37,7 @@ export class MasterResumenesComponent implements OnInit {
   constructor(private restService: RestService, private resumenesService: ResumenesService, private router: Router, 
      private forkliftService: ForkliftService,    private calendar: NgbCalendar, public formatter: NgbDateParserFormatter) { 
 
-      this.getCustomers();
+      this.getRegional();
 
      
      }
@@ -44,17 +45,30 @@ export class MasterResumenesComponent implements OnInit {
   ngOnInit() {
   }
 
-  getCustomers() {
-    this.restService.getCustomer().then(data => {
+  getRegional(){
+    this.restService.getRegionalAll().then(data => {
+      const resp: any = data;
+      console.log(data);
+      swal.close();
+      this.regional  = resp.data;
+    }).catch(error => {
+      console.log(error);
+    });
+  }
+
+  getCustomerRegionals() {
+    this.restService.getRegionalCustomers(this.selectedRegionalId.id).then(data => {
       const resp: any = data;
       console.log(data);
       swal.close();
       this.customers  = resp.data;
+      
+      //asignar valores customer;
+    
     }).catch(error => {
       console.log(error);
     });
    }
-
   getBranchOffices() {
     if(this.selectedBusinessId!=0){
     
@@ -75,7 +89,24 @@ export class MasterResumenesComponent implements OnInit {
     }
   }
 
-  
+  getForklifs() {
+    if(this.selectedBranchOfficeId!=0){
+    console.log('this.selectedBusinessId.id');
+    console.log(this.selectedBranchOfficeId.id);
+
+  this.forkliftService.getForkliftBranchOfficesFull(this.selectedBranchOfficeId.id).then(data => {
+      const resp: any = data;
+      console.log(data);
+      swal.close();
+      this.forklifts  = resp.data;
+ 
+    }).catch(error => {
+      console.log(error);
+    });
+  }else{
+    
+  }
+}
 
 getFilters() {
 
@@ -106,11 +137,11 @@ getFilters() {
         }     
       }
 
-      if(this.forkliftText!=''){
+      if(this.selectedForkliftId!=0){
         if(cont>0){
-          params=params+'&&forkliftText='+this.forkliftText;
+          params=params+'&&forklift_id='+this.selectedForkliftId.id;
         }else{
-          params=params+'forkliftText='+this.forkliftText;
+          params=params+'forklift_id='+this.selectedForkliftId.id;
           cont++;
         }
       }

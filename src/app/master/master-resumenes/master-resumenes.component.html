@@ -7,21 +7,22 @@
           <br>
 
           <div class="form-group row">
+
             <div class="col-sm-6">
-              <h6>Cliente</h6>
+              <h6>Sucursales  <span style="color:red;">*</span> </h6>
+
+              <select class="form-control" (change)="getCustomerRegionals()"  [(ngModel)]="selectedRegionalId" > 
+                          <option value="0" selected>Seleccionar sucursal </option>
+                           <option   *ngFor="let reg of regional" [ngValue]="reg"   > {{reg.description}}  </option>
+                      <!--  <option value="0" selected>Seleccionar perfil</option> -->
+                     </select>
+          </div>
+
+            <div class="col-sm-6">
+              <h6>Cliente  <span style="color:red;">*</span></h6>
               <select class="form-control" (change)="getBranchOffices()" [(ngModel)]="selectedBusinessId"> 
                           <option value="0" selected>Seleccionar cliente </option>
                       <option   *ngFor="let customer of customers" [ngValue]="customer"> {{customer.business_name}}  </option>
-                      <!--  <option value="0" selected>Seleccionar perfil</option> -->
-              </select>
-            </div>
-          
-<!-- (change)="getForklifs()" -->
-            <div class="col-sm-4">
-            <h6>Sede</h6>
-              <select class="form-control"  [(ngModel)]="selectedBranchOfficeId" > 
-                          <option value="0" selected>Seleccionar sede </option>
-                          <option   *ngFor="let branchOffice of branchOffices" [ngValue]="branchOffice"   > {{branchOffice.branch_name}}  </option>
                       <!--  <option value="0" selected>Seleccionar perfil</option> -->
               </select>
             </div>
@@ -29,12 +30,26 @@
 
           <div class="form-group row">
             <div class="col-sm-4">
-              <h6>Equipo </h6>
-              <input type="text"   [(ngModel)]="forkliftText"   class="form-control">
-          </div>
+              <h6>Sede  <span style="color:red;">*</span></h6>
+                <select class="form-control" (change)="getForklifs()" [(ngModel)]="selectedBranchOfficeId" > 
+                            <option value="0" selected>Seleccionar sede </option>
+                            <option   *ngFor="let branchOffice of branchOffices" [ngValue]="branchOffice"   > {{branchOffice.branch_name}}  </option>
+                        <!--  <option value="0" selected>Seleccionar perfil</option> -->
+                </select>
+              </div>
+
+            <div class="col-sm-4">
+              <h6>Equipo  <span style="color:red;">*</span></h6>
+
+              <select class="form-control"   [(ngModel)]="selectedForkliftId" > 
+                          <option value="0" selected>Seleccionar equipo </option>
+                          <option   *ngFor="let forklift of forklifts" [ngValue]="forklift"   > {{forklift.full_name}}  </option>
+                      <!--  <option value="0" selected>Seleccionar perfil</option> -->
+                     </select>
+            </div>
           </div>
 
-          <div class="col-sm-3 align-buttons">
+          <div class="align-buttons">
             <div >
             <button type="button" style="display:none;" id="showAssignInvoice" class="btn btn-primary waves-effect">Checkear</button>
 

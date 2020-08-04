@@ -3,7 +3,7 @@
 
   <div class="col-sm-12">
       <app-card>
-          <h5>Administración de Checklist</h5>
+          <h5>Administración de Mantenimiento Correctivo</h5>
           <br>
 
           <div class="form-group row">
@@ -65,10 +65,10 @@
           </div>
           </div>
 
-          <ngx-datatable #table class="data-table" [rows]="currentCorrective"   [columnMode]="'flex'" [headerHeight]="50" [footerHeight]="50" [rowHeight]="'auto'" [limit]="20">
+          <ngx-datatable #table class="data-table" [rows]="row"   [columnMode]="'flex'" [headerHeight]="50" [footerHeight]="50" [rowHeight]="'auto'" [limit]="20">
 
-            <ngx-datatable-column  [flexGrow]="2" [sortable]="false" [resizeable]="false"  name="Obervación" [sortable]="false"  prop="work"></ngx-datatable-column>
-            <ngx-datatable-column  [flexGrow]="2" [sortable]="false" [resizeable]="false"  name="Fecha" [sortable]="false"  prop="date"></ngx-datatable-column>
+            <ngx-datatable-column  [flexGrow]="2" [sortable]="false" [resizeable]="false"  name="Obervación" [sortable]="false"  prop="result.corrective.work"></ngx-datatable-column>
+            <ngx-datatable-column  [flexGrow]="2" [sortable]="false" [resizeable]="false"  name="Fecha" [sortable]="false"  prop="result.corrective.date"></ngx-datatable-column>
             <ngx-datatable-column  [flexGrow]="2" name="Ver" [sortable]="false"  sortable="false" prop="status">
               <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
     
@@ -87,7 +87,7 @@
 <app-modal-basic #modalAssingCorrective [dialogClass]="'modal-lg'">
   <div class="app-modal-header">
 
-      <h4 class="modal-title">Asignar Checklist</h4>
+      <h4 class="modal-title">Asignar Mantenimiento</h4>
   </div>
   <div class="app-modal-body">
 
@@ -234,7 +234,7 @@
 <app-modal-basic #modalUpdateCorrective [dialogClass]="'modal-lg'">
   <div class="app-modal-header">
 
-      <h4 class="modal-title">Actualizar asignación Checklist</h4>
+      <h4 class="modal-title">Actualizar asignación de Mantenimiento</h4>
   </div>
   <div class="app-modal-body">
     

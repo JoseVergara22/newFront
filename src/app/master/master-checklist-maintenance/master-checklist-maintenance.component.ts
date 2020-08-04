@@ -50,8 +50,7 @@ export class MasterChecklistMaintenanceComponent extends NgbDatepickerI18n {
   selectedRegionalId:any = 0;
   selectedBranchOfficeId: any = 0;
   selectedForkliftId: any = 0;
-  selectedHourPreventive: any = 0;
-  selectedMinutPreventive: any = 0;
+
   branchOffices: any;
   forklifts: any;
   customers: any;
@@ -396,11 +395,11 @@ export class MasterChecklistMaintenanceComponent extends NgbDatepickerI18n {
      // 1970, 1971, ... 2015, 2016, ...
      var year = this.fromDate.year;
      
-     console.log( this.selectedHourPreventive);
-     console.log( this.selectedMinutPreventive);
+     console.log( this.selectedHourChecklist);
+     console.log( this.selectedMinutChecklist);
 
-     var hour = this.selectedHourPreventive;
-     var minut = this.selectedMinutPreventive-1;
+     var hour = this.selectedHourChecklist;
+     var minut = this.selectedMinutChecklist-1;
 
      console.log(hour);
      console.log( minut);
@@ -449,7 +448,7 @@ export class MasterChecklistMaintenanceComponent extends NgbDatepickerI18n {
           
           let result  = resp.data;
           console.log(result);
-          document.getElementById('assignPrevetiveHide').click();
+          document.getElementById('assignUpdateChecklistHide').click();
           
           this.getForkliftChecklist();
           swal({
@@ -487,8 +486,25 @@ export class MasterChecklistMaintenanceComponent extends NgbDatepickerI18n {
           this.elementDelete = item;
           console.log(item);
           console.log(    this.elementDelete);
+
+          var rout = '';
+          var tech = '';
+          for (let routin of this.elementDelete.result.checklistRoutines){
+            
+            rout = rout + routin.id + ','
+
+          }
+
+          for (let tec of this.elementDelete.result.technicians){
+            
+            tech = tech + tec.id + ','
+
+          }
+ 
+          console.log(rout);
+          console.log(tech);
           swal.showLoading();
-          this.resumenesService.deleteChecklist(Number(this.elementDelete.id))
+          this.resumenesService.deleteChecklist(Number(this.elementDelete.id),rout,tech)
           .then(data => {
             swal.showLoading();
             const resp: any = data;
@@ -583,7 +599,7 @@ export class MasterChecklistMaintenanceComponent extends NgbDatepickerI18n {
     
     this.cleanSelectChecklist();
     this.cleanSelectTechnician();
-    document.getElementById( 'assignUpdatePrevetiveHide').click();
+    document.getElementById( 'assignUpdateChecklistHide').click();
 }
 
 onDateSelectionFrom(date: any) {

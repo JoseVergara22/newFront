@@ -420,9 +420,27 @@ export class MasterPreventiveMaintenanceComponent extends NgbDatepickerI18n {
         if (willDelete.value) {
           this.elementDelete = item;
           console.log(item);
-          console.log(    this.elementDelete);
+          console.log(this.elementDelete);
+          console.log(this.elementDelete.result);
+          console.log(this.elementDelete.result.technicians);
+          var rout = '';
+          var tech = '';
+          for (let routin of this.elementDelete.result.preventiveRoutines){
+            
+            rout = rout + routin.id + ','
+
+          }
+
+          for (let tec of this.elementDelete.result.technicians){
+            
+            tech = tech + tec.id + ','
+
+          }
+ 
+          console.log(rout);
+          console.log(tech);
           swal.showLoading();
-          this.resumenesService.deletePreventive(Number(this.elementDelete.id))
+          this.resumenesService.deletePreventive(Number(this.selectedForkliftId.id),rout,tech)
           .then(data => {
             swal.showLoading();
             const resp: any = data;
@@ -521,7 +539,7 @@ export class MasterPreventiveMaintenanceComponent extends NgbDatepickerI18n {
           
           let result  = resp.data;
           console.log(result);
-          document.getElementById('assignPrevetiveHide').click();
+          document.getElementById('assingUpdatePrevetiveHide').click();
           
           this.getPreventiveRoutines();
           swal({
@@ -604,7 +622,7 @@ export class MasterPreventiveMaintenanceComponent extends NgbDatepickerI18n {
     
     this.cleanSelectRoutines();
     this.cleanSelectTechnician();
-    document.getElementById( 'assignPreveUpdatetiveHide').click();
+    document.getElementById( 'assingUpdatePrevetiveHide').click();
 }
 
 

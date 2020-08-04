@@ -104,6 +104,18 @@ const MENUITEMS = [
             state: 'resumenes',
             name:  'Administrar Hojas de Vida'
           },  */
+         {
+            state: 'prevetiveMaintenance',
+            name:  'Administrar Mantenimiento Preventivo'
+          },  
+          {
+            state: 'correctiveMaintenance',
+            name:  'Administrar Mantenimiento Correctivo'
+          },  
+          {
+            state: 'checklistMaintenance',
+            name:  'Administrar Asignación Checklist'
+          },  
           {
             state: 'costCenter',
             name: 'Administrar Centros de Costo'

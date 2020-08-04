@@ -151,6 +151,30 @@ export class ResumenesService {
     });
   }
 
+  getWorkForkliftPreventiveFilter(id:number,fromdate:string,to_date:string){
+    console.log(id);
+    return new Promise(resolve => {
+      const httpOptions = {
+        headers: new HttpHeaders({
+          'Content-Type':  'application/json',
+          'Authorization': 'Bearer ' + localStorage.getItem('token_user'),
+          'Accept': 'application/json'
+        })
+      };
+      
+      this.http.get(this.apiEndPoint+'api/show_preventive_filter/'+id+'?from_date='+fromdate+'&to_date='+to_date, httpOptions)
+      .map(res => res).subscribe(data => {
+        console.log("a mostrar data");
+      console.log(data);
+      resolve(data);
+      }, error => {
+        console.log("error en servicio");
+        console.log(error);
+                resolve(error);
+        });
+    });
+  }
+
   getWorkForkliftCorrective(id:number){
     console.log(id);
     return new Promise(resolve => {
@@ -175,6 +199,30 @@ export class ResumenesService {
     });
   }
 
+  getWorkForkliftCorrectiveFilter(id:number,fromdate:string,to_date:string){
+    console.log(id);
+    return new Promise(resolve => {
+      const httpOptions = {
+        headers: new HttpHeaders({
+          'Content-Type':  'application/json',
+          'Authorization': 'Bearer ' + localStorage.getItem('token_user'),
+          'Accept': 'application/json'
+        })
+      };
+      
+      this.http.get(this.apiEndPoint+'api/show_corrective_filter/'+id+'?from_date='+fromdate+'&to_date='+to_date, httpOptions)
+      .map(res => res).subscribe(data => {
+        console.log("a mostrar data");
+      console.log(data);
+      resolve(data);
+      }, error => {
+        console.log("error en servicio");
+        console.log(error);
+                resolve(error);
+        });
+    });
+  }
+
   getWorkForkliftChecklist(id:number){
     console.log(id);
     return new Promise(resolve => {
@@ -187,6 +235,30 @@ export class ResumenesService {
       };
       
       this.http.get(this.apiEndPoint+'api/show_checklist/'+id, httpOptions)
+      .map(res => res).subscribe(data => {
+        console.log("a mostrar data");
+      console.log(data);
+      resolve(data);
+      }, error => {
+        console.log("error en servicio");
+        console.log(error);
+                resolve(error);
+        });
+    });
+  }
+
+  getWorkForkliftChecklistFilter(id:number,fromdate:string,to_date:string){
+    console.log(id);
+    return new Promise(resolve => {
+      const httpOptions = {
+        headers: new HttpHeaders({
+          'Content-Type':  'application/json',
+          'Authorization': 'Bearer ' + localStorage.getItem('token_user'),
+          'Accept': 'application/json'
+        })
+      };
+      
+      this.http.get(this.apiEndPoint+'api/show_checklist_filter/'+id+'?from_date='+fromdate+'&to_date='+to_date, httpOptions)
       .map(res => res).subscribe(data => {
         console.log("a mostrar data");
       console.log(data);
@@ -294,7 +366,9 @@ export class ResumenesService {
 
   deletePreventive(forklift_id: number,routines: string,technicians_id: string) {
     console.log('ole ole ole');
-    console.log(status);
+    console.log(forklift_id);
+    console.log(routines);
+    console.log(technicians_id);
     return new Promise(resolve => {
       const headers = new HttpHeaders();
       headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user'))); // 'Bearer ' +
@@ -308,7 +382,8 @@ export class ResumenesService {
       };
       const postParams = {
       };
-      this.http.delete(this.apiEndPoint+'api/delete_preventive?forklift_id='+forklift_id+'&routines'+routines+'&technicians_id'+technicians_id, httpOptions)
+      console.log('forklift_id='+forklift_id+'&routines='+routines+'&technicians_id='+technicians_id);
+      this.http.delete(this.apiEndPoint+'api/delete_preventive?forklift_id='+forklift_id+'&routines='+routines+'&technicians_id='+technicians_id, httpOptions)
         .map(res => res).subscribe(data => {
           resolve(data);
         }, error => {
@@ -333,7 +408,7 @@ export class ResumenesService {
       };
       const postParams = {
       };
-      this.http.delete(this.apiEndPoint+'api/delete_checklist?forklift_id='+forklift_id+'&checklist'+checklist+'&technicians_id'+technicians_id, httpOptions)
+      this.http.delete(this.apiEndPoint+'api/delete_checklist?checklist='+checklist+'&technicians_id='+technicians_id, httpOptions)
         .map(res => res).subscribe(data => {
           resolve(data);
         }, error => {
@@ -342,7 +417,7 @@ export class ResumenesService {
     });
   }
 
-  deleteCorrective(id: number) {
+  deleteCorrective(id: number,) {
     console.log('ole ole ole');
     console.log(status);
     return new Promise(resolve => {

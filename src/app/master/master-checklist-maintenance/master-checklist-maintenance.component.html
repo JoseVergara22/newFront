@@ -70,7 +70,7 @@
             <ngx-datatable-column  [flexGrow]="2" [sortable]="false" [resizeable]="false"  name="Fecha" [sortable]="false"  prop="date"></ngx-datatable-column>
             <ngx-datatable-column  [flexGrow]="2" name="Ver" [sortable]="false"  sortable="false" prop="status">
               <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
-      
+                
                 <button (click)="updateDate(row)"  class="btn btn-primary btn-icon"><i class="icofont icofont-pencil-alt-5"></i></button>
                 <button (click)="deleteEstimateDetail(row)" class="btn btn-danger btn-icon"><i class="icofont icofont-ui-delete"></i></button>
             
@@ -377,7 +377,7 @@
           <br>
             <div class="align-buttons">
               <button type="button" class="btn btn-default waves-effect" id="assignPreveUpdatetiveHide" (click)="addCancelUpdateDate()" (click)="modalUpdateChecklist.hide()">Cancelar</button>
-              <button type="button" style="display: none;" class="btn btn-default waves-effect" id="assignUpdatePrevetiveHide" (click)="modalUpdateChecklist.hide()">Cancelar</button>
+              <button type="button" style="display: none;" class="btn btn-default waves-effect" id="assignUpdateChecklistHide" (click)="modalUpdateChecklist.hide()">Cancelar</button>
               <button type="submit " class="btn btn-primary m-b-0 " (click)="updatePreventive()" >Guardar</button>
             </div>
       </div>          
