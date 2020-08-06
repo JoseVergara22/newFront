@@ -49,12 +49,14 @@ export class MasterPreventiveMaintenanceComponent extends NgbDatepickerI18n {
   selectedBranchOfficeId: any = 0;
   selectedForkliftId: any = 0;
   selectedHourPreventive: any = 0;
-  selectedMinutPreventive: any = 1;
+  selectedMinutPreventive: any = 0;
   branchOffices: any;
   forklifts: any;
   customers: any;
   regional: any;
-
+  
+  selectedHourUpdatePreventive: any = 0;
+  selectedMinutUpdatePreventive: any = 0;
 
   rowsWork: any;
   technician: any;
@@ -288,7 +290,7 @@ export class MasterPreventiveMaintenanceComponent extends NgbDatepickerI18n {
      console.log( this.selectedMinutPreventive);
 
      var hour = this.selectedHourPreventive;
-     var minut = this.selectedMinutPreventive-1;
+     var minut = this.selectedMinutPreventive;
 
      console.log(hour);
      console.log( minut);
@@ -392,6 +394,25 @@ export class MasterPreventiveMaintenanceComponent extends NgbDatepickerI18n {
     this.preventiveUpdate = row.result.preventiveRoutines;
     this.technicianUpdate = row.result.technicians;
     this.oldDate = row.date;
+
+
+    let date = row.result.corrective.date; 
+    let dateComplete = date.substring(0,10);
+    let dateArray = dateComplete.split('-');
+    
+    let hourComplete =  date.substring(10,19);
+    let hourArray = hourComplete.split(':');
+    this.selectedHourUpdatePreventive = Number(hourArray[0]);
+    this.selectedMinutUpdatePreventive = Number(hourArray[1]);
+
+    console.log(hourComplete);
+    let year = Number(dateArray[0]);
+    let mounth = Number(dateArray[1]);
+    let day = Number(dateArray[2]);
+    var news: NgbDateStruct = { year: year, month: mounth, day: day };
+    console.log(news);
+    this.untilDate=news;
+
     for (let elemento of this.preventiveUpdate) {
       console.log('ingreso a mirar checks');
       this.SelectItemRoutines(elemento);
@@ -486,12 +507,13 @@ export class MasterPreventiveMaintenanceComponent extends NgbDatepickerI18n {
      // 1970, 1971, ... 2015, 2016, ...
      var year = this.fromDate.year;
      
-     console.log( this.selectedHourPreventive);
-     console.log( this.selectedMinutPreventive);
+     console.log( this.selectedHourUpdatePreventive);
+     console.log( this.selectedHourUpdatePreventive);
 
-     var hour = this.selectedHourPreventive;
-     var minut = this.selectedMinutPreventive-1;
+     var hour = this.selectedHourUpdatePreventive;
+     var minut = this.selectedHourUpdatePreventive;
 
+  
      console.log(hour);
      console.log( minut);
      

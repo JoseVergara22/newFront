@@ -383,7 +383,49 @@
             </div>
         </app-card>
     </div>
-
-
-
 </div>
+
+
+<app-card *ngIf="selectedProfileId==4 || selectedProfileIdUpdate==7" >
+    <div class="row">
+            <div class="col-sm-12">
+                <h5>
+                    Relacionar sucursales
+                </h5>
+                <div class="align-buttons">
+                    <button type="submit " class="btn btn-primary m-b-0 " (click)="finalRegional()">Actualizar sucursales</button>
+                </div>
+                <br>
+                <input type="checkbox"  value="m1" [checked]="checkAllRegional"  (change)="checkUncheckAllPart($event)"/> <strong>Seleccionar todo</strong>
+                <br>    
+                <div class="table-responsive">
+                    <div class="table-scroll">
+                     <table class="table table-framed">
+                       <thead>
+                       <tr>
+                         <th style="flex-grow: 1;"> </th>
+                         <th style="flex-grow: 3;">Descripción</th>
+                       </tr>
+                       </thead>
+                       <tbody>
+                       <tr *ngFor="let item of regionals;let pointIdex=index">
+                         <td scope="row">
+                             <input type="checkbox"  name="list_name" value="{{item.id}}" (change)="partChangeActive($event,item)" [checked]="item.cheked"/>
+                         </td>
+                         <td> {{item.description}}</td>
+                       </tr>
+                       </tbody>
+                     </table>
+                    </div>
+                </div>
+  
+            </div>
+            
+        </div>
+    </app-card>
+    
+
+    <div class="align-buttons">
+        <button class="btn btn-primary m-b-0 " (click)="goAdminUsers()">Volver Administración Usuarios</button>
+    </div>
+    

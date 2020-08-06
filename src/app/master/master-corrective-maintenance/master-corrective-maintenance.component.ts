@@ -80,8 +80,8 @@ export class MasterCorrectiveMaintenanceComponent extends NgbDatepickerI18n {
   checklists: any;
   currentChecklist: any;
 
-  selectedMinutChecklist: any= 1;
-  selectedHourChecklist: any= 0;
+  selectedMinutUpdateCorrective: any= 0;
+  selectedHourUpdateCorrective: any= 0;
 
   currentCorrective: any;
   correctiveId: any;
@@ -93,9 +93,15 @@ export class MasterCorrectiveMaintenanceComponent extends NgbDatepickerI18n {
       super();
       
       var date = new Date();
+
+      let year = Number(date.getFullYear());
+
+
       var ngbDateStruct = { day: date.getDate(), month: date.getMonth()+1, year: date.getFullYear()};
       this.fromDate=ngbDateStruct;
-      this.untilDate=ngbDateStruct;
+      var news: NgbDateStruct = { year: year, month: 7, day: 14 };
+      this.untilDate=news;
+
 
       this.getRegional();
     
@@ -307,7 +313,25 @@ export class MasterCorrectiveMaintenanceComponent extends NgbDatepickerI18n {
     this.observationUpdateCorrective = row.result.corrective.work;
     this.technicianUpdate = row.result.technicians;
     this.correctiveId = row.result.corrective.id;
-    this.untilDate = row.result.corrective.date;
+    
+    let date = row.result.corrective.date; 
+    let dateComplete = date.substring(0,10);
+    let dateArray = dateComplete.split('-');
+    
+    let hourComplete =  date.substring(10,19);
+    let hourArray = hourComplete.split(':');
+    this.selectedHourUpdateCorrective = Number(hourArray[0]);
+    this.selectedMinutUpdateCorrective = Number(hourArray[1]);
+
+    console.log(hourComplete);
+    let year = Number(dateArray[0]);
+    let mounth = Number(dateArray[1]);
+    let day = Number(dateArray[2]);
+    var news: NgbDateStruct = { year: year, month: mounth, day: day };
+    console.log(news);
+    this.untilDate=news;
+
+    // this.untilDate = '2020-08-04';
     for (let elemento of this.technicianUpdate) {
       console.log('ingreso a mirar tecnicos');
       this.SelectItemTechnician(elemento);
@@ -332,11 +356,14 @@ export class MasterCorrectiveMaintenanceComponent extends NgbDatepickerI18n {
      // 1970, 1971, ... 2015, 2016, ...
      var year = this.fromDate.year;
      
-     console.log( this.selectedHourPreventive);
-     console.log( this.selectedMinutPreventive);
+     console.log( this.selectedHourUpdateCorrective);
+     console.log( this.selectedMinutUpdateCorrective);
 
-     var hour = this.selectedHourPreventive;
-     var minut = this.selectedMinutPreventive-1;
+     var hour = this.selectedHourUpdateCorrective;
+     var minut = this.selectedMinutUpdateCorrective;
+
+
+
 
      console.log(hour);
      console.log( minut);

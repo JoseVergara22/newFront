@@ -80,8 +80,13 @@ export class MasterChecklistMaintenanceComponent extends NgbDatepickerI18n {
   checklists: any;
   currentChecklist: any;
 
-  selectedMinutChecklist: any= 1;
+  selectedMinutChecklist: any= 0;
   selectedHourChecklist: any= 0;
+
+  selectedMinutUpdateChecklist: any= 0;
+  selectedHourUpdateChecklist: any= 0;
+
+
 
   constructor(private restService: RestService, private resumenesService: ResumenesService, private router: Router, 
     private forkliftService: ForkliftService, private _i18n: I18n, private calendar: NgbCalendar, public formatter: NgbDateParserFormatter,
@@ -269,7 +274,7 @@ export class MasterChecklistMaintenanceComponent extends NgbDatepickerI18n {
      
   
      var hour = this.selectedHourChecklist;
-     var minut = this.selectedMinutChecklist-1;
+     var minut = this.selectedMinutChecklist;
 
      console.log(hour);
      console.log( minut);
@@ -368,6 +373,24 @@ export class MasterChecklistMaintenanceComponent extends NgbDatepickerI18n {
     this.checklistUpdate = row.result.checklistRoutines;
     this.technicianUpdate = row.result.technicians;
     this.oldDate = row.date;
+
+    let date = row.result.corrective.date; 
+    let dateComplete = date.substring(0,10);
+    let dateArray = dateComplete.split('-');
+    
+    let hourComplete =  date.substring(10,19);
+    let hourArray = hourComplete.split(':');
+    this.selectedHourUpdateChecklist = Number(hourArray[0]);
+    this.selectedMinutUpdateChecklist = Number(hourArray[1]);
+
+    console.log(hourComplete);
+    let year = Number(dateArray[0]);
+    let mounth = Number(dateArray[1]);
+    let day = Number(dateArray[2]);
+    var news: NgbDateStruct = { year: year, month: mounth, day: day };
+    console.log(news);
+    this.untilDate=news;
+
     for (let elemento of this.checklistUpdate) {
       console.log('ingreso a mirar checks');
       this.SelectItemChecklist(elemento);
@@ -395,11 +418,14 @@ export class MasterChecklistMaintenanceComponent extends NgbDatepickerI18n {
      // 1970, 1971, ... 2015, 2016, ...
      var year = this.fromDate.year;
      
-     console.log( this.selectedHourChecklist);
-     console.log( this.selectedMinutChecklist);
+     console.log( this.selectedHourUpdateChecklist);
+     console.log( this.selectedMinutUpdateChecklist);
 
-     var hour = this.selectedHourChecklist;
-     var minut = this.selectedMinutChecklist-1;
+     var hour = this.selectedHourUpdateChecklist;
+     var minut = this.selectedMinutUpdateChecklist;
+
+    -
+
 
      console.log(hour);
      console.log( minut);

@@ -98,7 +98,7 @@
       </div>
     </app-card>
 
-      <app-card>
+
         <div class="form-group row">
           <div class="col-4">
               <h6>Desde:</h6>
@@ -117,9 +117,12 @@
               </div>
              </div>
 
+             <div class="align-buttons">
+              <button class="btn btn-primary" (click)="getRoutinesFromDate()"><i class="icofont icofont-search" ></i>Buscar</button>
+            </div>
           
             </div>
-      </app-card>
+     
     
     
     <app-card>
@@ -148,10 +151,10 @@
       <button type="button " style="display: none;" id="showCorrectives" class="btn btn-primary m-b-0 " (click)="modalAssingCorrective.show()" >Crear</button>
     
       <h5>Rutinas Correctivas</h5>
-      <ngx-datatable #table class="data-table" [rows]="currentCorrective"   [columnMode]="'flex'" [headerHeight]="50" [footerHeight]="50" [rowHeight]="'auto'" [limit]="20">
+      <ngx-datatable #table class="data-table" [rows]="rowsClient"   [columnMode]="'flex'" [headerHeight]="50" [footerHeight]="50" [rowHeight]="'auto'" [limit]="20">
 
-        <ngx-datatable-column  [flexGrow]="2" [sortable]="false" [resizeable]="false"  name="Obervación" [sortable]="false"  prop="work"></ngx-datatable-column>
-        <ngx-datatable-column  [flexGrow]="2" [sortable]="false" [resizeable]="false"  name="Fecha" [sortable]="false"  prop="date"></ngx-datatable-column>
+        <ngx-datatable-column  [flexGrow]="2" [sortable]="false" [resizeable]="false"  name="Obervación" [sortable]="false"  prop="result.corrective.work"></ngx-datatable-column>
+        <ngx-datatable-column  [flexGrow]="2" [sortable]="false" [resizeable]="false"  name="Fecha" [sortable]="false"  prop="result.corrective.date"></ngx-datatable-column>
         <ngx-datatable-column  [flexGrow]="2" name="Ver" [sortable]="false"  sortable="false" prop="status">
           <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
 
@@ -232,7 +235,7 @@
           <br>
           <br>
             <div class="align-buttons">
-              <button type="button" class="btn btn-default waves-effect" id="assignPrevetiveHide" (click)="modalAssingPreventive.hide()">Cancelar</button>
+              <button type="button" class="btn btn-default waves-effect" id="assignPrevetiveHide" (click)="modalAssingPreventive.hide()" (click)="cleanPreventive()" (click)="cleanTechnician()" >Salir</button>
              </div>
       </div>          
 </app-modal-basic>
@@ -278,7 +281,7 @@
     <br>
     <br>
             <div class="align-buttons">
-              <button type="button" class="btn btn-default waves-effect" id="assignChecklistHide" (click)="modalAssingChecklist.hide()">Cancelar</button>
+              <button type="button" class="btn btn-default waves-effect" id="assignChecklistHide" (click)="modalAssingChecklist.hide()" (click)="cleanChecklist()" (click)="cleanTechnician()" >Salir</button>
              </div>
     </div>
 </app-modal-basic>
@@ -322,7 +325,7 @@
     <br>
     <br>
             <div class="align-buttons">
-              <button type="button" class="btn btn-default waves-effect" id="assignCorrectiveHide" (click)="modalAssingCorrective.hide()">Cancelar</button>
+              <button type="button" class="btn btn-default waves-effect" id="assignCorrectiveHide" (click)="modalAssingCorrective.hide()" (click)="cleanTechnician()" >Salir</button>
             </div>
     </div>
 </app-modal-basic>

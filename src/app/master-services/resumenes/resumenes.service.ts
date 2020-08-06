@@ -151,7 +151,7 @@ export class ResumenesService {
     });
   }
 
-  getWorkForkliftPreventiveFilter(id:number,fromdate:string,to_date:string){
+  getWorkForkliftPreventiveLast(id:number){
     console.log(id);
     return new Promise(resolve => {
       const httpOptions = {
@@ -162,6 +162,30 @@ export class ResumenesService {
         })
       };
       
+      this.http.get(this.apiEndPoint+'api/show_preventive_last/'+id, httpOptions)
+      .map(res => res).subscribe(data => {
+        console.log("a mostrar data");
+      console.log(data);
+      resolve(data);
+      }, error => {
+        console.log("error en servicio");
+        console.log(error);
+                resolve(error);
+        });
+    });
+  }
+
+  getWorkForkliftPreventiveFilter(id:number,fromdate:string,to_date:string){
+    console.log(id);
+    return new Promise(resolve => {
+      const httpOptions = {
+        headers: new HttpHeaders({
+          'Content-Type':  'application/json',
+          'Authorization': 'Bearer ' + localStorage.getItem('token_user'),
+          'Accept': 'application/json'
+        })
+      };
+      console.log('from_date='+fromdate+'&to_date='+to_date);
       this.http.get(this.apiEndPoint+'api/show_preventive_filter/'+id+'?from_date='+fromdate+'&to_date='+to_date, httpOptions)
       .map(res => res).subscribe(data => {
         console.log("a mostrar data");
@@ -187,6 +211,30 @@ export class ResumenesService {
       };
       
       this.http.get(this.apiEndPoint+'api/show_corrective/'+id, httpOptions)
+      .map(res => res).subscribe(data => {
+        console.log("a mostrar data");
+      console.log(data);
+      resolve(data);
+      }, error => {
+        console.log("error en servicio");
+        console.log(error);
+                resolve(error);
+        });
+    });
+  }
+
+  getWorkForkliftCorrectiveLast(id:number){
+    console.log(id);
+    return new Promise(resolve => {
+      const httpOptions = {
+        headers: new HttpHeaders({
+          'Content-Type':  'application/json',
+          'Authorization': 'Bearer ' + localStorage.getItem('token_user'),
+          'Accept': 'application/json'
+        })
+      };
+      
+      this.http.get(this.apiEndPoint+'api/show_corrective_last/'+id, httpOptions)
       .map(res => res).subscribe(data => {
         console.log("a mostrar data");
       console.log(data);
@@ -235,6 +283,30 @@ export class ResumenesService {
       };
       
       this.http.get(this.apiEndPoint+'api/show_checklist/'+id, httpOptions)
+      .map(res => res).subscribe(data => {
+        console.log("a mostrar data");
+      console.log(data);
+      resolve(data);
+      }, error => {
+        console.log("error en servicio");
+        console.log(error);
+                resolve(error);
+        });
+    });
+  }
+  
+  getWorkForkliftChecklistLast(id:number){
+    console.log(id);
+    return new Promise(resolve => {
+      const httpOptions = {
+        headers: new HttpHeaders({
+          'Content-Type':  'application/json',
+          'Authorization': 'Bearer ' + localStorage.getItem('token_user'),
+          'Accept': 'application/json'
+        })
+      };
+      
+      this.http.get(this.apiEndPoint+'api/show_checklist_last/'+id, httpOptions)
       .map(res => res).subscribe(data => {
         console.log("a mostrar data");
       console.log(data);

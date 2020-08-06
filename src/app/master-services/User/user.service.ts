@@ -479,6 +479,30 @@ resolve(data);
             });
           }
 
+  technicianRegionalSelect(details: string) {
+    return new Promise(resolve => {
+      const headers = new HttpHeaders();
+      headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user'))); // 'Bearer ' +
+      headers.append('Content-Type', 'application/json');
+      const httpOptions = {
+        headers: new HttpHeaders({
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + localStorage.getItem('token_user'),
+          'Accept': 'application/json'
+        })
+      };
+      const postParams = {
+        regional: details
+      };
+      this.http.post(this.apiEndPoint+'api/create_customer_regionals', postParams, httpOptions)
+        .map(res => res).subscribe(data => {
+          resolve(data);
+        }, error => {
+        resolve(error);
+        });
+    });
+  }
+
 }
 
 
