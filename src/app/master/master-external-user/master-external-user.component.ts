@@ -167,7 +167,7 @@ export class MasterExternalUserComponent implements OnInit {
     });
 
 */
-this.getRegionals();
+// this.getRegionals();
   }
 
 
@@ -292,6 +292,7 @@ this.getRegionals();
     this.myUpdateForm.get('updateemail').setValue(this.myForm.get('email').value);
     this.selectedProfileIdUpdate = Number(this.myForm.get('profile').value);
 
+    this.getRegionals();
      });
     // this.router.navigateByUrl('master');
     }
@@ -365,6 +366,7 @@ this.getRegionals();
       type: 'success'
      }).then(data=>{
       this.getUser();
+      this.getRegionals();
      });
     // this.router.navigateByUrl('master');
     }
@@ -387,6 +389,7 @@ this.getRegionals();
         console.log('información de regional');
         console.log( this.rowsRegional);
         console.log( this.rowsRegional.length);
+        console.log( this.currentUser);
         this.getRegionalId(this.currentUser.data.id);
       }).catch(error => {
         console.log(error);
@@ -401,7 +404,7 @@ getRegionalId( id: number){
     console.log('OEOEOEOEOEEO');
     console.log(resp.data_customerRegionals);
     console.log('----------------data_customerRegionals-----------');
-    this.rowsRegionals = resp.data_customerRegionals;
+    this.rowsRegionals = resp.data_userRegionals;
     this.regional=[];
 
     
