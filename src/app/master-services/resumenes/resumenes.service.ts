@@ -34,7 +34,7 @@ export class ResumenesService {
     });
   }
 
-  storePreventive(id_forklift:number,customer_id:number,brach_id:number,id_rutines:string,technician_id: any, date:string){
+  storePreventive(id_forklift:number,customer_id:number,brach_id:number,id_rutines:string,technician_id: any, consecutive:number, date:string){
     return new Promise(resolve => {
       const httpOptions = {
         headers: new HttpHeaders({
@@ -49,6 +49,7 @@ export class ResumenesService {
         branch_id: brach_id,
         routines: id_rutines,
         technicians_id: technician_id,
+        consecutive: consecutive,
         date: date
       };
       console.log(postParams);
@@ -65,7 +66,7 @@ export class ResumenesService {
     });
   }
 
-  storeChecklist(checklists_id:number,customer_id:number,brach_id:number,checklists:string,technician_id: any, date:string){
+  storeChecklist(checklists_id:number,customer_id:number,brach_id:number,checklists:string,technician_id: any, consecutive:number, date:string){
     return new Promise(resolve => {
       const httpOptions = {
         headers: new HttpHeaders({
@@ -80,6 +81,7 @@ export class ResumenesService {
         branch_id: brach_id,
         checklists: checklists,
         technicians_id: technician_id,
+        consecutive: consecutive,
         date: date
       };
       console.log(postParams);
@@ -96,7 +98,7 @@ export class ResumenesService {
     });
   }
 
-  storeCorrective(forkliftId:number,customer_id:number,brach_id:number,observation:string,technician_id: any, date:string){
+  storeCorrective(forkliftId:number,customer_id:number,brach_id:number,observation:string,technician_id: any, consecutive:number, date:string){
     return new Promise(resolve => {
       const httpOptions = {
         headers: new HttpHeaders({
@@ -111,6 +113,7 @@ export class ResumenesService {
         branch_id: brach_id,
         observation: observation,
         technicians_id: technician_id,
+        consecutive: consecutive,
         date: date
       };
       console.log(postParams);
@@ -513,4 +516,140 @@ export class ResumenesService {
         });
     });
   }
+
+  updateConsecutivePreventive() {
+    return new Promise(resolve => {
+      const headers = new HttpHeaders();
+      headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user'))); // 'Bearer ' +
+      headers.append('Content-Type', 'application/json');
+      const httpOptions = {
+        headers: new HttpHeaders({
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + localStorage.getItem('token_user'),
+          'Accept': 'application/json'
+        })
+      };
+      const postParams = {
+      };
+      this.http.patch(this.apiEndPoint+'api/update_preventive_consecutive',postParams, httpOptions)
+        .map(res => res).subscribe(data => {
+          resolve(data);
+        }, error => {
+          resolve(error);
+        });
+    });
+  }
+
+  showPreventiveConsecutive() { // Falta implementar desde el backend
+    return new Promise(resolve => {
+      const headers = new HttpHeaders();
+      headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user'))); // 'Bearer ' +
+      headers.append('Content-Type', 'application/json');
+      const httpOptions = {
+        headers: new HttpHeaders({
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + localStorage.getItem('token_user'),
+          'Accept': 'application/json'
+        })
+      };
+      this.http.get(this.apiEndPoint+'api/get_preventive_consecutive', httpOptions)
+        .map(res => res).subscribe(data => {
+          console.log(data);
+          resolve(data);
+        }, error => {
+          resolve(error);
+        });
+    });
+  }
+
+  updateConsecutiveChecklist() {
+    return new Promise(resolve => {
+      const headers = new HttpHeaders();
+      headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user'))); // 'Bearer ' +
+      headers.append('Content-Type', 'application/json');
+      const httpOptions = {
+        headers: new HttpHeaders({
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + localStorage.getItem('token_user'),
+          'Accept': 'application/json'
+        })
+      };
+      const postParams = {
+      };
+      this.http.patch(this.apiEndPoint+'api/update_checklist_consecutive',postParams, httpOptions)
+        .map(res => res).subscribe(data => {
+          resolve(data);
+        }, error => {
+          resolve(error);
+        });
+    });
+  }
+
+  showChecklisteConsecutive() { // Falta implementar desde el backend
+    return new Promise(resolve => {
+      const headers = new HttpHeaders();
+      headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user'))); // 'Bearer ' +
+      headers.append('Content-Type', 'application/json');
+      const httpOptions = {
+        headers: new HttpHeaders({
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + localStorage.getItem('token_user'),
+          'Accept': 'application/json'
+        })
+      };
+      this.http.get(this.apiEndPoint+'api/get_checklist_consecutive', httpOptions)
+        .map(res => res).subscribe(data => {
+          console.log(data);
+          resolve(data);
+        }, error => {
+          resolve(error);
+        });
+    });
+  }
+
+  updateConsecutiveCorrective() {
+    return new Promise(resolve => {
+      const headers = new HttpHeaders();
+      headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user'))); // 'Bearer ' +
+      headers.append('Content-Type', 'application/json');
+      const httpOptions = {
+        headers: new HttpHeaders({
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + localStorage.getItem('token_user'),
+          'Accept': 'application/json'
+        })
+      };
+      const postParams = {
+      };
+      this.http.patch(this.apiEndPoint+'api/update_corrective_consecutive',postParams, httpOptions)
+        .map(res => res).subscribe(data => {
+          resolve(data);
+        }, error => {
+          resolve(error);
+        });
+    });
+  }
+
+  showCorrectiveConsecutive() { // Falta implementar desde el backend
+    return new Promise(resolve => {
+      const headers = new HttpHeaders();
+      headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user'))); // 'Bearer ' +
+      headers.append('Content-Type', 'application/json');
+      const httpOptions = {
+        headers: new HttpHeaders({
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + localStorage.getItem('token_user'),
+          'Accept': 'application/json'
+        })
+      };
+      this.http.get(this.apiEndPoint+'api/get_corrective_consecutive', httpOptions)
+        .map(res => res).subscribe(data => {
+          console.log(data);
+          resolve(data);
+        }, error => {
+          resolve(error);
+        });
+    });
+  }
+
 }

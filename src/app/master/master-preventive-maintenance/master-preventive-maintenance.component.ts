@@ -78,6 +78,8 @@ export class MasterPreventiveMaintenanceComponent extends NgbDatepickerI18n {
   preventiveList: string='';
   oldDate:any;
 
+  consecutive: any;
+
   constructor(private restService: RestService, private resumenesService: ResumenesService, private router: Router, 
     private forkliftService: ForkliftService, private _i18n: I18n, private calendar: NgbCalendar, public formatter: NgbDateParserFormatter,
     private workService: WorkService) { 
@@ -91,6 +93,7 @@ export class MasterPreventiveMaintenanceComponent extends NgbDatepickerI18n {
       this.getRegional();
       this.getWorks();
       this.getTechnician();
+      this.getConsecutive();
     }
     
     getRegional(){
@@ -158,6 +161,35 @@ export class MasterPreventiveMaintenanceComponent extends NgbDatepickerI18n {
       
     }
   }
+
+  getConsecutive() {
+   
+    this.resumenesService.showPreventiveConsecutive().then(data => {
+      const resp: any = data;
+      console.log(data);
+      swal.close();
+      this.consecutive  = resp.data;
+      var date = new Date();
+     
+      let now = date.getFullYear();
+
+     
+      // 01, 02, 03, ... 10, 11, 12
+      let month = ((date.getMonth() + 1) < 10 ? '0' : '') + (date.getMonth() + 1);
+
+      
+      let yearCosecutive=date.getFullYear().toString().substring(2,4);
+      this.consecutive= Number(this.consecutive.consecutive)+1;
+      this.consecutive = Number(yearCosecutive.toString()+month.toString()+this.consecutive.toString());
+      
+      // this.rowsClient = resp.data;
+      // this.rowStatic =  resp.data;
+      // this.rowsTemp = resp.data;
+      // console.log( this.rowsClient);
+    }).catch(error => {
+      console.log(error);
+    });
+   }
     
   getWorks() {
     swal({
@@ -325,7 +357,7 @@ export class MasterPreventiveMaintenanceComponent extends NgbDatepickerI18n {
           }
         }
         console.log(this.forklift);
-        this.resumenesService.storePreventive(this.selectedForkliftId.id,this.selectedBusinessId.id,this.selectedBranchOfficeId.id,this.preventiveList,this.technicianList,params).then(data => {
+        this.resumenesService.storePreventive(this.selectedForkliftId.id,this.selectedBusinessId.id,this.selectedBranchOfficeId.id,this.preventiveList,this.technicianList, Number(this.consecutive),params).then(data => {
           const resp: any = data;
           console.log(data);
           if (resp.success == false) {
@@ -339,16 +371,36 @@ export class MasterPreventiveMaintenanceComponent extends NgbDatepickerI18n {
           
           let result  = resp.data;
           console.log(result);
-          document.getElementById('assignPrevetiveHide').click();
+
+          this.resumenesService.updateConsecutivePreventive().then(data => {
+            const resp: any = data;
+            console.log(data);
+            
+            document.getElementById('assignPrevetiveHide').click();
           
-          this.getPreventiveRoutines();
-          swal({
-            title: 'Guardado con exito',
-            type: 'success'
-           });
-          }
-          this.cleanSelectRoutines();
-          this.cleanSelectTechnician();
+            this.getPreventiveRoutines();
+            swal({
+              title: 'Guardado con exito',
+              type: 'success'
+             });
+            
+             this.cleanSelectRoutines();
+            this.cleanSelectTechnician();
+             console.log('llego hasta aqui');
+    
+            // swal.close();
+            // this.rowsClient = resp.data;
+            // this.rowStatic =  resp.data;
+            // this.rowsTemp = resp.data;
+            // console.log( this.rowsClient);
+          }).catch(error => {
+            swal({
+              title: 'Se presento un problema, para guardar este encabezado cotización',
+              type: 'error'
+             });
+            console.log(error);
+          });
+        }
           }).catch(error => {
             swal.close();
             swal({

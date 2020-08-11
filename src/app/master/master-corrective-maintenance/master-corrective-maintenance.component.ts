@@ -87,6 +87,7 @@ export class MasterCorrectiveMaintenanceComponent extends NgbDatepickerI18n {
   correctiveId: any;
 
   row: any;
+  consecutive: any;
 
   constructor(private restService: RestService, private resumenesService: ResumenesService, private router: Router, 
     private forkliftService: ForkliftService, private _i18n: I18n, private calendar: NgbCalendar, public formatter: NgbDateParserFormatter) {
@@ -106,6 +107,7 @@ export class MasterCorrectiveMaintenanceComponent extends NgbDatepickerI18n {
       this.getRegional();
     
       this.getTechnician();
+      this.getConsecutive();
     }
 
     getCorrectiveRoutines(){
@@ -190,6 +192,36 @@ export class MasterCorrectiveMaintenanceComponent extends NgbDatepickerI18n {
     }
   }
 
+  
+  getConsecutive() {
+   
+    this.resumenesService.showCorrectiveConsecutive().then(data => {
+      const resp: any = data;
+      console.log(data);
+      swal.close();
+      this.consecutive  = resp.data;
+      var date = new Date();
+     
+      let now = date.getFullYear();
+
+     
+      // 01, 02, 03, ... 10, 11, 12
+      let month = ((date.getMonth() + 1) < 10 ? '0' : '') + (date.getMonth() + 1);
+
+      
+      let yearCosecutive=date.getFullYear().toString().substring(2,4);
+      this.consecutive= Number(this.consecutive.consecutive)+1;
+      this.consecutive = Number(yearCosecutive.toString()+month.toString()+this.consecutive.toString());
+      
+      // this.rowsClient = resp.data;
+      // this.rowStatic =  resp.data;
+      // this.rowsTemp = resp.data;
+      // console.log( this.rowsClient);
+    }).catch(error => {
+      console.log(error);
+    });
+   }
+
   getTechnician(){
     swal({
       title: 'Obteniendo información ...',
@@ -267,7 +299,7 @@ export class MasterCorrectiveMaintenanceComponent extends NgbDatepickerI18n {
            }
          }
          console.log(this.forklift);
-         this.resumenesService.storeCorrective(this.selectedForkliftId.id,this.selectedBusinessId.id,this.selectedBranchOfficeId.id,this.observationCorrective,this.technicianList,params).then(data => {
+         this.resumenesService.storeCorrective(this.selectedForkliftId.id,this.selectedBusinessId.id,this.selectedBranchOfficeId.id,this.observationCorrective,this.technicianList, Number(this.consecutive),params,).then(data => {
            const resp: any = data;
            console.log(data);
            if (resp.success== false) {
@@ -280,7 +312,11 @@ export class MasterCorrectiveMaintenanceComponent extends NgbDatepickerI18n {
            swal.close();
            let result  = resp.data;
            console.log(result);
-           this.getCorrectiveRoutines();
+
+           this.resumenesService.updateConsecutiveCorrective().then(data => {
+            const resp: any = data;
+            console.log(data);
+            this.getCorrectiveRoutines();
            this.cleanSelectCorrective();
            this.cleanSelectTechnician();
            document.getElementById('assignCorrectiveHide').click();
@@ -288,8 +324,23 @@ export class MasterCorrectiveMaintenanceComponent extends NgbDatepickerI18n {
             title: 'Guardado con exito',
             type: 'success'
            });
-           }
-         }).catch(error => {
+             console.log('llego hasta aqui');
+    
+            // swal.close();
+            // this.rowsClient = resp.data;
+            // this.rowStatic =  resp.data;
+            // this.rowsTemp = resp.data;
+            // console.log( this.rowsClient);
+          }).catch(error => {
+            swal({
+              title: 'Se presento un problema, para guardar este encabezado cotización',
+              type: 'error'
+             });
+            console.log(error);
+          });
+        }
+           
+      }).catch(error => {
              swal.close();
              swal({
                title:'Error',

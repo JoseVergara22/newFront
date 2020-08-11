@@ -732,17 +732,21 @@ onDateSelectionFromForklift(date: any) {
         console.log('CUSTOMER '+JSON.stringify(data));
 
       this.rowsItemscustomer=resp.data;
-      console.log('rowsItemscustomer'+ this.rowsItemscustomer);
+      console.log(this.rowsItemscustomer);
      /*   for (let i = 0; i < this.rowsItems.length; i++) {
           this.itemEnd.push(+i+1+','+ this.rowsItems[i].code+','+this.rowsItems[i].description+','+this.rowsItems[i].quantity+','+this.rowsItems[i].unit_cost+','+this.rowsItems[i].price+','+this.rowsItems[i].delivery);
         }*/
-
+        let total = 0;
         for(let value of this.rowsItemscustomer){
-          this.totalCustom = Number(Number(this.totalCustom)+ Number(value.subtotal))
+          console.log(value);
+          console.log(this.totalCustom);
+          total = Number(Number(total)+ Number(value.subtotal));
+
         }
+
         console.log('total factura cliente');
-        console.log(this.totalCustom);
-        this.totalCustom = this.finalFormatStandard(this.totalCustom);
+        console.log(total);
+        this.totalCustom = this.finalFormatStandard(total);
         console.log(this.totalCustom);
         console.log('INFO PARA VER ITEMS PARA EL PDF');
         console.log('Importante');

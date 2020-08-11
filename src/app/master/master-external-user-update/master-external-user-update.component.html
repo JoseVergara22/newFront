@@ -113,13 +113,11 @@
                         <h6>Perfil <span style="color:red;">*</span></h6>
                         <select name="select" class="form-control" formControlName="updateprofile" [(ngModel)]="selectedProfileIdUpdate" [ngClass]="{ 'is-invalid': submittedUpload && checkUpdateForm.updateprofile.errors }">
                           <option value= "0" selected>Seleccionar perfil</option>
-                          <option value="1">GERENTE</option>
+                          <option value="1">ADMINISTRADOR</option>
                           <option value="2">GESTIÓN COMERCIAL</option>
                           <option value="3">OPERACIONES</option>
-                          <option value="4">GESTIÓN HUMANA</option>
+                          <option value="4">TECNICO</option>
                           <option value="5">FINANCIERA</option>
-                          <option value="6">EMPLEADO</option>
-                          <option value="7">TECNICO</option>
                         </select>
                         <!-- <div class="messages text-danger" *ngIf="errorProfile">Debes seleccionar un perfil</div> -->
                         <div *ngIf="submittedUpload && checkUpdateForm.updateprofile.errors" class="invalid-feedback">
@@ -195,50 +193,12 @@
     </div>
 </div>
 
-<div class="row">
-
-    <div class="col-sm-12">
-        <app-card [title]="'Actualizar usuario'" [headerContent]="''" [cardOptionBlock]="true">
-            <div class="align-buttons">
-                <button class="btn btn-primary m-b-0 " (click)="showClient()">Relacionar con empresas</button>
-            </div>
-            <br>
-            <button class="btn btn-primary m-b-0 " style="display:none;" id="relationShipCustomer" (click)="modalRegisterRelationCompany.show()">Relacionar con empresas</button>
-            <button class="btn btn-primary m-b-0 " style="display:none;" id="relationShipUpdate" (click)="modalRegisterRelationUpdate.show()">Relacionar con empresas</button>
-
-            <ngx-datatable #table class="data-table" [rows]="rowsClient" [columns]="[{name:'Descripción', prop:'description'},{name:'Estado', prop:'status'},{prop:'id'}]" [columnMode]="'force'" [headerHeight]="50" [footerHeight]="50" [rowHeight]="'auto'" [limit]="10">
-
-                <ngx-datatable-column [resizeable]="false" name="Cliente" [sortable]="false" [draggable]="false" prop="business_name"></ngx-datatable-column>
-                 <ngx-datatable-column [resizeable]="false" name="Cliente" [sortable]="false" [draggable]="false" prop="branch_office_names"></ngx-datatable-column>
-               
-               
-                <ngx-datatable-column [resizeable]="false" name="Acciones" [sortable]="false" [draggable]="false" sortable="false" prop="id">
-
-                    <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
-
-                        <!--<button md-icon-button (click)="blockAgents(value)">
-                                <i class="fa fa-ban"></i>
-                              </button> -->
-
-                        <button (click)="updateCustomerOffices(row)" class="btn btn-primary btn-icon"><i class="icofont icofont-pencil-alt-5"></i></button>
-                        <button (click)="deleteCustomerOffices(row)" class="btn btn-danger btn-icon"><i class="icofont icofont-ui-delete"></i></button>
-                    </ng-template>
-                </ngx-datatable-column>
-
-            </ngx-datatable>
-            <br>
-            <br>
-        </app-card>
-    </div>
-</div>
 
 
-<app-card *ngIf="selectedProfileId==4 || selectedProfileIdUpdate==7" >
+<app-card *ngIf="selectedProfileId==4 || selectedProfileIdUpdate==4"  [title]="'Relacionar sucursales'" [headerContent]="''" [cardOptionBlock]="true" >
     <div class="row">
             <div class="col-sm-12">
-                <h5>
-                    Relacionar sucursales
-                </h5>
+       
                 <div class="align-buttons">
                     <button type="submit " class="btn btn-primary m-b-0 " (click)="finalRegional()">Actualizar sucursales</button>
                 </div>
@@ -271,6 +231,44 @@
         </div>
     </app-card>
     
+
+
+<div class="row">
+
+    <div class="col-sm-12">
+        <app-card [title]="'Relacionar con empresas'" [headerContent]="''" [cardOptionBlock]="true">
+            <div class="align-buttons">
+                <button class="btn btn-primary m-b-0 " (click)="showClient()">Crear Relación</button>
+            </div>
+            <br>
+            <button class="btn btn-primary m-b-0 " style="display:none;" id="relationShipCustomer" (click)="modalRegisterRelationCompany.show()">Relacionar con empresas</button>
+            <button class="btn btn-primary m-b-0 " style="display:none;" id="relationShipUpdate" (click)="modalRegisterRelationUpdate.show()">Relacionar con empresas</button>
+
+            <ngx-datatable #table class="data-table" [rows]="rowsClient" [columns]="[{name:'Descripción', prop:'description'},{name:'Estado', prop:'status'},{prop:'id'}]" [columnMode]="'force'" [headerHeight]="50" [footerHeight]="50" [rowHeight]="'auto'" [limit]="10">
+
+                <ngx-datatable-column [resizeable]="false" name="Cliente" [sortable]="false" [draggable]="false" prop="business_name"></ngx-datatable-column>
+                 <ngx-datatable-column [resizeable]="false" name="Cliente" [sortable]="false" [draggable]="false" prop="branch_office_names"></ngx-datatable-column>
+               
+               
+                <ngx-datatable-column [resizeable]="false" name="Acciones" [sortable]="false" [draggable]="false" sortable="false" prop="id">
+
+                    <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+
+                        <!--<button md-icon-button (click)="blockAgents(value)">
+                                <i class="fa fa-ban"></i>
+                              </button> -->
+
+                        <button (click)="updateCustomerOffices(row)" class="btn btn-primary btn-icon"><i class="icofont icofont-pencil-alt-5"></i></button>
+                        <button (click)="deleteCustomerOffices(row)" class="btn btn-danger btn-icon"><i class="icofont icofont-ui-delete"></i></button>
+                    </ng-template>
+                </ngx-datatable-column>
+
+            </ngx-datatable>
+            <br>
+            <br>
+        </app-card>
+    </div>
+</div>
 
     <div class="align-buttons">
         <button class="btn btn-primary m-b-0 " (click)="goAdminUsers()">Volver Administración Usuarios</button>

@@ -448,6 +448,14 @@ getRegionalId( id: number){
 
   finalRegional(){
     this.selectRegional=[];
+    if(this.showButtonUpdated === 0){
+      swal({
+        title: 'Falla en la asignación',
+        text: 'Debes crear un cliente',
+        type: 'error'
+       });
+    }else{
+      
     for (let i = 0; i < this.regionals.length; i++){
       console.log('lo encontre'+i);
       if(this.regionals[i].cheked){
@@ -456,8 +464,8 @@ getRegionalId( id: number){
       }
     }
     let regionalSelec = '';
+    console.log(this.currentUser);
      regionalSelec = this.currentUser.data.id;
-     console.log(regionalSelec);
     //  console.log(this.currentCustomerId);
   
     for (let i = 0; i < this.selectRegional.length; i++){
@@ -479,8 +487,8 @@ getRegionalId( id: number){
       console.log(resp);
       if (resp.success === false) {
         swal({
-          title: 'Falla en la actualizacion',
-          text: 'Este cliente no se pudo actualizar',
+          title: 'Falla en la asignación',
+          text: 'No se pudo asignar la sucursal',
           type: 'error'
          });
         }else{
@@ -492,15 +500,21 @@ getRegionalId( id: number){
       }).catch(error => {
         console.log(error);
         swal.close();
+        swal({
+          title: 'Falla en la asignación',
+          text: 'No se pudo asignar la sucursal',
+          type: 'error'
+         });
       });
         
-  }else{
+      }else{
        swal({
           title: 'Se presentó un problema',
           text: 'Favor selecionar al menos una opcion.',
           type: 'error',
         });
       }
+    }
   
   }
 

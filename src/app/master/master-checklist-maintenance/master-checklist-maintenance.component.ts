@@ -86,6 +86,7 @@ export class MasterChecklistMaintenanceComponent extends NgbDatepickerI18n {
   selectedMinutUpdateChecklist: any= 0;
   selectedHourUpdateChecklist: any= 0;
 
+  consecutive:any;
 
 
   constructor(private restService: RestService, private resumenesService: ResumenesService, private router: Router, 
@@ -102,6 +103,17 @@ export class MasterChecklistMaintenanceComponent extends NgbDatepickerI18n {
     
       this.getChecklist();
       this.getTechnician();
+      this.getConsecutive();
+
+
+      var day = (date.getDate() < 10 ? '0' : '') + date.getDate();
+      // 01, 02, 03, ... 10, 11, 12
+      let month = ((date.getMonth() + 1) < 10 ? '0' : '') + (date.getMonth() + 1);
+      // 1970, 1971, ... 2015, 2016, ...
+      var year = date.getFullYear();
+
+
+      this.now = year +'-'+ month+'-'+ day;
     }
     
     getRegional(){
@@ -169,6 +181,37 @@ export class MasterChecklistMaintenanceComponent extends NgbDatepickerI18n {
       
     }
   }
+
+  
+  getConsecutive() {
+   
+    this.resumenesService.showChecklisteConsecutive().then(data => {
+      const resp: any = data;
+      console.log(data);
+      swal.close();
+      this.consecutive  = resp.data;
+      var date = new Date();
+     
+      let now = date.getFullYear();
+
+     
+      // 01, 02, 03, ... 10, 11, 12
+      let month = ((date.getMonth() + 1) < 10 ? '0' : '') + (date.getMonth() + 1);
+
+      
+      let yearCosecutive=date.getFullYear().toString().substring(2,4);
+      this.consecutive= Number(this.consecutive.consecutive)+1;
+      this.consecutive = Number(yearCosecutive.toString()+month.toString()+this.consecutive.toString());
+      
+      // this.rowsClient = resp.data;
+      // this.rowStatic =  resp.data;
+      // this.rowsTemp = resp.data;
+      // console.log( this.rowsClient);
+    }).catch(error => {
+      console.log(error);
+    });
+   }
+
 
   getChecklist(){
     swal({
@@ -264,6 +307,9 @@ export class MasterChecklistMaintenanceComponent extends NgbDatepickerI18n {
       allowOutsideClick: false
     });
     swal.showLoading();
+
+    let consecutiveTemp= Number(this.consecutive);
+
     let params;
      // poner los 0
      var day = (this.fromDate.day < 10 ? '0' : '') +this.fromDate.day;
@@ -307,7 +353,7 @@ export class MasterChecklistMaintenanceComponent extends NgbDatepickerI18n {
           }
         }
         console.log(this.forklift);
-        this.resumenesService.storeChecklist(this.selectedForkliftId.id,this.selectedBusinessId.id,this.selectedBranchOfficeId.id,this.checkedList,this.technicianList,params).then(data => {
+        this.resumenesService.storeChecklist(this.selectedForkliftId.id,this.selectedBusinessId.id,this.selectedBranchOfficeId.id,this.checkedList,this.technicianList, Number(this.consecutive),params).then(data => {
           const resp: any = data;
           console.log(data);
           if (resp.success== false) {
@@ -320,15 +366,34 @@ export class MasterChecklistMaintenanceComponent extends NgbDatepickerI18n {
           swal.close();
           let result  = resp.data;
            console.log(result);
-          document.getElementById('assignChecklistHide').click();
-          this.getForkliftChecklist();
-          this.cleanSelectChecklist();
-          this.cleanSelectTechnician();
-          swal({
-            title: 'Guardado con exito',
-            type: 'success'
-           });
-          }
+           this.resumenesService.updateConsecutiveChecklist().then(data => {
+            const resp: any = data;
+            console.log(data);
+            
+            swal({
+              title: 'Guardado con exito',
+              type: 'success'
+             });
+            document.getElementById('assignChecklistHide').click();
+            this.getForkliftChecklist();
+            this.cleanSelectChecklist();
+            this.cleanSelectTechnician();
+             console.log('llego hasta aqui');
+    
+            // swal.close();
+            // this.rowsClient = resp.data;
+            // this.rowStatic =  resp.data;
+            // this.rowsTemp = resp.data;
+            // console.log( this.rowsClient);
+          }).catch(error => {
+            swal({
+              title: 'Se presento un problema',
+              type: 'error'
+             });
+            console.log(error);
+          });
+          
+        }
         }).catch(error => {
             swal.close();
             swal({

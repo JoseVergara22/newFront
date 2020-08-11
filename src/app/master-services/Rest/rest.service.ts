@@ -2194,7 +2194,7 @@ updateRegional(id:number, description:string, code:string){
           'Accept': 'application/json'
         })
       };
-      this.http.get(this.apiEndPoint+'api/get_technician', httpOptions)
+      this.http.get(this.apiEndPoint+'api/show_user_technician', httpOptions)
         .map(res => res).subscribe(data => {
           console.log(data);
           resolve(data);
