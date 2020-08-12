@@ -182,6 +182,17 @@ export class MasterChecklistMaintenanceComponent extends NgbDatepickerI18n {
     }
   }
 
+  showAssing(){
+    if(this.selectedForkliftId==0 || this.selectedRegionalId==0 || this.selectedBusinessId==0 || this.selectedBranchOfficeId==0){
+     swal({
+       title:'Importante',
+       text: 'Debes seleccionar todos los filtros.',
+       type: 'warning'
+      });
+    }else{
+      document.getElementById('showAssing').click();
+    }
+  }
   
   getConsecutive() {
    
@@ -407,11 +418,11 @@ export class MasterChecklistMaintenanceComponent extends NgbDatepickerI18n {
 
   getForkliftChecklist(){
     // Llenar información de cliente  
-    if( this.selectedForkliftId == 0 ){
+    if( this.selectedForkliftId==0 || this.selectedRegionalId==0 || this.selectedBusinessId==0 || this.selectedBranchOfficeId==0 ){
       swal({
         title:'Importante',
         text: 'Debes seleccionar todos los filtros.',
-        type: 'error'
+        type: 'warning'
        });
     }else{
       swal({
@@ -419,6 +430,7 @@ export class MasterChecklistMaintenanceComponent extends NgbDatepickerI18n {
         allowOutsideClick: false
       });
       swal.showLoading();
+
     this.resumenesService.getWorkForkliftChecklist(this.selectedForkliftId.id).then(data => {
       const resp: any = data;
       console.log(data);

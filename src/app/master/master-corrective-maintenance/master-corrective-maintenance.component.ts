@@ -112,18 +112,31 @@ export class MasterCorrectiveMaintenanceComponent extends NgbDatepickerI18n {
 
     getCorrectiveRoutines(){
       // Llenar información de cliente  
-      this.resumenesService.getWorkForkliftCorrective(this.selectedForkliftId.id).then(data => {
-        const resp: any = data;
-        console.log(data);
-        swal.close();
-        this.currentCorrective  = resp.data;
-        this.row  = this.currentCorrective;
-  
-  
-      }).catch(error => {
-        console.log(error);
-      });
+      if( this.selectedForkliftId==0 || this.selectedRegionalId==0 || this.selectedBusinessId==0 || this.selectedBranchOfficeId==0 ){
+        swal({
+          title:'Importante',
+          text: 'Debes seleccionar todos los filtros.',
+          type: 'warning'
+         });
+      }else{
+        swal({
+          title: 'Validando información ...',
+          allowOutsideClick: false
+        });
+        swal.showLoading();
+
+        this.resumenesService.getWorkForkliftCorrective(this.selectedForkliftId.id).then(data => {
+          const resp: any = data;
+          console.log(data);
+          swal.close();
+          this.currentCorrective  = resp.data;
+          this.row  = this.currentCorrective;
     
+    
+        }).catch(error => {
+          console.log(error);
+        });
+      }
     }
     
     getRegional(){
@@ -222,6 +235,18 @@ export class MasterCorrectiveMaintenanceComponent extends NgbDatepickerI18n {
     });
    }
 
+   showAssing(){
+     if(this.selectedForkliftId==0 || this.selectedRegionalId==0 || this.selectedBusinessId==0 || this.selectedBranchOfficeId==0){
+      swal({
+        title:'Importante',
+        text: 'Debes seleccionar todos los filtros.',
+        type: 'warning'
+       });
+     }else{
+       document.getElementById('showAssing').click();
+     }
+   }
+
   getTechnician(){
     swal({
       title: 'Obteniendo información ...',
@@ -271,6 +296,7 @@ export class MasterCorrectiveMaintenanceComponent extends NgbDatepickerI18n {
       allowOutsideClick: false
     });
     swal.showLoading();
+    console.log(this.observationCorrective);
     if(this.observationCorrective != ''){
       let params;
 

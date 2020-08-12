@@ -162,6 +162,18 @@ export class MasterPreventiveMaintenanceComponent extends NgbDatepickerI18n {
     }
   }
 
+  showAssing(){
+    if(this.selectedForkliftId==0 || this.selectedRegionalId==0 || this.selectedBusinessId==0 || this.selectedBranchOfficeId==0){
+     swal({
+       title:'Importante',
+       text: 'Debes seleccionar todos los filtros.',
+       type: 'warning'
+      });
+    }else{
+      document.getElementById('showAssing').click();
+    }
+  }
+
   getConsecutive() {
    
     this.resumenesService.showPreventiveConsecutive().then(data => {
@@ -414,11 +426,11 @@ export class MasterPreventiveMaintenanceComponent extends NgbDatepickerI18n {
 
   getPreventiveRoutines(){
     // Llenar información de cliente  
-    if( this.selectedForkliftId == 0 ){
+    if( this.selectedForkliftId==0 || this.selectedRegionalId==0 || this.selectedBusinessId==0 || this.selectedBranchOfficeId==0 ){
       swal({
         title:'Importante',
         text: 'Debes seleccionar todos los filtros.',
-        type: 'error'
+        type: 'warning'
        });
     }else{
       swal({

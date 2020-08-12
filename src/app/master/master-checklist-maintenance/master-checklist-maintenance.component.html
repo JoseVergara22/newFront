@@ -59,7 +59,8 @@
           <div class=" align-buttons" >
             <div >
             
-            <button *ngIf="selectedForkliftId!=0" class="btn btn-primary" (click)="modalAssingChecklist.show()">Crear</button>
+              <button  class="btn btn-primary" (click)="showAssing()" >Crear</button>
+            <button style="display: none;" id="showAssing" class="btn btn-primary" (click)="modalAssingChecklist.show()">Crear</button>
           </div>
           </div>
 
@@ -226,7 +227,7 @@
     <br>
     <br>
             <div class="align-buttons">
-              <button type="button" class="btn btn-default waves-effect" id="assignChecklistHide" (click)="addCancelDate()">Cancelar</button>
+              <button type="button" class="btn btn-default waves-effect" id="cancelar" (click)="addCancelDate()">Cancelar</button>
               <button type="button" style="display: none;" class="btn btn-default waves-effect" id="assignChecklistHide" (click)="modalAssingChecklist.hide()">Cancelar</button>
               <button type="submit " class="btn btn-primary m-b-0 " (click)="createChecklist()" >Guardar</button>
             </div>

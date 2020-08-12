@@ -84,11 +84,19 @@ export class MasterAuthComponent implements OnInit {
       console.log('------------------');
       console.log(resp.data[0].status);
       console.log('------------------');
-
-      if(Number(resp.data[0].status)===0){
-        this.router.navigateByUrl('resetPasswordLogin'); // es poner la pagina para cambiar la contraseña
+      if(Number(resp.data[0].profile_id)===4){
+        swal({
+          title:'Importante',
+          text: 'Usted tiene perfil de técnico, no tiene permiso para entrar a la plataforma web, solo a la aplicación.',
+          type: 'warning'
+        });
       }else{
-        this.router.navigateByUrl('master');
+        if(Number(resp.data[0].status)===0){
+          this.router.navigateByUrl('resetPasswordLogin'); // es poner la pagina para cambiar la contraseña
+        
+          }else{
+            this.router.navigateByUrl('master');
+          }
       }
    
     }).catch(error => {
