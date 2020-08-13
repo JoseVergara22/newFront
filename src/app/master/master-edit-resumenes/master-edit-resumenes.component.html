@@ -124,6 +124,10 @@
     
     <app-card>
       <h5>Imagenes</h5>
+      <br>
+      <div class="form-group row">
+        <img *ngFor="let img of urlImages" src="{{img.name}}" width="20%" HSPACE="10" VSPACE="10" style="border-image: auto;">
+      </div>
     </app-card>
        
     <app-card>

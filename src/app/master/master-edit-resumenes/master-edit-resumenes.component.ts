@@ -94,6 +94,8 @@ export class MasterEditResumenesComponent extends NgbDatepickerI18n {
   preventiveDate: any;
   checklistDate: any;
   correctiveDate: any;
+
+  urlImages: any;
   
   constructor(private restService: RestService, private resumenesService: ResumenesService, private router: Router, 
     private forkliftService: ForkliftService, private _i18n: I18n, private calendar: NgbCalendar, public formatter: NgbDateParserFormatter,
@@ -143,10 +145,24 @@ export class MasterEditResumenesComponent extends NgbDatepickerI18n {
         this.getPreventiveRoutinesLast();
         this.getCorrectiveRoutinesLast();
         this.getForkliftChecklistLast();
+        this.getImages(id);
         }).catch(error => {
           console.log(error);
         });
      
+    }
+
+    getImages(id){
+      console.log(id);
+      this.resumenesService.getForkliftImage(id).then(data => {
+        const resp: any = data;
+        console.log(data);
+        this.urlImages = resp.data;
+        swal.close();
+      
+        }).catch(error => {
+          console.log(error);
+        });
     }
 
     getChecklist(check: any){
