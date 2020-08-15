@@ -204,6 +204,7 @@ export class MasterExternalUserComponent implements OnInit {
         swal.close();
         this.rowsUser = resp.data;
         console.log( this.rowsUser);
+        this.getRegionals();
     }
     }).catch(error => {
       swal.close();
@@ -398,11 +399,11 @@ export class MasterExternalUserComponent implements OnInit {
 
   
 getRegionalId( id: number){
-  this.restService.getRegionalId(id).then(data => {
+  this.userService.getRegionalId(id).then(data => {
     const resp: any = data;
     console.log(resp);
     console.log('OEOEOEOEOEEO');
-    console.log(resp.data_customerRegionals);
+    console.log(resp.data_userRegionals);
     console.log('----------------data_customerRegionals-----------');
     this.rowsRegionals = resp.data_userRegionals;
     this.regional=[];
@@ -425,6 +426,7 @@ getRegionalId( id: number){
     
     this.rowsRegionals.forEach((value)=>{
       console.log(value.regional_id);
+      console.log(value);
       let index = this.regionals.indexOf(this.regionals.find(x => x.id == value.regional_id));
       console.log(index);
       if(index!=-1){

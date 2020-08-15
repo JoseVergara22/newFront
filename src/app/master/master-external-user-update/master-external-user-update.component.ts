@@ -225,7 +225,7 @@ export class MasterExternalUserUpdateComponent implements OnInit {
         } else {
           this.enabledUpdated = false;
         }
-      
+        this.getRegionals();
 
        /* this.userService.getUsersCustomerUpdate(id).then(data => {
           const resp: any = data;
@@ -460,7 +460,7 @@ export class MasterExternalUserUpdateComponent implements OnInit {
         console.log( this.rowsRegional);
         console.log( this.rowsRegional.length);
         console.log( this.currentUser);
-        this.getRegionalId(this.currentUser.data.id);
+        this.getRegionalId(this.userCurrentUpdate.id);
       }).catch(error => {
         console.log(error);
       });
@@ -468,11 +468,11 @@ export class MasterExternalUserUpdateComponent implements OnInit {
 
   
 getRegionalId( id: number){
-  this.restService.getRegionalId(id).then(data => {
+  this.userService.getRegionalId(id).then(data => {
     const resp: any = data;
     console.log(resp);
     console.log('OEOEOEOEOEEO');
-    console.log(resp.data_customerRegionals);
+    console.log(resp.data_userRegionals);
     console.log('----------------data_customerRegionals-----------');
     this.rowsRegionals = resp.data_userRegionals;
     this.regional=[];
@@ -494,7 +494,7 @@ getRegionalId( id: number){
 // rowsRegional  Son las regionales del creadas
     
     this.rowsRegionals.forEach((value)=>{
-      console.log(value.regional_id);
+      console.log(value);
       let index = this.regionals.indexOf(this.regionals.find(x => x.id == value.regional_id));
       console.log(index);
       if(index!=-1){
@@ -526,7 +526,7 @@ getRegionalId( id: number){
       }
     }
     let regionalSelec = '';
-     regionalSelec = this.currentUser.data.id;
+     regionalSelec = this.userCurrentUpdate.id;
      console.log(regionalSelec);
     //  console.log(this.currentCustomerId);
   

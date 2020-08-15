@@ -47,9 +47,11 @@ return new Promise(resolve => {
         profile_id: profileId,
         active: active
       };
-this.http.post(this.apiEndPoint+'api/auth/signup', postParams)
+      console.log(postParams);
+this.http.post(this.apiEndPoint+'api/auth/signup_technician', postParams)
 .map(res => res).subscribe(data => {
 resolve(data);
+console.log(data);
 }, error => {
           resolve(error);
   });
@@ -494,7 +496,7 @@ resolve(data);
       const postParams = {
         regional: details
       };
-      this.http.post(this.apiEndPoint+'api/create_customer_regionals', postParams, httpOptions)
+      this.http.post(this.apiEndPoint+'api/create_technician_regionals', postParams, httpOptions)
         .map(res => res).subscribe(data => {
           resolve(data);
         }, error => {

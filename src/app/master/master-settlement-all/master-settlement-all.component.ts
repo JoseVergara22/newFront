@@ -247,6 +247,7 @@ export class MasterSettlementAllComponent  extends NgbDatepickerI18n {
  departments: any;
  cities: any;
  subCenter:any;
+ email=[];
 
  constructor(private restService: RestService, private _i18n: I18n, private router: Router, private estimateService: EstimateService, private forkliftService: ForkliftService,
              private calendar: NgbCalendar, public formatter: NgbDateParserFormatter, private userService: UserService,  private uploadService: UploadService,   private formbuilder:FormBuilder, private settlementeService: SettlementService) {
@@ -871,8 +872,17 @@ console.log('este es el e:'+ +JSON.stringify(e));
    getEmailCustomer(){//this.estimateCurrent.customer_id
      this.estimateService.getEmailsCustomer(this.estimateCurrent.customer_id).then(data=>{
        const resp: any = data;
-       console.log('que paso');
+       console.log('emails');
        this.emailCustomer= resp.data;
+       console.log(this.emailCustomer);
+       for(let em of this.emailCustomer){
+         if(em.email ==="facturacion@montacargasmaster.com" || em.email ==="auxcomprasant@montacargasmaster.com"){
+           console.log(em);
+          }else{
+            this.email.push(em);
+           console.log('correcto');
+         }
+       }
        //Poner un for para los email's
        console.log(this.emailCustomer);
      }).catch(error=> {
