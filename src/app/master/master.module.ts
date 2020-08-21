@@ -78,6 +78,14 @@ import { MasterEditResumenesComponent } from './master-edit-resumenes/master-edi
 import { MasterPreventiveMaintenanceComponent } from './master-preventive-maintenance/master-preventive-maintenance.component';
 import { MasterChecklistMaintenanceComponent } from './master-checklist-maintenance/master-checklist-maintenance.component';
 import { MasterCorrectiveMaintenanceComponent } from './master-corrective-maintenance/master-corrective-maintenance.component';
+import { MasterPlatformsComponent } from './master-platforms/master-platforms.component';
+import { MasterRegisterPlatformsComponent } from './master-register-platforms/master-register-platforms.component';
+import { MasterStevedoreComponent } from './master-stevedore/master-stevedore.component';
+import { MasterRegisterStevedoreComponent } from './master-register-stevedore/master-register-stevedore.component';
+import { MasterUpdateStevedoreComponent } from './master-update-stevedore/master-update-stevedore.component';
+import { MasterUpdatePlatformComponent } from './master-update-platform/master-update-platform.component';
+
+
 
 
 //
@@ -101,6 +109,8 @@ import { ChecklistService } from '../master-services/checklist/checklist.service
 import { QuestionService } from '../master-services/question/question.service';
 import { ToiletService } from '../master-services/toliet/toilet.service';
 import { ResumenesService } from '../master-services/resumenes/resumenes.service';
+import { PlatformsService } from '../master-services/platforms/platforms.service';
+import { StevedoreService } from '../master-services/stevedore/stevedore.service';
 
 
 
@@ -192,7 +202,13 @@ import {AutocompleteLibModule} from 'angular-ng-autocomplete';
     MasterEditResumenesComponent,
     MasterPreventiveMaintenanceComponent,
     MasterChecklistMaintenanceComponent,
-    MasterCorrectiveMaintenanceComponent
+    MasterCorrectiveMaintenanceComponent,
+    MasterPlatformsComponent,
+    MasterRegisterPlatformsComponent,
+    MasterStevedoreComponent,
+    MasterRegisterStevedoreComponent,
+    MasterUpdateStevedoreComponent,
+    MasterUpdatePlatformComponent,
     
     
    // MasterAdminComponent
@@ -218,6 +234,8 @@ import {AutocompleteLibModule} from 'angular-ng-autocomplete';
     ChecklistService,
     QuestionService,
     ToiletService,
-    ResumenesService]
+    ResumenesService,
+    PlatformsService,
+    StevedoreService]
 })
 export class MasterModule { }

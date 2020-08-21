@@ -550,6 +550,7 @@ export class MasterUpdateChecklistsComponent implements OnInit {
       this.generalAlert("ha ocurrido un herror","complete todos los campos obligatorios","error");
     }
   }
+  
   updateheader(){
     console.log(this.routineDescriptionUpdate);
     if ((this.routineDescriptionUpdate!=null) || (this.routineDescriptionUpdate!="") || (this.routineHourUpdate==null)) {

@@ -64,6 +64,13 @@ import { MasterEditResumenesComponent } from './master-edit-resumenes/master-edi
 import { MasterPreventiveMaintenanceComponent } from './master-preventive-maintenance/master-preventive-maintenance.component';
 import { MasterChecklistMaintenanceComponent } from './master-checklist-maintenance/master-checklist-maintenance.component';
 import { MasterCorrectiveMaintenanceComponent } from './master-corrective-maintenance/master-corrective-maintenance.component';
+import { MasterPlatformsComponent } from './master-platforms/master-platforms.component';
+import { MasterRegisterPlatformsComponent } from './master-register-platforms/master-register-platforms.component';
+import { MasterStevedoreComponent } from './master-stevedore/master-stevedore.component';
+import { MasterRegisterStevedoreComponent } from './master-register-stevedore/master-register-stevedore.component';
+import { MasterUpdateStevedoreComponent } from './master-update-stevedore/master-update-stevedore.component';
+import { MasterUpdatePlatformComponent } from './master-update-platform/master-update-platform.component';
+
 
 
 
@@ -293,6 +300,24 @@ const routes: Routes = [
   },{
     path:'correctiveMaintenance',
     component: MasterCorrectiveMaintenanceComponent
+  },{
+    path:'platforms',
+    component: MasterPlatformsComponent
+  },{
+    path:'platformsRegister',
+    component: MasterRegisterPlatformsComponent
+  },{
+    path:'stevedores',
+    component: MasterStevedoreComponent
+  },{
+    path:'stevedoresRegister',
+    component: MasterRegisterStevedoreComponent
+  },{
+    path:'stevedoresUpdate/:id',
+    component: MasterUpdateStevedoreComponent
+  },{
+    path:'plataformsUpdate/:id',
+    component: MasterUpdatePlatformComponent
   }
   
  
