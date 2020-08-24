@@ -51,8 +51,9 @@ export class MasterPlatformsComponent implements OnInit {
 
   goToTpdateView(workrow:any){
     console.log(workrow.description);
-    this.router.navigateByUrl('maintenance/work_detailsUpdate/'+workrow.id+'/'+workrow.description+'/'+workrow.hours+'/'+workrow.observation);
+    this.router.navigateByUrl('maintenance/plataformsUpdate/'+workrow.id)
   }
+
   deleteWorkHeader(workrow:any){
     swal({
       title:"Confirmacion",

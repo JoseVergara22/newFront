@@ -99,11 +99,12 @@ const MENUITEMS = [
             state: 'modules',
             name:  'Administrar Modules'
           },
-      
+          */
+         
          {
-            state: 'resumenes',
-            name:  'Administrar Hojas de Vida'
-          },  */
+           state: 'resumenes',
+           name:  'Administrar Hojas de Vida'
+          },
          {
             state: 'prevetiveMaintenance',
             name:  'Administrar Mantenimiento Preventivo'

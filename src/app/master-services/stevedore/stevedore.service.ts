@@ -214,7 +214,7 @@ export class StevedoreService {
       const postParams = {
         description: description,
       };
-      this.http.patch(this.apiEndPoint+'api/update_system/' + id, postParams, httpOptions)
+      this.http.patch(this.apiEndPoint+'api/update_system_stevedore/' + id, postParams, httpOptions)
         .map(res => res).subscribe(data => {
           console.log(data);
           resolve(data);
@@ -316,7 +316,7 @@ export class StevedoreService {
         })
       };
       const postParams = {
-        description: description,
+        part_description: description,
       };
       this.http.patch(this.apiEndPoint+'api/update_part_stevedore/' + id, postParams, httpOptions)
         .map(res => res).subscribe(data => {

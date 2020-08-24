@@ -158,7 +158,7 @@ export class PlatformsService {
         })
       };
       const postParams = {
-        platform_id: platform_id,
+        plaforms_id: platform_id,
         description: description,
       };
       console.log(postParams);

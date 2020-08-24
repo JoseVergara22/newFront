@@ -2625,6 +2625,10 @@ console.log(country+'-'+item.estimate_countries_id+'-'+item.conexion_id_validati
         this.suggestedPrice =Number(Number(this.unitCostUpdate/this.thirdService).toFixed(0));
         this.priceUpdate =   this.suggestedPriceUpdate;
         this.subtotalUpdate =  this.suggestedPriceUpdate*this.quantityUpdate;
+        console.log('ingreso calcular Sub')
+          console.log(this.suggestedPriceUpdate);
+          console.log(this.quantityUpdate);
+          console.log(this.subtotalUpdate);
         this.totalPriceUpdate = this.finalFormat( this.subtotalUpdate);
         this.lowPriceUpdate = this.suggestedPriceUpdate;
         this.higherPriceUpdate=Number(this.suggestedPriceUpdate *(1+(this.suggestedMaximum/100))).toFixed(0);
@@ -2641,16 +2645,20 @@ console.log(country+'-'+item.estimate_countries_id+'-'+item.conexion_id_validati
         console.log('Precion alto: ' + this.higherPriceUpdate);
       } 
     }else{
-      console.log('ingreso');
+      console.log('ingreso 24-08-2020');
       this.calculateFreightUpdate(this.weightUpdate, this.unitCostUpdate);
     }
-    }
+    } 
     if(this.unitCostUpdate!==0 && this.priceListUpdate!==0 && this.quantity!==0){
       if(this.priceListUpdate==7){
-        console.log('calculo simple');
+        console.log('calculo simple 24-08-2020');
         this.suggestedPriceUpdate =Number(this.unitCostUpdate);
         this.priceUpdate =   this.suggestedPriceUpdate;
         this.subtotalUpdate = Number(this.suggestedPriceUpdate*this.quantityUpdate).toFixed(0);
+        console.log('ingreso calcular Sub')
+          console.log(this.suggestedPriceUpdate);
+          console.log(this.quantityUpdate);
+          console.log(this.subtotalUpdate);
         this.totalPriceUpdate = this.finalFormat( this.subtotalUpdate);
         this.lowPriceUpdate = this.suggestedPriceUpdate;
         this.higherPriceUpdate=Number(this.suggestedPriceUpdate *(1+(this.suggestedMaximum/100))).toFixed(0);
@@ -2665,6 +2673,10 @@ console.log(country+'-'+item.estimate_countries_id+'-'+item.conexion_id_validati
           this.suggestedPriceUpdate = Number(Number(this.unitCostUpdate/this.thirdService).toFixed(0));
           this.priceUpdate =   this.suggestedPriceUpdate;
           this.subtotalUpdate =  this.suggestedPriceUpdate*this.quantityUpdate;
+          console.log('ingreso calcular Sub')
+          console.log(this.suggestedPriceUpdate);
+          console.log(this.quantityUpdate);
+          console.log(this.subtotalUpdate);
           this.totalPriceUpdate = this.finalFormat( this.subtotalUpdate);
           this.lowPriceUpdate = this.suggestedPriceUpdate;
           this.higherPriceUpdate=Number(this.suggestedPriceUpdate *(1+(this.suggestedMaximum/100))).toFixed(0);
@@ -2674,6 +2686,10 @@ console.log(country+'-'+item.estimate_countries_id+'-'+item.conexion_id_validati
           this.suggestedPriceUpdate =Number(Number(this.unitCostUpdate/ this.nationalService).toFixed(0));
           this.priceUpdate =   this.suggestedPriceUpdate;
           this.subtotalUpdate =  this.suggestedPriceUpdate*this.quantityUpdate;
+          console.log('ingreso calcular Sub')
+          console.log(this.suggestedPriceUpdate);
+          console.log(this.quantityUpdate);
+          console.log(this.subtotalUpdate);
           this.totalPriceUpdate = this.finalFormat( this.subtotalUpdate);
           this.lowPriceUpdate = this.suggestedPriceUpdate;
           this.higherPriceUpdate=Number(this.suggestedPriceUpdate *(1+(this.suggestedMaximum/100))).toFixed(0);
@@ -2683,10 +2699,18 @@ console.log(country+'-'+item.estimate_countries_id+'-'+item.conexion_id_validati
 
       }
 
-      console.log('valores con los decimales');
+      console.log('valores con los decimale');
+      console.log(this.suggestedPriceUpdate);
       this.suggestedPriceUpdate= this.finalFormat(this.suggestedPriceUpdate);
+      console.log(this.suggestedPriceUpdate);
+      console.log('-----------IL----');
+      console.log(this.priceUpdate);
       this.priceUpdate= this.finalFormat(this.priceUpdate);
+      console.log(this.priceUpdate);
+      console.log('-----------IL----');
+      console.log(this.subtotalUpdate);
       this.subtotalUpdate= this.finalFormat(this.subtotalUpdate);
+      console.log(this.subtotalUpdate);
      
     }
     /* console.log('jajajajaj');
@@ -2914,7 +2938,8 @@ finalOperationUpdate(country:number){
   console.log( this.lowPriceUpdate +'-----'+ this.higherPriceUpdate);
 
   this.priceUpdate=Number(this.salePriceUpdate).toFixed(0);
-  this.subtotalUpdate=(Number(this.salePriceUpdate)*Number(this.quantityUpdate)).toFixed(0);
+  let salePrice = Number(this.salePriceUpdate).toFixed(0);
+  this.subtotalUpdate=((Number(salePrice))*Number(this.quantityUpdate)).toFixed(0);
 
   let totalPart =  Number((this.priceUpdate*this.quantityUpdate)-((this.priceUpdate*this.quantityUpdate)*(this.discountPartUpdate/100))).toFixed(0);
     this.totalPriceUpdate= this.finalFormat(totalPart);
@@ -5113,6 +5138,7 @@ console.log('Solo se permiten numeros');
   console.log(splitLeft);
   }
   console.log('Importante oleole');
+  console.log('------IL-----');
   console.log(splitLeft +splitRight);
   return  splitLeft +splitRight;
   }

@@ -51,7 +51,7 @@ export class MasterStevedoreComponent implements OnInit {
 
   goToTpdateView(workrow:any){
     console.log(workrow.description);
-    this.router.navigateByUrl('maintenance/work_detailsUpdate/'+workrow.id+'/'+workrow.description+'/'+workrow.hours+'/'+workrow.observation);
+    this.router.navigateByUrl('maintenance/stevedoresUpdate/'+workrow.id) 
   }
   deleteWorkHeader(workrow:any){
     swal({

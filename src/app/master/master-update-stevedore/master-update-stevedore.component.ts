@@ -7,7 +7,8 @@ import { StevedoreService } from '../../master-services/stevedore/stevedore.serv
 @Component({
   selector: 'app-master-update-stevedore',
   templateUrl: './master-update-stevedore.component.html',
-  styleUrls: ['./master-update-stevedore.component.scss']
+  styleUrls: ['./master-update-stevedore.component.scss',
+  '../../../assets/icon/icofont/css/icofont.scss']
 })
 export class MasterUpdateStevedoreComponent implements OnInit {
 
@@ -263,7 +264,7 @@ export class MasterUpdateStevedoreComponent implements OnInit {
   updateComponent(components: any){
     this.currentSystem = components;
     console.log( this.currentSystem );
-    this.updateComponentForm.get('updateComponent').setValue(this.currentSystem.description);
+    this.updateComponentForm.get('updateComponent').setValue(this.currentSystem.system_description);
    document.getElementById('showComponent').click();
 
   }
@@ -276,7 +277,7 @@ export class MasterUpdateStevedoreComponent implements OnInit {
         allowOutsideClick: false
       });
       swal.showLoading();
-      this.stevedorService.updateSystem(this.currentSystem.id,system.updateComponent).then(data=>{
+      this.stevedorService.updateSystem(this.currentSystem.maintenance_system_id,system.updateComponent).then(data=>{
         const resp:any=data;
         // this.headerInfo=resp.data;
         // console.log("header information");
@@ -298,7 +299,7 @@ export class MasterUpdateStevedoreComponent implements OnInit {
     
     this.currentPart = row;
     console.log( this.currentPart );
-    this.updatePartForm.get('partDescriptionUpdate').setValue(this.currentPart.description);
+    this.updatePartForm.get('partDescriptionUpdate').setValue(this.currentPart.part_description);
 
    document.getElementById( 'showUpdatePart').click();
   }
@@ -458,6 +459,8 @@ export class MasterUpdateStevedoreComponent implements OnInit {
 
       this.supplicePart =  1;  
       console.log(this.supplicePart);
+    }else{
+      this.supplicePart =  0;
     }
     console.log(this.supplicePart);
   }
@@ -469,6 +472,8 @@ export class MasterUpdateStevedoreComponent implements OnInit {
 
       this.deliveryReview =  1;  
       console.log(this.deliveryReview);
+    }else{
+      this.deliveryReview =  0;
     }
     console.log(this.deliveryReview);
   }
@@ -480,6 +485,8 @@ export class MasterUpdateStevedoreComponent implements OnInit {
 
       this.pending =  1;  
       console.log(this.pending);
+    }else{
+      this.pending =  0;
     }
     console.log(this.pending);
   }
@@ -491,6 +498,8 @@ export class MasterUpdateStevedoreComponent implements OnInit {
 
       this.survey =  1;  
       console.log(this.survey);
+    }else{
+      this.survey =  0;
     }
     console.log(this.survey);
   }
@@ -502,6 +511,8 @@ export class MasterUpdateStevedoreComponent implements OnInit {
 
       this.firm =  1;  
       console.log(this.firm);
+    }else{
+      this.firm =  0;
     }
     console.log(this.firm);
   }

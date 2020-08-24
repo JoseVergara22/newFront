@@ -86,7 +86,7 @@ export class MasterUpdatePlatformComponent implements OnInit {
           this.routineObservationUpdate= resp.data.observation;
 
           if(this.platforms.delivery_review == 1){
-            document.getElementById('delivery_review').click();
+            document.getElementById('deliveryReview').click();
           }
           if(this.platforms.supplice_part == 1){
             document.getElementById('supplicePart').click();
@@ -160,7 +160,7 @@ export class MasterUpdatePlatformComponent implements OnInit {
         allowOutsideClick: false
       });
       swal.showLoading();
-      this.platformsService.updateSystem(this.currentSystem.id,description).then(data=>{
+      this.platformsService.updateSystem(this.currentSystem.maintenance_system_id,description).then(data=>{
         this.getWorkDetails(this.platformsId);
         this.generalAlert("Proceso completado","Proceso completado correctamente!","success");
         document.getElementById( 'updatePartHide').click();
