@@ -93,7 +93,7 @@ export class MasterPreventiveMaintenanceComponent extends NgbDatepickerI18n {
       this.getRegional();
       this.getWorks();
       this.getTechnician();
-      this.getConsecutive();
+      
     }
     
     getRegional(){
@@ -384,9 +384,9 @@ export class MasterPreventiveMaintenanceComponent extends NgbDatepickerI18n {
           let result  = resp.data;
           console.log(result);
 
-          this.resumenesService.updateConsecutivePreventive().then(data => {
-            const resp: any = data;
-            console.log(data);
+          // this.resumenesService.updateConsecutivePreventive().then(data => {
+          //   const resp: any = data;
+          //   console.log(data);
             
             document.getElementById('assignPrevetiveHide').click();
           
@@ -400,18 +400,18 @@ export class MasterPreventiveMaintenanceComponent extends NgbDatepickerI18n {
             this.cleanSelectTechnician();
              console.log('llego hasta aqui');
     
-            // swal.close();
+            swal.close();
             // this.rowsClient = resp.data;
             // this.rowStatic =  resp.data;
             // this.rowsTemp = resp.data;
             // console.log( this.rowsClient);
-          }).catch(error => {
-            swal({
-              title: 'Se presento un problema, para guardar este encabezado cotización',
-              type: 'error'
-             });
-            console.log(error);
-          });
+          // }).catch(error => {
+          //   swal({
+          //     title: 'Se presento un problema, para guardar este encabezado cotización',
+          //     type: 'error'
+          //    });
+          //   console.log(error);
+          // });
         }
           }).catch(error => {
             swal.close();

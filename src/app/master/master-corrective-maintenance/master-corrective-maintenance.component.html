@@ -61,7 +61,7 @@
             <div >
             
             <button class="btn btn-primary" (click)="showAssing()">Crear</button>
-            <button style="display: none;" id="showAssing" class="btn btn-primary" (click)="modalAssingCorrective.show()">Crear</button>
+            <button style="display: none;" id="showAssing" class="btn btn-primary" (click)="modalAssingCorrective.show()" (click)="getConsecutive()">Crear</button>
           </div>
           </div>
 
@@ -232,8 +232,8 @@
           <br>
           <br>
             <div class="align-buttons">
-              <button type="button" class="btn btn-default waves-effect" id="assignPreveUpdatetiveHide" (click)="addCancelDate()" (click)="modalUpdateCorrective.hide()">Cancelar</button>
-              <button type="button" style="display: none;" class="btn btn-default waves-effect" id="assignCorrectiveHide" (click)="modalUpdateCorrective.hide()">Cancelar</button>
+              <button type="button" class="btn btn-default waves-effect" id="hide" (click)="addCancelDate()" >Cancelar</button>
+              <button type="button" style="display: none;" class="btn btn-default waves-effect" id="assignCorrectiveHide" (click)="modalAssingCorrective.hide()">Cancelar</button>
               <button type="submit " class="btn btn-primary m-b-0 " (click)="createCorrective()" >Guardar</button>
             </div>
       </div>          

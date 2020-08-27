@@ -752,7 +752,7 @@ export class EstimateService {
         forklift_text:forklift_text
       };
 
-   
+      console.log(postParams);
       this.http.post(this.apiEndPoint+'api/create_estimate', postParams, httpOptions)
         .map(res => res).subscribe(data => {
 

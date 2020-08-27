@@ -107,7 +107,7 @@ export class MasterCorrectiveMaintenanceComponent extends NgbDatepickerI18n {
       this.getRegional();
     
       this.getTechnician();
-      this.getConsecutive();
+      
     }
 
     getCorrectiveRoutines(){
@@ -339,9 +339,9 @@ export class MasterCorrectiveMaintenanceComponent extends NgbDatepickerI18n {
            let result  = resp.data;
            console.log(result);
 
-           this.resumenesService.updateConsecutiveCorrective().then(data => {
-            const resp: any = data;
-            console.log(data);
+          //  this.resumenesService.updateConsecutiveCorrective().then(data => {
+          //   const resp: any = data;
+          //   console.log(data);
             this.getCorrectiveRoutines();
            this.cleanSelectCorrective();
            this.cleanSelectTechnician();
@@ -352,18 +352,18 @@ export class MasterCorrectiveMaintenanceComponent extends NgbDatepickerI18n {
            });
              console.log('llego hasta aqui');
     
-            // swal.close();
+            swal.close();
             // this.rowsClient = resp.data;
             // this.rowStatic =  resp.data;
             // this.rowsTemp = resp.data;
-            // console.log( this.rowsClient);
-          }).catch(error => {
-            swal({
-              title: 'Se presento un problema, para guardar este encabezado cotización',
-              type: 'error'
-             });
-            console.log(error);
-          });
+            console.log( this.rowsClient);
+          // }).catch(error => {
+          //   swal({
+          //     title: 'Se presento un problema, para guardar este encabezado cotización',
+          //     type: 'error'
+          //    });
+          //   console.log(error);
+          // });
         }
            
       }).catch(error => {
@@ -581,7 +581,7 @@ export class MasterCorrectiveMaintenanceComponent extends NgbDatepickerI18n {
     
     this.cleanSelectCorrective();
     this.cleanSelectTechnician();
-    document.getElementById( 'assignCorrectiveHide').click();
+    document.getElementById('assignCorrectiveHide').click();
 }
   addCancelUpdateDate(){
     //If exist, remove the date
