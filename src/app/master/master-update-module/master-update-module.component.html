@@ -6,24 +6,29 @@
   </div>
   <div class="app-modal-body">
     <form [formGroup]="myFormSubModules"  (ngSubmit)="sendSubModule()">
-    <div class=" form-group row ">     
-        <h6>Nombre <span style="color:red; ">*</span></h6>
-        <input type="text " class="form-control"  formControlName="descriptionSub" [ngClass]="{ 'is-invalid': submittedUpdated && checkFormSubModules.descriptionUpdate.errors } ">
-        <div *ngIf="submittedUpdated && checkFormSubModules.descriptionUpdate.errors " class="invalid-feedback ">
-            <div class="messages text-danger " *ngIf="checkFormSubModules.descriptionUpdate.errors.required ">Este campo es requerido</div>
-        </div>
-      </div>
+    <div class="  row "> 
+        <div class="col-sm-5">
+            <h6>Nombre <span style="color:red; ">*</span></h6>
+            <input type="text " class="form-control"  formControlName="descriptionSub" [(ngModel)]="description" required>
+           
+    </div>
+        <div class="col-sm-2"></div>
 
-            <div class="col-sm-4">
-                <h6>Activo</h6>
-                 <ui-switch class="js-single" color="#4680ff" switchColor="#fff" size="medium" (change)="onChangeCreatedOfficeUpdate($event)" [checked]="enabledCreatedOfficeUpdate"></ui-switch><br> 
-            </div>
+        <div class="col-sm-5">
+                <h6 class="route">Selecciona la ruta para este submodulo<span style="color: red;">*</span></h6>
+                <select class="form-control" name="select" [(ngModel)]="selectedRoute" formControlName="routes">
+                  <option value="0" selected>Seleccionar la ruta</option>
+                  <option  *ngFor="let reg of route" [ngValue]="reg"> {{reg.description}} </option>
+                </select>
+        </div>  
 
+    
         <div class="align-buttons">
             <button type="button" class="btn btn-default waves-effect" id="updateBrandHide" (click)="modalRegisterSubModule.hide()">Cancelar</button>
             <button type="submit " class="btn btn-primary m-b-0 ">Crear SubModulo</button>
 
         </div>
+    </div>
     </form>
   </div>
 </app-modal-basic>
@@ -35,18 +40,25 @@
   </div>
   <div class="app-modal-body">
       <form [formGroup]="myFormUpdateSubModules" (ngSubmit)="sendUpdateSubModule()">
-        <div class=" form-group row ">     
+        <div class=" form-group row ">
+            <div class="col-sm-5"> 
           <h6>Descripcion <span style="color:red; ">*</span></h6>
-          <input type="text " class="form-control" value={{description}} formControlName="descriptionUpdateSub" [ngClass]="{ 'is-invalid': submittedUpdated && checkFormUpdateSubModules.descriptionUpdate.errors } ">
-          <div *ngIf="submittedUpdated && checkFormUpdateSubModules.descriptionUpdate.errors " class="invalid-feedback ">
-              <div class="messages text-danger " *ngIf="checkFormUpdateSubModules.descriptionUpdate.errors.required ">Este campo es requerido</div>
+          <input type="text " class="form-control" value={{description}} formControlName="descriptionUpdateSub" [ngClass]="{ 'is-invalid': submittedUpdated && checkFormUpdateSubModules.descriptionUpdateSub.errors } ">
+          <div *ngIf="submittedUpdated && checkFormUpdateSubModules.descriptionUpdateSub.errors " class="invalid-feedback ">
+              <div class="messages text-danger " *ngIf="checkFormUpdateSubModules.descriptionUpdateSub.errors.required ">Este campo es requerido</div>
           </div>
         </div>
+    </div>
 
-              <div class="col-sm-4">
-                  <h6>Activo</h6>
-                <ui-switch class="js-single" color="#4680ff" switchColor="#fff" size="medium" (change)="onChangeCreatedOfficeUpdate($event)" [checked]="enabledCreatedOfficeUpdate"></ui-switch><br> 
-              </div>
+        <div class="col-sm-2"></div>
+
+        <div class="col-sm-5">
+                <h6 class="route">Selecciona la ruta para este submodulo<span style="color: red;">*</span></h6>
+                <select class="form-control" name="select" [(ngModel)]="selectedRouteUpdate" formControlName="routesUpdate">
+                  <option value="0" selected>Seleccionar la ruta</option>
+                  <option  *ngFor="let reg of route" [ngValue]="reg"> {{reg.description}} </option>
+                </select>
+        </div>  
 
           <div class="align-buttons">
              <button type="button" class="btn btn-default waves-effect" id="updateSubmoduleHide" (click)="modalUpdateSubModule.hide()">Cancelar</button> 
@@ -62,10 +74,10 @@
 <div class="row">
   <div class="col-sm-12">
 
-      <app-card [title]="'Registro Clientes'" [headerContent]="''" [cardOptionBlock]="true">
+      <app-card [title]="'Registro Modulos'" [headerContent]="''" [cardOptionBlock]="true">
 
 
-          <h5>Información cliente </h5>
+          <h5>Información Modulos </h5>
           <br>
           <br>
 
@@ -113,18 +125,9 @@
 
               <!--   <ngx-datatable-column [resizeable]="false" name="Compañia" [sortable]="false" [draggable]="false" prop="business_name"></ngx-datatable-column> -->
               <ngx-datatable-column [resizeable]="false" name="Nombre SubModulo" [sortable]="false" [draggable]="false" prop="description"></ngx-datatable-column>
-              <ngx-datatable-column [resizeable]="false" name="Estado" [sortable]="false" [draggable]="false" prop="status">
-                  <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
-                      <label (click)="blockAgents(value)" class="label label-md label-primary" *ngIf="value==0">Activo</label>
-                      <label class="label label-md label-danger" *ngIf="value==1">Inactivo</label>
-                  </ng-template>
-              </ngx-datatable-column>
+              <ngx-datatable-column [resizeable]="false" name="Ruta" [sortable]="false" [draggable]="false" prop="route_description"></ngx-datatable-column>
               <ngx-datatable-column [resizeable]="false" name="Acciones" [sortable]="false" [draggable]="false" sortable="false" prop="id">
                   <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
-
-                      <!--<button md-icon-button (click)="blockAgents(value)">
-                            <i class="fa fa-ban"></i>
-                          </button> -->
 
                       <button (click)="updateBrand(row)" class="btn btn-primary btn-icon"><i class="icofont icofont-pencil-alt-5"></i></button>
                       <button (click)="deleteSubModulo(row)" class="btn btn-danger btn-icon"><i class="icofont icofont-ui-delete"></i></button>

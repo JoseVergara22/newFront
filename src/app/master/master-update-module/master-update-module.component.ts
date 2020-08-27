@@ -31,13 +31,19 @@ export class MasterUpdateModuleComponent implements OnInit {
 
   currentModelId: any = 0;
 
-  description: any;
+  // description: any;
   currentSubModule: any;
 
   elementDelete: any;
 
   submitted = false;
   enabledCreated = true;
+
+  route: any;
+  selectedRoute: any = 0;
+  selectedRouteUpdate: any = 0;
+
+  description:string='';
 
   constructor(private moduleService: ModulesService, private router: Router, private rutaActiva: ActivatedRoute) {
 
@@ -49,20 +55,25 @@ export class MasterUpdateModuleComponent implements OnInit {
     const descriptionUpdate = new FormControl('', Validators.required);
   
     const descriptionUpdateSub = new FormControl('', Validators.required);
-  
-    const descriptionSub = new FormControl('', Validators.required);
-  
-
+    const routes = new FormControl('');
+    
+    const descriptionSub = new FormControl('');
+    const routesUpdate = new FormControl('');
+    
+    
     this.myFormUpdateSubModules = new FormGroup({
       descriptionUpdateSub: descriptionUpdateSub,
+      routesUpdate:routesUpdate
     });
     
-
     this.myFormUpdate = new FormGroup({
       descriptionUpdate: descriptionUpdate,
+      
     });
     this.myFormSubModules = new FormGroup({
       descriptionSub: descriptionSub,
+      routes: routes,
+      
     });
    }
 
@@ -79,7 +90,7 @@ export class MasterUpdateModuleComponent implements OnInit {
       this.description = resp.data[0].description
       this.getSubModules(Id);
       swal.close();
-
+      this.getRoute();
       console.log( this.description);
     }).catch(error => {
       console.log(error);
@@ -106,12 +117,31 @@ export class MasterUpdateModuleComponent implements OnInit {
       });
   }
 
+  getRoute() {
+    // console.log(this.opcionSeleccionado);
+      this.moduleService.getRoute().then(data => {
+        console.log('que mas ps');
+        const resp: any = data;
+        console.log(resp);
+        this.route = resp.data;
+ 
+        console.log('Importante ver la info');
+        console.log( this.route);
+     //   this.dataOffices = this.dataOffices.data;
+        console.log('master');
+        swal.close();
+
+      }).catch(error => {
+        console.log(error);
+      });
+  }
+
   sendSubModule(){
     
       console.log('Ole ole ole');
   
         this.submitted = true;
-       if ( !this.myFormSubModules.invalid) {
+       if ( this.description == ''|| this.selectedRoute == 0) {
         swal({
           title: 'Validando información ...',
           allowOutsideClick: false
@@ -123,7 +153,8 @@ export class MasterUpdateModuleComponent implements OnInit {
           statusTemp = 1;
         }
     
-        this.moduleService.createSubModule(this.myFormSubModules.get('descriptionSub').value.toUpperCase(),this.currentModelId)
+        this.moduleService.createSubModule(this.myFormSubModules.get('descriptionSub').value.toUpperCase(),this.selectedRoute.id,
+        this.selectedRoute.descriptionthis,this.currentModelId)
         .then(data => {
           const resp: any = data;
           console.log(resp);
@@ -148,6 +179,7 @@ export class MasterUpdateModuleComponent implements OnInit {
           console.log(error);
         });
       } else {
+        console.log(this.myFormSubModules);
         swal({
           title: 'Debe llenar el campo obligatorio',
           text: 'Debe llenar el campo obligatorio',
@@ -249,7 +281,7 @@ export class MasterUpdateModuleComponent implements OnInit {
       }
       console.log('kakakaka');
   
-     this.moduleService.updateSubModule(Number(this.currentModelId), this.myFormUpdateSubModules.get('descriptionUpdateSub').value.toUpperCase())
+     this.moduleService.updateSubModule(Number(this.currentModelId), this.myFormUpdateSubModules.get('descriptionUpdateSub').value.toUpperCase(),this.selectedRouteUpdate.id,this.selectedRouteUpdate.description)
       .then(data => {
         const resp: any = data;
         console.log(JSON.stringify(resp));

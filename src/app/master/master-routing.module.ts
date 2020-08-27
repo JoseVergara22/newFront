@@ -70,6 +70,10 @@ import { MasterStevedoreComponent } from './master-stevedore/master-stevedore.co
 import { MasterRegisterStevedoreComponent } from './master-register-stevedore/master-register-stevedore.component';
 import { MasterUpdateStevedoreComponent } from './master-update-stevedore/master-update-stevedore.component';
 import { MasterUpdatePlatformComponent } from './master-update-platform/master-update-platform.component';
+import { MasterProfileComponent } from './master-profile/master-profile.component';
+import { MasterUpdateProfileComponent } from './master-update-profile/master-update-profile.component';
+import { MasterRegisterProfileComponent } from './master-register-profile/master-register-profile.component';
+
 
 
 
@@ -318,6 +322,15 @@ const routes: Routes = [
   },{
     path:'plataformsUpdate/:id',
     component: MasterUpdatePlatformComponent
+  },{
+    path:'profile',
+    component: MasterProfileComponent
+  },{
+    path:'profileRegister',
+    component: MasterRegisterProfileComponent
+  },{
+    path:'profileUpdate/:id',
+    component: MasterUpdateProfileComponent
   }
   
  

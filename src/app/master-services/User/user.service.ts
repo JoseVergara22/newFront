@@ -531,6 +531,131 @@ console.log(data);
     });
   }
 
+  showProfile(){
+    console.log('ole ole ole');
+  
+    return new Promise(resolve => {
+      const headers = new HttpHeaders();
+      headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user'))); 
+      headers.append('Content-Type', 'application/json');
+      const httpOptions = {
+        headers: new HttpHeaders({
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + localStorage.getItem('token_user'),
+          'Accept': 'application/json'
+        })
+      };
+      const postParams = {
+      };
+      this.http.get(this.apiEndPoint+'api/profiles', httpOptions)
+        .map(res => res).subscribe(data => {
+          console.log(data);
+          resolve(data);
+        }, error => {
+          resolve(error);
+        });
+    });
+  }
+
+  getprofileId(id: number){
+    console.log('ole ole ole');
+    console.log(id);
+    return new Promise(resolve => {
+      const headers = new HttpHeaders();
+      headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user'))); 
+      headers.append('Content-Type', 'application/json');
+      const httpOptions = {
+        headers: new HttpHeaders({
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + localStorage.getItem('token_user'),
+          'Accept': 'application/json'
+        })
+      };
+      const postParams = {
+      };
+      this.http.get(this.apiEndPoint+'api/profiles/'+id, httpOptions)
+        .map(res => res).subscribe(data => {
+          console.log(data);
+          resolve(data);
+        }, error => {
+          resolve(error);
+        });
+    });
+  }
+
+  createProfile(details: string) {
+    return new Promise(resolve => {
+      const headers = new HttpHeaders();
+      headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user'))); // 'Bearer ' +
+      headers.append('Content-Type', 'application/json');
+      const httpOptions = {
+        headers: new HttpHeaders({
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + localStorage.getItem('token_user'),
+          'Accept': 'application/json'
+        })
+      };
+      const postParams = {
+        regional: details
+      };
+      this.http.post(this.apiEndPoint+'api/profiles', postParams, httpOptions)
+        .map(res => res).subscribe(data => {
+          resolve(data);
+        }, error => {
+        resolve(error);
+        });
+    });
+  }
+
+  updateProfile(idUser: number, password: string) {
+    return new Promise(resolve => {
+      const httpOptions = {
+        headers: new HttpHeaders({
+          'Content-Type':  'application/json',
+          'Authorization': 'Bearer ' + localStorage.getItem('token_user'),
+          'Accept': 'application/json'
+        })
+      };
+      
+      const patchParams = {
+        description:password,
+      };
+      this.http.patch(this.apiEndPoint+'api/profiles/'+idUser,patchParams, httpOptions)
+      .map(res => res).subscribe(data => {
+        console.log("a mostrar data");
+      console.log(data);
+      resolve(data);
+      }, error => {
+        console.log("error en servicio");
+                resolve(error);
+        });
+    });
+  }
+
+  deleteProfile(id:number) {
+    return new Promise(resolve => {
+      const headers = new HttpHeaders();
+      headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user'))); // 'Bearer ' +
+      headers.append('Content-Type', 'application/json');
+      const httpOptions = {
+        headers: new HttpHeaders({
+          'Content-Type':  'application/json',
+          'Authorization': 'Bearer ' + localStorage.getItem('token_user'),
+          'Accept': 'application/json'
+        })
+      };
+      
+      this.http.delete(this.apiEndPoint+'api/profiles/' + id, httpOptions)
+      .map(res => res).subscribe(data => {
+      console.log(data);
+      resolve(data);
+      }, error => {
+                resolve(error);
+        });
+    });
+  }
+
+
 }
 
 

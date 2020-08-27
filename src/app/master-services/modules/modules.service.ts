@@ -32,6 +32,28 @@ export class ModulesService {
         });
     });
   }
+
+  getModuleFuntion(){
+    return new Promise(resolve => {
+      const headers = new HttpHeaders();
+      headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user'))); // 'Bearer ' +
+      headers.append('Content-Type', 'application/json');
+      const httpOptions = {
+        headers: new HttpHeaders({
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + localStorage.getItem('token_user'),
+          'Accept': 'application/json'
+        })
+      };
+      this.http.get(this.apiEndPoint+'api/get_module_sub', httpOptions)
+        .map(res => res).subscribe(data => {
+          console.log(data);
+          resolve(data);
+        }, error => {
+          resolve(error);
+        });
+    });
+  }
  
   getModuleById(id:number){
     console.log(id);
@@ -78,6 +100,29 @@ export class ModulesService {
     });
   }
  
+
+  getRoute() {
+    return new Promise(resolve => {
+      const headers = new HttpHeaders();
+      headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user'))); // 'Bearer ' +
+      headers.append('Content-Type', 'application/json');
+      const httpOptions = {
+        headers: new HttpHeaders({
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + localStorage.getItem('token_user'),
+          'Accept': 'application/json'
+        })
+      };
+      this.http.post(this.apiEndPoint+'api/get_route', httpOptions)
+        .map(res => res).subscribe(data => {
+          console.log(data);
+          resolve(data);
+        }, error => {
+          resolve(error);
+        });
+    });
+  }
+ 
   createModule(description: string, status: number) {
       console.log(description);
       return new Promise(resolve => {
@@ -92,10 +137,9 @@ export class ModulesService {
           })
         };
         const postParams = {
-          description: description,
-          status:status
+          description: description
         };
-        this.http.post(this.apiEndPoint+'api/create_module?description='+description, httpOptions)
+        this.http.post(this.apiEndPoint+'api/create_module',postParams, httpOptions)
           .map(res => res).subscribe(data => {
             resolve(data);
           }, error => {
@@ -104,7 +148,7 @@ export class ModulesService {
       });
     }
 
-  createSubModule(description: string, module_id: number) {
+  createSubModule(description: string,route_id:number, route_description: string, module_id: number) {
       console.log(description);
       return new Promise(resolve => {
         const headers = new HttpHeaders();
@@ -119,8 +163,11 @@ export class ModulesService {
         };
         const postParams = {
           description: description,
-          module_id:module_id
+          module_id:module_id,
+          route_id:route_id,
+          route_description:route_description
         };
+        console.log(postParams);
         this.http.post(this.apiEndPoint+'api/create_function_module ', postParams, httpOptions)
           .map(res => res).subscribe(data => {
             resolve(data);
@@ -157,7 +204,7 @@ export class ModulesService {
       });
     }
 
-    updateSubModule(id: number, description: string) {
+    updateSubModule(id: number, description: string,route_id:number, route_description: string) {
       console.log(id + ',' + description );
       return new Promise(resolve => {
         const headers = new HttpHeaders();
@@ -172,6 +219,8 @@ export class ModulesService {
         };
         const postParams = {
           description: description,
+          route_id:route_id,
+          route_description:route_description
         };
         this.http.patch(this.apiEndPoint+'api/update_function_module/' + id, postParams, httpOptions)
           .map(res => res).subscribe(data => {

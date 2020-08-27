@@ -95,11 +95,11 @@ const MENUITEMS = [
             name: 'Administrar Checklist'
           },
     
+          */
          {
             state: 'modules',
-            name:  'Administrar Modules'
+            name:  'Administrar Modulos'
           },
-          */
          
          {
            state: 'resumenes',

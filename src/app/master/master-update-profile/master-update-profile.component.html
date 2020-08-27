@@ -1,0 +1,60 @@
+
+<div class="row">
+  <div class="col-sm-12">
+      <app-card  style="position: sticky; top: 300px;">
+          <h5>Administrar Perfil </h5>
+          <br>
+          <div class="row">
+            <br>
+                            <div>
+                                <input type="text" [(ngModel)]="profile.description" class="form-control" id="systemtitle" disabled>
+                            </div>
+            <div class="align-buttons">
+                <button style="display: none;" type="button" class="btn btn-default waves-effect" id="showUpdateSystem" hidden (click)="modalUpdateComponent.show()">Cancelar</button>
+                
+              <button (click)="updateComponent(profile )" class="btn btn-primary btn-icon"><i class="icofont icofont-pencil-alt-5"></i></button>
+          </div>
+          </div>
+          <br>
+  
+          <ngx-datatable #table class="data-table" [rows]="rowsClient" [columnMode]="'flex'" [headerHeight]="50" [footerHeight]="50" [rowHeight]="'auto'"
+              [limit]="25">
+  
+              <ngx-datatable-column [resizeable]="false" [flexGrow]="1" name="Codigo"  [canAutoResize]="true" [sortable]="false" [draggable]="false" prop="code"></ngx-datatable-column>
+              <ngx-datatable-column [resizeable]="false" [flexGrow]="1" name="Nombre"  [canAutoResize]="true" [sortable]="false" [draggable]="false" prop="description"></ngx-datatable-column>
+              <ngx-datatable-column [resizeable]="false" [flexGrow]="1" name="Sucursal"  [canAutoResize]="true" [sortable]="false" [draggable]="false" prop="regionalDescription"></ngx-datatable-column>
+              <ngx-datatable-column [resizeable]="false" [flexGrow]="2" name="Acciones"  [canAutoResize]="true" [sortable]="false" [draggable]="false" sortable="false" prop="id">
+                  <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+  
+                      <button (click)="updateWare(row)" class="btn btn-primary btn-icon"><i class="icofont icofont-pencil-alt-5"><label>Asignar</label></i></button>
+                  
+                  </ng-template>
+              </ngx-datatable-column>
+          </ngx-datatable>
+      </app-card>
+  </div>
+  </div>
+
+  <app-modal-basic #modalUpdateComponent [dialogClass]="'modal-lg'" >
+    <div class="app-modal-header">
+        <h4 class="modal-title">Actualizar Sistema</h4>
+    </div>
+    <div class="app-modal-body">
+        <form [formGroup]="updateComponentForm">            
+            <div class="form-group row">
+                <div class="col-sm-2"> </div>
+  
+                <div class="col-sm-8">
+                    <h6>Descripción <span style="color:red;">*</span></h6>
+                    <input type="text" class="form-control" id="updateComponent" formControlName="updateComponent">
+                </div>
+  
+                <div class="col-sm-2"> </div>
+            </div>
+            <div class="align-buttons">
+                <button type="button" class="btn btn-default waves-effect" id="updateComponentHide" (click)="modalUpdateComponent.hide()">Cancelar</button>
+                <button type="submit " class="btn btn-primary m-b-0 " (click)="sendUpdateComponent(updateComponentForm.value)">Actualizar Componente</button>
+            </div>
+        </form>
+    </div>
+  </app-modal-basic>
