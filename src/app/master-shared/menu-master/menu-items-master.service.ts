@@ -92,6 +92,14 @@ const MENUITEMS = [
           },
            */
           {
+            state:'platforms',
+            name: 'Administrar Plataformas'
+          },
+          {
+            state:'stevedores',
+            name: 'Administrar Estibadores'
+          },
+          {
             state:'checklists',
             name: 'Administrar Checklist'
           },
