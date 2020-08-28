@@ -460,7 +460,8 @@ export class MasterPreventiveMaintenanceComponent extends NgbDatepickerI18n {
     this.oldDate = row.date;
 
 
-    let date = row.result.corrective.date; 
+    let date = row.date; 
+    console.log(date)
     let dateComplete = date.substring(0,10);
     let dateArray = dateComplete.split('-');
     
@@ -682,7 +683,7 @@ export class MasterPreventiveMaintenanceComponent extends NgbDatepickerI18n {
   }
   
   SelectItemTechnician(idTechnician: any){// Falta organizarlo
-    var tech = idTechnician.technician_id
+    var tech = idTechnician.user_id
     console.log('jajaja');
     console.log(this.technicianSelecteds);
     this.technicianSelecteds.map(function(dato){

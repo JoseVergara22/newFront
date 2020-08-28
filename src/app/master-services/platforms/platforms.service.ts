@@ -158,7 +158,7 @@ export class PlatformsService {
         })
       };
       const postParams = {
-        plaforms_id: platform_id,
+        platforms_id: platform_id,
         description: description,
       };
       console.log(postParams);
@@ -212,7 +212,7 @@ export class PlatformsService {
         })
       };
       
-      this.http.delete(this.apiEndPoint+'api/get_system_platforms/'+id, httpOptions)
+      this.http.delete(this.apiEndPoint+'api/delete_system_platforms/'+id, httpOptions)
       .map(res => res).subscribe(data => {
         console.log("a mostrar data");
       console.log(data);

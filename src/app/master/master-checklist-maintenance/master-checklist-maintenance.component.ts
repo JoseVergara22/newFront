@@ -443,10 +443,11 @@ export class MasterChecklistMaintenanceComponent extends NgbDatepickerI18n {
     this.technicianUpdate = row.result.technicians;
     this.oldDate = row.date;
 
-    let date = row.result.corrective.date; 
-    let dateComplete = date.substring(0,10);
+    let date = row.date; 
+    console.log(date);
+        let dateComplete = date.substring(0,10);
     let dateArray = dateComplete.split('-');
-    
+     
     let hourComplete =  date.substring(10,19);
     let hourArray = hourComplete.split(':');
     this.selectedHourUpdateChecklist = Number(hourArray[0]);
@@ -668,7 +669,7 @@ export class MasterChecklistMaintenanceComponent extends NgbDatepickerI18n {
   }
   
   SelectItemTechnician(idTechnician: any){// Falta organizarlo
-    var tech = idTechnician.technicians_id
+    var tech = idTechnician.user_id
     console.log('jajaja');
     console.log(this.technicianSelecteds);
     this.technicianSelecteds.map(function(dato){

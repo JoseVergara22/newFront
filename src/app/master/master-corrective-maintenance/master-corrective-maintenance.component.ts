@@ -608,7 +608,7 @@ SelectItemChecklist(idItem: any){// Falta organizarlo
 }
 
 SelectItemTechnician(idTechnician: any){// Falta organizarlo
-  var tech = idTechnician.technician_id
+  var tech = idTechnician.user_id
   console.log('jajaja');
   console.log(this.technicianSelecteds);
   this.technicianSelecteds.map(function(dato){

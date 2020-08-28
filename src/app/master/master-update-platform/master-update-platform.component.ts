@@ -139,7 +139,7 @@ export class MasterUpdatePlatformComponent implements OnInit {
     
     this.currentSystem = row;
     console.log( this.currentSystem );
-    this.updatePartForm.get('systemDescriptionUpdate').setValue(this.currentSystem.description);
+    this.updatePartForm.get('systemDescriptionUpdate').setValue(this.currentSystem.system_description);
 
    document.getElementById( 'showUpdatePart').click();
   }
@@ -181,7 +181,7 @@ export class MasterUpdatePlatformComponent implements OnInit {
         allowOutsideClick: false
       });
       swal.showLoading();
-      this.platformsService.updatePlatforms(this.headerId,this.routineDescriptionUpdate,this.routineHourUpdate,this.routineObservationUpdate,this.supplicePart,this.deliveryReview,
+      this.platformsService.updatePlatforms(this.platformsId,this.routineDescriptionUpdate,this.routineHourUpdate,this.routineObservationUpdate,this.supplicePart,this.deliveryReview,
         this.pending,this.survey,this.firm).then(data=>{
         const resp:any=data;
         if(resp.success){
