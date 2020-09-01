@@ -26,6 +26,13 @@ interface itemSelectInterface {// item para mostrar selccionados
   item?: string;
   select?: boolean;
 }
+interface itemPendingInterface {// item para mostrar pendientes
+  id?:number;
+  consecutive?: number;
+  description?: string;
+  routing?: string;
+  type?:string
+}
 
 @Component({
   selector: 'app-master-edit-resumenes',
@@ -77,6 +84,9 @@ export class MasterEditResumenesComponent extends NgbDatepickerI18n {
 
   technicianSelecteds: Array <itemSelectInterface> = [];
   technicianSelected: itemSelectInterface;
+ 
+  pending: Array <itemPendingInterface> = [];
+  pendingIn: itemPendingInterface;
  
   preventiveList: string='';
   correctiveList: string='';
@@ -164,6 +174,83 @@ export class MasterEditResumenesComponent extends NgbDatepickerI18n {
           console.log(error);
         });
     }
+
+    getPendingPreventive(id){
+      console.log(id);
+      this.resumenesService.getPendingPreventive(id).then(data => {
+        const resp: any = data;
+
+        console.log(data);
+        
+        if(resp.success == true){
+          let pendings = resp.data;
+          console.log(pendings);
+          for (let item of  pendings) {
+            console.log(item); // 1, "string", false
+            console.log(item.routing);
+            let routine = item.routing[0];
+            for (let value of  item.peding) {
+              this.pendingIn= {
+                id: value.forklift_routine_id,
+                consecutive: routine.preventive_consecutive,
+                description: value.description,
+                routing: routine.description,
+                type:'Preventivo'
+              }
+              console.log(this.pendingIn)
+              this.pending.push(this.pendingIn);
+            }
+          }
+         
+          console.log(this.pending)
+          this.rowsWork = this.pending;
+        }
+        
+        swal.close();
+      
+        }).catch(error => {
+          console.log(error);
+        });
+    }
+    getPendingCorrective(id){
+      console.log(id);
+      this.resumenesService.getForkliftImage(id).then(data => {
+        const resp: any = data;
+        console.log(data);
+        this.urlImages = resp.data;
+        swal.close();
+      
+        }).catch(error => {
+          console.log(error);
+        });
+    }
+    getPendingChecklist(id){
+      console.log(id);
+      this.resumenesService.getForkliftImage(id).then(data => {
+        const resp: any = data;
+        console.log(data);
+        this.urlImages = resp.data;
+        swal.close();
+      
+        }).catch(error => {
+          console.log(error);
+        });
+    }
+
+
+    editResumenes(row: any){
+      console.log(row);
+      if(row.type === "Correctivo"){
+        this.router.navigateByUrl('maintenance/viewCorrective/'+row.id);
+      }
+      if(row.type === "Checklst"){
+        this.router.navigateByUrl('maintenance/viewChecklist/'+row.id);
+      }
+      if(row.type === "Preventivo"){
+        this.router.navigateByUrl('maintenance/viewPreventive/'+row.id);
+      }
+    }
+
 
     getChecklist(check: any){
       console.log(check);
@@ -525,12 +612,19 @@ export class MasterEditResumenesComponent extends NgbDatepickerI18n {
       console.log(data);
       swal.close();
       this.currentPreventive  = resp.data;
+      console.log(this.currentPreventive);
+      for (let value of  this.currentPreventive) {
+        var preventive = value.result.preventiveRoutines;
+        console.log(preventive);
+ 
+        for (let item of  preventive) {
 
-
+          this.getPendingPreventive(item.id);
+        }
+      }
     }).catch(error => {
       console.log(error);
     });
-  
   }
 
   getPreventiveRoutinesFilter(fromdate:string, to_date:string){

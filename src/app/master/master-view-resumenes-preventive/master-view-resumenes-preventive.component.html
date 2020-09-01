@@ -1,0 +1,46 @@
+
+<div class="row">
+
+  <div class="app-modal-header">
+    <h4 class="modal-title">Detalle Pendiente</h4>
+  </div>
+  <div class="col-sm-12">
+    <app-card>
+      <div class="form-group row">
+        <div class="col-sm-6">
+          <h6>Descripcción de la rutina</h6>
+             <input type="text" [(ngModel)]="descriptionRutine" class="form-control" disabled>
+         </div>
+        <div class="col-sm-3">
+          <h6>Fecha de asignación de la rutina</h6>
+             <input type="text" [(ngModel)]="dateAssing" class="form-control" disabled>
+         </div>
+        <div class="col-sm-3">
+          <h6>Fecha de inicio de la rutina</h6>
+             <input type="text" [(ngModel)]="dateStart" class="form-control" disabled>
+         </div>
+      </div>
+    </app-card>
+  </div>
+  
+</div>
+
+<app-card title="Detalle de Rutina">
+  <button type="button " style="display: none;" id="showCorrectives" class="btn btn-primary m-b-0 "  >Crear</button>
+  <h5></h5>
+
+  <ngx-datatable #table class="data-table" [rows]="detail"   [columnMode]="'flex'" [headerHeight]="50" [footerHeight]="50" [rowHeight]="'auto'" [limit]="20">
+
+    <ngx-datatable-column  [flexGrow]="2" [sortable]="false" [resizeable]="false"  name="Sistema" [sortable]="false"  prop="systemDescription"></ngx-datatable-column>
+    <ngx-datatable-column  [flexGrow]="2" [sortable]="false" [resizeable]="false"  name="Componente" [sortable]="false"  prop="componentDescription"></ngx-datatable-column>
+    <ngx-datatable-column  [flexGrow]="2" [sortable]="false" [resizeable]="false"  name="Parte" [sortable]="false"  prop="partDescription"></ngx-datatable-column>
+    <ngx-datatable-column  [flexGrow]="2" [sortable]="false" [resizeable]="false"  name="Trabajo realizado o a realizar" [sortable]="false"  prop="work"></ngx-datatable-column>
+    <ngx-datatable-column  [flexGrow]="2" name="Ver pendiente" [sortable]="false"  sortable="false" prop="id">
+      <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+
+        <label class="link" (click)="editResumenes(row)"> <a>Ver</a></label>|
+
+      </ng-template>
+    </ngx-datatable-column>
+  </ngx-datatable>
+</app-card>

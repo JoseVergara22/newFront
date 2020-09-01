@@ -86,6 +86,9 @@ import { MasterUpdateStevedoreComponent } from './master-update-stevedore/master
 import { MasterUpdatePlatformComponent } from './master-update-platform/master-update-platform.component';
 import { MasterUpdateProfileComponent } from './master-update-profile/master-update-profile.component';
 import { MasterRegisterProfileComponent } from './master-register-profile/master-register-profile.component';
+import { MasterViewResumenesPreventiveComponent } from './master-view-resumenes-preventive/master-view-resumenes-preventive.component';
+import { MasterViewResumenesCorrectiveComponent } from './master-view-resumenes-corrective/master-view-resumenes-corrective.component';
+import { MasterViewResumenesChecklistComponent } from './master-view-resumenes-checklist/master-view-resumenes-checklist.component';
 
 
 
@@ -214,6 +217,9 @@ import {AutocompleteLibModule} from 'angular-ng-autocomplete';
     MasterUpdatePlatformComponent,
     MasterUpdateProfileComponent,
     MasterRegisterProfileComponent,
+    MasterViewResumenesPreventiveComponent,
+    MasterViewResumenesCorrectiveComponent,
+    MasterViewResumenesChecklistComponent,
     
    // MasterAdminComponent
   ],

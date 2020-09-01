@@ -73,6 +73,9 @@ import { MasterUpdatePlatformComponent } from './master-update-platform/master-u
 import { MasterProfileComponent } from './master-profile/master-profile.component';
 import { MasterUpdateProfileComponent } from './master-update-profile/master-update-profile.component';
 import { MasterRegisterProfileComponent } from './master-register-profile/master-register-profile.component';
+import { MasterViewResumenesPreventiveComponent } from './master-view-resumenes-preventive/master-view-resumenes-preventive.component';
+import { MasterViewResumenesCorrectiveComponent } from './master-view-resumenes-corrective/master-view-resumenes-corrective.component';
+import { MasterViewResumenesChecklistComponent } from './master-view-resumenes-checklist/master-view-resumenes-checklist.component';
 
 
 
@@ -331,6 +334,15 @@ const routes: Routes = [
   },{
     path:'profileUpdate/:id',
     component: MasterUpdateProfileComponent
+  },{
+    path:'viewPreventive/:id',
+    component: MasterViewResumenesPreventiveComponent
+  },{
+    path:'viewCorrective/:id',
+    component: MasterViewResumenesCorrectiveComponent
+  },{
+    path:'viewChecklist/:id',
+    component: MasterViewResumenesChecklistComponent
   }
   
  

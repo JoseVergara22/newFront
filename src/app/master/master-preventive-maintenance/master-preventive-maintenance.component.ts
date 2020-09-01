@@ -92,7 +92,6 @@ export class MasterPreventiveMaintenanceComponent extends NgbDatepickerI18n {
 
       this.getRegional();
       this.getWorks();
-      this.getTechnician();
       
     }
     
@@ -170,6 +169,7 @@ export class MasterPreventiveMaintenanceComponent extends NgbDatepickerI18n {
        type: 'warning'
       });
     }else{
+      this.getTechnician(this.selectedRegionalId);
       document.getElementById('showAssing').click();
     }
   }
@@ -249,13 +249,13 @@ export class MasterPreventiveMaintenanceComponent extends NgbDatepickerI18n {
     });
   }
 
-  getTechnician(){
+  getTechnician(regional_id: any){
     swal({
       title: 'Obteniendo información ...',
       allowOutsideClick: false
     });
     swal.showLoading();
-    this.restService.getTechnician().then(data => {
+    this.restService.getUserRegional(regional_id.id).then(data => {
       const resp: any = data;
       if (resp.error) {
         swal({
