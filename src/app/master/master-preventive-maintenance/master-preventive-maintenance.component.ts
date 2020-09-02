@@ -267,12 +267,13 @@ export class MasterPreventiveMaintenanceComponent extends NgbDatepickerI18n {
         console.log(data);
         swal.close();
         this.technician = resp.data;
+        // console.log(JSON.parse(this.technician));
         for (let item of  this.technician) {
           console.log(item); // 1, "string", false
-
+          // item = JSON.parse(item);
           this.technicianSelected= {
-            id: item.id,
-            item: item.name,
+            id: item[0].id,
+            item: item[0].name,
             select: false
           }
           this.technicianSelecteds.push(this.technicianSelected);
