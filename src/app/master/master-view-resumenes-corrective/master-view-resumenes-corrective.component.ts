@@ -47,12 +47,10 @@ export class MasterViewResumenesCorrectiveComponent implements OnInit {
         for(let detail of this.detail){
           this.dateFinish = detail.assing.finish;
           this.dateStart = detail.assing.start;
+          this.descriptionRutine = detail.work;
          
-
-            for(let routine of detail.routines){
-                this.descriptionRutine = routine.routine[0].description;
-                this.rowsWork = routine.detail_make;
-            }
+          this.rowsWork = detail.routines;
+          
         }
 
         swal.close();

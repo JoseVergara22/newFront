@@ -153,8 +153,7 @@ export class MasterEditResumenesComponent extends NgbDatepickerI18n {
         this.tyre_description = this.forklift.tyre_description;
    
         this.getPreventiveRoutinesLast();
-        this.getCorrectiveRoutinesLast();
-        this.getForkliftChecklistLast();
+        
         this.getImages(id);
         }).catch(error => {
           console.log(error);
@@ -202,8 +201,8 @@ export class MasterEditResumenesComponent extends NgbDatepickerI18n {
             }
           }
          
-          console.log(this.pending)
           this.rowsWork = this.pending;
+          console.log(this.rowsWork)
         }
         
         swal.close();
@@ -219,7 +218,7 @@ export class MasterEditResumenesComponent extends NgbDatepickerI18n {
         const resp: any = data;
 
         console.log(data);
-        
+        console.log(this.pending.length);
         if(resp.success == true){
           let pendings = resp.data;
           console.log(pendings);
@@ -240,8 +239,8 @@ export class MasterEditResumenesComponent extends NgbDatepickerI18n {
             }
           }
          
-          console.log(this.pending)
           this.rowsWork = this.pending;
+          console.log(this.rowsWork)
         }
         
         swal.close();
@@ -257,7 +256,9 @@ export class MasterEditResumenesComponent extends NgbDatepickerI18n {
         const resp: any = data;
 
         console.log(data);
-        
+        console.log(this.pending);
+        console.log(this.pending.length);
+          console.log(this.rowsWork);
         if(resp.success == true){
           let pendings = resp.data;
           console.log(pendings);
@@ -273,13 +274,15 @@ export class MasterEditResumenesComponent extends NgbDatepickerI18n {
                 routing: routine.description,
                 type:'Checklist'
               }
-              console.log(this.pendingIn)
+              console.log(this.pendingIn);
               this.pending.push(this.pendingIn);
             }
           }
          
-          console.log(this.pending)
+           
           this.rowsWork = this.pending;
+          console.log(this.pending);
+          console.log(JSON.stringify(this.pending));
         }
         
         swal.close();
@@ -295,7 +298,7 @@ export class MasterEditResumenesComponent extends NgbDatepickerI18n {
       if(row.type === "Correctivo"){
         this.router.navigateByUrl('maintenance/viewCorrective/'+row.id);
       }
-      if(row.type === "Checklst"){
+      if(row.type === "Checklist"){
         this.router.navigateByUrl('maintenance/viewChecklist/'+row.id);
       }
       if(row.type === "Preventivo"){
@@ -674,6 +677,8 @@ export class MasterEditResumenesComponent extends NgbDatepickerI18n {
           this.getPendingPreventive(item.id);
         }
       }
+      this.getCorrectiveRoutinesLast();
+        
     }).catch(error => {
       console.log(error);
     });
@@ -733,6 +738,7 @@ export class MasterEditResumenesComponent extends NgbDatepickerI18n {
         
         this.getPendingCorrective(result.result.corrective.id);
       }
+      this.getForkliftChecklistLast();
 
     }).catch(error => {
       console.log(error);
