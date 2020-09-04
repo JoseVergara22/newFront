@@ -212,24 +212,76 @@ export class MasterEditResumenesComponent extends NgbDatepickerI18n {
           console.log(error);
         });
     }
+    
     getPendingCorrective(id){
       console.log(id);
-      this.resumenesService.getForkliftImage(id).then(data => {
+      this.resumenesService.getPendingCorrective(id).then(data => {
         const resp: any = data;
+
         console.log(data);
-        this.urlImages = resp.data;
+        
+        if(resp.success == true){
+          let pendings = resp.data;
+          console.log(pendings);
+          for (let item of  pendings) {
+            console.log(item); // 1, "string", false
+            console.log(item.routing);
+            let routine = item.routing[0];
+            for (let value of  item.peding) {
+              this.pendingIn= {
+                id: value.corrective_forklift_routines_id,
+                consecutive: routine.corrective_consecutive,
+                description: value.description,
+                routing: routine.work,
+                type:'Correctivo'
+              }
+              console.log(this.pendingIn)
+              this.pending.push(this.pendingIn);
+            }
+          }
+         
+          console.log(this.pending)
+          this.rowsWork = this.pending;
+        }
+        
         swal.close();
       
         }).catch(error => {
           console.log(error);
         });
     }
+
     getPendingChecklist(id){
       console.log(id);
-      this.resumenesService.getForkliftImage(id).then(data => {
+      this.resumenesService.getPendingChecklist(id).then(data => {
         const resp: any = data;
+
         console.log(data);
-        this.urlImages = resp.data;
+        
+        if(resp.success == true){
+          let pendings = resp.data;
+          console.log(pendings);
+          for (let item of  pendings) {
+            console.log(item); // 1, "string", false
+            console.log(item.routing);
+            let routine = item.routing[0];
+            for (let value of  item.peding) {
+              this.pendingIn= {
+                id: value.checklist_forklift_routines_id,
+                consecutive: routine.checklists_consecutive,
+                description: value.description,
+                routing: routine.description,
+                type:'Checklist'
+              }
+              console.log(this.pendingIn)
+              this.pending.push(this.pendingIn);
+            }
+          }
+         
+          console.log(this.pending)
+          this.rowsWork = this.pending;
+        }
+        
         swal.close();
       
         }).catch(error => {
@@ -634,7 +686,16 @@ export class MasterEditResumenesComponent extends NgbDatepickerI18n {
       console.log(data);
       swal.close();
       this.currentPreventive  = resp.data;
+      console.log(this.currentPreventive);
+      for (let value of  this.currentPreventive) {
+        var preventive = value.result.preventiveRoutines;
+        console.log(preventive);
+ 
+        for (let item of  preventive) {
 
+          this.getPendingPreventive(item.id);
+        }
+      }
 
     }).catch(error => {
       console.log(error);
@@ -667,7 +728,11 @@ export class MasterEditResumenesComponent extends NgbDatepickerI18n {
       this.currentCorrective  = resp.data;
       this.rowsClient  = this.currentCorrective;
       console.log(this.rowsClient);
-
+      for(let result of this.rowsClient){
+        console.log(result.result.corrective.id);
+        
+        this.getPendingCorrective(result.result.corrective.id);
+      }
 
     }).catch(error => {
       console.log(error);
@@ -683,7 +748,12 @@ export class MasterEditResumenesComponent extends NgbDatepickerI18n {
       swal.close();
       this.currentCorrective  = resp.data;
       this.rowsClient  = this.currentCorrective;
-
+      console.log(this.rowsClient);
+      for(let result of this.rowsClient){
+        console.log(result.result.corrective.id);
+        
+        this.getPendingCorrective(result.result.corrective.id);
+      }
 
     }).catch(error => {
       console.log(error);
@@ -713,7 +783,13 @@ export class MasterEditResumenesComponent extends NgbDatepickerI18n {
       console.log(data);
       swal.close();
       this.currentChecklist  = resp.data;
+      for(let check of this.currentChecklist){
+        let result = check.result;
+        for(let sub of result.checklistRoutines){
 
+          this.getPendingChecklist(sub.id);
+        }
+      }
 
     }).catch(error => {
       console.log(error);

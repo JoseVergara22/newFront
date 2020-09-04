@@ -72,7 +72,7 @@
             <ngx-datatable-column  [flexGrow]="2" name="Ver" [sortable]="false"  sortable="false" prop="status">
               <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
     
-                <button (click)="updateDate(row)"  class="btn btn-primary btn-icon"><i class="icofont icofont-pencil-alt-5"></i></button>
+                <button (click)="update(row)"  class="btn btn-primary btn-icon"><i class="icofont icofont-pencil-alt-5"></i></button>
                 <button (click)="deleteEstimateDetail(row)" class="btn btn-danger btn-icon"><i class="icofont icofont-ui-delete"></i></button>
             
               </ng-template>
@@ -97,8 +97,8 @@
           <h6>Fecha de asignación</h6>
           <div class="input-group" dir="ltr">
             <input class="form-control" placeholder="dd-mm-yyyy"   [readonly]="true" 
-                     name="fd" [(ngModel)]="fromDate" ngbDatepicker  #dFrom="ngbDatepicker"    (dateSelect)="onDateSelectionFrom($event)">
-                <button type="button"  class="btn btn-primary waves-effect"  (click)="dFrom.toggle()"><i class="icofont icofont-ui-calendar"></i></button>
+                     name="fd" [(ngModel)]="untilDate" ngbDatepicker  #dUntil="ngbDatepicker"    (dateSelect)="onDateSelectionFrom($event)">
+                <button type="button"  class="btn btn-primary waves-effect"  (click)="dUntil.toggle()"><i class="icofont icofont-ui-calendar"></i></button>
            </div>
         </div>
     
@@ -253,9 +253,9 @@
           <h6>Fecha de asignación</h6>
           <div class="input-group" dir="ltr">
             <input class="form-control" placeholder="dd-mm-yyyy"   [readonly]="true" 
-                     name="ud" [(ngModel)]="untilDate" ngbDatepicker  #dUntil="ngbDatepicker"    (dateSelect)="onDateSelectionUntil($event)">
-                <button type="button"  class="btn btn-primary waves-effect"  (click)="dUntil.toggle()"><i class="icofont icofont-ui-calendar"></i></button>
-           </div>
+                  name="fd" [(ngModel)]="fromDate" ngbDatepicker  #dFrom="ngbDatepicker"    (dateSelect)="onDateSelectionFrom($event)">
+              <button type="button"  class="btn btn-primary waves-effect"  (click)="dFrom.toggle()"><i class="icofont icofont-ui-calendar"></i></button>
+          </div>
         </div>
     
 

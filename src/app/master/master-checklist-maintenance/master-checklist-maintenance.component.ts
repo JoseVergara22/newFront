@@ -102,7 +102,7 @@ export class MasterChecklistMaintenanceComponent extends NgbDatepickerI18n {
       this.getRegional();
     
       this.getChecklist();
-      this.getTechnician();
+      // this.getTechnician();
       
 
 
@@ -190,6 +190,7 @@ export class MasterChecklistMaintenanceComponent extends NgbDatepickerI18n {
        type: 'warning'
       });
     }else{
+      this.getTechnician(this.selectedRegionalId);
       document.getElementById('showAssing').click();
     }
   }
@@ -269,13 +270,15 @@ export class MasterChecklistMaintenanceComponent extends NgbDatepickerI18n {
     });
   }
   
-  getTechnician(){
+  
+  getTechnician(regional_id: any){
     swal({
       title: 'Obteniendo información ...',
       allowOutsideClick: false
     });
     swal.showLoading();
-    this.restService.getTechnician().then(data => {
+    console.log(regional_id);
+    this.restService.getUserRegional(regional_id.id).then(data => {
       const resp: any = data;
       if (resp.error) {
         swal({
@@ -287,9 +290,10 @@ export class MasterChecklistMaintenanceComponent extends NgbDatepickerI18n {
         console.log(data);
         swal.close();
         this.technician = resp.data;
+        // console.log(JSON.parse(this.technician));
         for (let item of  this.technician) {
-          // console.log(item); // 1, "string", false
-
+          console.log(item); // 1, "string", false
+          // item = JSON.parse(item);
           this.technicianSelected= {
             id: item.id,
             item: item.name,
@@ -311,7 +315,6 @@ export class MasterChecklistMaintenanceComponent extends NgbDatepickerI18n {
       console.log(error);
     });
   }
-
   createChecklist(){
     swal({
       title: 'Obteniendo información ...',
@@ -323,11 +326,11 @@ export class MasterChecklistMaintenanceComponent extends NgbDatepickerI18n {
 
     let params;
      // poner los 0
-     var day = (this.fromDate.day < 10 ? '0' : '') +this.fromDate.day;
+     var day = (this.untilDate.day < 10 ? '0' : '') +this.untilDate.day;
      // 01, 02, 03, ... 10, 11, 12
-     let month = ((this.fromDate.month) < 10 ? '0' : '') + (this.fromDate.month);
+     let month = ((this.untilDate.month) < 10 ? '0' : '') + (this.untilDate.month);
      // 1970, 1971, ... 2015, 2016, ...
-     var year = this.fromDate.year;
+     var year = this.untilDate.year;
      
   
      var hour = this.selectedHourChecklist;
@@ -377,9 +380,9 @@ export class MasterChecklistMaintenanceComponent extends NgbDatepickerI18n {
           swal.close();
           let result  = resp.data;
            console.log(result);
-          //  this.resumenesService.updateConsecutiveChecklist().then(data => {
-          //   const resp: any = data;
-          //   console.log(data);
+           this.resumenesService.updateConsecutiveChecklist().then(data => {
+            const resp: any = data;
+            console.log(data);
             
             swal({
               title: 'Guardado con exito',
@@ -388,7 +391,10 @@ export class MasterChecklistMaintenanceComponent extends NgbDatepickerI18n {
             document.getElementById('assignChecklistHide').click();
             this.getForkliftChecklist();
             this.cleanSelectChecklist();
-            this.cleanSelectTechnician();
+            this.checkedList = '';
+            this.technicianList = '';
+            // this.cleanSelectTechnician();
+            this.technicianSelecteds.length=0;
              console.log('llego hasta aqui');
     
             swal.close();
@@ -396,6 +402,13 @@ export class MasterChecklistMaintenanceComponent extends NgbDatepickerI18n {
             // this.rowStatic =  resp.data;
             // this.rowsTemp = resp.data;
             // console.log( this.rowsClient);
+          }).catch(error => {
+            swal({
+              title: 'Se presento un problema, para guardar este encabezado de checklist',
+              type: 'error'
+             });
+            console.log(error);
+          });
           }
         }).catch(error => {
             swal.close();
@@ -435,6 +448,54 @@ export class MasterChecklistMaintenanceComponent extends NgbDatepickerI18n {
     });
     }
   }
+  update(row:any){
+    console.log('entro');
+    // this.getTechnician(this.selectedRegionalId);
+    swal({
+      title: 'Obteniendo información ...',
+      allowOutsideClick: false
+    });
+    swal.showLoading();
+    console.log(this.selectedRegionalId);
+    this.restService.getUserRegional(this.selectedRegionalId.id).then(data => {
+      const resp: any = data;
+      if (resp.error) {
+        swal({
+          title:'Error',
+          text: 'Ha ocurrido un error',
+          type: 'error'
+         });
+      } else {
+        console.log(data);
+        swal.close();
+        this.technician = resp.data;
+        // console.log(JSON.parse(this.technician));
+        for (let item of  this.technician) {
+          console.log(item); // 1, "string", false
+          // item = JSON.parse(item);
+          this.technicianSelected= {
+            id: item.id,
+            item: item.name,
+            select: false
+          }
+          this.technicianSelecteds.push(this.technicianSelected);
+        
+    }
+    console.log( this.technicianSelecteds);
+        console.log( this.technician);
+        this.updateDate(row);
+  }
+    }).catch(error => {
+      swal.close();
+      swal({
+        title:'Error',
+        text: 'Ha ocurrido un error',
+        type: 'error'
+       });
+      console.log(error);
+    });
+    
+  }
 
   updateDate(row: any){
 
@@ -459,7 +520,7 @@ export class MasterChecklistMaintenanceComponent extends NgbDatepickerI18n {
     let day = Number(dateArray[2]);
     var news: NgbDateStruct = { year: year, month: mounth, day: day };
     console.log(news);
-    this.untilDate=news;
+    this.fromDate=news;
 
     for (let elemento of this.checklistUpdate) {
       console.log('ingreso a mirar checks');
@@ -553,7 +614,10 @@ export class MasterChecklistMaintenanceComponent extends NgbDatepickerI18n {
            });
           }
           this.cleanSelectChecklist();
-          this.cleanSelectTechnician();
+          // this.cleanSelectTechnician();
+          this.technicianSelecteds.length=0;
+          this.checkedList = '';
+            this.technicianList = '';
           }).catch(error => {
             swal.close();
             swal({
@@ -634,6 +698,7 @@ export class MasterChecklistMaintenanceComponent extends NgbDatepickerI18n {
 
 
   cleanSelectChecklist(){
+    console.log('entro a limpiar');
     this.checklisSelecteds.map(function(dato){
       //if(dato.Modelo == modelo){
         dato.select = false;
@@ -686,7 +751,8 @@ export class MasterChecklistMaintenanceComponent extends NgbDatepickerI18n {
     
     
     this.cleanSelectChecklist();
-    this.cleanSelectTechnician();
+    // this.cleanSelectTechnician();
+    this.technicianSelecteds.length=0;
     document.getElementById( 'assignChecklistHide').click();
 }
   addCancelUpdateDate(){
@@ -694,7 +760,8 @@ export class MasterChecklistMaintenanceComponent extends NgbDatepickerI18n {
     
     
     this.cleanSelectChecklist();
-    this.cleanSelectTechnician();
+    // this.cleanSelectTechnician();
+    this.technicianSelecteds.length=0;
     document.getElementById( 'assignUpdateChecklistHide').click();
 }
 

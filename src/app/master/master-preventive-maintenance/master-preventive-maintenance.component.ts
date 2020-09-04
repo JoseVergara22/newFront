@@ -255,6 +255,7 @@ export class MasterPreventiveMaintenanceComponent extends NgbDatepickerI18n {
       allowOutsideClick: false
     });
     swal.showLoading();
+    console.log(regional_id);
     this.restService.getUserRegional(regional_id.id).then(data => {
       const resp: any = data;
       if (resp.error) {
@@ -272,8 +273,8 @@ export class MasterPreventiveMaintenanceComponent extends NgbDatepickerI18n {
           console.log(item); // 1, "string", false
           // item = JSON.parse(item);
           this.technicianSelected= {
-            id: item[0].id,
-            item: item[0].name,
+            id: item.id,
+            item: item.name,
             select: false
           }
           this.technicianSelecteds.push(this.technicianSelected);
@@ -385,9 +386,9 @@ export class MasterPreventiveMaintenanceComponent extends NgbDatepickerI18n {
           let result  = resp.data;
           console.log(result);
 
-          // this.resumenesService.updateConsecutivePreventive().then(data => {
-          //   const resp: any = data;
-          //   console.log(data);
+          this.resumenesService.updateConsecutivePreventive().then(data => {
+            const resp: any = data;
+            console.log(data);
             
             document.getElementById('assignPrevetiveHide').click();
           
@@ -398,7 +399,10 @@ export class MasterPreventiveMaintenanceComponent extends NgbDatepickerI18n {
              });
             
              this.cleanSelectRoutines();
-            this.cleanSelectTechnician();
+            // this.cleanSelectTechnician();
+            this.technicianSelecteds.length=0;
+            this.preventiveList = '';
+            this.technicianList = '';
              console.log('llego hasta aqui');
     
             swal.close();
@@ -406,13 +410,13 @@ export class MasterPreventiveMaintenanceComponent extends NgbDatepickerI18n {
             // this.rowStatic =  resp.data;
             // this.rowsTemp = resp.data;
             // console.log( this.rowsClient);
-          // }).catch(error => {
-          //   swal({
-          //     title: 'Se presento un problema, para guardar este encabezado cotización',
-          //     type: 'error'
-          //    });
-          //   console.log(error);
-          // });
+          }).catch(error => {
+            swal({
+              title: 'Se presento un problema, para guardar este encabezado de manteminiento preventivo',
+              type: 'error'
+             });
+            console.log(error);
+          });
         }
           }).catch(error => {
             swal.close();
@@ -453,8 +457,57 @@ export class MasterPreventiveMaintenanceComponent extends NgbDatepickerI18n {
   }
   }
 
-  updateDate(row: any){
+  update(row:any){
+    console.log('entro');
+    // this.getTechnician(this.selectedRegionalId);
+    swal({
+      title: 'Obteniendo información ...',
+      allowOutsideClick: false
+    });
+    swal.showLoading();
+    console.log(this.selectedRegionalId);
+    this.restService.getUserRegional(this.selectedRegionalId.id).then(data => {
+      const resp: any = data;
+      if (resp.error) {
+        swal({
+          title:'Error',
+          text: 'Ha ocurrido un error',
+          type: 'error'
+         });
+      } else {
+        console.log(data);
+        swal.close();
+        this.technician = resp.data;
+        // console.log(JSON.parse(this.technician));
+        for (let item of  this.technician) {
+          console.log(item); // 1, "string", false
+          // item = JSON.parse(item);
+          this.technicianSelected= {
+            id: item.id,
+            item: item.name,
+            select: false
+          }
+          this.technicianSelecteds.push(this.technicianSelected);
+        
+    }
+    console.log( this.technicianSelecteds);
+        console.log( this.technician);
+        this.updateDate(row);
+  }
+    }).catch(error => {
+      swal.close();
+      swal({
+        title:'Error',
+        text: 'Ha ocurrido un error',
+        type: 'error'
+       });
+      console.log(error);
+    });
+    
+  }
 
+  updateDate(row: any){
+    // this.getTechnician(this.selectedRegionalId);
     console.log(row);
     this.preventiveUpdate = row.result.preventiveRoutines;
     this.technicianUpdate = row.result.technicians;
@@ -567,11 +620,11 @@ export class MasterPreventiveMaintenanceComponent extends NgbDatepickerI18n {
     swal.showLoading();
     let params;
      // poner los 0
-     var day = (this.fromDate.day < 10 ? '0' : '') +this.fromDate.day;
+     var day = (this.untilDate.day < 10 ? '0' : '') +this.untilDate.day;
      // 01, 02, 03, ... 10, 11, 12
-     let month = ((this.fromDate.month) < 10 ? '0' : '') + (this.fromDate.month);
+     let month = ((this.untilDate.month) < 10 ? '0' : '') + (this.untilDate.month);
      // 1970, 1971, ... 2015, 2016, ...
-     var year = this.fromDate.year;
+     var year = this.untilDate.year;
      
      console.log( this.selectedHourUpdatePreventive);
      console.log( this.selectedHourUpdatePreventive);
@@ -636,7 +689,10 @@ export class MasterPreventiveMaintenanceComponent extends NgbDatepickerI18n {
            });
           }
           this.cleanSelectRoutines();
-          this.cleanSelectTechnician();
+          // this.cleanSelectTechnician();
+          this.technicianSelecteds.length=0;
+          this.preventiveList = '';
+          this.technicianList = '';
           }).catch(error => {
             swal.close();
             swal({
@@ -659,7 +715,7 @@ export class MasterPreventiveMaintenanceComponent extends NgbDatepickerI18n {
   }
 
   cleanSelectTechnician(){
-    this.routineSelecteds.map(function(dato){
+    this.technicianSelecteds.map(function(dato){
       //if(dato.Modelo == modelo){
         dato.select = false;
       //}
@@ -701,7 +757,8 @@ export class MasterPreventiveMaintenanceComponent extends NgbDatepickerI18n {
     
     
     this.cleanSelectRoutines();
-    this.cleanSelectTechnician();
+              // this.cleanSelectTechnician();
+              this.technicianSelecteds.length=0;
     document.getElementById( 'assignPrevetiveHide').click();
 }
   addCancelUpdateDate(){
@@ -709,7 +766,8 @@ export class MasterPreventiveMaintenanceComponent extends NgbDatepickerI18n {
     
     
     this.cleanSelectRoutines();
-    this.cleanSelectTechnician();
+    // this.cleanSelectTechnician();
+    this.technicianSelecteds.length=0;
     document.getElementById( 'assingUpdatePrevetiveHide').click();
 }
 

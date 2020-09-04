@@ -46,6 +46,7 @@ export class MasterViewResumenesPreventiveComponent implements OnInit {
           this.getPending(detail.assing.id);
           this.getDelivery(detail.assing.id);
           this.getSupplice(detail.assing.id);
+          this.getImages(detail.assing.id);
 
             for(let routine of detail.routines){
                 this.descriptionRutine = routine.routine[0].description;
@@ -122,7 +123,7 @@ export class MasterViewResumenesPreventiveComponent implements OnInit {
 
   getImages(id){
     console.log(id);
-    this.resumenesService.getForkliftImage(id).then(data => {
+    this.resumenesService.getPreventiveImage(id).then(data => {
       const resp: any = data;
       console.log(data);
       this.urlImages = resp.data;

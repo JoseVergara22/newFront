@@ -196,7 +196,7 @@
         <ngx-datatable-column  [flexGrow]="2" name="Ver pendiente" [sortable]="false"  sortable="false" prop="id">
           <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
  
-            <label class="link" (click)="editResumenes(row)"> Ver</label>
+            <label class="link btn btn-primary btn-icon" (click)="editResumenes(row)"><i class="icofont icofont-eye-alt"></i></label>
 
           </ng-template>
         </ngx-datatable-column>
@@ -252,7 +252,7 @@
           <br>
           <br>
             <div class="align-buttons">
-              <button type="button" class="btn btn-default waves-effect" id="assignPrevetiveHide" (click)="modalAssingPreventive.hide()" (click)="cleanPreventive()" (click)="cleanTechnician()" >Salir</button>
+              <button type="button" class="btn btn-default waves-effect" id="assignPrevetiveHide" (click)="modalAssingPreventive.hide()" (click)="cleanPreventive()" (click)="cleanTechnician()" >Cerrar</button>
              </div>
       </div>          
 </app-modal-basic>
@@ -298,7 +298,7 @@
     <br>
     <br>
             <div class="align-buttons">
-              <button type="button" class="btn btn-default waves-effect" id="assignChecklistHide" (click)="modalAssingChecklist.hide()" (click)="cleanChecklist()" (click)="cleanTechnician()" >Salir</button>
+              <button type="button" class="btn btn-default waves-effect" id="assignChecklistHide" (click)="modalAssingChecklist.hide()" (click)="cleanChecklist()" (click)="cleanTechnician()" >Cerrar</button>
              </div>
     </div>
 </app-modal-basic>
@@ -342,7 +342,7 @@
     <br>
     <br>
             <div class="align-buttons">
-              <button type="button" class="btn btn-default waves-effect" id="assignCorrectiveHide" (click)="modalAssingCorrective.hide()" (click)="cleanTechnician()" >Salir</button>
+              <button type="button" class="btn btn-default waves-effect" id="assignCorrectiveHide" (click)="modalAssingCorrective.hide()" (click)="cleanTechnician()" >Cerrar</button>
             </div>
     </div>
 </app-modal-basic>
