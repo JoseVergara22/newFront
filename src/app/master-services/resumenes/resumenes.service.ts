@@ -34,6 +34,30 @@ export class ResumenesService {
     });
   }
 
+  getForkliftPendingGeneral(forkliftId:number){
+    return new Promise(resolve => {
+      const httpOptions = {
+        headers: new HttpHeaders({
+          'Content-Type':  'application/json',
+          'Authorization': 'Bearer ' + localStorage.getItem('token_user'),
+          'Accept': 'application/json'
+        })
+      };
+      
+      this.http.get(this.apiEndPoint+'api/get_pending_general/'+forkliftId, httpOptions)
+      .map(res => res).subscribe(data => {
+        console.log("a mostrar data");
+      console.log(data);
+      resolve(data);
+      }, error => {
+        console.log("error en servicio");
+        console.log(error);
+                resolve(error);
+        });
+    });
+  }
+
+
   storePreventive(id_forklift:number,customer_id:number,brach_id:number,id_rutines:string,technician_id: any, consecutive:number, date:string){
     return new Promise(resolve => {
       const httpOptions = {

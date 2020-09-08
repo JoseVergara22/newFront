@@ -104,6 +104,7 @@ export class MasterEditResumenesComponent extends NgbDatepickerI18n {
   preventiveDate: any;
   checklistDate: any;
   correctiveDate: any;
+  pendingGeneral: any;
 
   urlImages: any;
   consecutiveCorrective: any;
@@ -126,6 +127,7 @@ export class MasterEditResumenesComponent extends NgbDatepickerI18n {
       // this.getWorks();
       // this.getChecklist();
       // this.getTechnician();
+     
      }
 
      getForklifs(id) {
@@ -153,10 +155,11 @@ export class MasterEditResumenesComponent extends NgbDatepickerI18n {
         this.serie = this.forklift.serie;
         this.tonne = this.forklift.tonne;
         this.tyre_description = this.forklift.tyre_description;
-   
+       
         this.getPreventiveRoutinesLast();
         this.getPendingGeneral(id);
         this.getImages(id);
+        this.getForkliftPendingGeneralMain();
         }).catch(error => {
           console.log(error);
         });
@@ -175,6 +178,22 @@ export class MasterEditResumenesComponent extends NgbDatepickerI18n {
           console.log(error);
         });
     }
+
+
+
+
+    getForkliftPendingGeneralMain(){
+      // Llenar información de cliente  
+      this.resumenesService.getForkliftPendingGeneral(this.forkliftId).then(data => {
+        const resp: any = data;
+        console.log(data);
+        swal.close();
+        this.pendingGeneral  = resp.data; 
+      }).catch(error => {
+        console.log(error);
+      });
+    }
+    
 
     getPendingGeneral(id){
       console.log(id);
@@ -212,6 +231,19 @@ export class MasterEditResumenesComponent extends NgbDatepickerI18n {
         }).catch(error => {
           console.log(error);
         });
+    }
+    
+
+    getForkliftPendingGeneral(){
+      // Llenar información de cliente  
+      this.resumenesService.getForkliftPendingGeneral(this.forkliftId).then(data => {
+        const resp: any = data;
+        console.log(data);
+        swal.close();
+        this.pendingGeneral  = resp.data; 
+      }).catch(error => {
+        console.log(error);
+      });
     }
     
     getPendingCorrective(id){

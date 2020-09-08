@@ -59,7 +59,62 @@ const MENUITEMS = [
         type: 'sub',
         icon: 'ti-direction',
         children: [
-          
+          {
+            state: 'customers',
+            name: 'Administrar Clientes'
+          },   
+          {
+            state: 'regionalsAll',
+            name: 'Administrar Sucursales'
+          },
+          {
+            state: 'estimateAll',
+            name:  'Cotizaciones'
+          },
+          {
+            state: 'estimateCustomer',
+            name:  'Crear Cotización'
+          },
+          {
+            state: 'settlementAll',
+            name:  'Liquidaciones'
+          },
+          {
+            state: 'settlementCustomer',
+            name:  'Crear Liquidación'
+          },
+          {
+            state: 'registerOffice',
+            name: 'Administrar Sedes'
+          },
+          {
+            state: 'costCenter',
+            name: 'Administrar Centros de Costo'
+          },
+          {
+              state: 'subCostCenter',
+              name: 'Administrar Sub Centros de Costo'
+          },
+          {
+            state: 'warehouses',
+            name: 'Administrar Bodegas'
+          },
+          {
+            state: 'estimateCountries',
+            name:  'Administrar Paises Cotización'
+          },
+          {
+            state: 'priceCountriesDhl',
+            name:  'Administrar tabla DHL'
+          },
+          {
+            state: 'estimateConfiguration',
+            name:  'Configuración de cotizaciones'
+          },
+          {
+            state: 'LogTrm',
+            name:  'Histórico TRM'
+          }
         ]
       }
     ],
@@ -75,22 +130,33 @@ const MENUITEMS = [
         icon: 'ti-pulse',
         children: [
           {
+            state: 'forkliftShow',
+            name: 'Administrar Montacargas'
+          },
+          {
+            state:'horometro',
+            name:'Administrar Horometro'
+          },
+          {
+            state: 'resumenes',
+            name:  'Administrar Hojas de Vida'
+           },
+           {
+            state: 'prevetiveMaintenance',
+            name:  'Asignar Mantenimiento Preventivo'
+          },  
+          {
+            state: 'correctiveMaintenance',
+            name:  'Asignar Mantenimiento Correctivo'
+          },  
+          {
+            state: 'checklistMaintenance',
+            name:  'Asignar Asignación Checklist'
+          },
+          {
             state:'work_dashboard',
-            name:'Administrar Rutinas'
-          },
-          {
-            state: 'register',
-            name: 'Administrar Usuarios'
-          }, 
-         /* {
-            state:'question',
-            name: 'Administrar Encuesta de mantenimiento'
-          },
-          {
-            state:'toilet',
-            name: 'Registro aseo '
-          },
-           */
+            name:'Administrar Rutinas Preventivas'
+          },  
           {
             state:'platforms',
             name: 'Administrar Plataformas'
@@ -103,73 +169,33 @@ const MENUITEMS = [
             state:'checklists',
             name: 'Administrar Checklist'
           },
-    
-         {
+          {
+            state:'question',
+            name: 'Administrar Encuesta de Mantenimiento'
+          },
+          {
+            state:'toilet',
+            name: 'Registro Aseo'
+          },
+
+         /*    {
             state: 'modules',
             name:  'Administrar Modulos'
-          },
+          },*/
          
-         {
-           state: 'resumenes',
-           name:  'Administrar Hojas de Vida'
-          },
-         {
-            state: 'prevetiveMaintenance',
-            name:  'Administrar Mantenimiento Preventivo'
-          },  
-          {
-            state: 'correctiveMaintenance',
-            name:  'Administrar Mantenimiento Correctivo'
-          },  
-          {
-            state: 'checklistMaintenance',
-            name:  'Administrar Asignación Checklist'
-          },  
-          {
-            state: 'costCenter',
-            name: 'Administrar Centros de Costo'
-          },
-          {
-              state: 'subCostCenter',
-              name: 'Administrar Sub Centros de Costo'
-          },
-          {
-            state: 'warehouses',
-            name: 'Administrar Bodegas'
-          },
+        
+         
+        
           /*
          {
             state: 'task',
             name: 'Administrar tareas'
           },*/
-          {
-            state: 'createSlider',
-            name: 'Administrar Noticias'
-          },
-          {
-            state: 'changePassword',
-            name: 'Cambio de Contraseña'
-          },
-          {
-            state: 'customers',
-            name: 'Administrar Clientes'
-          },
-          {
-            state: 'registerOffice',
-            name: 'Administrar Sedes'
-          },
-          {
-            state: 'forkliftShow',
-            name: 'Administrar Montacargas'
-          },
-          {
-            state:'horometro',
-            name:'Administrar Horometro'
-          },
-          {
-            state: 'regionalsAll',
-            name: 'Administrar Sucursales'
-          },/*
+        
+        
+         
+         
+         /*
          {
             state: 'techniciansAll',
             name: 'Administrar Tecnicos'
@@ -193,51 +219,11 @@ const MENUITEMS = [
           {
             state: 'registerMachine',
             name: 'Administrar Maquinas'
-          },
-          {
-            state: 'registerTypeDocument',
-            name: 'Administrar Tipo Documento'
-          },
-          {
-            state: 'registerPaymentCondition',
-            name:  'Administrar Condiciones de Pago'
-          },
-          {
-            state: 'estimateAll',
-            name:  'Cotizaciones'
-          },
-          {
-            state: 'estimateCustomer',
-            name:  'Crear Cotización'
-          },
-          {
-            state: 'settlementAll',
-            name:  'Liquidaciones'
-          },//   {
+          }
+         //   {
           //   state: 'settlementList',
           //   name:  'Liquidaciones Lista'
           // },          
-          {
-            state: 'settlementCustomer',
-            name:  'Crear Liquidación'
-          },
-          {
-            state: 'estimateCountries',
-            name:  'Administrar Paises Cotización'
-          },
-          {
-            state: 'priceCountriesDhl',
-            name:  'Administrar tabla DHL'
-          },
-          {
-            state: 'estimateConfiguration',
-            name:  'Configuración de cotizaciones'
-          },
-          {
-            state: 'LogTrm',
-            name:  'Histórico TRM'
-          },
-          
         ]
       }
     ]
@@ -253,17 +239,25 @@ const MENUITEMS = [
         icon: 'ti-panel',
         children: [
           {
-            state: 'administrarclientes',
-            name: 'Administrar clientes'
+            state: 'register',
+            name: 'Administrar Usuarios'
           },
           {
-            state: 'administrarinactivos',
-            name: 'Administrar Inactivos'
+            state: 'registerTypeDocument',
+            name: 'Administrar Tipo Documento'
           },
           {
-            state: 'asignarperfiles',
-            name: 'Asignar perfiles'
-          }
+            state: 'registerPaymentCondition',
+            name:  'Administrar Condiciones de Pago'
+          },
+          {
+            state: 'createSlider',
+            name: 'Administrar Noticias'
+          },
+          {
+            state: 'changePassword',
+            name: 'Cambio de Contraseña'
+          },
         ]
       }
     ]
@@ -397,25 +391,6 @@ const MENUCREATOR = [
         type: 'sub',
         icon: 'ti-direction',
         children: [
-         
-        ]
-      }
-    ],
-  },
-  {
-    label: 'master',
-    main: [
-      {
-        state: 'maintenance',
-        short_label: 'N',
-        name: 'Mantenimiento',
-        type: 'sub',
-        icon: 'ti-pulse',
-        children: [
-          {
-            state: 'registerOffice',
-            name: 'Administrar Sedes'
-          },
           {
             state: 'estimateAll',
             name:  'Cotizaciones'
@@ -432,10 +407,24 @@ const MENUCREATOR = [
             state: 'settlementCustomer',
             name:  'Crear Liquidación'
           },
-         /* {
-            state:'work_dashboard',
-            name:'Administrar rutinas'
-          },*/
+          {
+            state: 'registerOffice',
+            name: 'Administrar Sedes'
+          }
+        ]
+      }
+    ],
+  },
+  {
+    label: 'master',
+    main: [
+      {
+        state: 'maintenance',
+        short_label: 'N',
+        name: 'Mantenimiento',
+        type: 'sub',
+        icon: 'ti-pulse',
+        children: [
           {
             state: 'forkliftShow',
             name: 'Administrar Montacargas'
@@ -444,6 +433,53 @@ const MENUCREATOR = [
             state:'horometro',
             name:'Administrar Horometro'
           },
+          {
+            state: 'resumenes',
+            name:  'Administrar Hojas de Vida'
+           }, {
+            state: 'prevetiveMaintenance',
+            name:  'Asignar Mantenimiento Preventivo'
+          },  
+          {
+            state: 'correctiveMaintenance',
+            name:  'Asignar Mantenimiento Correctivo'
+          },  
+          {
+            state: 'checklistMaintenance',
+            name:  'Asignar Asignación Checklist'
+          },
+          {
+            state:'work_dashboard',
+            name:'Administrar Rutinas Preventivas'
+          },  
+          {
+            state:'platforms',
+            name: 'Administrar Plataformas'
+          },
+          {
+            state:'stevedores',
+            name: 'Administrar Estibadores'
+          },
+          {
+            state:'checklists',
+            name: 'Administrar Checklist'
+          },
+          {
+            state:'question',
+            name: 'Administrar Encuesta de Mantenimiento'
+          },
+          {
+            state:'toilet',
+            name: 'Registro Aseo'
+          },
+         
+         
+         /* {
+            state:'work_dashboard',
+            name:'Administrar rutinas'
+          },*/
+          
+         
           {
             state: 'registerBrand',
             name: 'Administrar Marcas'
