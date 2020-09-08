@@ -106,6 +106,8 @@ export class MasterEditResumenesComponent extends NgbDatepickerI18n {
   correctiveDate: any;
 
   urlImages: any;
+  consecutiveCorrective: any;
+  idRoutineCorrective: any;
   
   constructor(private restService: RestService, private resumenesService: ResumenesService, private router: Router, 
     private forkliftService: ForkliftService, private _i18n: I18n, private calendar: NgbCalendar, public formatter: NgbDateParserFormatter,
@@ -153,7 +155,7 @@ export class MasterEditResumenesComponent extends NgbDatepickerI18n {
         this.tyre_description = this.forklift.tyre_description;
    
         this.getPreventiveRoutinesLast();
-        
+        this.getPendingGeneral(id);
         this.getImages(id);
         }).catch(error => {
           console.log(error);
@@ -174,7 +176,7 @@ export class MasterEditResumenesComponent extends NgbDatepickerI18n {
         });
     }
 
-    getPendingPreventive(id){
+    getPendingGeneral(id){
       console.log(id);
       this.resumenesService.getPendingPreventive(id).then(data => {
         const resp: any = data;
@@ -304,6 +306,13 @@ export class MasterEditResumenesComponent extends NgbDatepickerI18n {
       if(row.type === "Preventivo"){
         this.router.navigateByUrl('maintenance/viewPreventive/'+row.id);
       }
+    }
+
+    showRoutineChecklist(item: any){
+      this.router.navigateByUrl('maintenance/viewChecklist/'+item.id);
+    }
+    showRoutineCorrective(){
+      this.router.navigateByUrl('maintenance/viewCorrective/'+this.idRoutineCorrective);
     }
 
 
@@ -484,8 +493,8 @@ export class MasterEditResumenesComponent extends NgbDatepickerI18n {
     this.preventiveDate = row.date;
     var preventive = row.result.preventiveRoutines;
     var tech =  row.result.technicians;
- 
-  
+    
+
     for (let item of  preventive) {
       // console.log(item); // 1, "string", false
         this.routineSelected= {
@@ -526,6 +535,10 @@ export class MasterEditResumenesComponent extends NgbDatepickerI18n {
   swal.close();
   }
 
+  showRoutinePreventive(item: any){
+    this.router.navigateByUrl('maintenance/viewPreventive/'+item.id);
+  }
+
   
   cleanPreventive(){
     console.log(this.routineSelecteds.length);
@@ -542,7 +555,10 @@ export class MasterEditResumenesComponent extends NgbDatepickerI18n {
     console.log(row);
     this.correctiveDate = row.result.corrective.date;
     this.observationCorrective = row.result.corrective.work;
+    this.consecutiveCorrective = row.result.corrective.corrective_consecutive;
     var tech =  row.result.technicians;
+    this.idRoutineCorrective = row.result.corrective.id;
+
 
     for (let item of  tech) {
       // console.log(item); // 1, "string", false
@@ -668,15 +684,9 @@ export class MasterEditResumenesComponent extends NgbDatepickerI18n {
       swal.close();
       this.currentPreventive  = resp.data;
       console.log(this.currentPreventive);
-      for (let value of  this.currentPreventive) {
-        var preventive = value.result.preventiveRoutines;
-        console.log(preventive);
- 
-        for (let item of  preventive) {
-
-          this.getPendingPreventive(item.id);
-        }
-      }
+      
+      console.log(this.currentPreventive);
+      
       this.getCorrectiveRoutinesLast();
         
     }).catch(error => {
@@ -692,15 +702,15 @@ export class MasterEditResumenesComponent extends NgbDatepickerI18n {
       swal.close();
       this.currentPreventive  = resp.data;
       console.log(this.currentPreventive);
-      for (let value of  this.currentPreventive) {
-        var preventive = value.result.preventiveRoutines;
-        console.log(preventive);
+    // for (let value of  this.currentPreventive) {
+    //     var preventive = value.result.preventiveRoutines;
+    //     console.log(preventive);
  
-        for (let item of  preventive) {
+    //     for (let item of  preventive) {
 
-          this.getPendingPreventive(item.id);
-        }
-      }
+    //       this.getPendingGeneral(item.id);
+    //     }
+    //   }
 
     }).catch(error => {
       console.log(error);

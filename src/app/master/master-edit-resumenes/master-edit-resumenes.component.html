@@ -139,6 +139,7 @@
       <ngx-datatable #table class="data-table" [rows]="currentPreventive"   [columnMode]="'flex'" [headerHeight]="50" [footerHeight]="50" [rowHeight]="'auto'" [limit]="20">
 
         <ngx-datatable-column  [flexGrow]="2" [sortable]="false" [resizeable]="false"  name="Fecha" [sortable]="false"  prop="date"></ngx-datatable-column>
+        <!-- <ngx-datatable-column  [flexGrow]="2" [sortable]="false" [resizeable]="false"  name="Fecha" [sortable]="false"  prop="result.preventiveRoutines"></ngx-datatable-column> -->
         <ngx-datatable-column  [flexGrow]="2" name="Ver" [sortable]="false"  sortable="false" prop="status">
         <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
 
@@ -222,6 +223,11 @@
         <h6>Fecha de asignación</h6>
         <input type="text" class="form-control" [(ngModel)]="preventiveDate" disabled>
       </div> 
+      <!-- <div class="col-4"> -->
+        <!-- <h6>Consecutivo</h6>
+        <legend type="button" class="form-control" [(ngModel)]="consecutivePreventive" (click)="showRoutinePreventive()"></legend>
+         <a type="button" class="form-control" [(ngModel)]="consecutivePreventive" (click)="showRoutinePreventive()"></a> 
+      </div>  -->
   
     </div>
 
@@ -232,7 +238,7 @@
                 <h5>Preventivo</h5>
                 
                 <div   *ngFor="let item of routineSelecteds">
-                  <input type="checkbox" [(ngModel)]="item.select"  data-md-icheck /> {{item.item}}<br>
+                  <input type="checkbox" [(ngModel)]="item.select"  data-md-icheck (click)="showRoutinePreventive(item)"/> {{item.item}}<br>
                 </div>
               </div>
             </app-card>
@@ -278,7 +284,7 @@
                 <h5>Checklist</h5>
                 
                 <div   *ngFor="let item of checklisSelecteds">
-                  <input type="checkbox" [(ngModel)]="item.select"  data-md-icheck /> {{item.item}}<br>
+                  <input type="checkbox" [(ngModel)]="item.select"  data-md-icheck (click)="showRoutineChecklist(item)" /> {{item.item}}<br>
                 </div>
               </div>
             </app-card>
@@ -314,6 +320,13 @@
       <div class="col-4">
         <h6>Fecha de asignación</h6>
         <input type="text" class="form-control" [(ngModel)]="correctiveDate" disabled>
+      </div> 
+      <div class="col-4">
+       
+      </div> 
+      <div class="col-4">
+        <h6>Consecutivo</h6>
+       <label  type="submit" class="link" (click)="showRoutineCorrective()">{{consecutiveCorrective}}</label>
       </div> 
   
     </div>
