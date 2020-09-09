@@ -139,11 +139,12 @@
       <ngx-datatable #table class="data-table" [rows]="currentPreventive"   [columnMode]="'flex'" [headerHeight]="50" [footerHeight]="50" [rowHeight]="'auto'" [limit]="20">
 
         <ngx-datatable-column  [flexGrow]="2" [sortable]="false" [resizeable]="false"  name="Fecha" [sortable]="false"  prop="date"></ngx-datatable-column>
+        <ngx-datatable-column  [flexGrow]="2" [sortable]="false" [resizeable]="false"  name="Descripción de la rutna" [sortable]="false"  prop="descriptionRoutine"></ngx-datatable-column>
         <!-- <ngx-datatable-column  [flexGrow]="2" [sortable]="false" [resizeable]="false"  name="Fecha" [sortable]="false"  prop="result.preventiveRoutines"></ngx-datatable-column> -->
-        <ngx-datatable-column  [flexGrow]="2" name="Ver" [sortable]="false"  sortable="false" prop="status">
+        <ngx-datatable-column  [flexGrow]="2" name="Ver" [sortable]="false"  sortable="false" prop="preventive_consecutive">
         <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
 
-          <button (click)="showPreventive(row)" class="btn btn-primary btn-icon"><i class="icofont icofont-eye-alt"></i></button>
+          <label (click)="showRoutinePreventive(row)" class="link">{{value}}</label>
         
         </ng-template>
         </ngx-datatable-column>
@@ -158,10 +159,10 @@
 
         <ngx-datatable-column  [flexGrow]="2" [sortable]="false" [resizeable]="false"  name="Obervación" [sortable]="false"  prop="result.corrective.work"></ngx-datatable-column>
         <ngx-datatable-column  [flexGrow]="2" [sortable]="false" [resizeable]="false"  name="Fecha" [sortable]="false"  prop="result.corrective.date"></ngx-datatable-column>
-        <ngx-datatable-column  [flexGrow]="2" name="Ver" [sortable]="false"  sortable="false" prop="status">
+        <ngx-datatable-column  [flexGrow]="2" name="Ver" [sortable]="false"  sortable="false" prop="result.corrective.corrective_consecutive">
           <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
 
-            <button (click)="showCorrective(row)" class="btn btn-primary btn-icon"><i class="icofont icofont-eye-alt"></i></button>
+            <label (click)="showRoutineCorrective(row)" class="link">{{value}}</label>
             
           </ng-template>
         </ngx-datatable-column>
@@ -175,10 +176,11 @@
       <ngx-datatable #table class="data-table" [rows]="currentChecklist"   [columnMode]="'flex'" [headerHeight]="50" [footerHeight]="50" [rowHeight]="'auto'" [limit]="20">
 
         <ngx-datatable-column  [flexGrow]="2" [sortable]="false" [resizeable]="false"  name="Fecha" [sortable]="false"  prop="date"></ngx-datatable-column>
-        <ngx-datatable-column  [flexGrow]="2" name="Ver" [sortable]="false"  sortable="false" prop="status">
+        <ngx-datatable-column  [flexGrow]="2" [sortable]="false" [resizeable]="false"  name="Descripción del checklist" [sortable]="false"  prop="descritionChecklist"></ngx-datatable-column>
+        <ngx-datatable-column  [flexGrow]="2" name="Ver" [sortable]="false"  sortable="false" prop="checklists_consecutive">
         <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
 
-          <button (click)="showChecklist(row)"class="btn btn-primary btn-icon"><i class="icofont icofont-eye-alt"></i></button>
+          <label (click)="showRoutineChecklist(row)"class="link">{{value}}</label>
          
         </ng-template>
         </ngx-datatable-column>
@@ -237,7 +239,7 @@
                 <h5>Preventivo</h5>
                 
                 <div   *ngFor="let item of routineSelecteds">
-                  <input type="checkbox" [(ngModel)]="item.select"  data-md-icheck (click)="showRoutinePreventive(item)"/> {{item.item}}<br>
+                  <input type="checkbox" [(ngModel)]="item.select"  data-md-icheck /><a (click)="showRoutinePreventive(item)">&nbsp;{{item.item}}</a> <br>
                 </div>
               </div>
             </app-card>
@@ -283,7 +285,7 @@
                 <h5>Checklist</h5>
                 
                 <div   *ngFor="let item of checklisSelecteds">
-                  <input type="checkbox" [(ngModel)]="item.select"  data-md-icheck (click)="showRoutineChecklist(item)" /> {{item.item}}<br>
+                  <input type="checkbox" [(ngModel)]="item.select"  data-md-icheck  /><a (click)="showRoutineChecklist(item)">&nbsp;{{item.item}}</a> <br>
                 </div>
               </div>
             </app-card>

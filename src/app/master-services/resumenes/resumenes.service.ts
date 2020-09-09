@@ -34,30 +34,6 @@ export class ResumenesService {
     });
   }
 
-  getForkliftPendingGeneral(forkliftId:number){
-    return new Promise(resolve => {
-      const httpOptions = {
-        headers: new HttpHeaders({
-          'Content-Type':  'application/json',
-          'Authorization': 'Bearer ' + localStorage.getItem('token_user'),
-          'Accept': 'application/json'
-        })
-      };
-      
-      this.http.get(this.apiEndPoint+'api/get_pending_general/'+forkliftId, httpOptions)
-      .map(res => res).subscribe(data => {
-        console.log("a mostrar data");
-      console.log(data);
-      resolve(data);
-      }, error => {
-        console.log("error en servicio");
-        console.log(error);
-                resolve(error);
-        });
-    });
-  }
-
-
   storePreventive(id_forklift:number,customer_id:number,brach_id:number,id_rutines:string,technician_id: any, consecutive:number, date:string){
     return new Promise(resolve => {
       const httpOptions = {
@@ -202,6 +178,30 @@ export class ResumenesService {
     });
   }
 
+  getWorkForkliftPreventiveLasteneral(id:number){
+    console.log(id);
+    return new Promise(resolve => {
+      const httpOptions = {
+        headers: new HttpHeaders({
+          'Content-Type':  'application/json',
+          'Authorization': 'Bearer ' + localStorage.getItem('token_user'),
+          'Accept': 'application/json'
+        })
+      };
+      
+      this.http.get(this.apiEndPoint+'api/show_preventive_last_general/'+id, httpOptions)
+      .map(res => res).subscribe(data => {
+        console.log("a mostrar data");
+      console.log(data);
+      resolve(data);
+      }, error => {
+        console.log("error en servicio");
+        console.log(error);
+                resolve(error);
+        });
+    });
+  }
+
   getWorkForkliftPreventiveFilter(id:number,fromdate:string,to_date:string){
     console.log(id);
     return new Promise(resolve => {
@@ -214,6 +214,29 @@ export class ResumenesService {
       };
       console.log('from_date='+fromdate+'&to_date='+to_date);
       this.http.get(this.apiEndPoint+'api/show_preventive_filter/'+id+'?from_date='+fromdate+'&to_date='+to_date, httpOptions)
+      .map(res => res).subscribe(data => {
+        console.log("a mostrar data");
+      console.log(data);
+      resolve(data);
+      }, error => {
+        console.log("error en servicio");
+        console.log(error);
+                resolve(error);
+        });
+    });
+  }
+  getWorkForkliftPreventiveFilterGeneral(id:number,fromdate:string,to_date:string){
+    console.log(id);
+    return new Promise(resolve => {
+      const httpOptions = {
+        headers: new HttpHeaders({
+          'Content-Type':  'application/json',
+          'Authorization': 'Bearer ' + localStorage.getItem('token_user'),
+          'Accept': 'application/json'
+        })
+      };
+      console.log('from_date='+fromdate+'&to_date='+to_date);
+      this.http.get(this.apiEndPoint+'api/show_preventive_filter_general/'+id+'?from_date='+fromdate+'&to_date='+to_date, httpOptions)
       .map(res => res).subscribe(data => {
         console.log("a mostrar data");
       console.log(data);
@@ -322,6 +345,29 @@ export class ResumenesService {
     });
   }
   
+  getWorkForkliftChecklistLastGeneral(id:number){
+    console.log(id);
+    return new Promise(resolve => {
+      const httpOptions = {
+        headers: new HttpHeaders({
+          'Content-Type':  'application/json',
+          'Authorization': 'Bearer ' + localStorage.getItem('token_user'),
+          'Accept': 'application/json'
+        })
+      };
+      
+      this.http.get(this.apiEndPoint+'api/show_checklist_last_general/'+id, httpOptions)
+      .map(res => res).subscribe(data => {
+        console.log("a mostrar data");
+      console.log(data);
+      resolve(data);
+      }, error => {
+        console.log("error en servicio");
+        console.log(error);
+                resolve(error);
+        });
+    });
+  }
   getWorkForkliftChecklistLast(id:number){
     console.log(id);
     return new Promise(resolve => {
@@ -346,6 +392,29 @@ export class ResumenesService {
     });
   }
 
+  getWorkForkliftChecklistFilterGeneral(id:number,fromdate:string,to_date:string){
+    console.log(id);
+    return new Promise(resolve => {
+      const httpOptions = {
+        headers: new HttpHeaders({
+          'Content-Type':  'application/json',
+          'Authorization': 'Bearer ' + localStorage.getItem('token_user'),
+          'Accept': 'application/json'
+        })
+      };
+      
+      this.http.get(this.apiEndPoint+'api/show_checklist_filter_general/'+id+'?from_date='+fromdate+'&to_date='+to_date, httpOptions)
+      .map(res => res).subscribe(data => {
+        console.log("a mostrar data");
+      console.log(data);
+      resolve(data);
+      }, error => {
+        console.log("error en servicio");
+        console.log(error);
+                resolve(error);
+        });
+    });
+  }
   getWorkForkliftChecklistFilter(id:number,fromdate:string,to_date:string){
     console.log(id);
     return new Promise(resolve => {
@@ -698,6 +767,30 @@ export class ResumenesService {
     });
   }
 
+  
+
+  getForkliftPendingGeneral(id_routing:number){
+    console.log(id_routing)
+    return new Promise(resolve => {
+      const headers = new HttpHeaders();
+      headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user'))); // 'Bearer ' +
+      headers.append('Content-Type', 'application/json');
+      const httpOptions = {
+        headers: new HttpHeaders({
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + localStorage.getItem('token_user'),
+          'Accept': 'application/json'
+        })
+      };
+      this.http.get(this.apiEndPoint+'api/get_pending_general/'+id_routing, httpOptions)
+        .map(res => res).subscribe(data => {
+          console.log(data);
+          resolve(data);
+        }, error => {
+          resolve(error);
+        });
+    });
+  }
   getPendingPreventive(id_routing:number){
     console.log(id_routing)
     return new Promise(resolve => {

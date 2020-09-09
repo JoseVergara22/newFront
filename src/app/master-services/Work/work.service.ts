@@ -411,6 +411,9 @@ export class WorkService {
 
   
   updateSystem(id:number,system:string){
+
+    console.log(id);
+    console.log(system);
     console.log("en servicio");
     console.log();
     return new Promise(resolve => {

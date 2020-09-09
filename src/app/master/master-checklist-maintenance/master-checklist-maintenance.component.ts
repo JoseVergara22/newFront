@@ -98,6 +98,7 @@ export class MasterChecklistMaintenanceComponent extends NgbDatepickerI18n {
       var ngbDateStruct = { day: date.getDate(), month: date.getMonth()+1, year: date.getFullYear()};
       this.fromDate=ngbDateStruct;
       this.untilDate=ngbDateStruct;
+      console.log(ngbDateStruct);
 
       this.getRegional();
     

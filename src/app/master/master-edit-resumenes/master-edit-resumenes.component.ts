@@ -109,6 +109,9 @@ export class MasterEditResumenesComponent extends NgbDatepickerI18n {
   urlImages: any;
   consecutiveCorrective: any;
   idRoutineCorrective: any;
+
+  rowPreventive=[];
+  rowChecklist=[];
   
   constructor(private restService: RestService, private resumenesService: ResumenesService, private router: Router, 
     private forkliftService: ForkliftService, private _i18n: I18n, private calendar: NgbCalendar, public formatter: NgbDateParserFormatter,
@@ -156,8 +159,9 @@ export class MasterEditResumenesComponent extends NgbDatepickerI18n {
         this.tonne = this.forklift.tonne;
         this.tyre_description = this.forklift.tyre_description;
        
-        this.getPreventiveRoutinesLast();
-        this.getPendingGeneral(id);
+        // this.getPreventiveRoutinesLast();
+        this.getPreventiveRoutinesLastGeneral();
+        // this.getPendingGeneral(id);
         this.getImages(id);
         this.getForkliftPendingGeneralMain();
         }).catch(error => {
@@ -343,8 +347,8 @@ export class MasterEditResumenesComponent extends NgbDatepickerI18n {
     showRoutineChecklist(item: any){
       this.router.navigateByUrl('maintenance/viewChecklist/'+item.id);
     }
-    showRoutineCorrective(){
-      this.router.navigateByUrl('maintenance/viewCorrective/'+this.idRoutineCorrective);
+    showRoutineCorrective(row: any){
+      this.router.navigateByUrl('maintenance/viewCorrective/'+row.result.corrective.id);
     }
 
 
@@ -688,9 +692,11 @@ export class MasterEditResumenesComponent extends NgbDatepickerI18n {
      from_date=fromD+' 00:00:00';
      to_date=untilD+' 23:59:59';
     
-     this.getPreventiveRoutinesFilter(from_date,to_date);
+    //  this.getPreventiveRoutinesFilter(from_date,to_date);
+     this.getPreventiveRoutinesFilterGeneral(from_date,to_date);
      this.getCorrectiveRoutinesFilter(from_date,to_date);
-     this.getForkliftChecklistFilter(from_date,to_date);
+     this.getForkliftChecklistFilterGeneral(from_date,to_date);
+    //  this.getForkliftChecklistFilter(from_date,to_date);
   }
 
   getPreventiveRoutines(){
@@ -708,17 +714,43 @@ export class MasterEditResumenesComponent extends NgbDatepickerI18n {
   
   }
 
-  getPreventiveRoutinesLast(){
+  // getPreventiveRoutinesLast(){
+  //   // Llenar información de cliente  
+  //   this.resumenesService.getWorkForkliftPreventiveLast(this.forkliftId).then(data => {
+  //     const resp: any = data;
+  //     console.log(data);
+  //     swal.close();
+  //     this.currentPreventive  = resp.data;
+  //     console.log(this.currentPreventive);
+      
+  //     console.log(this.currentPreventive);
+      
+  //     this.getCorrectiveRoutinesLast();
+        
+  //   }).catch(error => {
+  //     console.log(error);
+  //   });
+  // }
+  getPreventiveRoutinesLastGeneral(){
     // Llenar información de cliente  
-    this.resumenesService.getWorkForkliftPreventiveLast(this.forkliftId).then(data => {
+    this.resumenesService.getWorkForkliftPreventiveLasteneral(this.forkliftId).then(data => {
       const resp: any = data;
       console.log(data);
       swal.close();
       this.currentPreventive  = resp.data;
+      // this.currentPreventive = this.currentPreventive[0];
       console.log(this.currentPreventive);
-      
-      console.log(this.currentPreventive);
-      
+      for (let value of  this.currentPreventive) {
+        //     
+            for (let item of  value) {
+            // console.log(value);
+            this.rowPreventive.push(item);
+            console.log(this.rowPreventive);
+    
+        //       this.getPendingGeneral(item.id);
+            }
+          }
+        
       this.getCorrectiveRoutinesLast();
         
     }).catch(error => {
@@ -739,6 +771,30 @@ export class MasterEditResumenesComponent extends NgbDatepickerI18n {
     //     console.log(preventive);
  
     //     for (let item of  preventive) {
+
+    //       this.getPendingGeneral(item.id);
+    //     }
+    //   }
+
+    }).catch(error => {
+      console.log(error);
+    });
+  
+  }
+  getPreventiveRoutinesFilterGeneral(fromdate:string, to_date:string){
+    // Llenar información de cliente  
+    this.resumenesService.getWorkForkliftPreventiveFilterGeneral(this.forkliftId,fromdate,to_date).then(data => {
+      const resp: any = data;
+      console.log(data);
+      swal.close();
+      this.currentPreventive  = resp.data;
+      console.log(this.currentPreventive);
+    // for (let value of  this.currentPreventive) {
+    //      
+    //     for (let item of  value) {
+    //      console.log(value);
+    //     this.rowPreventive.push(item);
+    //     console.log(this.rowPreventive);
 
     //       this.getPendingGeneral(item.id);
     //     }
@@ -775,12 +831,13 @@ export class MasterEditResumenesComponent extends NgbDatepickerI18n {
       this.currentCorrective  = resp.data;
       this.rowsClient  = this.currentCorrective;
       console.log(this.rowsClient);
-      for(let result of this.rowsClient){
-        console.log(result.result.corrective.id);
+      // for(let result of this.rowsClient){
+      //   console.log(result.result.corrective.id);
         
-        this.getPendingCorrective(result.result.corrective.id);
-      }
-      this.getForkliftChecklistLast();
+      //   this.getPendingCorrective(result.result.corrective.id);
+      // }
+      this.getForkliftChecklistLastGeneral();
+      // this.getForkliftChecklistLast();
 
     }).catch(error => {
       console.log(error);
@@ -797,11 +854,11 @@ export class MasterEditResumenesComponent extends NgbDatepickerI18n {
       this.currentCorrective  = resp.data;
       this.rowsClient  = this.currentCorrective;
       console.log(this.rowsClient);
-      for(let result of this.rowsClient){
-        console.log(result.result.corrective.id);
+      // for(let result of this.rowsClient){
+      //   console.log(result.result.corrective.id);
         
-        this.getPendingCorrective(result.result.corrective.id);
-      }
+      //   this.getPendingCorrective(result.result.corrective.id);
+      // }
 
     }).catch(error => {
       console.log(error);
@@ -831,11 +888,33 @@ export class MasterEditResumenesComponent extends NgbDatepickerI18n {
       console.log(data);
       swal.close();
       this.currentChecklist  = resp.data;
-      for(let check of this.currentChecklist){
-        let result = check.result;
-        for(let sub of result.checklistRoutines){
+      // for(let check of this.currentChecklist){
+      //   let result = check.result;
+      //   for(let sub of result.checklistRoutines){
 
-          this.getPendingChecklist(sub.id);
+      //     this.getPendingChecklist(sub.id);
+      //   }
+      // }
+
+    }).catch(error => {
+      console.log(error);
+    });
+  
+  }
+
+  getForkliftChecklistLastGeneral(){
+    // Llenar información de cliente  
+    this.resumenesService.getWorkForkliftChecklistLastGeneral(this.forkliftId).then(data => {
+      const resp: any = data;
+      console.log(data);
+      swal.close();
+      this.currentChecklist  = resp.data;
+      // this.currentChecklist = this.currentChecklist[0];
+      for(let check of this.currentChecklist){
+      //   let result = check.result;
+        for(let sub of check){
+          this.rowChecklist.push(sub);
+      //     this.getPendingChecklist(sub.id);
         }
       }
 
@@ -853,6 +932,27 @@ export class MasterEditResumenesComponent extends NgbDatepickerI18n {
       swal.close();
       this.currentChecklist  = resp.data;
 
+
+    }).catch(error => {
+      console.log(error);
+    });
+  
+  }
+  getForkliftChecklistFilterGeneral(fromdate:string, to_date:string){
+    // Llenar información de cliente  
+    this.resumenesService.getWorkForkliftChecklistFilterGeneral(this.forkliftId,fromdate,to_date).then(data => {
+      const resp: any = data;
+      console.log(data);
+      swal.close();
+      this.currentChecklist  = resp.data;
+      // for(let check of this.currentChecklist){
+        //   let result = check.result;
+          // for(let sub of check){
+          //   this.rowChecklist.push(sub);
+          //   console.log(this.rowChecklist)
+        //     this.getPendingChecklist(sub.id);
+        //   }
+        // }
 
     }).catch(error => {
       console.log(error);
