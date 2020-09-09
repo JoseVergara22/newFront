@@ -50,7 +50,7 @@ const MENUITEMS = [
     ]
   },
   {
-    label: 'erp',
+    label: 'master',
     main: [
       {
         state: 'master',
@@ -382,10 +382,10 @@ const MENUCREATOR = [
     ]
   },
   {
-    label: 'Modulos',
+    label: 'master',
     main: [
       {
-        state: 'erp',
+        state: 'master',
         short_label: 'E',
         name: 'ERP',
         type: 'sub',
