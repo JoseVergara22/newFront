@@ -1679,7 +1679,7 @@ getSpecificRegional(id:number){
   });
 }
 
-createRegional(description: string, code:string){
+createRegional(description: string, code:string, name: string, email: string){
   console.log('ole ole ole');
   console.log(description +', '+ code);
   return new Promise(resolve => {
@@ -1695,7 +1695,9 @@ createRegional(description: string, code:string){
     };
     const postParams = {
       code: code,
-      description: description
+      description: description,
+      name: name,
+      email: email
     };
     console.log(postParams)
     this.http.post(this.apiEndPoint+'api/create_regionals', postParams, httpOptions)
@@ -1707,7 +1709,7 @@ createRegional(description: string, code:string){
   });
 }
 
-updateRegional(id:number, description:string, code:string){
+updateRegional(id:number, description:string, code:string, name: string, email:string){
   console.log("en servicio");
   console.log(id);
   console.log(description);
@@ -1723,7 +1725,9 @@ updateRegional(id:number, description:string, code:string){
       };
       const postParams = {
         code: code,
-        description: description
+        description: description,
+        name: name,
+        email: email
       };
       this.http.patch(this.apiEndPoint+'api/update_regional/'+ id, postParams, httpOptions)
         .map(res => res).subscribe(data => {

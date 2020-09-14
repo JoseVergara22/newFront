@@ -53,19 +53,27 @@ export class MasterRegionalsComponent implements OnInit {
    
    const code = new FormControl('', Validators.required);
    const description = new FormControl('', Validators.required);
+   const name = new FormControl('', Validators.required);
+   const email = new FormControl('', Validators.required);
 
    const codeUpdate = new FormControl('', Validators.required);
    const descriptionUpdate  = new FormControl('', Validators.required);
+   const nameUpdate  = new FormControl('', Validators.required);
+   const emailUpdate  = new FormControl('', Validators.required);
 
    this.myForm = new FormGroup({
      code: code,
      description: description,
+     name: name,
+     email: email,
      
    });
 
    this.myFormUpdate = new FormGroup({
     codeUpdate: codeUpdate,
-    descriptionUpdate: descriptionUpdate
+    descriptionUpdate: descriptionUpdate,
+    nameUpdate: nameUpdate,
+    emailUpdate: emailUpdate
   });
    }
 
@@ -100,7 +108,7 @@ export class MasterRegionalsComponent implements OnInit {
       }
 
       this.restService.createRegional(this.myForm.get('description').value.toUpperCase(),
-       this.myForm.get('code').value)
+       this.myForm.get('code').value,this.myForm.get('name').value.toUpperCase(),this.myForm.get('email').value)
       .then(data => {
         const resp: any = data;
         console.log(resp);
@@ -155,7 +163,7 @@ export class MasterRegionalsComponent implements OnInit {
       console.log('kakakaka');
   
       this.restService.updateRegional(Number(this.currentRegional.id), this.myFormUpdate.get('descriptionUpdate').value.toUpperCase(),
-       this.myFormUpdate.get('codeUpdate').value)
+       this.myFormUpdate.get('codeUpdate').value, this.myFormUpdate.get('nameUpdate').value.toUpperCase(), this.myFormUpdate.get('emailUpdate').value)
       .then(data => {
         const resp: any = data;
         console.log(JSON.stringify(resp));
