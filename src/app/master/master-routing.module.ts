@@ -76,6 +76,7 @@ import { MasterRegisterProfileComponent } from './master-register-profile/master
 import { MasterViewResumenesPreventiveComponent } from './master-view-resumenes-preventive/master-view-resumenes-preventive.component';
 import { MasterViewResumenesCorrectiveComponent } from './master-view-resumenes-corrective/master-view-resumenes-corrective.component';
 import { MasterViewResumenesChecklistComponent } from './master-view-resumenes-checklist/master-view-resumenes-checklist.component';
+import { MasterTechnicianMaintenanceComponent } from './master-technician-maintenance/master-technician-maintenance.component';
 
 
 
@@ -343,6 +344,9 @@ const routes: Routes = [
   },{
     path:'viewChecklist/:id',
     component: MasterViewResumenesChecklistComponent
+  },{
+    path:'controlTechnician',
+    component: MasterTechnicianMaintenanceComponent
   }
   
  

@@ -1268,4 +1268,27 @@ export class ResumenesService {
         });
     });
   }
+
+  getTechnicianRoutine(params:string){
+    return new Promise(resolve => {
+      const headers = new HttpHeaders();
+      headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user'))); // 'Bearer ' +
+      headers.append('Content-Type', 'application/json');
+      const httpOptions = {
+        headers: new HttpHeaders({
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + localStorage.getItem('token_user'),
+          'Accept': 'application/json'
+        })
+      };
+      console.log(params);
+      this.http.get(this.apiEndPoint+'api/get_technician_routine/?'+params, httpOptions)
+        .map(res => res).subscribe(data => {
+          console.log(data);
+          resolve(data);
+        }, error => {
+          resolve(error);
+        });
+    });
+  }
 }

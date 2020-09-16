@@ -89,6 +89,7 @@ import { MasterRegisterProfileComponent } from './master-register-profile/master
 import { MasterViewResumenesPreventiveComponent } from './master-view-resumenes-preventive/master-view-resumenes-preventive.component';
 import { MasterViewResumenesCorrectiveComponent } from './master-view-resumenes-corrective/master-view-resumenes-corrective.component';
 import { MasterViewResumenesChecklistComponent } from './master-view-resumenes-checklist/master-view-resumenes-checklist.component';
+import { MasterTechnicianMaintenanceComponent } from './master-technician-maintenance/master-technician-maintenance.component';
 
 
 
@@ -220,6 +221,7 @@ import {AutocompleteLibModule} from 'angular-ng-autocomplete';
     MasterViewResumenesPreventiveComponent,
     MasterViewResumenesCorrectiveComponent,
     MasterViewResumenesChecklistComponent,
+    MasterTechnicianMaintenanceComponent,
     
    // MasterAdminComponent
   ],
