@@ -262,6 +262,10 @@ const MENUITEMS = [
             state: 'changePassword',
             name: 'Cambio de Contraseña'
           },
+          {
+            state: 'personalActivities',
+            name: 'Registrar actividades del personal'
+          },
         ]
       }
     ]

@@ -77,6 +77,8 @@ import { MasterViewResumenesPreventiveComponent } from './master-view-resumenes-
 import { MasterViewResumenesCorrectiveComponent } from './master-view-resumenes-corrective/master-view-resumenes-corrective.component';
 import { MasterViewResumenesChecklistComponent } from './master-view-resumenes-checklist/master-view-resumenes-checklist.component';
 import { MasterTechnicianMaintenanceComponent } from './master-technician-maintenance/master-technician-maintenance.component';
+import { MasterPersonalActivitiesComponent } from './master-personal-activities/master-personal-activities.component';
+
 
 
 
@@ -347,6 +349,9 @@ const routes: Routes = [
   },{
     path:'controlTechnician',
     component: MasterTechnicianMaintenanceComponent
+  },{
+    path:'personalActivities',
+    component: MasterPersonalActivitiesComponent
   }
   
  
