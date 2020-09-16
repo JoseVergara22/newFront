@@ -60,6 +60,10 @@ const MENUITEMS = [
         icon: 'ti-direction',
         children: [
           {
+            state: 'controlTechnician',
+            name: 'Gestion de Mantenimientos'
+          },
+          {
             state: 'customers',
             name: 'Administrar Clientes'
           },   
@@ -410,6 +414,10 @@ const MENUCREATOR = [
           {
             state: 'registerOffice',
             name: 'Administrar Sedes'
+          },
+          {
+            state: 'controlTechnician',
+            name: 'Gestion de Mantenimientos'
           }
         ]
       }

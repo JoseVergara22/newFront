@@ -183,6 +183,7 @@ getFilters() {
       
 console.log(from_date);
 console.log(to_date);
+console.log(this.selectedTechnician);
 
       params='from_date='+from_date+'&to_date='+to_date+'&&user_id='+this.selectedTechnician.id;
      
