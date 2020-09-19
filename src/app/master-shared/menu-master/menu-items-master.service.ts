@@ -60,10 +60,6 @@ const MENUITEMS = [
         icon: 'ti-direction',
         children: [
           {
-            state: 'controlTechnician',
-            name: 'Gestion de Mantenimientos'
-          },
-          {
             state: 'customers',
             name: 'Administrar Clientes'
           },   
@@ -109,11 +105,11 @@ const MENUITEMS = [
           },
           {
             state: 'priceCountriesDhl',
-            name:  'Administrar tabla DHL'
+            name:  'Administrar Tabla DHL'
           },
           {
             state: 'estimateConfiguration',
-            name:  'Configuración de cotizaciones'
+            name:  'Configuración de Cotizaciones'
           },
           {
             state: 'LogTrm',
@@ -144,6 +140,10 @@ const MENUITEMS = [
           {
             state: 'resumenes',
             name:  'Administrar Hojas de Vida'
+           },
+           {
+            state: 'controlTechnician',
+            name: 'Gestión de Mantenimientos'
            },
            {
             state: 'prevetiveMaintenance',
@@ -264,7 +264,7 @@ const MENUITEMS = [
           },
           {
             state: 'personalActivities',
-            name: 'Registrar actividades del personal'
+            name: 'Administrar Actividades del Personal'
           },
         ]
       }
@@ -352,11 +352,11 @@ const MENUFINANCIAL = [
           },
           {
             state: 'priceCountriesDhl',
-            name:  'Administrar tabla DHL'
+            name:  'Administrar Tabla DHL'
           },
           {
             state: 'estimateConfiguration',
-            name:  'Configuración de cotizaciones'
+            name:  'Configuración de Cotizaciones'
           },
           {
             state: 'LogTrm',
@@ -418,10 +418,6 @@ const MENUCREATOR = [
           {
             state: 'registerOffice',
             name: 'Administrar Sedes'
-          },
-          {
-            state: 'controlTechnician',
-            name: 'Gestion de Mantenimientos'
           }
         ]
       }
@@ -448,7 +444,12 @@ const MENUCREATOR = [
           {
             state: 'resumenes',
             name:  'Administrar Hojas de Vida'
-           }, {
+           },          
+           {
+            state: 'controlTechnician',
+            name: 'Gestión de Mantenimientos'
+          },
+          {
             state: 'prevetiveMaintenance',
             name:  'Asignar Mantenimiento Preventivo'
           },  
