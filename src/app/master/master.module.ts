@@ -91,6 +91,12 @@ import { MasterViewResumenesCorrectiveComponent } from './master-view-resumenes-
 import { MasterViewResumenesChecklistComponent } from './master-view-resumenes-checklist/master-view-resumenes-checklist.component';
 import { MasterTechnicianMaintenanceComponent } from './master-technician-maintenance/master-technician-maintenance.component';
 import { MasterPersonalActivitiesComponent } from './master-personal-activities/master-personal-activities.component';
+import { MasterTechnicianReportComponent } from './master-technician-report/master-technician-report.component';
+import { MasterUpdateTechnicianReportComponent } from './master-update-technician-report/master-update-technician-report.component';
+import { MasterRegisterTechnicianReportComponent } from './master-register-technician-report/master-register-technician-report.component';
+import { MasterRegisterTechnicianForkliftReportComponent } from './master-register-technician-forklift-report/master-register-technician-forklift-report.component';
+import { MasterUpdateTechnicianForkliftReportComponent } from './master-update-technician-forklift-report/master-update-technician-forklift-report.component';
+
 
 
 
@@ -120,6 +126,8 @@ import { ToiletService } from '../master-services/toliet/toilet.service';
 import { ResumenesService } from '../master-services/resumenes/resumenes.service';
 import { PlatformsService } from '../master-services/platforms/platforms.service';
 import { StevedoreService } from '../master-services/stevedore/stevedore.service';
+import { PersonalService } from '../master-services/personal/personal.service';
+import { MasterTechnicianForkliftReportComponent } from './master-technician-forklift-report/master-technician-forklift-report.component';
 
 
 
@@ -225,7 +233,13 @@ import {AutocompleteLibModule} from 'angular-ng-autocomplete';
     MasterViewResumenesChecklistComponent,
     MasterTechnicianMaintenanceComponent,
     MasterPersonalActivitiesComponent,
-    
+    MasterTechnicianReportComponent,
+    MasterUpdateTechnicianReportComponent,
+    MasterRegisterTechnicianReportComponent,
+    MasterTechnicianForkliftReportComponent,
+    MasterRegisterTechnicianForkliftReportComponent,
+    MasterUpdateTechnicianForkliftReportComponent,
+
    // MasterAdminComponent
   ],
   providers: [
@@ -251,6 +265,7 @@ import {AutocompleteLibModule} from 'angular-ng-autocomplete';
     ToiletService,
     ResumenesService,
     PlatformsService,
-    StevedoreService]
+    StevedoreService,
+    PersonalService,]
 })
 export class MasterModule { }

@@ -80,6 +80,7 @@ export class MasterAuthComponent implements OnInit {
       localStorage.setItem('email', resp.data[0].email);
       localStorage.setItem('username', resp.data[0].username);
       localStorage.setItem('userid', resp.data[0].id);
+      localStorage.setItem('name', resp.data[0].name);
       localStorage.setItem('user', resp.data[0]);
       console.log('------------------');
       console.log(resp.data[0].status);

@@ -78,6 +78,13 @@ import { MasterViewResumenesCorrectiveComponent } from './master-view-resumenes-
 import { MasterViewResumenesChecklistComponent } from './master-view-resumenes-checklist/master-view-resumenes-checklist.component';
 import { MasterTechnicianMaintenanceComponent } from './master-technician-maintenance/master-technician-maintenance.component';
 import { MasterPersonalActivitiesComponent } from './master-personal-activities/master-personal-activities.component';
+import { MasterTechnicianReportComponent } from './master-technician-report/master-technician-report.component';
+import { MasterUpdateTechnicianReportComponent } from './master-update-technician-report/master-update-technician-report.component';
+import { MasterRegisterTechnicianReportComponent } from './master-register-technician-report/master-register-technician-report.component';
+import { MasterTechnicianForkliftReportComponent } from './master-technician-forklift-report/master-technician-forklift-report.component';
+import { MasterRegisterTechnicianForkliftReportComponent } from './master-register-technician-forklift-report/master-register-technician-forklift-report.component';
+import { MasterUpdateTechnicianForkliftReportComponent } from './master-update-technician-forklift-report/master-update-technician-forklift-report.component';
+
 
 
 
@@ -352,6 +359,24 @@ const routes: Routes = [
   },{
     path:'personalActivities',
     component: MasterPersonalActivitiesComponent
+  },{
+    path:'technicianReport',
+    component: MasterTechnicianReportComponent
+  },{
+    path:'reportUpdate/:id',
+    component: MasterUpdateTechnicianReportComponent
+  },{
+    path:'reportRegister',
+    component: MasterRegisterTechnicianReportComponent
+  },{
+    path:'forkliftReport',
+    component: MasterTechnicianForkliftReportComponent
+  },{
+    path:'registerForkliftReport',
+    component: MasterRegisterTechnicianForkliftReportComponent
+  },{
+    path:'updateForkliftReport/:id',
+    component: MasterUpdateTechnicianForkliftReportComponent
   }
   
  
