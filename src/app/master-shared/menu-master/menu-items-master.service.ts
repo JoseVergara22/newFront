@@ -163,15 +163,15 @@ const MENUITEMS = [
           },  
           {
             state:'platforms',
-            name: 'Administrar Plataformas'
+            name: 'Administrar Mantenimiento Plataformas'
           },
           {
             state:'stevedores',
-            name: 'Administrar Estibadores'
+            name: 'Administrar Mantenimiento Estibadores'
           },
           {
             state:'checklists',
-            name: 'Administrar Checklist'
+            name: 'Administrar Mantenimiento Checklist'
           },
           {
             state:'question',
@@ -179,7 +179,7 @@ const MENUITEMS = [
           },
           {
             state:'toilet',
-            name: 'Registro Aseo'
+            name: 'Administrar Registro Aseo'
           },
 
          /*    {
@@ -466,15 +466,15 @@ const MENUCREATOR = [
           },  
           {
             state:'platforms',
-            name: 'Administrar Plataformas'
+            name: 'Administrar Mantenimientos Plataformas'
           },
           {
             state:'stevedores',
-            name: 'Administrar Estibadores'
+            name: 'Administrar Mantenimientos Estibadores'
           },
           {
             state:'checklists',
-            name: 'Administrar Checklist'
+            name: 'Administrar Mantenimientos Checklist'
           },
           {
             state:'question',
@@ -482,7 +482,7 @@ const MENUCREATOR = [
           },
           {
             state:'toilet',
-            name: 'Registro Aseo'
+            name: 'Administrar Registro Aseo'
           },
          
          

@@ -152,7 +152,7 @@ export class MasterRegisterStevedoreComponent implements OnInit {
   }
 
   goAdminRoutines(){
-    this.router.navigateByUrl('maintenance/plataforms');
+    this.router.navigateByUrl('maintenance/stevedores');
   }
 
   ngOnInit() {

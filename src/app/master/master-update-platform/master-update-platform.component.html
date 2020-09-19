@@ -1,9 +1,9 @@
 <div class="row">
   <div class="col-sm-12">
-      <app-card [title]="'Registro Plataformas'" [headerContent]="''" [cardOptionBlock]="true">
+      <app-card [title]="'Registro Mantenimiento Plataformas'" [headerContent]="''" [cardOptionBlock]="true">
 
 
-          <h5>Información Plataforma </h5>
+          <h5>Información Mantenimiento Plataforma </h5>
           <br>
           <h6 *ngIf=" showButtonUpdated == true">Ya puedes crear sistemas</h6>
           <br>
@@ -12,7 +12,7 @@
               <div class="form-group row">
                   
                   <div class="col-sm-8 col-xs-12" >
-                      <h6>Descripción de la Plataforma <span style="color:red;">*</span></h6>
+                      <h6>Descripción  <span style="color:red;">*</span></h6>
                       <input type="text" class="form-control" [(ngModel)]="routineDescriptionUpdate" #ctrl="ngModel" id="workTitleUpdate" required>
                   </div>
                   <!-- <div class="col-sm-1 editicon" *ngIf="showButtonUpdated == true">
@@ -21,7 +21,7 @@
 
                 
                   <div class="col-sm-4 col-xs-12">
-                      <h6>Horas de la Plataforma </h6>
+                      <h6>Horas </h6>
                       <input type="number" class="form-control" [(ngModel)]="routineHourUpdate" #ctrl="ngModel" id="workHoursUpdate" >
                   </div>
               </div>
@@ -29,7 +29,7 @@
               <div class="form-group row">
                 
                   <div class="col-sm-12" >
-                      <h6>Observacion de la Plataforma</h6>
+                      <h6>Observacion</h6>
                       <textarea type="text" class="form-control" [(ngModel)]="routineObservationUpdate" #ctrl="ngModel" id="workObservationUpdate" ></textarea>
                   </div>
               </div>
@@ -98,7 +98,7 @@
             </app-card>
           </div>
                       <div class="align-buttons">
-                          <button class="btn btn-primary m-b-0 " (click)="goAdminRoutines()">Volver Administración Plataformas</button>
+                          <button class="btn btn-primary m-b-0 " (click)="goAdminRoutines()">Volver Administración Mantenimiento Plataformas</button>
                       </div>
       </app-card>
   </div>

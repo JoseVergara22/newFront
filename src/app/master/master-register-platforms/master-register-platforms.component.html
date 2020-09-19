@@ -3,7 +3,7 @@
       <app-card [title]="'Registro Plataformas'" [headerContent]="''" [cardOptionBlock]="true">
 
 
-          <h5>Información Plataforma </h5>
+          <h5>Información Mantenimiento Plataforma </h5>
           <br>
           <h6 >Luego de crear la plataforma, puedes crear el sistema</h6>
 
@@ -12,7 +12,7 @@
 
               <div class="form-group row">
                   <div class="col-sm-8 col-xs-12" >
-                      <h6>Descripción de la Plataforma <span style="color:red;">*</span></h6>
+                      <h6>Descripción <span style="color:red;">*</span></h6>
                       <input type="text" class="form-control" [(ngModel)]="routineDescription" #ctrl="ngModel" id="workTitle" required>
                   </div>
                
@@ -29,7 +29,7 @@
 
               <div class="form-group row">
                   <div class="col-sm-12" >
-                      <h6>Observacion de la Plataforma </h6>
+                      <h6>Observacion </h6>
                       <textarea type="text" class="form-control" [(ngModel)]="routineObservation" #ctrl="ngModel" id="workObservation" ></textarea>
                   </div>
             
@@ -68,7 +68,7 @@
           </app-card>
          
                       <div class="align-buttons">
-                          <button class="btn btn-primary m-b-0 " (click)="goAdminRoutines()">Volver Administración Plataformas</button>
+                          <button class="btn btn-primary m-b-0 " (click)="goAdminRoutines()">Volver Administración Mantenimiento Plataformas</button>
                       </div>
       </app-card>
   </div>

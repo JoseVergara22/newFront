@@ -88,7 +88,7 @@ export class MasterRegisterPlatformsComponent implements OnInit {
           this.routineObservationUpdate=this.headerInfo.observation;
           this.router.navigateByUrl('maintenance/plataformsUpdate/'+this.headerId)
         }else{
-          this.generalAlert("ha ocurrido un error","Ya existe una plataforma con este nombre","error");
+          this.generalAlert("ha ocurrido un error","Ya existe una mantenimiento de plataforma con este nombre","error");
         }
       }).catch(err=>{
         this.showButtonUpdated=false;
@@ -347,7 +347,7 @@ export class MasterRegisterPlatformsComponent implements OnInit {
   }
 
   goAdminRoutines(){
-    this.router.navigateByUrl('maintenance/plataforms');
+    this.router.navigateByUrl('maintenance/platforms');
   }
 
   ngOnInit() {

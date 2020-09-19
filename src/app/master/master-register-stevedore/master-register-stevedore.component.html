@@ -1,9 +1,9 @@
 <div class="row">
   <div class="col-sm-12">
-      <app-card [title]="'Registro Plataformas'" [headerContent]="''" [cardOptionBlock]="true">
+      <app-card [title]="'Registro Mantenimiento Estibadores'" [headerContent]="''" [cardOptionBlock]="true">
 
 
-          <h5>Información Estibadores </h5>
+          <h5>Información Mantenimiento Estibadores </h5>
           <br>
           <h6 >Luego de crear el estibador, puedes crear el sistema</h6>
            <br>
@@ -11,7 +11,7 @@
 
               <div class="form-group row">
                   <div class="col-sm-8 col-xs-12" >
-                      <h6>Descripción del Estibador <span style="color:red;">*</span></h6>
+                      <h6>Descripción <span style="color:red;">*</span></h6>
                       <input type="text" class="form-control" [(ngModel)]="routineDescription" #ctrl="ngModel" id="workTitle" required>
                   </div>
                
@@ -28,7 +28,7 @@
 
               <div class="form-group row">
                   <div class="col-sm-12" >
-                      <h6>Observacion del Estibador </h6>
+                      <h6>Observacion </h6>
                       <textarea type="text" class="form-control" [(ngModel)]="routineObservation" #ctrl="ngModel" id="workObservation" ></textarea>
                   </div>
            
@@ -59,6 +59,11 @@
                 
                       <button type="button" class="btn btn-primary m-b-0 waves-effect" id="storeheaderbutton" (click)="registerheader()" >Agregar encabezado</button>
                       <!-- <button (click)="registerheader()" id="registerHeader" type="submit" class="btn btn-primary m-b-0" *ngIf="showButtonUpdated == false">Agregar encabezado</button> -->
+    </div>
+<br>
+<br>
+    <div class="align-buttons">
+        <button class="btn btn-primary m-b-0 " (click)="goAdminRoutines()">Volver Administración Mantenimiento Estibadores</button>
     </div>
   </app-card>
 

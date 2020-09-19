@@ -360,7 +360,7 @@ export class MasterUpdatePlatformComponent implements OnInit {
   }
 
   goAdminRoutines(){
-    this.router.navigateByUrl('maintenance/plataforms');
+    this.router.navigateByUrl('maintenance/platforms');
   }
 
   ngOnInit() {

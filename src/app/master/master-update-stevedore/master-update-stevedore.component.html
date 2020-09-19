@@ -1,9 +1,9 @@
 <div class="row">
   <div class="col-sm-12">
-      <app-card [title]="'Registro Plataformas'" [headerContent]="''" [cardOptionBlock]="true">
+      <app-card [title]="'Registro Mantenimiento Estibadores'" [headerContent]="''" [cardOptionBlock]="true">
 
 
-          <h5>Información Estibadores</h5>
+          <h5>Información Mantenimiento Estibadores</h5>
           <br>
           <h6 *ngIf=" showButtonUpdated == true">Ya puedes crear sistemas</h6>
           <br>
@@ -12,7 +12,7 @@
               <div class="form-group row">
 
                   <div class="col-sm-8 col-xs-12" >
-                      <h6>Descripción del Estibador <span style="color:red;">*</span></h6>
+                      <h6>Descripción <span style="color:red;">*</span></h6>
                       <input type="text" class="form-control" [(ngModel)]="routineDescriptionUpdate" #ctrl="ngModel" id="workTitleUpdate" required>
                   </div>
 
@@ -25,7 +25,7 @@
               <div class="form-group row">
   
                   <div class="col-sm-12" >
-                      <h6>Observacion del Estibador</h6>
+                      <h6>Observación</h6>
                       <textarea type="text" class="form-control" [(ngModel)]="routineObservationUpdate" #ctrl="ngModel" id="workObservationUpdate" ></textarea>
                   </div>
               </div>
@@ -112,7 +112,7 @@
             </app-card>
           </div>
                       <div class="align-buttons">
-                          <button class="btn btn-primary m-b-0 " (click)="goAdminRoutines()">Volver Administración Plataformas</button>
+                          <button class="btn btn-primary m-b-0 " (click)="goAdminRoutines()">Volver Administración Mantenimiento Estibadores</button>
                       </div>
       </app-card>
   </div>
@@ -136,7 +136,7 @@
           </div>
           <div class="align-buttons">
               <button type="button" class="btn btn-default waves-effect" id="storageComponentlHide" (click)="modalComponent.hide()">Cancelar</button>
-              <button type="submit " class="btn btn-primary m-b-0 " (click)="storageComponent(componentForm.value)">Crear Componente</button>
+              <button type="submit " class="btn btn-primary m-b-0 " (click)="storageComponent(componentForm.value)">Crear Sistema</button>
           </div>
       </form>
   </div>

@@ -73,10 +73,10 @@ export class MasterPlatformsComponent implements OnInit {
             this.generalAlert('Error','ocurrio un error durante el procesado',"error");
           }else{
             if(resp.indicator==0){
-              this.generalAlert('Plataforma eliminada','Plataforma eliminada correctamente','success');
+              this.generalAlert('Mantenimiento eliminado','Mantenimiento eliminada correctamente','success');
               this.getWorks();
             }else{
-              this.generalAlert('Error','Esta plataforma tiene asignado componentes',"error");
+              this.generalAlert('Error','Este mantenimiento tiene asignado componentes',"error");
             }
           }
         }).catch(err=>{
