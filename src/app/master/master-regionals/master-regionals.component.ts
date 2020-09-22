@@ -123,6 +123,7 @@ export class MasterRegionalsComponent implements OnInit {
           console.log('Cambio');
           document.getElementById('createRegionalHide').click();
           this.loadingData();
+          this.myForm.reset();
      swal({
       title: 'Sucursal agregada',
       type: 'success'

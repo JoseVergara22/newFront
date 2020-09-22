@@ -1,3 +1,175 @@
-<p>
-  master-update-technician-forklift-report works!
-</p>
+
+<div class="row">
+
+  <div class="col-sm-12">
+      <app-card>
+          <h5>Administración de Mantenimiento Preventivo</h5>
+          <br>
+
+          <div class="form-group row">
+
+            <div class="col-sm-6">
+              <h6>Sucursales  <span style="color:red;">*</span> </h6>
+
+              <select class="form-control" (change)="getCustomerRegionals()"  [(ngModel)]="selectedRegionalId" > 
+                          <option value="0" selected>Seleccionar sucursal </option>
+                           <option   *ngFor="let reg of regional" [ngValue]="reg.id"   > {{reg.description}}  </option>
+                      <!--  <option value="0" selected>Seleccionar perfil</option> -->
+                     </select>
+          </div>
+
+            <div class="col-sm-6">
+              <h6>Cliente  <span style="color:red;">*</span></h6>
+              <select class="form-control" (change)="getBranchOffices()" [(ngModel)]="selectedBusinessId"> 
+                          <option value="0" selected>Seleccionar cliente </option>
+                      <option   *ngFor="let customer of customers" [ngValue]="customer.id"> {{customer.business_name}}  </option>
+                      <!--  <option value="0" selected>Seleccionar perfil</option> -->
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <div class="col-sm-4">
+              <h6>Sede  <span style="color:red;">*</span></h6>
+                <select class="form-control" (change)="getForklifs()" [(ngModel)]="selectedBranchOfficeId" > 
+                            <option value="0" selected>Seleccionar sede </option>
+                            <option   *ngFor="let branchOffice of branchOffices" [ngValue]="branchOffice.id"   > {{branchOffice.branch_name}}  </option>
+                        <!--  <option value="0" selected>Seleccionar perfil</option> -->
+                </select>
+              </div>
+
+            <div class="col-sm-4">
+              <h6>Equipo  <span style="color:red;">*</span></h6>
+
+              <select class="form-control"   [(ngModel)]="selectedForkliftId" > 
+                          <option value="0" selected>Seleccionar equipo </option>
+                          <option   *ngFor="let forklift of forklifts" [ngValue]="forklift.id"   > {{forklift.full_name}}  </option>
+                      <!--  <option value="0" selected>Seleccionar perfil</option> -->
+                     </select>
+            </div>
+
+            <div class="col-sm-4">
+              <h6>Reporte  <span style="color:red;">*</span></h6>
+
+              <select class="form-control"   [(ngModel)]="selectedReporId" (click)="getReportTechnicianDetail()"> 
+                          <option value="0" selected>Seleccionar el reporte a diligenciar </option>
+                          <option   *ngFor="let forklift of report" [ngValue]="forklift.id"   > {{forklift.description}}  </option>
+                      <!--  <option value="0" selected>Seleccionar perfil</option> -->
+                     </select>
+            </div>
+          </div>
+            <div class=" align-buttons" >
+              <button *ngIf="switchUpdate==true" type="button" (click)="updateHeader()"   class="btn btn-primary waves-effect">Actualizar</button>
+            </div>
+
+          
+          
+
+      </app-card>      
+  </div>
+</div>
+
+<div>
+  <app-card title="Items">
+    
+    <div class="align-buttons">
+      <button class="btn btn-primary m-b-0"  (click)="validateCondition()" >Diligenciar Item</button>
+      <button style="display: none;" class="btn btn-primary m-b-0" (click)="modalPart.show()" id="showPart">Diligenciar Item</button>
+      <button style="display: none;" class="btn btn-primary m-b-0" (click)="modalUpdatePart.show()" id="showPartUpdate">Diligenciar Item</button>
+      </div>
+
+  <ngx-datatable #table class="data-table" [rows]="makeForklift"   [columnMode]="'flex'" [headerHeight]="50" [footerHeight]="50" [rowHeight]="'auto'" [limit]="20">
+
+      <!--   <ngx-datatable-column [resizeable]="false" name="Compañia" [sortable]="false" [draggable]="false" prop="business_name"></ngx-datatable-column> -->
+     
+
+      <ngx-datatable-column  [flexGrow]="2" [sortable]="false" [resizeable]="false" name="Item" [sortable]="false" prop="technical_report_details_description"></ngx-datatable-column>
+      <ngx-datatable-column  [flexGrow]="2" [sortable]="false" [resizeable]="false" name="Observación" [sortable]="false" prop="work"></ngx-datatable-column>
+      <ngx-datatable-column  [flexGrow]="2" [sortable]="false" [resizeable]="false" name="Acciones" [sortable]="false"  prop="id">
+          <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+              <button (click)="updateParts(row)" class="btn btn-primary btn-icon"><i class="icofont icofont-pencil-alt-5"></i></button>
+              <button (click)="deletePart(row)" class="btn btn-danger btn-icon"><i class="icofont icofont-ui-delete"></i></button>
+          </ng-template>
+      </ngx-datatable-column>
+
+    </ngx-datatable>
+  </app-card>
+</div>
+
+<div *ngIf="image!=0">
+  <app-card title="Imagenes">
+
+  </app-card>
+</div>
+
+
+
+
+<app-modal-basic #modalPart [dialogClass]="'modal-lg'">
+  <div class="app-modal-header">
+      <h4 class="modal-title">Diligenciar Item</h4>
+  </div>
+  <div class="app-modal-body">
+      <form [formGroup]="partForm">
+          <div class="form-group row">
+
+            <div class="col-sm-4">
+              <h6>Item a diligenciar  <span style="color:red;">*</span></h6>
+
+              <select class="form-control"   [(ngModel)]="selectedReporDetailId" formControlName="reportDetail" > 
+                          <option value="0" selected>Seleccionar el item </option>
+                          <option   *ngFor="let forklift of reportDetail" [ngValue]="forklift"   > {{forklift.description}}  </option>
+                      <!--  <option value="0" selected>Seleccionar perfil</option> -->
+                     </select>
+            </div>
+          </div>
+
+            
+              <h6>Observación del  item<span style="color:red;">*</span></h6>
+                  <textarea  id="partDescription" formControlName="partDescription" cols="30" rows="10" required></textarea>
+     
+
+    
+
+          <div class="align-buttons">
+              <button type="button" class="btn btn-default waves-effect" id="storagePartHide" (click)="modalPart.hide()">Cancelar</button>
+              <button type="submit " class="btn btn-primary m-b-0 " (click)="storagePart(partForm)">Guardat Item</button>
+          </div>
+      </form>
+  </div>
+</app-modal-basic>
+
+<app-modal-basic #modalUpdatePart [dialogClass]="'modal-lg'" >
+  <div class="app-modal-header">
+      <h4 class="modal-title">Actualizar Item</h4>
+  </div>
+  <div class="app-modal-body">
+      <form [formGroup]="updatePartForm">            
+          <div class="form-group row">
+
+
+            <div class="col-sm-4">
+              <h6>Item a diligenciar  <span style="color:red;">*</span></h6>
+
+              <select class="form-control"   [(ngModel)]="selectedUpdateReporDetailId" formControlName="reportDetailUpdate" > 
+                          <option value="0" selected>Seleccionar el item </option>
+                          <option   *ngFor="let forklift of reportDetail" [ngValue]="forklift.id"   > {{forklift.description}}  </option>
+                      <!--  <option value="0" selected>Seleccionar perfil</option> -->
+                     </select>
+            </div>
+
+          </div>
+
+          <h6>Observación del  item<span style="color:red;">*</span></h6>
+          <textarea  id="partDescriptionUpdate" formControlName="partDescriptionUpdate" cols="30" rows="10" required></textarea>
+
+
+
+          <div class="align-buttons">
+              <button type="button" class="btn btn-default waves-effect" id="updatePartHide" (click)="modalUpdatePart.hide()">Cancelar</button>
+              <button type="submit " class="btn btn-primary m-b-0 " (click)="sendUpdatePart(updatePartForm.value)">Actualizar Parte</button>
+
+          </div>
+      </form>
+  </div>
+</app-modal-basic>

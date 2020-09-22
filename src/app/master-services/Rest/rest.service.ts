@@ -2708,7 +2708,7 @@ updateRegional(id:number, description:string, code:string, name: string, email:s
     });
   }
   
-  registerLog(params: string) {
+  registerLog(user: string, configuration: string, value:number,trmEspa: number) {
     return new Promise(resolve => {
       const headers = new HttpHeaders();
       headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user'))); // 'Bearer ' +
@@ -2720,11 +2720,20 @@ updateRegional(id:number, description:string, code:string, name: string, email:s
           'Accept': 'application/json'
         })
       };
-      this.http.post(this.apiEndPoint+'api/create_log?'+params, httpOptions)
+      const postParams = {
+        user: user,
+        configuration: configuration,
+        value: value,
+        ingresar_constante:trmEspa
+      };
+      console.log(postParams);
+      this.http.post(this.apiEndPoint+'api/create_log',postParams, httpOptions)
         .map(res => res).subscribe(data => {
           resolve(data);
+          console.log(data);
         }, error => {
           resolve(error);
+          console.log(error);
         });
     });
   }

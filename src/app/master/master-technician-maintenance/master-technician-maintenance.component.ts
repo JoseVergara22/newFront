@@ -145,13 +145,7 @@ export class MasterTechnicianMaintenanceComponent extends NgbDatepickerI18n {
   
 getFilters() {
 
-  if( this.selectedBusinessId == 0 &&   this.selectedRegionalId == 0  ){
-      swal({
-        title:'Importante',
-        text: 'Debes seleccionar por lo menos uno de los filtros.',
-        type: 'error'
-       });
-    }else{
+  
       swal({
         title: 'Validando información ...',
         allowOutsideClick: false
@@ -185,16 +179,22 @@ console.log(from_date);
 console.log(to_date);
 console.log(this.selectedTechnician);
 
-      params='from_date='+from_date+'&to_date='+to_date+'&&user_id='+this.selectedTechnician.id;
+      params='from_date='+from_date+'&to_date='+to_date;
      
 
+      if(this.selectedTechnician!=0){
+        console.log('imprimir cont');
+        // console.log(cont);
+          params=params+'&&user_id='+this.selectedTechnician.id;
+        
+      }
       if(this.selectedBusinessId!=0){
         console.log('imprimir cont');
         // console.log(cont);
           params=params+'&&customer_id='+this.selectedBusinessId.id;
-     
-           
+        
       }
+
       if(this.selectedBranchOfficeId!=0){
         console.log('imprimir cont');
         // console.log(cont);
@@ -227,7 +227,7 @@ console.log(this.selectedTechnician);
       }).catch(error => {
         console.log(error);
       });  
-    }
+
 }
 
  

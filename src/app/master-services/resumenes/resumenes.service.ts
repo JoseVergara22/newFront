@@ -1282,7 +1282,7 @@ export class ResumenesService {
         })
       };
       console.log(params);
-      this.http.get(this.apiEndPoint+'api/get_technician_routine/?'+params, httpOptions)
+      this.http.get(this.apiEndPoint+'api/get_technician_routine?'+params, httpOptions)
         .map(res => res).subscribe(data => {
           console.log(data);
           resolve(data);

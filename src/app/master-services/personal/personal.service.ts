@@ -292,6 +292,7 @@ getReportTechnicianDetail(id:number){
       .map(res => res).subscribe(data => {
         console.log(data);
         resolve(data);
+        console.log(data);
       }, error => {
         resolve(error);
       });
@@ -374,6 +375,30 @@ getForkliftReport(){
   });
 }
 
+getForkliftReportId(id:number){
+  console.log(id);
+  return new Promise(resolve => {
+    const headers = new HttpHeaders();
+    headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user'))); 
+    headers.append('Content-Type', 'application/json');
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + localStorage.getItem('token_user'),
+        'Accept': 'application/json'
+      })
+    };
+    this.http.get(this.apiEndPoint+'api/get_forklisft_report_id/'+id, httpOptions)
+      .map(res => res).subscribe(data => {
+        console.log(data);
+        resolve(data);
+      }, error => {
+        resolve(error);
+        console.log(error);
+      });
+  });
+}
+
 deleteForkliftReport(id:number){
   console.log('ole ole ole');
   console.log(id);
@@ -400,7 +425,8 @@ deleteForkliftReport(id:number){
 }
 
   
-createReportForklift(customer_id: number, branch_offices_id:number, forklift_id:number,technical_reports_id:number){
+createReportForklift(regional_id:number,customer_id: number, branch_offices_id:number, forklift_id:number,
+  technical_reports_id:number){
   console.log('ole ole ole');
   console.log(customer_id);
   return new Promise(resolve => {
@@ -415,6 +441,42 @@ createReportForklift(customer_id: number, branch_offices_id:number, forklift_id:
       })
     };
     const postParams = {
+      regional_id: regional_id,
+      customer_id: customer_id,
+      branch_offices_id: branch_offices_id,
+      forklift_id: forklift_id,
+      technical_reports_id: technical_reports_id,
+      user_id: localStorage.getItem('userid'),
+      name_user: localStorage.getItem('name'),
+      status:1 
+    };
+    console.log(postParams)
+    this.http.post(this.apiEndPoint+'api/create_report_forklift', postParams, httpOptions)
+      .map(res => res).subscribe(data => {
+        resolve(data);
+      }, error => {
+        resolve(error);
+      });
+  });
+}
+
+  
+updateReportForklift(id:number,regional_id:number,customer_id: number, branch_offices_id:number, forklift_id:number,technical_reports_id:number){
+  console.log('ole ole ole');
+  console.log(customer_id);
+  return new Promise(resolve => {
+    const headers = new HttpHeaders();
+    headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user'))); 
+    headers.append('Content-Type', 'application/json');
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + localStorage.getItem('token_user'),
+        'Accept': 'application/json'
+      })
+    };
+    const postParams = {
+      regional_id: regional_id,
       customer_id: customer_id,
       branch_offices_id: branch_offices_id,
       forklift_id: forklift_id,
@@ -424,11 +486,157 @@ createReportForklift(customer_id: number, branch_offices_id:number, forklift_id:
      
     };
     console.log(postParams)
-    this.http.post(this.apiEndPoint+'api/create_report', postParams, httpOptions)
+    this.http.patch(this.apiEndPoint+'api/update_report_forklift/'+id, postParams, httpOptions)
       .map(res => res).subscribe(data => {
         resolve(data);
       }, error => {
         resolve(error);
+      });
+  });
+}
+
+createReportForkliftPart(header_id:number, report_description:string, technical_reports_id:number, item_id:number,item_description:string,
+  work:string){
+  console.log('ole ole ole');
+  console.log(header_id);
+  return new Promise(resolve => {
+    const headers = new HttpHeaders();
+    headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user'))); 
+    headers.append('Content-Type', 'application/json');
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + localStorage.getItem('token_user'),
+        'Accept': 'application/json'
+      })
+    };
+    const postParams = {
+
+      technical_forklift_reports_id: header_id,
+      technical_reports_description: report_description,
+      technical_reports_id: technical_reports_id,
+      technical_report_details_id: item_id,
+      technical_report_details_description: item_description,
+      work: work,
+      user_id: localStorage.getItem('userid'),
+
+    };
+    console.log(postParams)
+    this.http.post(this.apiEndPoint+'api/create_report_forklift_detail', postParams, httpOptions)
+      .map(res => res).subscribe(data => {
+        resolve(data);
+      }, error => {
+        resolve(error);
+      });
+  });
+}
+
+updateReportForkliftPart(id:number,header_id:number, report_description:string, technical_reports_id:number, item_id:number,item_description:string,
+  work:string){
+  console.log('ole ole ole');
+  console.log(header_id);
+  return new Promise(resolve => {
+    const headers = new HttpHeaders();
+    headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user'))); 
+    headers.append('Content-Type', 'application/json');
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + localStorage.getItem('token_user'),
+        'Accept': 'application/json'
+      })
+    };
+    const postParams = {
+      technical_forklift_reports_id: header_id,
+      technical_reports_description: report_description,
+      technical_reports_id: technical_reports_id,
+      technical_report_details_id: item_id,
+      technical_report_details_description: item_description,
+      work: work,
+      user_id: localStorage.getItem('userid'),
+     
+    };
+    console.log(postParams)
+    this.http.patch(this.apiEndPoint+'api/update_report_forklift_detail/'+id, postParams, httpOptions)
+      .map(res => res).subscribe(data => {
+        resolve(data);
+      }, error => {
+        resolve(error);
+      });
+  });
+}
+
+
+
+deleteForkliftReportDetail(id:number){
+  console.log('ole ole ole');
+  console.log(id);
+  return new Promise(resolve => {
+    const headers = new HttpHeaders();
+    headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user'))); 
+    headers.append('Content-Type', 'application/json');
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + localStorage.getItem('token_user'),
+        'Accept': 'application/json'
+      })
+    };
+    const postParams = {
+    };
+    this.http.delete(this.apiEndPoint+'api/delete_forklisft_report_detail/'+ id, httpOptions)
+      .map(res => res).subscribe(data => {
+        resolve(data);
+      }, error => {
+        resolve(error);
+      });
+  });
+}
+
+getForkliftReportMake(id:number){
+  console.log(id);
+  return new Promise(resolve => {
+    const headers = new HttpHeaders();
+    headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user'))); 
+    headers.append('Content-Type', 'application/json');
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + localStorage.getItem('token_user'),
+        'Accept': 'application/json'
+      })
+    };
+    this.http.get(this.apiEndPoint+'api/get_forklisft_report_make/'+id, httpOptions)
+      .map(res => res).subscribe(data => {
+        console.log(data);
+        resolve(data);
+      }, error => {
+        resolve(error);
+        console.log(error);
+      });
+  });
+}
+
+getForkliftReportImage(id:number){
+  console.log(id);
+  return new Promise(resolve => {
+    const headers = new HttpHeaders();
+    headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user'))); 
+    headers.append('Content-Type', 'application/json');
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + localStorage.getItem('token_user'),
+        'Accept': 'application/json'
+      })
+    };
+    this.http.get(this.apiEndPoint+'api/get_forklisft_report_image/'+id, httpOptions)
+      .map(res => res).subscribe(data => {
+        console.log(data);
+        resolve(data);
+      }, error => {
+        resolve(error);
+        console.log(error);
       });
   });
 }

@@ -691,23 +691,33 @@ updateBrand(brand) {
     let optionSecondUsaActive=0;
     let optionThirdUsaActive=0;
 
-    let logTrm = 'user='+token+'&&'
+    let logTrm = token;
+    var configuration = '';
+    var value;
+    var ingresar_constante;
 
     if(this.radioSelectedUsa===1){
       optionOneUsaActive=1;
-      logTrm = logTrm +'configuration=TRM DINAMICA&&value='+this.changeFormatDecimal(this.trmGeneral)+'&&';
+      configuration = 'TRM DINAMICA';
+      value = this.changeFormatDecimal(this.trmGeneral);
+      // logTrm = logTrm +'configuration=TRM DINAMICA&&value='+this.changeFormatDecimal(this.trmGeneral)+'&&';
     }
     if(this.radioSelectedUsa===2){
       optionSecondUsaActive=1;
-      logTrm = logTrm +'configuration=TRM FIJA&&value='+this.trmConstant+'&&';
+      // logTrm = logTrm +'configuration=TRM FIJA&&value='+this.trmConstant+'&&';
+      configuration = 'TRM FIJA';
+      value = this.trmConstant;
     }
     if(this.radioSelectedUsa===3){
       optionThirdUsaActive=1;
-      logTrm = logTrm + 'configuration=TRM DINAMICA+VALOR&&value='+this.trmPlusConstant+'&&';
+      configuration = 'TRM DINAMICA+VALOR';
+      value =this.trmPlusConstant;
+      // logTrm = logTrm + 'configuration=TRM DINAMICA+VALOR&&value='+this.trmPlusConstant+'&&';
     }
 
     if(this.constantEsp != this.itemEsp.constant){
-      logTrm = logTrm + 'ingresar_constante&&='+this.constantEsp; 
+      // logTrm = logTrm + 'ingresar_constante&&='+this.constantEsp; 
+      ingresar_constante = this.constantEsp
     }
 
     console.log(logTrm);
@@ -721,7 +731,7 @@ updateBrand(brand) {
     this.estimateService.updateConfigTrmFull(this.trmCofiguration).then(data => {
       const resp: any = data;
       console.log(data);
-      this.restService.registerLog(logTrm).then(data => {
+      this.restService.registerLog(logTrm,configuration,value,ingresar_constante).then(data => {
         const resp: any = data;
         console.log(data);
       swal({

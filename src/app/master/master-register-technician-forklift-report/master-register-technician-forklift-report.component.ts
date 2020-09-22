@@ -4,12 +4,12 @@ import swal from 'sweetalert2';
 import { ForkliftService } from '../../master-services/Forklift/forklift.service';
 import { PersonalService } from '../../master-services/personal/personal.service';
 import { RestService } from '../../master-services/Rest/rest.service';
-import { ResumenesService } from '../../master-services/resumenes/resumenes.service';
 
 @Component({
   selector: 'app-master-register-technician-forklift-report',
   templateUrl: './master-register-technician-forklift-report.component.html',
-  styleUrls: ['./master-register-technician-forklift-report.component.scss']
+  styleUrls: ['./master-register-technician-forklift-report.component.scss',
+  '../../../assets/icon/icofont/css/icofont.scss']
 })
 export class MasterRegisterTechnicianForkliftReportComponent implements OnInit {
 
@@ -25,8 +25,11 @@ export class MasterRegisterTechnicianForkliftReportComponent implements OnInit {
   branchOffices: any;
   forklifts: any;
   report: any
+  switchUpdate = false;
 
   headerinfo:any;
+
+  parts: any;
 
   constructor(private restService: RestService, private personalServices:PersonalService, private router: Router, 
     private forkliftService: ForkliftService) {
@@ -130,7 +133,7 @@ export class MasterRegisterTechnicianForkliftReportComponent implements OnInit {
   }
 }
 
-registerheader(){
+registerHeader(){
   // console.log(this.title);
   if ((this.selectedRegionalId!=0) || (this.selectedBusinessId!=0) || (this.selectedBranchOfficeId==0)
    || (this.selectedForkliftId==0) || this.selectedReporId != 0) {
@@ -139,15 +142,18 @@ registerheader(){
       allowOutsideClick: false
     });
     swal.showLoading();
-    this.personalServices.createReportForklift(this.selectedBusinessId.id,this.selectedBranchOfficeId.id,
+    // var date = new Date();
+    this.personalServices.createReportForklift(this.selectedRegionalId.id,this.selectedBusinessId.id,this.selectedBranchOfficeId.id,
       this.selectedForkliftId.id,this.selectedReporId.id).then(data=>{
       const resp:any=data;
       console.log(data);
       this.headerinfo=resp.data;
       console.log("header information");
       console.log(this.headerinfo)
+      this.switchUpdate = true;
       swal.close();
-      this.router.navigateByUrl('maintenance/reportUpdate/'+this.headerinfo.id);
+      
+      this.router.navigateByUrl('maintenance/updateForkliftReport/'+this.headerinfo.id);
     }).catch(err=>{
 
       console.log(err);
