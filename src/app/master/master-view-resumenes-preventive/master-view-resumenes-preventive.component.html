@@ -35,7 +35,20 @@
     <ngx-datatable-column  [flexGrow]="2" [sortable]="false" [resizeable]="false"  name="Componente" [sortable]="false"  prop="component_routine_description"></ngx-datatable-column>
     <ngx-datatable-column  [flexGrow]="1" [sortable]="false" [resizeable]="false"  name="Parte" [sortable]="false"  prop="parts_routine_description"></ngx-datatable-column>
     <ngx-datatable-column  [flexGrow]="2" [sortable]="false" [resizeable]="false"  name="Trabajo a realizar" [sortable]="false"  prop="work"></ngx-datatable-column>
-    <ngx-datatable-column  [flexGrow]="2" [sortable]="false" [resizeable]="false"  name="Check" [sortable]="false"  prop="check"></ngx-datatable-column>
+    <ngx-datatable-column  [flexGrow]="2" [sortable]="false" [resizeable]="false"  name="Observación" [sortable]="false"  prop="observation"></ngx-datatable-column>
+    <ngx-datatable-column  [flexGrow]="2" [sortable]="false" [resizeable]="false"  name="Check" [sortable]="false"  prop="check">
+      <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+
+    <div class="statusLabel" *ngIf="value==2">
+      <img src="././assets/images/cancel.png" width="20%">
+    </div>
+
+    <div *ngIf="value==1">
+      <img src="././assets/images/checked.png" width="20%">
+    </div>
+       
+    </ng-template>
+    </ngx-datatable-column>
 
   </ngx-datatable>
 </app-card>
