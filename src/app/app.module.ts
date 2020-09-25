@@ -33,7 +33,7 @@ import {AutocompleteLibModule} from 'angular-ng-autocomplete';
     AuthComponent,
     BreadcrumbsComponent,
     MasterAdminComponent,
-    
+
    // MasterNewsComponent
   ],
   imports: [

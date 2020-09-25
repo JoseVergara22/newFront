@@ -3,6 +3,7 @@ import {FormControl, FormGroup, Validators,FormBuilder, FormArray} from '@angula
 import { WorkService } from '../../master-services/Work/work.service';
 import swal from 'sweetalert2';
 import { Router,ActivatedRoute } from '@angular/router';
+import { RestService } from '../../master-services/Rest/rest.service';
 
 
 @Component({
@@ -53,10 +54,16 @@ export class MasterWorkDetailsComponent implements OnInit {
 
   headerId:any;
 
+  typeRoutine: any;
+  selectedBusinessId: any = 0;
+  customers: any;
+
   constructor( private workService: WorkService, private router: Router,  private activatedRoute: ActivatedRoute,
-    private formBuilder:FormBuilder) {
+    private formBuilder:FormBuilder, private restServices: RestService) {
 
     this.showButtonUpdated=false;
+
+    this.getCustomer();
 
     //system
     const system = new FormControl('',Validators.required);
@@ -141,6 +148,11 @@ export class MasterWorkDetailsComponent implements OnInit {
       document.getElementById('storeheaderbutton2').click();
     }*/
   }
+
+  valueSelectType(value:number){
+    console.log(value);
+    this.typeRoutine = value;
+  }
   registerheader(){
     console.log(this.routineDescription);
     if ((this.routineDescription!=null) || (this.routineDescription!="") || (this.routineHour==null)) {
@@ -150,7 +162,7 @@ export class MasterWorkDetailsComponent implements OnInit {
       });
       swal.showLoading();
       console.log(1+','+this.routineDescription+','+this.routineHour+','+this.routineObservation);
-      this.workService.storeWorkHeader(1,this.routineDescription,this.routineHour,this.routineObservation).then(data=>{
+      this.workService.storeWorkHeader(1,this.routineDescription,this.routineHour,this.routineObservation,2,4).then(data=>{
         const resp:any=data;
        
         if(resp.success){
@@ -194,6 +206,16 @@ export class MasterWorkDetailsComponent implements OnInit {
       }/* else {
         this.generalAlert("ha ocurrido un error","ha ocurrido un error al mostrar la informacion","error");
       }*/
+    }).catch(error=>{
+      console.log(error);
+      this.generalAlert("ha ocurrido un error","ha ocurrido un error al mostrar la informacion","error");
+    });
+  }
+  getCustomer(){
+    this.restServices.getCustomers().then(data=>{
+      const resp:any=data;
+      console.log(data);
+      this.customers =resp.data;
     }).catch(error=>{
       console.log(error);
       this.generalAlert("ha ocurrido un error","ha ocurrido un error al mostrar la informacion","error");

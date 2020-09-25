@@ -240,7 +240,7 @@ export class WorkService {
     });
   }
 
-  storeWorkHeader(status:number,description:string,hours:number,observation:string){
+  storeWorkHeader(status:number,description:string,hours:number,observation:string,regional_id:number, customer_id:number){
     return new Promise(resolve => {
       const httpOptions = {
         headers: new HttpHeaders({
@@ -253,7 +253,9 @@ export class WorkService {
         status:status,
         description:description,
         hours:hours,
-        observation:observation
+        observation:observation,
+        regional_id:regional_id,
+        customer_id:customer_id
       }
       console.log(postParams);
       this.http.post(this.apiEndPoint+'api/routines', postParams,httpOptions)

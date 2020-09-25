@@ -11,6 +11,22 @@
             <app-card [title]="'Encabezado'" [headerContent]="''" [cardOptionBlock]="true">
 
                 <div class="form-group row">
+                    <h6>Seleccione el una de las opciones para la rutina <span style="color:red;">*</span></h6>
+                </div>
+                    <div class="form-group row">
+                        <label>
+                            <input type="radio" name="color" value="azul" (click)="valueSelectType(1)"> General
+                        </label>
+                        <label>
+                            <input type="radio" name="color" value="negro" (click)="valueSelectType(2)"> Sucursal
+                        </label>
+                        <label>
+                            <input type="radio" name="color" value="amarillo" (click)="valueSelectType(3)"> Cliente
+                        </label>
+
+                </div>
+
+                <div class="form-group row">
                     <div class="col-sm-8 col-xs-12" *ngIf="showButtonUpdated == false">
                         <h6>Descripción de la Rutina <span style="color:red;">*</span></h6>
                         <input type="text" class="form-control" [(ngModel)]="routineDescription" #ctrl="ngModel" id="workTitle" required>
@@ -42,6 +58,41 @@
                         <h6>Observacion de la Rutina <span style="color:red;"></span></h6>
                         <textarea type="text" class="form-control" [(ngModel)]="routineObservationUpdate" #ctrl="ngModel" id="workObservationUpdate" required></textarea>
                     </div>
+                </div>
+                <div *ngIf="typeRoutine==2">
+                    <div class="form-group row">
+                        <div class="col-sm-4">
+                            <input type="checkbox"  value="supplicePart"  name="supplicePart"  />&nbsp;Insumos y Partes
+                        </div>
+                        <div class="col-sm-4">
+                            <input type="checkbox"  value="deliveryReview"  name="deliveryReview"  />&nbsp;Revisión de entrega
+                        </div>
+                        <div class="col-sm-4">
+                            <input type="checkbox"  value="pending"  name="pending"  />&nbsp;Pendiente
+                        </div>
+                      </div>
+                      <div class="form-group row">
+                        <div class="col-sm-4">
+                            <input type="checkbox"  value="survey"  name="survey"  />&nbsp;Encuesta
+                        </div>
+                        <div class="col-sm-4">
+                            <input type="checkbox"  value="firm"  name="firm" />&nbsp;Firma
+                        </div>
+                      
+                      </div>
+                </div>
+
+                <div *ngIf="typeRoutine==3" class="form-group row">
+                    <div class="col-sm-6">
+                        <h6>Cliente  <span style="color:red;">*</span></h6>
+                        <!-- <ng-select [ngClass]="'ng-select'" [options]="customers" [multiple]="true"></ng-select> -->
+                        <select class="form-control"  [(ngModel)]="selectedBusinessId"> 
+                            <option value="0" selected>Seleccionar cliente </option>
+                            <option   *ngFor="let customer of customers" [ngValue]="customer"> {{customer.business_name}}  </option>
+                            <!-- <optgroup  *ngFor="let customer of customers" [ngValue]="customer"> {{customer.business_name}} ></optgroup> -->
+                                <!--  <option value="0" selected>Seleccionar perfil</option> -->
+                        </select>
+                      </div>
                 </div>
 
                 <div class="form-group row">

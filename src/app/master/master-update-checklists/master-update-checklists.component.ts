@@ -195,7 +195,7 @@ export class MasterUpdateChecklistsComponent implements OnInit {
       });
       swal.showLoading();
       console.log(1+','+this.routineDescription+','+this.routineHour+','+this.routineObservation);
-      this.workService.storeWorkHeader(1,this.routineDescription,this.routineHour,this.routineObservation).then(data=>{
+      this.workService.storeWorkHeader(1,this.routineDescription,this.routineHour,this.routineObservation,3,3).then(data=>{
         const resp:any=data;
        
         if(resp.success){

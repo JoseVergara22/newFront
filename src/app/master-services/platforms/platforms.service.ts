@@ -32,6 +32,28 @@ export class PlatformsService {
         });
     });
   }
+  getPlatformsForklist(id: number){
+    return new Promise(resolve => {
+      const httpOptions = {
+        headers: new HttpHeaders({
+          'Content-Type':  'application/json',
+          'Authorization': 'Bearer ' + localStorage.getItem('token_user'),
+          'Accept': 'application/json'
+        })
+      };
+      
+      this.http.get(this.apiEndPoint+'api/get_platforms', httpOptions)
+      .map(res => res).subscribe(data => {
+        console.log("a mostrar data");
+      console.log(data);
+      resolve(data);
+      }, error => {
+        console.log("error en servicio");
+        console.log(error);
+                resolve(error);
+        });
+    });
+  }
 
   storePlatforms(description:string,hours:number,observation:string, supplice_part:number, delivery_review:number,
     pending:number, survey:number, firm:number){
