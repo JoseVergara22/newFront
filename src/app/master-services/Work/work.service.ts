@@ -240,7 +240,7 @@ export class WorkService {
     });
   }
 
-  storeWorkHeader(status:number,description:string,hours:number,observation:string,regional_id:number, customer_id:number){
+  storeWorkHeader(status:number,description:string,hours:number,observation:string,regional_id:string, customer_id:string,type:number){
     return new Promise(resolve => {
       const httpOptions = {
         headers: new HttpHeaders({
@@ -255,7 +255,8 @@ export class WorkService {
         hours:hours,
         observation:observation,
         regional_id:regional_id,
-        customer_id:customer_id
+        customer_id:customer_id,
+        type:type,
       }
       console.log(postParams);
       this.http.post(this.apiEndPoint+'api/routines', postParams,httpOptions)
@@ -291,8 +292,29 @@ export class WorkService {
         });
     });
   }
+  getHeaderWorkType(id:number){
+    return new Promise(resolve => {
+      const httpOptions = {
+        headers: new HttpHeaders({
+          'Content-Type':  'application/json',
+          'Authorization': 'Bearer ' + localStorage.getItem('token_user'),
+          'Accept': 'application/json'
+        })
+      };
+      
+      this.http.get(this.apiEndPoint+'api/routine_type/'+id, httpOptions)
+      .map(res => res).subscribe(data => {
+        console.log("a mostrar data");
+      console.log(data);
+      resolve(data);
+      }, error => {
+        console.log("error en servicio");
+                resolve(error);
+        });
+    });
+  }
 
-  updateWorkHeader(id:number,status:number,description:string,hours:number,observation:string){
+  updateWorkHeader(id:number,status:number,description:string,hours:number,observation:string,regional_id:string,customer_id:string,type:number){
     console.log("data to send");
     console.log("id "+id);
     console.log("status "+status);
@@ -311,7 +333,10 @@ export class WorkService {
         description:description,
         status:status,
         hours:hours,
-        observation:observation
+        observation:observation,
+        regional_id:regional_id,
+        customer_id:customer_id,
+        type:type,
       }
       
       this.http.patch(this.apiEndPoint+'api/routines/'+id, patchParams,httpOptions)
