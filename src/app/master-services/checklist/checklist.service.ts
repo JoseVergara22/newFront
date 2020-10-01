@@ -27,7 +27,10 @@ createChecklist( description: string, hours: number, observation: string) {
     const postParams = {
       description: description,
       hours: hours,
-      observation: observation
+      observation: observation,
+    //   regional_id:regional_id,
+    //   customer_id:customer_id,
+    //   type:type,
     };
     this.http.post(this.apiEndPoint+'api/create_checklist?', postParams, httpOptions)
     .map(res => res).subscribe(data => {
@@ -99,7 +102,10 @@ updateChecklist(id: number,description: string, hours: number, observation: stri
     const postParams = {
       description: description,
       hours:hours,
-      observation:observation
+      observation:observation,
+      // regional_id:regional_id,
+      // customer_id:customer_id,
+      // type:type,
     };
     this.http.patch(this.apiEndPoint+'api/update_checklist/' + id, postParams, httpOptions)
       .map(res => res).subscribe(data => {

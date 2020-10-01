@@ -97,7 +97,7 @@ export class MasterPlataformTechnicanComponent extends NgbDatepickerI18n {
       this.untilDate=ngbDateStruct;
 
       this.getRegional();
-      this.getWorks();
+      this.getPlataform();
       
     }
     
@@ -167,7 +167,7 @@ export class MasterPlataformTechnicanComponent extends NgbDatepickerI18n {
     }
   }
 
-  getWorks() {
+  getPlataform() {
     swal({
       title: 'Obteniendo información ...',
       allowOutsideClick: false
@@ -228,7 +228,7 @@ export class MasterPlataformTechnicanComponent extends NgbDatepickerI18n {
 
   getConsecutive() {
    
-    this.resumenesService.showPreventiveConsecutive().then(data => {
+    this.platformService.showPlatformConsecutive().then(data => {
       const resp: any = data;
       console.log(data);
       swal.close();
@@ -255,7 +255,7 @@ export class MasterPlataformTechnicanComponent extends NgbDatepickerI18n {
     });
    }
    
-  getPreventiveRoutines(){
+  getPlataformRoutines(){
     // Llenar información de cliente  
     if( this.selectedForkliftId==0 || this.selectedRegionalId==0 || this.selectedBusinessId==0 || this.selectedBranchOfficeId==0 ){
       swal({
@@ -371,7 +371,7 @@ export class MasterPlataformTechnicanComponent extends NgbDatepickerI18n {
       document.getElementById( 'showUpdatePreventive').click();
   }
 
-  deleteEstimateDetail(item: any) {
+  deletePlataformTechinician(item: any) {
     swal({
       title: 'Estás seguro de eliminar este elemento?',
      // text: 'Once deleted, you will not be able to recover this imaginary file!',
@@ -406,7 +406,7 @@ export class MasterPlataformTechnicanComponent extends NgbDatepickerI18n {
           console.log(rout);
           console.log(tech);
           swal.showLoading();
-          this.resumenesService.deletePreventive(Number(this.selectedForkliftId.id),rout,tech)
+          this.platformService.deletePlatformsTechnician(Number(this.selectedForkliftId.id),rout,tech)
           .then(data => {
             swal.showLoading();
             const resp: any = data;
@@ -425,7 +425,7 @@ export class MasterPlataformTechnicanComponent extends NgbDatepickerI18n {
             type: 'success'
            });
 
-           this.getPreventiveRoutines();
+           this.getPlataformRoutines();
           }
           }).catch(error => {
             console.log(error);
@@ -438,7 +438,7 @@ export class MasterPlataformTechnicanComponent extends NgbDatepickerI18n {
     });
   }
 
-  updatePreventive(){
+  updatePlatforms(){
     swal({
       title: 'Obteniendo información ...',
       allowOutsideClick: false
@@ -492,7 +492,7 @@ export class MasterPlataformTechnicanComponent extends NgbDatepickerI18n {
           }
         }
         console.log(this.forklift);
-        this.resumenesService.updatePreventive(this.selectedForkliftId.id,this.selectedBusinessId.id,this.selectedBranchOfficeId.id,this.preventiveList,this.technicianList,this.oldDate,params).then(data => {
+        this.platformService.updatePlatform(this.selectedForkliftId.id,this.selectedBusinessId.id,this.selectedBranchOfficeId.id,this.preventiveList,this.technicianList,this.oldDate,params).then(data => {
           const resp: any = data;
           console.log(data);
           if (resp.success == false) {
@@ -508,7 +508,7 @@ export class MasterPlataformTechnicanComponent extends NgbDatepickerI18n {
           console.log(result);
           document.getElementById('assingUpdatePrevetiveHide').click();
           
-          this.getPreventiveRoutines();
+          this.getPlataformRoutines();
           swal({
             title: 'Guardado con exito',
             type: 'success'
@@ -682,7 +682,7 @@ export class MasterPlataformTechnicanComponent extends NgbDatepickerI18n {
 
 
 
-  createPreventive(){
+  createPlatforms(){
     swal({
       title: 'Obteniendo información ...',
       allowOutsideClick: false
@@ -735,7 +735,7 @@ export class MasterPlataformTechnicanComponent extends NgbDatepickerI18n {
           }
         }
         console.log(this.forklift);
-        this.resumenesService.storePreventive(this.selectedForkliftId.id,this.selectedBusinessId.id,this.selectedBranchOfficeId.id,this.preventiveList,this.technicianList, Number(this.consecutive),params).then(data => {
+        this.platformService.storePlatform(this.selectedForkliftId.id,this.selectedBusinessId.id,this.selectedBranchOfficeId.id,this.preventiveList,this.technicianList, Number(this.consecutive),params).then(data => {
           const resp: any = data;
           console.log(data);
           if (resp.success == false) {
@@ -750,13 +750,13 @@ export class MasterPlataformTechnicanComponent extends NgbDatepickerI18n {
           let result  = resp.data;
           console.log(result);
 
-          this.resumenesService.updateConsecutivePreventive().then(data => {
+          this.platformService.updateConsecutivePlatform().then(data => {
             const resp: any = data;
             console.log(data);
             
             document.getElementById('assignPrevetiveHide').click();
           
-            this.getPreventiveRoutines();
+            this.getPlataformRoutines();
             swal({
               title: 'Guardado con exito',
               type: 'success'

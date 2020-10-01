@@ -338,7 +338,7 @@ export class WorkService {
         customer_id:customer_id,
         type:type,
       }
-      
+      console.log(patchParams);      
       this.http.patch(this.apiEndPoint+'api/routines/'+id, patchParams,httpOptions)
       .map(res => res).subscribe(data => {
         console.log("a mostrar data");

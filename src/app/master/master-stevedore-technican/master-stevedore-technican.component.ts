@@ -97,7 +97,7 @@ export class MasterStevedoreTechnicanComponent extends NgbDatepickerI18n {
       this.untilDate=ngbDateStruct;
 
       this.getRegional();
-      this.getWorks();
+      this.getStevedores();
       
     }
     
@@ -167,7 +167,7 @@ export class MasterStevedoreTechnicanComponent extends NgbDatepickerI18n {
     }
   }
 
-  getWorks() {
+  getStevedores() {
     swal({
       title: 'Obteniendo información ...',
       allowOutsideClick: false
@@ -228,7 +228,7 @@ export class MasterStevedoreTechnicanComponent extends NgbDatepickerI18n {
 
   getConsecutive() {
    
-    this.resumenesService.showPreventiveConsecutive().then(data => {
+    this.stevedoreService.showStevedoreConsecutive().then(data => {
       const resp: any = data;
       console.log(data);
       swal.close();
@@ -255,7 +255,7 @@ export class MasterStevedoreTechnicanComponent extends NgbDatepickerI18n {
     });
    }
    
-  getPreventiveRoutines(){
+  getStevedorTechnician(){
     // Llenar información de cliente  
     if( this.selectedForkliftId==0 || this.selectedRegionalId==0 || this.selectedBusinessId==0 || this.selectedBranchOfficeId==0 ){
       swal({
@@ -406,7 +406,7 @@ export class MasterStevedoreTechnicanComponent extends NgbDatepickerI18n {
           console.log(rout);
           console.log(tech);
           swal.showLoading();
-          this.resumenesService.deletePreventive(Number(this.selectedForkliftId.id),rout,tech)
+          this.stevedoreService.deletePlatformsTechnician(Number(this.selectedForkliftId.id),rout,tech)
           .then(data => {
             swal.showLoading();
             const resp: any = data;
@@ -425,7 +425,7 @@ export class MasterStevedoreTechnicanComponent extends NgbDatepickerI18n {
             type: 'success'
            });
 
-           this.getPreventiveRoutines();
+           this.getStevedorTechnician();
           }
           }).catch(error => {
             console.log(error);
@@ -492,7 +492,7 @@ export class MasterStevedoreTechnicanComponent extends NgbDatepickerI18n {
           }
         }
         console.log(this.forklift);
-        this.resumenesService.updatePreventive(this.selectedForkliftId.id,this.selectedBusinessId.id,this.selectedBranchOfficeId.id,this.preventiveList,this.technicianList,this.oldDate,params).then(data => {
+        this.stevedoreService.updateStevedoreTechnician(this.selectedForkliftId.id,this.selectedBusinessId.id,this.selectedBranchOfficeId.id,this.preventiveList,this.technicianList,this.oldDate,params).then(data => {
           const resp: any = data;
           console.log(data);
           if (resp.success == false) {
@@ -508,7 +508,7 @@ export class MasterStevedoreTechnicanComponent extends NgbDatepickerI18n {
           console.log(result);
           document.getElementById('assingUpdatePrevetiveHide').click();
           
-          this.getPreventiveRoutines();
+          this.getStevedorTechnician();
           swal({
             title: 'Guardado con exito',
             type: 'success'
@@ -735,7 +735,7 @@ export class MasterStevedoreTechnicanComponent extends NgbDatepickerI18n {
           }
         }
         console.log(this.forklift);
-        this.resumenesService.storePreventive(this.selectedForkliftId.id,this.selectedBusinessId.id,this.selectedBranchOfficeId.id,this.preventiveList,this.technicianList, Number(this.consecutive),params).then(data => {
+        this.stevedoreService.storeStevedoreTechnician(this.selectedForkliftId.id,this.selectedBusinessId.id,this.selectedBranchOfficeId.id,this.preventiveList,this.technicianList, Number(this.consecutive),params).then(data => {
           const resp: any = data;
           console.log(data);
           if (resp.success == false) {
@@ -750,13 +750,13 @@ export class MasterStevedoreTechnicanComponent extends NgbDatepickerI18n {
           let result  = resp.data;
           console.log(result);
 
-          this.resumenesService.updateConsecutivePreventive().then(data => {
+          this.stevedoreService.updateConsecutiveStevedore().then(data => {
             const resp: any = data;
             console.log(data);
             
             document.getElementById('assignPrevetiveHide').click();
           
-            this.getPreventiveRoutines();
+            this.getStevedorTechnician();
             swal({
               title: 'Guardado con exito',
               type: 'success'

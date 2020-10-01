@@ -42,7 +42,7 @@ export class StevedoreService {
         })
       };
       
-      this.http.get(this.apiEndPoint+'api/get_platforms', httpOptions)
+      this.http.get(this.apiEndPoint+'api/show_stevedore/'+id, httpOptions)
       .map(res => res).subscribe(data => {
         console.log("a mostrar data");
       console.log(data);
@@ -398,6 +398,146 @@ export class StevedoreService {
         });
     });
   }
+
+  
+  showStevedoreConsecutive() { // Falta implementar desde el backend
+    return new Promise(resolve => {
+      const headers = new HttpHeaders();
+      headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user'))); // 'Bearer ' +
+      headers.append('Content-Type', 'application/json');
+      const httpOptions = {
+        headers: new HttpHeaders({
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + localStorage.getItem('token_user'),
+          'Accept': 'application/json'
+        })
+      };
+      this.http.get(this.apiEndPoint+'api/get_stevedore_consecutive', httpOptions)
+        .map(res => res).subscribe(data => {
+          console.log(data);
+          resolve(data);
+        }, error => {
+          resolve(error);
+        });
+    });
+  }
+
+  updateConsecutiveStevedore() {
+    return new Promise(resolve => {
+      const headers = new HttpHeaders();
+      headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user'))); // 'Bearer ' +
+      headers.append('Content-Type', 'application/json');
+      const httpOptions = {
+        headers: new HttpHeaders({
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + localStorage.getItem('token_user'),
+          'Accept': 'application/json'
+        })
+      };
+      const postParams = {
+      };
+      this.http.patch(this.apiEndPoint+'api/update_stevedore_consecutive',postParams, httpOptions)
+        .map(res => res).subscribe(data => {
+          resolve(data);
+        }, error => {
+          resolve(error);
+        });
+    });
+  }
+
+  deletePlatformsTechnician(id:number, stevadore:string, technician:string){
+    console.log('ole ole ole');
+    console.log(id);
+    console.log(stevadore);
+    console.log(technician);
+    return new Promise(resolve => {
+      const headers = new HttpHeaders();
+      headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user'))); // 'Bearer ' +
+      headers.append('Content-Type', 'application/json');
+      const httpOptions = {
+        headers: new HttpHeaders({
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + localStorage.getItem('token_user'),
+          'Accept': 'application/json'
+        })
+      };
+      const postParams = {
+      };
+      console.log('id='+id+'&stevadores='+stevadore+'&technicians_id='+technician);
+      this.http.delete(this.apiEndPoint+'api/delete_stevedore?stevadores='+stevadore+'&technicians_id='+technician, httpOptions)
+        .map(res => res).subscribe(data => {
+          resolve(data);
+        }, error => {
+          resolve(error);
+        });
+    });
+  }
+
+  
+  storeStevedoreTechnician(platform_id:number,customer_id:number,brach_id:number,id_rutines:string,technician_id: any, consecutive:number, date:string){
+    return new Promise(resolve => {
+      const httpOptions = {
+        headers: new HttpHeaders({
+          'Content-Type':  'application/json',
+          'Authorization': 'Bearer ' + localStorage.getItem('token_user'),
+          'Accept': 'application/json'
+        })
+      };
+      const postParams = {
+        platform_id: platform_id,
+        customer_id: customer_id,
+        branch_id: brach_id,
+        stevedores: id_rutines,
+        technicians_id: technician_id,
+        consecutive: consecutive,
+        date: date
+      };
+      console.log(postParams);
+      
+      this.http.post(this.apiEndPoint+'api/store_platform_techinician', postParams, httpOptions)
+      .map(res => res).subscribe(data => {
+        console.log("a mostrar data");
+      console.log(data);
+      resolve(data);
+      }, error => {
+        console.log("error en servicio");
+                resolve(error);
+        });
+    });
+  }
+
+  updateStevedoreTechnician(platform_id:number,customer_id:number,branch_id:number,id_rutines:string,technician_id: any,date: string,newDate: string) {
+    return new Promise(resolve => {
+      const headers = new HttpHeaders();
+      headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user'))); // 'Bearer ' +
+      headers.append('Content-Type', 'application/json');
+      const httpOptions = {
+      headers: new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ' + localStorage.getItem('token_user'),
+      'Accept': 'application/json'
+      })
+    };
+    console.log( localStorage.getItem('userid'));
+    const patchParams = {
+      platform_id: platform_id,
+        customer_id:customer_id,
+        branch_offices_id:branch_id,
+        stevedores: id_rutines,
+        technicians_id: technician_id,
+        date: date,
+        newDate: newDate
+    };
+    console.log(patchParams);
+    this.http.patch(this.apiEndPoint+'api/update_platform_techinician', patchParams, httpOptions)
+      .map(res => res).subscribe(data => {
+        resolve(data);
+      }, error => {
+        resolve(error);
+      });
+    });
+  }
+
 
 }
 

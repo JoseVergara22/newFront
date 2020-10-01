@@ -10,30 +10,20 @@
             <br>
             <app-card [title]="'Encabezado'" [headerContent]="''" [cardOptionBlock]="true">
 
-                <div class="form-group row">
+                <!-- <div class="form-group row">
                     <h6>Seleccione el una de las opciones para la rutina <span style="color:red;">*</span></h6>
                 </div>
                     <div class="form-group row">
-                        <label *ngIf="showButtonUpdated == false">
+                        <label >
                             <input id="general" type="radio" name="color" value="azul" (click)="valueSelectType(1)"> General&nbsp;
                         </label>
-                        <label *ngIf="showButtonUpdated == false">
+                        <label >
                             <input id="regional" type="radio" name="color" value="negro" (click)="valueSelectType(2)"> Sucursal&nbsp;
                         </label>
-                        <label *ngIf="showButtonUpdated == false">
+                        <label >
                             <input id="customer" type="radio" name="color" value="amarillo" (click)="valueSelectType(3)"> Cliente&nbsp;
                         </label>
-                        <label *ngIf="showButtonUpdated == true">
-                            <input id="generalUpdate" type="radio" name="color" value="azul" (click)="valueSelectType(1)"> General&nbsp;
-                        </label>
-                        <label *ngIf="showButtonUpdated == true">
-                            <input id="regionalUpdate" type="radio" name="color" value="negro" (click)="valueSelectType(2)"> Sucursal&nbsp;
-                        </label>
-                        <label *ngIf="showButtonUpdated == true">
-                            <input id="customerUpdate" type="radio" name="color" value="amarillo" (click)="valueSelectType(3)"> Cliente&nbsp;
-                        </label>
-
-                </div>
+                </div> -->
 
                 <div class="form-group row">
                     <div class="col-sm-8 col-xs-12" *ngIf="showButtonUpdated == false">
@@ -68,15 +58,15 @@
                         <textarea type="text" class="form-control" [(ngModel)]="routineObservationUpdate" #ctrl="ngModel" id="workObservationUpdate" required></textarea>
                     </div>
                 </div>
-                <div *ngIf="typeRoutine==2">
+                <!-- <div *ngIf="typeRoutine==2">
                     <div class="form-group row">
                         <div class="col-sm-6">
                             <button  class="btn btn-primary" (click)="modalAssingRegional.show()" >Asignar Suscursales</button>
                           </div>
                     </div>
-                </div>
+                </div> -->
 
-                <div *ngIf="typeRoutine==4" class="form-group row">
+                <!-- <div *ngIf="typeRoutine==4" class="form-group row">
                     <div class="col-sm-6">
                         <button  class="btn btn-primary" (click)="modalAssingCustomer.show()" >Asignar Clientes</button>
                       </div>
@@ -93,7 +83,7 @@
                     <div class="col-sm-6">
                         <button  class="btn btn-primary" (click)="modalAssingCustomer.show()" >Asignar Clientes</button>
                       </div>
-                </div>
+                </div> -->
 
                 <div class="form-group row">
                     <div class="col-sm-12 align-buttons">
@@ -385,7 +375,7 @@
 </app-modal-basic>
 
 <!-- Modal para seleccion de cliente -->
-
+<!-- 
 <app-modal-basic #modalAssingCustomer [dialogClass]="'modal-lg'">
     <div class="app-modal-header">
   
@@ -398,24 +388,20 @@
               <input type="text" class="form-control" placeholder="Filtrar" (keyup)="updateFilter($event)">
             </div>    
        </div>    
-       <!-- <div style="overflow-y: scroll; height: 300px"> -->
-           <!--  <input type="text" style="padding:8px;margin:15px auto;width:30%;" placeholder="Type to filter the name column..." (keyup)="updateFilter($event)" /> -->
-            <app-card>
+        <app-card>
                 <div *ngFor="let item of cusotmerSelecteds">
                     <div class="form-group row">  
                         <input type="checkbox" [(ngModel)]="item.select"  data-md-icheck /> &nbsp;{{item.item}}
-                        <!-- <br> -->
-                        <!-- <br> -->
+
                     </div>
-                <!-- </div> -->
+            
                </div>
             </app-card>
            
         <br>
         <br>
         <div class="align-buttons">
-            <!-- <button type="button" class="btn btn-default waves-effect" id="cancel" (click)="addCancelDate()">Cancelar</button> -->
-            <button type="button" class="btn btn-default waves-effect" id="assignPrevetiveHide" (click)="modalAssingCustomer.hide()">Cancelar</button>
+           <button type="button" class="btn btn-default waves-effect" id="assignPrevetiveHide" (click)="modalAssingCustomer.hide()">Cancelar</button>
             <button type="submit " class="btn btn-primary m-b-0 " (click)="saveCustomer()" >Guardar</button>
         </div>
     </div>          
@@ -429,74 +415,16 @@
     <div class="app-modal-body">
     <app-card>
         <div  class="form-group row" *ngFor="let item of regionalSelecteds">
-            <!-- <div class="form-group row">   -->
-               <input type="checkbox" [(ngModel)]="item.select"  data-md-icheck />&nbsp; {{item.item}}
-           <!-- </div> -->
+             <input type="checkbox" [(ngModel)]="item.select"  data-md-icheck />&nbsp; {{item.item}}
+      
        </div>
     </app-card>
-        <!--  <input type="text" style="padding:8px;margin:15px auto;width:30%;" placeholder="Type to filter the name column..." (keyup)="updateFilter($event)" /> -->
-       
+        
         <br>
         <br>
         <div class="align-buttons">
-            <!-- <button type="button" class="btn btn-default waves-effect" id="cancel" (click)="addCancelDate()">Cancelar</button> -->
             <button type="button"  class="btn btn-default waves-effect" id="assignRegionalHide" (click)="modalAssingRegional.hide()">Cancelar</button>
             <button type="submit " class="btn btn-primary m-b-0 " (click)="saveRegional()" >Guardar</button>
         </div>
     </div>          
-</app-modal-basic>
-
-<app-modal-basic #modalAssingCustomerUpdate [dialogClass]="'modal-lg'">
-    <div class="app-modal-header">
-  
-        <h4 class="modal-title">Selecciona los clientes para la rutina</h4>
-    </div>
-    <div class="app-modal-body">
-      
-      <div class="form-group row">  
-          <div class="col-sm-6">
-              <input type="text" class="form-control" placeholder="Filtrar" (keyup)="updateFilter($event)">
-            </div>    
-       </div>    
-       <!-- <div style="overflow-y: scroll; height: 300px"> -->
-           <!--  <input type="text" style="padding:8px;margin:15px auto;width:30%;" placeholder="Type to filter the name column..." (keyup)="updateFilter($event)" /> -->
-        <div *ngFor="let item of cusotmerSelectedsUpdate">
-            <div class="form-group row">  
-                <input type="checkbox" [(ngModel)]="item.select"  data-md-icheck /> &nbsp;{{item.item}}
-                <!-- <br> -->
-                <!-- <br> -->
-            </div>
-        <!-- </div> -->
-       </div>
-        <br>
-        <br>
-        <div class="align-buttons">
-            <button type="button" class="btn btn-default waves-effect" id="cancel" (click)="addCancelDate()">Cancelar</button>
-            <button type="button" class="btn btn-default waves-effect" id="assignPrevetiveHideUpdate" (click)="modalAssingCustomerUpdate.hide()">Cancelar</button>
-            <button type="submit " class="btn btn-primary m-b-0 " (click)="saveCustomer()" >Guardar</button>
-        </div>
-    </div>          
-</app-modal-basic>
-
-<app-modal-basic #modalAssingRegionalUpdate [dialogClass]="'modal-lg'">
-    <div class="app-modal-header">
-  
-        <h4 class="modal-title">Selecciona las regionales para la rutina</h4>
-    </div>
-    <div class="app-modal-body">
-  
-        <!--  <input type="text" style="padding:8px;margin:15px auto;width:30%;" placeholder="Type to filter the name column..." (keyup)="updateFilter($event)" /> -->
-        <div  class="form-group row" *ngFor="let item of regionalSelectedsUpdate">
-             <!-- <div class="form-group row">   -->
-                <input type="checkbox" [(ngModel)]="item.select"  data-md-icheck />&nbsp; {{item.item}}
-            <!-- </div> -->
-        </div>
-        <br>
-        <br>
-        <div class="align-buttons">
-            <!-- <button type="button" class="btn btn-default waves-effect" id="cancel" (click)="addCancelDate()">Cancelar</button> -->
-            <button type="button"  class="btn btn-default waves-effect" id="assignRegionalHideUpdate" (click)="modalAssingRegionalUpdate.hide()">Cancelar</button>
-            <button type="submit " class="btn btn-primary m-b-0 " (click)="saveRegional()" >Guardar</button>
-        </div>
-    </div>          
-</app-modal-basic>
+</app-modal-basic> -->
