@@ -316,7 +316,7 @@ export class PlatformsService {
     });
   }
 
-  storePlatform(platform_id:number,customer_id:number,brach_id:number,id_rutines:string,technician_id: any, consecutive:number, date:string){
+  storePlatform(forklift_id:number,customer_id:number,brach_id:number,id_rutines:string,technician_id: any, consecutive:number, date:string){
     return new Promise(resolve => {
       const httpOptions = {
         headers: new HttpHeaders({
@@ -326,7 +326,7 @@ export class PlatformsService {
         })
       };
       const postParams = {
-        platform_id: platform_id,
+        forklift_id: forklift_id,
         customer_id: customer_id,
         branch_id: brach_id,
         platforms: id_rutines,
@@ -348,7 +348,7 @@ export class PlatformsService {
     });
   }
 
-  updatePlatform(platform_id:number,customer_id:number,branch_id:number,id_rutines:string,technician_id: any,date: string,newDate: string) {
+  updatePlatform(forklift_id:number,customer_id:number,branch_id:number,id_rutines:string,technician_id: any,date: string,newDate: string) {
     return new Promise(resolve => {
       const headers = new HttpHeaders();
       headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user'))); // 'Bearer ' +
@@ -362,7 +362,7 @@ export class PlatformsService {
     };
     console.log( localStorage.getItem('userid'));
     const patchParams = {
-      platform_id: platform_id,
+      forklift_id: forklift_id,
         customer_id:customer_id,
         branch_offices_id:branch_id,
         platforms: id_rutines,

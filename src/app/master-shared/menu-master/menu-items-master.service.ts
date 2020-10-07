@@ -64,6 +64,10 @@ const MENUITEMS = [
             name: 'Administrar Clientes'
           },   
           {
+            state: 'forkliftReport',
+            name: 'Administrar Reporte Técnico'
+          },   
+          {
             state: 'regionalsAll',
             name: 'Administrar Sucursales'
           },
@@ -134,6 +138,10 @@ const MENUITEMS = [
             name: 'Administrar Montacargas'
           },
           {
+            state: 'forkliftReport',
+            name: 'Reporte de Técnico'
+          },
+          {
             state:'horometro',
             name:'Administrar Horometro'
           },
@@ -155,8 +163,16 @@ const MENUITEMS = [
           },  
           {
             state: 'checklistMaintenance',
-            name:  'Asignar Asignación Checklist'
+            name:  ' Asignación Checklist'
           },
+          {
+          state:'platformTechinician',
+          name:'Asignar Mantenimieto Plataforma'
+          },  
+          {
+          state:'stevedoreTechinician',
+          name:'Asignar Mantenimieto Estibadores'
+          },  
           {
             state:'work_dashboard',
             name:'Administrar Rutinas Preventivas'

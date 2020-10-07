@@ -5,6 +5,16 @@ import swal from 'sweetalert2';
 import { ForkliftService } from '../../master-services/Forklift/forklift.service';
 import { PersonalService } from '../../master-services/personal/personal.service';
 import { RestService } from '../../master-services/Rest/rest.service';
+import { UploadService } from '../../master-services/services/upload.service';
+
+interface FileSettlementInterface {
+  id?: number;
+  url?: string;
+  content?: string;
+  type?: number;
+  file?:any;
+}
+
 
 @Component({
   selector: 'app-master-update-technician-forklift-report',
@@ -14,6 +24,11 @@ import { RestService } from '../../master-services/Rest/rest.service';
 })
 export class MasterUpdateTechnicianForkliftReportComponent implements OnInit {
 
+  selectedFiles: Array<File> = [];
+  fileSettlement: FileSettlementInterface;
+
+
+
   selectedBusinessId: any = 0;
   selectedRegionalId:any = 0;
   selectedBranchOfficeId: any = 0;
@@ -22,6 +37,7 @@ export class MasterUpdateTechnicianForkliftReportComponent implements OnInit {
   selectedReporDetailId: any = 0;
   selectedUpdateReporDetailId: any = 0;
 
+  urlsFiles=[];
   customers: any;
   regional: any;
 
@@ -44,28 +60,37 @@ export class MasterUpdateTechnicianForkliftReportComponent implements OnInit {
   headerId:any
   
   currentPart:any
+  part:any
+  observation:any
+  s3info:any
+  elementDelete:any
+  showSaveFile=false;
+
+  contFiles=0;
   
   constructor(private restService: RestService, private personalServices:PersonalService, private router: Router, 
-    private forkliftService: ForkliftService, private activatedRoute: ActivatedRoute) {
+    private forkliftService: ForkliftService, private activatedRoute: ActivatedRoute, private uploadService: UploadService) {
+
+     
 
       this.headerId = this.activatedRoute.snapshot.params.id;
       this.getReportForkliftDetail(this.headerId);
 
       const partDescription = new FormControl('',Validators.required);
-      const reportDetail = new FormControl('',Validators.required);
+      // const reportDetail = new FormControl('',Validators.required);
 
     this.partForm= new FormGroup({
       partDescription:partDescription,
-      reportDetail:reportDetail,
+      // reportDetail:reportDetail,
 
     });
 
     const partDescriptionUpdate = new FormControl('',Validators.required);
-    const reportDetailUpdate = new FormControl('',Validators.required);
+    // const reportDetailUpdate = new FormControl('',Validators.required);
 
     this.updatePartForm= new FormGroup({
       partDescriptionUpdate:partDescriptionUpdate,
-      reportDetailUpdate:reportDetailUpdate,
+      // reportDetailUpdate:reportDetailUpdate,
 
     });
    }
@@ -77,20 +102,23 @@ export class MasterUpdateTechnicianForkliftReportComponent implements OnInit {
       console.log(data);
       swal.close();
       this.regional  = resp.data;
-      this.selectedRegionalId = this.header.regional_id;
+      // this.selectedRegionalId = this.header.regional_id;
+      console.log(this.selectedRegionalId);
+      console.log(this.selectedBusinessId);
     }).catch(error => {
       console.log(error);
     });
   }
 
   getCustomerRegionals() {
+    console.log('entro');
     this.restService.getRegionalCustomers(this.selectedRegionalId).then(data => {
       const resp: any = data;
       console.log(data);
       swal.close();
       this.customers  = resp.data;
       this.selectedBusinessId = this.header.customer_id;
-
+      console.log(this.selectedBusinessId);
 
       
       //asignar valores customer;
@@ -109,7 +137,7 @@ export class MasterUpdateTechnicianForkliftReportComponent implements OnInit {
 
       this.selectedReporId =  this.header.technical_reports_id;
       //asignar valores customer;
-    
+      this.getReportTechnicianDetail();
     }).catch(error => {
       console.log(error);
     });
@@ -143,6 +171,20 @@ export class MasterUpdateTechnicianForkliftReportComponent implements OnInit {
       console.log(error);
     });
    }
+  getReportTechnicianImage() {
+    this.personalServices.getForkliftReportImage(this.headerId).then(data => {
+      const resp: any = data;
+      console.log(data);
+      swal.close();
+      this.image  = resp.data;
+      this.urlsFiles  = this.image;
+      
+      //asignar valores customer;
+    
+    }).catch(error => {
+      console.log(error);
+    });
+   }
 
   getReportForkliftDetail(id: number) {
     this.personalServices.getForkliftReportId(id).then(data => {
@@ -151,11 +193,18 @@ export class MasterUpdateTechnicianForkliftReportComponent implements OnInit {
       swal.close();
       this.header  = resp.data.header;
       this.image  = resp.data.image;
+      this.urlsFiles  = this.image;
       this.makeForklift  = resp.data.make;
-      
+      this.selectedRegionalId = this.header.regional_id;
+      this.selectedBusinessId = this.header.customer_id;
+      this.selectedBranchOfficeId = this.header.branch_offices_id;
+      this.selectedForkliftId = this.header.forklift_id;
       //asignar valores customer;
       this.getRegional();
-    this.getReportTechnicians();
+      this.getCustomerRegionals();
+      this.getBranchOffices();
+      this.getForklifs();
+      this.getReportTechnicians();
     
     }).catch(error => {
       console.log(error);
@@ -207,6 +256,15 @@ export class MasterUpdateTechnicianForkliftReportComponent implements OnInit {
   }
   }
 
+  finish(detail:any){
+    // console.log(row);
+    console.log(detail);
+    // console.log(observ);
+    console.log('informacion de la parte');
+    // console.log(this.part);
+    // console.log(this.observation);
+  }
+
   validateCondition(){
     if(this.selectedReporId != 0){
       this.getReportTechnicianDetail();
@@ -225,15 +283,17 @@ export class MasterUpdateTechnicianForkliftReportComponent implements OnInit {
   }
 
   sendUpdatePart(part: any){
-    if(this.selectedUpdateReporDetailId!=0){
+    console.log(part);
+    if((this.selectedRegionalId==0) || (this.selectedBusinessId==0) || (this.selectedBranchOfficeId==0)
+    || (this.selectedForkliftId==0)) {
       swal({
         title: 'Obteniendo información ...',
         allowOutsideClick: false
       });
       swal.showLoading(); 
-      var work =part.value.partDescription;
-      this.personalServices.createReportForkliftPart(this.headerId,this.selectedRegionalId,this.selectedReporId,this.selectedReporDetailId.id,
-        this.selectedReporDetailId.description,work).then(data=>{
+      var work =part.work;
+      var id =part.id;
+      this.personalServices.updateReportForkliftPart(id,work).then(data=>{
         const resp:any=data;
         console.log(data);
         this.partsId=resp.data;
@@ -332,7 +392,7 @@ export class MasterUpdateTechnicianForkliftReportComponent implements OnInit {
       console.log("header information");
       console.log(this.headerinfo)
       swal.close();
-      this.router.navigateByUrl('maintenance/reportUpdate/'+this.headerinfo.id);
+      // this.router.navigateByUrl('maintenance/reportUpdate/'+this.headerinfo.id);
     }).catch(err=>{
 
       console.log(err);
@@ -342,6 +402,158 @@ export class MasterUpdateTechnicianForkliftReportComponent implements OnInit {
     this.generalAlert("Ha ocurrido un error.","Complete todos los campos obligatorios","error");
   }
 }
+
+uploadAll(){
+  swal({
+    title: 'Validando información ...',
+    allowOutsideClick: false
+  });
+  swal.showLoading();
+  this.uploadFiles();
+
+   swal({
+      title: 'Archivos guardados',
+      type: 'success'
+     });
+
+}
+
+uploadFiles() {
+  for (let fileCurrent of this.selectedFiles) {
+  const file = fileCurrent[0];
+  console.log(file);
+ //  const uuid = UUID.UUID();
+ // console.log(uuid);
+  console.log(file.name + '.' + file.type);
+
+  let nameTemp= this.removeAccents(file.name.replace(/\s/g,""));
+  const extension = (file.name.substring(file.name.lastIndexOf('.'))).toLowerCase();
+  console.log(extension);
+  this.uploadService.uploadFilesAllReport(file,this.headerId,nameTemp).then(res=>{
+    console.log('s3info'+JSON.stringify(res));
+    this.s3info=res;
+    console.log(this.s3info);
+    this.getReportTechnicianImage();
+    /*swal({
+      title: 'Archivos guardados',
+      type: 'success'
+     });*/
+
+     swal.close();
+     this.showSaveFile=false; 
+  }).catch(error=> {
+    console.log(error);
+    swal({
+      type: 'error',
+      title: 'Oops a currido un error',
+      text:'Se ha presentado un error al subir la imagen',
+      allowOutsideClick: false
+    });
+  });
+}
+}
+
+
+onSelectFile(event) {
+  var filesAmount = event.target.files.length;
+
+  
+  var filename = event.target.files[event.target.files.length-1].name;
+  console.log('Nombre de archivo');
+  console.log(filename);
+  //  var allowedExtensions = /(.jpg|.jpeg|.png|.gif)$/i;
+  //  console.log(allowedExtensions.exec(filename));
+  var extFilename = filename.split('.').pop();
+
+  console.log('-----');
+  console.log(extFilename);
+
+ // if(extFilename !=='jpg' && extFilename !=='jpeg' && extFilename !=='png'){
+    console.log('filename que es');
+    var filename = event.target.files[event.target.files.length-1].name;
+    console.log('nombre de archivo '+filename);
+
+    this.fileSettlement={
+      id: 0,
+      url: filename      
+    };
+
+    this.urlsFiles.push( this.fileSettlement); 
+    this.selectedFiles.push(event.target.files);
+  /*}else{
+  swal({
+    title: 'El formato del archivo, no es correcto',
+    text: 'No se permite cargar archivos con extensión jpg, jpeg, png ',
+    type: 'error'
+  });
+  }*/
+}
+
+removeAccents (str){
+  return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+} 
+
+deleteFiles(item: any, i: number){
+  console.log(item);
+  console.log(i);
+if(item.id){
+    swal({
+      title: 'Estás seguro de eliminar este elemento?',
+     // text: 'Once deleted, you will not be able to recover this imaginary file!',
+      type: 'warning',
+      showCancelButton: true,
+      showConfirmButton: true,
+      cancelButtonText: 'No',
+      confirmButtonText: 'Si'
+    })
+    .then((willDelete) => {
+        if (willDelete.value) {
+          this.elementDelete = item;
+          console.log(item);
+          swal.showLoading();
+          this.personalServices.deleteForkliftReportImage(Number(item.id))
+          .then(data => {
+            swal.showLoading();
+            const resp: any = data;
+            console.log('esta es la respuesta eliminando archivo'+JSON.stringify(resp));
+
+            if (resp.success === false) {
+              swal({
+                title: 'Este archivo presenta problemas',
+                text: 'Este archivo no se puede eliminar',
+                type: 'error'
+               });
+            } else {
+           // this.router.navigateByUrl('master/registerBrand');
+          // this.ChangingValue();
+           swal({
+            title: 'Archivo eliminado',
+            type: 'success'
+           });
+          }
+         // swal.showLoading();
+          this.urlsFiles.length = 0;
+          this.getReportTechnicianImage();
+          }).catch(error => {
+            console.log(error);
+          });
+          console.log(item.id);
+        } else {
+         // swal('Fail');
+        }
+    });
+
+  }else{
+    this.urlsFiles.splice(i,1);
+    console.log(this.urlsFiles.splice(i,1));
+    var j = this.contFiles-i;
+    console.log('este es valor de la posición de j: '+j);
+    this.selectedFiles.splice(j,1);
+  }
+ }
+
+
+
 
 generalAlert(title:string,text:string,type:any){
   swal({

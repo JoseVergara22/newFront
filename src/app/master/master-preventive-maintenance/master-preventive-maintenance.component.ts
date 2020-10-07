@@ -175,7 +175,7 @@ export class MasterPreventiveMaintenanceComponent extends NgbDatepickerI18n {
   }
 
   getConsecutive() {
-   
+   console.log('entro en consecutivo')
     this.resumenesService.showPreventiveConsecutive().then(data => {
       const resp: any = data;
       console.log(data);
@@ -350,6 +350,7 @@ export class MasterPreventiveMaintenanceComponent extends NgbDatepickerI18n {
 
       console.log('entro');
       console.log(this.routineSelecteds);
+      console.log(this.consecutive);
 
       for (let item of this.routineSelecteds) {
         console.log('entro');

@@ -135,8 +135,8 @@ export class MasterRegisterTechnicianForkliftReportComponent implements OnInit {
 
 registerHeader(){
   // console.log(this.title);
-  if ((this.selectedRegionalId!=0) || (this.selectedBusinessId!=0) || (this.selectedBranchOfficeId==0)
-   || (this.selectedForkliftId==0) || this.selectedReporId != 0) {
+  if ((this.selectedRegionalId==0) || (this.selectedBusinessId==0) || (this.selectedBranchOfficeId==0)
+   || (this.selectedForkliftId==0) || this.selectedReporId == 0) {
     swal({
       title: 'Obteniendo información ...',
       allowOutsideClick: false

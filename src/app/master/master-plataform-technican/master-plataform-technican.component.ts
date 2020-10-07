@@ -84,7 +84,7 @@ export class MasterPlataformTechnicanComponent extends NgbDatepickerI18n {
 
   consecutive: any;
 
-  
+  ngbDateStruct;
 
   constructor(private restService: RestService, private resumenesService: ResumenesService, private router: Router, 
     private forkliftService: ForkliftService, private _i18n: I18n, private calendar: NgbCalendar, public formatter: NgbDateParserFormatter,
@@ -92,12 +92,13 @@ export class MasterPlataformTechnicanComponent extends NgbDatepickerI18n {
       super();
 
       var date = new Date();
-      var ngbDateStruct = { day: date.getDate(), month: date.getMonth()+1, year: date.getFullYear()};
-      this.fromDate=ngbDateStruct;
-      this.untilDate=ngbDateStruct;
+      this.ngbDateStruct = { day: date.getDate(), month: date.getMonth()+1, year: date.getFullYear()};
+      this.fromDate=this.ngbDateStruct;
+      this.untilDate=this.ngbDateStruct;
 
       this.getRegional();
       this.getPlataform();
+      // this.getConsecutive();
       
     }
     
@@ -551,7 +552,7 @@ export class MasterPlataformTechnicanComponent extends NgbDatepickerI18n {
   }
 
   SelectItemRoutines(idItem: any){// Falta organizarlo
-    var item = idItem.preventive_routines_id;
+    var item = idItem.platform_id;
     this.routineSelecteds.map(function(dato){
 
       console.log(idItem);
@@ -714,20 +715,21 @@ export class MasterPlataformTechnicanComponent extends NgbDatepickerI18n {
 
       console.log('entro');
       console.log(this.routineSelecteds);
+      console.log(this.consecutive);
 
       for (let item of this.routineSelecteds) {
-        console.log('entro');
+        // console.log('entro');
         if(item.select){
          console.log(item);
          console.log('entro');
           this.preventiveList = this.preventiveList + item.id +',';
-          console.log('entro');
+          // console.log('entro');
         }
       }
 
       console.log(this.technicianSelecteds);
       for (let item of this.technicianSelecteds) {
-        console.log('entro');
+        // console.log('entro');
         if(item.select){
           console.log(item);
           console.log('entro');
@@ -767,6 +769,8 @@ export class MasterPlataformTechnicanComponent extends NgbDatepickerI18n {
             this.technicianSelecteds.length=0;
             this.preventiveList = '';
             this.technicianList = '';
+            this.fromDate=this.ngbDateStruct;
+            // this.untilDate=ngbDateStruct;
              console.log('llego hasta aqui');
     
             swal.close();

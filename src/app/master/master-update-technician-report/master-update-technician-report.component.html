@@ -42,7 +42,7 @@
                   
                   
                   <div class="align-buttons">
-                      <button class="btn btn-primary m-b-0" (click)="modalPart.show()" >Crear Parte</button>
+                      <button class="btn btn-primary m-b-0" (click)="modalPart.show()" >Crear Item</button>
                       <button style="display: none;" class="btn btn-primary m-b-0" id="showUpdatePart" (click)="modalUpdatePart.show()" >Actualizar</button>
                   </div>
 
@@ -66,7 +66,7 @@
           <br>
 
                       <div class="align-buttons">
-                          <button class="btn btn-primary m-b-0 " (click)="goAdminChecklist()">Volver Administración Checklist</button>
+                          <button class="btn btn-primary m-b-0 " (click)="goAdminChecklist()">Volver Administración Informe Técnico</button>
                       </div>
       </app-card>
   </div>
@@ -75,7 +75,7 @@
 
 <app-modal-basic #modalPart [dialogClass]="'modal-lg'">
   <div class="app-modal-header">
-      <h4 class="modal-title">Agregar Parte</h4>
+      <h4 class="modal-title">Agregar Item</h4>
   </div>
   <div class="app-modal-body">
       <form [formGroup]="partForm">
@@ -91,7 +91,7 @@
 
           <div class="align-buttons">
               <button type="button" class="btn btn-default waves-effect" id="storagePartHide" (click)="modalPart.hide()">Cancelar</button>
-              <button type="submit " class="btn btn-primary m-b-0 " (click)="storagePart(partForm)">Crear Parte</button>
+              <button type="submit " class="btn btn-primary m-b-0 " (click)="storagePart(partForm)">Crear Item</button>
           </div>
       </form>
   </div>
@@ -100,7 +100,7 @@
 
 <app-modal-basic #modalUpdatePart [dialogClass]="'modal-lg'" >
   <div class="app-modal-header">
-      <h4 class="modal-title">Actualizar Parte</h4>
+      <h4 class="modal-title">Actualizar Item</h4>
   </div>
   <div class="app-modal-body">
       <form [formGroup]="updatePartForm">            
@@ -114,7 +114,7 @@
           </div>
           <div class="align-buttons">
               <button type="button" class="btn btn-default waves-effect" id="updatePartHide" (click)="modalUpdatePart.hide()">Cancelar</button>
-              <button type="submit " class="btn btn-primary m-b-0 " (click)="sendUpdatePart(updatePartForm.value)">Actualizar Parte</button>
+              <button type="submit " class="btn btn-primary m-b-0 " (click)="sendUpdatePart(updatePartForm.value)">Actualizar Item</button>
 
           </div>
       </form>

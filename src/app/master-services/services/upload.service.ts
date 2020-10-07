@@ -5,13 +5,15 @@ import { WorkService } from '../../master-services/Work/work.service';
 import * as AWS from 'aws-sdk/global';
 import * as S3 from 'aws-sdk/clients/s3';
 import { UUID } from 'angular2-uuid';
+import { PersonalService } from '../personal/personal.service';
 
 
 @Injectable()
 export class UploadService {
 
  
-  constructor(private workService:WorkService, private estimateService:EstimateService, private settlementService:SettlementService) { }
+  constructor(private workService:WorkService, private estimateService:EstimateService, private settlementService:SettlementService,
+    private personalServices:PersonalService) { }
   uploadFile(file) {
       return new Promise(resolve =>{
         const contentType = file.type;
@@ -353,6 +355,61 @@ uploadFileForkliftUpdate2(file) {
 
 /*-----------------Para montar archivos en las cotizaciones -----*/
 
+
+uploadFilesAllReport(file:any, estimateId:number, fileName:string) {
+  return new Promise(resolve =>{
+
+    const contentType = file.type;
+    
+    console.log('tipo de archivo '+contentType);
+    let ext = fileName.split('.').pop();
+    let nameTemp = fileName.split('.');
+    const bucket = new S3(
+          {
+              accessKeyId: 'AKIAQTIVBK67FU3N4ZPV',
+              secretAccessKey: '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',
+              region: 'us-east-1'
+          }
+      );
+      const uuid = UUID.UUID();
+    
+      const extension = ext ;
+      console.log(extension);
+      // let nameFile ='https://masterforklift.s3.amazonaws.com/'+uuid +''+ extension;
+      let nameFile =nameTemp[0]+'.'+ extension;
+      console.log(nameFile);
+      const params = {
+          Bucket: 'masterforklift/maintenance',
+          Key: nameFile,
+          Body: file,
+          ACL: 'public-read',
+          ContentType: contentType
+      };
+
+      bucket.upload(params).promise().then(resp=>{
+          console.log(resp);
+        resolve(resp);
+        // let nameFileFinal='https://masterforklift.s3.amazonaws.com/'+nameFile;
+      
+        // 'https://masterforklift.s3.amazonaws.com/maintenance/'+this.nameId +'.jpeg';    
+        let url='https://masterforklift.s3.amazonaws.com/maintenance/'+nameFile;
+        
+        
+        this.personalServices.createReportFile(estimateId,  url ).then(data => {
+            const resp: any = data;
+            console.log(data);
+           // swal.close();
+            console.log(resp);
+          }).catch(error => {
+            console.log(error);
+          });
+
+      }).catch(error => {
+  console.log(error);
+});
+
+  })   
+}
 
 uploadFilesAll(file:any, estimateId:number, type: number, fileName:string) {
   return new Promise(resolve =>{

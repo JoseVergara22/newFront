@@ -531,14 +531,13 @@ createReportForkliftPart(header_id:number, report_description:string, technical_
   });
 }
 
-updateReportForkliftPart(id:number,header_id:number, report_description:string, technical_reports_id:number, item_id:number,item_description:string,
-  work:string){
+updateReportForkliftPart(id:number, work:string){
   console.log('ole ole ole');
-  console.log(header_id);
+  console.log(work);
   return new Promise(resolve => {
     const headers = new HttpHeaders();
     headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user'))); 
-    headers.append('Content-Type', 'application/json');
+    headers.append('Cuyg ontent-Type', 'application/json');
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
@@ -547,11 +546,7 @@ updateReportForkliftPart(id:number,header_id:number, report_description:string, 
       })
     };
     const postParams = {
-      technical_forklift_reports_id: header_id,
-      technical_reports_description: report_description,
-      technical_reports_id: technical_reports_id,
-      technical_report_details_id: item_id,
-      technical_report_details_description: item_description,
+    
       work: work,
       user_id: localStorage.getItem('userid'),
      
@@ -585,6 +580,32 @@ deleteForkliftReportDetail(id:number){
     const postParams = {
     };
     this.http.delete(this.apiEndPoint+'api/delete_forklisft_report_detail/'+ id, httpOptions)
+      .map(res => res).subscribe(data => {
+        resolve(data);
+      }, error => {
+        resolve(error);
+      });
+  });
+}
+
+
+deleteForkliftReportImage(id:number){
+  console.log('ole ole ole');
+  console.log(id);
+  return new Promise(resolve => {
+    const headers = new HttpHeaders();
+    headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user'))); 
+    headers.append('Content-Type', 'application/json');
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + localStorage.getItem('token_user'),
+        'Accept': 'application/json'
+      })
+    };
+    const postParams = {
+    };
+    this.http.delete(this.apiEndPoint+'api/delete_report_forklift_image/'+ id, httpOptions)
       .map(res => res).subscribe(data => {
         resolve(data);
       }, error => {
@@ -639,6 +660,32 @@ getForkliftReportImage(id:number){
         console.log(error);
       });
   });
+}
+
+createReportFile(report_Forklift_id: number, url: string) {
+  console.log('info de detalle');
+  return new Promise(resolve => {
+  const headers = new HttpHeaders();
+  headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user'))); // 'Bearer ' +
+  headers.append('Content-Type', 'application/json');
+  const httpOptions = {
+  headers: new HttpHeaders({
+  'Content-Type': 'application/json',
+  'Authorization': 'Bearer ' + localStorage.getItem('token_user'),
+  'Accept': 'application/json'
+  })
+  };
+  const postParams = {
+    technical_forklift_reports_id: report_Forklift_id,
+    image:url,
+  };
+  this.http.post(this.apiEndPoint+'api/create_report_forklift_image', postParams, httpOptions)
+  .map(res => res).subscribe(data => {
+  resolve(data);
+  }, error => {
+  resolve(error);
+ });
+});
 }
 
 }

@@ -445,7 +445,7 @@ export class StevedoreService {
     });
   }
 
-  deletePlatformsTechnician(id:number, stevadore:string, technician:string){
+  deleteStevedoreTechnician(id:number, stevadore:string, technician:string){
     console.log('ole ole ole');
     console.log(id);
     console.log(stevadore);
@@ -464,7 +464,7 @@ export class StevedoreService {
       const postParams = {
       };
       console.log('id='+id+'&stevadores='+stevadore+'&technicians_id='+technician);
-      this.http.delete(this.apiEndPoint+'api/delete_stevedore?stevadores='+stevadore+'&technicians_id='+technician, httpOptions)
+      this.http.delete(this.apiEndPoint+'api/delete_stevedore?stevedores='+stevadore+'&technicians_id='+technician, httpOptions)
         .map(res => res).subscribe(data => {
           resolve(data);
         }, error => {
@@ -474,7 +474,7 @@ export class StevedoreService {
   }
 
   
-  storeStevedoreTechnician(platform_id:number,customer_id:number,brach_id:number,id_rutines:string,technician_id: any, consecutive:number, date:string){
+  storeStevedoreTechnician(forklift_id:number,customer_id:number,brach_id:number,id_rutines:string,technician_id: any, consecutive:number, date:string){
     return new Promise(resolve => {
       const httpOptions = {
         headers: new HttpHeaders({
@@ -484,7 +484,7 @@ export class StevedoreService {
         })
       };
       const postParams = {
-        platform_id: platform_id,
+        forklift_id: forklift_id,
         customer_id: customer_id,
         branch_id: brach_id,
         stevedores: id_rutines,
@@ -494,7 +494,7 @@ export class StevedoreService {
       };
       console.log(postParams);
       
-      this.http.post(this.apiEndPoint+'api/store_platform_techinician', postParams, httpOptions)
+      this.http.post(this.apiEndPoint+'api/store_stevedore_techinician', postParams, httpOptions)
       .map(res => res).subscribe(data => {
         console.log("a mostrar data");
       console.log(data);
@@ -506,7 +506,7 @@ export class StevedoreService {
     });
   }
 
-  updateStevedoreTechnician(platform_id:number,customer_id:number,branch_id:number,id_rutines:string,technician_id: any,date: string,newDate: string) {
+  updateStevedoreTechnician(forklift_id:number,customer_id:number,branch_id:number,id_rutines:string,technician_id: any,date: string,newDate: string) {
     return new Promise(resolve => {
       const headers = new HttpHeaders();
       headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user'))); // 'Bearer ' +
@@ -520,7 +520,7 @@ export class StevedoreService {
     };
     console.log( localStorage.getItem('userid'));
     const patchParams = {
-      platform_id: platform_id,
+      forklift_id: forklift_id,
         customer_id:customer_id,
         branch_offices_id:branch_id,
         stevedores: id_rutines,
@@ -529,7 +529,7 @@ export class StevedoreService {
         newDate: newDate
     };
     console.log(patchParams);
-    this.http.patch(this.apiEndPoint+'api/update_platform_techinician', patchParams, httpOptions)
+    this.http.patch(this.apiEndPoint+'api/update_stevedore_techinician', patchParams, httpOptions)
       .map(res => res).subscribe(data => {
         resolve(data);
       }, error => {

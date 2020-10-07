@@ -249,6 +249,7 @@ export class MasterUpdateChecklistsComponent implements OnInit {
         document.getElementById('storageSecurityHide').click();
         // this.getSecurity(this.checklistId);
         this.getChecklistDetails();
+        this.securityForm.reset();
         swal.close();
       } else {
         this.generalAlert('No se puede guardar','Ha ocurrido un error en la ejecucion','error');

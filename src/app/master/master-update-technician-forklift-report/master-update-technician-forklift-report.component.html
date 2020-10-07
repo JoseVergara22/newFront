@@ -3,7 +3,7 @@
 
   <div class="col-sm-12">
       <app-card>
-          <h5>Administración de Mantenimiento Preventivo</h5>
+          <h5>Reporte de Técnico</h5>
           <br>
 
           <div class="form-group row">
@@ -51,7 +51,7 @@
             <div class="col-sm-4">
               <h6>Reporte  <span style="color:red;">*</span></h6>
 
-              <select class="form-control"   [(ngModel)]="selectedReporId" (click)="getReportTechnicianDetail()"> 
+              <select class="form-control"   [(ngModel)]="selectedReporId" (click)="getReportTechnicianDetail()" disabled> 
                           <option value="0" selected>Seleccionar el reporte a diligenciar </option>
                           <option   *ngFor="let forklift of report" [ngValue]="forklift.id"   > {{forklift.description}}  </option>
                       <!--  <option value="0" selected>Seleccionar perfil</option> -->
@@ -59,7 +59,7 @@
             </div>
           </div>
             <div class=" align-buttons" >
-              <button *ngIf="switchUpdate==true" type="button" (click)="updateHeader()"   class="btn btn-primary waves-effect">Actualizar</button>
+              <button  type="button" (click)="updateHeader()"   class="btn btn-primary waves-effect">Actualizar</button>
             </div>
 
           
@@ -68,7 +68,7 @@
       </app-card>      
   </div>
 </div>
-
+<!-- 
 <div>
   <app-card title="Items">
     
@@ -76,12 +76,9 @@
       <button class="btn btn-primary m-b-0"  (click)="validateCondition()" >Diligenciar Item</button>
       <button style="display: none;" class="btn btn-primary m-b-0" (click)="modalPart.show()" id="showPart">Diligenciar Item</button>
       <button style="display: none;" class="btn btn-primary m-b-0" (click)="modalUpdatePart.show()" id="showPartUpdate">Diligenciar Item</button>
-      </div>
+      </div> 
 
   <ngx-datatable #table class="data-table" [rows]="makeForklift"   [columnMode]="'flex'" [headerHeight]="50" [footerHeight]="50" [rowHeight]="'auto'" [limit]="20">
-
-      <!--   <ngx-datatable-column [resizeable]="false" name="Compañia" [sortable]="false" [draggable]="false" prop="business_name"></ngx-datatable-column> -->
-     
 
       <ngx-datatable-column  [flexGrow]="2" [sortable]="false" [resizeable]="false" name="Item" [sortable]="false" prop="technical_report_details_description"></ngx-datatable-column>
       <ngx-datatable-column  [flexGrow]="2" [sortable]="false" [resizeable]="false" name="Observación" [sortable]="false" prop="work"></ngx-datatable-column>
@@ -94,16 +91,136 @@
 
     </ngx-datatable>
   </app-card>
-</div>
+</div> -->
 
-<div *ngIf="image!=0">
+<div > 
+  <div *ngFor="let detail of makeForklift; let i =index">
+      <app-card >
+        
+          <div class="form-group row">
+
+            <div class="col-sm-12">
+          
+          <!-- <input type="text"   class="form-control" disabled> -->
+              <h5><label  >{{i+1}}. {{detail.technical_report_details_description}} </label></h5>
+                    
+            </div>
+          </div>
+          <!-- <form [formGroup]="partForm"> -->
+          <div class="form-group row">
+            <div class="col-sm-10">
+            
+              <h6>Observación del  item<span style="color:red;">*</span></h6>
+              <textarea  id="partDescription"  name="observacion" cols="170" rows="10" [(ngModel)]="detail.work"  required></textarea>
+   
+            </div>
+          </div>
+          <!-- <div class="align-buttons">
+              <button type="submit " class="btn btn-primary m-b-0 " (click)="storagePart(partForm)">Guardat Item</button>
+          </div> -->
+          <div class=" align-buttons" >
+            <button  type="button" (click)="sendUpdatePart(detail)"   class="btn btn-primary waves-effect">Guardar</button>
+          </div>
+      <!-- </form> -->
+          
+<!-- 
+          <form [formGroup]="partForm">
+            <div class="form-group row">
+  
+              <div class="col-sm-12"> -->
+            
+            <!-- <input type="text"   class="form-control" disabled> -->
+            <!-- <h5><label [ngModel]="part"  >{{i+1}}. {{detail.description}} </label></h5>
+                    
+          </div>
+            </div>
+  
+          <div class="form-group row">
+            <div class="col-sm-10">
+              
+              <h6>Observación del  item<span style="color:red;">*</span></h6>
+              <textarea  id="partDescription" formControlName="partDescription" cols="170" rows="10" required></textarea>
+     
+            </div>
+          </div> -->
+            <!-- <div class="align-buttons">
+                <button type="submit " class="btn btn-primary m-b-0 " (click)="storagePart(partForm)">Guardat Item</button>
+            </div> -->
+        <!-- </form> -->
+        </app-card>
+      </div>
+
+    </div>
+
+    
+
+  
+
+
+<div >
   <app-card title="Imagenes">
+    <app-card>
+           <br>
+      <div class="form-group row">
+        <img *ngFor="let img of image" src="{{img.image}}" width="20%" HSPACE="10" VSPACE="10" style="border-image: auto;">
+      </div>
+    </app-card>
 
+    <div  class="row">
+      <div class="col-sm-4">
+      </div>
+    
+      <div class="col-sm-4">
+      </div>
+      <div class="col-sm-4">
+          <div class="labelItem align-buttons">
+              <button (click)="uploadAll()" class="btn btn-primary">Guardar Imagenes</button>
+          </div>
+      </div>
+    </div>
+    
+    
+          <!-- <div  *ngIf="showCreateItem" class="form-group row "> -->
+           
+    
+              <div class="col-sm-6">
+                  <h6>  <img src="assets/images/folder_file.png"  width="50" height="50" > Elegir Archivos</h6>
+                  <input type='file' (change)="onSelectFile($event)" >
+                  <br>
+                  <br>
+                   <div class="table-responsive">
+                  <table class="table">
+                  <thead>
+                  <tr>
+                      <th>Archivo</th>
+                      <th>Acción</th>
+                  </tr>
+                  </thead>
+                  <tbody  class="col-sm-3" *ngFor='let file of urlsFiles; let i = index' >
+                  <td>
+                                  <!-- <img src="assets/images/blog/blog-r-1.jpg" alt="img" class="img-fluid img-100"> -->
+                 <!-- <img [src]="url" height="200" *ngIf="url" alt="img" class="img-fluid img-100">  --> 
+    
+                  <img  *ngIf="file" src="{{file.image}}" width="15%"> 
+                                  <!--  <img [src]="imgURL " height="200 " *ngIf="imgURL " alt="img" class="img-fluid img-100">
+                                  <h6 class="m-t-15 m-b-0">Ejemplo</h6>
+                                  <p class="text-muted m-b-0"><small>PNG-100KB</small></p> -->
+                  </td>
+                  <td>
+                  <button (click)="deleteFiles(file,i)" class="btn btn-danger btn-icon"><i class="icofont icofont-ui-delete"></i></button>
+    
+                  </td>
+                  </tbody>
+                  </table>
+                  </div>
+                  <!-- </app-card> -->
+              </div>
+          <!-- </div> -->
   </app-card>
 </div>
 
 
-
+<!-- 
 
 <app-modal-basic #modalPart [dialogClass]="'modal-lg'">
   <div class="app-modal-header">
@@ -119,16 +236,18 @@
               <select class="form-control"   [(ngModel)]="selectedReporDetailId" formControlName="reportDetail" > 
                           <option value="0" selected>Seleccionar el item </option>
                           <option   *ngFor="let forklift of reportDetail" [ngValue]="forklift"   > {{forklift.description}}  </option>
-                      <!--  <option value="0" selected>Seleccionar perfil</option> -->
                      </select>
             </div>
           </div>
 
+        <div class="form-group row">
+          <div class="col-sm-10">
             
-              <h6>Observación del  item<span style="color:red;">*</span></h6>
-                  <textarea  id="partDescription" formControlName="partDescription" cols="30" rows="10" required></textarea>
-     
-
+            <h6>Observación del  item<span style="color:red;">*</span></h6>
+            <textarea  id="partDescription" formControlName="partDescription" cols="100" rows="10" required></textarea>
+   
+          </div>
+        </div>
     
 
           <div class="align-buttons">
@@ -154,15 +273,15 @@
               <select class="form-control"   [(ngModel)]="selectedUpdateReporDetailId" formControlName="reportDetailUpdate" > 
                           <option value="0" selected>Seleccionar el item </option>
                           <option   *ngFor="let forklift of reportDetail" [ngValue]="forklift.id"   > {{forklift.description}}  </option>
-                      <!--  <option value="0" selected>Seleccionar perfil</option> -->
-                     </select>
+                      </select>
             </div>
 
           </div>
 
+        <div class="col-sm-10">
           <h6>Observación del  item<span style="color:red;">*</span></h6>
           <textarea  id="partDescriptionUpdate" formControlName="partDescriptionUpdate" cols="30" rows="10" required></textarea>
-
+        </div>
 
 
           <div class="align-buttons">
@@ -172,4 +291,4 @@
           </div>
       </form>
   </div>
-</app-modal-basic>
+</app-modal-basic> -->

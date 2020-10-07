@@ -212,7 +212,7 @@ export class MasterWorkDetailsComponent implements OnInit {
 
   registerheader(){
     console.log(this.routineDescription);
-    if(this.typeRoutine != 0){
+    // if(this.typeRoutine != 0){
 
     if ((this.routineDescription!=null) || (this.routineDescription!="") || (this.routineHour==null)) {
       swal({
@@ -252,11 +252,11 @@ export class MasterWorkDetailsComponent implements OnInit {
       this.showButtonUpdated=false;
       this.generalAlert("Ha ocurrido un error","Complete todos los campos obligatorios","error");
     }
-  }else{
-    console.log('description '+this.routineDescription);
-    this.showButtonUpdated=false;
-    this.generalAlert("Ha ocurrido un error","Complete todos los campos obligatorios","error");
-  }
+  // }else{
+  //   console.log('description '+this.routineDescription);
+  //   this.showButtonUpdated=false;
+  //   this.generalAlert("Ha ocurrido un error","Complete todos los campos obligatorios","error");
+  // }
   }
 
   getWorkDetails(){

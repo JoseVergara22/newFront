@@ -254,9 +254,9 @@ export class WorkService {
         description:description,
         hours:hours,
         observation:observation,
-        regional_id:regional_id,
-        customer_id:customer_id,
-        type:type,
+        // regional_id:regional_id,
+        // customer_id:customer_id,
+        // type:type,
       }
       console.log(postParams);
       this.http.post(this.apiEndPoint+'api/routines', postParams,httpOptions)
@@ -334,9 +334,9 @@ export class WorkService {
         status:status,
         hours:hours,
         observation:observation,
-        regional_id:regional_id,
-        customer_id:customer_id,
-        type:type,
+        // regional_id:regional_id,
+        // customer_id:customer_id,
+        // type:type,
       }
       console.log(patchParams);      
       this.http.patch(this.apiEndPoint+'api/routines/'+id, patchParams,httpOptions)

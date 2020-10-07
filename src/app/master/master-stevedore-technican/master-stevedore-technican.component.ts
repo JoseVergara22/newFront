@@ -245,7 +245,7 @@ export class MasterStevedoreTechnicanComponent extends NgbDatepickerI18n {
       let yearCosecutive=date.getFullYear().toString().substring(2,4);
       this.consecutive= Number(this.consecutive.consecutive)+1;
       this.consecutive = Number(yearCosecutive.toString()+month.toString()+this.consecutive.toString());
-      
+      console.log(this.consecutive);
       // this.rowsClient = resp.data;
       // this.rowStatic =  resp.data;
       // this.rowsTemp = resp.data;
@@ -406,7 +406,7 @@ export class MasterStevedoreTechnicanComponent extends NgbDatepickerI18n {
           console.log(rout);
           console.log(tech);
           swal.showLoading();
-          this.stevedoreService.deletePlatformsTechnician(Number(this.selectedForkliftId.id),rout,tech)
+          this.stevedoreService.deleteStevedoreTechnician(Number(this.selectedForkliftId.id),rout,tech)
           .then(data => {
             swal.showLoading();
             const resp: any = data;
@@ -551,7 +551,7 @@ export class MasterStevedoreTechnicanComponent extends NgbDatepickerI18n {
   }
 
   SelectItemRoutines(idItem: any){// Falta organizarlo
-    var item = idItem.preventive_routines_id;
+    var item = idItem.stevedore_id;
     this.routineSelecteds.map(function(dato){
 
       console.log(idItem);
