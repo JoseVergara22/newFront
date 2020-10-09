@@ -95,7 +95,6 @@ import { MasterStevedoreTechnicanComponent } from './master-stevedore-technican/
 
 
 
-
 const routes: Routes = [
   {
     path: 'master',
@@ -389,7 +388,6 @@ const routes: Routes = [
     path:'stevedoreTechinician',
     component: MasterStevedoreTechnicanComponent
   }
-  
  
 ];
 

@@ -29,8 +29,6 @@ export class MasterRegisterTechnicianForkliftReportComponent implements OnInit {
 
   headerinfo:any;
 
-  parts: any;
-
   constructor(private restService: RestService, private personalServices:PersonalService, private router: Router, 
     private forkliftService: ForkliftService) {
     this.getRegional();

@@ -68,7 +68,7 @@ export class MasterTechnicianReportComponent implements OnInit {
         this.personalServices.deleteReportTechnician(this.rowtodelete.id).then(data=>{
           const resp:any=data;
           if (resp.success==false){
-            this.generalAlert('Error','Ocurrio un error durante el procesado',"error");
+            this.generalAlert('Error','Ocurrio un error durante el proceso',"error");
           }else{
             this.generalAlert('Reporte eliminada','Rutina eliminada correctamente','success');
             this.getReport();

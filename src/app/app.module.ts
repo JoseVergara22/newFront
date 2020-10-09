@@ -34,6 +34,7 @@ import {AutocompleteLibModule} from 'angular-ng-autocomplete';
     BreadcrumbsComponent,
     MasterAdminComponent,
 
+
    // MasterNewsComponent
   ],
   imports: [

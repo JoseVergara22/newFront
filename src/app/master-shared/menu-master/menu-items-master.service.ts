@@ -64,7 +64,7 @@ const MENUITEMS = [
             name: 'Administrar Clientes'
           },   
           {
-            state: 'forkliftReport',
+            state: 'technicianReport',
             name: 'Administrar Reporte Técnico'
           },   
           {
