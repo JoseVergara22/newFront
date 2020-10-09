@@ -425,7 +425,7 @@ deleteForkliftReport(id:number){
 }
 
   
-createReportForklift(regional_id:number,customer_id: number, branch_offices_id:number, forklift_id:number,
+createReportForklift(consecutive:number,regional_id:number,customer_id: number, branch_offices_id:number, forklift_id:number,
   technical_reports_id:number){
   console.log('ole ole ole');
   console.log(customer_id);
@@ -441,6 +441,7 @@ createReportForklift(regional_id:number,customer_id: number, branch_offices_id:n
       })
     };
     const postParams = {
+      technical_reports_consecutive: consecutive,
       regional_id: regional_id,
       customer_id: customer_id,
       branch_offices_id: branch_offices_id,
@@ -687,5 +688,54 @@ createReportFile(report_Forklift_id: number, url: string) {
  });
 });
 }
+
+getForkliftReportConsecutive(){
+  console.log();
+  return new Promise(resolve => {
+    const headers = new HttpHeaders();
+    headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user'))); 
+    headers.append('Content-Type', 'application/json');
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + localStorage.getItem('token_user'),
+        'Accept': 'application/json'
+      })
+    };
+    this.http.get(this.apiEndPoint+'api/get_report_consecutive', httpOptions)
+      .map(res => res).subscribe(data => {
+        console.log(data);
+        resolve(data);
+      }, error => {
+        resolve(error);
+        console.log(error);
+      });
+  });
+}
+
+updateReportForkliftConsecutivo(){
+  console.log('ole ole ole');
+  // console.log(work);
+  return new Promise(resolve => {
+    const headers = new HttpHeaders();
+    headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user'))); 
+    headers.append('Cuyg ontent-Type', 'application/json');
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + localStorage.getItem('token_user'),
+        'Accept': 'application/json'
+      })
+    };
+
+    this.http.patch(this.apiEndPoint+'api/update_report_consecutive', httpOptions)
+      .map(res => res).subscribe(data => {
+        resolve(data);
+      }, error => {
+        resolve(error);
+      });
+  });
+}
+
 
 }

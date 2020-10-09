@@ -28,11 +28,13 @@ export class MasterRegisterTechnicianForkliftReportComponent implements OnInit {
   switchUpdate = false;
 
   headerinfo:any;
+  consecutive:any;
 
   constructor(private restService: RestService, private personalServices:PersonalService, private router: Router, 
     private forkliftService: ForkliftService) {
     this.getRegional();
     this.getReportTechnicians();
+    this.getConsecutive();
 
    }
 
@@ -131,27 +133,79 @@ export class MasterRegisterTechnicianForkliftReportComponent implements OnInit {
   }
 }
 
+getConsecutive() {
+   
+  this.personalServices.getForkliftReportConsecutive().then(data => {
+    const resp: any = data;
+    console.log(data);
+    swal.close();
+    this.consecutive  = resp.data;
+    var date = new Date();
+   
+    let now = date.getFullYear();
+
+   
+    // 01, 02, 03, ... 10, 11, 12
+    let month = ((date.getMonth() + 1) < 10 ? '0' : '') + (date.getMonth() + 1);
+
+    
+    let yearCosecutive=date.getFullYear().toString().substring(2,4);
+    this.consecutive= Number(this.consecutive.consecutive)+1;
+    this.consecutive = Number(yearCosecutive.toString()+month.toString()+this.consecutive.toString());
+    console.log(this.consecutive);
+    // this.rowsClient = resp.data;
+    // this.rowStatic =  resp.data;
+    // this.rowsTemp = resp.data;
+    // console.log( this.rowsClient);
+  }).catch(error => {
+    console.log(error);
+  });
+ }
+
 registerHeader(){
   // console.log(this.title);
-  if ((this.selectedRegionalId==0) || (this.selectedBusinessId==0) || (this.selectedBranchOfficeId==0)
-   || (this.selectedForkliftId==0) || this.selectedReporId == 0) {
+  if ((this.selectedRegionalId!=0) || (this.selectedBusinessId!=0) || (this.selectedBranchOfficeId!=0)
+   || (this.selectedForkliftId!=0) || this.selectedReporId != 0) {
     swal({
       title: 'Obteniendo información ...',
       allowOutsideClick: false
     });
     swal.showLoading();
     // var date = new Date();
-    this.personalServices.createReportForklift(this.selectedRegionalId.id,this.selectedBusinessId.id,this.selectedBranchOfficeId.id,
+    this.personalServices.createReportForklift(this.consecutive,this.selectedRegionalId.id,this.selectedBusinessId.id,this.selectedBranchOfficeId.id,
       this.selectedForkliftId.id,this.selectedReporId.id).then(data=>{
       const resp:any=data;
       console.log(data);
       this.headerinfo=resp.data;
-      console.log("header information");
-      console.log(this.headerinfo)
-      this.switchUpdate = true;
-      swal.close();
+      this.personalServices.updateReportForkliftConsecutivo().then(data => {
+        const resp: any = data;
+        console.log(data);
+        swal({
+          title: 'Guardado con exito',
+          type: 'success'
+         });
+         console.log("header information");
+         console.log(this.headerinfo)
+         this.switchUpdate = true;
+         swal.close();
+         
+         this.router.navigateByUrl('maintenance/updateForkliftReport/'+this.headerinfo.id);
       
-      this.router.navigateByUrl('maintenance/updateForkliftReport/'+this.headerinfo.id);
+         console.log('llego hasta aqui');
+
+        swal.close();
+        // this.rowsClient = resp.data;
+        // this.rowStatic =  resp.data;
+        // this.rowsTemp = resp.data;
+        // console.log( this.rowsClient);
+      }).catch(error => {
+        swal({
+          title: 'Se presento un problema, para guardar este encabezado de manteminiento preventivo',
+          type: 'error'
+         });
+        console.log(error);
+      });
+      
     }).catch(err=>{
 
       console.log(err);
