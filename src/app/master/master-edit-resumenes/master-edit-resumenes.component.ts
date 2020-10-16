@@ -97,6 +97,8 @@ export class MasterEditResumenesComponent extends NgbDatepickerI18n {
   currentPreventive: any;
   currentChecklist: any;
   currentCorrective: any;
+  currentPlatform: any;
+  currentStevedore: any;
 
   selectedMinutChecklist: any= 0;
   selectedHourChecklist: any= 0;
@@ -112,6 +114,10 @@ export class MasterEditResumenesComponent extends NgbDatepickerI18n {
 
   rowPreventive=[];
   rowChecklist=[];
+
+  rowPlatform: any;
+  rowStevedore: any;
+  rowReport: any;
   
   constructor(private restService: RestService, private resumenesService: ResumenesService, private router: Router, 
     private forkliftService: ForkliftService, private _i18n: I18n, private calendar: NgbCalendar, public formatter: NgbDateParserFormatter,
@@ -164,6 +170,9 @@ export class MasterEditResumenesComponent extends NgbDatepickerI18n {
         // this.getPendingGeneral(id);
         this.getImages(id);
         this.getForkliftPendingGeneralMain();
+        this.getStevedoreRoutinesLast();
+        this.getPlatformRoutinesLast();
+        this.getReportTechnicianLast();
         }).catch(error => {
           console.log(error);
         });
@@ -331,24 +340,33 @@ export class MasterEditResumenesComponent extends NgbDatepickerI18n {
     }
 
 
-    editResumenes(row: any){
-      console.log(row);
-      if(row.type === "Correctivo"){
-        this.router.navigateByUrl('maintenance/viewCorrective/'+row.id);
-      }
-      if(row.type === "Checklist"){
-        this.router.navigateByUrl('maintenance/viewChecklist/'+row.id);
-      }
-      if(row.type === "Preventivo"){
-        this.router.navigateByUrl('maintenance/viewPreventive/'+row.id);
-      }
-    }
+    // editResumenes(row: any){
+    //   console.log(row);
+    //   if(row.type === "Correctivo"){
+    //     this.router.navigateByUrl('maintenance/viewCorrective/'+row.id);
+    //   }
+    //   if(row.type === "Checklist"){
+    //     this.router.navigateByUrl('maintenance/viewChecklist/'+row.id);
+    //   }
+    //   if(row.type === "Preventivo"){
+    //     this.router.navigateByUrl('maintenance/viewPreventive/'+row.id);
+    //   }
+    // }
 
     showRoutineChecklist(item: any){
       this.router.navigateByUrl('maintenance/viewChecklist/'+item.id);
     }
     showRoutineCorrective(row: any){
       this.router.navigateByUrl('maintenance/viewCorrective/'+row.result.corrective.id);
+    }
+    showRoutinePlatform(item: any){
+      this.router.navigateByUrl('maintenance/viewPlatform/'+item.id);
+    }
+    showRoutineStevedore(row: any){
+      this.router.navigateByUrl('maintenance/viewStevedore/'+row.id);
+    }
+    showRoutineReport(row: any){
+      this.router.navigateByUrl('maintenance/updateForkliftReport/'+row.id);
     }
 
 
@@ -696,6 +714,8 @@ export class MasterEditResumenesComponent extends NgbDatepickerI18n {
      this.getPreventiveRoutinesFilterGeneral(from_date,to_date);
      this.getCorrectiveRoutinesFilter(from_date,to_date);
      this.getForkliftChecklistFilterGeneral(from_date,to_date);
+     this.getPlatformRoutinesFilter(from_date,to_date);
+     this.getStevedoreRoutinesFilter(from_date,to_date);
     //  this.getForkliftChecklistFilter(from_date,to_date);
   }
 
@@ -845,6 +865,76 @@ export class MasterEditResumenesComponent extends NgbDatepickerI18n {
   
   }
 
+  getReportTechnicianLast(){
+    // Llenar información de cliente  
+    this.resumenesService.getWorkForkliftReportLast(this.forkliftId).then(data => {
+      const resp: any = data;
+      console.log(data);
+      swal.close();
+      this.rowReport  = resp.data;
+      // this.rowPlatform  = this.currentPlatform;
+      console.log(this.rowReport);
+      // for(let result of this.rowsClient){
+      //   console.log(result.result.corrective.id);
+        
+      //   this.getPendingCorrective(result.result.corrective.id);
+      // }
+      // this.getStevedoreRoutinesLast();
+      // this.getForkliftChecklistLast();
+
+    }).catch(error => {
+      console.log(error);
+    });
+  
+  }
+
+
+  getPlatformRoutinesLast(){
+    // Llenar información de cliente  
+    this.resumenesService.getWorkForkliftPlatformLast(this.forkliftId).then(data => {
+      const resp: any = data;
+      console.log(data);
+      swal.close();
+      this.currentPlatform  = resp.data;
+      this.rowPlatform  = this.currentPlatform;
+      console.log(this.rowPlatform);
+      // for(let result of this.rowsClient){
+      //   console.log(result.result.corrective.id);
+        
+      //   this.getPendingCorrective(result.result.corrective.id);
+      // }
+      // this.getStevedoreRoutinesLast();
+      // this.getForkliftChecklistLast();
+
+    }).catch(error => {
+      console.log(error);
+    });
+  
+  }
+  
+  getStevedoreRoutinesLast(){
+    // Llenar información de cliente  
+    this.resumenesService.getWorkForkliftStevedoreLast(this.forkliftId).then(data => {
+      const resp: any = data;
+      console.log(data);
+      swal.close();
+      this.currentStevedore  = resp.data;
+      this.rowStevedore  = this.currentStevedore;
+      console.log(this.rowStevedore);
+      // for(let result of this.rowsClient){
+      //   console.log(result.result.corrective.id);
+        
+      //   this.getPendingCorrective(result.result.corrective.id);
+      // }
+      // this.getForkliftChecklistLastGeneral();
+      // this.getForkliftChecklistLast();
+
+    }).catch(error => {
+      console.log(error);
+    });
+  
+  }
+
   getCorrectiveRoutinesFilter(fromdate:string, to_date:string){
     // Llenar información de cliente  
     this.resumenesService.getWorkForkliftCorrectiveFilter(this.forkliftId,fromdate,to_date).then(data => {
@@ -854,6 +944,70 @@ export class MasterEditResumenesComponent extends NgbDatepickerI18n {
       this.currentCorrective  = resp.data;
       this.rowsClient  = this.currentCorrective;
       console.log(this.rowsClient);
+      // for(let result of this.rowsClient){
+      //   console.log(result.result.corrective.id);
+        
+      //   this.getPendingCorrective(result.result.corrective.id);
+      // }
+
+    }).catch(error => {
+      console.log(error);
+    });
+  
+  }
+
+  getReportTechnicianFilter(fromdate:string, to_date:string){
+    // Llenar información de cliente  
+    this.resumenesService.getWorkForkliftPlatoformFilter(this.forkliftId,fromdate,to_date).then(data => {
+      const resp: any = data;
+      console.log(data);
+      swal.close();
+      this.rowReport  = resp.data;
+      // this.rowsClient  = this.currentCorrective;
+      console.log(this.rowReport);
+      // for(let result of this.rowsClient){
+      //   console.log(result.result.corrective.id);
+        
+      //   this.getPendingCorrective(result.result.corrective.id);
+      // }
+
+    }).catch(error => {
+      console.log(error);
+    });
+  
+  }
+ 
+
+  getPlatformRoutinesFilter(fromdate:string, to_date:string){
+    // Llenar información de cliente  
+    this.resumenesService.getWorkForkliftPlatoformFilter(this.forkliftId,fromdate,to_date).then(data => {
+      const resp: any = data;
+      console.log(data);
+      swal.close();
+      this.currentPlatform  = resp.data;
+      this.rowPlatform  = this.currentPlatform;
+      console.log(this.rowPlatform);
+      // for(let result of this.rowsClient){
+      //   console.log(result.result.corrective.id);
+        
+      //   this.getPendingCorrective(result.result.corrective.id);
+      // }
+
+    }).catch(error => {
+      console.log(error);
+    });
+  
+  }
+ 
+  getStevedoreRoutinesFilter(fromdate:string, to_date:string){
+    // Llenar información de cliente  
+    this.resumenesService.getWorkForkliftStevedoreFilter(this.forkliftId,fromdate,to_date).then(data => {
+      const resp: any = data;
+      console.log(data);
+      swal.close();
+      this.currentStevedore  = resp.data;
+      this.rowStevedore  = this.currentStevedore;
+      console.log(this.rowStevedore);
       // for(let result of this.rowsClient){
       //   console.log(result.result.corrective.id);
         
@@ -917,7 +1071,7 @@ export class MasterEditResumenesComponent extends NgbDatepickerI18n {
       //     this.getPendingChecklist(sub.id);
         }
       }
-
+      // this.getPlatformRoutinesLast();
     }).catch(error => {
       console.log(error);
     });

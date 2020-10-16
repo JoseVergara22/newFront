@@ -188,6 +188,42 @@
     </app-card> 
 
     <app-card>
+      <button type="button " style="display: none;" id="showChecklists" class="btn btn-primary m-b-0 " (click)="modalAssingChecklist.show()" >Crear</button>
+    
+      <h5>Plataforma</h5>
+      <ngx-datatable #table class="data-table" [rows]="rowPlatform"   [columnMode]="'flex'" [headerHeight]="50" [footerHeight]="50" [rowHeight]="'auto'" [limit]="20">
+
+        <ngx-datatable-column  [flexGrow]="2" [sortable]="false" [resizeable]="false"  name="Fecha" [sortable]="false"  prop="date"></ngx-datatable-column>
+        <ngx-datatable-column  [flexGrow]="2" [sortable]="false" [resizeable]="false"  name="Descripción de la rutina" [sortable]="false"  prop="descritionPlatform"></ngx-datatable-column>
+        <ngx-datatable-column  [flexGrow]="2" name="Ver" [sortable]="false"  sortable="false" prop="platform_consecutive">
+        <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+
+          <label (click)="showRoutinePlatform(row)"class="link">{{value}}</label>
+         
+        </ng-template>
+        </ngx-datatable-column>
+      </ngx-datatable>
+    </app-card>
+    <app-card>
+      <button type="button " style="display: none;" id="showChecklists" class="btn btn-primary m-b-0 " (click)="modalAssingChecklist.show()" >Crear</button>
+    
+      <h5>Estibadores</h5>
+      <ngx-datatable #table class="data-table" [rows]="rowStevedore"   [columnMode]="'flex'" [headerHeight]="50" [footerHeight]="50" [rowHeight]="'auto'" [limit]="20">
+
+        <ngx-datatable-column  [flexGrow]="2" [sortable]="false" [resizeable]="false"  name="Fecha" [sortable]="false"  prop="date"></ngx-datatable-column>
+        <ngx-datatable-column  [flexGrow]="2" [sortable]="false" [resizeable]="false"  name="Descripción de la rutina" [sortable]="false"  prop="descritionStevedore"></ngx-datatable-column>
+        <ngx-datatable-column  [flexGrow]="2" name="Ver" [sortable]="false"  sortable="false" prop="stevedore_consecutive">
+        <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+
+          <label (click)="showRoutineStevedore(row)"class="link">{{value}}</label>
+         
+        </ng-template>
+        </ngx-datatable-column>
+      </ngx-datatable>
+     
+    </app-card> 
+
+    <app-card>
       <button type="button " style="display: none;" id="showCorrectives" class="btn btn-primary m-b-0 " (click)="modalAssingCorrective.show()" >Crear</button>
      <h5>Pendientes</h5>
     
@@ -204,6 +240,44 @@
         
       </ngx-datatable>
     </app-card>
+
+    <app-card>
+      <button type="button " style="display: none;" id="showChecklists" class="btn btn-primary m-b-0 " (click)="modalAssingChecklist.show()" >Crear</button>
+    
+      <h5>Reporte Técnico</h5>
+      <ngx-datatable #table class="data-table" [rows]="rowReport"   [columnMode]="'flex'" [headerHeight]="50" [footerHeight]="50" [rowHeight]="'auto'" [limit]="20">
+
+        <ngx-datatable-column  [flexGrow]="2" [sortable]="false" [resizeable]="false"  name="Fecha" [sortable]="false"  prop="date"></ngx-datatable-column>
+        <ngx-datatable-column  [flexGrow]="2" [sortable]="false" [resizeable]="false"  name="Descripción de la rutina" [sortable]="false"  prop="descritionReport"></ngx-datatable-column>
+        <ngx-datatable-column  [flexGrow]="2" name="Ver" [sortable]="false"  sortable="false" prop="technical_reports_consecutive">
+        <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+
+          <label (click)="showRoutineReport(row)"class="link">{{value}}</label>
+         
+        </ng-template>
+        </ngx-datatable-column>
+      </ngx-datatable>
+     
+    </app-card> 
+    <app-card>
+      <button type="button " style="display: none;" id="showChecklists" class="btn btn-primary m-b-0 " (click)="modalAssingChecklist.show()" >Crear</button>
+    
+      <h5>Contizaciones</h5>
+      <ngx-datatable #table class="data-table" [rows]="rowStevedore"   [columnMode]="'flex'" [headerHeight]="50" [footerHeight]="50" [rowHeight]="'auto'" [limit]="20">
+
+        <ngx-datatable-column  [flexGrow]="2" [sortable]="false" [resizeable]="false"  name="Cliente" [sortable]="false"  prop="date"></ngx-datatable-column>
+        <ngx-datatable-column  [flexGrow]="2" [sortable]="false" [resizeable]="false"  name="Sede" [sortable]="false"  prop="descritionReport"></ngx-datatable-column>
+        <ngx-datatable-column  [flexGrow]="2" [sortable]="false" [resizeable]="false"  name="Total" [sortable]="false"  prop="descritionReport"></ngx-datatable-column>
+        <ngx-datatable-column  [flexGrow]="2" name="Ver" [sortable]="false"  sortable="false" prop="estimate_consecutive">
+        <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+
+          <label (click)="showRoutineReport(row)"class="link">{{value}}</label>
+         
+        </ng-template>
+        </ngx-datatable-column>
+      </ngx-datatable>
+     
+    </app-card> 
 
     <div class="align-buttons">
  

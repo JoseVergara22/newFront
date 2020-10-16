@@ -22,8 +22,6 @@ import {AutocompleteLibModule} from 'angular-ng-autocomplete';
 
 
 
-
-
 // import { MasterNewsComponent } from './master/master-news/master-news.component';
 
 @NgModule({
@@ -33,8 +31,7 @@ import {AutocompleteLibModule} from 'angular-ng-autocomplete';
     AuthComponent,
     BreadcrumbsComponent,
     MasterAdminComponent,
-
-
+    
    // MasterNewsComponent
   ],
   imports: [

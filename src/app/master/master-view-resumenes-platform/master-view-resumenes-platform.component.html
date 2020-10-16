@@ -1,4 +1,3 @@
-
 <div class="row">
 
   <div class="app-modal-header">
@@ -31,10 +30,21 @@
 
   <ngx-datatable #table class="data-table" [rows]="rowsWork"   [columnMode]="'flex'" [headerHeight]="50" [footerHeight]="50" [rowHeight]="'auto'" [limit]="20">
 
-    <ngx-datatable-column  [flexGrow]="2" [sortable]="false" [resizeable]="false"  name="Sistema" [sortable]="false"  prop="maintenance_systems_description"></ngx-datatable-column>
-    <ngx-datatable-column  [flexGrow]="2" [sortable]="false" [resizeable]="false"  name="Descripción" [sortable]="false"  prop="fault_description"></ngx-datatable-column>
-    <ngx-datatable-column  [flexGrow]="2" [sortable]="false" [resizeable]="false"  name="Diagnostico" [sortable]="false"  prop="diagnostic"></ngx-datatable-column>
-    <ngx-datatable-column  [flexGrow]="2" [sortable]="false" [resizeable]="false"  name="Trabajo Realizado" [sortable]="false"  prop="work_done"></ngx-datatable-column>
+    <ngx-datatable-column  [flexGrow]="2" [sortable]="false" [resizeable]="false"  name="Sistema" [sortable]="false"  prop="system_platform_description"></ngx-datatable-column>
+    <ngx-datatable-column  [flexGrow]="2" [sortable]="false" [resizeable]="false"  name="Observación" [sortable]="false"  prop="work"></ngx-datatable-column>
+    <ngx-datatable-column  [flexGrow]="2" [sortable]="false" [resizeable]="false"  name="Check" [sortable]="false"  prop="check">
+      <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+
+    <div class="statusLabel" *ngIf="value==='No'">
+      <img src="././assets/images/cancel.png" width="10%">
+    </div>
+
+    <div *ngIf="value==='Si'">
+      <img src="././assets/images/checked.png" width="10%">
+    </div>
+       
+    </ng-template>
+    </ngx-datatable-column>
 
   </ngx-datatable>
 </app-card>

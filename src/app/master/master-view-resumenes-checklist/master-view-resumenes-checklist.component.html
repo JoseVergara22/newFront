@@ -2,7 +2,7 @@
 <div class="row">
 
   <div class="app-modal-header">
-    <h4 class="modal-title">Detalle Pendiente</h4>
+    <h4 class="modal-title">Detalle Rutina</h4>
   </div>
   <div class="col-sm-12">
     <app-card>
@@ -38,11 +38,11 @@
       <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
 
         <div class="statusLabel" *ngIf="value==2">
-          <img src="././assets/images/cancel.png" width="20%">
+          <img src="././assets/images/cancel.png" width="10%">
         </div>
 
         <div *ngIf="value==1">
-          <img src="././assets/images/checked.png" width="20%">
+          <img src="././assets/images/checked.png" width="10%">
         </div>
           
       </ng-template>

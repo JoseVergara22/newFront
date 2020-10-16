@@ -997,7 +997,7 @@ console.log('este es el e:'+ +JSON.stringify(e));
        this.sendEmailFinal();
        console.log('Solo para enviar el correo');
      }
-
+     this.emailCustomer='';
        console.log('este debe pasar este lado ps sssssssssssssss');
     }
 

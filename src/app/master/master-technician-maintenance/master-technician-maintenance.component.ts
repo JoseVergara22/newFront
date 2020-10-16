@@ -178,6 +178,7 @@ getFilters() {
 console.log(from_date);
 console.log(to_date);
 console.log(this.selectedTechnician);
+console.log(this.selectedBusinessId);
 
       params='from_date='+from_date+'&to_date='+to_date;
      
@@ -255,14 +256,23 @@ console.log(this.selectedTechnician);
 }
 
   viewResumenes(row: any){
-    if(row.type === "Correctivo"){
+    if(row.type === "CORRECTIVO"){
       this.router.navigateByUrl('maintenance/viewCorrective/'+row.id);
     }
-    if(row.type === "Checklist"){
+    if(row.type === "CHECKLIST"){
       this.router.navigateByUrl('maintenance/viewChecklist/'+row.id);
     }
-    if(row.type === "Preventivo"){
+    if(row.type === "PREVENTIVO"){
       this.router.navigateByUrl('maintenance/viewPreventive/'+row.id);
+    }
+    if(row.type === "PLATAFORMA"){
+      this.router.navigateByUrl('maintenance/viewPlatform/'+row.id);
+    }
+    if(row.type === "ESTIBADORES"){
+      this.router.navigateByUrl('maintenance/viewStevedore/'+row.id);
+    }
+    if(row.type === "REPORTE TÉCNICO"){
+      this.router.navigateByUrl('maintenance/updateForkliftReport/'+row.id);
     }
 }
 

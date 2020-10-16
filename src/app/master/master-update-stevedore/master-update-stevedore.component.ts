@@ -358,7 +358,7 @@ export class MasterUpdateStevedoreComponent implements OnInit {
         this.routineObservationUpdate=this.headerInfo.observation;
           this.getWorkDetails(this.stevedorId);
         }else{
-          this.generalAlert("ha ocurrido un herror","Ya existe una rutina con este nombre","error");
+          this.generalAlert("Ha ocurrido un herror","Ya existe una rutina con este nombre","error");
         }
       }).catch(err=>{
         console.log(err);

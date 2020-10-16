@@ -99,6 +99,10 @@ import { MasterUpdateTechnicianForkliftReportComponent } from './master-update-t
 import { MasterPlataformTechnicanComponent } from './master-plataform-technican/master-plataform-technican.component';
 import { MasterStevedoreTechnicanComponent } from './master-stevedore-technican/master-stevedore-technican.component';
 import { MasterTechnicianForkliftReportComponent } from './master-technician-forklift-report/master-technician-forklift-report.component';
+import { MasterViewResumenesStevedoreComponent } from './master-view-resumenes-stevedore/master-view-resumenes-stevedore.component';
+import { MasterViewResumenesPlatformComponent } from './master-view-resumenes-platform/master-view-resumenes-platform.component';
+
+
 
 
 
@@ -245,6 +249,9 @@ import {AutocompleteLibModule} from 'angular-ng-autocomplete';
     MasterUpdateTechnicianForkliftReportComponent,
     MasterStevedoreTechnicanComponent,
     MasterPlataformTechnicanComponent,
+    MasterViewResumenesStevedoreComponent,
+    MasterViewResumenesPlatformComponent,
+
 
 
    // MasterAdminComponent

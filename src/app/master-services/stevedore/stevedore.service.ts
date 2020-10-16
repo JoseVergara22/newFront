@@ -135,7 +135,7 @@ export class StevedoreService {
         survey:survey,
         firm:firm
       }
-      
+      console.log(patchParams);
       this.http.patch(this.apiEndPoint+'api/stevedore_update/'+id, patchParams,httpOptions)
       .map(res => res).subscribe(data => {
         console.log("a mostrar data");

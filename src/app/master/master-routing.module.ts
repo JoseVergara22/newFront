@@ -86,6 +86,10 @@ import { MasterRegisterTechnicianForkliftReportComponent } from './master-regist
 import { MasterUpdateTechnicianForkliftReportComponent } from './master-update-technician-forklift-report/master-update-technician-forklift-report.component';
 import { MasterPlataformTechnicanComponent } from './master-plataform-technican/master-plataform-technican.component';
 import { MasterStevedoreTechnicanComponent } from './master-stevedore-technican/master-stevedore-technican.component';
+import { MasterViewResumenesStevedoreComponent } from './master-view-resumenes-stevedore/master-view-resumenes-stevedore.component';
+import { MasterViewResumenesPlatformComponent } from './master-view-resumenes-platform/master-view-resumenes-platform.component';
+
+
 
 
 
@@ -387,6 +391,12 @@ const routes: Routes = [
   },{
     path:'stevedoreTechinician',
     component: MasterStevedoreTechnicanComponent
+  },{
+    path:'viewPlatform/:id',
+    component: MasterViewResumenesPlatformComponent
+  },{
+    path:'viewStevedore/:id',
+    component: MasterViewResumenesStevedoreComponent
   }
  
 ];

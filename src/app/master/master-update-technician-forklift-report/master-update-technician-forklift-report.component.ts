@@ -284,8 +284,7 @@ export class MasterUpdateTechnicianForkliftReportComponent implements OnInit {
 
   sendUpdatePart(part: any){
     console.log(part);
-    if((this.selectedRegionalId==0) || (this.selectedBusinessId==0) || (this.selectedBranchOfficeId==0)
-    || (this.selectedForkliftId==0)) {
+    if(part.work != null) {
       swal({
         title: 'Obteniendo información ...',
         allowOutsideClick: false
@@ -307,7 +306,7 @@ export class MasterUpdateTechnicianForkliftReportComponent implements OnInit {
         this.generalAlert("Ha ocurrido un error.","Ocurrio un error durante la ecución","error");
       });
     }else{
-      this.generalAlert("Ha ocurrido un error.","Debe seleccionar el item  diigenciar","error");
+      this.generalAlert("Ha ocurrido un error.","Debe diigenciar el item","error");
     }
   }
 
