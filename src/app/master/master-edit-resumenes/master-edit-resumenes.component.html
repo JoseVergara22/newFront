@@ -262,16 +262,16 @@
     <app-card>
       <button type="button " style="display: none;" id="showChecklists" class="btn btn-primary m-b-0 " (click)="modalAssingChecklist.show()" >Crear</button>
     
-      <h5>Contizaciones</h5>
-      <ngx-datatable #table class="data-table" [rows]="rowStevedore"   [columnMode]="'flex'" [headerHeight]="50" [footerHeight]="50" [rowHeight]="'auto'" [limit]="20">
+      <h5>Cotizaciones</h5>
+      <ngx-datatable #table class="data-table" [rows]="rowEstimate"   [columnMode]="'flex'" [headerHeight]="50" [footerHeight]="50" [rowHeight]="'auto'" [limit]="20">
 
-        <ngx-datatable-column  [flexGrow]="2" [sortable]="false" [resizeable]="false"  name="Cliente" [sortable]="false"  prop="date"></ngx-datatable-column>
-        <ngx-datatable-column  [flexGrow]="2" [sortable]="false" [resizeable]="false"  name="Sede" [sortable]="false"  prop="descritionReport"></ngx-datatable-column>
-        <ngx-datatable-column  [flexGrow]="2" [sortable]="false" [resizeable]="false"  name="Total" [sortable]="false"  prop="descritionReport"></ngx-datatable-column>
+        <ngx-datatable-column  [flexGrow]="2" [sortable]="false" [resizeable]="false"  name="Cliente" [sortable]="false"  prop="business_name"></ngx-datatable-column>
+        <ngx-datatable-column  [flexGrow]="2" [sortable]="false" [resizeable]="false"  name="Sede" [sortable]="false"  prop="branch_name"></ngx-datatable-column>
+        <ngx-datatable-column  [flexGrow]="2" [sortable]="false" [resizeable]="false"  name="Total" [sortable]="false"  prop="total"></ngx-datatable-column>
         <ngx-datatable-column  [flexGrow]="2" name="Ver" [sortable]="false"  sortable="false" prop="estimate_consecutive">
         <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
 
-          <label (click)="showRoutineReport(row)"class="link">{{value}}</label>
+          <label (click)="showEstimate(row)"class="link">{{value}}</label>
          
         </ng-template>
         </ngx-datatable-column>

@@ -177,6 +177,29 @@ export class ResumenesService {
         });
     });
   }
+  getEstimateLast(id:number){
+    console.log(id);
+    return new Promise(resolve => {
+      const httpOptions = {
+        headers: new HttpHeaders({
+          'Content-Type':  'application/json',
+          'Authorization': 'Bearer ' + localStorage.getItem('token_user'),
+          'Accept': 'application/json'
+        })
+      };
+      
+      this.http.get(this.apiEndPoint+'api/show_estimate_last_general/'+id, httpOptions)
+      .map(res => res).subscribe(data => {
+        console.log("a mostrar data");
+      console.log(data);
+      resolve(data);
+      }, error => {
+        console.log("error en servicio");
+        console.log(error);
+                resolve(error);
+        });
+    });
+  }
 
   getWorkForkliftPreventiveLasteneral(id:number){
     console.log(id);
@@ -214,6 +237,29 @@ export class ResumenesService {
       };
       console.log('from_date='+fromdate+'&to_date='+to_date);
       this.http.get(this.apiEndPoint+'api/show_preventive_filter/'+id+'?from_date='+fromdate+'&to_date='+to_date, httpOptions)
+      .map(res => res).subscribe(data => {
+        console.log("a mostrar data");
+      console.log(data);
+      resolve(data);
+      }, error => {
+        console.log("error en servicio");
+        console.log(error);
+                resolve(error);
+        });
+    });
+  }
+  getEstimateFilter(id:number,fromdate:string,to_date:string){
+    console.log(id);
+    return new Promise(resolve => {
+      const httpOptions = {
+        headers: new HttpHeaders({
+          'Content-Type':  'application/json',
+          'Authorization': 'Bearer ' + localStorage.getItem('token_user'),
+          'Accept': 'application/json'
+        })
+      };
+      console.log('from_date='+fromdate+'&to_date='+to_date);
+      this.http.get(this.apiEndPoint+'api/show_estimate_filter_general/'+id+'?from_date='+fromdate+'&to_date='+to_date, httpOptions)
       .map(res => res).subscribe(data => {
         console.log("a mostrar data");
       console.log(data);

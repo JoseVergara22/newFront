@@ -99,6 +99,7 @@ export class MasterEditResumenesComponent extends NgbDatepickerI18n {
   currentCorrective: any;
   currentPlatform: any;
   currentStevedore: any;
+  currentEstimate: any;
 
   selectedMinutChecklist: any= 0;
   selectedHourChecklist: any= 0;
@@ -118,6 +119,7 @@ export class MasterEditResumenesComponent extends NgbDatepickerI18n {
   rowPlatform: any;
   rowStevedore: any;
   rowReport: any;
+  rowEstimate: any;
   
   constructor(private restService: RestService, private resumenesService: ResumenesService, private router: Router, 
     private forkliftService: ForkliftService, private _i18n: I18n, private calendar: NgbCalendar, public formatter: NgbDateParserFormatter,
@@ -173,6 +175,7 @@ export class MasterEditResumenesComponent extends NgbDatepickerI18n {
         this.getStevedoreRoutinesLast();
         this.getPlatformRoutinesLast();
         this.getReportTechnicianLast();
+        this.getEstimateLast();
         }).catch(error => {
           console.log(error);
         });
@@ -367,6 +370,9 @@ export class MasterEditResumenesComponent extends NgbDatepickerI18n {
     }
     showRoutineReport(row: any){
       this.router.navigateByUrl('maintenance/updateForkliftReport/'+row.id);
+    }
+    showEstimate(row: any){
+      this.router.navigateByUrl('maintenance/estimateCustomerUpdate/'+row.id);
     }
 
 
@@ -932,7 +938,28 @@ export class MasterEditResumenesComponent extends NgbDatepickerI18n {
     }).catch(error => {
       console.log(error);
     });
-  
+  }
+
+  getEstimateLast(){
+    // Llenar información de cliente  
+    this.resumenesService.getEstimateLast(this.forkliftId).then(data => {
+      const resp: any = data;
+      console.log(data);
+      swal.close();
+      this.currentEstimate  = resp.data;
+      this.rowEstimate  = this.currentEstimate;
+      console.log(this.rowEstimate);
+      // for(let result of this.rowsClient){
+      //   console.log(result.result.corrective.id);
+        
+      //   this.getPendingCorrective(result.result.corrective.id);
+      // }
+      // this.getForkliftChecklistLastGeneral();
+      // this.getForkliftChecklistLast();
+
+    }).catch(error => {
+      console.log(error);
+    });
   }
 
   getCorrectiveRoutinesFilter(fromdate:string, to_date:string){
@@ -1008,6 +1035,27 @@ export class MasterEditResumenesComponent extends NgbDatepickerI18n {
       this.currentStevedore  = resp.data;
       this.rowStevedore  = this.currentStevedore;
       console.log(this.rowStevedore);
+      // for(let result of this.rowsClient){
+      //   console.log(result.result.corrective.id);
+        
+      //   this.getPendingCorrective(result.result.corrective.id);
+      // }
+
+    }).catch(error => {
+      console.log(error);
+    });
+  
+  }
+
+  getEstimateFilter(fromdate:string, to_date:string){
+    // Llenar información de cliente  
+    this.resumenesService.getEstimateFilter(this.forkliftId,fromdate,to_date).then(data => {
+      const resp: any = data;
+      console.log(data);
+      swal.close();
+      this.currentEstimate  = resp.data;
+      this.rowEstimate  = this.currentEstimate;
+      console.log(this.rowEstimate);
       // for(let result of this.rowsClient){
       //   console.log(result.result.corrective.id);
         
