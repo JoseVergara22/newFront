@@ -62,11 +62,7 @@ const MENUITEMS = [
           {
             state: 'customers',
             name: 'Administrar Clientes'
-          },   
-          {
-            state: 'technicianReport',
-            name: 'Administrar Reporte Técnico'
-          },   
+          },     
           {
             state: 'regionalsAll',
             name: 'Administrar Sucursales'
@@ -138,8 +134,12 @@ const MENUITEMS = [
             name: 'Administrar Montacargas'
           },
           {
+            state: 'technicianReport',
+            name: 'Administrar Reporte Técnico'
+          }, 
+          {
             state: 'registerForkliftReport',
-            name: 'Diligenciar Reporte de Técnico'
+            name: 'Diligenciar Reporte Técnico'
           },
           // {
           //   state: 'forkliftReport',
@@ -476,7 +476,11 @@ const MENUCREATOR = [
           {
             state: 'correctiveMaintenance',
             name:  'Asignar Mantenimiento Correctivo'
-          },  
+          },          
+          {
+            state: 'registerForkliftReport',
+            name: 'Diligenciar Reporte Técnico'
+          },
           {
             state: 'checklistMaintenance',
             name:  'Asignar Asignación Checklist'
@@ -486,16 +490,20 @@ const MENUCREATOR = [
             name:'Administrar Rutinas Preventivas'
           },  
           {
+            state:'checklists',
+            name: 'Administrar Mantenimientos Checklist'
+          },
+          {
+            state: 'technicianReport',
+            name: 'Administrar Reporte Técnico'
+          }, 
+          {
             state:'platforms',
             name: 'Administrar Mantenimientos Plataformas'
           },
           {
             state:'stevedores',
             name: 'Administrar Mantenimientos Estibadores'
-          },
-          {
-            state:'checklists',
-            name: 'Administrar Mantenimientos Checklist'
           },
           {
             state:'question',
@@ -511,8 +519,7 @@ const MENUCREATOR = [
             state:'work_dashboard',
             name:'Administrar rutinas'
           },*/
-          
-         
+           
           {
             state: 'registerBrand',
             name: 'Administrar Marcas'
