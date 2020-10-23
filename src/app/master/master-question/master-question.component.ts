@@ -129,6 +129,7 @@ export class MasterQuestionComponent implements OnInit {
            this.myFormUpdate.get('descriptionUpdate').setValue(this.currentQuestion.description);
            this.getAnswer(this.idQuestion);
            document.getElementById('updateReg').click();
+           this.myForm.reset();
   
      swal({
       title: 'Pregunta agregada',
@@ -290,7 +291,7 @@ export class MasterQuestionComponent implements OnInit {
             });
          } else {
            this.idAnswer = resp.data.id;
-           
+           this.myFormAnswer.reset();
            console.log('Cambio');
            this.getAnswer(this.currentQuestion.id);
            document.getElementById('createAnswerHide').click();

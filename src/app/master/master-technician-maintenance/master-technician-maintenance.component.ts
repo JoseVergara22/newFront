@@ -67,6 +67,7 @@ export class MasterTechnicianMaintenanceComponent extends NgbDatepickerI18n {
 
     this.getRegional();
     this.getUser();
+    this.getFilters();
   }
 
   

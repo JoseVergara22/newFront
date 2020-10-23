@@ -417,6 +417,49 @@ uploadAll(){
 
 }
 
+normalize(element: string) {
+  var from = "ÃÀÁÄÂÈÉËÊÌÍÏÎÒÓÖÔÙÚÜÛãàáäâèéëêìíïîòóöôùúüûÑñÇç", 
+      to   = "AAAAAEEEEIIIIOOOOUUUUaaaaaeeeeiiiioooouuuunncc",
+      mapping = {};
+ 
+  for(var i = 0, j = from.length; i < j; i++ )
+      mapping[ from.charAt( i ) ] = to.charAt( i );
+ 
+  return function( str ) {
+      var ret = [];
+      for( var i = 0, j = str.length; i < j; i++ ) {
+          var c = str.charAt( i );
+          if( mapping.hasOwnProperty( str.charAt( i ) ) )
+              ret.push( mapping[ c ] );
+          else
+              ret.push( c );
+      }      
+      return ret.join( '' );
+  }
+}
+
+normalizes = (function() {
+  var from = "ÃÀÁÄÂÈÉËÊÌÍÏÎÒÓÖÔÙÚÜÛãàáäâèéëêìíïîòóöôùúüûÑñÇç#+*%&!¡¿?", 
+      to   = "AAAAAEEEEIIIIOOOOUUUUaaaaaeeeeiiiioooouuuunncc",
+      mapping = {};
+ 
+  for(var i = 0, j = from.length; i < j; i++ )
+      mapping[ from.charAt( i ) ] = to.charAt( i );
+ 
+  return function( str ) {
+      var ret = [];
+      for( var i = 0, j = str.length; i < j; i++ ) {
+          var c = str.charAt( i );
+          if( mapping.hasOwnProperty( str.charAt( i ) ) )
+              ret.push( mapping[ c ] );
+          else
+              ret.push( c );
+      }      
+      return ret.join( '' );
+  }
+ 
+})();
+
 uploadFiles() {
   for (let fileCurrent of this.selectedFiles) {
   const file = fileCurrent[0];
@@ -425,7 +468,7 @@ uploadFiles() {
  // console.log(uuid);
   console.log(file.name + '.' + file.type);
 
-  let nameTemp= this.removeAccents(file.name.replace(/\s/g,""));
+  let nameTemp= this.removeAccents(this.normalizes(file.name.replace(/\s/g,"")));
   const extension = (file.name.substring(file.name.lastIndexOf('.'))).toLowerCase();
   console.log(extension);
   this.uploadService.uploadFilesAllReport(file,this.headerId,nameTemp).then(res=>{

@@ -83,6 +83,8 @@ export class MasterRegionalsComponent implements OnInit {
     console.log( this.currentRegional );
     this.myFormUpdate.get('descriptionUpdate').setValue(row.description);
     this.myFormUpdate.get('codeUpdate').setValue(row.code);
+    this.myFormUpdate.get('nameUpdate').setValue(row.name);
+    this.myFormUpdate.get('emailUpdate').setValue(row.email);
       this.enabledUpdated = true;
     
     document.getElementById( 'updateReg').click();
