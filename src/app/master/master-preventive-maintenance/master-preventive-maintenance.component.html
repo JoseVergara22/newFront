@@ -51,9 +51,10 @@
             <div class="col-4" >
               
               <button type="button" style="display:none;" id="showUpdatePreventive" (click)="modalUpdatePreventive.show()" class="btn btn-primary waves-effect">Checkear</button>
+              <button type="button" style="display:none;" id="showUpdatePreventiveMassive" (click)="modalUpdatePreventiveMassive.show()" class="btn btn-primary waves-effect">Checkear</button>
                 <br>
               <button class="btn btn-primary" (click)="getPreventiveRoutines()"><i class="icofont icofont-search" ></i>Buscar</button>&nbsp; 
-              <!-- &nbsp;&nbsp;&nbsp;<button  class="btn btn-primary" (click)="showAssingMassive()" >Asignar Masivamente</button> -->
+              &nbsp;&nbsp;&nbsp;<button  class="btn btn-primary" (click)="showAssingMassive()" >Asignar Masivamente</button>
 
 
             </div>&nbsp; 
@@ -85,7 +86,21 @@
             </ngx-datatable-column>
           </ngx-datatable>
 
-      </app-card>      
+      </app-card>    
+      <app-card title="Mantenimiento Preventivo Masivo">
+        <ngx-datatable #table class="data-table" [rows]="currentMassive"   [columnMode]="'flex'" [headerHeight]="50" [footerHeight]="50" [rowHeight]="'auto'" [limit]="20">
+
+          <ngx-datatable-column  [flexGrow]="2" [sortable]="false" [resizeable]="false"  name="Descricción " [sortable]="false"  prop="description"></ngx-datatable-column>
+          <ngx-datatable-column  [flexGrow]="2" name="Ver" [sortable]="false"  sortable="false" prop="id">
+          <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+  
+            <button (click)="getDetailMassive(row)" (click)="getConsecutive();"  class="btn btn-primary btn-icon"><i class="icofont icofont-pencil-alt-5"></i></button>
+            <button (click)="deleteMassiveDescription(row)" class="btn btn-danger btn-icon"><i class="icofont icofont-ui-delete"></i></button>
+         
+          </ng-template>
+          </ngx-datatable-column>
+        </ngx-datatable>
+      </app-card>  
   </div>
 </div>
 
@@ -258,6 +273,12 @@
   <div class="app-modal-body">
     
     <div class="form-group row">
+      <div class="col-sm-8">
+        <h6>Descripción de la rutina masiva</h6>
+        <input type="text" [(ngModel)]="massiveDescrition" class="form-control" placeholder="Descricción">
+      </div>
+    </div>
+    <div class="form-group row">
 
         <div class="col-4">
           <h6>Fecha de asignación</h6>
@@ -372,9 +393,10 @@
           </div>
         </div >
         <br>
+        <br>
         <div class="col-2">
           <div class="align-buttons">
-            <button type="button " class="btn btn-primary m-b-0 ">Agregar</button>
+            <button type="button " class="btn btn-primary m-b-0 " (click)="insertMassiveDate()">Agregar</button>
           </div>
         </div>
         <!-- <br>  (click)="insertMassiveDate()" -->
@@ -423,7 +445,7 @@
             <div class="align-buttons">
               <button type="button" class="btn btn-default waves-effect" id="cancel" (click)="addCancelDateMassive()">Cancelar</button>
               <button type="button" style="display: none;" class="btn btn-default waves-effect" id="assignPrevetiveHideMassive" (click)="modalAssingPreventiveMassive.hide()">Cancelar</button>
-              <button type="submit " class="btn btn-primary m-b-0 " (click)="createPreventiveMassive()" >Guardar</button>
+              <button type="submit " class="btn btn-primary m-b-0 " (click)="createDescritionMassive()" >Guardar</button>
             </div>
       </div>          
 </app-modal-basic>
@@ -436,55 +458,31 @@
   <div class="app-modal-body">
     
     <div class="form-group row">
+      <div class="col-sm-8">
+        <h6>Descripción de la rutina masiva</h6>
+        <input type="text" [(ngModel)]="massiveDescritionUpdate" class="form-control" placeholder="Descricción">
+      </div>
+    </div>
+    <div class="form-group row">
 
-        <div class="col-4">
-          <h6>Fecha de asignación</h6>
-          <div class="input-group" dir="ltr">
-            <input class="form-control" placeholder="dd-mm-yyyy"   [readonly]="true" 
-                     name="ud" [(ngModel)]="untilDate" ngbDatepicker  #dUntil="ngbDatepicker"    (dateSelect)="onDateSelectionUntil($event)">
-                <button type="button"  class="btn btn-primary waves-effect"  (click)="dUntil.toggle()"><i class="icofont icofont-ui-calendar"></i></button>
-           </div>
+      <div class="col-4">
+        <h6>Fecha de asignación</h6>
+        <div class="input-group" dir="ltr">
+          <input class="form-control" placeholder="dd-mm-yyyy"   [readonly]="true" 
+                name="fd" [(ngModel)]="fromDate" ngbDatepicker  #dFrom="ngbDatepicker"    (dateSelect)="onDateSelectionFrom($event)">
+            <button type="button"  class="btn btn-primary waves-effect"  (click)="dFrom.toggle()"><i class="icofont icofont-ui-calendar"></i></button>
         </div>
-        <div class="col-8">
+      </div>
+      <div class="col-6">
 
-          <h6>Horas de asignación</h6>
-          <div class="row">
-            <div class="col-5">
-              <select class="form-control"   [(ngModel)]="selectedHourUpdatePreventive">
-                <option value="0">00</option>
-                <option value="1">01</option>
-                <option value="2">02</option>
-                <option value="3">03</option>
-                <option value="4">04</option>
-                <option value="5">05</option>
-                <option value="6">06</option>
-                <option value="7">07</option>
-                <option value="8">08</option>
-                <option value="9">09</option>
-                <option value="10">10</option>
-                <option value="11">11</option>
-                <option value="12">12</option>
-                <option value="13">13</option>
-                <option value="14">14</option>
-                <option value="15">15</option>
-                <option value="16">16</option>
-                <option value="17">17</option>
-                <option value="18">18</option>
-                <option value="19">19</option>
-                <option value="20">20</option>
-                <option value="21">21</option>
-                <option value="22">22</option>
-                <option value="23">23</option>
-                <option value="24">24</option>
-              </select>
-            </div>
-          <div><strong>:</strong></div>
-          <div class="col-5">
-            <select class="form-control"   [(ngModel)]="selectedMinutUpdatePreventive">
-              <option value="0">00</option>
-              <option value="1">01</option>
-              <option value="2">02</option>
-              <option value="3">03</option>
+        <h6>Horas de asignación</h6>
+        <div class="row">
+          <div class="col-4">
+            <select class="form-control"   [(ngModel)]="selectedHourPreventive">
+              <option value="0">00 </option>
+              <option value="1">01 </option>
+              <option value="2">02 </option>
+              <option value="3">03 </option>
               <option value="4">04</option>
               <option value="5">05</option>
               <option value="6">06</option>
@@ -506,47 +504,99 @@
               <option value="22">22</option>
               <option value="23">23</option>
               <option value="24">24</option>
-              <option value="25">25</option>
-              <option value="26">26</option>
-              <option value="27">27</option>
-              <option value="28">28</option>
-              <option value="29">29</option>
-              <option value="30">30</option>
-              <option value="31">31</option>
-              <option value="32">32</option>
-              <option value="33">33</option>
-              <option value="34">34</option>
-              <option value="35">35</option>
-              <option value="36">36</option>
-              <option value="37">37</option>
-              <option value="38">38</option>
-              <option value="39">39</option>
-              <option value="40">40</option>
-              <option value="41">41</option>
-              <option value="42">42</option>
-              <option value="43">43</option>
-              <option value="44">44</option>
-              <option value="45">45</option>
-              <option value="46">46</option>
-              <option value="47">47</option>
-              <option value="48">48</option>
-              <option value="49">49</option>
-              <option value="50">50</option>
-              <option value="51">51</option>
-              <option value="52">52</option>
-              <option value="53">53</option>
-              <option value="54">54</option>
-              <option value="55">55</option>
-              <option value="56">56</option>
-              <option value="57">57</option>
-              <option value="58">58</option>
-              <option value="59">59</option>
             </select>
           </div>
+          <div><strong>:</strong></div>
+          <div class="col-4">
+            <select class="form-control"   [(ngModel)]="selectedMinutPreventive">
+              <option value="0">00</option>
+            <option value="1">01</option>
+            <option value="2">02</option>
+            <option value="3">03</option>
+            <option value="4">04</option>
+            <option value="5">05</option>
+            <option value="6">06</option>
+            <option value="7">07</option>
+            <option value="8">08</option>
+            <option value="9">09</option>
+            <option value="10">10</option>
+            <option value="11">11</option>
+            <option value="12">12</option>
+            <option value="13">13</option>
+            <option value="14">14</option>
+            <option value="15">15</option>
+            <option value="16">16</option>
+            <option value="17">17</option>
+            <option value="18">18</option>
+            <option value="19">19</option>
+            <option value="20">20</option>
+            <option value="21">21</option>
+            <option value="22">22</option>
+            <option value="23">23</option>
+            <option value="24">24</option>
+            <option value="25">25</option>
+            <option value="26">26</option>
+            <option value="27">27</option>
+            <option value="28">28</option>
+            <option value="29">29</option>
+            <option value="30">30</option>
+            <option value="31">31</option>
+            <option value="32">32</option>
+            <option value="33">33</option>
+            <option value="34">34</option>
+            <option value="35">35</option>
+            <option value="36">36</option>
+            <option value="37">37</option>
+            <option value="38">38</option>
+            <option value="39">39</option>
+            <option value="40">40</option>
+            <option value="41">41</option>
+            <option value="42">42</option>
+            <option value="43">43</option>
+            <option value="44">44</option>
+            <option value="45">45</option>
+            <option value="46">46</option>
+            <option value="47">47</option>
+            <option value="48">48</option>
+            <option value="49">49</option>
+            <option value="50">50</option>
+            <option value="51">51</option>
+            <option value="52">52</option>
+            <option value="53">53</option>
+            <option value="54">54</option>
+            <option value="55">55</option>
+            <option value="56">56</option>
+            <option value="57">57</option>
+            <option value="58">58</option>
+            <option value="59">59</option>
+            </select>
+  
+          </div>
+          
+          <br>
+          
+        </div>
+      </div >
+      <br>
+      <br>
+      <div class="col-2">
+        <div class="align-buttons">
+          <button type="button " class="btn btn-primary m-b-0 " (click)="insertMassiveDate()">Agregar</button>
         </div>
       </div>
+      <!-- <br>  (click)="insertMassiveDate()" -->
+        
 
-    </div>
+  </div>
+    <div class="form-group row align-buttons" >
+      <!-- <div  > -->
+        <div class="col-3" *ngFor="let item of dateSelecteds;  let i=index">
+          <input type="text" class="form-control" value={{item}} disabled>
+          <button class="align-buttons" (click)="deleteMassive(item,i)" class="btn btn-danger btn-icon"><i class="icofont icofont-ui-delete"></i></button>
+          
+        </div>
+
+      </div>
 
           <div class="form-group row">
   
@@ -575,9 +625,9 @@
           <br>
           <br>
             <div class="align-buttons">
-              <button type="button" class="btn btn-default waves-effect" id="cancel" (click)="addCancelUpdateDate()">Cancelar</button>
-              <button type="button" style="display: none;" class="btn btn-default waves-effect" id="assingUpdatePrevetiveHide" (click)="modalUpdatePreventive.hide()">Cancelar</button>
-              <button type="submit " class="btn btn-primary m-b-0 " (click)="updatePreventive()" >Guardar</button>
+              <button type="button" class="btn btn-default waves-effect" id="cancel" (click)="addCancelUpdateDateMassive()">Cancelar</button>
+              <button type="button" style="display: none;" class="btn btn-default waves-effect" id="assingUpdatePrevetiveHideMassive" (click)="modalUpdatePreventiveMassive.hide()">Cancelar</button>
+              <button type="submit " class="btn btn-primary m-b-0 " (click)="updateDescritionMassive()" >Guardar</button>
             </div>
       </div>          
 </app-modal-basic>

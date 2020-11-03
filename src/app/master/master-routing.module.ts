@@ -88,6 +88,7 @@ import { MasterPlataformTechnicanComponent } from './master-plataform-technican/
 import { MasterStevedoreTechnicanComponent } from './master-stevedore-technican/master-stevedore-technican.component';
 import { MasterViewResumenesStevedoreComponent } from './master-view-resumenes-stevedore/master-view-resumenes-stevedore.component';
 import { MasterViewResumenesPlatformComponent } from './master-view-resumenes-platform/master-view-resumenes-platform.component';
+import { MasterPersonalMonitoringComponent } from './master-personal-monitoring/master-personal-monitoring.component';
 
 
 
@@ -397,6 +398,9 @@ const routes: Routes = [
   },{
     path:'viewStevedore/:id',
     component: MasterViewResumenesStevedoreComponent
+  },{
+    path:'personalMonitoring',
+    component: MasterPersonalMonitoringComponent
   }
  
 ];

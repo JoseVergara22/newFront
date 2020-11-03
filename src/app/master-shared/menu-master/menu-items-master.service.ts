@@ -60,6 +60,10 @@ const MENUITEMS = [
         icon: 'ti-direction',
         children: [
           {
+            state: 'personalMonitoring',
+            name: 'Monitoreo Personal'
+          },     
+          {
             state: 'customers',
             name: 'Administrar Clientes'
           },     

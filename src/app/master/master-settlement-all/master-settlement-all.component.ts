@@ -562,7 +562,7 @@ getCities() {
  this.nameCustomer = item.customer.business_name;
  this.cellphone =   item.telephone;
 
- if( this.forkliftText){
+ if(item.forklift_text){
    this.forkliftText = item.forklift_text;
  }else{
    this.forkliftText = '';

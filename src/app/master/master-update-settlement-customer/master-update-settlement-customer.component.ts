@@ -3274,6 +3274,8 @@ getSettlementSpecific(id:number) {
     if(this.currentSettlement.forklift){
       this.selectedForkliftId = this.currentSettlement.forklift_id; //this.currentSettlement.forklift_id;
       this.forkliftText= this.currentSettlement.forklift_text;
+    }else{
+      this.forkliftText= this.currentSettlement.forklift_text;
     }
     if(this.currentSettlement.regional.hide_fileds == 1){
       this.hideFileds = 1;
@@ -5068,9 +5070,9 @@ deleteEmail(id:number){
     let numberEstimateTemp= this.numberEstimate;
     let branchOfficeTemp= this.selectedBranchOfficeId;
     let selectedForkliftIdTemp = this.selectedForkliftId;
-    let forkliftTextTemp=  this. forkliftText;
+    let forkliftTextTemp=  this.forkliftText;
 
-    console.log();
+    console.log(forkliftTextTemp);
 
     this.settlementService.updateSettlement(this.settlementId, customerIdTemp,documentCustomerTemp,
       idDepartmentTemp, selectedCityTemp, contactTemp, cellphoneTemp, observationTemp, selectedRegionalIdTemp,
@@ -5080,6 +5082,7 @@ deleteEmail(id:number){
       swal.close();
       console.log('dataUpdate '+JSON.stringify(data));
       const resp: any = data;
+      console.log(resp.data);
       this.settlementId= resp.data.id;
       this.showSettlementId = false;
       this.showCreateItem = true;

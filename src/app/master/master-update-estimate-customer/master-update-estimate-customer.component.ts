@@ -427,6 +427,8 @@ export class MasterUpdateEstimateCustomerComponent implements OnInit {
         this.selectedForkliftId = this.currentEstimate.forklift_id; //this.currentEstimate.forklift_id;
         this.forkliftText= this.currentEstimate.forklift_text;
         console.log('Ingreso asigno id '+  this.selectedForkliftId);
+      }else{
+        this.forkliftText= this.currentEstimate.forklift_text;
       }
 
       
