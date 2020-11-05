@@ -2170,7 +2170,7 @@ uploadImagesEstimate() {
   }
 }
  normalize = (function() {
-  var from = "ÃÀÁÄÂÈÉËÊÌÍÏÎÒÓÖÔÙÚÜÛãàáäâèéëêìíïîòóöôùúüûÑñÇç#+*%&!¡¿?", 
+  var from = "ÃÀÁÄÂÈÉËÊÌÍÏÎÒÓÖÔÙÚÜÛãàáäâèéëêìíïîòóöôùúüûÑñÇç#+*%&!¡¿?|¬", 
       to   = "AAAAAEEEEIIIIOOOOUUUUaaaaaeeeeiiiioooouuuunncc",
       mapping = {};
  

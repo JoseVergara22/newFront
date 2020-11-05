@@ -788,26 +788,40 @@ console.log('este es el e:'+ +JSON.stringify(e));
         const resp: any = data;
         console.log('envio');
         console.log(resp);
-     
-         this.estimateService.updateEstimateStatus(
-          this.estimateCurrent.id, 1).then(data => {
-          const resp: any = data;
-          console.log('envio');
-          console.log(resp);
-          this.getEstimateFiltersInitial();
-          document.getElementById('emailDetailHide').click();
-          swal({
-            title: 'Correo enviado',
-            type: 'success'
-           });  
-           this.masterEmail='';
-           this.masterName='';
+      
+        if(resp.status == 200){
 
-           this.checkHideCode=false;
-         
-        }).catch(error => {
-          console.log(error);
+          console.log('no error');
+          console.log('Entro a cambiar estatus');
+          this.estimateService.updateEstimateStatus(
+            this.estimateCurrent.id, 1).then(data => {
+            const resp: any = data;
+            console.log('envio');
+            console.log(resp);
+            this.getEstimateFiltersInitial();
+            document.getElementById('emailDetailHide').click();
+            swal({
+              title: 'Correo enviado',
+              type: 'success'
+             });  
+             this.masterEmail='';
+             this.masterName='';
+  
+             this.checkHideCode=false;
+           
+          }).catch(error => {
+            console.log(error);
+          });
+  
+       }else{
+        console.log('error');
+        swal({
+         title: 'Error al enviar el correo',
+         text:'Por favor verificar que los archivos adjuntos no tengan caracteres especiales en los nombres',
+         type: 'error'
         });
+       }
+         
       }).catch(error => {
         console.log(error);
       });
@@ -820,23 +834,39 @@ console.log('este es el e:'+ +JSON.stringify(e));
         console.log('envio');
         console.log(resp);
      
-         this.estimateService.updateEstimateStatus(
-          this.estimateCurrent.id, 1).then(data => {
-          const resp: any = data;
-          console.log('envio');
-          console.log(resp);
-          this.getEstimateFiltersInitial();
-          document.getElementById('emailDetailHide').click();
-          swal({
-            title: 'Correo enviado',
-            type: 'success'
-           });  
-           this.masterEmail='';
-           this.masterName='';
-           this.checkHideCode=false;
-        }).catch(error => {
-          console.log(error);
+         
+        if(resp.status == 200){
+
+          console.log('no error');
+          console.log('Entro a cambiar estatus');
+          this.estimateService.updateEstimateStatus(
+            this.estimateCurrent.id, 1).then(data => {
+            const resp: any = data;
+            console.log('envio');
+            console.log(resp);
+            this.getEstimateFiltersInitial();
+            document.getElementById('emailDetailHide').click();
+            swal({
+              title: 'Correo enviado',
+              type: 'success'
+             });  
+             this.masterEmail='';
+             this.masterName='';
+  
+             this.checkHideCode=false;
+           
+          }).catch(error => {
+            console.log(error);
+          });
+  
+       }else{
+        console.log('error');
+        swal({
+         title: 'Error al enviar el correo',
+         text:'Por favor verificar que los archivos adjuntos no tengan caracteres especiales en los nombres',
+         type: 'error'
         });
+       }
       }).catch(error => {
         console.log(error);
       });

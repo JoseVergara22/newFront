@@ -1190,7 +1190,7 @@ createScheduleSettlement(params: string) {
             console.log(data);
             resolve(data);
           }, error => {
-            console.log(error.error.error);
+            console.log(error);
             console.log(JSON.stringify(error));
             resolve(error);
           });

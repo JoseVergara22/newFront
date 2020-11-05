@@ -91,6 +91,32 @@ export class ResumenesService {
         });
     });
   }
+  storeMassiveChacklist(massive:string, forklift_id:any){
+    return new Promise(resolve => {
+      const httpOptions = {
+        headers: new HttpHeaders({
+          'Content-Type':  'application/json',
+          'Authorization': 'Bearer ' + localStorage.getItem('token_user'),
+          'Accept': 'application/json'
+        })
+      };
+      const postParams = {
+        massive: massive,
+        forklift_id: forklift_id
+      };
+      console.log(postParams);
+      
+      this.http.post(this.apiEndPoint+'api/create_checklist_massive', postParams, httpOptions)
+      .map(res => res).subscribe(data => {
+        console.log("a mostrar data");
+      console.log(data);
+      resolve(data);
+      }, error => {
+        console.log("error en servicio");
+                resolve(error);
+        });
+    });
+  }
 
   storePreventiveMassive(massive:number,id_forklift:number,customer_id:number,brach_id:number,id_rutines:string,technician_id: any, consecutive:number, date:string){
     return new Promise(resolve => {
@@ -114,6 +140,39 @@ export class ResumenesService {
       console.log(postParams);
       
       this.http.post(this.apiEndPoint+'api/store_rutine_preventive_massive', postParams, httpOptions)
+      .map(res => res).subscribe(data => {
+        console.log("a mostrar data");
+      console.log(data);
+      resolve(data);
+      }, error => {
+        console.log("error en servicio");
+                resolve(error);
+        });
+    });
+  }
+
+  storeChecklistMassive(massive:number,id_forklift:number,customer_id:number,brach_id:number,id_rutines:string,technician_id: any, consecutive:number, date:string){
+    return new Promise(resolve => {
+      const httpOptions = {
+        headers: new HttpHeaders({
+          'Content-Type':  'application/json',
+          'Authorization': 'Bearer ' + localStorage.getItem('token_user'),
+          'Accept': 'application/json'
+        })
+      };
+      const postParams = {
+        massive: massive,
+        forklift_id: id_forklift,
+        customer_id: customer_id,
+        branch_id: brach_id,
+        checklists: id_rutines,
+        technicians_id: technician_id,
+        consecutive: consecutive,
+        date: date
+      };
+      console.log(postParams);
+      
+      this.http.post(this.apiEndPoint+'api/create_forklift_checklist_massive', postParams, httpOptions)
       .map(res => res).subscribe(data => {
         console.log("a mostrar data");
       console.log(data);
@@ -224,6 +283,29 @@ export class ResumenesService {
       };
       
       this.http.get(this.apiEndPoint+'api/show_massive_description/'+id, httpOptions)
+      .map(res => res).subscribe(data => {
+        console.log("a mostrar data");
+      console.log(data);
+      resolve(data);
+      }, error => {
+        console.log("error en servicio");
+        console.log(error);
+                resolve(error);
+        });
+    });
+  }
+  getForkliftMassiveChecklist(id:number){
+    console.log(id);
+    return new Promise(resolve => {
+      const httpOptions = {
+        headers: new HttpHeaders({
+          'Content-Type':  'application/json',
+          'Authorization': 'Bearer ' + localStorage.getItem('token_user'),
+          'Accept': 'application/json'
+        })
+      };
+      
+      this.http.get(this.apiEndPoint+'api/show_checklist_massive/'+id, httpOptions)
       .map(res => res).subscribe(data => {
         console.log("a mostrar data");
       console.log(data);
@@ -857,6 +939,32 @@ export class ResumenesService {
         });
     });
   }
+  deleteChecklistMassive(id: number) {
+    console.log('ole ole ole');
+    console.log(id);
+
+    return new Promise(resolve => {
+      const headers = new HttpHeaders();
+      headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user'))); // 'Bearer ' +
+      headers.append('Content-Type', 'application/json');
+      const httpOptions = {
+        headers: new HttpHeaders({
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + localStorage.getItem('token_user'),
+          'Accept': 'application/json'
+        })
+      };
+      const postParams = {
+      };
+      console.log(id);
+      this.http.delete(this.apiEndPoint+'api/delete_checklist_massive/'+id, httpOptions)
+        .map(res => res).subscribe(data => {
+          resolve(data);
+        }, error => {
+          resolve(error);
+        });
+    });
+  }
 
   deleteRoutineMassiveDetail(massive: number) {
     console.log('ole ole ole');
@@ -877,6 +985,32 @@ export class ResumenesService {
       };
       console.log('massive='+massive);
       this.http.delete(this.apiEndPoint+'api/delete_massive_detail/'+massive, httpOptions)
+        .map(res => res).subscribe(data => {
+          resolve(data);
+        }, error => {
+          resolve(error);
+        });
+    });
+  }
+  deleteRoutineMassiveDetailChecklist(massive: number) {
+    console.log('ole ole ole');
+    console.log(massive);
+
+    return new Promise(resolve => {
+      const headers = new HttpHeaders();
+      headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user'))); // 'Bearer ' +
+      headers.append('Content-Type', 'application/json');
+      const httpOptions = {
+        headers: new HttpHeaders({
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + localStorage.getItem('token_user'),
+          'Accept': 'application/json'
+        })
+      };
+      const postParams = {
+      };
+      console.log('massive='+massive);
+      this.http.delete(this.apiEndPoint+'api/delete_checklist_massive_detail/'+massive, httpOptions)
         .map(res => res).subscribe(data => {
           resolve(data);
         }, error => {
@@ -993,6 +1127,27 @@ export class ResumenesService {
         })
       };
       this.http.get(this.apiEndPoint+'api/show_preventive_massive/'+id, httpOptions)
+        .map(res => res).subscribe(data => {
+          console.log(data);
+          resolve(data);
+        }, error => {
+          resolve(error);
+        });
+    });
+  }
+  showChecklistMassive(id:number) { // Falta implementar desde el backend
+    return new Promise(resolve => {
+      const headers = new HttpHeaders();
+      headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user'))); // 'Bearer ' +
+      headers.append('Content-Type', 'application/json');
+      const httpOptions = {
+        headers: new HttpHeaders({
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + localStorage.getItem('token_user'),
+          'Accept': 'application/json'
+        })
+      };
+      this.http.get(this.apiEndPoint+'api/show_checklist_massive_detail/'+id, httpOptions)
         .map(res => res).subscribe(data => {
           console.log(data);
           resolve(data);
