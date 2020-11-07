@@ -1100,6 +1100,8 @@ getCenterCost() {
     const resp: any = data;
     console.log(data);
     swal.close();
+    this.selectedCostCenterId = 0;
+    this.selectedWarehouseId = 0;
     this.costCenters  = resp.data_costcenters;
   }).catch(error => {
     console.log(error);
@@ -4997,7 +4999,8 @@ deleteEmail(id:number){
     
     // this.selectedBusinessId!=0 &&
     if(this.documentCustomer !== '' && this.nameCustomer !== '' && this.selectedDepartmentId != 0 && this.selectedCityId != 0 && this.selectedRegionalId != 0  && this.selectedCostCenterId !=0 && this.selectedWarehouseId!=0 && this.contact !== '' && this.cellphone !== ''){
-
+    console.log(this.selectedWarehouseId);
+    console.log(this.selectedCostCenterId);
       console.log('-- '+this.selectedCityId );
 
 

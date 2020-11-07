@@ -307,11 +307,6 @@ export class EstimateService {
           'Accept': 'application/json'
         })
       };
-    
-
-    
-
-
       console.log('id_user='+ idUser+'&id_customer='+idCustomer
       +'&id_estimate='+idEstimate+'&info='+info+'&comment='+comment+'&subject='+subject);
 

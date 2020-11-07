@@ -88,6 +88,40 @@ getActiviti(){
     });
   }
 
+  sendReportEmailAmazon( id_report:number, info:string,  comment: string, subject: string) {
+    return new Promise(resolve => {
+      const headers = new HttpHeaders();
+      headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user'))); // 'Bearer ' +
+      headers.append('Content-Type', 'application/json');
+      const httpOptions = {
+        headers: new HttpHeaders({
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + localStorage.getItem('token_user'),
+          'Accept': 'application/json'
+        })
+      };
+      console.log('id_report='+id_report+'&info='+info+'&comment='+comment+'&subject='+subject);
+
+     console.log(' ingreso al correo sobre el info'+info);
+
+      const postParams = {
+        id_report: id_report,
+        info: info,
+        subject:subject,
+        comment:comment
+      };
+
+     this.http.get(this.apiEndPoint+'api/send_email_teport?id_report='+id_report+'&info='+info+'&comment='+comment+'&subject='+subject,httpOptions)
+     // this.http.get(this.apiEndPoint+'api/send_amazon_mail?id_user=197&subject="Buen dia"&id_customer= 118&id_estimate= 277&info=jasoncv0294@gmail.com|eee|ycastrillon0294@gmail.com|lll&comment= "Oiga pues"',httpOptions)
+        .map(res => res).subscribe(data => {
+          console.log(data);
+          resolve(data);
+        }, error => {
+          resolve(error);
+        });
+    });
+  }
+
   
 updateActiviti(id:number, description:string, code:string){
   console.log("en servicio");

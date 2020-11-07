@@ -16,6 +16,13 @@ interface FileSettlementInterface {
 }
 
 
+interface emailFormat {// item para mostrar selccionados
+  email?: string;
+  contact?: string;
+}
+
+
+
 @Component({
   selector: 'app-master-update-technician-forklift-report',
   templateUrl: './master-update-technician-forklift-report.component.html',
@@ -26,6 +33,9 @@ export class MasterUpdateTechnicianForkliftReportComponent implements OnInit {
 
   selectedFiles: Array<File> = [];
   fileSettlement: FileSettlementInterface;
+
+  emailsSend: Array <emailFormat> = [];
+  emailSend:emailFormat;
 
 
 
@@ -67,6 +77,12 @@ export class MasterUpdateTechnicianForkliftReportComponent implements OnInit {
   showSaveFile=false;
 
   contFiles=0;
+
+  subject:any='';
+  masterEmail: any;
+  masterName: any;
+  emailCustomer: any = '';
+  comment:'';
   
   constructor(private restService: RestService, private personalServices:PersonalService, private router: Router, 
     private forkliftService: ForkliftService, private activatedRoute: ActivatedRoute, private uploadService: UploadService) {
@@ -534,6 +550,117 @@ onSelectFile(event) {
 removeAccents (str){
   return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
 } 
+
+validateEmail( email ) 
+  {
+      var regex = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+      return regex.test(email) ? true : false;
+  }
+  
+addEmail(){
+  console.log('este es el valor de email: '+ this.masterEmail);
+  if(this.validateEmail(this.masterEmail)){
+    this.emailSend={
+      email: this.masterEmail,
+      contact: this.masterName
+    }
+    this.emailsSend.push(this.emailSend);
+
+    this.masterEmail='';
+    this.masterName='';
+  }else{
+    swal({
+      text:'Debe ingresar un correo electrónico valido',
+      type: 'error'
+     });
+  } 
+}
+
+deleteEmail(index:number){
+    
+  /* const control =<FormArray>this.detailform.controls['emails'];
+   control.removeAt(index);
+   this.indice--;*/
+   this.emailsSend.splice(index);
+}
+
+
+sendEmailEstimate(){
+  let subjectTemp; //= 'Montacargas Master Cotización '+ this.estimateCurrent.estimate_consecutive;
+  if((this.subject.trim()).length>0){
+    console.log('importante el subject:'+this.subject)
+    subjectTemp= this.subject;
+  }else{
+    subjectTemp= 'Reporte Tecnico Nro '+ this.header.technical_reports_consecutive;
+  }
+ // concatenar los correos y nos con ","
+let emailsName = '';
+ for (let i = 0; i < this.emailsSend.length; i++) {
+   if(i!==0){
+    emailsName=emailsName+'|';
+   }
+    emailsName=emailsName+this.emailsSend[i].email+'|'+this.emailsSend[i].contact;
+ }
+
+ if( this.masterEmail != '' &&  this.masterName != '' ){
+
+  emailsName= this.masterEmail+'|'+ this.masterName+'|'+ emailsName;
+}
+
+ console.log('------------------');
+ console.log(emailsName);
+ console.log('---------------------');
+
+  if(this.emailsSend.length>0){
+  
+
+  this.personalServices.sendReportEmailAmazon(//sendEstimateEmailAmazon
+    this.header.id, emailsName.trim(),this.comment,subjectTemp).then(data => {
+    const resp: any = data;
+    console.log('envio');
+    console.log(resp);
+  
+    if(resp.status == 500){
+
+      console.log('error');
+    swal({
+     title: 'Error al enviar el correo',
+     text:'Por favor verificar que los archivos adjuntos no tengan caracteres especiales en los nombres',
+     type: 'error'
+    });
+
+   }
+     
+  }).catch(error => {
+    console.log(error);
+  });
+}else if( this.masterEmail != '' &&  this.masterName != '' ){
+
+  this.personalServices.sendReportEmailAmazon(//sendEstimateEmailAmazon
+    this.header.id, emailsName.trim(),this.comment,subjectTemp).then(data => {
+    const resp: any = data;
+    console.log('envio');
+    console.log(resp); 
+    if(resp.status == 500){
+      console.log('error');
+      swal({
+       title: 'Error al enviar el correo',
+       text:'Por favor verificar que los archivos adjuntos no tengan caracteres especiales en los nombres',
+       type: 'error'
+      });
+   }
+  }).catch(error => {
+    console.log(error);
+  });
+}else{
+  swal({
+    text:'Debe ingresar por lo menos un correo electrónico valido',
+    type: 'error'
+   });
+}
+ //este es el codigo para enviar el correo
+ }
+
 
 deleteFiles(item: any, i: number){
   console.log(item);
