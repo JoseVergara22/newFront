@@ -50,21 +50,29 @@ export class MasterPreventiveMaintenanceComponent extends NgbDatepickerI18n {
 
   fromDate: NgbDateStruct;
   untilDate: NgbDateStruct;
+  massiveFromDate: NgbDateStruct;
+  massiveUntilDate: NgbDateStruct;
   preventives: any;
 
   selectedBusinessId: any = 0;
   selectedRegionalId:any = 0;
   selectedBranchOfficeId: any = 0;
   selectedForkliftId: any = 0;
-  selectedHourPreventive: any = 0;
-  selectedMinutPreventive: any = 0;
+  
   branchOffices: any;
   forklifts: any;
   customers: any;
   regional: any;
   
+  selectedHourPreventive: any = 0;
+  selectedMinutPreventive: any = 0;
   selectedHourUpdatePreventive: any = 0;
   selectedMinutUpdatePreventive: any = 0;
+
+  selectedHourPreventiveMassive: any = 0;
+  selectedMinutPreventiveMassive: any = 0;
+  selectedHourUpdatePreventiveMassive: any = 0;
+  selectedMinutUpdatePreventiveMassive: any = 0;
 
   rowsWork: any;
   technician: any;
@@ -106,6 +114,8 @@ export class MasterPreventiveMaintenanceComponent extends NgbDatepickerI18n {
       var ngbDateStruct = { day: date.getDate(), month: date.getMonth()+1, year: date.getFullYear()};
       this.fromDate=ngbDateStruct;
       this.untilDate=ngbDateStruct;
+      this.massiveFromDate=ngbDateStruct;
+      this.massiveUntilDate=ngbDateStruct;
 
       this.getRegional();
       this.getWorks();
@@ -205,17 +215,63 @@ export class MasterPreventiveMaintenanceComponent extends NgbDatepickerI18n {
 
   insertMassiveDate(date:NgbDateStruct, hour:any, minut:any){
     // poner los 0
-    var day = (this.fromDate.day < 10 ? '0' : '') +this.fromDate.day;
+    var day = (this.massiveFromDate.day < 10 ? '0' : '') +this.massiveFromDate.day;
     // 01, 02, 03, ... 10, 11, 12
-    let month = ((this.fromDate.month) < 10 ? '0' : '') + (this.fromDate.month);
+    let month = ((this.massiveFromDate.month) < 10 ? '0' : '') + (this.massiveFromDate.month);
     // 1970, 1971, ... 2015, 2016, ...
-    var year = this.fromDate.year;
+    var year = this.massiveFromDate.year;
     
-    console.log( this.selectedHourPreventive);
-    console.log( this.selectedMinutPreventive);
+    console.log( this.selectedHourPreventiveMassive);
+    console.log( this.selectedMinutPreventiveMassive);
 
-    var hour = this.selectedHourPreventive;
-    var minut = this.selectedMinutPreventive;
+    var hour = this.selectedHourPreventiveMassive;
+    var minut = this.selectedMinutPreventiveMassive;
+
+    console.log(hour);
+    console.log( minut);
+    
+    
+    var fromD = year +'-'+ month+'-'+ day+' '+hour+':'+minut;
+    console.log( fromD);
+    console.log(this.dateSelecteds)
+    for(let date of this.dateSelecteds){
+      if(date == fromD){
+        console.log('cambio')
+        this.massiveDate = true;
+      }
+    }
+    if(this.massiveDate == true){
+      console.log('entro')
+      swal({
+        title:'Importante',
+        text: 'Esta fecha ya fue seleccionada.',
+        type: 'warning'
+       });
+       this.massiveDate = false;
+    }else{
+      this.dateSelected = {
+        date: date,
+        hour: hour,
+        minut: minut,
+      }
+      this.dateSelecteds.push(fromD);
+      console.log(this.dateSelecteds);
+    }
+  }
+
+  insertMassiveDateUpdate(date:NgbDateStruct, hour:any, minut:any){
+    // poner los 0
+    var day = (this.massiveUntilDate.day < 10 ? '0' : '') +this.massiveUntilDate.day;
+    // 01, 02, 03, ... 10, 11, 12
+    let month = ((this.massiveUntilDate.month) < 10 ? '0' : '') + (this.massiveUntilDate.month);
+    // 1970, 1971, ... 2015, 2016, ...
+    var year = this.massiveUntilDate.year;
+    
+    console.log( this.selectedHourUpdatePreventiveMassive);
+    console.log( this.selectedMinutUpdatePreventiveMassive);
+
+    var hour = this.selectedHourUpdatePreventiveMassive;
+    var minut = this.selectedMinutUpdatePreventiveMassive;
 
     console.log(hour);
     console.log( minut);
@@ -394,6 +450,27 @@ export class MasterPreventiveMaintenanceComponent extends NgbDatepickerI18n {
       if( untilD< fromD){
         console.log('es mayor');
         this.fromDate=this.untilDate;
+      }
+  }
+  onDateSelectionFromMassive(date: any) {
+
+
+    var fromD = new Date(this.massiveFromDate.year, this.massiveFromDate.month, this.massiveFromDate.day); //31 de diciembre de 2015
+    var untilD = new Date(this.massiveUntilDate.year, this.massiveUntilDate.month, this.massiveUntilDate.day);
+
+    console.log(this.massiveFromDate.day);
+    if(fromD> untilD){
+      console.log('es mayor');
+      this.massiveUntilDate=this.massiveFromDate;
+    }
+  }
+
+   onDateSelectionUntilMassive(date: any) {
+      var fromD = new Date(this.massiveFromDate.year, this.massiveFromDate.month, this.massiveFromDate.day); //31 de diciembre de 2015
+      var untilD = new Date(this.massiveUntilDate.year, this.massiveUntilDate.month, this.massiveUntilDate.day);
+      if( untilD< fromD){
+        console.log('es mayor');
+        this.massiveFromDate=this.massiveUntilDate;
       }
   }
 
@@ -1287,6 +1364,7 @@ export class MasterPreventiveMaintenanceComponent extends NgbDatepickerI18n {
     this.cleanSelectRoutines();
               // this.cleanSelectTechnician();
               this.technicianSelecteds.length=0;
+              this.dateSelecteds = [];
     document.getElementById( 'assignPrevetiveHideMassive').click();
 }
   addCancelUpdateDate(){
@@ -1305,6 +1383,7 @@ export class MasterPreventiveMaintenanceComponent extends NgbDatepickerI18n {
     this.cleanSelectRoutines();
     // this.cleanSelectTechnician();
     this.technicianSelecteds.length=0;
+    this.dateSelecteds = [];
     document.getElementById( 'assingUpdatePrevetiveHideMassive').click();
 }
 

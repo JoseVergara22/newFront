@@ -44,6 +44,8 @@ export class MasterChecklistMaintenanceComponent extends NgbDatepickerI18n {
 
   fromDate: NgbDateStruct;
   untilDate: NgbDateStruct;
+  massiveFromDate: NgbDateStruct;
+  massiveUntilDate: NgbDateStruct;
   preventives: any;
 
   dateSelecteds = [];
@@ -88,6 +90,11 @@ export class MasterChecklistMaintenanceComponent extends NgbDatepickerI18n {
   selectedMinutUpdateChecklist: any= 0;
   selectedHourUpdateChecklist: any= 0;
 
+  selectedHourPreventiveMassive: any = 0;
+  selectedMinutPreventiveMassive: any = 0;
+  selectedHourUpdatePreventiveMassive: any = 0;
+  selectedMinutUpdatePreventiveMassive: any = 0;
+
   consecutive:any;
   massiveDescrition:any = '';
   currentDetail:any;
@@ -107,6 +114,9 @@ export class MasterChecklistMaintenanceComponent extends NgbDatepickerI18n {
       var ngbDateStruct = { day: date.getDate(), month: date.getMonth()+1, year: date.getFullYear()};
       this.fromDate=ngbDateStruct;
       this.untilDate=ngbDateStruct;
+      this.massiveFromDate=ngbDateStruct;
+      this.massiveUntilDate=ngbDateStruct;
+
       console.log(ngbDateStruct);
 
       this.getRegional();
@@ -1102,17 +1112,60 @@ showAssingMassive(){
 
   insertMassiveDate(date:NgbDateStruct, hour:any, minut:any){
     // poner los 0
-    var day = (this.untilDate.day < 10 ? '0' : '') +this.untilDate.day;
+    var day = (this.massiveFromDate.day < 10 ? '0' : '') +this.massiveFromDate.day;
     // 01, 02, 03, ... 10, 11, 12
-    let month = ((this.untilDate.month) < 10 ? '0' : '') + (this.untilDate.month);
+    let month = ((this.massiveFromDate.month) < 10 ? '0' : '') + (this.massiveFromDate.month);
     // 1970, 1971, ... 2015, 2016, ...
-    var year = this.untilDate.year;
+    var year = this.massiveFromDate.year;
     
-    console.log( this.selectedHourChecklist);
-    console.log( this.selectedMinutChecklist);
+    console.log( this.selectedHourPreventiveMassive);
+    console.log( this.selectedMinutPreventiveMassive);
 
-    var hour = this.selectedHourChecklist;
-    var minut = this.selectedMinutChecklist;
+    var hour = this.selectedHourPreventiveMassive;
+    var minut = this.selectedMinutPreventiveMassive;
+
+    console.log(hour);
+    console.log( minut);
+    
+    
+    var fromD = year +'-'+ month+'-'+ day+' '+hour+':'+minut;
+    console.log( fromD);
+    console.log(this.dateSelecteds)
+    for(let date of this.dateSelecteds){
+      if(date == fromD){
+        console.log('cambio')
+        this.massiveDate = true;
+      }
+    }
+    if(this.massiveDate == true){
+      console.log('entro')
+      swal({
+        title:'Importante',
+        text: 'Esta fecha ya fue seleccionada.',
+        type: 'warning'
+       });
+       this.massiveDate = false;
+    }else{
+    
+      this.dateSelecteds.push(fromD);
+      console.log(this.dateSelecteds);
+    }
+  }
+
+  
+  insertMassiveDateUpdate(date:NgbDateStruct, hour:any, minut:any){
+    // poner los 0
+    var day = (this.massiveUntilDate.day < 10 ? '0' : '') +this.massiveUntilDate.day;
+    // 01, 02, 03, ... 10, 11, 12
+    let month = ((this.massiveUntilDate.month) < 10 ? '0' : '') + (this.massiveUntilDate.month);
+    // 1970, 1971, ... 2015, 2016, ...
+    var year = this.massiveUntilDate.year;
+    
+    console.log( this.selectedHourUpdatePreventiveMassive);
+    console.log( this.selectedMinutUpdatePreventiveMassive);
+
+    var hour = this.selectedHourUpdatePreventiveMassive;
+    var minut = this.selectedMinutUpdatePreventiveMassive;
 
     console.log(hour);
     console.log( minut);
@@ -1146,6 +1199,28 @@ showAssingMassive(){
     console.log(item);
     console.log(index);
     this.dateSelecteds.splice(index,1);
+  }
+
+  onDateSelectionFromMassive(date: any) {
+
+
+    var fromD = new Date(this.massiveFromDate.year, this.massiveFromDate.month, this.massiveFromDate.day); //31 de diciembre de 2015
+    var untilD = new Date(this.massiveUntilDate.year, this.massiveUntilDate.month, this.massiveUntilDate.day);
+
+    console.log(this.massiveFromDate.day);
+    if(fromD> untilD){
+      console.log('es mayor');
+      this.massiveUntilDate=this.massiveFromDate;
+    }
+  }
+
+   onDateSelectionUntilMassive(date: any) {
+      var fromD = new Date(this.massiveFromDate.year, this.massiveFromDate.month, this.massiveFromDate.day); //31 de diciembre de 2015
+      var untilD = new Date(this.massiveUntilDate.year, this.massiveUntilDate.month, this.massiveUntilDate.day);
+      if( untilD< fromD){
+        console.log('es mayor');
+        this.massiveFromDate=this.massiveUntilDate;
+      }
   }
 
   
@@ -1274,6 +1349,8 @@ showAssingMassive(){
               // this.cleanSelectTechnician();
               this.technicianSelecteds.length=0;
               this.dateSelecteds = [];
+              this.selectedHourPreventiveMassive=0;
+  this.selectedMinutPreventiveMassive=0;
     document.getElementById( 'assignPrevetiveHideMassive').click();
 }
 
@@ -1285,6 +1362,8 @@ addCancelUpdateDateMassive(){
   this.cleanSelectChecklist();
   // this.cleanSelectTechnician();
   this.technicianSelecteds.length=0;
+  this.selectedHourUpdatePreventiveMassive=0;
+  this.selectedMinutUpdatePreventiveMassive=0;
   this.dateSelecteds = [];
   document.getElementById( 'assingUpdatePrevetiveHideMassive').click();
 }
@@ -1296,6 +1375,8 @@ addCancelUpdateDateMassive(){
     this.cleanSelectChecklist();
     // this.cleanSelectTechnician();
     this.technicianSelecteds.length=0;
+    this.selectedHourChecklist=0;
+  this.selectedMinutChecklist=0;
     document.getElementById( 'assignChecklistHide').click();
 }
   addCancelUpdateDate(){
@@ -1305,6 +1386,8 @@ addCancelUpdateDateMassive(){
     this.cleanSelectChecklist();
     // this.cleanSelectTechnician();
     this.technicianSelecteds.length=0;
+    this.selectedHourUpdateChecklist=0;
+  this.selectedMinutUpdateChecklist=0;
     document.getElementById( 'assignUpdateChecklistHide').click();
 }
 

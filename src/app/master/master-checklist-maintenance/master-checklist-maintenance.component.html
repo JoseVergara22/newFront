@@ -63,7 +63,7 @@
           <div class=" align-buttons" >
             <div >
             
-              <button  class="btn btn-primary" (click)="showAssing()" >Crear</button>
+              <button  class="btn btn-primary" (click)="showAssing()" >Asignar</button>
               <button style="display: none;" id="showAssing" class="btn btn-primary" (click)="modalAssingChecklist.show()" (click)="getConsecutive();">Crear</button>
               <button id="showAssingMassive" style="display: none;" class="btn btn-primary" (click)="modalAssingPreventiveMassive.show()" (click)="getConsecutive();">Crear</button>
           </div>
@@ -264,7 +264,7 @@
     <div class="form-group row">
       <div class="col-sm-8">
         <h6>Descripción del Checklist</h6>
-        <input type="text" [(ngModel)]="massiveDescrition" class="form-control" placeholder="Descricción">
+        <input type="text" [(ngModel)]="massiveDescrition" class="form-control" placeholder="Descripción">
       </div>
     </div>
     <div class="form-group row">
@@ -273,16 +273,16 @@
         <h6>Fecha de asignación</h6>
         <div class="input-group" dir="ltr">
           <input class="form-control" placeholder="dd-mm-yyyy"   [readonly]="true" 
-                   name="fd" [(ngModel)]="untilDate" ngbDatepicker  #dUntil="ngbDatepicker"    (dateSelect)="onDateSelectionFrom($event)">
-              <button type="button"  class="btn btn-primary waves-effect"  (click)="dUntil.toggle()"><i class="icofont icofont-ui-calendar"></i></button>
-         </div>
+                name="fd" [(ngModel)]="massiveFromDate" ngbDatepicker  #dFromM="ngbDatepicker"    (dateSelect)="onDateSelectionFromMassive($event)">
+            <button type="button"  class="btn btn-primary waves-effect"  (click)="dFromM.toggle()"><i class="icofont icofont-ui-calendar"></i></button>
+        </div>
       </div>
         <div class="col-6">
 
           <h6>Horas de asignación</h6>
           <div class="row">
             <div class="col-4">
-              <select class="form-control"   [(ngModel)]="selectedHourChecklist">
+              <select class="form-control"   [(ngModel)]="selectedHourPreventiveMassive">
                 <option value="00">00 </option>
                 <option value="01">01 </option>
                 <option value="02">02 </option>
@@ -312,7 +312,7 @@
             </div>
             <div><strong>:</strong></div>
             <div class="col-4">
-              <select class="form-control"   [(ngModel)]="selectedMinutChecklist">
+              <select class="form-control"   [(ngModel)]="selectedMinutPreventiveMassive">
                 <option value="0">00</option>
               <option value="01">01</option>
               <option value="02">02</option>
@@ -450,7 +450,7 @@
     <div class="form-group row">
       <div class="col-sm-8">
         <h6>Descripción de la rutina masiva</h6>
-        <input type="text" [(ngModel)]="massiveDescritionUpdate" class="form-control" placeholder="Descricción">
+        <input type="text" [(ngModel)]="massiveDescritionUpdate" class="form-control" placeholder="Descripción">
       </div>
     </div>
     <div class="form-group row">
@@ -459,8 +459,8 @@
         <h6>Fecha de asignación</h6>
         <div class="input-group" dir="ltr">
           <input class="form-control" placeholder="dd-mm-yyyy"   [readonly]="true" 
-                name="fd" [(ngModel)]="fromDate" ngbDatepicker  #dFrom="ngbDatepicker"    (dateSelect)="onDateSelectionFrom($event)">
-            <button type="button"  class="btn btn-primary waves-effect"  (click)="dFrom.toggle()"><i class="icofont icofont-ui-calendar"></i></button>
+                name="ud" [(ngModel)]="massiveUntilDate" ngbDatepicker  #dUntilM="ngbDatepicker"    (dateSelect)="onDateSelectionUntilMassive($event)">
+            <button type="button"  class="btn btn-primary waves-effect"  (click)="dUntilM.toggle()"><i class="icofont icofont-ui-calendar"></i></button>
         </div>
       </div>
       <div class="col-6">
@@ -468,17 +468,17 @@
         <h6>Horas de asignación</h6>
         <div class="row">
           <div class="col-4">
-            <select class="form-control"   [(ngModel)]="selectedHourUpdateChecklist">
-              <option value="00">00 </option>
-              <option value="01">01 </option>
-              <option value="02">02 </option>
-              <option value="03">03 </option>
-              <option value="04">04</option>
-              <option value="05">05</option>
-              <option value="06">06</option>
-              <option value="07">07</option>
-              <option value="08">08</option>
-              <option value="09">09</option>
+            <select class="form-control"   [(ngModel)]="selectedHourUpdatePreventiveMassive">
+              <option value="0">00 </option>
+              <option value="1">01 </option>
+              <option value="2">02 </option>
+              <option value="3">03 </option>
+              <option value="4">04</option>
+              <option value="5">05</option>
+              <option value="6">06</option>
+              <option value="7">07</option>
+              <option value="8">08</option>
+              <option value="9">09</option>
               <option value="10">10</option>
               <option value="11">11</option>
               <option value="12">12</option>
@@ -498,17 +498,17 @@
           </div>
           <div><strong>:</strong></div>
           <div class="col-4">
-            <select class="form-control"   [(ngModel)]="selectedMinutUpdateChecklist">
-            <option value="00">00</option>
-            <option value="01">01</option>
-            <option value="02">02</option>
-            <option value="03">03</option>
-            <option value="04">04</option>
-            <option value="05">05</option>
-            <option value="06">06</option>
-            <option value="07">07</option>
-            <option value="08">08</option>
-            <option value="09">09</option>
+            <select class="form-control"   [(ngModel)]="selectedMinutUpdatePreventiveMassive">
+            <option value="0">00</option>
+            <option value="1">01</option>
+            <option value="2">02</option>
+            <option value="3">03</option>
+            <option value="4">04</option>
+            <option value="5">05</option>
+            <option value="6">06</option>
+            <option value="7">07</option>
+            <option value="8">08</option>
+            <option value="9">09</option>
             <option value="10">10</option>
             <option value="11">11</option>
             <option value="12">12</option>
@@ -571,7 +571,7 @@
       <br>
       <div class="col-2">
         <div class="align-buttons">
-          <button type="button " class="btn btn-primary m-b-0 " (click)="insertMassiveDate()">Agregar</button>
+          <button type="button " class="btn btn-primary m-b-0 " (click)="insertMassiveDateUpdate()">Agregar</button>
         </div>
       </div>
       <!-- <br>  (click)="insertMassiveDate()" -->

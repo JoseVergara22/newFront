@@ -800,6 +800,7 @@ export class ResumenesService {
   }
 
   updateMassiveDescription(id:number,massive:string) {
+    console.log(id)
     return new Promise(resolve => {
       const headers = new HttpHeaders();
       headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user'))); // 'Bearer ' +
