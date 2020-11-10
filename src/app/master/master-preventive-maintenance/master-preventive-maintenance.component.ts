@@ -213,7 +213,7 @@ export class MasterPreventiveMaintenanceComponent extends NgbDatepickerI18n {
     }
   }
 
-  insertMassiveDate(date:NgbDateStruct, hour:any, minut:any){
+  insertMassiveDate(){
     // poner los 0
     var day = (this.massiveFromDate.day < 10 ? '0' : '') +this.massiveFromDate.day;
     // 01, 02, 03, ... 10, 11, 12
@@ -249,17 +249,13 @@ export class MasterPreventiveMaintenanceComponent extends NgbDatepickerI18n {
        });
        this.massiveDate = false;
     }else{
-      this.dateSelected = {
-        date: date,
-        hour: hour,
-        minut: minut,
-      }
+      
       this.dateSelecteds.push(fromD);
       console.log(this.dateSelecteds);
     }
   }
 
-  insertMassiveDateUpdate(date:NgbDateStruct, hour:any, minut:any){
+  insertMassiveDateUpdate(){
     // poner los 0
     var day = (this.massiveUntilDate.day < 10 ? '0' : '') +this.massiveUntilDate.day;
     // 01, 02, 03, ... 10, 11, 12
@@ -295,11 +291,7 @@ export class MasterPreventiveMaintenanceComponent extends NgbDatepickerI18n {
        });
        this.massiveDate = false;
     }else{
-      this.dateSelected = {
-        date: date,
-        hour: hour,
-        minut: minut,
-      }
+      
       this.dateSelecteds.push(fromD);
       console.log(this.dateSelecteds);
     }

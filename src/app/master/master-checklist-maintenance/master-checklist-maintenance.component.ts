@@ -1110,7 +1110,7 @@ showAssingMassive(){
     });
   }
 
-  insertMassiveDate(date:NgbDateStruct, hour:any, minut:any){
+  insertMassiveDate(){
     // poner los 0
     var day = (this.massiveFromDate.day < 10 ? '0' : '') +this.massiveFromDate.day;
     // 01, 02, 03, ... 10, 11, 12
@@ -1153,7 +1153,7 @@ showAssingMassive(){
   }
 
   
-  insertMassiveDateUpdate(date:NgbDateStruct, hour:any, minut:any){
+  insertMassiveDateUpdate(){
     // poner los 0
     var day = (this.massiveUntilDate.day < 10 ? '0' : '') +this.massiveUntilDate.day;
     // 01, 02, 03, ... 10, 11, 12
