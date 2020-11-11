@@ -42,7 +42,7 @@
       <form [formGroup]="myFormUpdateSubModules" (ngSubmit)="sendUpdateSubModule()">
         <div class=" form-group row ">
             <div class="col-sm-5"> 
-          <h6>Descripcion <span style="color:red; ">*</span></h6>
+          <h6>Descripción <span style="color:red; ">*</span></h6>
           <input type="text " class="form-control" value={{description}} formControlName="descriptionUpdateSub" [ngClass]="{ 'is-invalid': submittedUpdated && checkFormUpdateSubModules.descriptionUpdateSub.errors } ">
           <div *ngIf="submittedUpdated && checkFormUpdateSubModules.descriptionUpdateSub.errors " class="invalid-feedback ">
               <div class="messages text-danger " *ngIf="checkFormUpdateSubModules.descriptionUpdateSub.errors.required ">Este campo es requerido</div>
@@ -84,7 +84,7 @@
           <form [formGroup]="myFormUpdate" (ngSubmit)="updatedCustomer()">
 
               <div class=" form-group row ">     
-                      <h6>Descripcion <span style="color:red; ">*</span></h6>
+                      <h6>Descripción <span style="color:red; ">*</span></h6>
                       <input type="text " class="form-control" value={{description}} formControlName="descriptionUpdate" [ngClass]="{ 'is-invalid': submittedUpdated && checkFormUpdate.descriptionUpdate.errors } ">
                       <div *ngIf="submittedUpdated && checkFormUpdate.descriptionUpdate.errors " class="invalid-feedback ">
                           <div class="messages text-danger " *ngIf="checkFormUpdate.descriptionUpdate.errors.required ">Este campo es requerido</div>

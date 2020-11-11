@@ -9,7 +9,7 @@
         </div>
         <br>
         <ngx-datatable #table class="data-table" [rows]="rowsWork"   [columnMode]="'flex'" [headerHeight]="50" [footerHeight]="50" [rowHeight]="'auto'" [limit]="20">
-            <ngx-datatable-column  [flexGrow]="2" [sortable]="false" [resizeable]="false"  name="Descripcion" [sortable]="false"  prop="description"></ngx-datatable-column>
+            <ngx-datatable-column  [flexGrow]="2" [sortable]="false" [resizeable]="false"  name="Descripción" [sortable]="false"  prop="description"></ngx-datatable-column>
             <ngx-datatable-column  [flexGrow]="2" [sortable]="false" [resizeable]="false"   name="Acciones" sortable="false"  prop="id">
                 <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
                     <button class="btn btn-primary btn-icon" (click)="goToTpdateView(row)"><i class="icofont icofont-pencil-alt-5"></i></button>
