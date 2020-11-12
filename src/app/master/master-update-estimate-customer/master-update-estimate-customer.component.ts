@@ -16,6 +16,7 @@ import { UUID } from 'angular2-uuid';
 import * as jsPDF from 'jspdf';
 import 'jspdf-autotable';
 import { UserOptions } from 'jspdf-autotable';
+import { ResumenesService } from '../../master-services/resumenes/resumenes.service';
 
 
 
@@ -31,6 +32,16 @@ interface FileEstimate {
   content?: string;
   type?: number;
   file?:any;
+}
+
+interface itemSelectInterface {// item para mostrar selccionados
+  id?: number;
+  description?: string;
+  type?: string;
+  active?: boolean;
+  part?: boolean;
+  service?: boolean;
+
 }
 
 @Component({
@@ -249,6 +260,15 @@ export class MasterUpdateEstimateCustomerComponent implements OnInit {
 
   urlsImages = [];
   urlsFiles = [];
+
+  rowPending:any;
+  checkAllPart= false;
+  itemsPart: Array <itemSelectInterface> = [];
+  itemPart:itemSelectInterface;
+  numberPage=1;
+  limitPage;
+
+
   
 
   separador: "." ;// separador para los miles
@@ -259,7 +279,7 @@ export class MasterUpdateEstimateCustomerComponent implements OnInit {
 
   @ViewChild('content') content: ElementRef;
   
-  constructor(private restService: RestService, private router: Router, private estimateService: EstimateService, private excelService:FilexcelService,  private workService:WorkService,  private uploadService: UploadService, private forkliftService: ForkliftService, private rutaActiva: ActivatedRoute) {
+  constructor(private restService: RestService, private router: Router, private estimateService: EstimateService, private excelService:FilexcelService,  private workService:WorkService,  private uploadService: UploadService, private forkliftService: ForkliftService, private rutaActiva: ActivatedRoute, private resumeneServices:ResumenesService) {
 
 
     this.estimateId = this.rutaActiva.snapshot.params.id;
@@ -344,9 +364,6 @@ export class MasterUpdateEstimateCustomerComponent implements OnInit {
     });
    }
 
-
-   
-
    getEstimateDetails() {
    
     if(this.estimateId){
@@ -374,7 +391,171 @@ export class MasterUpdateEstimateCustomerComponent implements OnInit {
   
    }
 
+   updatePendingCheck(){
+     console.log(this.itemsPart);
+     for(let item of this.itemsPart){
+       if(item.active){
+        if(item.part == true){
+          this.description = item.description;
+           this.createEstimateDetailForPending(item,1);
+           console.log('entro en partes');
+           console.log(item);
+         }
+         if(item.service == true){
+          this.workforceService = item.description;
+           this.createEstimateDetailWorkforcePending(item,1);
+           console.log('entro en mano de obra');
+           console.log(item);
+         }
+       }
+       
+     }
+     document.getElementById('storageDetaiPendinglHide').click();
 
+   }
+
+   validateCheck(row: any, ind: number){
+    console.log(row);
+    if(ind==1 && row.service == true){
+      for(let item of this.itemsPart){
+       if((row.id == item.id) && (row.type == item.type)){
+        item.service = false;
+       }
+      }
+    }
+    if(ind==2 && row.part == true){
+      for(let item of this.itemsPart){
+       if((row.id == item.id) && (row.type == item.type)){
+        item.part = false;
+       }
+      }
+    }
+   }
+   
+  getPendingForklift(){
+    this.resumeneServices.getForkliftPendingGeneral(this.selectedForkliftId).then(data => {
+      const resp: any = data;
+      console.log('Este es la API DE CONFIGURACIÓN TOPE MAXIMO, MARGEN, ST,SN');
+      console.log(data);
+      this.rowPending = resp.data;
+      for(let item of this.rowPending){
+        this.itemPart = {
+          id: item.id,
+          description:item.description,
+          type:item.type,
+          active:false,
+          part:false,
+          service:false
+        }
+        this.itemsPart.push(this.itemPart);
+      }
+
+      document.getElementById('checkPendingForklift').click();
+
+      swal.close();
+    }).catch(error => {
+      console.log(error);
+    });
+  }
+
+  checkUncheckAllPart(event:any){
+
+    this.checkAllPart=event.target.checked;    
+      for (let i = 0; i < this.itemsPart.length; i++){
+        console.log('lo encontre'+i);
+          this.itemsPart[i].active=event.target.checked;
+      }
+    }
+
+    partChangeActive(event:any, item:any){
+    
+      console.log('valor para editar');
+      console.log(event);
+      console.log(item);
+      console.log(item.id);
+  
+      for (let i = 0; i < this.itemsPart.length; i++){
+       if (this.itemsPart[i].id == item.id){
+       console.log(item);
+       console.log('lo encontre'+i);
+         this.itemsPart[i].active=event.target.checked;
+         console.log(this.itemsPart[i]);
+       }
+     }
+    }
+  
+    
+nextPage(){
+  this.numberPage= this.numberPage+1;
+  // this.showSettlementEstimateCustomer();
+}
+    backPage(){
+      if( this.numberPage>1){
+      this.numberPage= this.numberPage-1;
+      // this.showSettlementEstimateCustomer();
+    }
+  }
+
+    deleteItemsSelect(){
+      this.itemsPart=[];
+      document.getElementById('storageDetailPendinglHide').click();
+    }
+
+    updateStatusPreventivePending(id: number, status: number){
+      this.resumeneServices.updateStatusPendingPreventive(id, status).then(data => {
+        const resp: any = data;
+        // console.log('Este es la API DE CONFIGURACIÓN TOPE MAXIMO, MARGEN, ST,SN');
+        console.log(data);
+        
+        swal.close();
+      }).catch(error => {
+        console.log(error);
+      });
+    }
+    updateStatusCorrectivePending(id: number, status: number){
+      this.resumeneServices.updateStatusPendingCorrective(id, status).then(data => {
+        const resp: any = data;
+        // console.log('Este es la API DE CONFIGURACIÓN TOPE MAXIMO, MARGEN, ST,SN');
+        console.log(data);
+        
+        swal.close();
+      }).catch(error => {
+        console.log(error);
+      });
+    }
+    updateStatusChecklistPending(id: number, status: number){
+      this.resumeneServices.updateStatusPendingChecklist(id, status).then(data => {
+        const resp: any = data;
+        // console.log('Este es la API DE CONFIGURACIÓN TOPE MAXIMO, MARGEN, ST,SN');
+        console.log(data);
+        
+        swal.close();
+      }).catch(error => {
+        console.log(error);
+      });
+    }
+    updateStatusStevedorePending(id: number, status: number){
+      this.resumeneServices.updateStatusPendingStevedore(id, status).then(data => {
+        const resp: any = data;
+        // console.log('Este es la API DE CONFIGURACIÓN TOPE MAXIMO, MARGEN, ST,SN');
+        console.log(data);
+        
+        swal.close();
+      }).catch(error => {
+        console.log(error);
+      });
+    }
+    updateStatusPlatformPending(id: number, status: number){
+      this.resumeneServices.updateStatusPendingPlatform(id, status).then(data => {
+        const resp: any = data;
+        // console.log('Este es la API DE CONFIGURACIÓN TOPE MAXIMO, MARGEN, ST,SN');
+        console.log(data);
+        
+        swal.close();
+      }).catch(error => {
+        console.log(error);
+      });
+    }
 
    getEstimateWorkforce() {
    
@@ -759,6 +940,63 @@ this.trmGeneralUsa= inputTrm.value.replace(/[^\d\.]*/g,'');
         type: 'error'
        });
     }
+
+   }
+   createEstimateDetailForPending(item: any,status){
+    swal({
+      title: 'Validando información ...',
+      allowOutsideClick: false
+    });
+    swal.showLoading();
+    console.log('Crear por pendiente')
+     // console.log(this.lowPrice+ '--' +this.price+ '--'+ this.higherPrice);
+   
+     let estimateIdDetailTemp= this.estimateId;
+     let descriptionTemp= this.description;
+     let statusTemp = 0;
+     // let subtotalTemp = this.changeFormatDecimal(this.subtotal);
+     let typeServiceTemp = 0;
+
+ 
+     this.estimateService.createEstimateDetailsPending(estimateIdDetailTemp,descriptionTemp,
+      statusTemp, typeServiceTemp).then(data => {
+       const resp: any = data;
+       swal({
+        title: 'Item creado',
+        type: 'success'
+       });
+      //  document.getElementById( 'createItemHide').click();
+      //  this.clearFormDetail();
+      // this.getEstimateDetails();
+      if(item.type=='CHECKLIST'){
+        this.updateStatusChecklistPending(item.id,status)
+       }
+       if(item.type=='CORRECTIVO'){
+        this.updateStatusCorrectivePending(item.id,status)
+       }
+       if(item.type=='PREVENTIVO'){
+        this.updateStatusPreventivePending(item.id,status)
+       }
+       if(item.type=='PLATAFORMA'){
+        this.updateStatusPlatformPending(item.id,status)
+       }
+       if(item.type=='ESTIBADORES'){
+        this.updateStatusStevedorePending(item.id,status)
+       }
+       this.getEstimateWorkforce();
+       this.getEstimateParts();
+
+       console.log(resp);
+     }).catch(error => { 
+          console.log(error);
+      swal({
+        title: 'Se presento un problema, para guardar este item',
+        type: 'error'
+       });
+
+       console.log(error);
+     });
+    
 
    }
 
@@ -2785,6 +3023,72 @@ console.log();
        
        document.getElementById('createItemHideDetailWorkforce').click();
        this.clearFormDetailWork();
+      // this.getEstimateDetails();
+       this.getEstimateParts();
+       this.getEstimateWorkforce();
+
+       console.log(resp);
+     }).catch(error => {
+
+      swal({
+        title: 'Se presento un problema, para guardar este item',
+        type: 'error'
+       });
+
+       console.log(error);
+     });
+   }
+   
+   createEstimateDetailWorkforcePending(item:any,status:number){
+    swal({
+      title: 'Validando información ...',
+      allowOutsideClick: false
+    });
+    swal.showLoading();
+
+    console.log('entro al de crear por pendiente')
+    let estimateIdTemp= this.estimateId;
+
+    let serviceTemp = this.workforceService;
+
+    let typeService = 1 ; 
+    let statusTemp = 0;
+    
+    
+    
+     this.estimateService.createEstimateDetailWorkforceForPending(estimateIdTemp,serviceTemp,
+      statusTemp, typeService).then(data => {
+       const resp: any = data;
+       swal({
+        title: 'Item creado',
+        type: 'success'
+       });
+       if(item.type=='CHECKLIST'){
+        this.updateStatusChecklistPending(item.id,status)
+       }
+       if(item.type=='CORRECTIVO'){
+        this.updateStatusCorrectivePending(item.id,status)
+       }
+       if(item.type=='PREVENTIVO'){
+        this.updateStatusPreventivePending(item.id,status)
+       }
+       if(item.type=='PLATAFORMA'){
+        this.updateStatusPlatformPending(item.id,status)
+       }
+       if(item.type=='ESTIBADORES'){
+        this.updateStatusStevedorePending(item.id,status)
+       }
+       
+      /* this.workforceCode = '';
+      this.workforceService = '';
+      this.workforcequantity = 1;
+       this.workforceHourValue = 0;
+      this.workforceSubtotal = 0;
+      this.workforceDelivery = 0;*/
+
+       
+      //  document.getElementById('createItemHideDetailWorkforce').click();
+      //  this.clearFormDetailWork();
       // this.getEstimateDetails();
        this.getEstimateParts();
        this.getEstimateWorkforce();

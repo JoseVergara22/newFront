@@ -799,6 +799,132 @@ export class ResumenesService {
     });
   }
 
+  updateStatusPendingPreventive(id:number,status: number) {
+    return new Promise(resolve => {
+      const headers = new HttpHeaders();
+      headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user'))); // 'Bearer ' +
+      headers.append('Content-Type', 'application/json');
+      const httpOptions = {
+      headers: new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ' + localStorage.getItem('token_user'),
+      'Accept': 'application/json'
+      })
+    };
+    console.log( localStorage.getItem('userid'));
+    const patchParams = {
+        status:status
+    };
+    console.log(patchParams);
+    this.http.patch(this.apiEndPoint+'api/update_pending_prevetive/'+id, patchParams, httpOptions)
+      .map(res => res).subscribe(data => {
+        resolve(data);
+      }, error => {
+        resolve(error);
+      });
+    });
+  }
+  updateStatusPendingCorrective(id:number,status: number) {
+    return new Promise(resolve => {
+      const headers = new HttpHeaders();
+      headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user'))); // 'Bearer ' +
+      headers.append('Content-Type', 'application/json');
+      const httpOptions = {
+      headers: new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ' + localStorage.getItem('token_user'),
+      'Accept': 'application/json'
+      })
+    };
+    console.log( localStorage.getItem('userid'));
+    const patchParams = {
+        status:status
+    };
+    console.log(patchParams);
+    this.http.patch(this.apiEndPoint+'api/update_pending_corrective/'+id, patchParams, httpOptions)
+      .map(res => res).subscribe(data => {
+        resolve(data);
+      }, error => {
+        resolve(error);
+      });
+    });
+  }
+  updateStatusPendingChecklist(id:number,status: number) {
+    return new Promise(resolve => {
+      const headers = new HttpHeaders();
+      headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user'))); // 'Bearer ' +
+      headers.append('Content-Type', 'application/json');
+      const httpOptions = {
+      headers: new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ' + localStorage.getItem('token_user'),
+      'Accept': 'application/json'
+      })
+    };
+    console.log( localStorage.getItem('userid'));
+    const patchParams = {
+        status:status
+    };
+    console.log(patchParams);
+    this.http.patch(this.apiEndPoint+'api/update_pending_checklist/'+id, patchParams, httpOptions)
+      .map(res => res).subscribe(data => {
+        resolve(data);
+      }, error => {
+        resolve(error);
+      });
+    });
+  }
+  updateStatusPendingStevedore(id:number,status: number) {
+    return new Promise(resolve => {
+      const headers = new HttpHeaders();
+      headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user'))); // 'Bearer ' +
+      headers.append('Content-Type', 'application/json');
+      const httpOptions = {
+      headers: new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ' + localStorage.getItem('token_user'),
+      'Accept': 'application/json'
+      })
+    };
+    console.log( localStorage.getItem('userid'));
+    const patchParams = {
+        status:status
+    };
+    console.log(patchParams);
+    this.http.patch(this.apiEndPoint+'api/update_pending_stevedore/'+id, patchParams, httpOptions)
+      .map(res => res).subscribe(data => {
+        resolve(data);
+      }, error => {
+        resolve(error);
+      });
+    });
+  }
+  updateStatusPendingPlatform(id:number,status: number) {
+    return new Promise(resolve => {
+      const headers = new HttpHeaders();
+      headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user'))); // 'Bearer ' +
+      headers.append('Content-Type', 'application/json');
+      const httpOptions = {
+      headers: new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ' + localStorage.getItem('token_user'),
+      'Accept': 'application/json'
+      })
+    };
+    console.log( localStorage.getItem('userid'));
+    const patchParams = {
+        status:status
+    };
+    console.log(patchParams);
+    this.http.patch(this.apiEndPoint+'api/update_pending_platform/'+id, patchParams, httpOptions)
+      .map(res => res).subscribe(data => {
+        resolve(data);
+      }, error => {
+        resolve(error);
+      });
+    });
+  }
+
   updateMassiveDescription(id:number,massive:string) {
     console.log(id)
     return new Promise(resolve => {

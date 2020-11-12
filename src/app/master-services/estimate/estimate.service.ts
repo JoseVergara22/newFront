@@ -802,6 +802,37 @@ resolve(error);
 });
 }
 
+createEstimateDetailsPending(estimate_id: number, description: string,
+          status: number, type_service: number) {
+          console.log('info de detalle');
+
+      return new Promise(resolve => {
+      const headers = new HttpHeaders();
+      headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user'))); // 'Bearer ' +
+      headers.append('Content-Type', 'application/json');
+      const httpOptions = {
+      headers: new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ' + localStorage.getItem('token_user'),
+      'Accept': 'application/json'
+      })
+      };
+      const postParams = {
+      estimate_id:estimate_id,
+      description: description,
+      status:status,
+      type_service:type_service,
+      };
+      console.log(postParams);
+      this.http.post(this.apiEndPoint+'api/create_estimate_detail_pending', postParams, httpOptions)
+      .map(res => res).subscribe(data => {
+      resolve(data);
+      }, error => {
+      resolve(error);
+      });
+      });
+      }
+
 createEstimateDetails(estimate_id: number, code: string, description: string,
           quantity: number, unit_cost: number, price_list: number, price_suggest: number, weight: number,
           price: number, subtotal: number, delivery: number, total: string,
@@ -839,6 +870,7 @@ createEstimateDetails(estimate_id: number, code: string, description: string,
       type_service:type_service,
       weight_type:weight_type
       };
+      console.log(postParams);
       this.http.post(this.apiEndPoint+'api/create_estimate_detail', postParams, httpOptions)
       .map(res => res).subscribe(data => {
       resolve(data);
@@ -920,7 +952,37 @@ createEstimateDetails(estimate_id: number, code: string, description: string,
     status:status,
     type_service:type_service
     };
+    console.log(postParams);
     this.http.post(this.apiEndPoint+'api/create_estimate_detail', postParams, httpOptions)
+    .map(res => res).subscribe(data => {
+    resolve(data);
+    }, error => {
+    resolve(error);
+    });
+    });
+    }
+      createEstimateDetailWorkforceForPending(estimate_id: number,service: string,
+      status: number, type_service: number) {
+        console.log('info de detalle');
+    return new Promise(resolve => {
+    const headers = new HttpHeaders();
+    headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user'))); // 'Bearer ' +
+    headers.append('Content-Type', 'application/json');
+    const httpOptions = {
+    headers: new HttpHeaders({
+    'Content-Type': 'application/json',
+    'Authorization': 'Bearer ' + localStorage.getItem('token_user'),
+    'Accept': 'application/json'
+    })
+    };
+    const postParams = {
+    estimate_id:estimate_id,
+    service:service,
+    status:status,
+    type_service:type_service
+    };
+    console.log(postParams);
+    this.http.post(this.apiEndPoint+'api/create_estimate_detail_pending', postParams, httpOptions)
     .map(res => res).subscribe(data => {
     resolve(data);
     }, error => {
