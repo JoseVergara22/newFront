@@ -2389,7 +2389,8 @@ uploadImagesEstimate() {
     console.log(file.name + '' + file.type);
     const extension = (file.name.substring(file.name.lastIndexOf('.'))).toLowerCase();
     console.log(extension);
-    let nameTemp= this.removeAccents(this.consecutive +file.name.replace(/\s/g,""));
+    let nameTemp= this.removeAccents(this.consecutive +this.normalize(file.name.replace(/\s/g,"")));
+    console.log(nameTemp);
     this.uploadService.uploadFilesAll(file,this.estimateId,0, nameTemp).then(res=>{
       console.log('s3info'+JSON.stringify(res));
       this.s3info=res;
