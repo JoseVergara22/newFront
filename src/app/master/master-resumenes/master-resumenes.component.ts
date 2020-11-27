@@ -145,6 +145,13 @@ export class MasterResumenesComponent implements OnInit {
   }
 }
 
+clearFilter(){
+  this.selectedBusinessId =0;    
+  this.selectedBranchOfficeId = 0;
+  this.selectedRegionalId = 0;
+  this.selectedForkliftId = 0;
+}
+
 getFilters() {
 
   if( this.selectedBusinessId == 0 &&   this.selectedBranchOfficeId == 0 && this.forkliftText==''){
