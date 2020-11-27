@@ -131,14 +131,14 @@
       </div>
     </app-card>
        
-    <app-card>
-      <div class="align-buttons">
+    <app-card *ngIf="currentPreventive!=0">
+      <!-- <div class="align-buttons">
         <button type="button " style="display: none;" id="showPreventives" class="btn btn-primary m-b-0 " (click)="modalAssingPreventive.show()" >Crear</button>
-    </div>
+    </div> -->
       <h5>Rutinas preventivas</h5>
       <ngx-datatable #table class="data-table" [rows]="currentPreventive"   [columnMode]="'flex'" [headerHeight]="50" [footerHeight]="50" [rowHeight]="'auto'" [limit]="20">
 
-        <ngx-datatable-column  [flexGrow]="2" [sortable]="false" [resizeable]="false"  name="Fecha" [sortable]="false"  prop="date"></ngx-datatable-column>
+        <ngx-datatable-column  [flexGrow]="2" [sortable]="false" [resizeable]="false"  name="Fecha/Hora" [sortable]="false"  prop="date"></ngx-datatable-column>
         <ngx-datatable-column  [flexGrow]="2" [sortable]="false" [resizeable]="false"  name="Descripción de la rutna" [sortable]="false"  prop="descriptionRoutine"></ngx-datatable-column>
         <!-- <ngx-datatable-column  [flexGrow]="2" [sortable]="false" [resizeable]="false"  name="Fecha" [sortable]="false"  prop="result.preventiveRoutines"></ngx-datatable-column> -->
         <ngx-datatable-column  [flexGrow]="2" name="Ver" [sortable]="false"  sortable="false" prop="preventive_consecutive">
@@ -151,14 +151,14 @@
       </ngx-datatable>
     </app-card>
      
-    <app-card>
-      <button type="button " style="display: none;" id="showCorrectives" class="btn btn-primary m-b-0 " (click)="modalAssingCorrective.show()" >Crear</button>
+    <app-card *ngIf="rowsClient!=0">
+      <!-- <button type="button " style="display: none;" id="showCorrectives" class="btn btn-primary m-b-0 " (click)="modalAssingCorrective.show()" >Crear</button> -->
     
       <h5>Rutinas Correctivas</h5>
       <ngx-datatable #table class="data-table" [rows]="rowsClient"   [columnMode]="'flex'" [headerHeight]="50" [footerHeight]="50" [rowHeight]="'auto'" [limit]="20">
 
+        <ngx-datatable-column  [flexGrow]="2" [sortable]="false" [resizeable]="false"  name="Fecha/Hora" [sortable]="false"  prop="result.corrective.date"></ngx-datatable-column>
         <ngx-datatable-column  [flexGrow]="2" [sortable]="false" [resizeable]="false"  name="Obervación" [sortable]="false"  prop="result.corrective.work"></ngx-datatable-column>
-        <ngx-datatable-column  [flexGrow]="2" [sortable]="false" [resizeable]="false"  name="Fecha" [sortable]="false"  prop="result.corrective.date"></ngx-datatable-column>
         <ngx-datatable-column  [flexGrow]="2" name="Ver" [sortable]="false"  sortable="false" prop="result.corrective.corrective_consecutive">
           <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
 
@@ -169,13 +169,13 @@
       </ngx-datatable>
     </app-card>
 
-    <app-card>
-      <button type="button " style="display: none;" id="showChecklists" class="btn btn-primary m-b-0 " (click)="modalAssingChecklist.show()" >Crear</button>
+    <app-card *ngIf="currentChecklist!=0">
+      <!-- <button type="button " style="display: none;" id="showChecklists" class="btn btn-primary m-b-0 " (click)="modalAssingChecklist.show()" >Crear</button> -->
     
       <h5>Checklist</h5>
       <ngx-datatable #table class="data-table" [rows]="currentChecklist"   [columnMode]="'flex'" [headerHeight]="50" [footerHeight]="50" [rowHeight]="'auto'" [limit]="20">
 
-        <ngx-datatable-column  [flexGrow]="2" [sortable]="false" [resizeable]="false"  name="Fecha" [sortable]="false"  prop="date"></ngx-datatable-column>
+        <ngx-datatable-column  [flexGrow]="2" [sortable]="false" [resizeable]="false"  name="Fecha/Hora" [sortable]="false"  prop="date"></ngx-datatable-column>
         <ngx-datatable-column  [flexGrow]="2" [sortable]="false" [resizeable]="false"  name="Descripción del checklist" [sortable]="false"  prop="descritionChecklist"></ngx-datatable-column>
         <ngx-datatable-column  [flexGrow]="2" name="Ver" [sortable]="false"  sortable="false" prop="checklists_consecutive">
         <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
@@ -187,13 +187,13 @@
       </ngx-datatable>
     </app-card> 
 
-    <app-card>
-      <button type="button " style="display: none;" id="showChecklists" class="btn btn-primary m-b-0 " (click)="modalAssingChecklist.show()" >Crear</button>
+    <app-card *ngIf="rowPlatform!=0">
+      <!-- <button type="button " style="display: none;" id="showChecklists" class="btn btn-primary m-b-0 " (click)="modalAssingChecklist.show()" >Crear</button> -->
     
       <h5>Plataforma</h5>
       <ngx-datatable #table class="data-table" [rows]="rowPlatform"   [columnMode]="'flex'" [headerHeight]="50" [footerHeight]="50" [rowHeight]="'auto'" [limit]="20">
 
-        <ngx-datatable-column  [flexGrow]="2" [sortable]="false" [resizeable]="false"  name="Fecha" [sortable]="false"  prop="date"></ngx-datatable-column>
+        <ngx-datatable-column  [flexGrow]="2" [sortable]="false" [resizeable]="false"  name="Fecha/Hora" [sortable]="false"  prop="date"></ngx-datatable-column>
         <ngx-datatable-column  [flexGrow]="2" [sortable]="false" [resizeable]="false"  name="Descripción de la rutina" [sortable]="false"  prop="descritionPlatform"></ngx-datatable-column>
         <ngx-datatable-column  [flexGrow]="2" name="Ver" [sortable]="false"  sortable="false" prop="platform_consecutive">
         <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
@@ -204,13 +204,14 @@
         </ngx-datatable-column>
       </ngx-datatable>
     </app-card>
-    <app-card>
-      <button type="button " style="display: none;" id="showChecklists" class="btn btn-primary m-b-0 " (click)="modalAssingChecklist.show()" >Crear</button>
+
+    <app-card *ngIf="rowStevedore!=0">
+      <!-- <button type="button " style="display: none;" id="showChecklists" class="btn btn-primary m-b-0 " (click)="modalAssingChecklist.show()" >Crear</button> -->
     
       <h5>Estibadores</h5>
       <ngx-datatable #table class="data-table" [rows]="rowStevedore"   [columnMode]="'flex'" [headerHeight]="50" [footerHeight]="50" [rowHeight]="'auto'" [limit]="20">
 
-        <ngx-datatable-column  [flexGrow]="2" [sortable]="false" [resizeable]="false"  name="Fecha" [sortable]="false"  prop="date"></ngx-datatable-column>
+        <ngx-datatable-column  [flexGrow]="2" [sortable]="false" [resizeable]="false"  name="Fecha/Hora" [sortable]="false"  prop="date"></ngx-datatable-column>
         <ngx-datatable-column  [flexGrow]="2" [sortable]="false" [resizeable]="false"  name="Descripción de la rutina" [sortable]="false"  prop="descritionStevedore"></ngx-datatable-column>
         <ngx-datatable-column  [flexGrow]="2" name="Ver" [sortable]="false"  sortable="false" prop="stevedore_consecutive">
         <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
@@ -224,7 +225,7 @@
     </app-card> 
 
     <app-card>
-      <button type="button " style="display: none;" id="showCorrectives" class="btn btn-primary m-b-0 " (click)="modalAssingCorrective.show()" >Crear</button>
+      <!-- <button type="button " style="display: none;" id="showCorrectives" class="btn btn-primary m-b-0 " (click)="modalAssingCorrective.show()" >Crear</button> -->
      <h5>Pendientes</h5>
     
       <ngx-datatable #table class="data-table" [rows]="pendingGeneral"   [columnMode]="'flex'" [headerHeight]="50" [footerHeight]="50" [rowHeight]="'auto'" [limit]="10">
@@ -237,17 +238,18 @@
         <ngx-datatable-column  [flexGrow]="2" [sortable]="false" [resizeable]="false"  name="Descripción Pendiente" [sortable]="false"  prop="description"></ngx-datatable-column>
      <!--    <ngx-datatable-column  [flexGrow]="2" [sortable]="false" [resizeable]="false"  name="Descripción De rutina" [sortable]="false"  prop="type"></ngx-datatable-column> -->
         <ngx-datatable-column  [flexGrow]="2" [sortable]="false" [resizeable]="false"  name="Tipo" [sortable]="false"  prop="type"></ngx-datatable-column>
+        <ngx-datatable-column  [flexGrow]="2" [sortable]="false" [resizeable]="false"  name="Consecutivo" [sortable]="false"  prop="consecutive"></ngx-datatable-column>
         
       </ngx-datatable>
     </app-card>
 
-    <app-card>
-      <button type="button " style="display: none;" id="showChecklists" class="btn btn-primary m-b-0 " (click)="modalAssingChecklist.show()" >Crear</button>
+    <app-card *ngIf="rowReport!=0">
+      <!-- <button type="button " style="display: none;" id="showChecklists" class="btn btn-primary m-b-0 " (click)="modalAssingChecklist.show()" >Crear</button> -->
     
-      <h5>Reporte Técnico</h5>
+      <h5>Informe Técnico</h5>
       <ngx-datatable #table class="data-table" [rows]="rowReport"   [columnMode]="'flex'" [headerHeight]="50" [footerHeight]="50" [rowHeight]="'auto'" [limit]="20">
 
-        <ngx-datatable-column  [flexGrow]="2" [sortable]="false" [resizeable]="false"  name="Fecha" [sortable]="false"  prop="date"></ngx-datatable-column>
+        <ngx-datatable-column  [flexGrow]="2" [sortable]="false" [resizeable]="false"  name="Fecha/Hora" [sortable]="false"  prop="date"></ngx-datatable-column>
         <ngx-datatable-column  [flexGrow]="2" [sortable]="false" [resizeable]="false"  name="Descripción de la rutina" [sortable]="false"  prop="descritionReport"></ngx-datatable-column>
         <ngx-datatable-column  [flexGrow]="2" name="Ver" [sortable]="false"  sortable="false" prop="technical_reports_consecutive">
         <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
@@ -260,10 +262,34 @@
      
     </app-card> 
     <app-card>
-      <button type="button " style="display: none;" id="showChecklists" class="btn btn-primary m-b-0 " (click)="modalAssingChecklist.show()" >Crear</button>
+      <!-- <button type="button " style="display: none;" id="showChecklists" class="btn btn-primary m-b-0 " (click)="modalAssingChecklist.show()" >Crear</button> -->
     
       <h5>Cotizaciones</h5>
       <ngx-datatable #table class="data-table" [rows]="rowEstimate"   [columnMode]="'flex'" [headerHeight]="50" [footerHeight]="50" [rowHeight]="'auto'" [limit]="20">
+
+        
+        <ngx-datatable-column  [flexGrow]="2" [sortable]="false" [resizeable]="false"  name="Fecha/Hora" [sortable]="false"  prop="create_at"></ngx-datatable-column>
+        <ngx-datatable-column  [flexGrow]="2" [sortable]="false" [resizeable]="false"  name="Total" [sortable]="false"  prop="total"></ngx-datatable-column>
+        <ngx-datatable-column  [flexGrow]="2" name="Ver" [sortable]="false"  sortable="false" prop="estimate_consecutive">
+        <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+
+          <label (click)="showEstimate(row)"class="link">{{value}}</label>
+         
+        </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column  [flexGrow]="1" [sortable]="false"  sortable="false" name="PDF"   prop="id" >
+          <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+              <label class="link" (click)="getEstimateId(row)">PDF</label>
+            </ng-template>     
+        </ngx-datatable-column>
+      </ngx-datatable>
+     
+    </app-card> 
+    <app-card>
+      <!-- <button type="button " style="display: none;" id="showChecklists" class="btn btn-primary m-b-0 " (click)="modalAssingChecklist.show()" >Crear</button> -->
+    
+      <h5>Liquidaciones</h5>
+      <ngx-datatable #table class="data-table" [rows]="rowSettlement"   [columnMode]="'flex'" [headerHeight]="50" [footerHeight]="50" [rowHeight]="'auto'" [limit]="20">
 
         <ngx-datatable-column  [flexGrow]="2" [sortable]="false" [resizeable]="false"  name="Cliente" [sortable]="false"  prop="business_name"></ngx-datatable-column>
         <ngx-datatable-column  [flexGrow]="2" [sortable]="false" [resizeable]="false"  name="Sede" [sortable]="false"  prop="branch_name"></ngx-datatable-column>
@@ -285,152 +311,3 @@
       </div>
   </div>
 </div>
-
-<app-modal-basic #modalAssingPreventive [dialogClass]="'modal-lg'">
-  <div class="app-modal-header">
-
-      <h4 class="modal-title">Mantenimiento Preventivo</h4>
-  </div>
-  <div class="app-modal-body">
-
-    <div class="form-group row"> 
-      <div class="col-4">
-        <h6>Fecha de asignación</h6>
-        <input type="text" class="form-control" [(ngModel)]="preventiveDate" disabled>
-      </div> 
-      <!-- <div class="col-4"> -->
-        <!-- <h6>Consecutivo</h6>
-        <legend type="button" class="form-control" [(ngModel)]="consecutivePreventive" (click)="showRoutinePreventive()"></legend>
-         <a type="button" class="form-control" [(ngModel)]="consecutivePreventive" (click)="showRoutinePreventive()"></a> 
-      </div>  -->
-  
-    </div>
-
-          <div class="form-group row">
-  
-            <app-card style="width: 100%; height: 300px;">
-              <div style="overflow-y: scroll; height: 300px">
-                <h5>Preventivo</h5>
-                
-                <div   *ngFor="let item of routineSelecteds">
-                  <input type="checkbox" [(ngModel)]="item.select"  data-md-icheck /><a (click)="showRoutinePreventive(item)">&nbsp;{{item.item}}</a> <br>
-                </div>
-              </div>
-            </app-card>
-          </div>
-            <br>
-            <br>
-          <div class="form-group row">
-            <app-card style="width: 100%; height: 300px;">
-              <div style="overflow-y: scroll; height: 300px">
-              <h5>Tecnicos</h5>
-              <div   *ngFor="let item of technicianSelecteds" >
-                <input type="checkbox" [(ngModel)]="item.select"  data-md-icheck /> {{item.item}}<br>
-                </div>
-              </div>
-            </app-card>
-          </div>
-          <br>
-          <br>
-            <div class="align-buttons">
-              <button type="button" class="btn btn-default waves-effect" id="assignPrevetiveHide" (click)="modalAssingPreventive.hide()" (click)="cleanPreventive()" (click)="cleanTechnician()" >Cerrar</button>
-             </div>
-      </div>          
-</app-modal-basic>
-
-<app-modal-basic #modalAssingChecklist [dialogClass]="'modal-lg'">
-  <div class="app-modal-header">
-
-      <h4 class="modal-title">Checklist</h4>
-  </div>
-  <div class="app-modal-body">
-
-    <div class="form-group row"> 
-      <div class="col-4">
-        <h6>Fecha de asignación</h6>
-        <input type="text" class="form-control" [(ngModel)]="checklistDate" disabled>
-      </div>
-    </div>
-
-        <div class="form-group row">
-  
-          <app-card style="width: 100%; height: 300px;">
-            <div style="overflow-y: scroll; height: 300px">
-                <h5>Checklist</h5>
-                
-                <div   *ngFor="let item of checklisSelecteds">
-                  <input type="checkbox" [(ngModel)]="item.select"  data-md-icheck  /><a (click)="showRoutineChecklist(item)">&nbsp;{{item.item}}</a> <br>
-                </div>
-              </div>
-            </app-card>
-        </div>
-            <br>
-            <br>
-            <div class="form-group row">
-              <app-card style="width: 100%; height: 300px;">
-                <div style="overflow-y: scroll; height: 300px">
-              <h5>Tecnicos</h5>
-              <div   *ngFor="let item of technicianSelecteds" >
-                <input type="checkbox" [(ngModel)]="item.select"  data-md-icheck /> {{item.item}}<br>
-                </div>
-              </div>
-            </app-card>
-          </div>
-    <br>
-    <br>
-            <div class="align-buttons">
-              <button type="button" class="btn btn-default waves-effect" id="assignChecklistHide" (click)="modalAssingChecklist.hide()" (click)="cleanChecklist()" (click)="cleanTechnician()" >Cerrar</button>
-             </div>
-    </div>
-</app-modal-basic>
-
-<app-modal-basic #modalAssingCorrective [dialogClass]="'modal-lg'">
-  <div class="app-modal-header">
-
-      <h4 class="modal-title">Matenimiento Correctivo</h4>
-  </div>
-  <div class="app-modal-body">
-
-    <div class="form-group row"> 
-      <div class="col-4">
-        <h6>Fecha de asignación</h6>
-        <input type="text" class="form-control" [(ngModel)]="correctiveDate" disabled>
-      </div> 
-      <div class="col-4">
-       
-      </div> 
-      <div class="col-4">
-        <h6>Consecutivo</h6>
-       <label  type="submit" class="link">{{consecutiveCorrective}}</label>
-      </div> 
-  
-    </div>
- 
-        <div class="form-group row">
-  
-          <app-card style="width: 100%; height: 300px;">
-            <div style="overflow-y: scroll; height: 300px">
-                <h5>Observación</h5>
-                <textarea type="text"  class="form-control" id="comment"  [(ngModel)]="observationCorrective"cols="30" rows="10"></textarea>
-              </div>
-            </app-card>
-        </div>
-            <br>
-            <br>
-            <div class="form-group row">
-              <app-card style="width: 100%; height: 300px;">
-                <div style="overflow-y: scroll; height: 300px">
-              <h5>Tecnicos</h5>
-              <div   *ngFor="let item of technicianSelecteds" >
-                <input type="checkbox" [(ngModel)]="item.select"  data-md-icheck /> {{item.item}}<br>
-                </div>
-              </div>
-            </app-card>
-          </div>
-    <br>
-    <br>
-            <div class="align-buttons">
-              <button type="button" class="btn btn-default waves-effect" id="assignCorrectiveHide" (click)="modalAssingCorrective.hide()" (click)="cleanTechnician()" >Cerrar</button>
-            </div>
-    </div>
-</app-modal-basic>

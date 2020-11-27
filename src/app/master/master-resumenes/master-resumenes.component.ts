@@ -3,7 +3,7 @@ import swal from 'sweetalert2';
 import { I18n } from '../master-forklift/master-forklift.component';
 import { RestService } from '../../master-services/Rest/rest.service';
 import { ForkliftService } from '../../master-services/Forklift/forklift.service';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { NgbCalendar, NgbDateParserFormatter } from '@ng-bootstrap/ng-bootstrap';
 import { ResumenesService } from '../../master-services/resumenes/resumenes.service';
 
@@ -32,18 +32,51 @@ export class MasterResumenesComponent implements OnInit {
   customerName: any = '';
   branch: any = '';
 
+  headerId:any;
+  regional_id: any;
+  customer_id: any;
+  branch_id: any;
 
 
   constructor(private restService: RestService, private resumenesService: ResumenesService, private router: Router, 
-     private forkliftService: ForkliftService,    private calendar: NgbCalendar, public formatter: NgbDateParserFormatter) { 
+     private forkliftService: ForkliftService,    private calendar: NgbCalendar, public formatter: NgbDateParserFormatter,
+     private activatedRoute: ActivatedRoute,) { 
 
       this.getRegional();
 
      
      }
 
-  ngOnInit() {
-  }
+     ngOnInit() {
+      this.activatedRoute.paramMap.subscribe(data=>{
+         //this.name=data.get('id');
+         this.regional_id=Number(data.get('regional'));
+         if (this.regional_id) {
+            // this.showButtonUpdated=true;
+            // this.regional_id=Number(data.get('hours'));
+            this.selectedRegionalId = this.regional_id;
+            
+            this.customer_id=Number(data.get('customer'));
+            this.branch_id=Number(data.get('branch'));
+            this.selectedBusinessId = this.customer_id;
+            this.selectedBranchOfficeId = this.branch_id;
+            console.log(this.selectedRegionalId);
+            console.log(this.selectedBusinessId);
+            console.log(this.selectedBranchOfficeId);
+            this.getCustomerRegionals(this.regional_id);
+            this.getBranchOffices(this.customer_id);
+            console.log('paso');
+            this.getForklifs();
+            // this.getRegional();
+            // this.cusotmerSelecteds.length = 0;
+            // this.regionalSelecteds.length = 0;
+            // this.getCustomer();
+            // this.getRegionals();
+            
+           
+         }
+        });
+      }
 
   getRegional(){
     this.restService.getRegionalAll().then(data => {
@@ -56,9 +89,11 @@ export class MasterResumenesComponent implements OnInit {
     });
   }
 
-  getCustomerRegionals() {
-    this.restService.getRegionalCustomers(this.selectedRegionalId.id).then(data => {
+  getCustomerRegionals(id) {
+    console.log(id);
+    this.restService.getRegionalCustomers(id).then(data => {
       const resp: any = data;
+      this.selectedBusinessId = this.customer_id;
       console.log(data);
       swal.close();
       this.customers  = resp.data;
@@ -69,12 +104,14 @@ export class MasterResumenesComponent implements OnInit {
       console.log(error);
     });
    }
-  getBranchOffices() {
+
+  getBranchOffices(id) {
     if(this.selectedBusinessId!=0){
     
     // Llenar información de cliente  
-    this.restService.getOffice(this.selectedBusinessId.id).then(data => {
+    this.restService.getOffice(id).then(data => {
       const resp: any = data;
+      this.selectedBranchOfficeId = this.branch_id;
       console.log('oficinas: '+data);
       swal.close();
       this.branchOffices  = resp.data;
@@ -92,9 +129,9 @@ export class MasterResumenesComponent implements OnInit {
   getForklifs() {
     if(this.selectedBranchOfficeId!=0){
     console.log('this.selectedBusinessId.id');
-    console.log(this.selectedBranchOfficeId.id);
+    console.log(this.selectedBranchOfficeId);
 
-  this.forkliftService.getForkliftBranchOfficesFull(this.selectedBranchOfficeId.id).then(data => {
+  this.forkliftService.getForkliftBranchOfficesFull(this.selectedBranchOfficeId).then(data => {
       const resp: any = data;
       console.log(data);
       swal.close();
@@ -130,18 +167,18 @@ getFilters() {
       console.log('imprimir cont');
         console.log(cont);
         if(cont>0){
-          params=params+'&&customer_id='+this.selectedBusinessId.id;
+          params=params+'&&customer_id='+this.selectedBusinessId;
         }else{
-          params=params+'customer_id='+this.selectedBusinessId.id;
+          params=params+'customer_id='+this.selectedBusinessId;
           cont++;
         }     
       }
 
       if(this.selectedForkliftId!=0){
         if(cont>0){
-          params=params+'&&forklift_id='+this.selectedForkliftId.id;
+          params=params+'&&forklift_id='+this.selectedForkliftId;
         }else{
-          params=params+'forklift_id='+this.selectedForkliftId.id;
+          params=params+'forklift_id='+this.selectedForkliftId;
           cont++;
         }
       }
@@ -149,9 +186,9 @@ getFilters() {
       if(this.selectedBranchOfficeId!=0){
       console.log(cont);
         if(cont>0){
-        params=params+'&&branch_office_id='+this.selectedBranchOfficeId.id;
+        params=params+'&&branch_office_id='+this.selectedBranchOfficeId;
         }else{
-          params=params+'branch_office_id='+this.selectedBranchOfficeId.id;
+          params=params+'branch_office_id='+this.selectedBranchOfficeId;
           cont++;
         }
       }
@@ -185,7 +222,7 @@ getFilters() {
 
 editResumenes(row: any){
   console.log(row);
-  this.router.navigateByUrl('maintenance/editResumenes/'+row.id+'/'+row.full_name);
+  this.router.navigateByUrl('maintenance/editResumenes/'+row.id+'/'+row.full_name+'/'+this.selectedRegionalId);
 }
 
 }

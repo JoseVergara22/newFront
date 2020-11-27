@@ -1319,7 +1319,29 @@ createEstimateDetails(estimate_id: number, code: string, description: string,
       });
     }
 
-  
+    getEstimateId(id: any){
+      return new Promise(resolve => {
+        const headers = new HttpHeaders();
+        headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user'))); // 'Bearer ' +
+        headers.append('Content-Type', 'application/json');
+        const httpOptions = {
+          headers: new HttpHeaders({
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + localStorage.getItem('token_user'),
+            'Accept': 'application/json'
+          })
+        };
+        console.log(id)
+        this.http.get(this.apiEndPoint+'api/get_estimate_id/'+id, httpOptions)
+          .map(res => res).subscribe(data => {
+            console.log(data);
+            resolve(data);
+          }, error => {
+            resolve(error);
+          });
+      });
+    }
+    
 }
 
 

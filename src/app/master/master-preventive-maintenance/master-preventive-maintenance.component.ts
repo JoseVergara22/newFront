@@ -563,7 +563,7 @@ export class MasterPreventiveMaintenanceComponent extends NgbDatepickerI18n {
             // console.log( this.rowsClient);
           }).catch(error => {
             swal({
-              title: 'Se presento un problema, para guardar este encabezado de manteminiento preventivo',
+              title: 'Se presento un problema, para guardar este encabezado de mantenimiento preventivo',
               type: 'error'
              });
             console.log(error);
@@ -593,7 +593,7 @@ export class MasterPreventiveMaintenanceComponent extends NgbDatepickerI18n {
       this.createPreventiveMassive(resp.data.id);
     }).catch(error => {
       swal({
-        title: 'Se presento un problema, para guardar este manteminiento preventivo',
+        title: 'Se presento un problema, para guardar este mantenimiento preventivo',
         type: 'error'
        });
       console.log(error);
@@ -613,7 +613,7 @@ export class MasterPreventiveMaintenanceComponent extends NgbDatepickerI18n {
       this.updatePreventiveMassive(this.currentMassiveDescription);
     }).catch(error => {
       swal({
-        title: 'Se presento un problema, para guardar este manteminiento preventivo',
+        title: 'Se presento un problema, para guardar este mantenimiento preventivo',
         type: 'error'
        });
       console.log(error);
@@ -746,7 +746,7 @@ export class MasterPreventiveMaintenanceComponent extends NgbDatepickerI18n {
             // console.log( this.rowsClient);
           }).catch(error => {
             swal({
-              title: 'Se presento un problema, para guardar este encabezado de manteminiento preventivo',
+              title: 'Se presento un problema, para guardar este encabezado de mantenimiento preventivo',
               type: 'error'
              });
             console.log(error);
@@ -1144,7 +1144,7 @@ export class MasterPreventiveMaintenanceComponent extends NgbDatepickerI18n {
       
           }).catch(error => {
             swal({
-              title: 'Se presento un problema, para guardar este  manteminiento preventivo',
+              title: 'Se presento un problema, para guardar este  mantenimiento preventivo',
               type: 'error'
              });
             console.log(error);

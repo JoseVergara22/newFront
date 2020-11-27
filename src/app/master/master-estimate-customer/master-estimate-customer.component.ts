@@ -1344,11 +1344,14 @@ if(this.conditionTrmUsa.id==2){
    
 
   getPendingForklift(){
+    
     this.resumeneServices.getForkliftPendingGeneral(this.selectedForkliftId.id).then(data => {
       const resp: any = data;
       console.log('Este es la API DE CONFIGURACIÓN TOPE MAXIMO, MARGEN, ST,SN');
       console.log(data);
       this.rowPending = resp.data;
+      this.itemsPart.length=0;
+      console.log(this.itemsPart);
       for(let item of this.rowPending){
         this.itemPart = {
           id: item.id,

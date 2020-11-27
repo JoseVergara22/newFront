@@ -6,7 +6,9 @@
 export const environment = {
   production: false,
   name:"(DEV)",
-  apiBaseUrl:"http://34.207.70.171/",
+  // apiBaseUrl:"https://127.0.0.1:8000/",
+  apiBaseUrl:"https://montacargasmasterbackdev.co/",
+  // apiBaseUrl:"http://34.207.70.171/",
   clientId: '1',
   clientSecret: 'TyG8pFzcGI7nTIt31FzFCwnvF0E8t70OSAIyrwWT',
 };

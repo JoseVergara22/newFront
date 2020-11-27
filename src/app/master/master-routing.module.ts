@@ -315,7 +315,10 @@ const routes: Routes = [
     path:'resumenes',
     component: MasterResumenesComponent
   },{
-    path:'editResumenes/:id/:full_name',
+    path:'resumenes/:regional/:customer/:branch',
+    component: MasterResumenesComponent
+  },{
+    path:'editResumenes/:id/:full_name/:regional',
     component: MasterEditResumenesComponent
   },{
     path:'prevetiveMaintenance',
