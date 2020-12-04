@@ -2674,12 +2674,19 @@ doc.autoTable({
       startY:  doc.autoTable.previous.finalY,
       theme:'grid',
       styles: {fillColor: null,lineColor:[4,1,0],lineWidth:0.2},
-      columnStyles: {0: {halign: 'left', fontSize:8, cellWidth:85}, 1: {halign: 'left', fontSize:8, cellWidth:86},2: {halign: 'left', fontSize:8, cellWidth:81},3: {halign: 'left', fontSize:8, cellWidth:80},4: {halign: 'center', fontSize:8, cellWidth:81} },
+      columnStyles: {
+        0: {halign: 'left', fontSize:8, cellWidth:85},
+        1: {halign: 'left', fontSize:8, cellWidth:86},
+        2: {halign: 'left', fontSize:8, cellWidth:81},
+        3: {halign: 'left', fontSize:8, cellWidth:80},
+        4: {halign: 'center', fontSize:8, cellWidth:81},
+        5: {halign: 'center', fontSize:8, cellWidth:81},textColor:[255, 0, 0]  },
       margin: { left: 15},
       body: [
-      [{content: this.observationEstimate, colSpan: 3, rowSpan: 3, styles: {halign: 'left'}},'Subtotal Mano de Obra','$'+this.subtotalHoursEstimate],
-       ['Total','$'+this.totalEstimate],
-       [{content: 'NOTA: VALORES ANTES DE IVA', colSpan: 2,  styles: {halign: 'left'}}]]
+      [{content: this.observationEstimate, colSpan: 3, rowSpan: 4, styles: {halign: 'left'}},'Subtotal Mano de Obra','$'+this.subtotalHoursEstimate], ['Total','$'+this.totalEstimate],
+       [{content: 'NOTA: VALORES ANTES DE IVA', colSpan: 2,  styles: {halign: 'left'}}],
+       [{content: 'Montacargas Máster es AUTORRETENEDOR EN RENTA según Resolucion N°6541 del 04/09/2019', colSpan: 2,  styles: {halign: 'left',textColor:[255, 0, 0]}}]
+      ]
     });
 
 console.log('info de imagenes');

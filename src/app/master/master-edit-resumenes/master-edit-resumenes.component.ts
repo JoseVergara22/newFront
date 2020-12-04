@@ -269,12 +269,13 @@ export class MasterEditResumenesComponent extends NgbDatepickerI18n {
 
     getEstimateId(row: any){
       console.log(row);
+      swal.showLoading();
       this.estimateService.getEstimateId(row.id).then(data => {
         const resp: any = data;
         console.log(data);
         if(resp.success==true){
           swal.showLoading();
-          this.estimateCurrent = resp.data
+          this.estimateCurrent = resp.dat[0];
           console.log('item :'+ JSON.stringify(this.estimateCurrent));
           this.estimateId= this.estimateCurrent.id;
           this.user = this.estimateCurrent.elaborate_user.username;
@@ -312,13 +313,25 @@ export class MasterEditResumenesComponent extends NgbDatepickerI18n {
             console.log("entro else");
             this.observationEstimate = 'Observación';
           }
-        }
+        
         swal.close();
       this.getEstimateParts()
-        }).catch(error => {
-          console.log(error);
-        });
+    }else{
+      swal({
+        title:'Error',
+        text: 'Ha ocurrido un error',
+        type: 'error'
+       });
     }
+    }).catch(error => {
+      console.log(error);
+      swal({
+        title:'Error',
+        text: 'Ha ocurrido un error',
+        type: 'error'
+       });
+        });
+  }
 
 
 
@@ -1753,11 +1766,12 @@ console.log(this.filesImage);
 
 getSettlementId(row: any){
   console.log(row);
+  swal.showLoading();
   this.settlementeService.getSettlementId(row.id).then(data => {
     const resp: any = data;
     console.log(data);
     if(resp.success==true){
-      this.estimateCurrent=resp.data;
+      this.estimateCurrent=resp.data[0];
       swal.showLoading();
       console.log('item :'+ JSON.stringify(this.settlementCurrent));
       console.log(this.settlementCurrent);
@@ -1789,12 +1803,22 @@ getSettlementId(row: any){
       console.log('download ole');
 
       this.getSettlementParts();
+    }else{
+      swal({
+        title:'Error',
+        text: 'Ha ocurrido un error',
+        type: 'error'
+       });
     }
     }).catch(error => {
       console.log(error);
-    });
+      swal({
+        title:'Error',
+        text: 'Ha ocurrido un error',
+        type: 'error'
+       });
+  });
 }
-
 
  getSettlementParts() {
   console.log('entro parts');

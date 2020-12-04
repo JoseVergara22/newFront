@@ -118,7 +118,7 @@ export class MasterPreventiveMaintenanceComponent extends NgbDatepickerI18n {
       this.massiveUntilDate=ngbDateStruct;
 
       this.getRegional();
-      this.getWorks();
+      // this.getWorks();
       
     }
     
@@ -196,6 +196,7 @@ export class MasterPreventiveMaintenanceComponent extends NgbDatepickerI18n {
        type: 'warning'
       });
     }else{
+      this.getWorksFilters(this.selectedRegionalId,this.selectedBusinessId);
       this.getTechnician(this.selectedRegionalId);
       document.getElementById('showAssing').click();
     }
@@ -208,6 +209,7 @@ export class MasterPreventiveMaintenanceComponent extends NgbDatepickerI18n {
        type: 'warning'
       });
     }else{
+      this.getWorksFilters(this.selectedRegionalId,this.selectedBusinessId);
       this.getTechnician(this.selectedRegionalId);
       document.getElementById('showAssingMassive').click();
     }
@@ -339,6 +341,51 @@ export class MasterPreventiveMaintenanceComponent extends NgbDatepickerI18n {
     });
     swal.showLoading();
     this.workService.getWorks().then(data => {
+      const resp: any = data;
+      if (resp.error) {
+        swal({
+          title:'Error',
+          text: 'Ha ocurrido un error',
+          type: 'error'
+         });
+      } else {
+        console.log(data);
+        swal.close();
+        this.rowsWork = resp.data;
+        for (let item of  this.rowsWork) {
+          // console.log(item); // 1, "string", false
+
+          this.routineSelected= {
+            id: item.id,
+            item: item.description,
+            select: false
+          }
+          this.routineSelecteds.push(this.routineSelected);
+      }
+
+      console.log("ole ole");
+      console.log(this.routineSelecteds);
+
+
+        console.log( this.rowsWork);
+    }
+    }).catch(error => {
+      swal.close();
+      swal({
+        title:'Error',
+        text: 'Ha ocurrido un error',
+        type: 'error'
+       });
+      console.log(error);
+    });
+  }
+  getWorksFilters(regional_id: any, customer_id: any) {
+    swal({
+      title: 'Obteniendo información ...',
+      allowOutsideClick: false
+    });
+    swal.showLoading();
+    this.workService.getWorksFilter(regional_id.id,customer_id.id).then(data => {
       const resp: any = data;
       if (resp.error) {
         swal({
@@ -551,6 +598,7 @@ export class MasterPreventiveMaintenanceComponent extends NgbDatepickerI18n {
             
              this.cleanSelectRoutines();
             // this.cleanSelectTechnician();
+            this.routineSelecteds.length=0;
             this.technicianSelecteds.length=0;
             this.preventiveList = '';
             this.technicianList = '';
@@ -772,6 +820,7 @@ export class MasterPreventiveMaintenanceComponent extends NgbDatepickerI18n {
             
              this.cleanSelectRoutines();
             // this.cleanSelectTechnician();
+            this.routineSelecteds.length=0;
             this.technicianSelecteds.length=0;
             this.preventiveList = '';
             this.technicianList = '';
@@ -1170,6 +1219,7 @@ export class MasterPreventiveMaintenanceComponent extends NgbDatepickerI18n {
             
              this.cleanSelectRoutines();
             // this.cleanSelectTechnician();
+            this.routineSelecteds.length=0;
             this.technicianSelecteds.length=0;
             this.preventiveList = '';
             this.technicianList = '';
@@ -1186,6 +1236,7 @@ export class MasterPreventiveMaintenanceComponent extends NgbDatepickerI18n {
       }
         this.cleanSelectRoutines();
         // this.cleanSelectTechnician();
+        this.routineSelecteds.length=0;
         this.technicianSelecteds.length=0;
         this.preventiveList = '';
         this.technicianList = '';
@@ -1278,6 +1329,7 @@ export class MasterPreventiveMaintenanceComponent extends NgbDatepickerI18n {
           }
           this.cleanSelectRoutines();
           // this.cleanSelectTechnician();
+          this.routineSelecteds.length=0;
           this.technicianSelecteds.length=0;
           this.preventiveList = '';
           this.technicianList = '';
@@ -1346,6 +1398,7 @@ export class MasterPreventiveMaintenanceComponent extends NgbDatepickerI18n {
     
     this.cleanSelectRoutines();
               // this.cleanSelectTechnician();
+              this.routineSelecteds.length=0;
               this.technicianSelecteds.length=0;
     document.getElementById( 'assignPrevetiveHide').click();
 }
@@ -1355,6 +1408,7 @@ export class MasterPreventiveMaintenanceComponent extends NgbDatepickerI18n {
     
     this.cleanSelectRoutines();
               // this.cleanSelectTechnician();
+              this.routineSelecteds.length=0;
               this.technicianSelecteds.length=0;
               this.dateSelecteds = [];
     document.getElementById( 'assignPrevetiveHideMassive').click();
@@ -1365,6 +1419,7 @@ export class MasterPreventiveMaintenanceComponent extends NgbDatepickerI18n {
     
     this.cleanSelectRoutines();
     // this.cleanSelectTechnician();
+    this.routineSelecteds.length=0;
     this.technicianSelecteds.length=0;
     document.getElementById( 'assingUpdatePrevetiveHide').click();
 }
@@ -1374,6 +1429,7 @@ export class MasterPreventiveMaintenanceComponent extends NgbDatepickerI18n {
     
     this.cleanSelectRoutines();
     // this.cleanSelectTechnician();
+    this.routineSelecteds.length=0;
     this.technicianSelecteds.length=0;
     this.dateSelecteds = [];
     document.getElementById( 'assingUpdatePrevetiveHideMassive').click();

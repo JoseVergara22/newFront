@@ -54,6 +54,10 @@ export class MasterWorkDashboardComponent implements OnInit {
     this.router.navigateByUrl('maintenance/work_details');
   }
 
+  copyRoutine(row: any){
+    console.log(row);
+  }
+
   goToTpdateView(workrow:any){
     console.log(workrow.description);
     this.router.navigateByUrl('maintenance/work_detailsUpdate/'+workrow.id+'/'+workrow.description+'/'+workrow.hours+'/'+workrow.observation);

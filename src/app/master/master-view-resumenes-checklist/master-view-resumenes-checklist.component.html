@@ -8,7 +8,7 @@
     <app-card>
       <div class="form-group row">
         <div class="col-sm-6">
-          <h6>Descripcción de la rutina</h6>
+          <h6>Descricción de la rutina</h6>
              <input type="text" [(ngModel)]="descriptionRutine" class="form-control" disabled>
          </div>
          <div class="col-sm-3">
@@ -50,7 +50,7 @@
   </ngx-datatable>
 </app-card>
 
-<app-card title="Tecnicos Asignados">
+<app-card title="Técnicos Asignados">
   <ngx-datatable #table class="data-table" [rows]="technician"   [columnMode]="'flex'" [headerHeight]="50" [footerHeight]="50" [rowHeight]="'auto'" [limit]="20">
 
     <ngx-datatable-column  [flexGrow]="2" [sortable]="false" [resizeable]="false"  name="Nombre del Técnico" [sortable]="false"  prop="name"></ngx-datatable-column>
@@ -88,7 +88,7 @@
 
 </app-card>
 
-<app-card  title="Imagenes">
+<app-card  title="Imágenes">
   <div class="form-group row">
     <img *ngFor="let img of urlImages" src="{{img.image}}" width="20%" HSPACE="10" VSPACE="10" style="border-image: auto;">
   </div>

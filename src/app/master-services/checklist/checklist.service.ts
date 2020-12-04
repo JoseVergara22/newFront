@@ -12,7 +12,7 @@ export class ChecklistService {
 
   constructor(private http: HttpClient, private router: Router) { }
 
-createChecklist( description: string, hours: number, observation: string) {
+createChecklist( description: string, hours: number, observation: string,type:number,customer_id: string, regional_id: string) {
     return new Promise(resolve => {
     const headers = new HttpHeaders();
     headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user'))); // 'Bearer ' +
@@ -28,10 +28,11 @@ createChecklist( description: string, hours: number, observation: string) {
       description: description,
       hours: hours,
       observation: observation,
-    //   regional_id:regional_id,
-    //   customer_id:customer_id,
-    //   type:type,
+      regional_id:regional_id,
+      customer_id:customer_id,
+      type:type,
     };
+    console.log(postParams);
     this.http.post(this.apiEndPoint+'api/create_checklist?', postParams, httpOptions)
     .map(res => res).subscribe(data => {
       resolve(data);
@@ -63,6 +64,28 @@ showChecklist() { // Falta implementar desde el backend
   });
 }
 
+showChecklistFilter(regional_id: any, customer_id: any){
+  return new Promise(resolve => {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type':  'application/json',
+        'Authorization': 'Bearer ' + localStorage.getItem('token_user'),
+        'Accept': 'application/json'
+      })
+    };
+    console.log('regional_id='+regional_id+'&customer_id='+customer_id);
+    this.http.get(this.apiEndPoint+'api/show_filter_checklist?regional_id='+regional_id+'&customer_id='+customer_id, httpOptions)
+    .map(res => res).subscribe(data => {
+      console.log("a mostrar data");
+    console.log(data);
+    resolve(data);
+    }, error => {
+      console.log("error en servicio");
+      console.log(error);
+              resolve(error);
+      });
+  });
+}
 getChecklistId(id: number) { // Falta implementar desde el backend
   console.log(id)
   return new Promise(resolve => {
@@ -86,7 +109,7 @@ getChecklistId(id: number) { // Falta implementar desde el backend
   });
 }
 
-updateChecklist(id: number,description: string, hours: number, observation: string) {
+updateChecklist(id: number,description: string, hours: number, observation: string, type: number, customer_id: string, regional_id:string) {
   console.log(id + ',' + description );
   return new Promise(resolve => {
     const headers = new HttpHeaders();
@@ -103,9 +126,9 @@ updateChecklist(id: number,description: string, hours: number, observation: stri
       description: description,
       hours:hours,
       observation:observation,
-      // regional_id:regional_id,
-      // customer_id:customer_id,
-      // type:type,
+      regional_id:regional_id,
+      customer_id:customer_id,
+      type:type,
     };
     this.http.patch(this.apiEndPoint+'api/update_checklist/' + id, postParams, httpOptions)
       .map(res => res).subscribe(data => {

@@ -121,7 +121,7 @@ export class MasterChecklistMaintenanceComponent extends NgbDatepickerI18n {
 
       this.getRegional();
     
-      this.getChecklist();
+      // this.getChecklist();
       // this.getTechnician();
       
 
@@ -210,6 +210,7 @@ export class MasterChecklistMaintenanceComponent extends NgbDatepickerI18n {
        type: 'warning'
       });
     }else{
+      this.getChecklistFilters(this.selectedRegionalId,this.selectedBusinessId);
       this.getTechnician(this.selectedRegionalId);
       document.getElementById('showAssing').click();
     }
@@ -252,6 +253,52 @@ export class MasterChecklistMaintenanceComponent extends NgbDatepickerI18n {
     });
     swal.showLoading();
     this.checklistService.showChecklist().then(data => {
+      const resp: any = data;
+      if (resp.error) {
+        swal({
+          title:'Error',
+          text: 'Ha ocurrido un error',
+          type: 'error'
+         });
+      } else {
+        console.log(data);
+        swal.close();
+        this.checklists = resp.data;
+        for (let item of  this.checklists) {
+          // console.log(item); // 1, "string", false
+
+          this.checklistSelected= {
+            id: item.id,
+            item: item.description,
+            select: false
+          }
+          this.checklisSelecteds.push(this.checklistSelected);
+      }
+
+      console.log("ole ole");
+      console.log(this.checklisSelecteds);
+
+
+    }
+    }).catch(error => {
+      swal.close();
+      swal({
+        title:'Error',
+        text: 'Ha ocurrido un error',
+        type: 'error'
+       });
+      console.log(error);
+    });
+  }
+  
+
+  getChecklistFilters(regional_id: any, customer_id: any){
+    swal({
+      title: 'Obteniendo información ...',
+      allowOutsideClick: false
+    });
+    swal.showLoading();
+    this.checklistService.showChecklistFilter(regional_id.id,customer_id.id).then(data => {
       const resp: any = data;
       if (resp.error) {
         swal({
@@ -456,6 +503,7 @@ export class MasterChecklistMaintenanceComponent extends NgbDatepickerI18n {
             
              this.cleanSelectChecklist();
             // this.cleanSelectTechnician();
+            this.checklisSelecteds.length=0;
             this.technicianSelecteds.length=0;
             this.checkedList = '';
             this.technicianList = '';
@@ -689,6 +737,7 @@ export class MasterChecklistMaintenanceComponent extends NgbDatepickerI18n {
             
              this.cleanSelectChecklist();
             // this.cleanSelectTechnician();
+            this.checklisSelecteds.length=0;
             this.technicianSelecteds.length=0;
             this.checkedList = '';
             this.technicianList = '';
@@ -722,6 +771,7 @@ showAssingMassive(){
      type: 'warning'
     });
   }else{
+    this.getChecklistFilters(this.selectedRegionalId,this.selectedBusinessId);
     this.getTechnician(this.selectedRegionalId);
     document.getElementById('showAssingMassive').click();
   }
@@ -807,6 +857,7 @@ showAssingMassive(){
             this.checkedList = '';
             this.technicianList = '';
             // this.cleanSelectTechnician();
+            this.checklisSelecteds.length=0;
             this.technicianSelecteds.length=0;
              console.log('llego hasta aqui');
     
@@ -1029,6 +1080,7 @@ showAssingMassive(){
           }
           this.cleanSelectChecklist();
           // this.cleanSelectTechnician();
+          this.checklisSelecteds.length=0;
           this.technicianSelecteds.length=0;
           this.checkedList = '';
             this.technicianList = '';
@@ -1347,6 +1399,7 @@ showAssingMassive(){
     
     this.cleanSelectChecklist();
               // this.cleanSelectTechnician();
+              this.checklisSelecteds.length=0;
               this.technicianSelecteds.length=0;
               this.dateSelecteds = [];
               this.selectedHourPreventiveMassive=0;
@@ -1361,6 +1414,7 @@ addCancelUpdateDateMassive(){
   
   this.cleanSelectChecklist();
   // this.cleanSelectTechnician();
+  this.checklisSelecteds.length=0;
   this.technicianSelecteds.length=0;
   this.selectedHourUpdatePreventiveMassive=0;
   this.selectedMinutUpdatePreventiveMassive=0;
@@ -1374,9 +1428,10 @@ addCancelUpdateDateMassive(){
     
     this.cleanSelectChecklist();
     // this.cleanSelectTechnician();
+    this.checklisSelecteds.length=0;
     this.technicianSelecteds.length=0;
     this.selectedHourChecklist=0;
-  this.selectedMinutChecklist=0;
+    this.selectedMinutChecklist=0;
     document.getElementById( 'assignChecklistHide').click();
 }
   addCancelUpdateDate(){
@@ -1385,6 +1440,7 @@ addCancelUpdateDateMassive(){
     
     this.cleanSelectChecklist();
     // this.cleanSelectTechnician();
+    this.checklisSelecteds.length=0;
     this.technicianSelecteds.length=0;
     this.selectedHourUpdateChecklist=0;
   this.selectedMinutUpdateChecklist=0;

@@ -108,10 +108,9 @@
           </div>
           <!-- <form [formGroup]="partForm"> -->
           <div class="form-group row">
-            <div class="col-sm-10">
-            
-              <h6>Observación</h6>
-              <textarea  id="partDescription"  name="observacion" cols="170" rows="10" [(ngModel)]="detail.work"  required></textarea>
+            <div class="col-sm-10  comment">
+              <!-- <h6>Observación</h6> -->
+              <textarea class="textinput"  id="partDescription" wrap="hard" name="observacion" [(ngModel)]="detail.work"  required></textarea>
    
             </div>
           </div>

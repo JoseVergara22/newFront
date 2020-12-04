@@ -36,6 +36,29 @@ export class WorkService {
     });
   }
 
+  getWorksFilter(regional_id: any, customer_id: any){
+    return new Promise(resolve => {
+      const httpOptions = {
+        headers: new HttpHeaders({
+          'Content-Type':  'application/json',
+          'Authorization': 'Bearer ' + localStorage.getItem('token_user'),
+          'Accept': 'application/json'
+        })
+      };
+      console.log('regional_id='+regional_id+'&customer_id='+customer_id);
+      this.http.get(this.apiEndPoint+'api/routines_filter?regional_id='+regional_id+'&customer_id='+customer_id, httpOptions)
+      .map(res => res).subscribe(data => {
+        console.log("a mostrar data");
+      console.log(data);
+      resolve(data);
+      }, error => {
+        console.log("error en servicio");
+        console.log(error);
+                resolve(error);
+        });
+    });
+  }
+
   getWorksDetails(id:number){
     return new Promise(resolve => {
       const httpOptions = {
@@ -254,9 +277,9 @@ export class WorkService {
         description:description,
         hours:hours,
         observation:observation,
-        // regional_id:regional_id,
-        // customer_id:customer_id,
-        // type:type,
+        regional_id:regional_id,
+        customer_id:customer_id,
+        type:type,
       }
       console.log(postParams);
       this.http.post(this.apiEndPoint+'api/routines', postParams,httpOptions)
@@ -334,9 +357,9 @@ export class WorkService {
         status:status,
         hours:hours,
         observation:observation,
-        // regional_id:regional_id,
-        // customer_id:customer_id,
-        // type:type,
+        regional_id:regional_id,
+        customer_id:customer_id,
+        type:type,
       }
       console.log(patchParams);      
       this.http.patch(this.apiEndPoint+'api/routines/'+id, patchParams,httpOptions)

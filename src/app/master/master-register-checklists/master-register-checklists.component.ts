@@ -32,41 +32,42 @@ export class MasterRegisterChecklistsComponent implements OnInit {
 
   headerinfo:any;
 
-  // typeRoutine: any = 0;
-  // selectedBusinessId: any = 0;
-  // customers: any;
-  // filterIndicatorText: any;
-  // rowsTemp: any;
-  // rowsClient: any;
-  // rowsTempText: any;
-  // rowStatic: any;
-  // regional: any;
-  // currentType: any;
-  // updateCustomer: any;
-  // updateRegional: any;
-  // showButtonUpdated:boolean;
+  typeRoutine: any = 0;
+  selectedBusinessId: any = 0;
+  customers: any;
+  filterIndicatorText: any;
+  rowsTemp: any;
+  rowsClient: any;
+  rowsTempText: any;
+  rowStatic: any;
+  regional: any;
+  currentType: any;
+  updateCustomer: any;
+  updateRegional: any;
+  showButtonUpdated:boolean;
 
-  // customerList = '';
-  // regionalList = '';
+  customerList = '';
+  regionalList = '';
 
-  constructor(private workservice: WorkService, private router: Router,  private activatedroute: ActivatedRoute,
+  constructor(private workService: WorkService, private router: Router,  private activatedroute: ActivatedRoute,
     private formbuilder:FormBuilder, private checkServices:ChecklistService,private restServices: RestService) { 
       
-    //   this.getCustomer();
-    // this.getRegionals();
+      this.getCustomer();
+    this.getRegionals();
     }
 
-    // valueSelectType(value:number){
-      // if(value != 0){
-        // console.log(value);
-        // this.typeRoutine = value;
-        // if(this.typeRoutine==2){
-        //    this.getRegionals();
-        // }
-        // if(this.typeRoutine==3){
-        //    this.getCustomer();
-        // }
-    // }
+    valueSelectType(value:number){
+      if(value != 0){
+        console.log(value);
+        this.typeRoutine = value;
+        if(this.typeRoutine==2){
+          //  this.getRegionals();
+        }
+        if(this.typeRoutine==3){
+          //  this.getCustomer();
+        }
+    }
+  }
 
     // valueSelectTypeUpdate(value:number){
       // if(value != 0){
@@ -79,11 +80,42 @@ export class MasterRegisterChecklistsComponent implements OnInit {
         //   this.getCustomerUpdate();
         // }
     // }
+
+    validateSelecteType(){
+      if(this.typeRoutine != 0){
+  
+        if(this.typeRoutine == 2){
+          if(this.regionalList !=''){
+            this.registerheader()
+          }else{
+            console.log(this.typeRoutine);
+            // this.showButtonUpdated=false;
+            this.generalAlert("Ha ocurrido un error","Por favor seleccione al menos una regional.","error");
+            }
+        }
+        if(this.typeRoutine == 3){
+          if(this.customerList !=''){
+            this.registerheader()
+          }else{
+            console.log(this.typeRoutine);
+            // this.showButtonUpdated=false;
+            this.generalAlert("Ha ocurrido un error","Por favor seleccione al menos un cliente.","error");
+            }
+        }
+        if(this.typeRoutine == 1){
+            this.registerheader()
+        }
+      }else{
+        console.log(this.typeRoutine);
+        // this.showButtonUpdated=false;
+        this.generalAlert("Ha ocurrido un error","Por favor seleccione el tipo de rutina.","error");
+      }
+    }
   
 
   registerheader(){
     console.log(this.title1);
-    // if(this.typeRoutine != 0){
+    if(this.typeRoutine != 0){
 
     if ((this.title1!=null) || (this.title1!="") || (this.hours1==null)) {
       swal({
@@ -91,7 +123,7 @@ export class MasterRegisterChecklistsComponent implements OnInit {
         allowOutsideClick: false
       });
       swal.showLoading();
-      this.checkServices.createChecklist(this.title1,this.hours1,this.observation1).then(data=>{
+      this.checkServices.createChecklist(this.title1,this.hours1,this.observation1,this.typeRoutine,this.customerList,this.regionalList).then(data=>{
         const resp:any=data;
         this.headerinfo=resp.data;
         console.log("header information");
@@ -106,11 +138,11 @@ export class MasterRegisterChecklistsComponent implements OnInit {
     }else{
       this.generalAlert("ha ocurrido un herror","complete todos los campos obligatorios","error");
     }
-  // }else{
+  }else{
   //   console.log('description '+this.title1);
-  //   this.showButtonUpdated=false;
-  //   this.generalAlert("Ha ocurrido un error","Complete todos los campos obligatorios","error");
-  // }
+    this.showButtonUpdated=false;
+    this.generalAlert("Ha ocurrido un error","Complete todos los campos obligatorios","error");
+  }
   }
 
   generalAlert(title:string,message:string,type:any){
@@ -120,218 +152,218 @@ export class MasterRegisterChecklistsComponent implements OnInit {
       type: type
      });
   }
-//   getWorkDetailsType(){
-//     this.workService.getWorksDetails(this.headerinfo).then(data=>{
-//       const resp:any=data;
-//       if (resp.success==true) {
-//         this.currentType = resp.data;
-//         console.log(this.currentType)
-//         console.log('antes de todo cargar type')
-//         // this.cusotmerSelecteds.length = 0;
+  // getWorkDetailsType(){
+  //   this.workService.getWorksDetails(this.headerinfo).then(data=>{
+  //     const resp:any=data;
+  //     if (resp.success==true) {
+  //       this.currentType = resp.data;
+  //       console.log(this.currentType)
+  //       console.log('antes de todo cargar type')
+  //       // this.cusotmerSelecteds.length = 0;
        
-//         let value;
-//         if(this.currentType.routine.type ==2){
-//           value = 2;
-//           console.log('entro regionales');
-//           this.updateRegional = this.currentType.type; 
-//           this.getRegionalUpdate(this.updateRegional);
-//           document.getElementById( 'regional').click();
-//         }
-//         if(this.currentType.routine.type ==3){
-//           console.log('entro cliente');
-//           value = 3;
-//           this.updateCustomer = this.currentType.type;
-//           this.getCustomerUpdate(this.updateCustomer);
-//           document.getElementById( 'customer').click();
-//         }
-//         if(this.currentType.routine.type ==1){
-//           value = 1;
-//           document.getElementById( 'general').click();
-//         }
-//         this.valueSelectTypeUpdate(value);
+  //       let value;
+  //       if(this.currentType.routine.type ==2){
+  //         value = 2;
+  //         console.log('entro regionales');
+  //         this.updateRegional = this.currentType.type; 
+  //         this.getRegionalUpdate(this.updateRegional);
+  //         document.getElementById( 'regional').click();
+  //       }
+  //       if(this.currentType.routine.type ==3){
+  //         console.log('entro cliente');
+  //         value = 3;
+  //         this.updateCustomer = this.currentType.type;
+  //         this.getCustomerUpdate(this.updateCustomer);
+  //         document.getElementById( 'customer').click();
+  //       }
+  //       if(this.currentType.routine.type ==1){
+  //         value = 1;
+  //         document.getElementById( 'general').click();
+  //       }
+  //       // this.valueSelectTypeUpdate(value);
 
-//       }
-//     }).catch(error=>{
-//       console.log(error);
-//       this.generalAlert("ha ocurrido un error","ha ocurrido un error al mostrar la informacion","error");
-//     });
-//   }
-//   getCustomer(){
-//     this.restServices.getCustomers().then(data=>{
-//       const resp:any=data;
-//       console.log(data);
-//       this.customers =resp.data;
-//       this.rowStatic =  resp.data;
-//       this.rowsTemp = resp.data;
-//       for (let item of  this.customers) {
-//         console.log(item); // 1, "string", false
-//         // item = JSON.parse(item);
-//         this.cusotmerSelected= {
-//           id: item.id,
-//           item: item.business_name,
-//           select: false
-//         }
-//         this.cusotmerSelecteds.push(this.cusotmerSelected);
+  //     }
+  //   }).catch(error=>{
+  //     console.log(error);
+  //     this.generalAlert("ha ocurrido un error","ha ocurrido un error al mostrar la informacion","error");
+  //   });
+  // }
+  getCustomer(){
+    this.restServices.getCustomers().then(data=>{
+      const resp:any=data;
+      console.log(data);
+      this.customers =resp.data;
+      this.rowStatic =  resp.data;
+      this.rowsTemp = resp.data;
+      for (let item of  this.customers) {
+        console.log(item); // 1, "string", false
+        // item = JSON.parse(item);
+        this.cusotmerSelected= {
+          id: item.id,
+          item: item.business_name,
+          select: false
+        }
+        this.cusotmerSelecteds.push(this.cusotmerSelected);
       
-//   }
-//       this.rowStatic = this.cusotmerSelecteds;
-//       this.rowsTemp = this.cusotmerSelecteds;
-//     }).catch(error=>{
-//       console.log(error);
-//       this.generalAlert("Ha ocurrido un error","Ha ocurrido un error al mostrar la información","error");
-//     });
-//   }
+  }
+      this.rowStatic = this.cusotmerSelecteds;
+      this.rowsTemp = this.cusotmerSelecteds;
+    }).catch(error=>{
+      console.log(error);
+      this.generalAlert("Ha ocurrido un error","Ha ocurrido un error al mostrar la información","error");
+    });
+  }
 
-// getCustomerUpdate(customer: any){
-//   console.log(customer);
-//       for (let elemento of customer) {
-//       console.log('ingreso a mirar checks');
-//       this.SelectItemCustomer(elemento);
-//       }
-//   }
+getCustomerUpdate(customer: any){
+  console.log(customer);
+      for (let elemento of customer) {
+      console.log('ingreso a mirar checks');
+      this.SelectItemCustomer(elemento);
+      }
+  }
 
-// getRegionalUpdate(regional: any){
-//   console.log(regional);
-//       for (let elemento of regional) {
-//       console.log('ingreso a mirar checks');
-//       this.SelectItemRegional(elemento);
-//       }
-//   }
+getRegionalUpdate(regional: any){
+  console.log(regional);
+      for (let elemento of regional) {
+      console.log('ingreso a mirar checks');
+      this.SelectItemRegional(elemento);
+      }
+  }
 
-//   SelectItemCustomer(idItem: any){// Falta organizarlo
-//     var item = idItem.customer_id;
-//     this.cusotmerSelecteds.map(function(dato){
+  SelectItemCustomer(idItem: any){// Falta organizarlo
+    var item = idItem.customer_id;
+    this.cusotmerSelecteds.map(function(dato){
 
-//       console.log(idItem);
-//       console.log(dato);
-//       if(Number(dato.id) === Number(item)){
-//         dato.select = true;
-//         console.log('hacer cambio');
-//       }
+      console.log(idItem);
+      console.log(dato);
+      if(Number(dato.id) === Number(item)){
+        dato.select = true;
+        console.log('hacer cambio');
+      }
       
-//       return dato;
-//     });
-//   }
+      return dato;
+    });
+  }
 
-//   SelectItemRegional(idItem: any){// Falta organizarlo
-//     var item = idItem.regional_id;
-//     this.regionalSelecteds.map(function(dato){
+  SelectItemRegional(idItem: any){// Falta organizarlo
+    var item = idItem.regional_id;
+    this.regionalSelecteds.map(function(dato){
 
-//       console.log(idItem);
-//       console.log(dato);
-//       if(Number(dato.id) === Number(item)){
-//         dato.select = true;
-//         console.log('hacer cambio');
-//       }
+      console.log(idItem);
+      console.log(dato);
+      if(Number(dato.id) === Number(item)){
+        dato.select = true;
+        console.log('hacer cambio');
+      }
       
-//       return dato;
-//     });
-//   }
+      return dato;
+    });
+  }
 
   
-//   getRegionals() {
-//     swal({
-//       title: 'Validando información ...',
-//       allowOutsideClick: false
-//     });
-//     swal.showLoading();
+  getRegionals() {
+    swal({
+      title: 'Validando información ...',
+      allowOutsideClick: false
+    });
+    swal.showLoading();
 
-//     this.restServices.getRegional().then(data => {
-//       const resp: any = data;
-//       console.log(data);
-//       swal.close();
-//       this.regional = resp.data;
-//       for (let item of  this.regional) {
-//         console.log(item); // 1, "string", false
-//         // item = JSON.parse(item);
-//         this.regionalSelected= {
-//           id: item.id,
-//           item: item.description,
-//           select: false
-//         }
-//         this.regionalSelecteds.push(this.regionalSelected);
-//   }
-//       console.log( this.regional);
-//       this.getWorkDetailsType();
-//     }).catch(error => {
-//       console.log(error);
-//       this.generalAlert("Ha ocurrido un error","Ha ocurrido un error al mostrar la información","error");
-//     });
-//    }
+    this.restServices.getRegional().then(data => {
+      const resp: any = data;
+      console.log(data);
+      swal.close();
+      this.regional = resp.data;
+      for (let item of  this.regional) {
+        console.log(item); // 1, "string", false
+        // item = JSON.parse(item);
+        this.regionalSelected= {
+          id: item.id,
+          item: item.description,
+          select: false
+        }
+        this.regionalSelecteds.push(this.regionalSelected);
+  }
+      console.log( this.regional);
+      // this.getWorkDetailsType();
+    }).catch(error => {
+      console.log(error);
+      this.generalAlert("Ha ocurrido un error","Ha ocurrido un error al mostrar la información","error");
+    });
+   }
 
    
-//   updateFilter(event) {
-//     const val = event.target.value.toLowerCase();
-//     // filter our data
+  updateFilter(event) {
+    const val = event.target.value.toLowerCase();
+    // filter our data
 
-//     if (val === '') {
-//       console.log('vacio');
-//       this.filterIndicatorText = false;
-//       this.rowsTemp = this.rowStatic;
-//     }
-//     console.log(val);
-//     console.log(this.rowStatic);
+    if (val === '') {
+      console.log('vacio');
+      this.filterIndicatorText = false;
+      this.rowsTemp = this.rowStatic;
+    }
+    console.log(val);
+    console.log(this.rowStatic);
 
-//     const temp = this.rowsTemp.filter(function(d) {
-//       return d.item.toLowerCase().indexOf(val) !== -1 || !val;
-//     });
-//     console.log(temp)
+    const temp = this.rowsTemp.filter(function(d) {
+      return d.item.toLowerCase().indexOf(val) !== -1 || !val;
+    });
+    console.log(temp)
 
-//     if (val !== '') {
-//       this.filterIndicatorText = true;
-//       this.rowsTempText = temp;
-//     }
+    if (val !== '') {
+      this.filterIndicatorText = true;
+      this.rowsTempText = temp;
+    }
 
-//     // update the rows
-//     // this.cusotmerSelecteds.length = 0;
-//     this.cusotmerSelecteds = temp;
+    // update the rows
+    // this.cusotmerSelecteds.length = 0;
+    this.cusotmerSelecteds = temp;
 
-//   }
+  }
 
-// saveCustomer(){
-//   for (let item of this.cusotmerSelecteds) {
-//     console.log('entro');
-//     if(item.select){
-//      console.log(item);
-//      console.log('entro');
-//       this.customerList = this.customerList + item.id +',';
-//       console.log('entro');
-//     }
-//   }
-//   console.log(this.customerList);
-//   if(this.customerList==''){
-//     swal({
-//       title: 'Clientes no seleccionados',
-//       text: 'Debe seleccionar al menos un cliente',
-//       type: 'error'
-//      });
-//   }else{
-//     document.getElementById('assignPrevetiveHide').click();
-//     }
+saveCustomer(){
+  for (let item of this.cusotmerSelecteds) {
+    console.log('entro');
+    if(item.select){
+     console.log(item);
+     console.log('entro');
+      this.customerList = this.customerList + item.id +',';
+      console.log('entro');
+    }
+  }
+  console.log(this.customerList);
+  if(this.customerList==''){
+    swal({
+      title: 'Clientes no seleccionados',
+      text: 'Debe seleccionar al menos un cliente',
+      type: 'error'
+     });
+  }else{
+    document.getElementById('assignPrevetiveHide').click();
+    }
   
-// }
-// saveRegional(){
-//   for (let item of this.regionalSelecteds) {
-//     console.log('entro');
-//     if(item.select){
-//      console.log(item);
-//      console.log('entro');
-//       this.regionalList = this.regionalList + item.id +',';
-//       console.log('entro');
-//     }
-//   }
-// console.log(this.regionalList);
-//   if(this.regionalList==''){
-//     swal({
-//       title: 'Regionales no seleccionados',
-//       text: 'Debe seleccionar al menos una regional',
-//       type: 'error'
-//      });
-//   }else{
-//     document.getElementById('assignRegionalHide').click();
-//     }
+}
+saveRegional(){
+  for (let item of this.regionalSelecteds) {
+    console.log('entro');
+    if(item.select){
+     console.log(item);
+     console.log('entro');
+      this.regionalList = this.regionalList + item.id +',';
+      console.log('entro');
+    }
+  }
+console.log(this.regionalList);
+  if(this.regionalList==''){
+    swal({
+      title: 'Regionales no seleccionados',
+      text: 'Debe seleccionar al menos una regional',
+      type: 'error'
+     });
+  }else{
+    document.getElementById('assignRegionalHide').click();
+    }
   
-// }
+}
 
   ngOnInit() {
   }
