@@ -192,8 +192,18 @@ export class MasterUpdateTechnicianForkliftReportComponent implements OnInit {
       const resp: any = data;
       console.log(data);
       swal.close();
-      this.image  = resp.data;
-      this.urlsFiles  = this.image;
+      for(let img of resp.data ){
+        this.fileSettlement = {
+          id:img.id,
+          url:img.image
+        }
+        this.urlsFiles.push(this.fileSettlement);
+      }
+      // this.image = this.urlsFiles;
+      // console.log(this.image);
+      console.log(this.urlsFiles);
+      // this.image  = resp.data;
+      // this.urlsFiles  = this.image;
       
       //asignar valores customer;
     
@@ -208,14 +218,24 @@ export class MasterUpdateTechnicianForkliftReportComponent implements OnInit {
       console.log(data);
       swal.close();
       this.header  = resp.data.header;
-      this.image  = resp.data.image;
-      this.urlsFiles  = this.image;
+      // this.image  = resp.data.image;
+      // this.urlsFiles  = this.image;
       this.makeForklift  = resp.data.make;
       this.selectedRegionalId = this.header.regional_id;
       this.selectedBusinessId = this.header.customer_id;
       this.selectedBranchOfficeId = this.header.branch_offices_id;
       this.selectedForkliftId = this.header.forklift_id;
       //asignar valores customer;
+      for(let img of resp.data.image ){
+        this.fileSettlement = {
+          id:img.id,
+          url:img.image
+        }
+        this.urlsFiles.push(this.fileSettlement);
+      }
+      this.image = this.urlsFiles;
+      console.log(this.image);
+      console.log(this.urlsFiles);
       this.getRegional();
       this.getCustomerRegionals();
       this.getBranchOffices();
@@ -477,6 +497,7 @@ normalizes = (function() {
 })();
 
 uploadFiles() {
+  console.log(this.selectedFiles)
   for (let fileCurrent of this.selectedFiles) {
   const file = fileCurrent[0];
   console.log(file);
@@ -491,6 +512,8 @@ uploadFiles() {
     console.log('s3info'+JSON.stringify(res));
     this.s3info=res;
     console.log(this.s3info);
+    this.urlsFiles.length=0
+    console.log(this.urlsFiles);
     this.getReportTechnicianImage();
     /*swal({
       title: 'Archivos guardados',
@@ -509,6 +532,7 @@ uploadFiles() {
     });
   });
 }
+this.selectedFiles.length = 0
 }
 
 
@@ -531,13 +555,38 @@ onSelectFile(event) {
     var filename = event.target.files[event.target.files.length-1].name;
     console.log('nombre de archivo '+filename);
 
-    this.fileSettlement={
-      id: 0,
-      url: filename      
-    };
+    if (event.target.files && event.target.files[0]) {
+      console.log(event.target.files)
+      console.log('se van a cargar a la variable= ' + event.target.files)
+      this.selectedFiles.push(event.target.files); 
+        for (let i = 0; i < filesAmount; i++) {
+                var reader = new FileReader();
+                reader.onload = (event:any) => {
+                  console.log(event.target.result);
+                  // this.urlsImages.push(event.target.result);
+                 
+                   
+            this.fileSettlement={
+                url: event.target.result,
+                file: event.target.files
+              };
 
-    this.urlsFiles.push( this.fileSettlement); 
-    this.selectedFiles.push(event.target.files);
+              this.urlsFiles.push(this.fileSettlement);
+                  
+                }
+                reader.readAsDataURL(event.target.files[i]);
+        }
+    }
+
+    // this.fileSettlement={
+    //   id: 0,
+    //   url: filename      
+    // };
+    // console.log(event)
+    // console.log(event.target.result)
+    // console.log(event.target.files);
+    // this.urlsFiles.push( this.fileSettlement); 
+    // this.selectedFiles.push(event.target.files);
   /*}else{
   swal({
     title: 'El formato del archivo, no es correcto',
@@ -586,6 +635,11 @@ deleteEmail(index:number){
 
 
 sendEmailEstimate(){
+  swal({
+    title: 'Validando información ...',
+    allowOutsideClick: false
+  });
+  swal.showLoading();
   let subjectTemp; //= 'Montacargas Master Cotización '+ this.estimateCurrent.estimate_consecutive;
   if((this.subject.trim()).length>0){
     console.log('importante el subject:'+this.subject)

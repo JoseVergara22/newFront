@@ -12,7 +12,8 @@
             <div class="form-group row">
                 <h6>Seleccione el una de las opciones para la rutina <span style="color:red;">*</span></h6>
             </div>
-                <div class="form-group row">
+            <div class="form-group row">
+                <div class="col-sm-6 col-xs-12">
                     <label >
                         <input id="general" type="radio" name="color" value="azul" (click)="valueSelectType(1)"> General&nbsp;
                     </label>
@@ -22,6 +23,22 @@
                     <label >
                         <input id="customer" type="radio" name="color" value="amarillo" (click)="valueSelectType(3)"> Cliente&nbsp;
                     </label>
+                </div>
+                <div class="col-sm-6 col-xs-12">
+                    <div *ngIf="typeRoutine==2">
+                        <div class="form-group row">
+                            <div class="col-sm-6">
+                                <button  class="btn btn-primary" (click)="modalAssingRegional.show()" >Asignar Suscursales</button>
+                              </div>
+                        </div>
+                    </div>
+      
+                    <div *ngIf="typeRoutine==3" class="form-group row">
+                        <div class="col-sm-6">
+                            <button  class="btn btn-primary" (click)="modalAssingCustomer.show()" >Asignar Clientes</button>
+                          </div>
+                    </div>
+                </div>
             </div>
 
               <div class="form-group row">
@@ -44,19 +61,6 @@
                       <textarea type="text" class="form-control" [(ngModel)]="observation1" #ctrl="ngModel" id="workobservation" required></textarea>
                   </div>
                   <br>
-                  <div *ngIf="typeRoutine==2">
-                    <div class="form-group row">
-                        <div class="col-sm-6">
-                            <button  class="btn btn-primary" (click)="modalAssingRegional.show()" >Asignar Suscursales</button>
-                          </div>
-                    </div>
-                </div>
-
-                <div *ngIf="typeRoutine==3" class="form-group row">
-                    <div class="col-sm-6">
-                        <button  class="btn btn-primary" (click)="modalAssingCustomer.show()" >Asignar Clientes</button>
-                      </div>
-                </div>
 
               </div>
                   <div class="align-buttons">

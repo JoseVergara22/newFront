@@ -1305,6 +1305,12 @@ if(this.conditionTrmUsa.id==2){
     console.log(this.itemsPart);
     for(let item of this.itemsPart){
       if(item.active){
+        if((item.part == false)&&(item.service==false)){
+          swal({
+            title: 'Debe escoger el destino del cada uno de los pendientes escogidos',
+            type: 'error'
+           });
+        }
        if(item.part == true){
          this.description = item.description;
           this.createEstimateDetailForPending(item,1);
