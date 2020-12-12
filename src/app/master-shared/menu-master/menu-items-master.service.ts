@@ -58,11 +58,7 @@ const MENUITEMS = [
         name: 'ERP',
         type: 'sub',
         icon: 'ti-direction',
-        children: [
-          {
-            state: 'personalMonitoring',
-            name: 'Monitoreo Personal'
-          },     
+        children: [     
           {
             state: 'customers',
             name: 'Administrar Clientes'
@@ -137,14 +133,6 @@ const MENUITEMS = [
             state: 'forkliftShow',
             name: 'Administrar Montacargas'
           },
-          {
-            state: 'technicianReport',
-            name: 'Administrar Reporte Técnico'
-          }, 
-          {
-            state: 'registerForkliftReport',
-            name: 'Diligenciar Reporte Técnico'
-          },
           // {
           //   state: 'forkliftReport',
           //   name: 'Reporte de Técnico'
@@ -171,7 +159,11 @@ const MENUITEMS = [
           },  
           {
             state: 'checklistMaintenance',
-            name:  ' Asignación Checklist'
+            name:  ' Asignar Checklist'
+          },
+          {
+            state: 'registerForkliftReport',
+            name: 'Diligenciar Reporte Técnico'
           },
           {
           state:'platformTechinician',
@@ -182,9 +174,21 @@ const MENUITEMS = [
           name:'Asignar Mantenimieto Estibadores'
           },  
           {
+            state: 'personalMonitoring',
+            name: 'Seguimiento Personal'
+          },
+          {
             state:'work_dashboard',
             name:'Administrar Rutinas Preventivas'
-          },  
+          }, 
+          {
+            state:'checklists',
+            name: 'Administrar Mantenimiento Checklist'
+          }, 
+          {
+            state: 'technicianReport',
+            name: 'Administrar Reporte Técnico'
+          }, 
           {
             state:'platforms',
             name: 'Administrar Mantenimiento Plataformas'
@@ -193,10 +197,7 @@ const MENUITEMS = [
             state:'stevedores',
             name: 'Administrar Mantenimiento Estibadores'
           },
-          {
-            state:'checklists',
-            name: 'Administrar Mantenimiento Checklist'
-          },
+       
           {
             state:'question',
             name: 'Administrar Encuesta de Mantenimiento'
@@ -204,6 +205,10 @@ const MENUITEMS = [
           {
             state:'toilet',
             name: 'Administrar Registro Aseo'
+          },
+          {
+            state: 'personalActivities',
+            name: 'Administrar Actividades del Personal'
           },
 
          /*    {
@@ -285,11 +290,7 @@ const MENUITEMS = [
           {
             state: 'changePassword',
             name: 'Cambio de Contraseña'
-          },
-          {
-            state: 'personalActivities',
-            name: 'Administrar Actividades del Personal'
-          },
+          }
         ]
       }
     ]
@@ -482,12 +483,24 @@ const MENUCREATOR = [
             name:  'Asignar Mantenimiento Correctivo'
           },          
           {
+            state: 'checklistMaintenance',
+            name:  'Asignar Asignación Checklist'
+          },
+          {
             state: 'registerForkliftReport',
             name: 'Diligenciar Reporte Técnico'
           },
           {
-            state: 'checklistMaintenance',
-            name:  'Asignar Asignación Checklist'
+            state:'platformTechinician',
+            name:'Asignar Mantenimieto Plataforma'
+          },  
+          {
+            state:'stevedoreTechinician',
+            name:'Asignar Mantenimieto Estibadores'
+          },  
+          {
+              state: 'personalMonitoring',
+              name: 'Seguimiento Personal'
           },
           {
             state:'work_dashboard',
@@ -517,7 +530,10 @@ const MENUCREATOR = [
             state:'toilet',
             name: 'Administrar Registro Aseo'
           },
-         
+          {
+            state: 'personalActivities',
+            name: 'Administrar Actividades del Personal'
+          },
          
          /* {
             state:'work_dashboard',

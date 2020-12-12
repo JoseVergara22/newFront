@@ -3,7 +3,7 @@
 
   <div class="col-sm-12">
       <app-card>
-          <h5>Administracion de hojas de vida </h5>
+          <h5>Administración de hojas de vida </h5>
           <br>
 
           <div class="form-group row">
@@ -47,13 +47,16 @@
                       <!--  <option value="0" selected>Seleccionar perfil</option> -->
                      </select>
             </div>
+            <div class="col-sm-4">
+              &nbsp;&nbsp;&nbsp;    <br><button class="btn btn-primary" (click)="clearFilter()"><i ></i>Limpiar filtro</button>
+            </div>
           </div>
 
           <div class="align-buttons">
             <div >
             <button type="button" style="display:none;" id="showAssignInvoice" class="btn btn-primary waves-effect">Checkear</button>
 
-            <button class="btn btn-primary" (click)="clearFilter()"><i ></i>Limpiar filtro</button>
+           
             <br>
             <button class="btn btn-primary" (click)="getFilters()"><i class="icofont icofont-search" ></i>Buscar</button>
           </div>
