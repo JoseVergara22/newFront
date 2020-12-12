@@ -55,7 +55,37 @@ export class MasterWorkDashboardComponent implements OnInit {
   }
 
   copyRoutine(row: any){
+    swal({
+      title: 'Validando información ...',
+      allowOutsideClick: false
+    });
+    swal.showLoading();
     console.log(row);
+     this.workService.getCopy(row.id).then(data => {
+      const resp: any = data;
+      if (resp.error) {
+        swal({
+          title:'Error',
+          text: 'Ha ocurrido un error',
+          type: 'error'
+         });
+      } else {
+        swal({
+          title: 'Validando información ...',
+          allowOutsideClick: false
+        });
+        swal.showLoading();    
+        this.getWorks();
+        swal.close();
+    }
+    }).catch(error => {
+      swal({
+        title:'Error',
+        text: 'Ha ocurrido un error',
+        type: 'error'
+       });
+      console.log(error);
+    });
   }
 
   goToTpdateView(workrow:any){

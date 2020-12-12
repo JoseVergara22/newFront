@@ -453,10 +453,10 @@ export class MasterStevedoreTechnicanComponent extends NgbDatepickerI18n {
      var year = this.untilDate.year;
      
      console.log( this.selectedHourUpdatePreventive);
-     console.log( this.selectedHourUpdatePreventive);
+     console.log( this.selectedMinutUpdatePreventive);
 
      var hour = this.selectedHourUpdatePreventive;
-     var minut = this.selectedHourUpdatePreventive;
+     var minut = this.selectedMinutUpdatePreventive;
 
   
      console.log(hour);
@@ -481,6 +481,13 @@ export class MasterStevedoreTechnicanComponent extends NgbDatepickerI18n {
           console.log('entro');
         }
       }
+      if(this.preventiveList==''){
+        swal({
+          title:'Error',
+          text: 'Debes saleccionar al menos una rutina de estibador',
+          type: 'error'
+        });
+      }else{
 
       console.log(this.technicianSelecteds);
       for (let item of this.technicianSelecteds) {
@@ -491,6 +498,13 @@ export class MasterStevedoreTechnicanComponent extends NgbDatepickerI18n {
             this.technicianList = this.technicianList + item.id +',';
           }
         }
+        if(this.technicianList==''){
+          swal({
+            title:'Error',
+            text: 'Debes saleccionar al menos un tecnico',
+            type: 'error'
+          });
+        }else{
         console.log(this.forklift);
         this.stevedoreService.updateStevedoreTechnician(this.selectedForkliftId.id,this.selectedBusinessId.id,this.selectedBranchOfficeId.id,this.preventiveList,this.technicianList,this.oldDate,params).then(data => {
           const resp: any = data;
@@ -528,6 +542,8 @@ export class MasterStevedoreTechnicanComponent extends NgbDatepickerI18n {
             });
             console.log(error);
           });
+        }
+      }
   }
 
   cleanSelectRoutines(){
@@ -724,6 +740,13 @@ export class MasterStevedoreTechnicanComponent extends NgbDatepickerI18n {
           console.log('entro');
         }
       }
+      if(this.preventiveList==''){
+        swal({
+          title:'Error',
+          text: 'Debes saleccionar al menos una rutina de estibador',
+          type: 'error'
+        });
+      }else{
 
       console.log(this.technicianSelecteds);
       for (let item of this.technicianSelecteds) {
@@ -734,6 +757,13 @@ export class MasterStevedoreTechnicanComponent extends NgbDatepickerI18n {
             this.technicianList = this.technicianList + item.id +',';
           }
         }
+        if(this.technicianList==''){
+          swal({
+            title:'Error',
+            text: 'Debes saleccionar al menos un tecnico',
+            type: 'error'
+          });
+        }else{
         console.log(this.forklift);
         this.stevedoreService.storeStevedoreTechnician(this.selectedForkliftId.id,this.selectedBusinessId.id,this.selectedBranchOfficeId.id,this.preventiveList,this.technicianList, Number(this.consecutive),params).then(data => {
           const resp: any = data;
@@ -745,44 +775,44 @@ export class MasterStevedoreTechnicanComponent extends NgbDatepickerI18n {
               type: 'error'
              });
           } else {
-          swal.close();
-          
-          let result  = resp.data;
-          console.log(result);
-
-          this.stevedoreService.updateConsecutiveStevedore().then(data => {
-            const resp: any = data;
-            console.log(data);
-            
-            document.getElementById('assignPrevetiveHide').click();
-          
-            this.getStevedorTechnician();
-            swal({
-              title: 'Guardado con exito',
-              type: 'success'
-             });
-            
-             this.cleanSelectRoutines();
-            // this.cleanSelectTechnician();
-            this.technicianSelecteds.length=0;
-            this.preventiveList = '';
-            this.technicianList = '';
-             console.log('llego hasta aqui');
-    
             swal.close();
-            // this.rowsClient = resp.data;
-            // this.rowStatic =  resp.data;
-            // this.rowsTemp = resp.data;
-            // console.log( this.rowsClient);
-          }).catch(error => {
-            swal({
-              title: 'Se presento un problema, para guardar este encabezado de manteminiento preventivo',
-              type: 'error'
-             });
-            console.log(error);
-          });
-        }
-          }).catch(error => {
+            
+            let result  = resp.data;
+            console.log(result);
+
+            this.stevedoreService.updateConsecutiveStevedore().then(data => {
+              const resp: any = data;
+              console.log(data);
+              
+              document.getElementById('assignPrevetiveHide').click();
+            
+              this.getStevedorTechnician();
+              swal({
+                title: 'Guardado con exito',
+                type: 'success'
+              });
+              
+              this.cleanSelectRoutines();
+              // this.cleanSelectTechnician();
+              this.technicianSelecteds.length=0;
+              this.preventiveList = '';
+              this.technicianList = '';
+              console.log('llego hasta aqui');
+      
+              swal.close();
+              // this.rowsClient = resp.data;
+              // this.rowStatic =  resp.data;
+              // this.rowsTemp = resp.data;
+              // console.log( this.rowsClient);
+            }).catch(error => {
+              swal({
+                title: 'Se presento un problema, para guardar este encabezado de manteminiento preventivo',
+                type: 'error'
+              });
+              console.log(error);
+            });
+            }
+        }).catch(error => {
             swal.close();
             swal({
               title:'Error',
@@ -791,6 +821,8 @@ export class MasterStevedoreTechnicanComponent extends NgbDatepickerI18n {
             });
             console.log(error);
           });
+        }
+      }
   }
 
 

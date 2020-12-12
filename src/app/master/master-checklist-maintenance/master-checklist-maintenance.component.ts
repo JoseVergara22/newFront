@@ -389,27 +389,61 @@ export class MasterChecklistMaintenanceComponent extends NgbDatepickerI18n {
       allowOutsideClick: false
     });
     swal.showLoading();
-    console.log(this.massiveDescrition);
-    if(this.massiveDescrition == ''){
-      swal({
-        title: 'Por favor colocar la descripción del checklist',
-        type: 'error'
-       });
-    }else{
-      this.resumenesService.storeMassiveChacklist(this.massiveDescrition,this.selectedForkliftId.id).then(data => {
-        const resp: any = data;
-        console.log(data);
-        this.createPreventiveMassive(resp.data.id);
-        this.massiveDescrition = '';
-      }).catch(error => {
-        swal({
-          title: 'Se presento un problema, para guardar este manteminiento preventivo',
-          type: 'error'
-         });
-        console.log(error);
-      });
+    for (let item of this.checklisSelecteds) {
+      console.log('entro');
+        if(item.select){
+          console.log(item);
+          console.log('entro');
+          this.checkedList = this.checkedList + item.id +',';
+        }
     }
-   
+    if(this.checkedList==''){
+      swal({
+        title:'Error',
+        text: 'Debes saleccionar al menos una rutina de checklist',
+        type: 'error'
+      });
+    }else{
+
+    console.log(this.technicianSelecteds);
+    for (let item of this.technicianSelecteds) {
+      console.log('entro');
+      if(item.select){
+        console.log(item);
+        console.log('entro');
+          this.technicianList = this.technicianList + item.id +',';
+        }
+      }
+      if(this.technicianList==''){
+        swal({
+          title:'Error',
+          text: 'Debes saleccionar al menos un tecnico',
+          type: 'error'
+        });
+
+      }else{
+        console.log(this.massiveDescrition);
+        if(this.massiveDescrition == ''){
+          swal({
+            title: 'Por favor colocar la descripción del checklist',
+            type: 'error'
+           });
+        }else{
+          this.resumenesService.storeMassiveChacklist(this.massiveDescrition,this.selectedForkliftId.id).then(data => {
+            const resp: any = data;
+            console.log(data);
+            this.createPreventiveMassive(resp.data.id);
+            this.massiveDescrition = '';
+          }).catch(error => {
+            swal({
+              title: 'Se presento un problema, para guardar este manteminiento preventivo',
+              type: 'error'
+             });
+            console.log(error);
+          });
+        }
+      }
+      }
   }
 
   
@@ -622,18 +656,51 @@ export class MasterChecklistMaintenanceComponent extends NgbDatepickerI18n {
       allowOutsideClick: false
     });
     swal.showLoading();
-    console.log(this.massiveDescritionUpdate);
-    this.resumenesService.updateMassiveDescription(this.currentMassiveDescription.id,this.massiveDescritionUpdate).then(data => {
-      const resp: any = data;
-      console.log(data);
-      this.updatePreventiveMassive(this.currentMassiveDescription);
-    }).catch(error => {
+    for (let item of this.checklisSelecteds) {
+      console.log('entro');
+        if(item.select){
+          console.log(item);
+          console.log('entro');
+          this.checkedList = this.checkedList + item.id +',';
+        }
+    }
+    if(this.checkedList==''){
       swal({
-        title: 'Se presento un problema, para guardar este manteminiento preventivo',
+        title:'Error',
+        text: 'Debes saleccionar al menos una rutina de checklist',
         type: 'error'
-       });
-      console.log(error);
-    });
+      });
+    }else{
+    console.log(this.technicianSelecteds);
+    for (let item of this.technicianSelecteds) {
+      console.log('entro');
+      if(item.select){
+        console.log(item);
+        console.log('entro');
+          this.technicianList = this.technicianList + item.id +',';
+        }
+      }
+      if(this.technicianList==''){
+        swal({
+          title:'Error',
+          text: 'Debes saleccionar al menos un tecnico',
+          type: 'error'
+        });
+      }else{
+        console.log(this.massiveDescritionUpdate);
+        this.resumenesService.updateMassiveDescription(this.currentMassiveDescription.id,this.massiveDescritionUpdate).then(data => {
+          const resp: any = data;
+          console.log(data);
+          this.updatePreventiveMassive(this.currentMassiveDescription);
+        }).catch(error => {
+          swal({
+            title: 'Se presento un problema, para guardar este manteminiento preventivo',
+            type: 'error'
+           });
+          console.log(error);
+        });
+      }
+    }
   }
 
   
@@ -670,24 +737,24 @@ export class MasterChecklistMaintenanceComponent extends NgbDatepickerI18n {
 
 
       console.log(this.checklisSelecteds);
-      for (let item of this.checklisSelecteds) {
-        console.log('entro');
-          if(item.select){
-            console.log(item);
-            console.log('entro');
-            this.checkedList = this.checkedList + item.id +',';
-          }
-      }
+      // for (let item of this.checklisSelecteds) {
+      //   console.log('entro');
+      //     if(item.select){
+      //       console.log(item);
+      //       console.log('entro');
+      //       this.checkedList = this.checkedList + item.id +',';
+      //     }
+      // }
 
-      console.log(this.technicianSelecteds);
-      for (let item of this.technicianSelecteds) {
-        console.log('entro');
-        if(item.select){
-          console.log(item);
-          console.log('entro');
-            this.technicianList = this.technicianList + item.id +',';
-          }
-        }
+      // console.log(this.technicianSelecteds);
+      // for (let item of this.technicianSelecteds) {
+      //   console.log('entro');
+      //   if(item.select){
+      //     console.log(item);
+      //     console.log('entro');
+      //       this.technicianList = this.technicianList + item.id +',';
+      //     }
+      //   }
         console.log(this.forklift);
         for(let item of this.dateSelecteds){
         this.resumenesService.storeChecklistMassive(row.id,this.selectedForkliftId.id,this.selectedBusinessId.id,this.selectedBranchOfficeId.id,this.checkedList,this.technicianList, Number(this.consecutive),item).then(data => {
@@ -819,6 +886,13 @@ showAssingMassive(){
             this.checkedList = this.checkedList + item.id +',';
           }
       }
+      if(this.checkedList==''){
+        swal({
+          title:'Error',
+          text: 'Debes saleccionar al menos una rutina de checklist',
+          type: 'error'
+        });
+      }
 
       console.log(this.technicianSelecteds);
       for (let item of this.technicianSelecteds) {
@@ -828,6 +902,13 @@ showAssingMassive(){
           console.log('entro');
             this.technicianList = this.technicianList + item.id +',';
           }
+        }
+        if(this.technicianList==''){
+          swal({
+            title:'Error',
+            text: 'Debes saleccionar al menos un tecnico',
+            type: 'error'
+          });
         }
         console.log(this.forklift);
         this.resumenesService.storeChecklist(this.selectedForkliftId.id,this.selectedBusinessId.id,this.selectedBranchOfficeId.id,this.checkedList,this.technicianList, Number(this.consecutive),params).then(data => {
@@ -1038,12 +1119,18 @@ showAssingMassive(){
 
       for (let item of this.checklisSelecteds) {
         console.log('entro');
-        if(item.select){
-         console.log(item);
-         console.log('entro');
-          this.checkedList = this.checkedList + item.id +',';
-          console.log('entro');
-        }
+          if(item.select){
+            console.log(item);
+            console.log('entro');
+            this.checkedList = this.checkedList + item.id +',';
+          }
+      }
+      if(this.checkedList==''){
+        swal({
+          title:'Error',
+          text: 'Debes saleccionar al menos una rutina de checklist',
+          type: 'error'
+        });
       }
 
       console.log(this.technicianSelecteds);
@@ -1054,6 +1141,13 @@ showAssingMassive(){
           console.log('entro');
             this.technicianList = this.technicianList + item.id +',';
           }
+        }
+        if(this.technicianList==''){
+          swal({
+            title:'Error',
+            text: 'Debes saleccionar al menos un tecnico',
+            type: 'error'
+          });
         }
         console.log(this.forklift);
         this.resumenesService.updateChecklist(this.selectedForkliftId.id,this.selectedBusinessId.id,this.selectedBranchOfficeId.id,this.checkedList,this.technicianList,this.oldDate,params).then(data => {

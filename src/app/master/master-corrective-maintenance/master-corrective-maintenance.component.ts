@@ -330,60 +330,69 @@ export class MasterCorrectiveMaintenanceComponent extends NgbDatepickerI18n {
              this.technicianList = this.technicianList + item.id +',';
            }
          }
-         console.log(this.forklift);
-         this.resumenesService.storeCorrective(this.selectedForkliftId.id,this.selectedBusinessId.id,this.selectedBranchOfficeId.id,this.observationCorrective,this.technicianList, Number(this.consecutive),fromD).then(data => {
-           const resp: any = data;
-           console.log(data);
-           if (resp.success== false) {
-             swal({
-               title:'Error',
-               text: 'Ha ocurrido un error',
-               type: 'error'
-              });
-           } else {
-           swal.close();
-           let result  = resp.data;
-           console.log(result);
 
-           this.resumenesService.updateConsecutiveCorrective().then(data => {
-            const resp: any = data;
-            console.log(data);
-            this.getCorrectiveRoutines();
-           this.cleanSelectCorrective();
-          //  this.cleanSelectTechnician();
-          this.technicianSelecteds.length=0;
-          // this.checkedList = '';
-            this.technicianList = '';
-           document.getElementById('assignCorrectiveHide').click();
-           swal({
-            title: 'Guardado con exito',
-            type: 'success'
-           });
-             console.log('llego hasta aqui');
-    
-            swal.close();
-            // this.rowsClient = resp.data;
-            // this.rowStatic =  resp.data;
-            // this.rowsTemp = resp.data;
-            console.log( this.rowsClient);
-          }).catch(error => {
-            swal({
-              title: 'Se presento un problema, para guardar este encabezado de mantenimietno correctivo',
-              type: 'error'
+         if(this.technicianList==''){
+          swal({
+            title:'Error',
+            text: 'Debes saleccionar al menos un tecnico',
+            type: 'error'
+          });
+        }else{
+          console.log(this.forklift);
+          this.resumenesService.storeCorrective(this.selectedForkliftId.id,this.selectedBusinessId.id,this.selectedBranchOfficeId.id,this.observationCorrective,this.technicianList, Number(this.consecutive),fromD).then(data => {
+             const resp: any = data;
+             console.log(data);
+             if (resp.success== false) {
+               swal({
+                 title:'Error',
+                 text: 'Ha ocurrido un error',
+                 type: 'error'
+                 });
+             } else {
+             swal.close();
+             let result  = resp.data;
+             console.log(result);
+ 
+             this.resumenesService.updateConsecutiveCorrective().then(data => {
+               const resp: any = data;
+               console.log(data);
+               this.getCorrectiveRoutines();
+             this.cleanSelectCorrective();
+             //  this.cleanSelectTechnician();
+               this.technicianSelecteds.length=0;
+             // this.checkedList = '';
+               this.technicianList = '';
+             document.getElementById('assignCorrectiveHide').click();
+             swal({
+               title: 'Guardado con exito',
+               type: 'success'
              });
-            console.log(error);
+               console.log('llego hasta aqui');
+       
+               swal.close();
+               // this.rowsClient = resp.data;
+               // this.rowStatic =  resp.data;
+               // this.rowsTemp = resp.data;
+               console.log( this.rowsClient);
+             }).catch(error => {
+               swal({
+                 title: 'Se presento un problema, para guardar este encabezado de mantenimietno correctivo',
+                 type: 'error'
+               });
+               console.log(error);
+             });
+           }
+            
+         }).catch(error => {
+              swal.close();
+              swal({
+                title:'Error',
+                text: 'Ha ocurrido un error',
+                type: 'error'
+              });
+          console.log(error);
           });
         }
-           
-      }).catch(error => {
-             swal.close();
-             swal({
-               title:'Error',
-               text: 'Ha ocurrido un error',
-               type: 'error'
-             });
-         console.log(error);
-         });
     }else{
       swal({
         title:'Campo vacio',
@@ -522,45 +531,53 @@ export class MasterCorrectiveMaintenanceComponent extends NgbDatepickerI18n {
             this.technicianList = this.technicianList + item.id +',';
           }
         }
-        console.log(this.forklift);
-        this.resumenesService.updateCorrective(this.correctiveId,this.selectedForkliftId.id,this.observationUpdateCorrective,this.technicianList,params).then(data => {
-          const resp: any = data;
-          console.log(data);
-          if (resp.success == false) {
-            swal({
-              title:'Error',
-              text: 'Ha ocurrido un error',
-              type: 'error'
-             });
-          } else {
-          swal.close();
-          
-          let result  = resp.data;
-          console.log(result);
-          document.getElementById('assignUpdateCorrectiveHide').click();
-          
-          this.getCorrectiveRoutines();
-           this.cleanSelectCorrective();
-          //  this.cleanSelectTechnician();
-          this.technicianSelecteds.length=0;
-          // this.checkedList = '';
-            this.technicianList = '';
+        if(this.technicianList==''){
           swal({
-            title: 'Guardado con exito',
-            type: 'success'
-           });
-          }
-        
-          }).catch(error => {
-            swal.close();
-            swal({
-              title:'Error',
-              text: 'Ha ocurrido un error',
-              type: 'error'
-            });
-            console.log(error);
+            title:'Error',
+            text: 'Debes saleccionar al menos un tecnico',
+            type: 'error'
           });
         }else{
+          console.log(this.forklift);
+          this.resumenesService.updateCorrective(this.correctiveId,this.selectedForkliftId.id,this.observationUpdateCorrective,this.technicianList,params).then(data => {
+            const resp: any = data;
+            console.log(data);
+            if (resp.success == false) {
+              swal({
+                title:'Error',
+                text: 'Ha ocurrido un error',
+                type: 'error'
+               });
+            } else {
+            swal.close();
+            
+            let result  = resp.data;
+            console.log(result);
+            document.getElementById('assignUpdateCorrectiveHide').click();
+            
+            this.getCorrectiveRoutines();
+             this.cleanSelectCorrective();
+            //  this.cleanSelectTechnician();
+            this.technicianSelecteds.length=0;
+            // this.checkedList = '';
+              this.technicianList = '';
+            swal({
+              title: 'Guardado con exito',
+              type: 'success'
+             });
+            }
+          }).catch(error => {
+              swal.close();
+              swal({
+                title:'Error',
+                text: 'Ha ocurrido un error',
+                type: 'error'
+              });
+              console.log(error);
+          });
+        }
+        
+      }else{
           swal({
             title:'Campo vacio',
             text: 'Debe ingresar una observación',

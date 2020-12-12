@@ -1458,7 +1458,7 @@ export class ResumenesService {
           'Accept': 'application/json'
         })
       };
-      this.http.get(this.apiEndPoint+'api/get_pending_general/'+id, httpOptions)
+      this.http.get(this.apiEndPoint+'api/pdf_preventive_download/'+id, httpOptions)
         .map(res => res).subscribe(data => {
           console.log(data);
           resolve(data);

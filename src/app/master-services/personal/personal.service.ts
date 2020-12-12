@@ -141,7 +141,7 @@ updateActiviti(id:number, description:string, code:string){
         code: code,
 
       };
-      this.http.patch(this.apiEndPoint+'api/update_activiti/'+ id, postParams, httpOptions)
+      this.http.patch(this.apiEndPoint+'api/update_activitiy/'+ id, postParams, httpOptions)
         .map(res => res).subscribe(data => {
           resolve(data);
         }, error => {

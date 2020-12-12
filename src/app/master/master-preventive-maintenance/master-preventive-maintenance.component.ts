@@ -558,74 +558,90 @@ export class MasterPreventiveMaintenanceComponent extends NgbDatepickerI18n {
           console.log('entro');
         }
       }
+      if(this.preventiveList==''){
+        swal({
+          title:'Error',
+          text: 'Debes saleccionar al menos una rutina',
+          type: 'error'
+        });
+      }else{
 
-      console.log(this.technicianSelecteds);
-      for (let item of this.technicianSelecteds) {
-        console.log('entro');
-        if(item.select){
-          console.log(item);
+        console.log(this.technicianSelecteds);
+        for (let item of this.technicianSelecteds) {
           console.log('entro');
-            this.technicianList = this.technicianList + item.id +',';
+          if(item.select){
+            console.log(item);
+            console.log('entro');
+              this.technicianList = this.technicianList + item.id +',';
+            }
           }
-        }
-        console.log(this.forklift);
-        this.resumenesService.storePreventive(this.selectedForkliftId.id,this.selectedBusinessId.id,this.selectedBranchOfficeId.id,this.preventiveList,this.technicianList, Number(this.consecutive),params).then(data => {
-          const resp: any = data;
-          console.log(data);
-          if (resp.success == false) {
+          if(this.technicianList==''){
             swal({
               title:'Error',
-              text: 'Ha ocurrido un error',
-              type: 'error'
-             });
-          } else {
-          swal.close();
-          
-          let result  = resp.data;
-          console.log(result);
-
-          this.resumenesService.updateConsecutivePreventive().then(data => {
-            const resp: any = data;
-            console.log(data);
-            
-            document.getElementById('assignPrevetiveHide').click();
-          
-            this.getPreventiveRoutines();
-            swal({
-              title: 'Guardado con exito',
-              type: 'success'
-             });
-            
-             this.cleanSelectRoutines();
-            // this.cleanSelectTechnician();
-            this.routineSelecteds.length=0;
-            this.technicianSelecteds.length=0;
-            this.preventiveList = '';
-            this.technicianList = '';
-             console.log('llego hasta aqui');
-    
-            swal.close();
-            // this.rowsClient = resp.data;
-            // this.rowStatic =  resp.data;
-            // this.rowsTemp = resp.data;
-            // console.log( this.rowsClient);
-          }).catch(error => {
-            swal({
-              title: 'Se presento un problema, para guardar este encabezado de mantenimiento preventivo',
-              type: 'error'
-             });
-            console.log(error);
-          });
-        }
-          }).catch(error => {
-            swal.close();
-            swal({
-              title:'Error',
-              text: 'Ha ocurrido un error',
+              text: 'Debes saleccionar al menos un tecnico',
               type: 'error'
             });
-            console.log(error);
-          });
+          }else{
+            console.log(this.forklift);
+            this.resumenesService.storePreventive(this.selectedForkliftId.id,this.selectedBusinessId.id,this.selectedBranchOfficeId.id,this.preventiveList,this.technicianList, Number(this.consecutive),params).then(data => {
+              const resp: any = data;
+              console.log(data);
+              if (resp.success == false) {
+                swal({
+                  title:'Error',
+                  text: 'Ha ocurrido un error',
+                  type: 'error'
+                });
+              } else {
+              swal.close();
+              
+              let result  = resp.data;
+              console.log(result);
+    
+              this.resumenesService.updateConsecutivePreventive().then(data => {
+                const resp: any = data;
+                console.log(data);
+                
+                document.getElementById('assignPrevetiveHide').click();
+              
+                this.getPreventiveRoutines();
+                swal({
+                  title: 'Guardado con exito',
+                  type: 'success'
+                });
+                
+                this.cleanSelectRoutines();
+                // this.cleanSelectTechnician();
+                this.routineSelecteds.length=0;
+                this.technicianSelecteds.length=0;
+                this.preventiveList = '';
+                this.technicianList = '';
+                console.log('llego hasta aqui');
+        
+                swal.close();
+                // this.rowsClient = resp.data;
+                // this.rowStatic =  resp.data;
+                // this.rowsTemp = resp.data;
+                // console.log( this.rowsClient);
+              }).catch(error => {
+                swal({
+                  title: 'Se presento un problema, para guardar este encabezado de mantenimiento preventivo',
+                  type: 'error'
+                });
+                console.log(error);
+              });
+            }
+              }).catch(error => {
+                swal.close();
+                swal({
+                  title:'Error',
+                  text: 'Ha ocurrido un error',
+                  type: 'error'
+                });
+                console.log(error);
+              });
+          }
+      }
   }
 
   createDescritionMassive(){
@@ -634,18 +650,53 @@ export class MasterPreventiveMaintenanceComponent extends NgbDatepickerI18n {
       allowOutsideClick: false
     });
     swal.showLoading();
-    console.log(this.massiveDescrition);
-    this.resumenesService.storeMassive(this.massiveDescrition,this.selectedForkliftId.id).then(data => {
-      const resp: any = data;
-      console.log(data);
-      this.createPreventiveMassive(resp.data.id);
-    }).catch(error => {
+    for (let item of this.routineSelecteds) {
+      console.log('entro');
+      if(item.select){
+       console.log(item);
+       console.log('entro');
+        this.preventiveList = this.preventiveList + item.id +',';
+        console.log('entro');
+      }
+    }
+    if(this.preventiveList==''){
       swal({
-        title: 'Se presento un problema, para guardar este mantenimiento preventivo',
+        title:'Error',
+        text: 'Debes saleccionar al menos una rutina',
         type: 'error'
-       });
-      console.log(error);
-    });
+      });
+    }else{
+   
+    console.log(this.technicianSelecteds);
+    for (let item of this.technicianSelecteds) {
+      console.log('entro');
+      if(item.select){
+        console.log(item);
+        console.log('entro');
+          this.technicianList = this.technicianList + item.id +',';
+        }
+      }
+      if(this.technicianList==''){
+        swal({
+          title:'Error',
+          text: 'Debes saleccionar al menos un tecnico',
+          type: 'error'
+        });
+      }else{
+        console.log(this.massiveDescrition);
+        this.resumenesService.storeMassive(this.massiveDescrition,this.selectedForkliftId.id).then(data => {
+          const resp: any = data;
+          console.log(data);
+          this.createPreventiveMassive(resp.data.id);
+        }).catch(error => {
+          swal({
+            title: 'Se presento un problema, para guardar este mantenimiento preventivo',
+            type: 'error'
+           });
+          console.log(error);
+        });
+      }
+    }
   }
 
   updateDescritionMassive(){
@@ -654,21 +705,69 @@ export class MasterPreventiveMaintenanceComponent extends NgbDatepickerI18n {
       allowOutsideClick: false
     });
     swal.showLoading();
-    console.log(this.massiveDescritionUpdate);
-    this.resumenesService.updateMassiveDescription(this.currentMassiveDescription.id,this.massiveDescritionUpdate).then(data => {
-      const resp: any = data;
-      console.log(data);
-      this.updatePreventiveMassive(this.currentMassiveDescription);
-    }).catch(error => {
+
+    for (let item of this.routineSelecteds) {
+      console.log('entro');
+      if(item.select){
+       console.log(item);
+       console.log('entro');
+        this.preventiveList = this.preventiveList + item.id +',';
+        console.log('entro');
+      }
+    }
+    if(this.preventiveList==''){
       swal({
-        title: 'Se presento un problema, para guardar este mantenimiento preventivo',
+        title:'Error',
+        text: 'Debes saleccionar al menos una rutina',
         type: 'error'
-       });
-      console.log(error);
+      });
+    }else{
+   
+    console.log(this.technicianSelecteds);
+    for (let item of this.technicianSelecteds) {
+      console.log('entro');
+      if(item.select){
+        console.log(item);
+        console.log('entro');
+          this.technicianList = this.technicianList + item.id +',';
+        }
+      }
+      if(this.technicianList==''){
+        swal({
+          title:'Error',
+          text: 'Debes saleccionar al menos un tecnico',
+          type: 'error'
+        });
+      }else{
+        console.log(this.massiveDescritionUpdate);
+        this.resumenesService.updateMassiveDescription(this.currentMassiveDescription.id,this.massiveDescritionUpdate).then(data => {
+          const resp: any = data;
+          console.log(data);
+          this.updatePreventiveMassive(this.currentMassiveDescription);
+        }).catch(error => {
+          swal({
+            title: 'Se presento un problema, para guardar este mantenimiento preventivo',
+            type: 'error'
+           });
+          console.log(error);
+        });
+      }
+  }
+    
+  }
+
+  getUpdateMassive(item:any){
+    swal({
+      title: 'Obteniendo información ...',
+      allowOutsideClick: false
     });
+    swal.showLoading();
+    this.getWorksFilters(this.selectedRegionalId,this.selectedBusinessId);
+    this.getDetailMassive(item);
   }
 
   getDetailMassive(item:any){
+    
     swal({
       title: 'Obteniendo información ...',
       allowOutsideClick: false
@@ -747,25 +846,25 @@ export class MasterPreventiveMaintenanceComponent extends NgbDatepickerI18n {
       console.log(this.consecutive);
 
 
-      for (let item of this.routineSelecteds) {
-        console.log('entro');
-        if(item.select){
-         console.log(item);
-         console.log('entro');
-          this.preventiveList = this.preventiveList + item.id +',';
-          console.log('entro');
-        }
-      }
+      // for (let item of this.routineSelecteds) {
+      //   console.log('entro');
+      //   if(item.select){
+      //    console.log(item);
+      //    console.log('entro');
+      //     this.preventiveList = this.preventiveList + item.id +',';
+      //     console.log('entro');
+      //   }
+      // }
 
-      console.log(this.technicianSelecteds);
-      for (let item of this.technicianSelecteds) {
-        console.log('entro');
-        if(item.select){
-          console.log(item);
-          console.log('entro');
-            this.technicianList = this.technicianList + item.id +',';
-          }
-        }
+      // console.log(this.technicianSelecteds);
+      // for (let item of this.technicianSelecteds) {
+      //   console.log('entro');
+      //   if(item.select){
+      //     console.log(item);
+      //     console.log('entro');
+      //       this.technicianList = this.technicianList + item.id +',';
+      //     }
+      //   }
         console.log(this.forklift);
         for(let item of this.dateSelecteds){
         this.resumenesService.storePreventiveMassive(massive,this.selectedForkliftId.id,this.selectedBusinessId.id,this.selectedBranchOfficeId.id,this.preventiveList,this.technicianList, Number(this.consecutive),item).then(data => {
@@ -875,7 +974,18 @@ export class MasterPreventiveMaintenanceComponent extends NgbDatepickerI18n {
     });
   }
 
+  getUpdateDetail(row: any){
+    swal({
+      title: 'Obteniendo información ...',
+      allowOutsideClick: false
+    });
+    swal.showLoading();
+    this.getWorksFilters(this.selectedRegionalId,this.selectedBusinessId);
+    this.update(row);
+  }
+
   update(row:any){
+   
     console.log('entro');
     // this.getTechnician(this.selectedRegionalId);
     swal({
@@ -1151,25 +1261,25 @@ export class MasterPreventiveMaintenanceComponent extends NgbDatepickerI18n {
       console.log(this.consecutive);
 
 
-      for (let item of this.routineSelecteds) {
-        console.log('entro');
-        if(item.select){
-         console.log(item);
-         console.log('entro');
-          this.preventiveList = this.preventiveList + item.id +',';
-          console.log('entro');
-        }
-      }
+      // for (let item of this.routineSelecteds) {
+      //   console.log('entro');
+      //   if(item.select){
+      //    console.log(item);
+      //    console.log('entro');
+      //     this.preventiveList = this.preventiveList + item.id +',';
+      //     console.log('entro');
+      //   }
+      // }
 
-      console.log(this.technicianSelecteds);
-      for (let item of this.technicianSelecteds) {
-        console.log('entro');
-        if(item.select){
-          console.log(item);
-          console.log('entro');
-            this.technicianList = this.technicianList + item.id +',';
-          }
-        }
+      // console.log(this.technicianSelecteds);
+      // for (let item of this.technicianSelecteds) {
+      //   console.log('entro');
+      //   if(item.select){
+      //     console.log(item);
+      //     console.log('entro');
+      //       this.technicianList = this.technicianList + item.id +',';
+      //     }
+      //   }
         console.log(this.forklift);
         for(let item of this.dateSelecteds){
         this.resumenesService.storePreventiveMassive(row.id,this.selectedForkliftId.id,this.selectedBusinessId.id,this.selectedBranchOfficeId.id,this.preventiveList,this.technicianList, Number(this.consecutive),item).then(data => {
@@ -1266,10 +1376,10 @@ export class MasterPreventiveMaintenanceComponent extends NgbDatepickerI18n {
      var year = this.untilDate.year;
      
      console.log( this.selectedHourUpdatePreventive);
-     console.log( this.selectedHourUpdatePreventive);
+     console.log( this.selectedMinutUpdatePreventive);
 
      var hour = this.selectedHourUpdatePreventive;
-     var minut = this.selectedHourUpdatePreventive;
+     var minut = this.selectedMinutUpdatePreventive;
 
   
      console.log(hour);
@@ -1294,6 +1404,13 @@ export class MasterPreventiveMaintenanceComponent extends NgbDatepickerI18n {
           console.log('entro');
         }
       }
+      if(this.preventiveList==''){
+        swal({
+          title:'Error',
+          text: 'Debes saleccionar al menos una rutina',
+          type: 'error'
+        });
+      }else{
 
       console.log(this.technicianSelecteds);
       for (let item of this.technicianSelecteds) {
@@ -1304,6 +1421,14 @@ export class MasterPreventiveMaintenanceComponent extends NgbDatepickerI18n {
             this.technicianList = this.technicianList + item.id +',';
           }
         }
+
+        if(this.technicianList==''){
+          swal({
+            title:'Error',
+            text: 'Debes saleccionar al menos un tecnico',
+            type: 'error'
+          });
+        }else{
         console.log(this.forklift);
         this.resumenesService.updatePreventive(this.selectedForkliftId.id,this.selectedBusinessId.id,this.selectedBranchOfficeId.id,this.preventiveList,this.technicianList,this.oldDate,params).then(data => {
           const resp: any = data;
@@ -1342,6 +1467,8 @@ export class MasterPreventiveMaintenanceComponent extends NgbDatepickerI18n {
             });
             console.log(error);
           });
+        }
+      }
   }
 
   cleanSelectRoutines(){

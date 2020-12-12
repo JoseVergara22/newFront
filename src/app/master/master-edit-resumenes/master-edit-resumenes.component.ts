@@ -9,6 +9,7 @@ import { ChecklistService } from '../../master-services/checklist/checklist.serv
 import { WorkService } from '../../master-services/Work/work.service';
 import { EstimateService } from '../../master-services/estimate/estimate.service';
 import { SettlementService } from '../../master-services/settlement/settlement.service';
+import { ResponseContentType } from '@angular/http';
 declare let jsPDF;
 
 const I18N_VALUES = {
@@ -190,6 +191,8 @@ export class MasterEditResumenesComponent extends NgbDatepickerI18n {
   subtotalHours: any='';
   subtotalParts : any='';
 
+  downloadPreventivePdf: any;
+
   constructor(private restService: RestService, private resumenesService: ResumenesService, private router: Router, 
     private forkliftService: ForkliftService, private _i18n: I18n, private calendar: NgbCalendar, public formatter: NgbDateParserFormatter,
     private rutaActiva: ActivatedRoute, private checklistService: ChecklistService, private workService: WorkService,
@@ -275,7 +278,7 @@ export class MasterEditResumenesComponent extends NgbDatepickerI18n {
         console.log(data);
         if(resp.success==true){
           swal.showLoading();
-          this.estimateCurrent = resp.dat[0];
+          this.estimateCurrent = resp.data[0];
           console.log('item :'+ JSON.stringify(this.estimateCurrent));
           this.estimateId= this.estimateCurrent.id;
           this.user = this.estimateCurrent.elaborate_user.username;
@@ -333,6 +336,26 @@ export class MasterEditResumenesComponent extends NgbDatepickerI18n {
         });
   }
 
+  downloadPreventive(row: any){
+    this.resumenesService.downloadPreventivePdf(row.id).then(data => {
+      const resp: any = data;
+      console.log(data);
+      swal.close();
+      this.downloadPreventivePdf  = resp.data; 
+
+      // var s3 = new AWS.S3();
+      // var file = new File(this.downloadPreventivePdf.url,'Matenimiento_Preventivo_Nro_'+row.preventive_consecutive);
+      // window.location.href=this.downloadPreventivePdf.url;
+      window.open();
+      const anchor = window.document.createElement('a');
+      anchor.href = this.downloadPreventivePdf.url;
+      anchor.download='Matenimiento_Preventivo_Nro'+row.preventive_consecutive;
+      document.body.appendChild(anchor);
+      anchor.click();
+    }).catch(error => {
+      console.log(error);
+    });
+  }
 
 
     getForkliftPendingGeneralMain(){
@@ -1771,7 +1794,8 @@ getSettlementId(row: any){
     const resp: any = data;
     console.log(data);
     if(resp.success==true){
-      this.estimateCurrent=resp.data[0];
+      this.settlementCurrent=resp.data[0];
+      console.log(this.settlementCurrent)
       swal.showLoading();
       console.log('item :'+ JSON.stringify(this.settlementCurrent));
       console.log(this.settlementCurrent);
@@ -1827,7 +1851,7 @@ getSettlementId(row: any){
       console.log('Datos de partes');
       console.log(data);
       const resp: any = data;
-      this.rowsItemsparts=resp.data;
+      this.rowsItemspartsSettlement=resp.data;
      
       this.getSettlementWorkforce();
      
@@ -1845,7 +1869,7 @@ getSettlementId(row: any){
       const resp: any = data;
       console.log('data de horas');
       console.log(data);
-      this.rowsItemsWorkforce=resp.data;
+      this.rowsItemsWorkforceSettlement=resp.data;
       // this.download3(ind);
       this.getSettlementDetailCustomer();
     }).catch(error => {
@@ -2013,6 +2037,7 @@ loadPdfSendEmail(){
 
   //ifff
   let j = 1;
+  console.log(this.rowsItemspartsSettlement);
   if(this.rowsItemspartsSettlement.length>0){
   for (let i = 0; i < this.rowsItemspartsSettlement.length; i++) {
   //Este total se debe remplazar por el subtotal_parts que se encuentra en la tabla de settlement

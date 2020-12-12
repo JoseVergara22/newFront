@@ -59,6 +59,29 @@ export class WorkService {
     });
   }
 
+  getCopy(id){
+    return new Promise(resolve => {
+      const httpOptions = {
+        headers: new HttpHeaders({
+          'Content-Type':  'application/json',
+          'Authorization': 'Bearer ' + localStorage.getItem('token_user'),
+          'Accept': 'application/json'
+        })
+      };
+      console.log(id);
+      this.http.get(this.apiEndPoint+'api/copy_routine/'+id, httpOptions)
+      .map(res => res).subscribe(data => {
+        console.log("a mostrar data");
+      console.log(data);
+      resolve(data);
+      }, error => {
+        console.log("error en servicio");
+        console.log(error);
+                resolve(error);
+        });
+    });
+  }
+
   getWorksDetails(id:number){
     return new Promise(resolve => {
       const httpOptions = {

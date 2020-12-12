@@ -187,10 +187,10 @@ export class MasterWorkDetailsComponent implements OnInit {
 
   valueSelectType(value:number){
     if(value != 0){
-      this.regionalList ='';
-      this.customerList ='';
-      this.cleanSelectRoutines();
-      this.cleanSelectRegional();
+      // this.regionalList ='';
+      // this.customerList ='';
+      // this.cleanSelectRoutines();
+      // this.cleanSelectRegional();
       console.log(value);
       this.typeRoutine = value;
       if(this.typeRoutine==2){
@@ -238,6 +238,36 @@ export class MasterWorkDetailsComponent implements OnInit {
       }
       if(this.typeRoutine == 1){
           this.registerheader()
+      }
+    }else{
+      console.log(this.typeRoutine);
+      // this.showButtonUpdated=false;
+      this.generalAlert("Ha ocurrido un error","Por favor seleccione el tipo de rutina.","error");
+    }
+  }
+  validateSelecteTypeUpdate(){
+    if(this.typeRoutine != 0){
+
+      if(this.typeRoutine == 2){
+        if(this.regionalList !=''){
+          this.updateheader()
+        }else{
+          console.log(this.typeRoutine);
+          // this.showButtonUpdated=false;
+          this.generalAlert("Ha ocurrido un error","Por favor seleccione al menos una regional.","error");
+          }
+      }
+      if(this.typeRoutine == 3){
+        if(this.customerList !=''){
+          this.updateheader()
+        }else{
+          console.log(this.typeRoutine);
+          // this.showButtonUpdated=false;
+          this.generalAlert("Ha ocurrido un error","Por favor seleccione al menos un cliente.","error");
+          }
+      }
+      if(this.typeRoutine == 1){
+          this.updateheader()
       }
     }else{
       console.log(this.typeRoutine);
@@ -322,15 +352,15 @@ export class MasterWorkDetailsComponent implements OnInit {
           value = 2;
           console.log('entro regionales');
           this.updateRegional = this.currentType.type; 
-          this.getRegionalUpdate(this.updateRegional);
           document.getElementById( 'regional').click();
+          this.getRegionalUpdate(this.updateRegional);
         }
         if(this.currentType.routine.type ==3){
           console.log('entro cliente');
           value = 3;
           this.updateCustomer = this.currentType.type;
-          this.getCustomerUpdate(this.updateCustomer);
           document.getElementById( 'customer').click();
+          this.getCustomerUpdate(this.updateCustomer);
         }
         if(this.currentType.routine.type ==1){
           value = 1;

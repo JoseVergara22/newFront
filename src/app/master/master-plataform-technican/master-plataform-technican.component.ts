@@ -454,10 +454,10 @@ export class MasterPlataformTechnicanComponent extends NgbDatepickerI18n {
      var year = this.untilDate.year;
      
      console.log( this.selectedHourUpdatePreventive);
-     console.log( this.selectedHourUpdatePreventive);
+     console.log( this.selectedMinutUpdatePreventive);
 
      var hour = this.selectedHourUpdatePreventive;
-     var minut = this.selectedHourUpdatePreventive;
+     var minut = this.selectedMinutUpdatePreventive;
 
   
      console.log(hour);
@@ -474,24 +474,41 @@ export class MasterPlataformTechnicanComponent extends NgbDatepickerI18n {
       console.log(this.routineSelecteds);
 
       for (let item of this.routineSelecteds) {
-        console.log('entro');
+        // console.log('entro');
         if(item.select){
          console.log(item);
          console.log('entro');
           this.preventiveList = this.preventiveList + item.id +',';
-          console.log('entro');
+          // console.log('entro');
         }
       }
 
+      if(this.preventiveList==''){
+        swal({
+          title:'Error',
+          text: 'Debes saleccionar al menos una rutina de plataforma',
+          type: 'error'
+        });
+      }else{
+  
+
       console.log(this.technicianSelecteds);
       for (let item of this.technicianSelecteds) {
-        console.log('entro');
+        // console.log('entro');
         if(item.select){
           console.log(item);
           console.log('entro');
             this.technicianList = this.technicianList + item.id +',';
           }
         }
+
+        if(this.technicianList==''){
+          swal({
+            title:'Error',
+            text: 'Debes saleccionar al menos un tecnico',
+            type: 'error'
+          });
+        }else{
         console.log(this.forklift);
         this.platformService.updatePlatform(this.selectedForkliftId.id,this.selectedBusinessId.id,this.selectedBranchOfficeId.id,this.preventiveList,this.technicianList,this.oldDate,params).then(data => {
           const resp: any = data;
@@ -529,6 +546,8 @@ export class MasterPlataformTechnicanComponent extends NgbDatepickerI18n {
             });
             console.log(error);
           });
+        }
+      }
   }
 
   cleanSelectRoutines(){
@@ -727,6 +746,15 @@ export class MasterPlataformTechnicanComponent extends NgbDatepickerI18n {
         }
       }
 
+      if(this.preventiveList==''){
+        swal({
+          title:'Error',
+          text: 'Debes saleccionar al menos una rutina de plataforma',
+          type: 'error'
+        });
+      }else{
+  
+
       console.log(this.technicianSelecteds);
       for (let item of this.technicianSelecteds) {
         // console.log('entro');
@@ -736,6 +764,15 @@ export class MasterPlataformTechnicanComponent extends NgbDatepickerI18n {
             this.technicianList = this.technicianList + item.id +',';
           }
         }
+
+        if(this.technicianList==''){
+          swal({
+            title:'Error',
+            text: 'Debes saleccionar al menos un tecnico',
+            type: 'error'
+          });
+        }else{
+    
         console.log(this.forklift);
         this.platformService.storePlatform(this.selectedForkliftId.id,this.selectedBusinessId.id,this.selectedBranchOfficeId.id,this.preventiveList,this.technicianList, Number(this.consecutive),params).then(data => {
           const resp: any = data;
@@ -795,6 +832,8 @@ export class MasterPlataformTechnicanComponent extends NgbDatepickerI18n {
             });
             console.log(error);
           });
+      }
+    }
   }
 
 
