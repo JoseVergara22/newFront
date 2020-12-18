@@ -89,7 +89,8 @@ import { MasterStevedoreTechnicanComponent } from './master-stevedore-technican/
 import { MasterViewResumenesStevedoreComponent } from './master-view-resumenes-stevedore/master-view-resumenes-stevedore.component';
 import { MasterViewResumenesPlatformComponent } from './master-view-resumenes-platform/master-view-resumenes-platform.component';
 import { MasterPersonalMonitoringComponent } from './master-personal-monitoring/master-personal-monitoring.component';
-
+import { MasterBatteryMaintenanceComponent } from './master-battery-maintenance/master-battery-maintenance.component';
+import { MasterPedingComponent } from './master-peding/master-peding.component';
 
 
 
@@ -404,6 +405,12 @@ const routes: Routes = [
   },{
     path:'personalMonitoring',
     component: MasterPersonalMonitoringComponent
+  },{
+    path:'batteryForklif',
+    component: MasterBatteryMaintenanceComponent
+  },{
+    path:'pending',
+    component: MasterPedingComponent
   }
  
 ];

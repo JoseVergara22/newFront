@@ -54,6 +54,30 @@ export class MasterWorkDashboardComponent implements OnInit {
     this.router.navigateByUrl('maintenance/work_details');
   }
 
+  
+  copyEstimate(row:any){
+    console.log(row);
+    swal({
+      title: 'Estás seguro que deseas copiar la rutina número '+row.estimate_consecutive+' ?',
+     // text: 'Once deleted, you will not be able to recover this imaginary file!',
+      type: 'warning',
+      showCancelButton: true,
+      showConfirmButton: true,
+      cancelButtonText: 'No',
+      confirmButtonText: 'Si'
+
+    })
+    .then((willDelete) => {
+        if (willDelete.value) {
+        this.copyRoutine(row);
+        } else {
+         // swal('Fail');
+        }
+      console.log(willDelete);
+    });
+  }
+
+
   copyRoutine(row: any){
     swal({
       title: 'Validando información ...',

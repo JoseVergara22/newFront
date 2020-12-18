@@ -352,6 +352,9 @@ export class MasterEditResumenesComponent extends NgbDatepickerI18n {
       anchor.download='Matenimiento_Preventivo_Nro'+row.preventive_consecutive;
       document.body.appendChild(anchor);
       anchor.click();
+
+      
+
     }).catch(error => {
       console.log(error);
     });

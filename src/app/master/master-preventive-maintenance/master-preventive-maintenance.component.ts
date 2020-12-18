@@ -379,6 +379,7 @@ export class MasterPreventiveMaintenanceComponent extends NgbDatepickerI18n {
       console.log(error);
     });
   }
+  
   getWorksFilters(regional_id: any, customer_id: any) {
     swal({
       title: 'Obteniendo información ...',

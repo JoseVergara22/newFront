@@ -102,6 +102,8 @@ import { MasterTechnicianForkliftReportComponent } from './master-technician-for
 import { MasterViewResumenesStevedoreComponent } from './master-view-resumenes-stevedore/master-view-resumenes-stevedore.component';
 import { MasterViewResumenesPlatformComponent } from './master-view-resumenes-platform/master-view-resumenes-platform.component';
 import { MasterPersonalMonitoringComponent } from './master-personal-monitoring/master-personal-monitoring.component';
+import { MasterBatteryMaintenanceComponent } from './master-battery-maintenance/master-battery-maintenance.component';
+import { MasterPedingComponent } from './master-peding/master-peding.component';
 
 
 
@@ -137,6 +139,9 @@ import { ResumenesService } from '../master-services/resumenes/resumenes.service
 import { PlatformsService } from '../master-services/platforms/platforms.service';
 import { StevedoreService } from '../master-services/stevedore/stevedore.service';
 import { PersonalService } from '../master-services/personal/personal.service';
+import { BatteryService } from '../master-services/battery/battery.service';
+import { PendingService } from '../master-services/pending/pending.service';
+
 
 
 
@@ -253,7 +258,8 @@ import {AutocompleteLibModule} from 'angular-ng-autocomplete';
     MasterViewResumenesStevedoreComponent,
     MasterViewResumenesPlatformComponent,
     MasterPersonalMonitoringComponent,
-
+    MasterBatteryMaintenanceComponent,
+    MasterPedingComponent,
 
 
    // MasterAdminComponent
@@ -282,6 +288,9 @@ import {AutocompleteLibModule} from 'angular-ng-autocomplete';
     ResumenesService,
     PlatformsService,
     StevedoreService,
-    PersonalService,]
+    PersonalService,
+    BatteryService,
+    PendingService,
+  ]
 })
 export class MasterModule { }
