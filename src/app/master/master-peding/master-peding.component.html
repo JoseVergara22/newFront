@@ -3,7 +3,7 @@
 
   <div class="col-sm-12">
       <app-card>
-          <h5>Gestion Pendientes </h5>
+          <h5>Gestión Pendientes </h5>
           <br>
 
           <div class="form-group row">
@@ -75,9 +75,12 @@
             <div >
             <button type="button" style="display:none;" id="showAssignInvoice" (click)="modalUpdatePending.show()" class="btn btn-primary waves-effect">Checkear</button>
 
+         
             <button class="btn btn-primary" (click)="getFilters()"><i class="icofont icofont-search" ></i>Buscar</button>
+           
           </div>
           </div>
+          <br>
           <ngx-datatable #table class="data-table" [rows]="rowsClient"   [columnMode]="'flex'" [headerHeight]="50" [footerHeight]="50" [rowHeight]="'auto'" [limit]="10">
 
             <!--     <ngx-datatable-column  [flexGrow]="2" name="Consecutivo" [sortable]="false"  sortable="false" prop="consecutive">
@@ -85,7 +88,7 @@
                     <label class="link" (click)="editResumenes(row)" >{{value}}</label>
                   </ng-template>
                 </ngx-datatable-column> --> 
-                <ngx-datatable-column  [flexGrow]="2" [sortable]="false" [resizeable]="false"  name="Consecutivo del Mantenimiento" [sortable]="false"  prop="consecutive"></ngx-datatable-column>
+                <ngx-datatable-column  [flexGrow]="2" [sortable]="false" [resizeable]="false"  name="N Mantenimiento" [sortable]="false"  prop="consecutive"></ngx-datatable-column>
                 <ngx-datatable-column  [flexGrow]="2" [sortable]="false" [resizeable]="false"  name="Tipo" [sortable]="false"  prop="type"></ngx-datatable-column>
                 <ngx-datatable-column  [flexGrow]="2" [sortable]="false" [resizeable]="false"  name="Descripción Pendiente" [sortable]="false"  prop="description"></ngx-datatable-column>
                 <!-- <ngx-datatable-column  [flexGrow]="2" [sortable]="false" [resizeable]="false"  name="Descripción Pendiente" [sortable]="false"  prop="description"></ngx-datatable-column> -->

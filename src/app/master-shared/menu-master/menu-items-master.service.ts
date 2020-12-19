@@ -150,6 +150,10 @@ const MENUITEMS = [
             name: 'Gestión de Mantenimientos'
            },
            {
+            state: 'pending',
+            name: 'Gestión de Pendientes'
+           },
+           {
             state: 'prevetiveMaintenance',
             name:  'Asignar Mantenimiento Preventivo'
           },  
@@ -474,6 +478,10 @@ const MENUCREATOR = [
             state: 'controlTechnician',
             name: 'Gestión de Mantenimientos'
           },
+          {
+            state: 'pending',
+            name: 'Gestión de Pendientes'
+           },
           {
             state: 'prevetiveMaintenance',
             name:  'Asignar Mantenimiento Preventivo'
