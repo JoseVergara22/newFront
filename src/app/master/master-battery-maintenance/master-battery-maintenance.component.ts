@@ -615,7 +615,7 @@ console.log(this.observationCorrective);
           });
         }else{
         console.log(this.forklift);
-        this.batteryService.updateBattery(this.selectedForkliftId.id,this.selectedBusinessId.id,this.selectedBranchOfficeId.id,this.observationUpdateCorrective,this.technicianList,this.oldDate,params).then(data => {
+        this.batteryService.updateBattery(this.selectedRegionalId.id,this.selectedForkliftId.id,this.selectedBusinessId.id,this.selectedBranchOfficeId.id, Number(this.consecutive),this.observationUpdateCorrective,this.technicianList,this.oldDate,params).then(data => {
           const resp: any = data;
           console.log(data);
           if (resp.success == false) {

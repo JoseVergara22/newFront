@@ -69,17 +69,17 @@ export class BatteryService {
       const postParams = {
         forklift_id: forklift_id,
         customer_id: customer_id,
-        branch_offices_id: brach_id,
+        branch_id: brach_id,
         // platforms: id_rutines,
         regional_id: regional,
         technicians_id: technician_id,
-        battery_consecutive: consecutive,
+        consecutive: consecutive,
         date: date,
         observation:observation
       };
       console.log(postParams);
       
-      this.http.post(this.apiEndPoint+'api/create_battery_routines', postParams, httpOptions)
+      this.http.post(this.apiEndPoint+'api/store_rutine_battery', postParams, httpOptions)
       .map(res => res).subscribe(data => {
         console.log("a mostrar data");
       console.log(data);
@@ -91,7 +91,7 @@ export class BatteryService {
     });
   }
 
-  updateBattery(forklift_id:number,customer_id:number,branch_id:number,id_rutines:string,technician_id: any,date: string,newDate: string) {
+  updateBattery(regional_id:number,forklift_id:number,customer_id:number,branch_id:number,consecutive:number,id_rutines:string,technician_id: any,date: string,newDate: string) {
     return new Promise(resolve => {
       const headers = new HttpHeaders();
       headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user'))); // 'Bearer ' +
@@ -107,9 +107,11 @@ export class BatteryService {
     const patchParams = {
       forklift_id: forklift_id,
         customer_id:customer_id,
-        branch_offices_id:branch_id,
-        observation: id_rutines,
+        branch_id: branch_id,
+        regional_id: regional_id,
         technicians_id: technician_id,
+        consecutive: consecutive,
+        observation: id_rutines,
         date: date,
         newDate: newDate
     };

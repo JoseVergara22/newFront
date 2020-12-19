@@ -30,7 +30,7 @@
           <div class="form-group row">
 
             <div class="col-sm-6">
-              <h6>Sucursales  <span style="color:red;">*</span> </h6>
+              <h6>Sucursales </h6>
 
               <select class="form-control" (change)="getCustomerRegionals()"  [(ngModel)]="selectedRegionalId" > 
                           <option value="0" selected>Seleccionar sucursal </option>
@@ -40,7 +40,7 @@
           </div>
 
           <div class="col-sm-6">
-            <h6>Cliente  <span style="color:red;">*</span></h6>
+            <h6>Cliente </h6>
             <select class="form-control" (change)="getBranchOffices()" [(ngModel)]="selectedBusinessId"> 
                         <option value="0" selected>Seleccionar cliente </option>
                     <option   *ngFor="let customer of customers" [ngValue]="customer"> {{customer.business_name}}  </option>
@@ -51,7 +51,7 @@
 
           <div class="form-group row">
             <div class="col-sm-4">
-              <h6>Sede  <span style="color:red;">*</span></h6>
+              <h6>Sede </h6>
                 <select class="form-control"  [(ngModel)]="selectedBranchOfficeId" (change)="getForklifs()" > 
                             <option value="0" selected>Seleccionar sede </option>
                             <option   *ngFor="let branchOffice of branchOffices" [ngValue]="branchOffice"   > {{branchOffice.branch_name}}  </option>
@@ -60,7 +60,7 @@
               </div>
             <!-- <div class="col-sm-4"> -->
               <div class="col-sm-4">
-                <h6>Equipo  <span style="color:red;">*</span></h6>
+                <h6>Equipo </h6>
   
                 <select class="form-control"   [(ngModel)]="selectedForkliftId" > 
                             <option value="0" selected>Seleccionar equipo </option>

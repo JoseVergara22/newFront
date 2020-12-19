@@ -101,6 +101,7 @@ export class MasterWorkDashboardComponent implements OnInit {
         swal.showLoading();    
         this.getWorks();
         swal.close();
+        this.router.navigateByUrl('maintenance/work_detailsUpdate/'+resp.data.id+'/'+resp.data.description+'/'+resp.data.hours+'/'+resp.data.observation);
     }
     }).catch(error => {
       swal({

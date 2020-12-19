@@ -167,6 +167,17 @@
       <h5>Rutinas Correctivas</h5>
       <ngx-datatable #table class="data-table" [rows]="rowsClient"   [columnMode]="'flex'" [headerHeight]="50" [footerHeight]="50" [rowHeight]="'auto'" [limit]="20">
 
+        <ngx-datatable-column  [flexGrow]="2" name="Ver" [sortable]="false"  sortable="false" prop="finish">
+          <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+            <div *ngIf="value!=''">
+              <label (click)="downloadCorrective(row)" class="link">PDF</label>
+            </div>
+            <div *ngIf="value==''">
+              <label >No ha sido terminado el mantenimiento</label>
+            </div>
+          
+          </ng-template>
+          </ngx-datatable-column>
         <ngx-datatable-column  [flexGrow]="2" [sortable]="false" [resizeable]="false"  name="Fecha/Hora" [sortable]="false"  prop="result.corrective.date"></ngx-datatable-column>
         <ngx-datatable-column  [flexGrow]="2" [sortable]="false" [resizeable]="false"  name="Obervación" [sortable]="false"  prop="result.corrective.work"></ngx-datatable-column>
         <ngx-datatable-column  [flexGrow]="2" name="Ver" [sortable]="false"  sortable="false" prop="result.corrective.corrective_consecutive">
@@ -185,6 +196,17 @@
       <h5>Checklist</h5>
       <ngx-datatable #table class="data-table" [rows]="currentChecklist"   [columnMode]="'flex'" [headerHeight]="50" [footerHeight]="50" [rowHeight]="'auto'" [limit]="20">
 
+        <ngx-datatable-column  [flexGrow]="2" name="Ver" [sortable]="false"  sortable="false" prop="finish">
+          <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+            <div *ngIf="value!=''">
+              <label (click)="downloadChecklist(row)" class="link">PDF</label>
+            </div>
+            <div *ngIf="value==''">
+              <label >No ha sido terminado el mantenimiento</label>
+            </div>
+          
+          </ng-template>
+          </ngx-datatable-column>
         <ngx-datatable-column  [flexGrow]="2" [sortable]="false" [resizeable]="false"  name="Fecha/Hora" [sortable]="false"  prop="date"></ngx-datatable-column>
         <ngx-datatable-column  [flexGrow]="2" [sortable]="false" [resizeable]="false"  name="Descripción del checklist" [sortable]="false"  prop="descritionChecklist"></ngx-datatable-column>
         <ngx-datatable-column  [flexGrow]="2" name="Ver" [sortable]="false"  sortable="false" prop="checklists_consecutive">
@@ -203,6 +225,17 @@
       <h5>Plataforma</h5>
       <ngx-datatable #table class="data-table" [rows]="rowPlatform"   [columnMode]="'flex'" [headerHeight]="50" [footerHeight]="50" [rowHeight]="'auto'" [limit]="20">
 
+        <ngx-datatable-column  [flexGrow]="2" name="Ver" [sortable]="false"  sortable="false" prop="finish">
+          <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+            <div *ngIf="value!=''">
+              <label (click)="downloadPlatform(row)" class="link">PDF</label>
+            </div>
+            <div *ngIf="value==''">
+              <label >No ha sido terminado el mantenimiento</label>
+            </div>
+          
+          </ng-template>
+          </ngx-datatable-column>
         <ngx-datatable-column  [flexGrow]="2" [sortable]="false" [resizeable]="false"  name="Fecha/Hora" [sortable]="false"  prop="date"></ngx-datatable-column>
         <ngx-datatable-column  [flexGrow]="2" [sortable]="false" [resizeable]="false"  name="Descripción de rutina" [sortable]="false"  prop="descritionPlatform"></ngx-datatable-column>
         <ngx-datatable-column  [flexGrow]="2" name="Ver" [sortable]="false"  sortable="false" prop="platform_consecutive">
@@ -221,6 +254,17 @@
       <h5>Estibadores</h5>
       <ngx-datatable #table class="data-table" [rows]="rowStevedore"   [columnMode]="'flex'" [headerHeight]="50" [footerHeight]="50" [rowHeight]="'auto'" [limit]="20">
 
+        <ngx-datatable-column  [flexGrow]="2" name="Ver" [sortable]="false"  sortable="false" prop="finish">
+          <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+            <div *ngIf="value!=''">
+              <label (click)="downloadStevedore(row)" class="link">PDF</label>
+            </div>
+            <div *ngIf="value==''">
+              <label >No ha sido terminado el mantenimiento</label>
+            </div>
+          
+          </ng-template>
+          </ngx-datatable-column>
         <ngx-datatable-column  [flexGrow]="2" [sortable]="false" [resizeable]="false"  name="Fecha/Hora" [sortable]="false"  prop="date"></ngx-datatable-column>
         <ngx-datatable-column  [flexGrow]="2" [sortable]="false" [resizeable]="false"  name="Descripción de rutina" [sortable]="false"  prop="descritionStevedore"></ngx-datatable-column>
         <ngx-datatable-column  [flexGrow]="2" name="Ver" [sortable]="false"  sortable="false" prop="stevedore_consecutive">
@@ -245,6 +289,7 @@
             <label class="link" (click)="editResumenes(row)" >{{value}}</label>
           </ng-template>
         </ngx-datatable-column> --> 
+        
         <ngx-datatable-column  [flexGrow]="2" [sortable]="false" [resizeable]="false"  name="Descripción Pendiente" [sortable]="false"  prop="description"></ngx-datatable-column>
      <!--    <ngx-datatable-column  [flexGrow]="2" [sortable]="false" [resizeable]="false"  name="Descripción De rutina" [sortable]="false"  prop="type"></ngx-datatable-column> -->
         <ngx-datatable-column  [flexGrow]="2" [sortable]="false" [resizeable]="false"  name="Tipo" [sortable]="false"  prop="type"></ngx-datatable-column>
@@ -259,6 +304,17 @@
       <h5>Informe Técnico</h5>
       <ngx-datatable #table class="data-table" [rows]="rowReport"   [columnMode]="'flex'" [headerHeight]="50" [footerHeight]="50" [rowHeight]="'auto'" [limit]="20">
 
+        <ngx-datatable-column  [flexGrow]="2" name="Ver" [sortable]="false"  sortable="false" prop="finish">
+          <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+            <div *ngIf="value!=''">
+              <label (click)="downloadReport(row)" class="link">PDF</label>
+            </div>
+            <div *ngIf="value==''">
+              <label >No ha sido terminado el mantenimiento</label>
+            </div>
+          
+          </ng-template>
+          </ngx-datatable-column>
         <ngx-datatable-column  [flexGrow]="2" [sortable]="false" [resizeable]="false"  name="Fecha/Hora" [sortable]="false"  prop="date"></ngx-datatable-column>
         <ngx-datatable-column  [flexGrow]="2" [sortable]="false" [resizeable]="false"  name="Descripción de rutina" [sortable]="false"  prop="descritionReport"></ngx-datatable-column>
         <ngx-datatable-column  [flexGrow]="2" name="Ver" [sortable]="false"  sortable="false" prop="technical_reports_consecutive">

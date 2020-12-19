@@ -44,7 +44,7 @@
         "d3": "^4.12.0",
         "famfamfam-flags": "^1.0.0",
         "feather-icons-sass": "^1.0.0",
-        "file-saver": "^2.0.2",
+        "file-saver": "^2.0.5",
         "font-awesome-scss": "^1.0.0",
         "hammerjs": "^2.0.8",
         "install": "^0.13.0",

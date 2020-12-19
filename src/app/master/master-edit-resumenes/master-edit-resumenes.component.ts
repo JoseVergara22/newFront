@@ -10,6 +10,10 @@ import { WorkService } from '../../master-services/Work/work.service';
 import { EstimateService } from '../../master-services/estimate/estimate.service';
 import { SettlementService } from '../../master-services/settlement/settlement.service';
 import { ResponseContentType } from '@angular/http';
+
+declare var require: any
+const FileSaver = require('file-saver');
+
 declare let jsPDF;
 
 const I18N_VALUES = {
@@ -192,6 +196,11 @@ export class MasterEditResumenesComponent extends NgbDatepickerI18n {
   subtotalParts : any='';
 
   downloadPreventivePdf: any;
+  downloadCorrectivePdf: any;
+  downloadChecklistPdf: any;
+  downloadPlatformPdf: any;
+  downloadStevedorePdf: any;
+  downloadBatteryPdf: any;
 
   constructor(private restService: RestService, private resumenesService: ResumenesService, private router: Router, 
     private forkliftService: ForkliftService, private _i18n: I18n, private calendar: NgbCalendar, public formatter: NgbDateParserFormatter,
@@ -343,17 +352,107 @@ export class MasterEditResumenesComponent extends NgbDatepickerI18n {
       swal.close();
       this.downloadPreventivePdf  = resp.data; 
 
-      // var s3 = new AWS.S3();
-      // var file = new File(this.downloadPreventivePdf.url,'Matenimiento_Preventivo_Nro_'+row.preventive_consecutive);
-      // window.location.href=this.downloadPreventivePdf.url;
-      window.open();
-      const anchor = window.document.createElement('a');
-      anchor.href = this.downloadPreventivePdf.url;
-      anchor.download='Matenimiento_Preventivo_Nro'+row.preventive_consecutive;
-      document.body.appendChild(anchor);
-      anchor.click();
+      const pdfUrl = this.downloadPreventivePdf.url;
+      const pdfName = 'Matenimiento_Preventivo_Nro'+row.preventive_consecutive;
+      FileSaver.saveAs(pdfUrl, pdfName);
 
-      
+    }).catch(error => {
+      console.log(error);
+    });
+  }
+
+  downloadCorrective(row: any){
+    this.resumenesService.downloadCorrectivePdf(row.id).then(data => {
+      const resp: any = data;
+      console.log(data);
+      swal.close();
+      this.downloadCorrectivePdf  = resp.data; 
+
+
+      const pdfUrl = this.downloadCorrectivePdf.url;
+      const pdfName = 'Matenimiento_Correctivo_Nro'+row.preventive_consecutive;
+      FileSaver.saveAs(pdfUrl, pdfName);
+
+    }).catch(error => {
+      console.log(error);
+    });
+  }
+
+  downloadChecklist(row: any){
+    this.resumenesService.downloadChecklistPdf(row.id).then(data => {
+      const resp: any = data;
+      console.log(data);
+      swal.close();
+      this.downloadChecklistPdf  = resp.data; 
+
+
+      const pdfUrl = this.downloadChecklistPdf.url;
+      const pdfName = 'Checklist_Nro'+row.preventive_consecutive;
+      FileSaver.saveAs(pdfUrl, pdfName);
+
+    }).catch(error => {
+      console.log(error);
+    });
+  }
+
+  downloadPlatform(row: any){
+    this.resumenesService.downloadPlatformPdf(row.id).then(data => {
+      const resp: any = data;
+      console.log(data);
+      swal.close();
+      this.downloadPlatformPdf  = resp.data;
+
+      const pdfUrl = this.downloadPlatformPdf.url;
+      const pdfName = 'Matenimiento_Plataforma_Nro'+row.preventive_consecutive;
+      FileSaver.saveAs(pdfUrl, pdfName);
+
+    }).catch(error => {
+      console.log(error);
+    });
+  }
+
+  downloadStevedore(row: any){
+    this.resumenesService.downloadStevedorePdf(row.id).then(data => {
+      const resp: any = data;
+      console.log(data);
+      swal.close();
+      this.downloadStevedorePdf  = resp.data; 
+
+      const pdfUrl = this.downloadStevedorePdf.url;
+      const pdfName = 'Matenimiento_Estibador_Nro'+row.preventive_consecutive;
+      FileSaver.saveAs(pdfUrl, pdfName);
+
+    }).catch(error => {
+      console.log(error);
+    });
+  }
+
+  downloadBattery(row: any){
+    this.resumenesService.downloadBatteryPdf(row.id).then(data => {
+      const resp: any = data;
+      console.log(data);
+      swal.close();
+      this.downloadBatteryPdf  = resp.data; 
+
+      const pdfUrl = this.downloadBatteryPdf.url;
+      const pdfName = 'Matenimiento_Bateria_Nro'+row.preventive_consecutive;
+      FileSaver.saveAs(pdfUrl, pdfName);
+
+    }).catch(error => {
+      console.log(error);
+    });
+  }
+
+  downloadReport(row: any){
+    this.resumenesService.downloadReportPdf(row.id).then(data => {
+      const resp: any = data;
+      console.log(data);
+      swal.close();
+      this.downloadBatteryPdf  = resp.data; 
+
+      const pdfUrl = this.downloadBatteryPdf.url;
+      const pdfName = 'Repote_Técnico_Nro'+row.preventive_consecutive;
+      FileSaver.saveAs(pdfUrl, pdfName);
 
     }).catch(error => {
       console.log(error);
