@@ -504,7 +504,7 @@ nextPage(){
     }
 
     updateStatusPreventivePending(id: number, status: number){
-      this.resumeneServices.updateStatusPendingPreventive(id, status).then(data => {
+      this.resumeneServices.updateStatusPendingPreventive(id, status,this.consecutive,this.estimateId).then(data => {
         const resp: any = data;
         // console.log('Este es la API DE CONFIGURACIÓN TOPE MAXIMO, MARGEN, ST,SN');
         console.log(data);
@@ -515,7 +515,7 @@ nextPage(){
       });
     }
     updateStatusCorrectivePending(id: number, status: number){
-      this.resumeneServices.updateStatusPendingCorrective(id, status).then(data => {
+      this.resumeneServices.updateStatusPendingCorrective(id, status,this.consecutive,this.estimateId).then(data => {
         const resp: any = data;
         // console.log('Este es la API DE CONFIGURACIÓN TOPE MAXIMO, MARGEN, ST,SN');
         console.log(data);
@@ -526,7 +526,7 @@ nextPage(){
       });
     }
     updateStatusChecklistPending(id: number, status: number){
-      this.resumeneServices.updateStatusPendingChecklist(id, status).then(data => {
+      this.resumeneServices.updateStatusPendingChecklist(id, status,this.consecutive,this.estimateId).then(data => {
         const resp: any = data;
         // console.log('Este es la API DE CONFIGURACIÓN TOPE MAXIMO, MARGEN, ST,SN');
         console.log(data);
@@ -537,7 +537,7 @@ nextPage(){
       });
     }
     updateStatusStevedorePending(id: number, status: number){
-      this.resumeneServices.updateStatusPendingStevedore(id, status).then(data => {
+      this.resumeneServices.updateStatusPendingStevedore(id, status,this.consecutive,this.estimateId).then(data => {
         const resp: any = data;
         // console.log('Este es la API DE CONFIGURACIÓN TOPE MAXIMO, MARGEN, ST,SN');
         console.log(data);
@@ -548,9 +548,20 @@ nextPage(){
       });
     }
     updateStatusPlatformPending(id: number, status: number){
-      this.resumeneServices.updateStatusPendingPlatform(id, status).then(data => {
+      this.resumeneServices.updateStatusPendingPlatform(id, status,this.consecutive,this.estimateId).then(data => {
         const resp: any = data;
         // console.log('Este es la API DE CONFIGURACIÓN TOPE MAXIMO, MARGEN, ST,SN');
+        console.log(data);
+        
+        swal.close();
+      }).catch(error => {
+        console.log(error);
+      });
+    }
+    updateStatusBatteryPending(id: number, status: number){
+      this.resumeneServices.updateStatusPendingBattery(id, status,this.consecutive,this.estimateId).then(data => {
+        const resp: any = data;
+        // console.log('Este es la API DE pendientes');
         console.log(data);
         
         swal.close();
@@ -984,6 +995,9 @@ this.trmGeneralUsa= inputTrm.value.replace(/[^\d\.]*/g,'');
        }
        if(item.type=='ESTIBADORES'){
         this.updateStatusStevedorePending(item.id,status)
+       }
+       if(item.type=='BATERIA'){
+        this.updateStatusBatteryPending(item.id,status)
        }
        this.getEstimateWorkforce();
        this.getEstimateParts();
@@ -3080,6 +3094,9 @@ console.log();
        }
        if(item.type=='ESTIBADORES'){
         this.updateStatusStevedorePending(item.id,status)
+       }
+       if(item.type=='BATERIA'){
+        this.updateStatusBatteryPending(item.id,status)
        }
        
       /* this.workforceCode = '';

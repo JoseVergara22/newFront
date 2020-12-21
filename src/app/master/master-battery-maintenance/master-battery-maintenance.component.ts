@@ -339,9 +339,9 @@ console.log(this.observationCorrective);
               
               this.cleanSelectRoutines();
               // this.cleanSelectTechnician();
-              this.routineSelecteds.length=0;
+              // this.routineSelecteds.length=0;
               this.technicianSelecteds.length=0;
-              this.preventiveList = '';
+              this.observationCorrective = '';
               this.technicianList = '';
               console.log('llego hasta aqui');
       
@@ -571,104 +571,114 @@ console.log(this.observationCorrective);
       allowOutsideClick: false
     });
     swal.showLoading();
-    let params;
-     // poner los 0
-     var day = (this.untilDate.day < 10 ? '0' : '') +this.untilDate.day;
-     // 01, 02, 03, ... 10, 11, 12
-     let month = ((this.untilDate.month) < 10 ? '0' : '') + (this.untilDate.month);
-     // 1970, 1971, ... 2015, 2016, ...
-     var year = this.untilDate.year;
-     
-     console.log( this.selectedHourUpdatePreventive);
-     console.log( this.selectedMinutUpdatePreventive);
+    console.log(this.observationUpdateCorrective);
+    if(this.observationUpdateCorrective ==''){
+      swal({
+        title:'Error',
+        text: 'Debes ingresar una observación.',
+        type: 'error'
+      });
+    }else{
+      
+      let params;
+      // poner los 0
+      var day = (this.untilDate.day < 10 ? '0' : '') +this.untilDate.day;
+      // 01, 02, 03, ... 10, 11, 12
+      let month = ((this.untilDate.month) < 10 ? '0' : '') + (this.untilDate.month);
+      // 1970, 1971, ... 2015, 2016, ...
+      var year = this.untilDate.year;
+      
+      console.log( this.selectedHourUpdatePreventive);
+      console.log( this.selectedMinutUpdatePreventive);
 
-     var hour = this.selectedHourUpdatePreventive;
-     var minut = this.selectedMinutUpdatePreventive;
+      var hour = this.selectedHourUpdatePreventive;
+      var minut = this.selectedMinutUpdatePreventive;
 
-  
-     console.log(hour);
-     console.log( minut);
-     
-     
-     var fromD = year +'-'+ month+'-'+ day+' '+hour+':'+minut+':00';
-     console.log( fromD);
-     //var fromD = this.fromDate.year+'-'+this.fromDate.month+'-'+this.fromDate.day; //31 de diciembre de 2015
-     // var untilD = this.untilDate.year+'-'+this.untilDate.month+'-'+this.untilDate.day;
-     params=fromD;
+    
+      console.log(hour);
+      console.log( minut);
+      
+      
+      var fromD = year +'-'+ month+'-'+ day+' '+hour+':'+minut+':00';
+      console.log( fromD);
+      //var fromD = this.fromDate.year+'-'+this.fromDate.month+'-'+this.fromDate.day; //31 de diciembre de 2015
+      // var untilD = this.untilDate.year+'-'+this.untilDate.month+'-'+this.untilDate.day;
+      params=fromD;
 
-     console.log('entro');
+      console.log('entro');
 
-      console.log(this.technicianSelecteds);
-      for (let item of this.technicianSelecteds) {
-        console.log('entro');
-        if(item.select){
-          console.log(item);
+        console.log(this.technicianSelecteds);
+        for (let item of this.technicianSelecteds) {
           console.log('entro');
-            this.technicianList = this.technicianList + item.id +',';
+          if(item.select){
+            console.log(item);
+            console.log('entro');
+              this.technicianList = this.technicianList + item.id +',';
+            }
           }
-        }
-        if(this.technicianList==''){
-          swal({
-            title:'Error',
-            text: 'Debes saleccionar al menos un tecnico',
-            type: 'error'
-          });
-        }else{
-        console.log(this.forklift);
-        this.batteryService.updateBattery(this.selectedRegionalId.id,this.selectedForkliftId.id,this.selectedBusinessId.id,this.selectedBranchOfficeId.id, Number(this.consecutive),this.observationUpdateCorrective,this.technicianList,this.oldDate,params).then(data => {
-          const resp: any = data;
-          console.log(data);
-          if (resp.success == false) {
+          if(this.technicianList==''){
             swal({
               title:'Error',
-              text: 'Ha ocurrido un error',
+              text: 'Debes saleccionar al menos un tecnico',
               type: 'error'
-             });
-          } else {
-          
-            this.batteryService.updateConsecutive().then(data => {
-              const resp: any = data;
-              console.log(data);
-              
-              document.getElementById('assingUpdatePrevetiveHide').click();
-            
-              this.getPreventiveRoutines();
+            });
+          }else{
+          console.log(this.forklift);
+          this.batteryService.updateBattery(this.selectedRegionalId.id,this.selectedForkliftId.id,this.selectedBusinessId.id,this.selectedBranchOfficeId.id, Number(this.consecutive),this.observationUpdateCorrective,this.technicianList,this.oldDate,params).then(data => {
+            const resp: any = data;
+            console.log(data);
+            if (resp.success == false) {
               swal({
-                title: 'Guardado con exito',
-                type: 'success'
+                title:'Error',
+                text: 'Ha ocurrido un error',
+                type: 'error'
               });
+            } else {
+            
+              this.batteryService.updateConsecutive().then(data => {
+                const resp: any = data;
+                console.log(data);
+                
+                document.getElementById('assingUpdatePrevetiveHide').click();
               
-              this.cleanSelectRoutines();
-              // this.cleanSelectTechnician();
-              this.routineSelecteds.length=0;
-              this.technicianSelecteds.length=0;
-              this.preventiveList = '';
-              this.technicianList = '';
-              console.log('llego hasta aqui');
-      
-              swal.close();
-              // this.rowsClient = resp.data;
-              // this.rowStatic =  resp.data;
-              // this.rowsTemp = resp.data;
-              // console.log( this.rowsClient);
+                this.getPreventiveRoutines();
+                swal({
+                  title: 'Guardado con exito',
+                  type: 'success'
+                });
+                
+                this.cleanSelectRoutines();
+                // this.cleanSelectTechnician();
+                // this.routineSelecteds.length=0;
+                this.technicianSelecteds.length=0;
+                this.observationUpdateCorrective = '';
+                this.technicianList = '';
+                console.log('llego hasta aqui');
+        
+                swal.close();
+                // this.rowsClient = resp.data;
+                // this.rowStatic =  resp.data;
+                // this.rowsTemp = resp.data;
+                // console.log( this.rowsClient);
+              }).catch(error => {
+                swal({
+                  title: 'Se presento un problema, para guardar este encabezado de mantenimiento preventivo',
+                  type: 'error'
+                });
+                console.log(error);
+              });
+            }
             }).catch(error => {
+              swal.close();
               swal({
-                title: 'Se presento un problema, para guardar este encabezado de mantenimiento preventivo',
+                title:'Error',
+                text: 'Ha ocurrido un error',
                 type: 'error'
               });
               console.log(error);
             });
-          }
-          }).catch(error => {
-            swal.close();
-            swal({
-              title:'Error',
-              text: 'Ha ocurrido un error',
-              type: 'error'
-            });
-            console.log(error);
-          });
         }
+    }
   }
 
   cleanSelectRoutines(){

@@ -848,7 +848,7 @@ export class ResumenesService {
     });
   }
 
-  updateStatusPendingPreventive(id:number,status: number) {
+  updateStatusPendingPreventive(id:number,status: number, consecutive:number, estimate_id:number) {
     return new Promise(resolve => {
       const headers = new HttpHeaders();
       headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user'))); // 'Bearer ' +
@@ -862,7 +862,11 @@ export class ResumenesService {
     };
     console.log( localStorage.getItem('userid'));
     const patchParams = {
-        status:status
+        status:status,
+        user_name:localStorage.getItem('username'),
+        user_id:localStorage.getItem('userid'),
+        consecutive:consecutive,
+        estimate_id:estimate_id
     };
     console.log(patchParams);
     this.http.patch(this.apiEndPoint+'api/update_pending_prevetive/'+id, patchParams, httpOptions)
@@ -873,7 +877,7 @@ export class ResumenesService {
       });
     });
   }
-  updateStatusPendingCorrective(id:number,status: number) {
+  updateStatusPendingCorrective(id:number,status: number, consecutive:number, estimate_id:number) {
     return new Promise(resolve => {
       const headers = new HttpHeaders();
       headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user'))); // 'Bearer ' +
@@ -887,7 +891,11 @@ export class ResumenesService {
     };
     console.log( localStorage.getItem('userid'));
     const patchParams = {
-        status:status
+        status:status,
+        user_name:localStorage.getItem('username'),
+        user_id:localStorage.getItem('userid'),
+        consecutive:consecutive,
+        estimate_id:estimate_id
     };
     console.log(patchParams);
     this.http.patch(this.apiEndPoint+'api/update_pending_corrective/'+id, patchParams, httpOptions)
@@ -898,7 +906,7 @@ export class ResumenesService {
       });
     });
   }
-  updateStatusPendingChecklist(id:number,status: number) {
+  updateStatusPendingChecklist(id:number,status: number, consecutive:number, estimate_id:number) {
     return new Promise(resolve => {
       const headers = new HttpHeaders();
       headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user'))); // 'Bearer ' +
@@ -912,7 +920,11 @@ export class ResumenesService {
     };
     console.log( localStorage.getItem('userid'));
     const patchParams = {
-        status:status
+        status:status,
+        user_name:localStorage.getItem('username'),
+        user_id:localStorage.getItem('userid'),
+        consecutive:consecutive,
+        estimate_id:estimate_id
     };
     console.log(patchParams);
     this.http.patch(this.apiEndPoint+'api/update_pending_checklist/'+id, patchParams, httpOptions)
@@ -923,7 +935,7 @@ export class ResumenesService {
       });
     });
   }
-  updateStatusPendingStevedore(id:number,status: number) {
+  updateStatusPendingStevedore(id:number,status: number, consecutive:number, estimate_id:number) {
     return new Promise(resolve => {
       const headers = new HttpHeaders();
       headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user'))); // 'Bearer ' +
@@ -937,7 +949,11 @@ export class ResumenesService {
     };
     console.log( localStorage.getItem('userid'));
     const patchParams = {
-        status:status
+        status:status,
+        user_name:localStorage.getItem('username'),
+        user_id:localStorage.getItem('userid'),
+        consecutive:consecutive,
+        estimate_id:estimate_id
     };
     console.log(patchParams);
     this.http.patch(this.apiEndPoint+'api/update_pending_stevedore/'+id, patchParams, httpOptions)
@@ -948,7 +964,7 @@ export class ResumenesService {
       });
     });
   }
-  updateStatusPendingPlatform(id:number,status: number) {
+  updateStatusPendingPlatform(id:number,status: number, consecutive:number, estimate_id:number) {
     return new Promise(resolve => {
       const headers = new HttpHeaders();
       headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user'))); // 'Bearer ' +
@@ -962,10 +978,43 @@ export class ResumenesService {
     };
     console.log( localStorage.getItem('userid'));
     const patchParams = {
-        status:status
+        status:status,
+        user_name:localStorage.getItem('username'),
+        user_id:localStorage.getItem('userid'),
+        consecutive:consecutive,
+        estimate_id:estimate_id
     };
     console.log(patchParams);
     this.http.patch(this.apiEndPoint+'api/update_pending_platform/'+id, patchParams, httpOptions)
+      .map(res => res).subscribe(data => {
+        resolve(data);
+      }, error => {
+        resolve(error);
+      });
+    });
+  }
+  updateStatusPendingBattery(id:number,status: number, consecutive:number, estimate_id:number) {
+    return new Promise(resolve => {
+      const headers = new HttpHeaders();
+      headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user'))); // 'Bearer ' +
+      headers.append('Content-Type', 'application/json');
+      const httpOptions = {
+      headers: new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ' + localStorage.getItem('token_user'),
+      'Accept': 'application/json'
+      })
+    };
+    console.log( localStorage.getItem('userid'));
+    const patchParams = {
+        status:status,
+        user_name:localStorage.getItem('username'),
+        user_id:localStorage.getItem('userid'),
+        consecutive:consecutive,
+        estimate_id:estimate_id
+    };
+    console.log(patchParams);
+    this.http.patch(this.apiEndPoint+'api/update_pending_battery/'+id, patchParams, httpOptions)
       .map(res => res).subscribe(data => {
         resolve(data);
       }, error => {
