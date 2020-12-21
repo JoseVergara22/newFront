@@ -151,10 +151,10 @@
         <ngx-datatable-column  [flexGrow]="2" [sortable]="false" [resizeable]="false"  name="Fecha/Hora" [sortable]="false"  prop="date"></ngx-datatable-column>
         <ngx-datatable-column  [flexGrow]="2" [sortable]="false" [resizeable]="false"  name="Descripción de rutna" [sortable]="false"  prop="descriptionRoutine"></ngx-datatable-column>
         <!-- <ngx-datatable-column  [flexGrow]="2" [sortable]="false" [resizeable]="false"  name="Fecha" [sortable]="false"  prop="result.preventiveRoutines"></ngx-datatable-column> -->
-        <ngx-datatable-column  [flexGrow]="2" name="Ver" [sortable]="false"  sortable="false" prop="preventive_consecutive">
+        <ngx-datatable-column  [flexGrow]="2" name="Consecutivo" [sortable]="false"  sortable="false" prop="preventive_consecutive">
         <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
 
-          <label (click)="showRoutinePreventive(row)" class="link">{{value}}</label>
+          <label >{{value}}</label>
         
         </ng-template>
         </ngx-datatable-column>
@@ -167,7 +167,7 @@
       <h5>Rutinas Correctivas</h5>
       <ngx-datatable #table class="data-table" [rows]="rowsClient"   [columnMode]="'flex'" [headerHeight]="50" [footerHeight]="50" [rowHeight]="'auto'" [limit]="20">
 
-        <ngx-datatable-column  [flexGrow]="2" name="Ver" [sortable]="false"  sortable="false" prop="finish">
+        <ngx-datatable-column  [flexGrow]="2" name="Ver" [sortable]="false"  sortable="false" prop="result.corrective.finish">
           <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
             <div *ngIf="value!=''">
               <label (click)="downloadCorrective(row)" class="link">PDF</label>
@@ -180,10 +180,10 @@
           </ngx-datatable-column>
         <ngx-datatable-column  [flexGrow]="2" [sortable]="false" [resizeable]="false"  name="Fecha/Hora" [sortable]="false"  prop="result.corrective.date"></ngx-datatable-column>
         <ngx-datatable-column  [flexGrow]="2" [sortable]="false" [resizeable]="false"  name="Obervación" [sortable]="false"  prop="result.corrective.work"></ngx-datatable-column>
-        <ngx-datatable-column  [flexGrow]="2" name="Ver" [sortable]="false"  sortable="false" prop="result.corrective.corrective_consecutive">
+        <ngx-datatable-column  [flexGrow]="2" name="Consecutivo" [sortable]="false"  sortable="false" prop="result.corrective.corrective_consecutive">
           <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
 
-            <label (click)="showRoutineCorrective(row)" class="link">{{value}}</label>
+            <label >{{value}}</label>
             
           </ng-template>
         </ngx-datatable-column>
@@ -209,10 +209,10 @@
           </ngx-datatable-column>
         <ngx-datatable-column  [flexGrow]="2" [sortable]="false" [resizeable]="false"  name="Fecha/Hora" [sortable]="false"  prop="date"></ngx-datatable-column>
         <ngx-datatable-column  [flexGrow]="2" [sortable]="false" [resizeable]="false"  name="Descripción del checklist" [sortable]="false"  prop="descritionChecklist"></ngx-datatable-column>
-        <ngx-datatable-column  [flexGrow]="2" name="Ver" [sortable]="false"  sortable="false" prop="checklists_consecutive">
+        <ngx-datatable-column  [flexGrow]="2" name="Consecutivo" [sortable]="false"  sortable="false" prop="checklists_consecutive">
         <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
 
-          <label (click)="showRoutineChecklist(row)"class="link">{{value}}</label>
+          <label >{{value}}</label>
          
         </ng-template>
         </ngx-datatable-column>
@@ -238,10 +238,10 @@
           </ngx-datatable-column>
         <ngx-datatable-column  [flexGrow]="2" [sortable]="false" [resizeable]="false"  name="Fecha/Hora" [sortable]="false"  prop="date"></ngx-datatable-column>
         <ngx-datatable-column  [flexGrow]="2" [sortable]="false" [resizeable]="false"  name="Descripción de rutina" [sortable]="false"  prop="descritionPlatform"></ngx-datatable-column>
-        <ngx-datatable-column  [flexGrow]="2" name="Ver" [sortable]="false"  sortable="false" prop="platform_consecutive">
+        <ngx-datatable-column  [flexGrow]="2" name="Consecutivo" [sortable]="false"  sortable="false" prop="platform_consecutive">
         <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
 
-          <label (click)="showRoutinePlatform(row)"class="link">{{value}}</label>
+          <label >{{value}}</label>
          
         </ng-template>
         </ngx-datatable-column>
@@ -267,10 +267,10 @@
           </ngx-datatable-column>
         <ngx-datatable-column  [flexGrow]="2" [sortable]="false" [resizeable]="false"  name="Fecha/Hora" [sortable]="false"  prop="date"></ngx-datatable-column>
         <ngx-datatable-column  [flexGrow]="2" [sortable]="false" [resizeable]="false"  name="Descripción de rutina" [sortable]="false"  prop="descritionStevedore"></ngx-datatable-column>
-        <ngx-datatable-column  [flexGrow]="2" name="Ver" [sortable]="false"  sortable="false" prop="stevedore_consecutive">
+        <ngx-datatable-column  [flexGrow]="2" name="Consecutivo" [sortable]="false"  sortable="false" prop="stevedore_consecutive">
         <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
 
-          <label (click)="showRoutineStevedore(row)"class="link">{{value}}</label>
+          <label >{{value}}</label>
          
         </ng-template>
         </ngx-datatable-column>
@@ -317,7 +317,7 @@
           </ngx-datatable-column>
         <ngx-datatable-column  [flexGrow]="2" [sortable]="false" [resizeable]="false"  name="Fecha/Hora" [sortable]="false"  prop="date"></ngx-datatable-column>
         <ngx-datatable-column  [flexGrow]="2" [sortable]="false" [resizeable]="false"  name="Descripción de rutina" [sortable]="false"  prop="descritionReport"></ngx-datatable-column>
-        <ngx-datatable-column  [flexGrow]="2" name="Ver" [sortable]="false"  sortable="false" prop="technical_reports_consecutive">
+        <ngx-datatable-column  [flexGrow]="2" name="Consecutivo" [sortable]="false"  sortable="false" prop="technical_reports_consecutive">
         <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
 
           <label (click)="showRoutineReport(row)"class="link">{{value}}</label>

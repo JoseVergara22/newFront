@@ -346,116 +346,165 @@ export class MasterEditResumenesComponent extends NgbDatepickerI18n {
   }
 
   downloadPreventive(row: any){
+    swal.showLoading();
+    console.log(row);
     this.resumenesService.downloadPreventivePdf(row.id).then(data => {
       const resp: any = data;
       console.log(data);
-      swal.close();
       this.downloadPreventivePdf  = resp.data; 
-
+      
       const pdfUrl = this.downloadPreventivePdf.url;
-      const pdfName = 'Matenimiento_Preventivo_Nro'+row.preventive_consecutive;
+      const pdfName = 'Matenimiento_Preventivo_Nro_'+row.preventive_consecutive;
       FileSaver.saveAs(pdfUrl, pdfName);
+      swal.close();
 
     }).catch(error => {
       console.log(error);
+      swal({
+        title:'Error',
+        text: 'Ha ocurrido un error',
+        type: 'error'
+       });
     });
   }
 
   downloadCorrective(row: any){
-    this.resumenesService.downloadCorrectivePdf(row.id).then(data => {
+    swal.showLoading();
+    console.log(row);
+    this.resumenesService.downloadCorrectivePdf(row.result.corrective.id).then(data => {
       const resp: any = data;
       console.log(data);
-      swal.close();
       this.downloadCorrectivePdf  = resp.data; 
-
-
+      
+      
       const pdfUrl = this.downloadCorrectivePdf.url;
-      const pdfName = 'Matenimiento_Correctivo_Nro'+row.preventive_consecutive;
+      const pdfName = 'Matenimiento_Correctivo_Nro_'+row.result.corrective.corrective_consecutive;
       FileSaver.saveAs(pdfUrl, pdfName);
+      swal.close();
 
     }).catch(error => {
       console.log(error);
+      swal({
+        title:'Error',
+        text: 'Ha ocurrido un error',
+        type: 'error'
+       });
     });
   }
 
   downloadChecklist(row: any){
+    swal.showLoading();
+    console.log(row);
     this.resumenesService.downloadChecklistPdf(row.id).then(data => {
       const resp: any = data;
       console.log(data);
-      swal.close();
       this.downloadChecklistPdf  = resp.data; 
-
-
+      
+      
       const pdfUrl = this.downloadChecklistPdf.url;
-      const pdfName = 'Checklist_Nro'+row.preventive_consecutive;
+      const pdfName = 'Checklist_Nro_'+row.checklists_consecutive;
       FileSaver.saveAs(pdfUrl, pdfName);
+      swal.close();
 
     }).catch(error => {
       console.log(error);
+      swal({
+        title:'Error',
+        text: 'Ha ocurrido un error',
+        type: 'error'
+       });
     });
   }
 
   downloadPlatform(row: any){
+    swal.showLoading();
+    console.log(row);
     this.resumenesService.downloadPlatformPdf(row.id).then(data => {
       const resp: any = data;
       console.log(data);
-      swal.close();
       this.downloadPlatformPdf  = resp.data;
-
+      
       const pdfUrl = this.downloadPlatformPdf.url;
-      const pdfName = 'Matenimiento_Plataforma_Nro'+row.preventive_consecutive;
+      const pdfName = 'Matenimiento_Plataforma_Nro_'+row.platform_consecutive;
       FileSaver.saveAs(pdfUrl, pdfName);
-
+      
+      swal.close();
     }).catch(error => {
       console.log(error);
+      swal({
+        title:'Error',
+        text: 'Ha ocurrido un error',
+        type: 'error'
+       });
     });
   }
 
   downloadStevedore(row: any){
+    swal.showLoading();
+    console.log(row);
     this.resumenesService.downloadStevedorePdf(row.id).then(data => {
       const resp: any = data;
       console.log(data);
-      swal.close();
       this.downloadStevedorePdf  = resp.data; 
-
+      
       const pdfUrl = this.downloadStevedorePdf.url;
-      const pdfName = 'Matenimiento_Estibador_Nro'+row.preventive_consecutive;
+      const pdfName = 'Matenimiento_Estibador_Nro_'+row.stevedore_consecutive;
       FileSaver.saveAs(pdfUrl, pdfName);
-
+      
+      swal.close();
     }).catch(error => {
       console.log(error);
+      swal({
+        title:'Error',
+        text: 'Ha ocurrido un error',
+        type: 'error'
+       });
     });
   }
 
   downloadBattery(row: any){
+    swal.showLoading();
+    console.log(row);
     this.resumenesService.downloadBatteryPdf(row.id).then(data => {
       const resp: any = data;
       console.log(data);
-      swal.close();
       this.downloadBatteryPdf  = resp.data; 
-
+      
       const pdfUrl = this.downloadBatteryPdf.url;
-      const pdfName = 'Matenimiento_Bateria_Nro'+row.preventive_consecutive;
+      const pdfName = 'Matenimiento_Bateria_Nro_'+row.preventive_consecutive;
       FileSaver.saveAs(pdfUrl, pdfName);
+      swal.close();
 
     }).catch(error => {
       console.log(error);
+      swal({
+        title:'Error',
+        text: 'Ha ocurrido un error',
+        type: 'error'
+       });
     });
   }
 
   downloadReport(row: any){
+    swal.showLoading();
+    console.log(row);
     this.resumenesService.downloadReportPdf(row.id).then(data => {
       const resp: any = data;
       console.log(data);
-      swal.close();
       this.downloadBatteryPdf  = resp.data; 
-
+      
       const pdfUrl = this.downloadBatteryPdf.url;
-      const pdfName = 'Repote_Técnico_Nro'+row.preventive_consecutive;
+      const pdfName = 'Repote_Técnico_Nro_'+row.technical_reports_consecutive;
       FileSaver.saveAs(pdfUrl, pdfName);
+      swal.close();
 
     }).catch(error => {
       console.log(error);
+      swal({
+        title:'Error',
+        text: 'Ha ocurrido un error',
+        type: 'error'
+       });
     });
   }
 
