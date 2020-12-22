@@ -6,7 +6,8 @@ import { ForkliftService } from '../../master-services/Forklift/forklift.service
 import { PendingService } from '../../master-services/pending/pending.service';
 import { RestService } from '../../master-services/Rest/rest.service';
 import { ResumenesService } from '../../master-services/resumenes/resumenes.service';
-
+declare var require: any
+const FileSaver = require('file-saver');
 
 const I18N_VALUES = {
   'fr': {
@@ -62,6 +63,12 @@ export class MasterPedingComponent extends NgbDatepickerI18n {
   currentPending: any;
   forklifts: any;
 
+  downloadPreventivePdf: any;
+  downloadCorrectivePdf: any;
+  downloadChecklistPdf: any;
+  downloadPlatformPdf: any;
+  downloadStevedorePdf: any;
+  downloadBatteryPdf: any;
   
   constructor(private restService: RestService, public formatter: NgbDateParserFormatter, 
     private _i18n: I18n, private router: Router, private resumenesService: ResumenesService,
@@ -268,6 +275,170 @@ getFilters() {
 
 }
 
+  
+downloadPreventive(row: any){
+  swal.showLoading();
+  console.log(row);
+  this.resumenesService.downloadPreventivePdf(row.id).then(data => {
+    const resp: any = data;
+    console.log(data);
+    this.downloadPreventivePdf  = resp.data; 
+    
+    const pdfUrl = this.downloadPreventivePdf.url;
+    const pdfName = 'Matenimiento_Preventivo_Nro_'+row.consecutive;
+    FileSaver.saveAs(pdfUrl, pdfName);
+    swal.close();
+
+  }).catch(error => {
+    console.log(error);
+    swal({
+      title:'Error',
+      text: 'Ha ocurrido un error',
+      type: 'error'
+     });
+  });
+}
+
+downloadCorrective(row: any){
+  swal.showLoading();
+  console.log(row);
+  this.resumenesService.downloadCorrectivePdf(row.result.corrective.id).then(data => {
+    const resp: any = data;
+    console.log(data);
+    this.downloadCorrectivePdf  = resp.data; 
+    
+    
+    const pdfUrl = this.downloadCorrectivePdf.url;
+    const pdfName = 'Matenimiento_Correctivo_Nro_'+row.consecutive;
+    FileSaver.saveAs(pdfUrl, pdfName);
+    swal.close();
+
+  }).catch(error => {
+    console.log(error);
+    swal({
+      title:'Error',
+      text: 'Ha ocurrido un error',
+      type: 'error'
+     });
+  });
+}
+
+downloadChecklist(row: any){
+  swal.showLoading();
+  console.log(row);
+  this.resumenesService.downloadChecklistPdf(row.id).then(data => {
+    const resp: any = data;
+    console.log(data);
+    this.downloadChecklistPdf  = resp.data; 
+    
+    
+    const pdfUrl = this.downloadChecklistPdf.url;
+    const pdfName = 'Checklist_Nro_'+row.consecutive;
+    FileSaver.saveAs(pdfUrl, pdfName);
+    swal.close();
+
+  }).catch(error => {
+    console.log(error);
+    swal({
+      title:'Error',
+      text: 'Ha ocurrido un error',
+      type: 'error'
+     });
+  });
+}
+
+downloadPlatform(row: any){
+  swal.showLoading();
+  console.log(row);
+  this.resumenesService.downloadPlatformPdf(row.id).then(data => {
+    const resp: any = data;
+    console.log(data);
+    this.downloadPlatformPdf  = resp.data;
+    
+    const pdfUrl = this.downloadPlatformPdf.url;
+    const pdfName = 'Matenimiento_Plataforma_Nro_'+row.consecutive;
+    FileSaver.saveAs(pdfUrl, pdfName);
+    
+    swal.close();
+  }).catch(error => {
+    console.log(error);
+    swal({
+      title:'Error',
+      text: 'Ha ocurrido un error',
+      type: 'error'
+     });
+  });
+}
+
+downloadStevedore(row: any){
+  swal.showLoading();
+  console.log(row);
+  this.resumenesService.downloadStevedorePdf(row.id).then(data => {
+    const resp: any = data;
+    console.log(data);
+    this.downloadStevedorePdf  = resp.data; 
+    
+    const pdfUrl = this.downloadStevedorePdf.url;
+    const pdfName = 'Matenimiento_Estibador_Nro_'+row.consecutive;
+    FileSaver.saveAs(pdfUrl, pdfName);
+    
+    swal.close();
+  }).catch(error => {
+    console.log(error);
+    swal({
+      title:'Error',
+      text: 'Ha ocurrido un error',
+      type: 'error'
+     });
+  });
+}
+
+downloadBattery(row: any){
+  swal.showLoading();
+  console.log(row);
+  this.resumenesService.downloadBatteryPdf(row.id).then(data => {
+    const resp: any = data;
+    console.log(data);
+    this.downloadBatteryPdf  = resp.data; 
+    
+    const pdfUrl = this.downloadBatteryPdf.url;
+    const pdfName = 'Matenimiento_Bateria_Nro_'+row.consecutive;
+    FileSaver.saveAs(pdfUrl, pdfName);
+    swal.close();
+
+  }).catch(error => {
+    console.log(error);
+    swal({
+      title:'Error',
+      text: 'Ha ocurrido un error',
+      type: 'error'
+     });
+  });
+}
+
+
+downloadPdf(row: any){
+  console.log(row);
+  if(row.type === "CORRECTIVO"){
+    this.downloadCorrective(row);
+  }
+  if(row.type === "CHECKLIST"){
+    this.downloadChecklist(row);
+  }
+  if(row.type === "PREVENTIVO"){
+    this.downloadPreventive(row);
+  }
+  if(row.type === "PLATAFORMA"){
+    this.downloadPlatform(row);
+  }
+  if(row.type === "ESTIBADORES"){
+    this.downloadStevedore(row);
+  }
+  if(row.type === "BATERIA"){
+    this.downloadBattery(row);
+  }
+}
+
 
 updatePendings(){
   if(this.currentPending.type === "CORRECTIVO"){
@@ -300,10 +471,6 @@ createPreventive(){
   
   if(this.status==3){
     this.newStatus = 2;
-  }
-    
-  if(this.status==2){
-    this.newStatus = 1;
   }
   if(this.status==1){
     this.newStatus = 0;
@@ -351,10 +518,7 @@ createCorrective(){
   if(this.status==3){
     this.newStatus = 2;
   }
-    
-  if(this.status==2){
-    this.newStatus = 1;
-  }
+
   if(this.status==1){
     this.newStatus = 0;
   }
@@ -401,10 +565,7 @@ createChecklist(){
   if(this.status==3){
     this.newStatus = 2;
   }
-    
-  if(this.status==2){
-    this.newStatus = 1;
-  }
+
   if(this.status==1){
     this.newStatus = 0;
   }
@@ -451,10 +612,7 @@ createPlatform(){
   if(this.status==3){
     this.newStatus = 2;
   }
-    
-  if(this.status==2){
-    this.newStatus = 1;
-  }
+
   if(this.status==1){
     this.newStatus = 0;
   }
@@ -501,10 +659,7 @@ createStevedore(){
   if(this.status==3){
     this.newStatus = 2;
   }
-    
-  if(this.status==2){
-    this.newStatus = 1;
-  }
+
   if(this.status==1){
     this.newStatus = 0;
   }
@@ -552,9 +707,7 @@ createBattery(){
     this.newStatus = 2;
   }
     
-  if(this.status==2){
-    this.newStatus = 1;
-  }
+
   if(this.status==1){
     this.newStatus = 0;
   }

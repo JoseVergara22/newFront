@@ -344,7 +344,7 @@ export class MasterEditResumenesComponent extends NgbDatepickerI18n {
        });
         });
   }
-
+ 
   downloadPreventive(row: any){
     swal.showLoading();
     console.log(row);

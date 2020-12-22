@@ -88,6 +88,17 @@
                     <label class="link" (click)="editResumenes(row)" >{{value}}</label>
                   </ng-template>
                 </ngx-datatable-column> --> 
+                <ngx-datatable-column  [flexGrow]="2" name="Ver" [sortable]="false"  sortable="false" prop="finish">
+                  <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+                    <div *ngIf="value!=''">
+                      <label (click)="downloadPdf(row)" class="link">PDF</label>
+                    </div>
+                    <div *ngIf="value==''">
+                      <label >No ha sido terminado el mantenimiento</label>
+                    </div>
+                  
+                  </ng-template>
+                  </ngx-datatable-column>
                 <ngx-datatable-column  [flexGrow]="2" [sortable]="false" [resizeable]="false"  name="N Mantenimiento" [sortable]="false"  prop="consecutive"></ngx-datatable-column>
                 <ngx-datatable-column  [flexGrow]="2" [sortable]="false" [resizeable]="false"  name="Tipo" [sortable]="false"  prop="type"></ngx-datatable-column>
                 <ngx-datatable-column  [flexGrow]="2" [sortable]="false" [resizeable]="false"  name="Descripción Pendiente" [sortable]="false"  prop="description"></ngx-datatable-column>
@@ -97,7 +108,7 @@
   
   
                 <div class="statusLabel" *ngIf="value==0">
-                   Sin Asignar
+                   Sin Gestión
                 </div>
             
                 <div *ngIf="value==1">
@@ -112,6 +123,7 @@
                 </ngx-datatable-column>
                 <ngx-datatable-column  [flexGrow]="2" [sortable]="false" [resizeable]="false"  name="Cotización" [sortable]="false"  prop="estimate"></ngx-datatable-column>
                 <ngx-datatable-column  [flexGrow]="2" [sortable]="false" [resizeable]="false"  name="Observación" [sortable]="false"  prop="observation"></ngx-datatable-column>
+                <ngx-datatable-column  [flexGrow]="2" [sortable]="false" [resizeable]="false"  name="Control de Gestión" [sortable]="false"  prop="management_control"></ngx-datatable-column>
                 <ngx-datatable-column  [flexGrow]="2" name="Ver" [sortable]="false"  sortable="false" prop="id">
                   <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
           
@@ -144,8 +156,7 @@
         <div class="input-group" >
           <select class="form-control" [(ngModel)]="status" >
             <option value="0" selected>Seleccionar estado</option>
-            <option value="1">Sin Asignar </option>
-            <option value="2">Cotizado</option>
+            <option value="1">Sin Gestión </option>
             <option value="3">Solucionado</option>
           </select>
         </div>
@@ -157,18 +168,15 @@
       </div>
   </div>
 
-        <div *ngIf="status==2" class="form-group row">
+        <!-- <div *ngIf="status==3" class="form-group row">
 
-          <!-- <app-card style="width: 100%; height: 300px;"> -->
             <div class="col-sm-5" >
-              <h5>Consecutivo de la cotización</h5>
+              <h5>Control de Gestión</h5>
               
-              <!-- <div   *ngFor="let item of routineSelecteds"> -->
-                <input type="number" [(ngModel)]="consecutive"  placeholder="Consecutivo" class="form-control" /> <br>
+                <input type="number" [(ngModel)]="consecutive" class="form-control" /> <br>
               </div>
-            <!-- </div> -->
-          <!-- </app-card> -->
-        </div>
+
+        </div> -->
           <br>
         <br>
           <div class="align-buttons">

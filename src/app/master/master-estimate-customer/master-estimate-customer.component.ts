@@ -1303,30 +1303,40 @@ if(this.conditionTrmUsa.id==2){
 
   updatePendingCheck(){
     console.log(this.itemsPart);
+    var cont=0;
     for(let item of this.itemsPart){
       if(item.active){
-        if((item.part == false)&&(item.service==false)){
-          swal({
-            title: 'Debe escoger el destino del cada uno de los pendientes escogidos',
-            type: 'error'
-           });
-        }
-       if(item.part == true){
-         this.description = item.description;
-          this.createEstimateDetailForPending(item,1);
-          console.log('entro en partes');
-          console.log(item);
-        }
-        if(item.service == true){
-         this.workforceService = item.description;
-          this.createEstimateDetailWorkforcePending(item,1);
-          console.log('entro en mano de obra');
-          console.log(item);
-        }
+        cont++
+        if(item.type=='CHECKLIST'){
+          this.updateStatusChecklistPending(item.id,1)
+         }
+         if(item.type=='CORRECTIVO'){
+          this.updateStatusCorrectivePending(item.id,1)
+         }
+         if(item.type=='PREVENTIVO'){
+          this.updateStatusPreventivePending(item.id,1)
+         }
+         if(item.type=='PLATAFORMA'){
+          this.updateStatusPlatformPending(item.id,1)
+         }
+         if(item.type=='ESTIBADORES'){
+          this.updateStatusStevedorePending(item.id,1)
+         }
+         if(item.type=='BATERIA'){
+          this.updateStatusBatteryPending(item.id,1)
+         }
       }
-      
     }
-    document.getElementById('storageDetaiPendinglHide').click();
+    console.log(cont);
+    if(cont>=1){
+      document.getElementById('storageDetaiPendinglHide').click();
+    }else{
+      swal({
+        title: 'Seleccionar al menos un pediente,',
+        type: 'error'
+       });
+
+    }
 
   }
 

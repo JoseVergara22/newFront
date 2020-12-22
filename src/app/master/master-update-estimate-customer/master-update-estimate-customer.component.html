@@ -448,9 +448,6 @@
                                         <th style="width: 5%">#</th>
                                         <th style="width: 50%">Descripción</th>
                                         <th style="width: 30%">Tipo</th>
-                                        <th style="width: 5%">Repuesto</th>
-                                        <th style="width: 5%">Mano de obra</th>
-                                        <!-- <th style="width: 5%;">Cantidad</th> -->
                                       </tr>
                                       </thead>
                                       <tbody>
@@ -462,16 +459,6 @@
                                         <td> {{pointIdex+1 }}</td>
                                         <td> {{item.description}}</td>
                                         <td> {{item.type}}</td>
-                                        <td> 
-                                            <input type="checkbox" [(ngModel)]="item.part"  data-md-icheck (click)="validateCheck(item,1)" /> 
-                                            <!-- <input type="radio" value="part" name="radio" >  -->
-                                        </td>
-                                        <td> 
-                                            <input type="checkbox" [(ngModel)]="item.service"  data-md-icheck (click)="validateCheck(item,2)"/> 
-                                            <!-- <label>
-                                                <input type="radio" name="radio" value="service" >
-                                            </label> -->
-                                        </td>
                                         <!-- <td> <input type="number"  style="width: 100px;   text-align: center;"     (change)="partChange($event,item)" value={{item.quantity}} /> </td> -->
                                       </tr>
                                       </tbody>
@@ -500,7 +487,7 @@
             <div class="align-buttons">
                 <button type="button" class="btn btn-default waves-effect" id="storageDetaiPendinglHide" (click)="deleteItemsSelect()" (click)="modalForkliftPending.hide()">Cancelar</button>
                 <button type="button" style="display:none" class="btn btn-default waves-effect" id="storageDetailPendinglHide" (click)="modalForkliftPending.hide()">Cancelar</button>
-                <button type="submit " class="btn btn-primary m-b-0 "  (click)="updatePendingCheck()" >Guardar</button>
+                <button type="submit " class="btn btn-primary m-b-0 "  (click)="updatePendingCheck()" >Cotizar</button>
             </div>
     </div>
 </app-modal-basic>

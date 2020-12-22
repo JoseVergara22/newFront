@@ -166,6 +166,10 @@ const MENUITEMS = [
             name:  ' Asignar Checklist'
           },
           {
+            state: 'batteryForklif',
+            name:  ' Asignar Bateria'
+          },
+          {
             state: 'registerForkliftReport',
             name: 'Diligenciar Reporte Técnico'
           },

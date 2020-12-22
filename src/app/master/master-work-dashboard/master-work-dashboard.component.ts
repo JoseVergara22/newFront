@@ -58,7 +58,7 @@ export class MasterWorkDashboardComponent implements OnInit {
   copyEstimate(row:any){
     console.log(row);
     swal({
-      title: 'Estás seguro que deseas copiar la rutina número '+row.estimate_consecutive+' ?',
+      title: 'Estás seguro que deseas copiar la rutina?',
      // text: 'Once deleted, you will not be able to recover this imaginary file!',
       type: 'warning',
       showCancelButton: true,

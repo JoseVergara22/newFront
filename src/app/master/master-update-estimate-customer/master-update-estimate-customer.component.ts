@@ -393,25 +393,40 @@ export class MasterUpdateEstimateCustomerComponent implements OnInit {
 
    updatePendingCheck(){
      console.log(this.itemsPart);
+     var cont=0;
      for(let item of this.itemsPart){
-       if(item.active){
-        if(item.part == true){
-          this.description = item.description;
-           this.createEstimateDetailForPending(item,1);
-           console.log('entro en partes');
-           console.log(item);
+      if(item.active){
+        cont++;
+        if(item.type=='CHECKLIST'){
+          this.updateStatusChecklistPending(item.id,1)
          }
-         if(item.service == true){
-          this.workforceService = item.description;
-           this.createEstimateDetailWorkforcePending(item,1);
-           console.log('entro en mano de obra');
-           console.log(item);
+         if(item.type=='CORRECTIVO'){
+          this.updateStatusCorrectivePending(item.id,1)
          }
-       }
-       
-     }
-     document.getElementById('storageDetaiPendinglHide').click();
+         if(item.type=='PREVENTIVO'){
+          this.updateStatusPreventivePending(item.id,1)
+         }
+         if(item.type=='PLATAFORMA'){
+          this.updateStatusPlatformPending(item.id,1)
+         }
+         if(item.type=='ESTIBADORES'){
+          this.updateStatusStevedorePending(item.id,1)
+         }
+         if(item.type=='BATERIA'){
+          this.updateStatusBatteryPending(item.id,1)
+         }
+      }
+    }
+    console.log(cont);
+    if(cont>=1){
+      document.getElementById('storageDetaiPendinglHide').click();
+    }else{
+      swal({
+        title: 'Seleccionar al menos un pediente,',
+        type: 'error'
+       });
 
+    }
    }
 
    validateCheck(row: any, ind: number){
