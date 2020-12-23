@@ -64,7 +64,7 @@
   
                 <select class="form-control"   [(ngModel)]="selectedForkliftId" > 
                             <option value="0" selected>Seleccionar equipo </option>
-                            <option   *ngFor="let forklift of forklifts" [ngValue]="forklift.id"   > {{forklift.full_name}}  </option>
+                            <option   *ngFor="let forklift of forklifts" [ngValue]="forklift"   > {{forklift.full_name}}  </option>
                         <!--  <option value="0" selected>Seleccionar perfil</option> -->
                        </select>
               <!-- </div> -->
@@ -74,9 +74,7 @@
   
                 <select class="form-control"   [(ngModel)]="selectedStatus" > 
                             <option value="0" selected>Seleccionar el estado </option>
-                         <option value="1" selected>Sin Gestión</option>
-                         <option value="2" selected>Cotizado</option>
-                         <option value="3" selected>Solucionado</option>
+                            <option   *ngFor="let sta of statusId" [ngValue]="sta"   > {{sta.description}}  </option>
                        </select>
               <!-- </div> -->
             </div>

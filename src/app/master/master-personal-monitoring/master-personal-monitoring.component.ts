@@ -136,6 +136,7 @@ export class MasterPersonalMonitoringComponent extends NgbDatepickerI18n {
     const data: Blob = new Blob([buffer], {type: EXCEL_TYPE});
     FileSaver.saveAs(data, baseFileName +EXCEL_EXTENSION);
     swal.close();
+    this.dataExcel.length=0;
   }
 
   // private getDateFormat(date: Date): string {
@@ -222,6 +223,7 @@ console.log(this.selectedTechnician);
     });
     swal.showLoading();
     for(let value of table){
+      console.log(value.users.name)
       this.tableExcel = {
         Fecha: value.start,
         Actividad: value.personal_activitie.description,

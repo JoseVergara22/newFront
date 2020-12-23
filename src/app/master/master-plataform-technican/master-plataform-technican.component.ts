@@ -510,7 +510,7 @@ export class MasterPlataformTechnicanComponent extends NgbDatepickerI18n {
           });
         }else{
         console.log(this.forklift);
-        this.platformService.updatePlatform(this.selectedForkliftId.id,this.selectedBusinessId.id,this.selectedBranchOfficeId.id,this.preventiveList,this.technicianList,this.oldDate,params).then(data => {
+        this.platformService.updatePlatform(this.selectedForkliftId.id,this.selectedBusinessId.id,this.selectedBranchOfficeId.id,this.preventiveList,this.technicianList,this.oldDate,params,this.consecutive).then(data => {
           const resp: any = data;
           console.log(data);
           if (resp.success == false) {
@@ -524,19 +524,41 @@ export class MasterPlataformTechnicanComponent extends NgbDatepickerI18n {
           
           let result  = resp.data;
           console.log(result);
-          document.getElementById('assingUpdatePrevetiveHide').click();
           
-          this.getPlataformRoutines();
-          swal({
-            title: 'Guardado con exito',
-            type: 'success'
-           });
-          }
-          this.cleanSelectRoutines();
-          // this.cleanSelectTechnician();
-          this.technicianSelecteds.length=0;
-          this.preventiveList = '';
-          this.technicianList = '';
+          this.platformService.updateConsecutivePlatform().then(data => {
+            const resp: any = data;
+            console.log(data);
+            
+            document.getElementById('assingUpdatePrevetiveHide').click();
+          
+            this.getPlataformRoutines();
+            swal({
+              title: 'Guardado con exito',
+              type: 'success'
+             });
+            
+            this.cleanSelectRoutines();
+            // this.cleanSelectTechnician();
+            this.technicianSelecteds.length=0;
+            this.preventiveList = '';
+            this.technicianList = '';
+            this.fromDate=this.ngbDateStruct;
+            // this.untilDate=ngbDateStruct;
+             console.log('llego hasta aqui');
+    
+            swal.close();
+            // this.rowsClient = resp.data;
+            // this.rowStatic =  resp.data;
+            // this.rowsTemp = resp.data;
+            // console.log( this.rowsClient);
+          }).catch(error => {
+            swal({
+              title: 'Se presento un problema, para guardar este encabezado de manteminiento preventivo',
+              type: 'error'
+             });
+            console.log(error);
+          });
+        }
           }).catch(error => {
             swal.close();
             swal({

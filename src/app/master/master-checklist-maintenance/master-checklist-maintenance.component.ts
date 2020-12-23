@@ -541,6 +541,7 @@ export class MasterChecklistMaintenanceComponent extends NgbDatepickerI18n {
             this.technicianSelecteds.length=0;
             this.checkedList = '';
             this.technicianList = '';
+            this.dateSelecteds = [];
              console.log('llego hasta aqui');
     
             swal.close();
@@ -688,7 +689,7 @@ export class MasterChecklistMaintenanceComponent extends NgbDatepickerI18n {
         });
       }else{
         console.log(this.massiveDescritionUpdate);
-        this.resumenesService.updateMassiveDescription(this.currentMassiveDescription.id,this.massiveDescritionUpdate).then(data => {
+        this.resumenesService.updateMassiveDescriptionChecklist(this.currentMassiveDescription.id,this.massiveDescritionUpdate).then(data => {
           const resp: any = data;
           console.log(data);
           this.updatePreventiveMassive(this.currentMassiveDescription);
@@ -737,24 +738,7 @@ export class MasterChecklistMaintenanceComponent extends NgbDatepickerI18n {
 
 
       console.log(this.checklisSelecteds);
-      // for (let item of this.checklisSelecteds) {
-      //   console.log('entro');
-      //     if(item.select){
-      //       console.log(item);
-      //       console.log('entro');
-      //       this.checkedList = this.checkedList + item.id +',';
-      //     }
-      // }
 
-      // console.log(this.technicianSelecteds);
-      // for (let item of this.technicianSelecteds) {
-      //   console.log('entro');
-      //   if(item.select){
-      //     console.log(item);
-      //     console.log('entro');
-      //       this.technicianList = this.technicianList + item.id +',';
-      //     }
-      //   }
         console.log(this.forklift);
         for(let item of this.dateSelecteds){
         this.resumenesService.storeChecklistMassive(row.id,this.selectedForkliftId.id,this.selectedBusinessId.id,this.selectedBranchOfficeId.id,this.checkedList,this.technicianList, Number(this.consecutive),item).then(data => {
@@ -808,6 +792,7 @@ export class MasterChecklistMaintenanceComponent extends NgbDatepickerI18n {
             this.technicianSelecteds.length=0;
             this.checkedList = '';
             this.technicianList = '';
+            this.dateSelecteds = [];
              console.log('llego hasta aqui');
     
             swal.close();
@@ -870,7 +855,7 @@ showAssingMassive(){
      console.log( minut);
      
      
-     var fromD = year +'-'+ month+'-'+ day+' '+hour+':'+minut;
+     var fromD = year +'-'+ month+'-'+ day+' '+hour+':'+minut+':00';
      console.log( fromD);
      //var fromD = this.fromDate.year+'-'+this.fromDate.month+'-'+this.fromDate.day; //31 de diciembre de 2015
      // var untilD = this.untilDate.year+'-'+this.untilDate.month+'-'+this.untilDate.day;
@@ -994,9 +979,27 @@ showAssingMassive(){
     }
   }
 
+  getUpdateDetail(row: any){
+    swal({
+      title: 'Obteniendo información ...',
+      allowOutsideClick: false
+    });
+    swal.showLoading();
+    this.getChecklistFilters(this.selectedRegionalId,this.selectedBusinessId);
+    this.update(row);
+  }
+  getUpdateDetailMassive(row: any){
+    swal({
+      title: 'Obteniendo información ...',
+      allowOutsideClick: false
+    });
+    swal.showLoading();
+    this.getChecklistFilters(this.selectedRegionalId,this.selectedBusinessId);
+    this.getDetailMassive(row);
+  }
+
   update(row:any){
     console.log('entro');
-    // this.getTechnician(this.selectedRegionalId);
     swal({
       title: 'Obteniendo información ...',
       allowOutsideClick: false
@@ -1150,7 +1153,7 @@ showAssingMassive(){
           });
         }
         console.log(this.forklift);
-        this.resumenesService.updateChecklist(this.selectedForkliftId.id,this.selectedBusinessId.id,this.selectedBranchOfficeId.id,this.checkedList,this.technicianList,this.oldDate,params).then(data => {
+        this.resumenesService.updateChecklist(this.selectedForkliftId.id,this.selectedBusinessId.id,this.selectedBranchOfficeId.id,this.checkedList,this.technicianList,this.oldDate,params,this.consecutive).then(data => {
           const resp: any = data;
           console.log(data);
           if (resp.success == false) {
@@ -1164,20 +1167,37 @@ showAssingMassive(){
           
           let result  = resp.data;
           console.log(result);
-          document.getElementById('assignUpdateChecklistHide').click();
+          this.resumenesService.updateConsecutiveChecklist().then(data => {
+            const resp: any = data;
+            console.log(data);
+            
+            document.getElementById('assignUpdateChecklistHide').click();
           
           this.getForkliftChecklist();
           swal({
             title: 'Guardado con exito',
             type: 'success'
            });
-          }
+          
           this.cleanSelectChecklist();
           // this.cleanSelectTechnician();
           this.checklisSelecteds.length=0;
           this.technicianSelecteds.length=0;
           this.checkedList = '';
-            this.technicianList = '';
+          this.technicianList = '';
+            
+            // this.rowsClient = resp.data;
+            // this.rowStatic =  resp.data;
+            // this.rowsTemp = resp.data;
+            // console.log( this.rowsClient);
+          }).catch(error => {
+            swal({
+              title: 'Se presento un problema, para guardar este encabezado de manteminiento preventivo',
+              type: 'error'
+             });
+            console.log(error);
+          });
+        }
           }).catch(error => {
             swal.close();
             swal({
@@ -1274,7 +1294,7 @@ showAssingMassive(){
     console.log( minut);
     
     
-    var fromD = year +'-'+ month+'-'+ day+' '+hour+':'+minut;
+    var fromD = year +'-'+ month+'-'+ day+' '+hour+':'+minut+':00';
     console.log( fromD);
     console.log(this.dateSelecteds)
     for(let date of this.dateSelecteds){
@@ -1317,7 +1337,7 @@ showAssingMassive(){
     console.log( minut);
     
     
-    var fromD = year +'-'+ month+'-'+ day+' '+hour+':'+minut;
+    var fromD = year +'-'+ month+'-'+ day+' '+hour+':'+minut+':00';
     console.log( fromD);
     console.log(this.dateSelecteds)
     for(let date of this.dateSelecteds){

@@ -1049,8 +1049,34 @@ export class ResumenesService {
       });
     });
   }
+  updateMassiveDescriptionChecklist(id:number,massive:string) {
+    console.log(id)
+    return new Promise(resolve => {
+      const headers = new HttpHeaders();
+      headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user'))); // 'Bearer ' +
+      headers.append('Content-Type', 'application/json');
+      const httpOptions = {
+      headers: new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ' + localStorage.getItem('token_user'),
+      'Accept': 'application/json'
+      })
+    };
+    console.log( localStorage.getItem('userid'));
+    const patchParams = {
+      massive:massive
+    };
+    console.log(patchParams);
+    this.http.patch(this.apiEndPoint+'api/update_description_checklist_massive/'+id, patchParams, httpOptions)
+      .map(res => res).subscribe(data => {
+        resolve(data);
+      }, error => {
+        resolve(error);
+      });
+    });
+  }
 
-  updateChecklist(forklift_id:number,customer_id:number,branch_id:number,id_checklist:string,technician_id: any,date: string,newDate: string) {
+  updateChecklist(forklift_id:number,customer_id:number,branch_id:number,id_checklist:string,technician_id: any,date: string,newDate: string,consecutive:number) {
     return new Promise(resolve => {
       const headers = new HttpHeaders();
       headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user'))); // 'Bearer ' +
@@ -1070,7 +1096,8 @@ export class ResumenesService {
         checklist: id_checklist,
         technicians_id: technician_id,
         date: date,
-        newDate: newDate
+        newDate: newDate,
+        consecutive:consecutive
     };
     console.log(patchParams);
     this.http.patch(this.apiEndPoint+'api/update_rutine_checklist', patchParams, httpOptions)
@@ -1082,7 +1109,7 @@ export class ResumenesService {
     });
   }
 
-  updateCorrective(id: number,forklift_id:number,observation:string,technician_id: any,date: string) {
+  updateCorrective(id: number,forklift_id:number,observation:string,technician_id: any,date: string,consecutive:number) {
     return new Promise(resolve => {
       const headers = new HttpHeaders();
       headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user'))); // 'Bearer ' +
@@ -1100,6 +1127,7 @@ export class ResumenesService {
         observation:observation,
         technicians_id: technician_id,
         date: date,
+        consecutive:consecutive,
     };
     console.log(patchParams);
     this.http.patch(this.apiEndPoint+'api/update_rutine_corrective/'+id, patchParams, httpOptions)
@@ -1674,7 +1702,7 @@ export class ResumenesService {
           'Accept': 'application/json'
         })
       };
-      this.http.get(this.apiEndPoint+'api/get_pending_general/'+id_routing, httpOptions)
+      this.http.get(this.apiEndPoint+'api/get_pending_general_main/'+id_routing, httpOptions)
         .map(res => res).subscribe(data => {
           console.log(data);
           resolve(data);
@@ -2457,28 +2485,6 @@ export class ResumenesService {
     });
   }
 
-  getPending(params:string){
-    return new Promise(resolve => {
-      const headers = new HttpHeaders();
-      headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user'))); // 'Bearer ' +
-      headers.append('Content-Type', 'application/json');
-      const httpOptions = {
-        headers: new HttpHeaders({
-          'Content-Type': 'application/json',
-          'Authorization': 'Bearer ' + localStorage.getItem('token_user'),
-          'Accept': 'application/json'
-        })
-      };
-      console.log(params);
-      this.http.get(this.apiEndPoint+'api/get_pending_general?'+params, httpOptions)
-        .map(res => res).subscribe(data => {
-          console.log(data);
-          resolve(data);
-        }, error => {
-          resolve(error);
-        });
-    });
-  }
 
   getPersonalActivites(params:string){
     return new Promise(resolve => {

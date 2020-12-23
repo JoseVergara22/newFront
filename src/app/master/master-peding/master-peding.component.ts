@@ -89,6 +89,7 @@ export class MasterPedingComponent extends NgbDatepickerI18n {
     this.getRegional();
     // this.getUser();
     // this.getForkliftPendingGeneralMain();
+    this.getPending();
     this.getFilters();
    }
 
@@ -129,6 +130,17 @@ export class MasterPedingComponent extends NgbDatepickerI18n {
     
   }
 }
+
+  getPending(){
+    this.pendingService.getPending().then(data => {
+      const resp: any = data;
+      console.log(data);
+      swal.close();
+      this.statusId  = resp.data;
+    }).catch(error => {
+      console.log(error);
+    });
+  }
 
   getRegional(){
     this.restService.getRegionalAll().then(data => {
@@ -250,9 +262,17 @@ getFilters() {
      
       }
 
+      if(this.selectedStatus!=0){
+        console.log('imprimir cont');
+        // console.log(cont);
+
+          params=params+'&&status='+this.selectedStatus.id;
+     
+      }
+
 
       console.log('.---------->'+params);
-      this.resumenesService.getPending(params).then(data => {
+      this.pendingService.getPendingAll(params).then(data => {
         const resp: any = data;
         console.log('info de filter');
         console.log(data);

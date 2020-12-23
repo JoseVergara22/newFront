@@ -348,7 +348,7 @@ export class PlatformsService {
     });
   }
 
-  updatePlatform(forklift_id:number,customer_id:number,branch_id:number,id_rutines:string,technician_id: any,date: string,newDate: string) {
+  updatePlatform(forklift_id:number,customer_id:number,branch_id:number,id_rutines:string,technician_id: any,date: string,newDate: string,consecutive:number) {
     return new Promise(resolve => {
       const headers = new HttpHeaders();
       headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user'))); // 'Bearer ' +
@@ -368,7 +368,8 @@ export class PlatformsService {
         platforms: id_rutines,
         technicians_id: technician_id,
         date: date,
-        newDate: newDate
+        newDate: newDate,
+        consecutive:consecutive
     };
     console.log(patchParams);
     this.http.patch(this.apiEndPoint+'api/update_platform_techinician', patchParams, httpOptions)

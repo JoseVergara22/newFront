@@ -626,14 +626,14 @@ export class MasterUpdateChecklistsComponent implements OnInit {
         this.routineObservationUpdate=this.headerInfo.observation;
           this.getChecklistDetails();
         }else{
-          this.generalAlert("ha ocurrido un herror","Ya existe una rutina con este nombre","error");
+          this.generalAlert("Ha ocurrido un error","Ya existe una rutina con este nombre","error");
         }
       }).catch(err=>{
         console.log(err);
-        this.generalAlert("ha ocurrido un herror","ocurrio un error durante la ecucion","error");
+        this.generalAlert("Ha ocurrido un error","Ocurrio un error durante la ecucion","error");
       });
     }else{
-      this.generalAlert("ha ocurrido un herror","complete todos los campos obligatorios","error");
+      this.generalAlert("Ha ocurrido un error","Complete todos los campos obligatorios","error");
     }
   }
 

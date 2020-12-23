@@ -51,6 +51,7 @@
             <div class=" align-buttons" >
               <button type="button" style="display:none;" id="showUpdatePreventive" (click)="modalUpdateChecklist.show()" class="btn btn-primary waves-effect">Checkear</button>
               <button type="button" style="display:none;" id="showUpdatePreventiveMassive" (click)="modalUpdatePreventiveMassive.show()" class="btn btn-primary waves-effect">Checkear</button>
+              <br>
               <button class="btn btn-primary" (click)="getForkliftChecklist()"><i class="icofont icofont-search" ></i>Buscar</button>&nbsp; 
               &nbsp;&nbsp;&nbsp;<button  class="btn btn-primary" (click)="showAssingMassive()" >Asignar Masivamente</button>
 
@@ -75,7 +76,7 @@
             <ngx-datatable-column  [flexGrow]="2" name="Ver" [sortable]="false"  sortable="false" prop="status">
               <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
                 
-                <button (click)="update(row)"  class="btn btn-primary btn-icon"><i class="icofont icofont-pencil-alt-5"></i></button>
+                <button (click)="getUpdateDetail(row)" (click)="getConsecutive()" class="btn btn-primary btn-icon"><i class="icofont icofont-pencil-alt-5"></i></button>
                 <button (click)="deleteEstimateDetail(row)" class="btn btn-danger btn-icon"><i class="icofont icofont-ui-delete"></i></button>
             
               </ng-template>
@@ -91,7 +92,7 @@
           <ngx-datatable-column  [flexGrow]="2" name="Ver" [sortable]="false"  sortable="false" prop="id">
           <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
   
-            <button (click)="getDetailMassive(row)" (click)="getConsecutive();"  class="btn btn-primary btn-icon"><i class="icofont icofont-pencil-alt-5"></i></button>
+            <button (click)="getUpdateDetailMassive(row)" (click)="getConsecutive()"  class="btn btn-primary btn-icon"><i class="icofont icofont-pencil-alt-5"></i></button>
             <button (click)="deleteMassiveDescription(row)" class="btn btn-danger btn-icon"><i class="icofont icofont-ui-delete"></i></button>
          
           </ng-template>

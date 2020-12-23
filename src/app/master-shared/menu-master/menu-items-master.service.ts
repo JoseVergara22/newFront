@@ -133,10 +133,10 @@ const MENUITEMS = [
             state: 'forkliftShow',
             name: 'Administrar Montacargas'
           },
-          // {
-          //   state: 'forkliftReport',
-          //   name: 'Reporte de Técnico'
-          // },
+           {
+             state: 'forkliftReport',
+            name: 'Reporte de Técnico'
+           },
           {
             state:'horometro',
             name:'Administrar Horometro'

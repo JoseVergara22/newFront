@@ -88,6 +88,7 @@ export class MasterCorrectiveMaintenanceComponent extends NgbDatepickerI18n {
 
   row: any;
   consecutive: any;
+  ngbDateStruct;
 
   constructor(private restService: RestService, private resumenesService: ResumenesService, private router: Router, 
     private forkliftService: ForkliftService, private _i18n: I18n, private calendar: NgbCalendar, public formatter: NgbDateParserFormatter) {
@@ -98,10 +99,10 @@ export class MasterCorrectiveMaintenanceComponent extends NgbDatepickerI18n {
       let year = Number(date.getFullYear());
 
 
-      var ngbDateStruct = { day: date.getDate(), month: date.getMonth()+1, year: date.getFullYear()};
-      this.fromDate=ngbDateStruct;
+      this.ngbDateStruct = { day: date.getDate(), month: date.getMonth()+1, year: date.getFullYear()};
+      this.fromDate=this.ngbDateStruct;
       // var news: NgbDateStruct = { year: year, month: 7, day: 14 };
-      this.untilDate=ngbDateStruct;
+      this.untilDate=this.ngbDateStruct;
 
 
       this.getRegional();
@@ -243,6 +244,7 @@ export class MasterCorrectiveMaintenanceComponent extends NgbDatepickerI18n {
         type: 'warning'
        });
      }else{
+      this.fromDate=this.ngbDateStruct;
       this.getTechnician(this.selectedRegionalId);
        document.getElementById('showAssing').click();
      }
@@ -317,7 +319,7 @@ export class MasterCorrectiveMaintenanceComponent extends NgbDatepickerI18n {
       console.log( minut);
       
       
-      var fromD = yearUntil +'-'+ monthUntil+'-'+ dayUntil+' '+hour+':'+minut;
+      var fromD = yearUntil +'-'+ monthUntil+'-'+ dayUntil+' '+hour+':'+minut+':00';
        console.log('entro');
        
  
@@ -539,7 +541,7 @@ export class MasterCorrectiveMaintenanceComponent extends NgbDatepickerI18n {
           });
         }else{
           console.log(this.forklift);
-          this.resumenesService.updateCorrective(this.correctiveId,this.selectedForkliftId.id,this.observationUpdateCorrective,this.technicianList,params).then(data => {
+          this.resumenesService.updateCorrective(this.correctiveId,this.selectedForkliftId.id,this.observationUpdateCorrective,this.technicianList,params,this.consecutive).then(data => {
             const resp: any = data;
             console.log(data);
             if (resp.success == false) {
@@ -553,7 +555,8 @@ export class MasterCorrectiveMaintenanceComponent extends NgbDatepickerI18n {
             
             let result  = resp.data;
             console.log(result);
-            document.getElementById('assignUpdateCorrectiveHide').click();
+   
+              document.getElementById('assignUpdateCorrectiveHide').click();
             
             this.getCorrectiveRoutines();
              this.cleanSelectCorrective();
@@ -565,6 +568,15 @@ export class MasterCorrectiveMaintenanceComponent extends NgbDatepickerI18n {
               title: 'Guardado con exito',
               type: 'success'
              });
+              console.log('llego hasta aqui');
+      
+              swal.close();
+              // this.rowsClient = resp.data;
+              // this.rowStatic =  resp.data;
+              // this.rowsTemp = resp.data;
+              console.log( this.rowsClient);
+        
+            
             }
           }).catch(error => {
               swal.close();
