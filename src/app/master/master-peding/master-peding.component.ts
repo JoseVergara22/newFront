@@ -38,6 +38,7 @@ export class MasterPedingComponent extends NgbDatepickerI18n {
   selectedBusinessId: any = 0;
   selectedBranchOfficeId: any = 0;
   selectedForkliftId: any = 0;
+  selectedStatus: any = 0;
   customers: any;
   now:any;
   regional:any;
@@ -48,6 +49,7 @@ export class MasterPedingComponent extends NgbDatepickerI18n {
   rowsClient: any;
   pendingGeneral: any;
   forkliftId: any;
+  statusId: any;
 
   forklift: any = '';
   customerName: any = '';
