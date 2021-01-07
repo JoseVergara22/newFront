@@ -4152,34 +4152,6 @@ this.getImgFromUrl(logo_url, function (img) {
    this.router.navigateByUrl('maintenance/settlementCustomerUpdate/'+row.id);
  }
 
- copyEstimateProcess(row:any){
-   console.log(row);
-  // this.router.navigateByUrl('master/estimateCustomerCopy/'+row.id);
-  this.loadingData();
-  this.estimateService.copyEstimate(row.id).then(data => {
-   const resp: any = data;
-   console.log(resp);
-   if (resp.success === false) {
-     swal({
-       text: 'Esta cotizacion presenta problemas para copiar',
-       type: 'error'
-      });
-   } else {
-     this.loadingData(); 
-swal({
- title: 'Cotización creada',
- type: 'success'
-});
-
-
- }
- }).catch(error => {
-   console.log(error);
- });
- }
-
-
-
  onChangeInactive(d) {
    let indice;
    if (this.inactive === false ) {
@@ -4298,27 +4270,6 @@ updateForklift(forklift:any) {
  get checkForm() { return this.myForm.controls; }
  get checkFormUpdate() { return this.myFormUpdate.controls; }
 
-
- copyEstimate(row:any){
-   swal({
-     title: 'Estás seguro que deseas copiar la cotización número '+row.estimate_consecutive+' ?',
-    // text: 'Once deleted, you will not be able to recover this imaginary file!',
-     type: 'warning',
-     showCancelButton: true,
-     showConfirmButton: true,
-     cancelButtonText: 'No',
-     confirmButtonText: 'Si'
-
-   })
-   .then((willDelete) => {
-       if (willDelete.value) {
-       this.copyEstimateProcess(row);
-       } else {
-        // swal('Fail');
-       }
-     console.log(willDelete);
-   });
- }
 
 
  showForklift(forklift:any){

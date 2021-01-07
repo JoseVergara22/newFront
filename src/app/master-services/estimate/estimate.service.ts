@@ -132,7 +132,7 @@ export class EstimateService {
   }
 
 
-  copyEstimate(idEstimate:integer) {
+  copyEstimate(idEstimate:integer,trm:any,price_margin:any) {
     return new Promise(resolve => {
       const headers = new HttpHeaders();
       headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user'))); // 'Bearer ' +
@@ -146,9 +146,13 @@ export class EstimateService {
       };
 
       const postParams = {
-        id:idEstimate
+        estimate:idEstimate,
+        trm:trm,
+        price_margin:price_margin
       };
-      this.http.post(this.apiEndPoint+'api/copy_estimate', postParams, httpOptions)
+      console.log(postParams);
+      this.http.get(this.apiEndPoint+'api/copy_estimate_trm?estimate='+idEstimate+'&trm='+trm+'&price_margin='+price_margin, httpOptions)
+      // this.http.post(this.apiEndPoint+'api/copy_estimate_trm', postParams, httpOptions)
         .map(res => res).subscribe(data => {
 
           resolve(data);

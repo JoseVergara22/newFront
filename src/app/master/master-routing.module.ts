@@ -91,6 +91,8 @@ import { MasterViewResumenesPlatformComponent } from './master-view-resumenes-pl
 import { MasterPersonalMonitoringComponent } from './master-personal-monitoring/master-personal-monitoring.component';
 import { MasterBatteryMaintenanceComponent } from './master-battery-maintenance/master-battery-maintenance.component';
 import { MasterPedingComponent } from './master-peding/master-peding.component';
+import { MasterRoutesComponent } from './master-routes/master-routes.component';
+
 
 
 
@@ -411,6 +413,9 @@ const routes: Routes = [
   },{
     path:'pending',
     component: MasterPedingComponent
+  },{
+    path:'routes',
+    component: MasterRoutesComponent
   }
  
 ];

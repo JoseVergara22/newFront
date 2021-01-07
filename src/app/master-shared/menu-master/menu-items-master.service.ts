@@ -1,4 +1,6 @@
 import { Injectable } from '@angular/core';
+import swal from 'sweetalert2';
+import { ModulesService } from '../../master-services/modules/modules.service';
 
 export interface BadgeItem {
   type: string;
@@ -31,6 +33,7 @@ export interface Menu {
 }
 
 const MENUITEMS = [
+
   {
     label: 'Inicio',
     main: [
@@ -123,7 +126,7 @@ const MENUITEMS = [
     label: 'master',
     main: [
       {
-        state: 'maintenance',
+        state: 'master',
         short_label: 'N',
         name: 'Mantenimiento',
         type: 'sub',
@@ -260,11 +263,7 @@ const MENUITEMS = [
           {
             state: 'registerMachine',
             name: 'Administrar Maquinas'
-          }
-         //   {
-          //   state: 'settlementList',
-          //   name:  'Liquidaciones Lista'
-          // },          
+          }  
         ]
       }
     ]
@@ -648,5 +647,24 @@ export class MenuItemsMasterService {
   getFinancial(): Menu[] {
     return MENUFINANCIAL;
   }
+  constructor(private moduleServices: ModulesService) {this.getProfileFunciton()}
+  functionModule:any;
+  getProfileFunciton(){
+    this.moduleServices.getProfileFunction(Number(localStorage.getItem('profile'))).then(data => {
+      const resp: any = data;
+      if (resp.success == true) {
+        this.functionModule = resp.data;
+        console.log(this.functionModule)
+        console.log('entro entro entro');
 
+      }
+    }).catch(error => {
+      console.log(error);
+      swal({
+        title: 'Error',
+        text: 'Ha ocurrido un error al mostrar la informacion',
+        type: 'error'
+      });
+    });
+  }
 }

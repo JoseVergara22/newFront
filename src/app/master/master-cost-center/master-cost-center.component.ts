@@ -8,7 +8,7 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
   selector: 'app-master-cost-center',
   templateUrl: './master-cost-center.component.html',
   styleUrls: ['./master-cost-center.component.scss',
-  '../../../assets/icon/icofont/css/icofont.scss']
+    '../../../assets/icon/icofont/css/icofont.scss']
 })
 export class MasterCostCenterComponent implements OnInit {
 
@@ -19,7 +19,7 @@ export class MasterCostCenterComponent implements OnInit {
   rowStatic: any;
   change = true;
   rowsClient: any;
-  
+
   elementDelete: any;
   filterIndicatorCheck = false;
 
@@ -28,17 +28,17 @@ export class MasterCostCenterComponent implements OnInit {
 
   myForm: FormGroup;
   submitted = false;
-  enabledCreated= true;
+  enabledCreated = true;
   switchUpdate = true;
   showButtonUpdated = 0;
 
   code: any;
-  description= '';
+  description = '';
 
   regionals: any;
   selectedRegional: any = 0;
   idConstCenter;
-  currentCostCenter= 0;
+  currentCostCenter = 0;
   myFormUpdate: FormGroup;
   submittedUpdated = false;
 
@@ -51,106 +51,106 @@ export class MasterCostCenterComponent implements OnInit {
   selectedRegionalUpdate: any;
 
   constructor(private restService: RestService, private router: Router) {
-   this.loadingData();
-   const code = new FormControl('', Validators.required);
-   const description = new FormControl('', Validators.required);
-   const regionals = new FormControl('', Validators.required);
+    this.loadingData();
+    const code = new FormControl('', Validators.required);
+    const description = new FormControl('', Validators.required);
+    const regionals = new FormControl('', Validators.required);
 
-   const codeUpdate = new FormControl('', Validators.required);
-   const descriptionUpdate  = new FormControl('', Validators.required);
-   const regionalsUpdate = new FormControl('', Validators.required);
+    const codeUpdate = new FormControl('', Validators.required);
+    const descriptionUpdate = new FormControl('', Validators.required);
+    const regionalsUpdate = new FormControl('', Validators.required);
 
-   this.myForm = new FormGroup({
-    code: code,
-    description: description,
-    regionals: regionals,
-    
-   });
+    this.myForm = new FormGroup({
+      code: code,
+      description: description,
+      regionals: regionals,
 
-   this.myFormUpdate = new FormGroup({
-    codeUpdate: codeUpdate,
-    descriptionUpdate: descriptionUpdate,
-    regionalsUpdate: regionalsUpdate,
-  });
+    });
+
+    this.myFormUpdate = new FormGroup({
+      codeUpdate: codeUpdate,
+      descriptionUpdate: descriptionUpdate,
+      regionalsUpdate: regionalsUpdate,
+    });
   }
 
-  getRegionals(){
+  getRegionals() {
     this.restService.getRegional().then(data => {
-        const resp: any = data;
-        console.log(resp);
-        this.regionals = resp.data;
-          swal.close();
-  });
-}
+      const resp: any = data;
+      console.log(resp);
+      this.regionals = resp.data;
+      swal.close();
+    });
+  }
 
-  changeValue(){
+  changeValue() {
     console.log('valor');
     console.log(this.selectedRegionalUpdate);
     console.log('valor');
     //this.getCosrCentersById(this.regionals.id);
   }
 
-   sendCostCenter() {
+  sendCostCenter() {
     console.log('Ole ole ole');
     console.log(this.code);
     console.log(this.description);
     console.log(this.selectedRegional)
-  
-    if (  Number(this.selectedRegional) !== 0) {
+
+    if (Number(this.selectedRegional) !== 0) {
       this.submitted = true;
-     if ( !this.myForm.invalid) {
-      swal({
-        title: 'Validando información ...',
-        allowOutsideClick: false
-      });
-      swal.showLoading();
-      this.restService.createCostCenter(this.myForm.get('description').value.toUpperCase(),
-       this.myForm.get('code').value,this.selectedRegional.id)
-      .then(data => {
-        const resp: any = data;
-        console.log(resp);
-        if (resp.success === false) {
-          swal({
-            title: 'Este centro de costos ya esta registrado',
-            text: 'Este centro de costos no se pudo registrar',
-            type: 'error'
-           });
-        } else {
-          this.idConstCenter = resp.data.id;
-          console.log('Cambio');
-          document.getElementById('createCostCenterHide').click();
-          this.loadingData();
-     swal({
-      title: 'Centro de costos agregada',
-      type: 'success'
-     });
-      }
-      }).catch(error => {
-        console.log(error);
-      });
+      if (!this.myForm.invalid) {
+        swal({
+          title: 'Validando información ...',
+          allowOutsideClick: false
+        });
+        swal.showLoading();
+        this.restService.createCostCenter(this.myForm.get('description').value.toUpperCase(),
+          this.myForm.get('code').value, this.selectedRegional.id)
+          .then(data => {
+            const resp: any = data;
+            console.log(resp);
+            if (resp.success === false) {
+              swal({
+                title: 'Este centro de costos ya esta registrado',
+                text: 'Este centro de costos no se pudo registrar',
+                type: 'error'
+              });
+            } else {
+              this.idConstCenter = resp.data.id;
+              console.log('Cambio');
+              document.getElementById('createCostCenterHide').click();
+              this.loadingData();
+              swal({
+                title: 'Centro de costos agregada',
+                type: 'success'
+              });
+            }
+          }).catch(error => {
+            console.log(error);
+          });
       }
     } else {
       swal({
         title: 'Debe seleccionar todos los campos obligatorios',
         text: 'Debe seleccionar todos los campos obligatorios',
         type: 'error'
-       });
+      });
     }
   }
 
   updateCostCenter(row) {
     console.log(row);
     this.currentCostCenter = row;
-    console.log( this.currentCostCenter );
+    console.log(this.currentCostCenter);
     this.myFormUpdate.get('descriptionUpdate').setValue(row.description);
     this.myFormUpdate.get('codeUpdate').setValue(row.code);
     this.idCostCenter = row.id;
-    document.getElementById( 'updateCostCenter').click();
+    document.getElementById('updateCostCenter').click();
 
     this.getRegionals();
     this.selectedRegionalUpdate = row.regional_id;
     console.log(this.selectedRegionalUpdate);
-   }
+  }
 
   updateCostCenters() {
     console.log('Ole ole ole kakaakkaka');
@@ -159,52 +159,52 @@ export class MasterCostCenterComponent implements OnInit {
     console.log(this.selectedRegionalUpdate);
     console.log(this.selectedRegional);
 
-    if ( Number(this.selectedRegionalUpdate) !== 0) {
+    if (Number(this.selectedRegionalUpdate) !== 0) {
       this.submittedUpdated = true;
-     if ( !this.myFormUpdate.invalid) {
-      swal({
-        title: 'Validando información ...',
-        allowOutsideClick: false
-      });
-      swal.showLoading();
-      console.log('kakakaka');
-      this.restService.updatCostCenters(Number(this.idCostCenter), this.myFormUpdate.get('descriptionUpdate').value.toUpperCase(),
-       this.myFormUpdate.get('codeUpdate').value, this.selectedRegionalUpdate)
-      .then(data => {
-        const resp: any = data;
-        console.log(JSON.stringify(resp));
-        if (resp.success === false) {
-          swal({
-            title: 'Falla en la actualizacion',
-            text: 'Este centor de costos no se pudo actualizar',
-            type: 'error'
-           });
-        } else {
-          console.log('Cambio');
-          document.getElementById('updateCostCenterHide').click();
-          this.loadingData();
-     swal({
-      title: 'Centro de costos actualizado.',
-      type: 'success'
-     });
-      }
-      }).catch(error => {
-        console.log(error);
-      });
+      if (!this.myFormUpdate.invalid) {
+        swal({
+          title: 'Validando información ...',
+          allowOutsideClick: false
+        });
+        swal.showLoading();
+        console.log('kakakaka');
+        this.restService.updatCostCenters(Number(this.idCostCenter), this.myFormUpdate.get('descriptionUpdate').value.toUpperCase(),
+          this.myFormUpdate.get('codeUpdate').value, this.selectedRegionalUpdate)
+          .then(data => {
+            const resp: any = data;
+            console.log(JSON.stringify(resp));
+            if (resp.success === false) {
+              swal({
+                title: 'Falla en la actualizacion',
+                text: 'Este centor de costos no se pudo actualizar',
+                type: 'error'
+              });
+            } else {
+              console.log('Cambio');
+              document.getElementById('updateCostCenterHide').click();
+              this.loadingData();
+              swal({
+                title: 'Centro de costos actualizado.',
+                type: 'success'
+              });
+            }
+          }).catch(error => {
+            console.log(error);
+          });
       }
     } else {
       swal({
         title: 'Debe seleccionar todos los campos obligatorios',
         text: 'Debe seleccionar todos los campos obligatorios',
         type: 'error'
-       });
+      });
     }
   }
 
   deleteCostCenters(brand: any) {
     swal({
       title: 'Estás seguro de eliminar este elemento?',
-     // text: 'Once deleted, you will not be able to recover this imaginary file!',
+      // text: 'Once deleted, you will not be able to recover this imaginary file!',
       type: 'warning',
       showCancelButton: true,
       showConfirmButton: true,
@@ -212,41 +212,41 @@ export class MasterCostCenterComponent implements OnInit {
       confirmButtonText: 'Si'
 
     })
-    .then((willDelete) => {
+      .then((willDelete) => {
         if (willDelete.value) {
           this.elementDelete = brand;
           console.log(brand);
-          console.log(    this.elementDelete);
+          console.log(this.elementDelete);
           swal.showLoading();
           this.restService.deleteCostCenter(Number(this.elementDelete.id))
-          .then(data => {
-            swal.showLoading();
-            const resp: any = data;
-            console.log(resp);
+            .then(data => {
+              swal.showLoading();
+              const resp: any = data;
+              console.log(resp);
 
-            if (resp.success === false) {
-              swal({
-                title: 'Este centro de costos presenta problemas',
-                text: 'Este centro de costos no se puede eliminar',
-                type: 'error'
-               });
-            } else {
-    
-           this.loadingData();
-           swal({
-            title: 'Centro de costos eliminado',
-            type: 'success'
-           });
-          }
-          }).catch(error => {
-            console.log(error);
-          });
+              if (resp.success === false) {
+                swal({
+                  title: 'Este centro de costos presenta problemas',
+                  text: 'Este centro de costos no se puede eliminar',
+                  type: 'error'
+                });
+              } else {
+
+                this.loadingData();
+                swal({
+                  title: 'Centro de costos eliminado',
+                  type: 'success'
+                });
+              }
+            }).catch(error => {
+              console.log(error);
+            });
           console.log(this.elementDelete.id);
         } else {
-         // swal('Fail');
+          // swal('Fail');
         }
-      console.log(willDelete);
-    });
+        console.log(willDelete);
+      });
   }
 
   updateFilter(event) {
@@ -260,10 +260,10 @@ export class MasterCostCenterComponent implements OnInit {
     }
 
     // this.filterIndicatorCheck = true;
-    if (this.inactive === true ||  this.active === true) {
+    if (this.inactive === true || this.active === true) {
       this.rowsTemp = this.rowsTempCheck;
     }
-    const temp = this.rowsTemp.filter(function(d) {
+    const temp = this.rowsTemp.filter(function (d) {
       return d.description.toLowerCase().indexOf(val) !== -1 || !val;
     });
 
@@ -289,22 +289,22 @@ export class MasterCostCenterComponent implements OnInit {
       console.log(data);
       swal.close();
       this.rowsClient = resp.data;
-      this.rowStatic =  resp.data;
+      this.rowStatic = resp.data;
       this.rowsTemp = resp.data;
-      console.log( this.rowsClient);
+      console.log(this.rowsClient);
     }).catch(error => {
       console.log(error);
     });
-   }
+  }
 
 
   ngOnInit() {
   }
 
-  blockAgents( vadr: any) {
+  blockAgents(vadr: any) {
     console.log(vadr);
-   }
-   
-   get checkForm() { return this.myForm.controls; }
-   get checkFormUpdate() { return this.myFormUpdate.controls; }
+  }
+
+  get checkForm() { return this.myForm.controls; }
+  get checkFormUpdate() { return this.myFormUpdate.controls; }
 }

@@ -8,73 +8,73 @@ import { ChecklistService } from '../../master-services/checklist/checklist.serv
   selector: 'app-master-checklists',
   templateUrl: './master-checklists.component.html',
   styleUrls: ['./master-checklists.component.scss',
-'../../../assets/icon/icofont/css/icofont.scss']
+    '../../../assets/icon/icofont/css/icofont.scss']
 })
 export class MasterChecklistsComponent implements OnInit {
 
   rowsWork: any;
-  rowtodelete:any;
-  
-  constructor(private workService:WorkService,    private router:Router, private checkServices:ChecklistService) {
-    this.getChecklist();
-   }
+  rowtodelete: any;
 
-   getChecklist() {
+  constructor(private workService: WorkService, private router: Router, private checkServices: ChecklistService) {
+    this.getChecklist();
+  }
+
+  getChecklist() {
     this.checkServices.showChecklist().then(data => {
       const resp: any = data;
       if (resp.error) {
         swal({
-          title:'Error',
+          title: 'Error',
           text: 'Ha ocurrido un error',
           type: 'error'
-         });
+        });
       } else {
         console.log(data);
         this.rowsWork = resp.data;
-        console.log( this.rowsWork);
-    }
+        console.log(this.rowsWork);
+      }
     }).catch(error => {
       swal({
-        title:'Error',
+        title: 'Error',
         text: 'Ha ocurrido un error',
         type: 'error'
-       });
+      });
       console.log(error);
     });
   }
 
-  redirecttodetails(){
+  redirecttodetails() {
     this.router.navigateByUrl('maintenance/registerChecklist');
   }
 
-  goToTpdateView(row:any){
+  goToTpdateView(row: any) {
     console.log(row.id);
-    this.router.navigateByUrl('maintenance/updateChecklist/'+row.id);
+    this.router.navigateByUrl('maintenance/updateChecklist/' + row.id);
   }
-  deleteWorkHeader(workrow:any){
+  deleteWorkHeader(workrow: any) {
     swal({
-      title:"Confirmacion",
-      text:"esta seguro que desea borrar este elemento?",
-      cancelButtonText:"No",
-      confirmButtonText:"Si",
-      showCancelButton:true,
-      showConfirmButton:true
-    }).then(goingtodelete=>{
+      title: "Confirmacion",
+      text: "esta seguro que desea borrar este elemento?",
+      cancelButtonText: "No",
+      confirmButtonText: "Si",
+      showCancelButton: true,
+      showConfirmButton: true
+    }).then(goingtodelete => {
       if (goingtodelete.value) {
         this.loader();
-        this.rowtodelete=workrow;
+        this.rowtodelete = workrow;
         console.log(this.rowtodelete);
-        this.workService.deleteWorkHeader(this.rowtodelete.id).then(data=>{
-          const resp:any=data;
-          if (resp.success==false){
-            this.generalAlert('Error','ocurrio un error durante el procesado',"error");
-          }else{
-            this.generalAlert('Rutina eliminada','Rutina eliminada correctamente','success');
+        this.workService.deleteWorkHeader(this.rowtodelete.id).then(data => {
+          const resp: any = data;
+          if (resp.success == false) {
+            this.generalAlert('Error', 'ocurrio un error durante el procesado', "error");
+          } else {
+            this.generalAlert('Rutina eliminada', 'Rutina eliminada correctamente', 'success');
             this.getChecklist();
           }
-        }).catch(err=>{
+        }).catch(err => {
           console.log(err);
-          this.generalAlert('Error','ocurrio un error durante el procesado',"error");
+          this.generalAlert('Error', 'ocurrio un error durante el procesado', "error");
         });
       } else {
         console.log("proceso cancelado");
@@ -82,19 +82,19 @@ export class MasterChecklistsComponent implements OnInit {
     });
   }
 
-  generalAlert(title:string,text:string,type:any){
+  generalAlert(title: string, text: string, type: any) {
     swal({
-      title:title,
-      text:text,
-      type:type
+      title: title,
+      text: text,
+      type: type
     })
   }
 
-  loader(){
+  loader() {
     swal({
-      title:"procesando informacion",
-      allowEscapeKey:false,
-      allowOutsideClick:false
+      title: "procesando informacion",
+      allowEscapeKey: false,
+      allowOutsideClick: false
     });
     swal.showLoading();
   }

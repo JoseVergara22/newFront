@@ -9,7 +9,7 @@ import 'rxjs/add/operator/map';
 @Injectable()
 export class RestService {
 
-apiEndPoint = environment.apiBaseUrl;
+  apiEndPoint = environment.apiBaseUrl;
 
   constructor(private http: HttpClient, private router: Router) { }
 
@@ -46,7 +46,7 @@ apiEndPoint = environment.apiBaseUrl;
         username: username,
         profile_id: profileId
       };
-      this.http.post(this.apiEndPoint+'api/auth/signup', postParams)
+      this.http.post(this.apiEndPoint + 'api/auth/signup', postParams)
         .map(res => res).subscribe(data => {
           resolve(data);
         }, error => {
@@ -78,7 +78,7 @@ apiEndPoint = environment.apiBaseUrl;
         ids_branch_offices: ids_branch_offices,
         id_customer: id_customer
       };
-      this.http.post(this.apiEndPoint+'api/branch_offices_users', postParams, httpOptions)
+      this.http.post(this.apiEndPoint + 'api/branch_offices_users', postParams, httpOptions)
         .map(res => res).subscribe(data => {
           resolve(data);
         }, error => {
@@ -100,7 +100,7 @@ apiEndPoint = environment.apiBaseUrl;
           'Accept': 'application/json'
         })
       };
-      this.http.get(this.apiEndPoint+'api/branch_offices_users?id_user=' + idUser, httpOptions)
+      this.http.get(this.apiEndPoint + 'api/branch_offices_users?id_user=' + idUser, httpOptions)
         .map(res => res).subscribe(data => {
           console.log(data);
           resolve(data);
@@ -128,7 +128,7 @@ apiEndPoint = environment.apiBaseUrl;
         description: description,
         status: status
       };
-      this.http.post(this.apiEndPoint+'api/brands', postParams, httpOptions)
+      this.http.post(this.apiEndPoint + 'api/brands', postParams, httpOptions)
         .map(res => res).subscribe(data => {
 
           resolve(data);
@@ -155,7 +155,7 @@ apiEndPoint = environment.apiBaseUrl;
         description: description,
         status: status
       };
-      this.http.patch(this.apiEndPoint+'api/brands/' + id, postParams, httpOptions)
+      this.http.patch(this.apiEndPoint + 'api/brands/' + id, postParams, httpOptions)
         .map(res => res).subscribe(data => {
           resolve(data);
         }, error => {
@@ -180,7 +180,7 @@ apiEndPoint = environment.apiBaseUrl;
       };
       const postParams = {
       };
-      this.http.delete(this.apiEndPoint+'api/brands/' + id, httpOptions)
+      this.http.delete(this.apiEndPoint + 'api/brands/' + id, httpOptions)
         .map(res => res).subscribe(data => {
           resolve(data);
         }, error => {
@@ -205,7 +205,7 @@ apiEndPoint = environment.apiBaseUrl;
       };
       const postParams = {
       };
-      this.http.delete(this.apiEndPoint+'api/branch_offices/' + id, httpOptions)
+      this.http.delete(this.apiEndPoint + 'api/branch_offices/' + id, httpOptions)
         .map(res => res).subscribe(data => {
           resolve(data);
         }, error => {
@@ -250,7 +250,7 @@ apiEndPoint = environment.apiBaseUrl;
         city_id: city_id,
         department_id: department_id
       };
-      this.http.post(this.apiEndPoint+'api/customers ', postParams, httpOptions)
+      this.http.post(this.apiEndPoint + 'api/customers ', postParams, httpOptions)
         .map(res => res).subscribe(data => {
           resolve(data);
         }, error => {
@@ -294,9 +294,9 @@ apiEndPoint = environment.apiBaseUrl;
         payment_condition_id: payment_condition_id,
         city_id: city_id,
         department_id: department_id,
-        regional_id:regional_id
+        regional_id: regional_id
       };
-      this.http.post(this.apiEndPoint+'api/create_customer_new_regional', postParams, httpOptions)
+      this.http.post(this.apiEndPoint + 'api/create_customer_new_regional', postParams, httpOptions)
         .map(res => res).subscribe(data => {
           resolve(data);
         }, error => {
@@ -341,7 +341,7 @@ apiEndPoint = environment.apiBaseUrl;
         city_id: city_id,
         department_id: department_id
       };
-      this.http.patch(this.apiEndPoint+'api/customers/' + id, postParams, httpOptions)
+      this.http.patch(this.apiEndPoint + 'api/customers/' + id, postParams, httpOptions)
         .map(res => res).subscribe(data => {
           console.log(data);
           resolve(data);
@@ -368,7 +368,7 @@ apiEndPoint = environment.apiBaseUrl;
       };
       const postParams = {
       };
-      this.http.delete(this.apiEndPoint+'api/customers/' + id, httpOptions)
+      this.http.delete(this.apiEndPoint + 'api/customers/' + id, httpOptions)
         .map(res => res).subscribe(data => {
           resolve(data);
         }, error => {
@@ -398,7 +398,7 @@ apiEndPoint = environment.apiBaseUrl;
     h_current: number,
     alarm: number,
     observation: string
-    ) {
+  ) {
     return new Promise(resolve => {
       const headers = new HttpHeaders();
       headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user'))); // 'Bearer ' +
@@ -411,40 +411,40 @@ apiEndPoint = environment.apiBaseUrl;
         })
       };
       const postParams = {
-       /* serie: serie,
+        /* serie: serie,
+         customer_id: customer_id,
+         branch_offices_id: branch_offices_id,
+         description: description,
+         brand_id: brand_id,
+         status: status,
+         model_id: model_id,
+         machine_id: machine_id,
+         tyre_id: tyre_id,
+         fuel_id: fuel_id*/
+
+        serie: serie,
         customer_id: customer_id,
         branch_offices_id: branch_offices_id,
         description: description,
-        brand_id: brand_id,
         status: status,
+        brand_id: brand_id,
         model_id: model_id,
         machine_id: machine_id,
         tyre_id: tyre_id,
-        fuel_id: fuel_id*/
-
-        serie: serie,
-    customer_id: customer_id,
-    branch_offices_id: branch_offices_id,
-    description: description,
-    status: status,
-    brand_id: brand_id,
-    model_id: model_id,
-    machine_id: machine_id,
-    tyre_id: tyre_id,
-    tyre_forward: tyre_forward,
-    tyre_sback: tyre_sback,
-    fuel_id: fuel_id,
-    routine_id: routine_id,
-    tonne: tonne,
-    mastil_izado: mastil_izado,
-    mastil_contract: mastil_contract,
-    h_initial: h_initial,
-    h_current: h_current,
-    alarm: alarm,
-    observation: observation
+        tyre_forward: tyre_forward,
+        tyre_sback: tyre_sback,
+        fuel_id: fuel_id,
+        routine_id: routine_id,
+        tonne: tonne,
+        mastil_izado: mastil_izado,
+        mastil_contract: mastil_contract,
+        h_initial: h_initial,
+        h_current: h_current,
+        alarm: alarm,
+        observation: observation
       };
-      console.log('tonne-----------'+ tonne);
-      this.http.post(this.apiEndPoint+'api/forklifts', postParams, httpOptions)
+      console.log('tonne-----------' + tonne);
+      this.http.post(this.apiEndPoint + 'api/forklifts', postParams, httpOptions)
         .map(res => res).subscribe(data => {
           resolve(data);
         }, error => {
@@ -453,7 +453,7 @@ apiEndPoint = environment.apiBaseUrl;
     });
   }
 
-  updateforklift(idForlift:number,
+  updateforklift(idForlift: number,
     serie: string,
     customer_id: number,
     branch_offices_id: number,
@@ -474,7 +474,7 @@ apiEndPoint = environment.apiBaseUrl;
     h_current: number,
     alarm: number,
     observation: string
-    ) {
+  ) {
     return new Promise(resolve => {
       const headers = new HttpHeaders();
       headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user'))); // 'Bearer ' +
@@ -487,39 +487,39 @@ apiEndPoint = environment.apiBaseUrl;
         })
       };
       const postParams = {
-       /* serie: serie,
+        /* serie: serie,
+         customer_id: customer_id,
+         branch_offices_id: branch_offices_id,
+         description: description,
+         brand_id: brand_id,
+         status: status,
+         model_id: model_id,
+         machine_id: machine_id,
+         tyre_id: tyre_id,
+         fuel_id: fuel_id*/
+
+        serie: serie,
         customer_id: customer_id,
         branch_offices_id: branch_offices_id,
         description: description,
-        brand_id: brand_id,
         status: status,
+        brand_id: brand_id,
         model_id: model_id,
         machine_id: machine_id,
         tyre_id: tyre_id,
-        fuel_id: fuel_id*/
-
-    serie: serie,
-    customer_id: customer_id,
-    branch_offices_id: branch_offices_id,
-    description: description,
-    status: status,
-    brand_id: brand_id,
-    model_id: model_id,
-    machine_id: machine_id,
-    tyre_id: tyre_id,
-    tyre_forward: tyre_forward,
-    tyre_sback: tyre_sback,
-    fuel_id: fuel_id,
-    routine_id: routine_id,
-    tonne: tonne,
-    mastil_izado: mastil_izado,
-    mastil_contract: mastil_contract,
-    h_initial: h_initial,
-    h_current: h_current,
-    alarm: alarm,
-    observation: observation
+        tyre_forward: tyre_forward,
+        tyre_sback: tyre_sback,
+        fuel_id: fuel_id,
+        routine_id: routine_id,
+        tonne: tonne,
+        mastil_izado: mastil_izado,
+        mastil_contract: mastil_contract,
+        h_initial: h_initial,
+        h_current: h_current,
+        alarm: alarm,
+        observation: observation
       };
-      this.http.patch(this.apiEndPoint+'api/forklifts/'+idForlift, postParams, httpOptions)
+      this.http.patch(this.apiEndPoint + 'api/forklifts/' + idForlift, postParams, httpOptions)
         .map(res => res).subscribe(data => {
           resolve(data);
         }, error => {
@@ -545,7 +545,7 @@ apiEndPoint = environment.apiBaseUrl;
         description: description,
         status: status
       };
-      this.http.post(this.apiEndPoint+'api/tyres', postParams, httpOptions)
+      this.http.post(this.apiEndPoint + 'api/tyres', postParams, httpOptions)
         .map(res => res).subscribe(data => {
           resolve(data);
         }, error => {
@@ -572,7 +572,7 @@ apiEndPoint = environment.apiBaseUrl;
         description: description,
         status: status
       };
-      this.http.patch(this.apiEndPoint+'api/tyres/' + id, postParams, httpOptions)
+      this.http.patch(this.apiEndPoint + 'api/tyres/' + id, postParams, httpOptions)
         .map(res => res).subscribe(data => {
           resolve(data);
         }, error => {
@@ -597,7 +597,7 @@ apiEndPoint = environment.apiBaseUrl;
       };
       const postParams = {
       };
-      this.http.delete(this.apiEndPoint+'api/tyres/' + id, httpOptions)
+      this.http.delete(this.apiEndPoint + 'api/tyres/' + id, httpOptions)
         .map(res => res).subscribe(data => {
           resolve(data);
         }, error => {
@@ -625,7 +625,7 @@ apiEndPoint = environment.apiBaseUrl;
         brand_id: brand,
         status: status
       };
-      this.http.post(this.apiEndPoint+'api/models', postParams, httpOptions)
+      this.http.post(this.apiEndPoint + 'api/models', postParams, httpOptions)
         .map(res => res).subscribe(data => {
 
           resolve(data);
@@ -654,7 +654,7 @@ apiEndPoint = environment.apiBaseUrl;
         brand_id: brand,
         status: status
       };
-      this.http.patch(this.apiEndPoint+'api/models/' + id, patchParams, httpOptions)
+      this.http.patch(this.apiEndPoint + 'api/models/' + id, patchParams, httpOptions)
         .map(res => res).subscribe(data => {
           resolve(data);
         }, error => {
@@ -680,7 +680,7 @@ apiEndPoint = environment.apiBaseUrl;
         type: type,
         status: status
       };
-      this.http.post(this.apiEndPoint+'api/fuels', postParams, httpOptions)
+      this.http.post(this.apiEndPoint + 'api/fuels', postParams, httpOptions)
         .map(res => res).subscribe(data => {
           resolve(data);
         }, error => {
@@ -708,7 +708,7 @@ apiEndPoint = environment.apiBaseUrl;
         type: type,
         status: status
       };
-      this.http.patch(this.apiEndPoint+'api/fuels/' + id, postParams, httpOptions)
+      this.http.patch(this.apiEndPoint + 'api/fuels/' + id, postParams, httpOptions)
         .map(res => res).subscribe(data => {
           resolve(data);
         }, error => {
@@ -733,7 +733,7 @@ apiEndPoint = environment.apiBaseUrl;
       };
       const postParams = {
       };
-      this.http.delete(this.apiEndPoint+'api/fuels/' + id, httpOptions)
+      this.http.delete(this.apiEndPoint + 'api/fuels/' + id, httpOptions)
         .map(res => res).subscribe(data => {
           resolve(data);
         }, error => {
@@ -758,7 +758,7 @@ apiEndPoint = environment.apiBaseUrl;
       };
       const postParams = {
       };
-      this.http.delete(this.apiEndPoint+'api/models/' + id, httpOptions)
+      this.http.delete(this.apiEndPoint + 'api/models/' + id, httpOptions)
         .map(res => res).subscribe(data => {
           resolve(data);
         }, error => {
@@ -784,7 +784,7 @@ apiEndPoint = environment.apiBaseUrl;
         description: description,
         status: status
       };
-      this.http.post(this.apiEndPoint+'api/machines', postParams, httpOptions)
+      this.http.post(this.apiEndPoint + 'api/machines', postParams, httpOptions)
         .map(res => res).subscribe(data => {
           resolve(data);
         }, error => {
@@ -794,10 +794,10 @@ apiEndPoint = environment.apiBaseUrl;
   }
   updateMachine(id: number, description: string, status: number) {
     console.log('ole ole ole');
-    if(!status){
-      status=0;
+    if (!status) {
+      status = 0;
     }
-    console.log('id:'+id+"desc:"+description+"status:"+status);
+    console.log('id:' + id + "desc:" + description + "status:" + status);
     console.log(localStorage.getItem('token_user'));
     return new Promise(resolve => {
       const headers = new HttpHeaders();
@@ -814,7 +814,7 @@ apiEndPoint = environment.apiBaseUrl;
         description: description,
         status: status
       };
-      this.http.patch(this.apiEndPoint+'api/machines/' + id, patchParams,httpOptions)
+      this.http.patch(this.apiEndPoint + 'api/machines/' + id, patchParams, httpOptions)
         .map(res => res).subscribe(data => {
           resolve(data);
         }, error => {
@@ -839,7 +839,7 @@ apiEndPoint = environment.apiBaseUrl;
       };
       const postParams = {
       };
-      this.http.delete(this.apiEndPoint+'api/machines/' + id, httpOptions)
+      this.http.delete(this.apiEndPoint + 'api/machines/' + id, httpOptions)
         .map(res => res).subscribe(data => {
           resolve(data);
         }, error => {
@@ -866,7 +866,7 @@ apiEndPoint = environment.apiBaseUrl;
         day: day,
         status: status
       };
-      this.http.post(this.apiEndPoint+'api/payment_conditions', postParams, httpOptions)
+      this.http.post(this.apiEndPoint + 'api/payment_conditions', postParams, httpOptions)
         .map(res => res).subscribe(data => {
           resolve(data);
         }, error => {
@@ -894,7 +894,7 @@ apiEndPoint = environment.apiBaseUrl;
         day: day,
         status: status
       };
-      this.http.patch(this.apiEndPoint+'api/payment_conditions/' + id, postParams, httpOptions)
+      this.http.patch(this.apiEndPoint + 'api/payment_conditions/' + id, postParams, httpOptions)
         .map(res => res).subscribe(data => {
           resolve(data);
         }, error => {
@@ -914,7 +914,7 @@ apiEndPoint = environment.apiBaseUrl;
           'Accept': 'application/json'
         })
       };
-      this.http.delete(this.apiEndPoint+'api/payment_conditions/' + id, httpOptions)
+      this.http.delete(this.apiEndPoint + 'api/payment_conditions/' + id, httpOptions)
         .map(res => res).subscribe(data => {
           console.log("mostrar data");
           console.log(data);
@@ -940,7 +940,7 @@ apiEndPoint = environment.apiBaseUrl;
           'Accept': 'application/json'
         })
       };
-      this.http.get(this.apiEndPoint+'api/type_documents', httpOptions)
+      this.http.get(this.apiEndPoint + 'api/type_documents', httpOptions)
         .map(res => res).subscribe(data => {
           console.log(data);
           resolve(data);
@@ -966,7 +966,7 @@ apiEndPoint = environment.apiBaseUrl;
         description: description,
         status: status
       };
-      this.http.post(this.apiEndPoint+'api/type_documents', postParams, httpOptions)
+      this.http.post(this.apiEndPoint + 'api/type_documents', postParams, httpOptions)
         .map(res => res).subscribe(data => {
           console.log("datos");
           console.log(data);
@@ -996,7 +996,7 @@ apiEndPoint = environment.apiBaseUrl;
         description: description,
         status: status
       };
-      this.http.patch(this.apiEndPoint+'api/type_documents/' + id, postParams, httpOptions)
+      this.http.patch(this.apiEndPoint + 'api/type_documents/' + id, postParams, httpOptions)
         .map(res => res).subscribe(data => {
           resolve(data);
         }, error => {
@@ -1020,7 +1020,7 @@ apiEndPoint = environment.apiBaseUrl;
       };
       const postParams = {
       };
-      this.http.delete(this.apiEndPoint+'api/type_documents/' + id, httpOptions)
+      this.http.delete(this.apiEndPoint + 'api/type_documents/' + id, httpOptions)
         .map(res => res).subscribe(data => {
           resolve(data);
         }, error => {
@@ -1042,7 +1042,7 @@ apiEndPoint = environment.apiBaseUrl;
           'Accept': 'application/json'
         })
       };
-      this.http.get(this.apiEndPoint+'api/departments', httpOptions)
+      this.http.get(this.apiEndPoint + 'api/departments', httpOptions)
         .map(res => res).subscribe(data => {
           console.log(data);
           resolve(data);
@@ -1064,7 +1064,7 @@ apiEndPoint = environment.apiBaseUrl;
           'Accept': 'application/json'
         })
       };
-      this.http.get(this.apiEndPoint+'api/cities/' + idDepartamento, httpOptions)
+      this.http.get(this.apiEndPoint + 'api/cities/' + idDepartamento, httpOptions)
         .map(res => res).subscribe(data => {
           console.log(data);
           resolve(data);
@@ -1089,7 +1089,7 @@ apiEndPoint = environment.apiBaseUrl;
           'Accept': 'application/json'
         })
       };
-      this.http.get(this.apiEndPoint+'api/price_list', httpOptions)
+      this.http.get(this.apiEndPoint + 'api/price_list', httpOptions)
         .map(res => res).subscribe(data => {
           console.log(data);
           resolve(data);
@@ -1113,7 +1113,7 @@ apiEndPoint = environment.apiBaseUrl;
           'Accept': 'application/json'
         })
       };
-      this.http.get(this.apiEndPoint+'api/brands', httpOptions)
+      this.http.get(this.apiEndPoint + 'api/brands', httpOptions)
         .map(res => res).subscribe(data => {
           console.log(data);
           resolve(data);
@@ -1136,7 +1136,7 @@ apiEndPoint = environment.apiBaseUrl;
           'Accept': 'application/json'
         })
       };
-      this.http.get(this.apiEndPoint+'api/fuels', httpOptions)
+      this.http.get(this.apiEndPoint + 'api/fuels', httpOptions)
         .map(res => res).subscribe(data => {
           console.log(data);
           resolve(data);
@@ -1158,7 +1158,7 @@ apiEndPoint = environment.apiBaseUrl;
           'Accept': 'application/json'
         })
       };
-      this.http.get(this.apiEndPoint+'api/tyres', httpOptions)
+      this.http.get(this.apiEndPoint + 'api/tyres', httpOptions)
         .map(res => res).subscribe(data => {
           console.log(data);
           resolve(data);
@@ -1180,7 +1180,7 @@ apiEndPoint = environment.apiBaseUrl;
           'Accept': 'application/json'
         })
       };
-      this.http.get(this.apiEndPoint+'api/models', httpOptions)
+      this.http.get(this.apiEndPoint + 'api/models', httpOptions)
         .map(res => res).subscribe(data => {
           console.log(data);
           resolve(data);
@@ -1205,7 +1205,7 @@ apiEndPoint = environment.apiBaseUrl;
           'Accept': 'application/json'
         })
       };
-      this.http.get(this.apiEndPoint+'api/brands_model/' + id, httpOptions)
+      this.http.get(this.apiEndPoint + 'api/brands_model/' + id, httpOptions)
         .map(res => res).subscribe(data => {
           console.log(data);
           resolve(data);
@@ -1231,7 +1231,7 @@ apiEndPoint = environment.apiBaseUrl;
           'Accept': 'application/json'
         })
       };
-      this.http.get(this.apiEndPoint+'api/payment_conditions', httpOptions)
+      this.http.get(this.apiEndPoint + 'api/payment_conditions', httpOptions)
         .map(res => res).subscribe(data => {
           console.log(data);
           resolve(data);
@@ -1255,7 +1255,7 @@ apiEndPoint = environment.apiBaseUrl;
           'Accept': 'application/json'
         })
       };
-      this.http.get(this.apiEndPoint+'api/machines', httpOptions)
+      this.http.get(this.apiEndPoint + 'api/machines', httpOptions)
         .map(res => res).subscribe(data => {
           console.log(data);
           resolve(data);
@@ -1291,7 +1291,7 @@ apiEndPoint = environment.apiBaseUrl;
         scope: '*'
       };
       //  alert (postParams.toString());
-      this.http.post(this.apiEndPoint+'oauth/token', postParams)
+      this.http.post(this.apiEndPoint + 'oauth/token', postParams)
         .map(res => res)
         .subscribe(data => {
           const ole = data;
@@ -1316,7 +1316,7 @@ apiEndPoint = environment.apiBaseUrl;
           'Accept': 'application/json'
         })
       };
-      this.http.get(this.apiEndPoint+'api/show_masters', httpOptions)
+      this.http.get(this.apiEndPoint + 'api/show_masters', httpOptions)
         .map(res => res).subscribe(data => {
           console.log(data);
           resolve(data);
@@ -1325,39 +1325,39 @@ apiEndPoint = environment.apiBaseUrl;
         });
     });
   }
-//---------------------------------------------------------------------------Cost center
-getSpecificCostCenter(id:number){
-  console.log('ole ole ole');
-  console.log(id);
-  return new Promise(resolve => {
-    const headers = new HttpHeaders();
-    headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user'))); 
-    headers.append('Content-Type', 'application/json');
-    const httpOptions = {
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json',
-        'Authorization': 'Bearer ' + localStorage.getItem('token_user'),
-        'Accept': 'application/json'
-      })
-    };
-    const postParams = {
-    };
-    this.http.get(this.apiEndPoint+'api/get_cost_centers_id/'+ id, httpOptions)
-      .map(res => res).subscribe(data => {
-        resolve(data);
-      }, error => {
-        resolve(error);
-      });
-  });
-}
+  //---------------------------------------------------------------------------Cost center
+  getSpecificCostCenter(id: number) {
+    console.log('ole ole ole');
+    console.log(id);
+    return new Promise(resolve => {
+      const headers = new HttpHeaders();
+      headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user')));
+      headers.append('Content-Type', 'application/json');
+      const httpOptions = {
+        headers: new HttpHeaders({
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + localStorage.getItem('token_user'),
+          'Accept': 'application/json'
+        })
+      };
+      const postParams = {
+      };
+      this.http.get(this.apiEndPoint + 'api/get_cost_centers_id/' + id, httpOptions)
+        .map(res => res).subscribe(data => {
+          resolve(data);
+        }, error => {
+          resolve(error);
+        });
+    });
+  }
 
-updatCostCenters(id: number,  description: string,  code: string,  regional: number){
+  updatCostCenters(id: number, description: string, code: string, regional: number) {
 
-  console.log("en servicio");
-  console.log(id);
-  console.log(description);
-  console.log(code);
-  console.log(regional);
+    console.log("en servicio");
+    console.log(id);
+    console.log(description);
+    console.log(code);
+    console.log(regional);
 
     return new Promise(resolve => {
       const httpOptions = {
@@ -1373,7 +1373,7 @@ updatCostCenters(id: number,  description: string,  code: string,  regional: num
         code: code,
         regionals_id: regional
       };
-      this.http.patch(this.apiEndPoint+'api/update_cost_centers/' + id, postParams, httpOptions)
+      this.http.patch(this.apiEndPoint + 'api/update_cost_centers/' + id, postParams, httpOptions)
         .map(res => res).subscribe(data => {
           resolve(data);
         }, error => {
@@ -1383,12 +1383,12 @@ updatCostCenters(id: number,  description: string,  code: string,  regional: num
   }
 
 
-deleteCostCenter(id: number){
+  deleteCostCenter(id: number) {
     console.log('ole ole ole');
     console.log(id);
     return new Promise(resolve => {
       const headers = new HttpHeaders();
-      headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user'))); 
+      headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user')));
       headers.append('Content-Type', 'application/json');
       const httpOptions = {
         headers: new HttpHeaders({
@@ -1399,7 +1399,7 @@ deleteCostCenter(id: number){
       };
       const postParams = {
       };
-      this.http.delete(this.apiEndPoint+'api/delete_cost_centers_id/'+ id, httpOptions)
+      this.http.delete(this.apiEndPoint + 'api/delete_cost_centers_id/' + id, httpOptions)
         .map(res => res).subscribe(data => {
           resolve(data);
         }, error => {
@@ -1408,12 +1408,12 @@ deleteCostCenter(id: number){
     });
   }
 
-  createCostCenter(description: string, code: string, regional_id: number){
+  createCostCenter(description: string, code: string, regional_id: number) {
     console.log('ole ole ole');
-    console.log(description +', '+ code+', '+ regional_id);
+    console.log(description + ', ' + code + ', ' + regional_id);
     return new Promise(resolve => {
       const headers = new HttpHeaders();
-      headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user'))); 
+      headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user')));
       headers.append('Content-Type', 'application/json');
       const httpOptions = {
         headers: new HttpHeaders({
@@ -1427,7 +1427,7 @@ deleteCostCenter(id: number){
         code: code,
         description: description
       };
-      this.http.post(this.apiEndPoint+'api/create_cost_centers', postParams, httpOptions)
+      this.http.post(this.apiEndPoint + 'api/create_cost_centers', postParams, httpOptions)
         .map(res => res).subscribe(data => {
           resolve(data);
         }, error => {
@@ -1436,10 +1436,10 @@ deleteCostCenter(id: number){
     });
   }
 
-  getCostCenterSettlement(idRegional: number){
+  getCostCenterSettlement(idRegional: number) {
     return new Promise(resolve => {
       const headers = new HttpHeaders();
-      headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user'))); 
+      headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user')));
       headers.append('Content-Type', 'application/json');
       const httpOptions = {
         headers: new HttpHeaders({
@@ -1448,7 +1448,7 @@ deleteCostCenter(id: number){
           'Accept': 'application/json'
         })
       };
-      this.http.get(this.apiEndPoint+'api/get_cost_centers_regionals_id?idRegional='+idRegional, httpOptions)
+      this.http.get(this.apiEndPoint + 'api/get_cost_centers_regionals_id?idRegional=' + idRegional, httpOptions)
         .map(res => res).subscribe(data => {
           console.log(data);
           resolve(data);
@@ -1458,10 +1458,10 @@ deleteCostCenter(id: number){
     });
   }
 
-  getCostCenter(){
+  getCostCenter() {
     return new Promise(resolve => {
       const headers = new HttpHeaders();
-      headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user'))); 
+      headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user')));
       headers.append('Content-Type', 'application/json');
       const httpOptions = {
         headers: new HttpHeaders({
@@ -1470,7 +1470,7 @@ deleteCostCenter(id: number){
           'Accept': 'application/json'
         })
       };
-      this.http.get(this.apiEndPoint+'api/show_cost_centers', httpOptions)
+      this.http.get(this.apiEndPoint + 'api/show_cost_centers', httpOptions)
         .map(res => res).subscribe(data => {
           console.log(data);
           resolve(data);
@@ -1480,10 +1480,10 @@ deleteCostCenter(id: number){
     });
   }
 
-  getRegionalCostCenter(){
+  getRegionalCostCenter() {
     return new Promise(resolve => {
       const headers = new HttpHeaders();
-      headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user'))); 
+      headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user')));
       headers.append('Content-Type', 'application/json');
       const httpOptions = {
         headers: new HttpHeaders({
@@ -1492,7 +1492,7 @@ deleteCostCenter(id: number){
           'Accept': 'application/json'
         })
       };
-      this.http.get(this.apiEndPoint+'api/get_cost_centers_regionals_id', httpOptions)
+      this.http.get(this.apiEndPoint + 'api/get_cost_centers_regionals_id', httpOptions)
         .map(res => res).subscribe(data => {
           console.log(data);
           resolve(data);
@@ -1502,11 +1502,11 @@ deleteCostCenter(id: number){
     });
   }
 
-//----------------------------------------------------------------------------Technicians
-  getMastersTechnicians(){
+  //----------------------------------------------------------------------------Technicians
+  getMastersTechnicians() {
     return new Promise(resolve => {
       const headers = new HttpHeaders();
-      headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user'))); 
+      headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user')));
       headers.append('Content-Type', 'application/json');
       const httpOptions = {
         headers: new HttpHeaders({
@@ -1515,7 +1515,7 @@ deleteCostCenter(id: number){
           'Accept': 'application/json'
         })
       };
-      this.http.get(this.apiEndPoint+'api/show_masters', httpOptions)
+      this.http.get(this.apiEndPoint + 'api/show_masters', httpOptions)
         .map(res => res).subscribe(data => {
           console.log(data);
           resolve(data);
@@ -1525,37 +1525,37 @@ deleteCostCenter(id: number){
     });
   }
 
-  getSpecificTechnician(id:number){
+  getSpecificTechnician(id: number) {
     console.log('ole ole ole');
-  console.log(id);
-  return new Promise(resolve => {
-    const headers = new HttpHeaders();
-    headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user'))); 
-    headers.append('Content-Type', 'application/json');
-    const httpOptions = {
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json',
-        'Authorization': 'Bearer ' + localStorage.getItem('token_user'),
-        'Accept': 'application/json'
-      })
-    };
-    const postParams = {
-    };
-    this.http.get(this.apiEndPoint+'api/get_technicians_id/'+ id, httpOptions)
-      .map(res => res).subscribe(data => {
-        resolve(data);
-      }, error => {
-        resolve(error);
-      });
-  });
-  }
-
-  createTechnicians(name:string, document: string, cellphone: string){
-    console.log('ole ole ole');
-    console.log(name +', '+ document +', ' + cellphone);
+    console.log(id);
     return new Promise(resolve => {
       const headers = new HttpHeaders();
-      headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user'))); 
+      headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user')));
+      headers.append('Content-Type', 'application/json');
+      const httpOptions = {
+        headers: new HttpHeaders({
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + localStorage.getItem('token_user'),
+          'Accept': 'application/json'
+        })
+      };
+      const postParams = {
+      };
+      this.http.get(this.apiEndPoint + 'api/get_technicians_id/' + id, httpOptions)
+        .map(res => res).subscribe(data => {
+          resolve(data);
+        }, error => {
+          resolve(error);
+        });
+    });
+  }
+
+  createTechnicians(name: string, document: string, cellphone: string) {
+    console.log('ole ole ole');
+    console.log(name + ', ' + document + ', ' + cellphone);
+    return new Promise(resolve => {
+      const headers = new HttpHeaders();
+      headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user')));
       headers.append('Content-Type', 'application/json');
       const httpOptions = {
         headers: new HttpHeaders({
@@ -1569,7 +1569,7 @@ deleteCostCenter(id: number){
         document: document,
         cellphone: cellphone
       };
-      this.http.post(this.apiEndPoint+'api/create_technicians', postParams, httpOptions)
+      this.http.post(this.apiEndPoint + 'api/create_technicians', postParams, httpOptions)
         .map(res => res).subscribe(data => {
           resolve(data);
         }, error => {
@@ -1578,41 +1578,41 @@ deleteCostCenter(id: number){
     });
   }
 
-  updateTechnian(id:number, name: string, document:string, cellphone: string){
+  updateTechnian(id: number, name: string, document: string, cellphone: string) {
     console.log("en servicio");
     console.log(id);
     console.log(document);
     console.log(cellphone);
-  
-      return new Promise(resolve => {
-        const httpOptions = {
-          headers: new HttpHeaders({
-            'Content-Type': 'application/json',
-            'Authorization': 'Bearer ' + localStorage.getItem('token_user'),
-            'Accept': 'application/json'
-          })
-        };
-        const postParams = {
-          id: id,
-          name:name,
-          document: document,
-          cellphone: cellphone,
-        };
-        this.http.patch(this.apiEndPoint+'api/update_technicians/' + id, postParams, httpOptions)
-          .map(res => res).subscribe(data => {
-            resolve(data);
-          }, error => {
-            resolve(error);
-          });
-      });
+
+    return new Promise(resolve => {
+      const httpOptions = {
+        headers: new HttpHeaders({
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + localStorage.getItem('token_user'),
+          'Accept': 'application/json'
+        })
+      };
+      const postParams = {
+        id: id,
+        name: name,
+        document: document,
+        cellphone: cellphone,
+      };
+      this.http.patch(this.apiEndPoint + 'api/update_technicians/' + id, postParams, httpOptions)
+        .map(res => res).subscribe(data => {
+          resolve(data);
+        }, error => {
+          resolve(error);
+        });
+    });
   }
 
-  deleteTechnician(id:number){
+  deleteTechnician(id: number) {
     console.log('ole ole ole');
     console.log(id);
     return new Promise(resolve => {
       const headers = new HttpHeaders();
-      headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user'))); 
+      headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user')));
       headers.append('Content-Type', 'application/json');
       const httpOptions = {
         headers: new HttpHeaders({
@@ -1623,7 +1623,7 @@ deleteCostCenter(id: number){
       };
       const postParams = {
       };
-      this.http.delete(this.apiEndPoint+'api/delete_technicians_id/'+ id, httpOptions)
+      this.http.delete(this.apiEndPoint + 'api/delete_technicians_id/' + id, httpOptions)
         .map(res => res).subscribe(data => {
           resolve(data);
         }, error => {
@@ -1632,10 +1632,10 @@ deleteCostCenter(id: number){
     });
   }
 
-  getTechnicians(){
+  getTechnicians() {
     return new Promise(resolve => {
       const headers = new HttpHeaders();
-      headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user'))); 
+      headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user')));
       headers.append('Content-Type', 'application/json');
       const httpOptions = {
         headers: new HttpHeaders({
@@ -1644,7 +1644,7 @@ deleteCostCenter(id: number){
           'Accept': 'application/json'
         })
       };
-      this.http.get(this.apiEndPoint+'api/show_technicians', httpOptions)
+      this.http.get(this.apiEndPoint + 'api/show_technicians', httpOptions)
         .map(res => res).subscribe(data => {
           console.log(data);
           resolve(data);
@@ -1653,67 +1653,67 @@ deleteCostCenter(id: number){
         });
     });
   }
-//-------------------------------------------------------------------------Regional
-getSpecificRegional(id:number){
-  console.log('ole ole ole');
-  console.log(id);
-  return new Promise(resolve => {
-    const headers = new HttpHeaders();
-    headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user'))); 
-    headers.append('Content-Type', 'application/json');
-    const httpOptions = {
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json',
-        'Authorization': 'Bearer ' + localStorage.getItem('token_user'),
-        'Accept': 'application/json'
-      })
-    };
-    const postParams = {
-    };
-    this.http.get(this.apiEndPoint+'api/get_regioanl_id/'+ id, httpOptions)
-      .map(res => res).subscribe(data => {
-        resolve(data);
-      }, error => {
-        resolve(error);
-      });
-  });
-}
+  //-------------------------------------------------------------------------Regional
+  getSpecificRegional(id: number) {
+    console.log('ole ole ole');
+    console.log(id);
+    return new Promise(resolve => {
+      const headers = new HttpHeaders();
+      headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user')));
+      headers.append('Content-Type', 'application/json');
+      const httpOptions = {
+        headers: new HttpHeaders({
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + localStorage.getItem('token_user'),
+          'Accept': 'application/json'
+        })
+      };
+      const postParams = {
+      };
+      this.http.get(this.apiEndPoint + 'api/get_regioanl_id/' + id, httpOptions)
+        .map(res => res).subscribe(data => {
+          resolve(data);
+        }, error => {
+          resolve(error);
+        });
+    });
+  }
 
-createRegional(description: string, code:string, name: string, email: string){
-  console.log('ole ole ole');
-  console.log(description +', '+ code);
-  return new Promise(resolve => {
-    const headers = new HttpHeaders();
-    headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user'))); 
-    headers.append('Content-Type', 'application/json');
-    const httpOptions = {
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json',
-        'Authorization': 'Bearer ' + localStorage.getItem('token_user'),
-        'Accept': 'application/json'
-      })
-    };
-    const postParams = {
-      code: code,
-      description: description,
-      name: name,
-      email: email
-    };
-    console.log(postParams)
-    this.http.post(this.apiEndPoint+'api/create_regionals', postParams, httpOptions)
-      .map(res => res).subscribe(data => {
-        resolve(data);
-      }, error => {
-        resolve(error);
-      });
-  });
-}
+  createRegional(description: string, code: string, name: string, email: string) {
+    console.log('ole ole ole');
+    console.log(description + ', ' + code);
+    return new Promise(resolve => {
+      const headers = new HttpHeaders();
+      headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user')));
+      headers.append('Content-Type', 'application/json');
+      const httpOptions = {
+        headers: new HttpHeaders({
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + localStorage.getItem('token_user'),
+          'Accept': 'application/json'
+        })
+      };
+      const postParams = {
+        code: code,
+        description: description,
+        name: name,
+        email: email
+      };
+      console.log(postParams)
+      this.http.post(this.apiEndPoint + 'api/create_regionals', postParams, httpOptions)
+        .map(res => res).subscribe(data => {
+          resolve(data);
+        }, error => {
+          resolve(error);
+        });
+    });
+  }
 
-updateRegional(id:number, description:string, code:string, name: string, email:string){
-  console.log("en servicio");
-  console.log(id);
-  console.log(description);
-  console.log(code);
+  updateRegional(id: number, description: string, code: string, name: string, email: string) {
+    console.log("en servicio");
+    console.log(id);
+    console.log(description);
+    console.log(code);
 
     return new Promise(resolve => {
       const httpOptions = {
@@ -1729,21 +1729,21 @@ updateRegional(id:number, description:string, code:string, name: string, email:s
         name: name,
         email: email
       };
-      this.http.patch(this.apiEndPoint+'api/update_regional/'+ id, postParams, httpOptions)
+      this.http.patch(this.apiEndPoint + 'api/update_regional/' + id, postParams, httpOptions)
         .map(res => res).subscribe(data => {
           resolve(data);
         }, error => {
           resolve(error);
         });
     });
-}
+  }
 
-  deleteRegional(id:number){
+  deleteRegional(id: number) {
     console.log('ole ole ole');
     console.log(id);
     return new Promise(resolve => {
       const headers = new HttpHeaders();
-      headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user'))); 
+      headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user')));
       headers.append('Content-Type', 'application/json');
       const httpOptions = {
         headers: new HttpHeaders({
@@ -1754,7 +1754,7 @@ updateRegional(id:number, description:string, code:string, name: string, email:s
       };
       const postParams = {
       };
-      this.http.delete(this.apiEndPoint+'api/delete_regionals_id/'+ id, httpOptions)
+      this.http.delete(this.apiEndPoint + 'api/delete_regionals_id/' + id, httpOptions)
         .map(res => res).subscribe(data => {
           resolve(data);
         }, error => {
@@ -1763,10 +1763,10 @@ updateRegional(id:number, description:string, code:string, name: string, email:s
     });
   }
 
-  getRegional(){
+  getRegional() {
     return new Promise(resolve => {
       const headers = new HttpHeaders();
-      headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user'))); 
+      headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user')));
       headers.append('Content-Type', 'application/json');
       const httpOptions = {
         headers: new HttpHeaders({
@@ -1775,29 +1775,7 @@ updateRegional(id:number, description:string, code:string, name: string, email:s
           'Accept': 'application/json'
         })
       };
-      this.http.get(this.apiEndPoint+'api/show_regionals_all', httpOptions)
-        .map(res => res).subscribe(data => {
-          console.log(data);
-          resolve(data);
-        }, error => {
-          resolve(error);
-        });
-    });
-  }
-
-  getRegionalAll(){
-    return new Promise(resolve => {
-      const headers = new HttpHeaders();
-      headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user'))); 
-      headers.append('Content-Type', 'application/json');
-      const httpOptions = {
-        headers: new HttpHeaders({
-          'Content-Type': 'application/json',
-          'Authorization': 'Bearer ' + localStorage.getItem('token_user'),
-          'Accept': 'application/json'
-        })
-      };
-      this.http.get(this.apiEndPoint+'api/show_regionals_all', httpOptions)
+      this.http.get(this.apiEndPoint + 'api/show_regionals_all', httpOptions)
         .map(res => res).subscribe(data => {
           console.log(data);
           resolve(data);
@@ -1807,10 +1785,10 @@ updateRegional(id:number, description:string, code:string, name: string, email:s
     });
   }
 
-  getRegionalCustomer(idCustomer: number){
+  getRegionalAll() {
     return new Promise(resolve => {
       const headers = new HttpHeaders();
-      headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user'))); 
+      headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user')));
       headers.append('Content-Type', 'application/json');
       const httpOptions = {
         headers: new HttpHeaders({
@@ -1819,7 +1797,29 @@ updateRegional(id:number, description:string, code:string, name: string, email:s
           'Accept': 'application/json'
         })
       };
-      this.http.get(this.apiEndPoint+'api/get_customer_regionals_id?idCustomer='+idCustomer, httpOptions)
+      this.http.get(this.apiEndPoint + 'api/show_regionals_all', httpOptions)
+        .map(res => res).subscribe(data => {
+          console.log(data);
+          resolve(data);
+        }, error => {
+          resolve(error);
+        });
+    });
+  }
+
+  getRegionalCustomer(idCustomer: number) {
+    return new Promise(resolve => {
+      const headers = new HttpHeaders();
+      headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user')));
+      headers.append('Content-Type', 'application/json');
+      const httpOptions = {
+        headers: new HttpHeaders({
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + localStorage.getItem('token_user'),
+          'Accept': 'application/json'
+        })
+      };
+      this.http.get(this.apiEndPoint + 'api/get_customer_regionals_id?idCustomer=' + idCustomer, httpOptions)
         .map(res => res).subscribe(data => {
           console.log(data);
           resolve(data);
@@ -1831,12 +1831,12 @@ updateRegional(id:number, description:string, code:string, name: string, email:s
   }
 
   //---------------------------------------------------------------------SubCostCentrt
-  createSubCostCenter(description: string, code: string, costCenter_id: number){
+  createSubCostCenter(description: string, code: string, costCenter_id: number) {
     console.log('ole ole ole');
-    console.log(description +', '+ code);
+    console.log(description + ', ' + code);
     return new Promise(resolve => {
       const headers = new HttpHeaders();
-      headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user'))); 
+      headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user')));
       headers.append('Content-Type', 'application/json');
       const httpOptions = {
         headers: new HttpHeaders({
@@ -1850,7 +1850,7 @@ updateRegional(id:number, description:string, code:string, name: string, email:s
         description: description,
         regional_id: costCenter_id
       };
-      this.http.post(this.apiEndPoint+'api/create_sub_cost_centers', postParams, httpOptions)
+      this.http.post(this.apiEndPoint + 'api/create_sub_cost_centers', postParams, httpOptions)
         .map(res => res).subscribe(data => {
           resolve(data);
         }, error => {
@@ -1859,91 +1859,91 @@ updateRegional(id:number, description:string, code:string, name: string, email:s
     });
   }
 
-  updatSubCostCenters(id: number,  description: string,  code: string,  costCenter: number){
+  updatSubCostCenters(id: number, description: string, code: string, costCenter: number) {
 
     console.log("en servicio");
     console.log(id);
     console.log(description);
     console.log(code);
     console.log(costCenter);
-  
-      return new Promise(resolve => {
-        const httpOptions = {
-          headers: new HttpHeaders({
-            'Content-Type': 'application/json',
-            'Authorization': 'Bearer ' + localStorage.getItem('token_user'),
-            'Accept': 'application/json'
-          })
-        };
-        const postParams = {
-          id: id,
-          description: description,
-          code: code,
-          regional_id: costCenter
-        };
-        console.log(postParams);
-        this.http.patch(this.apiEndPoint+'api/update_sub_cost_centers/' + id, postParams, httpOptions)
-          .map(res => res).subscribe(data => {
-            resolve(data);
-          }, error => {
-            resolve(error);
-          });
-      });
-    }
 
-    deleteSubCostCenter(id: number){
-      console.log('ole ole ole');
-      console.log(id);
-      return new Promise(resolve => {
-        const headers = new HttpHeaders();
-        headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user'))); 
-        headers.append('Content-Type', 'application/json');
-        const httpOptions = {
-          headers: new HttpHeaders({
-            'Content-Type': 'application/json',
-            'Authorization': 'Bearer ' + localStorage.getItem('token_user'),
-            'Accept': 'application/json'
-          })
-        };
-        const postParams = {
-        };
-        this.http.delete(this.apiEndPoint+'api/delete_sub_cost_centers_id/'+ id, httpOptions)
-          .map(res => res).subscribe(data => {
-            resolve(data);
-          }, error => {
-            resolve(error);
-          });
-      });
-    }
+    return new Promise(resolve => {
+      const httpOptions = {
+        headers: new HttpHeaders({
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + localStorage.getItem('token_user'),
+          'Accept': 'application/json'
+        })
+      };
+      const postParams = {
+        id: id,
+        description: description,
+        code: code,
+        regional_id: costCenter
+      };
+      console.log(postParams);
+      this.http.patch(this.apiEndPoint + 'api/update_sub_cost_centers/' + id, postParams, httpOptions)
+        .map(res => res).subscribe(data => {
+          resolve(data);
+        }, error => {
+          resolve(error);
+        });
+    });
+  }
 
-    getSubCostCenter(){
-      return new Promise(resolve => {
-        const headers = new HttpHeaders();
-        headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user'))); 
-        headers.append('Content-Type', 'application/json');
-        const httpOptions = {
-          headers: new HttpHeaders({
-            'Content-Type': 'application/json',
-            'Authorization': 'Bearer ' + localStorage.getItem('token_user'),
-            'Accept': 'application/json'
-          })
-        };
-        this.http.get(this.apiEndPoint+'api/show_sub_cost_centers', httpOptions)
-          .map(res => res).subscribe(data => {
-            console.log(data);
-            resolve(data);
-          }, error => {
-            resolve(error);
-          });
-      });
-    }
-  //---------------------------------------------------------------Warehouses
-  createWarehouses(description: string, code: string, regional_id: number){
+  deleteSubCostCenter(id: number) {
     console.log('ole ole ole');
-    console.log(description +', '+ code +', ' + regional_id);
+    console.log(id);
     return new Promise(resolve => {
       const headers = new HttpHeaders();
-      headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user'))); 
+      headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user')));
+      headers.append('Content-Type', 'application/json');
+      const httpOptions = {
+        headers: new HttpHeaders({
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + localStorage.getItem('token_user'),
+          'Accept': 'application/json'
+        })
+      };
+      const postParams = {
+      };
+      this.http.delete(this.apiEndPoint + 'api/delete_sub_cost_centers_id/' + id, httpOptions)
+        .map(res => res).subscribe(data => {
+          resolve(data);
+        }, error => {
+          resolve(error);
+        });
+    });
+  }
+
+  getSubCostCenter() {
+    return new Promise(resolve => {
+      const headers = new HttpHeaders();
+      headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user')));
+      headers.append('Content-Type', 'application/json');
+      const httpOptions = {
+        headers: new HttpHeaders({
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + localStorage.getItem('token_user'),
+          'Accept': 'application/json'
+        })
+      };
+      this.http.get(this.apiEndPoint + 'api/show_sub_cost_centers', httpOptions)
+        .map(res => res).subscribe(data => {
+          console.log(data);
+          resolve(data);
+        }, error => {
+          resolve(error);
+        });
+    });
+  }
+  //---------------------------------------------------------------Warehouses
+  createWarehouses(description: string, code: string, regional_id: number) {
+    console.log('ole ole ole');
+    console.log(description + ', ' + code + ', ' + regional_id);
+    return new Promise(resolve => {
+      const headers = new HttpHeaders();
+      headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user')));
       headers.append('Content-Type', 'application/json');
       const httpOptions = {
         headers: new HttpHeaders({
@@ -1958,7 +1958,7 @@ updateRegional(id:number, description:string, code:string, name: string, email:s
         regionals_id: regional_id
       };
       console.log(postParams);
-      this.http.post(this.apiEndPoint+'api/create_warehouses', postParams, httpOptions)
+      this.http.post(this.apiEndPoint + 'api/create_warehouses', postParams, httpOptions)
         .map(res => res).subscribe(data => {
           resolve(data);
         }, error => {
@@ -1967,105 +1967,105 @@ updateRegional(id:number, description:string, code:string, name: string, email:s
     });
   }
 
-  updatWarehouses(id: number,  description: string,  code: string,  regional: number){
+  updatWarehouses(id: number, description: string, code: string, regional: number) {
 
     console.log("en servicio");
     console.log(id);
     console.log(description);
     console.log(code);
     console.log(regional);
-  
-      return new Promise(resolve => {
-        const httpOptions = {
-          headers: new HttpHeaders({
-            'Content-Type': 'application/json',
-            'Authorization': 'Bearer ' + localStorage.getItem('token_user'),
-            'Accept': 'application/json'
-          })
-        };
-        const postParams = {
-          id: id,
-          description: description,
-          code: code,
-          regionals_id: regional
-        };
-        this.http.patch(this.apiEndPoint+'api/update_warehouses/' + id, postParams, httpOptions)
-          .map(res => res).subscribe(data => {
-            resolve(data);
-          }, error => {
-            resolve(error);
-          });
-      });
-    }
 
-    deleteWarehouses(id: number){
-      console.log('ole ole ole');
-      console.log(id);
-      return new Promise(resolve => {
-        const headers = new HttpHeaders();
-        headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user'))); 
-        headers.append('Content-Type', 'application/json');
-        const httpOptions = {
-          headers: new HttpHeaders({
-            'Content-Type': 'application/json',
-            'Authorization': 'Bearer ' + localStorage.getItem('token_user'),
-            'Accept': 'application/json'
-          })
-        };
-        const postParams = {
-        };
-        this.http.delete(this.apiEndPoint+'api/delete_warehouses_id/'+ id, httpOptions)
-          .map(res => res).subscribe(data => {
-            resolve(data);
-          }, error => {
-            resolve(error);
-          });
-      });
-    }
+    return new Promise(resolve => {
+      const httpOptions = {
+        headers: new HttpHeaders({
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + localStorage.getItem('token_user'),
+          'Accept': 'application/json'
+        })
+      };
+      const postParams = {
+        id: id,
+        description: description,
+        code: code,
+        regionals_id: regional
+      };
+      this.http.patch(this.apiEndPoint + 'api/update_warehouses/' + id, postParams, httpOptions)
+        .map(res => res).subscribe(data => {
+          resolve(data);
+        }, error => {
+          resolve(error);
+        });
+    });
+  }
 
-    getWarehouses(){
-      return new Promise(resolve => {
-        const headers = new HttpHeaders();
-        headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user'))); 
-        headers.append('Content-Type', 'application/json');
-        const httpOptions = {
-          headers: new HttpHeaders({
-            'Content-Type': 'application/json',
-            'Authorization': 'Bearer ' + localStorage.getItem('token_user'),
-            'Accept': 'application/json'
-          })
-        };
-        this.http.get(this.apiEndPoint+'api/show_warehouses', httpOptions)
-          .map(res => res).subscribe(data => {
-            console.log(data);
-            resolve(data);
-          }, error => {
-            resolve(error);
-          });
-      });
-    }
+  deleteWarehouses(id: number) {
+    console.log('ole ole ole');
+    console.log(id);
+    return new Promise(resolve => {
+      const headers = new HttpHeaders();
+      headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user')));
+      headers.append('Content-Type', 'application/json');
+      const httpOptions = {
+        headers: new HttpHeaders({
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + localStorage.getItem('token_user'),
+          'Accept': 'application/json'
+        })
+      };
+      const postParams = {
+      };
+      this.http.delete(this.apiEndPoint + 'api/delete_warehouses_id/' + id, httpOptions)
+        .map(res => res).subscribe(data => {
+          resolve(data);
+        }, error => {
+          resolve(error);
+        });
+    });
+  }
 
-    getWarehousesSettlement(regionalId: number){
-      return new Promise(resolve => {
-        const headers = new HttpHeaders();
-        headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user'))); 
-        headers.append('Content-Type', 'application/json');
-        const httpOptions = {
-          headers: new HttpHeaders({
-            'Content-Type': 'application/json',
-            'Authorization': 'Bearer ' + localStorage.getItem('token_user'),
-            'Accept': 'application/json'
-          })
-        };
-        this.http.get(this.apiEndPoint+'api/get_warehouses_regional_id?idRegional='+regionalId, httpOptions)
-          .map(res => res).subscribe(data => {
-            console.log(data);
-            resolve(data);
-          }, error => {
-            resolve(error);
-          });
-      });
-    }
+  getWarehouses() {
+    return new Promise(resolve => {
+      const headers = new HttpHeaders();
+      headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user')));
+      headers.append('Content-Type', 'application/json');
+      const httpOptions = {
+        headers: new HttpHeaders({
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + localStorage.getItem('token_user'),
+          'Accept': 'application/json'
+        })
+      };
+      this.http.get(this.apiEndPoint + 'api/show_warehouses', httpOptions)
+        .map(res => res).subscribe(data => {
+          console.log(data);
+          resolve(data);
+        }, error => {
+          resolve(error);
+        });
+    });
+  }
+
+  getWarehousesSettlement(regionalId: number) {
+    return new Promise(resolve => {
+      const headers = new HttpHeaders();
+      headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user')));
+      headers.append('Content-Type', 'application/json');
+      const httpOptions = {
+        headers: new HttpHeaders({
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + localStorage.getItem('token_user'),
+          'Accept': 'application/json'
+        })
+      };
+      this.http.get(this.apiEndPoint + 'api/get_warehouses_regional_id?idRegional=' + regionalId, httpOptions)
+        .map(res => res).subscribe(data => {
+          console.log(data);
+          resolve(data);
+        }, error => {
+          resolve(error);
+        });
+    });
+  }
   //---------------------------------------------------------------CustomerRegional
 
   customerRegionalSelect(details: string) {
@@ -2083,7 +2083,7 @@ updateRegional(id:number, description:string, code:string, name: string, email:s
       const postParams = {
         regional: details
       };
-      this.http.post(this.apiEndPoint+'api/create_customer_regionals', postParams, httpOptions)
+      this.http.post(this.apiEndPoint + 'api/create_customer_regionals', postParams, httpOptions)
         .map(res => res).subscribe(data => {
           resolve(data);
         }, error => {
@@ -2092,12 +2092,12 @@ updateRegional(id:number, description:string, code:string, name: string, email:s
     });
   }
 
-  getRegionalId(id: number){
+  getRegionalId(id: number) {
     console.log('ole ole ole');
     console.log(id);
     return new Promise(resolve => {
       const headers = new HttpHeaders();
-      headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user'))); 
+      headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user')));
       headers.append('Content-Type', 'application/json');
       const httpOptions = {
         headers: new HttpHeaders({
@@ -2108,7 +2108,7 @@ updateRegional(id:number, description:string, code:string, name: string, email:s
       };
       const postParams = {
       };
-      this.http.get(this.apiEndPoint+'api/get_customer_regionals_id?idCustomer='+id, httpOptions)
+      this.http.get(this.apiEndPoint + 'api/get_customer_regionals_id?idCustomer=' + id, httpOptions)
         .map(res => res).subscribe(data => {
           console.log(data);
           resolve(data);
@@ -2130,7 +2130,7 @@ updateRegional(id:number, description:string, code:string, name: string, email:s
           'Accept': 'application/json'
         })
       };
-      this.http.get(this.apiEndPoint+'api/get_customer', httpOptions)
+      this.http.get(this.apiEndPoint + 'api/get_customer', httpOptions)
         .map(res => res).subscribe(data => {
           console.log(data);
           resolve(data);
@@ -2153,7 +2153,7 @@ updateRegional(id:number, description:string, code:string, name: string, email:s
           'Accept': 'application/json'
         })
       };
-      this.http.get(this.apiEndPoint+'api/get_branch_office/' + idCustomer, httpOptions)
+      this.http.get(this.apiEndPoint + 'api/get_branch_office/' + idCustomer, httpOptions)
         .map(res => res).subscribe(data => {
           console.log(data);
           resolve(data);
@@ -2176,50 +2176,7 @@ updateRegional(id:number, description:string, code:string, name: string, email:s
           'Accept': 'application/json'
         })
       };
-      this.http.get(this.apiEndPoint+'api/get_fork_lift/' + idOffice, httpOptions)
-        .map(res => res).subscribe(data => {
-          console.log(data);
-          resolve(data);
-        }, error => {
-          resolve(error);
-        });
-    });
-  }
-  
-  getTechnician(){
-    return new Promise(resolve => {
-      const headers = new HttpHeaders();
-      headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user'))); 
-      headers.append('Content-Type', 'application/json');
-      const httpOptions = {
-        headers: new HttpHeaders({
-          'Content-Type': 'application/json',
-          'Authorization': 'Bearer ' + localStorage.getItem('token_user'),
-          'Accept': 'application/json'
-        })
-      };
-      this.http.get(this.apiEndPoint+'api/show_user_technician', httpOptions)
-        .map(res => res).subscribe(data => {
-          console.log(data);
-          resolve(data);
-        }, error => {
-          resolve(error);
-        });
-    });
-  }
-  getUserRegional(regional_id: number){
-    return new Promise(resolve => {
-      const headers = new HttpHeaders();
-      headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user'))); 
-      headers.append('Content-Type', 'application/json');
-      const httpOptions = {
-        headers: new HttpHeaders({
-          'Content-Type': 'application/json',
-          'Authorization': 'Bearer ' + localStorage.getItem('token_user'),
-          'Accept': 'application/json'
-        })
-      };
-      this.http.get(this.apiEndPoint+'api/show_user_technician_regional/'+regional_id, httpOptions)
+      this.http.get(this.apiEndPoint + 'api/get_fork_lift/' + idOffice, httpOptions)
         .map(res => res).subscribe(data => {
           console.log(data);
           resolve(data);
@@ -2229,10 +2186,10 @@ updateRegional(id:number, description:string, code:string, name: string, email:s
     });
   }
 
-  getReferences(){
+  getTechnician() {
     return new Promise(resolve => {
       const headers = new HttpHeaders();
-      headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user'))); 
+      headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user')));
       headers.append('Content-Type', 'application/json');
       const httpOptions = {
         headers: new HttpHeaders({
@@ -2241,7 +2198,28 @@ updateRegional(id:number, description:string, code:string, name: string, email:s
           'Accept': 'application/json'
         })
       };
-      this.http.get(this.apiEndPoint+'api/show_reference_warehouses_out', httpOptions)
+      this.http.get(this.apiEndPoint + 'api/show_user_technician', httpOptions)
+        .map(res => res).subscribe(data => {
+          console.log(data);
+          resolve(data);
+        }, error => {
+          resolve(error);
+        });
+    });
+  }
+  getUserRegional(regional_id: number) {
+    return new Promise(resolve => {
+      const headers = new HttpHeaders();
+      headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user')));
+      headers.append('Content-Type', 'application/json');
+      const httpOptions = {
+        headers: new HttpHeaders({
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + localStorage.getItem('token_user'),
+          'Accept': 'application/json'
+        })
+      };
+      this.http.get(this.apiEndPoint + 'api/show_user_technician_regional/' + regional_id, httpOptions)
         .map(res => res).subscribe(data => {
           console.log(data);
           resolve(data);
@@ -2251,10 +2229,10 @@ updateRegional(id:number, description:string, code:string, name: string, email:s
     });
   }
 
-  getDescriptions(){
+  getReferences() {
     return new Promise(resolve => {
       const headers = new HttpHeaders();
-      headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user'))); 
+      headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user')));
       headers.append('Content-Type', 'application/json');
       const httpOptions = {
         headers: new HttpHeaders({
@@ -2263,7 +2241,7 @@ updateRegional(id:number, description:string, code:string, name: string, email:s
           'Accept': 'application/json'
         })
       };
-      this.http.get(this.apiEndPoint+'api/show_description_warehouses_out', httpOptions)
+      this.http.get(this.apiEndPoint + 'api/show_reference_warehouses_out', httpOptions)
         .map(res => res).subscribe(data => {
           console.log(data);
           resolve(data);
@@ -2273,10 +2251,10 @@ updateRegional(id:number, description:string, code:string, name: string, email:s
     });
   }
 
-  getControls(){
+  getDescriptions() {
     return new Promise(resolve => {
       const headers = new HttpHeaders();
-      headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user'))); 
+      headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user')));
       headers.append('Content-Type', 'application/json');
       const httpOptions = {
         headers: new HttpHeaders({
@@ -2285,7 +2263,7 @@ updateRegional(id:number, description:string, code:string, name: string, email:s
           'Accept': 'application/json'
         })
       };
-      this.http.get(this.apiEndPoint+'api/show_control_warehouses_out', httpOptions)
+      this.http.get(this.apiEndPoint + 'api/show_description_warehouses_out', httpOptions)
         .map(res => res).subscribe(data => {
           console.log(data);
           resolve(data);
@@ -2295,10 +2273,10 @@ updateRegional(id:number, description:string, code:string, name: string, email:s
     });
   }
 
-  getEstimates(){
+  getControls() {
     return new Promise(resolve => {
       const headers = new HttpHeaders();
-      headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user'))); 
+      headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user')));
       headers.append('Content-Type', 'application/json');
       const httpOptions = {
         headers: new HttpHeaders({
@@ -2307,7 +2285,7 @@ updateRegional(id:number, description:string, code:string, name: string, email:s
           'Accept': 'application/json'
         })
       };
-      this.http.get(this.apiEndPoint+'api/show_order_number_warehouses_out', httpOptions)
+      this.http.get(this.apiEndPoint + 'api/show_control_warehouses_out', httpOptions)
         .map(res => res).subscribe(data => {
           console.log(data);
           resolve(data);
@@ -2317,10 +2295,10 @@ updateRegional(id:number, description:string, code:string, name: string, email:s
     });
   }
 
-  getSettlements(){
+  getEstimates() {
     return new Promise(resolve => {
       const headers = new HttpHeaders();
-      headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user'))); 
+      headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user')));
       headers.append('Content-Type', 'application/json');
       const httpOptions = {
         headers: new HttpHeaders({
@@ -2329,7 +2307,29 @@ updateRegional(id:number, description:string, code:string, name: string, email:s
           'Accept': 'application/json'
         })
       };
-      this.http.get(this.apiEndPoint+'api/show_settlement_warehouses_out', httpOptions)
+      this.http.get(this.apiEndPoint + 'api/show_order_number_warehouses_out', httpOptions)
+        .map(res => res).subscribe(data => {
+          console.log(data);
+          resolve(data);
+        }, error => {
+          resolve(error);
+        });
+    });
+  }
+
+  getSettlements() {
+    return new Promise(resolve => {
+      const headers = new HttpHeaders();
+      headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user')));
+      headers.append('Content-Type', 'application/json');
+      const httpOptions = {
+        headers: new HttpHeaders({
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + localStorage.getItem('token_user'),
+          'Accept': 'application/json'
+        })
+      };
+      this.http.get(this.apiEndPoint + 'api/show_settlement_warehouses_out', httpOptions)
         .map(res => res).subscribe(data => {
           console.log(data);
           resolve(data);
@@ -2340,10 +2340,10 @@ updateRegional(id:number, description:string, code:string, name: string, email:s
   }
 
 
-  getInvoices(){
+  getInvoices() {
     return new Promise(resolve => {
       const headers = new HttpHeaders();
-      headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user'))); 
+      headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user')));
       headers.append('Content-Type', 'application/json');
       const httpOptions = {
         headers: new HttpHeaders({
@@ -2352,7 +2352,7 @@ updateRegional(id:number, description:string, code:string, name: string, email:s
           'Accept': 'application/json'
         })
       };
-      this.http.get(this.apiEndPoint+'api/show_invoice_warehouses_out', httpOptions)
+      this.http.get(this.apiEndPoint + 'api/show_invoice_warehouses_out', httpOptions)
         .map(res => res).subscribe(data => {
           console.log(data);
           resolve(data);
@@ -2362,7 +2362,7 @@ updateRegional(id:number, description:string, code:string, name: string, email:s
     });
   }
 
-  showWarehouseOutFilter(paramsFilter: string) { 
+  showWarehouseOutFilter(paramsFilter: string) {
     console.log(paramsFilter)
     return new Promise(resolve => {
       const headers = new HttpHeaders();
@@ -2375,7 +2375,7 @@ updateRegional(id:number, description:string, code:string, name: string, email:s
           'Accept': 'application/json'
         })
       };
-      this.http.get(this.apiEndPoint+'api/get_show_warehouse_out?' + paramsFilter, httpOptions)
+      this.http.get(this.apiEndPoint + 'api/get_show_warehouse_out?' + paramsFilter, httpOptions)
         .map(res => res).subscribe(data => {
           console.log(data);
           resolve(data);
@@ -2385,9 +2385,9 @@ updateRegional(id:number, description:string, code:string, name: string, email:s
     });
   }
 
-  
+
   createWarehousesOut(idCustomer, idTechnician, idBranchOffice, quantity, reference, description, control, unitCost,
-    total, forkliftText, ordenNumber, comsumtion, observation){
+    total, forkliftText, ordenNumber, comsumtion, observation) {
     return new Promise(resolve => {
       const headers = new HttpHeaders();
       headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user'))); // 'Bearer ' +
@@ -2400,25 +2400,25 @@ updateRegional(id:number, description:string, code:string, name: string, email:s
         })
       };
       const postParams = {
-       customer_id: idCustomer,
-       technician_id: idTechnician,
-       branch_office_id: idBranchOffice,
-       quantity: quantity,
-       reference: reference,
-       description: description,
-       control: control,
-       unit_cost: unitCost,
-       total: total,
-       forklift_text: forkliftText,
-       //forklift_id: forkliftId,
-       orden_number: ordenNumber,
-      // settlement_text: settlementText,
-       //invoice_text: invoiceText,
-       comsumtion: comsumtion,
-       observation: observation,
-  
+        customer_id: idCustomer,
+        technician_id: idTechnician,
+        branch_office_id: idBranchOffice,
+        quantity: quantity,
+        reference: reference,
+        description: description,
+        control: control,
+        unit_cost: unitCost,
+        total: total,
+        forklift_text: forkliftText,
+        //forklift_id: forkliftId,
+        orden_number: ordenNumber,
+        // settlement_text: settlementText,
+        //invoice_text: invoiceText,
+        comsumtion: comsumtion,
+        observation: observation,
+
       };
-      this.http.post(this.apiEndPoint+'api/create_warehouses_out', postParams, httpOptions)
+      this.http.post(this.apiEndPoint + 'api/create_warehouses_out', postParams, httpOptions)
         .map(res => res).subscribe(data => {
           resolve(data);
         }, error => {
@@ -2428,7 +2428,7 @@ updateRegional(id:number, description:string, code:string, name: string, email:s
   }
 
   updateWarehouseOut(id, idCustomer, idTechnician, idBranchOffice, quantity, reference, description, control, unitCost,
-    total, ordenNumber, comsumtion, observation){
+    total, ordenNumber, comsumtion, observation) {
     return new Promise(resolve => {
       const headers = new HttpHeaders();
       headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user'))); // 'Bearer ' +
@@ -2441,24 +2441,24 @@ updateRegional(id:number, description:string, code:string, name: string, email:s
         })
       };
       const postParams = {
-       customer_id: idCustomer,
-       technician_id: idTechnician,
-       branch_office_id: idBranchOffice,
-       quantity: quantity,
-       reference: reference,
-       description: description,
-       control: control,
-       unit_cost: unitCost,
-       total: total,
-       //forklift_text: forkliftText,
-       //forklift_id: forkliftId,
-       orden_number: ordenNumber,
-      // settlement_text: settlementText,
-       //invoice_text: invoiceText,
-       comsumtion: comsumtion,
-       observation: observation,
+        customer_id: idCustomer,
+        technician_id: idTechnician,
+        branch_office_id: idBranchOffice,
+        quantity: quantity,
+        reference: reference,
+        description: description,
+        control: control,
+        unit_cost: unitCost,
+        total: total,
+        //forklift_text: forkliftText,
+        //forklift_id: forkliftId,
+        orden_number: ordenNumber,
+        // settlement_text: settlementText,
+        //invoice_text: invoiceText,
+        comsumtion: comsumtion,
+        observation: observation,
       };
-      this.http.patch(this.apiEndPoint+'api/update_warehouses_out/'+id, postParams, httpOptions)
+      this.http.patch(this.apiEndPoint + 'api/update_warehouses_out/' + id, postParams, httpOptions)
         .map(res => res).subscribe(data => {
           resolve(data);
         }, error => {
@@ -2467,12 +2467,12 @@ updateRegional(id:number, description:string, code:string, name: string, email:s
     });
   }
 
-  deleteWarehousesOut(id: number){
+  deleteWarehousesOut(id: number) {
     console.log('ole ole ole');
     console.log(id);
     return new Promise(resolve => {
       const headers = new HttpHeaders();
-      headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user'))); 
+      headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user')));
       headers.append('Content-Type', 'application/json');
       const httpOptions = {
         headers: new HttpHeaders({
@@ -2483,7 +2483,7 @@ updateRegional(id:number, description:string, code:string, name: string, email:s
       };
       const postParams = {
       };
-      this.http.delete(this.apiEndPoint+'api/delete_warehouses_out_id/'+ id, httpOptions)
+      this.http.delete(this.apiEndPoint + 'api/delete_warehouses_out_id/' + id, httpOptions)
         .map(res => res).subscribe(data => {
           console.log(data);
           resolve(data);
@@ -2493,10 +2493,10 @@ updateRegional(id:number, description:string, code:string, name: string, email:s
     });
   }
 
-  getWarehousesOut(){
+  getWarehousesOut() {
     return new Promise(resolve => {
       const headers = new HttpHeaders();
-      headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user'))); 
+      headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user')));
       headers.append('Content-Type', 'application/json');
       const httpOptions = {
         headers: new HttpHeaders({
@@ -2505,7 +2505,7 @@ updateRegional(id:number, description:string, code:string, name: string, email:s
           'Accept': 'application/json'
         })
       };
-      this.http.post(this.apiEndPoint+'api/show_warehouses_out', httpOptions)
+      this.http.post(this.apiEndPoint + 'api/show_warehouses_out', httpOptions)
         .map(res => res).subscribe(data => {
           console.log(data);
           resolve(data);
@@ -2529,7 +2529,7 @@ updateRegional(id:number, description:string, code:string, name: string, email:s
           'Accept': 'application/json'
         })
       };
-      this.http.get(this.apiEndPoint+'api/customers', httpOptions)
+      this.http.get(this.apiEndPoint + 'api/customers', httpOptions)
         .map(res => res).subscribe(data => {
           console.log(data);
           resolve(data);
@@ -2551,7 +2551,7 @@ updateRegional(id:number, description:string, code:string, name: string, email:s
           'Accept': 'application/json'
         })
       };
-      this.http.get(this.apiEndPoint+'api/show_customers_regional/'+idRegional, httpOptions)
+      this.http.get(this.apiEndPoint + 'api/show_customers_regional/' + idRegional, httpOptions)
         .map(res => res).subscribe(data => {
           console.log(data);
           resolve(data);
@@ -2561,7 +2561,7 @@ updateRegional(id:number, description:string, code:string, name: string, email:s
     });
   }
 
-  getSpecificCustomer(id:number) {
+  getSpecificCustomer(id: number) {
     return new Promise(resolve => {
       const headers = new HttpHeaders();
       headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user'))); // 'Bearer ' +
@@ -2573,7 +2573,7 @@ updateRegional(id:number, description:string, code:string, name: string, email:s
           'Accept': 'application/json'
         })
       };
-      this.http.get(this.apiEndPoint+'api/customers/'+id, httpOptions)
+      this.http.get(this.apiEndPoint + 'api/customers/' + id, httpOptions)
         .map(res => res).subscribe(data => {
           console.log(data);
           resolve(data);
@@ -2595,7 +2595,7 @@ updateRegional(id:number, description:string, code:string, name: string, email:s
           'Accept': 'application/json'
         })
       };
-      this.http.get(this.apiEndPoint+'api/customers_branchoffice/' + idCustomer, httpOptions)
+      this.http.get(this.apiEndPoint + 'api/customers_branchoffice/' + idCustomer, httpOptions)
         .map(res => res).subscribe(data => {
           console.log(data);
           resolve(data);
@@ -2617,7 +2617,7 @@ updateRegional(id:number, description:string, code:string, name: string, email:s
           'Accept': 'application/json'
         })
       };
-      this.http.get(this.apiEndPoint+'api/branch_offices', httpOptions)
+      this.http.get(this.apiEndPoint + 'api/branch_offices', httpOptions)
         .map(res => res).subscribe(data => {
           console.log(data);
           resolve(data);
@@ -2644,7 +2644,7 @@ updateRegional(id:number, description:string, code:string, name: string, email:s
         customer_id: customer_id,
         branch_name: branch_name
       };
-      this.http.post(this.apiEndPoint+'api/branch_offices ', postParams, httpOptions)
+      this.http.post(this.apiEndPoint + 'api/branch_offices ', postParams, httpOptions)
         .map(res => res).subscribe(data => {
           resolve(data);
         }, error => {
@@ -2676,7 +2676,7 @@ updateRegional(id:number, description:string, code:string, name: string, email:s
         customer_id: customer_id,
         branch_name: branch_name
       };
-      this.http.patch(this.apiEndPoint+'api/branch_offices/' + id, postParams, httpOptions)
+      this.http.patch(this.apiEndPoint + 'api/branch_offices/' + id, postParams, httpOptions)
         .map(res => res).subscribe(data => {
           resolve(data);
         }, error => {
@@ -2685,7 +2685,7 @@ updateRegional(id:number, description:string, code:string, name: string, email:s
     });
   }
 
-  showLogFilter(paramsFilter: string){
+  showLogFilter(paramsFilter: string) {
     console.log(paramsFilter)
     return new Promise(resolve => {
       const headers = new HttpHeaders();
@@ -2698,7 +2698,7 @@ updateRegional(id:number, description:string, code:string, name: string, email:s
           'Accept': 'application/json'
         })
       };
-      this.http.get(this.apiEndPoint+'api/get_log?' + paramsFilter, httpOptions)
+      this.http.get(this.apiEndPoint + 'api/get_log?' + paramsFilter, httpOptions)
         .map(res => res).subscribe(data => {
           console.log(data);
           resolve(data);
@@ -2707,8 +2707,8 @@ updateRegional(id:number, description:string, code:string, name: string, email:s
         });
     });
   }
-  
-  registerLog(user: string, configuration: string, value:number,trmEspa: number) {
+
+  registerLog(user: string, configuration: string, value: number, trmEspa: number) {
     return new Promise(resolve => {
       const headers = new HttpHeaders();
       headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user'))); // 'Bearer ' +
@@ -2724,16 +2724,63 @@ updateRegional(id:number, description:string, code:string, name: string, email:s
         user: user,
         configuration: configuration,
         value: value,
-        ingresar_constante:trmEspa
+        ingresar_constante: trmEspa
       };
       console.log(postParams);
-      this.http.post(this.apiEndPoint+'api/create_log',postParams, httpOptions)
+      this.http.post(this.apiEndPoint + 'api/create_log', postParams, httpOptions)
         .map(res => res).subscribe(data => {
           resolve(data);
           console.log(data);
         }, error => {
           resolve(error);
           console.log(error);
+        });
+    });
+  }
+
+  getRoutesSystem() {
+    return new Promise(resolve => {
+      const headers = new HttpHeaders();
+      headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user')));
+      headers.append('Content-Type', 'application/json');
+      const httpOptions = {
+        headers: new HttpHeaders({
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + localStorage.getItem('token_user'),
+          'Accept': 'application/json'
+        })
+      };
+      this.http.get(this.apiEndPoint + 'api/get_warehouses_regional_id?idRegional=', httpOptions)
+        .map(res => res).subscribe(data => {
+          console.log(data);
+          resolve(data);
+        }, error => {
+          resolve(error);
+        });
+    });
+  }
+
+
+  updateRoutes(id: number, description: string) {
+    console.log("en servicio");
+    console.log(id);
+    console.log(description);
+    return new Promise(resolve => {
+      const httpOptions = {
+        headers: new HttpHeaders({
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + localStorage.getItem('token_user'),
+          'Accept': 'application/json'
+        })
+      };
+      const postParams = {
+        description: description,
+      };
+      this.http.patch(this.apiEndPoint + 'api/update_route/' + id, postParams, httpOptions)
+        .map(res => res).subscribe(data => {
+          resolve(data);
+        }, error => {
+          resolve(error);
         });
     });
   }
@@ -2814,7 +2861,7 @@ updateRegional(id:number, description:string, code:string, name: string, email:s
       headers.append('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
       headers.append('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
       headers.append('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
-      return this.http.post(this.apiEndPoint+'api/registrar', params, { headers: headers });
+      return this.http.post(this.apiEndPoint + 'api/registrar', params, { headers: headers });
     } catch (error) {
       console.log(error);
     }

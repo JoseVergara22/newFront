@@ -32,6 +32,28 @@ export class ModulesService {
         });
     });
   }
+  getProfileFunction(id){
+    return new Promise(resolve => {
+      const headers = new HttpHeaders();
+      headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user'))); // 'Bearer ' +
+      headers.append('Content-Type', 'application/json');
+      const httpOptions = {
+        headers: new HttpHeaders({
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + localStorage.getItem('token_user'),
+          'Accept': 'application/json'
+        })
+      };
+      console.log(id);
+      this.http.get(this.apiEndPoint+'api/show_profile_function/'+id, httpOptions)
+        .map(res => res).subscribe(data => {
+          console.log(data);
+          resolve(data);
+        }, error => {
+          resolve(error);
+        });
+    });
+  }
 
   getModuleFuntion(){
     return new Promise(resolve => {
@@ -113,7 +135,7 @@ export class ModulesService {
           'Accept': 'application/json'
         })
       };
-      this.http.post(this.apiEndPoint+'api/get_route', httpOptions)
+      this.http.get(this.apiEndPoint+'api/get_route', httpOptions)
         .map(res => res).subscribe(data => {
           console.log(data);
           resolve(data);
@@ -144,6 +166,35 @@ export class ModulesService {
             resolve(data);
           }, error => {
             resolve(error);
+          });
+      });
+    }
+ 
+  createFunctionProfile(idProfile: number, subModule: any) {
+      console.log(idProfile);
+      return new Promise(resolve => {
+        const headers = new HttpHeaders();
+        headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user'))); // 'Bearer ' +
+        headers.append('Content-Type', 'application/json');
+        const httpOptions = {
+          headers: new HttpHeaders({
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + localStorage.getItem('token_user'),
+            'Accept': 'application/json'
+          })
+        };
+        const postParams = {
+          idProfile: idProfile,
+          subModule:subModule
+        };
+        console.log(postParams);
+        this.http.post(this.apiEndPoint+'api/save_sub_profile',postParams, httpOptions)
+          .map(res => res).subscribe(data => {
+            resolve(data);
+            console.log(data);
+          }, error => {
+            resolve(error);
+            console.log(error);
           });
       });
     }

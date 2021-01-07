@@ -4054,7 +4054,7 @@ export class MasterSettlementListComponent  extends NgbDatepickerI18n {
     console.log(row);
    // this.router.navigateByUrl('master/estimateCustomerCopy/'+row.id);
    this.loadingData();
-   this.estimateService.copyEstimate(row.id).then(data => {
+   this.estimateService.copyEstimate(row.id,2,3).then(data => {
     const resp: any = data;
     console.log(resp);
     if (resp.success === false) {
@@ -4064,19 +4064,15 @@ export class MasterSettlementListComponent  extends NgbDatepickerI18n {
        });
     } else {
       this.loadingData(); 
- swal({
-  title: 'Cotización creada',
-  type: 'success'
- });
- 
- 
-  }
+      swal({
+        title: 'Cotización creada',
+        type: 'success'
+      });
+    }
   }).catch(error => {
     console.log(error);
   });
   }
- 
- 
  
   onChangeInactive(d) {
     let indice;

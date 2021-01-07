@@ -8,7 +8,7 @@ import { Router, ActivatedRoute } from '@angular/router';
   selector: 'app-master-update-module',
   templateUrl: './master-update-module.component.html',
   styleUrls: ['./master-update-module.component.scss',
-  '../../../assets/icon/icofont/css/icofont.scss']
+    '../../../assets/icon/icofont/css/icofont.scss']
 })
 export class MasterUpdateModuleComponent implements OnInit {
 
@@ -27,7 +27,7 @@ export class MasterUpdateModuleComponent implements OnInit {
   submittedUpdated = false;
   enabledUpdated: boolean;
 
-  enabledCreatedOfficeUpdate:boolean;
+  enabledCreatedOfficeUpdate: boolean;
 
   currentModelId: any = 0;
 
@@ -43,7 +43,7 @@ export class MasterUpdateModuleComponent implements OnInit {
   selectedRoute: any = 0;
   selectedRouteUpdate: any = 0;
 
-  description:string='';
+  description: string = '';
 
   constructor(private moduleService: ModulesService, private router: Router, private rutaActiva: ActivatedRoute) {
 
@@ -53,31 +53,31 @@ export class MasterUpdateModuleComponent implements OnInit {
     this.loadingData(this.currentModelId);
 
     const descriptionUpdate = new FormControl('', Validators.required);
-  
+
     const descriptionUpdateSub = new FormControl('', Validators.required);
     const routes = new FormControl('');
-    
+
     const descriptionSub = new FormControl('');
     const routesUpdate = new FormControl('');
-    
-    
+
+
     this.myFormUpdateSubModules = new FormGroup({
       descriptionUpdateSub: descriptionUpdateSub,
-      routesUpdate:routesUpdate
+      routesUpdate: routesUpdate
     });
-    
+
     this.myFormUpdate = new FormGroup({
       descriptionUpdate: descriptionUpdate,
-      
+
     });
     this.myFormSubModules = new FormGroup({
       descriptionSub: descriptionSub,
       routes: routes,
-      
-    });
-   }
 
-   loadingData(Id) {
+    });
+  }
+
+  loadingData(Id) {
     swal({
       title: 'Validando información ...',
       allowOutsideClick: false
@@ -91,159 +91,159 @@ export class MasterUpdateModuleComponent implements OnInit {
       this.getSubModules(Id);
       swal.close();
       this.getRoute();
-      console.log( this.description);
+      console.log(this.description);
     }).catch(error => {
       console.log(error);
     });
-   }
+  }
 
-   getSubModules(idModule: number) {
+  getSubModules(idModule: number) {
     // console.log(this.opcionSeleccionado);
-      this.moduleService.getSubModule( idModule).then(data => {
-        console.log('que mas ps');
-        const resp: any = data;
-        console.log(resp);
-        this.dataSubModule = resp.data;
- 
-        console.log('Importante ver la info');
-        console.log( this.dataSubModule);
-     //   this.dataOffices = this.dataOffices.data;
-        console.log('master');
-        swal.close();
-       // this.cities = resp.data;
-        console.log( this.dataSubModule);
-      }).catch(error => {
-        console.log(error);
-      });
+    this.moduleService.getSubModule(idModule).then(data => {
+      console.log('que mas ps');
+      const resp: any = data;
+      console.log(resp);
+      this.dataSubModule = resp.data;
+
+      console.log('Importante ver la info');
+      console.log(this.dataSubModule);
+      //   this.dataOffices = this.dataOffices.data;
+      console.log('master');
+      swal.close();
+      // this.cities = resp.data;
+      console.log(this.dataSubModule);
+    }).catch(error => {
+      console.log(error);
+    });
   }
 
   getRoute() {
     // console.log(this.opcionSeleccionado);
-      this.moduleService.getRoute().then(data => {
-        console.log('que mas ps');
-        const resp: any = data;
-        console.log(resp);
-        this.route = resp.data;
- 
-        console.log('Importante ver la info');
-        console.log( this.route);
-     //   this.dataOffices = this.dataOffices.data;
-        console.log('master');
-        swal.close();
+    this.moduleService.getRoute().then(data => {
+      console.log('que mas ps');
+      const resp: any = data;
+      console.log(resp);
+      this.route = resp.data;
 
-      }).catch(error => {
-        console.log(error);
-      });
+      console.log('Importante ver la info');
+      console.log(this.route);
+      //   this.dataOffices = this.dataOffices.data;
+      console.log('master');
+      swal.close();
+
+    }).catch(error => {
+      console.log(error);
+    });
   }
 
-  sendSubModule(){
-    
-      console.log('Ole ole ole');
-  
-        this.submitted = true;
-       if ( this.description == ''|| this.selectedRoute == 0) {
-        swal({
-          title: 'Validando información ...',
-          allowOutsideClick: false
-        });
-        swal.showLoading();
-    
-        let statusTemp = 0;
-        if ( this.enabledCreated === false) {
-          statusTemp = 1;
-        }
-    
-        this.moduleService.createSubModule(this.myFormSubModules.get('descriptionSub').value.toUpperCase(),this.selectedRoute.id,
-        this.selectedRoute.descriptionthis,this.currentModelId)
-        .then(data => {
-          const resp: any = data;
-          console.log(resp);
-          console.log('id customer' + resp.data.id);
-          this.currentSubModule =  resp.data.id;
-          if (resp.success === false) {
-            swal({
-              title: 'Este SubModulo ya esta registrado',
-              text: 'Este SubModulo no se puede registrar',
-              type: 'error'
-             });
-          } else {
-       swal({
-        title: 'SubModulo agregado',
-        type: 'success'
-       });
-       this.myFormSubModules.reset();
-       document.getElementById( 'updateBrandHide').click();
-       this.getSubModules(this.currentModelId);
-      }
-        }).catch(error => {
-          console.log(error);
-        });
-      } else {
-        console.log(this.myFormSubModules);
-        swal({
-          title: 'Debe llenar el campo obligatorio',
-          text: 'Debe llenar el campo obligatorio',
-          type: 'error'
-         });
-      }
-    }
+  sendSubModule() {
 
-   updatedCustomer() {
+    console.log('Ole ole ole');
 
-    console.log('Ole ole ole kakaakkaka');
-  
-   // console.log(this.selectedPriceListIdUpdate);
-    console.log(this.enabledCreatedOfficeUpdate);
-  
-      this.submittedUpdated = true;
-     if ( !this.myFormUpdate.invalid) {
+    this.submitted = true;
+    if (this.description == '' || this.selectedRoute == 0) {
       swal({
         title: 'Validando información ...',
         allowOutsideClick: false
       });
       swal.showLoading();
-  
+
+      let statusTemp = 0;
+      if (this.enabledCreated === false) {
+        statusTemp = 1;
+      }
+
+      this.moduleService.createSubModule(this.myFormSubModules.get('descriptionSub').value.toUpperCase(), this.selectedRoute.id,
+        this.selectedRoute.descriptionthis, this.currentModelId)
+        .then(data => {
+          const resp: any = data;
+          console.log(resp);
+          console.log('id customer' + resp.data.id);
+          this.currentSubModule = resp.data.id;
+          if (resp.success === false) {
+            swal({
+              title: 'Este SubModulo ya esta registrado',
+              text: 'Este SubModulo no se puede registrar',
+              type: 'error'
+            });
+          } else {
+            swal({
+              title: 'SubModulo agregado',
+              type: 'success'
+            });
+            this.myFormSubModules.reset();
+            document.getElementById('updateBrandHide').click();
+            this.getSubModules(this.currentModelId);
+          }
+        }).catch(error => {
+          console.log(error);
+        });
+    } else {
+      console.log(this.myFormSubModules);
+      swal({
+        title: 'Debe llenar el campo obligatorio',
+        text: 'Debe llenar el campo obligatorio',
+        type: 'error'
+      });
+    }
+  }
+
+  updatedCustomer() {
+
+    console.log('Ole ole ole kakaakkaka');
+
+    // console.log(this.selectedPriceListIdUpdate);
+    console.log(this.enabledCreatedOfficeUpdate);
+
+    this.submittedUpdated = true;
+    if (!this.myFormUpdate.invalid) {
+      swal({
+        title: 'Validando información ...',
+        allowOutsideClick: false
+      });
+      swal.showLoading();
+
       let statusTemp = 1;
 
-      if ( this.enabledCreatedOfficeUpdate) {
+      if (this.enabledCreatedOfficeUpdate) {
         statusTemp = 0;
       }
       console.log('kakakaka');
-  
-     this.moduleService.updateModule(Number(this.currentModelId), this.myFormUpdate.get('descriptionUpdate').value.toUpperCase())
-      .then(data => {
-        const resp: any = data;
-        console.log(JSON.stringify(resp));
-        if (resp.success === false) {
-          swal({
-            title: 'Falla en la actualizacion',
-            text: 'No se pudo actualizar el Modulo',
-            type: 'error'
-           });
-        } else {
-     swal({
-      title: 'Modulo Actualizado',
-      type: 'success'
-     });
-      }
-      }).catch(error => {
-        console.log(error);
-      });
-      
+
+      this.moduleService.updateModule(Number(this.currentModelId), this.myFormUpdate.get('descriptionUpdate').value.toUpperCase())
+        .then(data => {
+          const resp: any = data;
+          console.log(JSON.stringify(resp));
+          if (resp.success === false) {
+            swal({
+              title: 'Falla en la actualizacion',
+              text: 'No se pudo actualizar el Modulo',
+              type: 'error'
+            });
+          } else {
+            swal({
+              title: 'Modulo Actualizado',
+              type: 'success'
+            });
+          }
+        }).catch(error => {
+          console.log(error);
+        });
+
     } else {
       swal({
         title: 'Debe llenar el campo obligatorio',
         text: 'Debe llenar el campo obligatorio',
         type: 'error'
-       });
+      });
     }
   }
-  
+
   updateBrand(row) {
     console.log(row);
     this.currentSubModule = row;
-    console.log( this.currentSubModule );
-    if ( this.currentSubModule.status === '0') {
+    console.log(this.currentSubModule);
+    if (this.currentSubModule.status === '0') {
       this.enabledUpdated = true;
     } else {
       this.enabledUpdated = false;
@@ -251,126 +251,126 @@ export class MasterUpdateModuleComponent implements OnInit {
 
     this.myFormUpdateSubModules.get('descriptionUpdateSub').setValue(this.currentSubModule.description);
 
-     if(this.currentSubModule.status==0){
-      this.enabledCreatedOfficeUpdate=true;
-     }else{
-      this.enabledCreatedOfficeUpdate=false;
-     }
+    if (this.currentSubModule.status == 0) {
+      this.enabledCreatedOfficeUpdate = true;
+    } else {
+      this.enabledCreatedOfficeUpdate = false;
+    }
 
-    document.getElementById( 'uploadSubModule').click();
+    document.getElementById('uploadSubModule').click();
   }
 
-  sendUpdateSubModule(){
+  sendUpdateSubModule() {
     console.log('Ole ole ole kakaakkaka');
-  
-   // console.log(this.selectedPriceListIdUpdate);
+
+    // console.log(this.selectedPriceListIdUpdate);
     console.log(this.enabledCreatedOfficeUpdate);
-  
-      this.submittedUpdated = true;
-     if ( !this.myFormUpdateSubModules.invalid) {
+
+    this.submittedUpdated = true;
+    if (!this.myFormUpdateSubModules.invalid) {
       swal({
         title: 'Validando información ...',
         allowOutsideClick: false
       });
       swal.showLoading();
-  
+
       let statusTemp = 1;
 
-      if ( this.enabledCreatedOfficeUpdate) {
+      if (this.enabledCreatedOfficeUpdate) {
         statusTemp = 0;
       }
       console.log('kakakaka');
-  
-     this.moduleService.updateSubModule(Number(this.currentModelId), this.myFormUpdateSubModules.get('descriptionUpdateSub').value.toUpperCase(),this.selectedRouteUpdate.id,this.selectedRouteUpdate.description)
-      .then(data => {
-        const resp: any = data;
-        console.log(JSON.stringify(resp));
-        if (resp.success === false) {
-          swal({
-            title: 'Falla en la actualizacion',
-            text: 'No se pudo actualizar el SubModulo',
-            type: 'error'
-           });
-        } else {
-          document.getElementById( 'updateSubmoduleHide').click();
-          swal({
-            title: 'SubModulo Actualizado',
-            type: 'success'
-          });
-          this.myFormUpdateSubModules.reset();
-     this.getSubModules(this.currentSubModule.id);
-      }
-      }).catch(error => {
-        console.log(error);
-      });
-      
+
+      this.moduleService.updateSubModule(this.currentSubModule.id, this.myFormUpdateSubModules.get('descriptionUpdateSub').value.toUpperCase(), this.selectedRouteUpdate.id, this.selectedRouteUpdate.description)
+        .then(data => {
+          const resp: any = data;
+          console.log(JSON.stringify(resp));
+          if (resp.success === false) {
+            swal({
+              title: 'Falla en la actualizacion',
+              text: 'No se pudo actualizar el SubModulo',
+              type: 'error'
+            });
+          } else {
+            document.getElementById('updateSubmoduleHide').click();
+            swal({
+              title: 'SubModulo Actualizado',
+              type: 'success'
+            });
+            this.myFormUpdateSubModules.reset();
+            this.getSubModules(this.currentModelId);
+          }
+        }).catch(error => {
+          console.log(error);
+        });
+
     } else {
       swal({
         title: 'Debe llenar el campo obligatorio',
         text: 'Debe llenar el campo obligatorio',
         type: 'error'
-       });
+      });
     }
   }
-   
+
   deleteSubModulo(row: any) {
     swal({
       title: 'Estás seguro de eliminar este elemento?',
-     // text: 'Once deleted, you will not be able to recover this imaginary file!',
+      // text: 'Once deleted, you will not be able to recover this imaginary file!',
       type: 'warning',
       showCancelButton: true,
       showConfirmButton: true,
       cancelButtonText: 'No',
       confirmButtonText: 'Si'
     })
-    .then((willDelete) => {
+      .then((willDelete) => {
         if (willDelete.value) {
           this.elementDelete = row;
           console.log(row);
-          console.log(    this.elementDelete);
+          console.log(this.elementDelete);
           swal.showLoading();
           this.moduleService.deleteSubModule(Number(this.elementDelete.id))
-          .then(data => {
-            swal.showLoading();
-            const resp: any = data;
-            console.log(resp);
-            this.getSubModules(this.currentModelId);
-            if (resp.success === false) {
-              swal({
-                title: 'Este submodulo presenta problemas',
-                text: 'Este submodulo no se pudo eliminar',
-                type: 'error'
-               });
-            } else {
-           // this.router.navigateByUrl('master/registerBrand');
-           swal({
-            title: 'Submodulo eliminado',
-            type: 'success'
-           });
-          }
-          }).catch(error => {
-            console.log(error);
-          });
+            .then(data => {
+              swal.showLoading();
+              const resp: any = data;
+              console.log(resp);
+              this.getSubModules(this.currentModelId);
+              if (resp.success === false) {
+                swal({
+                  title: 'Este submodulo presenta problemas',
+                  text: 'Este submodulo no se pudo eliminar',
+                  type: 'error'
+                });
+              } else {
+                // this.router.navigateByUrl('master/registerBrand');
+                swal({
+                  title: 'Submodulo eliminado',
+                  type: 'success'
+                });
+              }
+            }).catch(error => {
+              console.log(error);
+            });
         } else {
-         // swal('Fail');
+          // swal('Fail');
         }
-      console.log(willDelete);
-    });
+        console.log(willDelete);
+      });
   }
 
-  blockAgents( vadr: any) {
+  blockAgents(vadr: any) {
     console.log(vadr);
-   }
+  }
 
-  
-   onChangeCreatedOfficeUpdate(check: any) {
+
+  onChangeCreatedOfficeUpdate(check: any) {
     console.log(check);
     this.enabledCreatedOfficeUpdate = check;
-      }
+  }
 
-   get checkFormUpdate() { return this.myFormUpdate.controls; }
-   get checkFormSubModules() { return this.myFormSubModules.controls; }
-   get checkFormUpdateSubModules() { return this.myFormUpdateSubModules.controls; }
+  get checkFormUpdate() { return this.myFormUpdate.controls; }
+  get checkFormSubModules() { return this.myFormSubModules.controls; }
+  get checkFormUpdateSubModules() { return this.myFormUpdateSubModules.controls; }
   ngOnInit() {
   }
 

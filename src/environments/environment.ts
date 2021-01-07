@@ -8,8 +8,8 @@
 export const environment = {
   production: false,
   name:"(DEV)",
-  apiBaseUrl:"https://montacargasmasterbackdev.co/",
-  // apiBaseUrl:"http://127.0.0.1:8000/",
+  // apiBaseUrl:"https://montacargasmasterbackdev.co/",
+  apiBaseUrl:"http://127.0.0.1:8000/",
   clientId: '1',
   clientSecret: 'TyG8pFzcGI7nTIt31FzFCwnvF0E8t70OSAIyrwWT',
 };

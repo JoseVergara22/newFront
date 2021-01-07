@@ -4,6 +4,8 @@ import {animate, AUTO_STYLE, state, style, transition, trigger} from '@angular/a
 import { MenuItems } from '../../shared/menu-items/menu-items';
 import { MenuItemsMasterService } from '../../master-shared/menu-master/menu-items-master.service';
 import { Router } from '@angular/router';
+import { ModulesService } from '../../master-services/modules/modules.service';
+import swal from 'sweetalert2';
 
 
 @Component({
@@ -126,12 +128,13 @@ export class MasterAdminComponent  implements OnInit {
 
   public config: any;
   public itemsFinalMenu: any; 
+  public functionModule: any; 
   public profileText: string;
 
-  constructor(public menuItems: MenuItemsMasterService, private router: Router) {
+  constructor(public menuItems: MenuItemsMasterService, private router: Router,  private moduleServices: ModulesService) {
     console.log('ingreso al admin de la plataforma');
     this.profileUserCurrent=Number(localStorage.getItem('profile'));
-
+    this.getProfileFunciton(this.profileUserCurrent);
     if( this.profileUserCurrent==1){
       this.profileText='Administrador';
       this.itemsFinalMenu=menuItems.getAll();
@@ -209,6 +212,25 @@ export class MasterAdminComponent  implements OnInit {
     /*this.setLayoutType('dark');
     this.setNavBarTheme('themelight1');*/
 
+  }
+
+  getProfileFunciton(id:any){
+    this.moduleServices.getProfileFunction(id).then(data => {
+      const resp: any = data;
+      if (resp.success == true) {
+        this.functionModule = resp.data;
+        console.log(this.functionModule)
+        console.log('entro entro entro');
+
+      }
+    }).catch(error => {
+      console.log(error);
+      swal({
+        title: 'Error',
+        text: 'Ha ocurrido un error al mostrar la informacion',
+        type: 'error'
+      });
+    });
   }
 
   ngOnInit() {

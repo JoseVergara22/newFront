@@ -4034,11 +4034,11 @@ this.getImgFromUrl(logo_url, function (img) {
     this.router.navigateByUrl('maintenance/estimateCustomerUpdate/'+row.id);
   }
 
-  copyEstimateProcess(row:any){
+  copyEstimateProcess(row:any,trm: any){
     console.log(row);
    // this.router.navigateByUrl('master/estimateCustomerCopy/'+row.id);
    this.loadingData();
-   this.estimateService.copyEstimate(row.id).then(data => {
+   this.estimateService.copyEstimate(row.id,trm,row.customer.price_margin).then(data => {
     const resp: any = data;
     console.log(resp);
     if (resp.success === false) {
@@ -4194,13 +4194,30 @@ updateForklift(forklift:any) {
     })
     .then((willDelete) => {
         if (willDelete.value) {
-        this.copyEstimateProcess(row);
+          this.estimateService.showTrmCurrent().then(data => {
+            const resp: any = data;
+            //let trm = resp.data.value;
+          console.log('RESP ' +JSON.stringify(resp));
+            let trm ;
+            try{
+              trm =resp.data.value
+            }catch(error){
+              trm =resp.result.value
+            }
+            console.log('entro');
+            this.copyEstimateProcess(row,trm);
+        
+          }).catch(error => {
+            console.log(error);
+          });
         } else {
          // swal('Fail');
         }
       console.log(willDelete);
     });
   }
+
+
 
 
   showForklift(forklift:any){

@@ -132,7 +132,7 @@
 
                 </div>
                 <div class="form-group row">
-                    <div class="col-sm-6">
+                    <!-- <div class="col-sm-6">
                         <h6>Perfil <span style="color:red;">*</span></h6>
                         <select name="select" class="form-control" formControlName="profile" [(ngModel)]="selectedProfileId" [ngClass]="{ 'is-invalid': submitted && checkForm.profile.errors }">
                           <option value="0" selected>Seleccionar perfil</option> 
@@ -142,16 +142,25 @@
                           <option value="4">TECNICO</option>
                           <option value="5">FINANCIERA</option>
                         </select>
-                        <!-- <div class="messages text-danger" *ngIf="errorProfile">Debes seleccionar un perfil</div> -->
+               
                         <div *ngIf="submitted && checkForm.profile.errors" class="invalid-feedback">
                             <div class="messages text-danger" *ngIf="checkForm.profile.errors.required">Este campo es requerido</div>
                         </div>
-                        <!---       <div class="messages text-danger" *ngIf="myForm.controls.username.touched &&  !myForm.controls.username.valid">Este campo es requerido</div> -->
-                    </div>
+                  
+                    </div> -->
 
                     <div class="col-sm-6">
-
+                        <h6>Perfil <span style="color:red;">*</span></h6>
+                        <select name="select" class="form-control" [(ngModel)]="selectedProfileId" formControlName="profile" [ngClass]="{ 'is-invalid': submitted && checkForm.profile.errors }">
+                          <option value="0" selected>Seleccionar perfil</option> 
+                          <option   *ngFor="let reg of profiles" [ngValue]="reg.id"   > {{reg.description}}  </option>
+                        </select>
+               
+                        <div *ngIf="submitted && checkForm.profile.errors" class="invalid-feedback">
+                            <div class="messages text-danger" *ngIf="checkForm.profile.errors.required">Este campo es requerido</div>
+                        </div>
                     </div>
+                    <div class="col-sm-6"></div>
 
                 </div>
 
