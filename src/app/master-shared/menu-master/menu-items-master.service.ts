@@ -126,7 +126,7 @@ const MENUITEMS = [
     label: 'master',
     main: [
       {
-        state: 'master',
+        state: 'maintenance',
         short_label: 'N',
         name: 'Mantenimiento',
         type: 'sub',
