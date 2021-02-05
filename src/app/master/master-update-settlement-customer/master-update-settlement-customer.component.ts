@@ -267,6 +267,8 @@ export class MasterUpdateSettlementCustomerComponent extends NgbDatepickerI18n  
   costCenters: any;
   warehouses: any;
 
+  estimateDetailId: any;
+
   selectedForkliftId:any=0;
   selectedRegionalId:any=0;
   selectedCostCenterId:any=0;
@@ -1390,9 +1392,9 @@ getWarehouses() {
      let discountTemp= this.discountWorkforceUpdate;
 
 
-
+     let estimateDestil = this.estimateDetailId;
      this.settlementService.updateSettlementDetailWorkforce(settlementIdDetailTemp,codeTemp,serviceTemp,
-      quantityTemp,  hourValueTemp, subtotalTemp, deliveryTemp, subtotalTemp,statusTemp, typeServiceTemp, subCenterCostIdWorkforce, discountTemp, fullCodeTemp ).then(data => {
+      quantityTemp,  hourValueTemp, subtotalTemp, deliveryTemp, subtotalTemp,statusTemp, typeServiceTemp, subCenterCostIdWorkforce, discountTemp, fullCodeTemp,estimateDestil ).then(data => {
        const resp: any = data;
        swal({
         title: 'Item actualizado',
@@ -1588,11 +1590,11 @@ getWarehouses() {
      let typeServiceTemp = 0;
      let weightTypeTemp = this.weightTypeListUpdate;
      let subcenterId= this.selectedSubcostCenterUpdateId;
-
+     let estimateDestil = this.estimateDetailId;
      this.settlementService.updateSettlementDetails(settlementIdDetailTemp,codeTemp,descriptionTemp,
       quantityTemp, unitCostTemp, priceListTemp, priceSuggestTemp, weightTemp,
       priceUpdateTemp, subtotalTemp, deliveryPartTemp, totalTemp,statusTemp, typeServiceTemp,weightTypeTemp,subcenterId,
-       discountTemp, fullCodeTemp ).then(data => {
+       discountTemp, fullCodeTemp,estimateDestil ).then(data => {
        const resp: any = data;
        swal({
         title: 'Item actualizado',
@@ -1785,6 +1787,7 @@ getWarehouses() {
       this.weightTypeListUpdate = item.weight_type;
       this.selectedSubcostCenterUpdateId = item.subcost_center_id;
       this.discountPartUpdate= item.discount;
+      this.estimateDetailId = item.estimate_detail_id;
       this.totalPriceUpdate= this.finalFormatStandard(Number(item.subtotal).toFixed(0));
       console.log(item);
       document.getElementById( 'uploadItemCopy').click();
@@ -1799,7 +1802,6 @@ getWarehouses() {
       this.priceListUpdate  = item.price_list;
       this.suggestedPriceUpdate = this.finalFormatStandard(Number(item.price_suggest).toFixed(0));
       this.priceUpdate =this.finalFormatStandard(Number(item.price).toFixed(0)); 
-  
       console.log('info importante '+item.subtotal);
       console.log('info importante '+item.discount);
       this.subtotalUpdate =this.finalFormatStandard(Number(Number(item.price)*(Number(item.quantity))).toFixed(0));
@@ -1828,7 +1830,7 @@ getWarehouses() {
     this.selectedSubcostCenterUpdateId = item.subcost_center_id;
     this.discountWorkforceUpdate= item.discount;
     this.totalPriceWorkforceUpdate= this.finalFormatStandard( Number(item.subtotal).toFixed(0));
-
+    this.estimateDetailId = item.estimate_detail_id;
         console.log(item);
         document.getElementById( 'uploadWorkforceItem').click();
       }
@@ -3155,7 +3157,7 @@ uploadImagesEstimate() {
   
   }
   normalizes = (function() {
-  var from = "ÃÀÁÄÂÈÉËÊÌÍÏÎÒÓÖÔÙÚÜÛãàáäâèéëêìíïîòóöôùúüûÑñÇç+*%!¡¿?|¬", 
+  var from = "ÃÀÁÄÂÈÉËÊÌÍÏÎÒÓÖÔÙÚÜÛãàáäâèéëêìíïîòóöôùúüûÑñÇç+*%!¡¿?|¬°", 
       to   = "AAAAAEEEEIIIIOOOOUUUUaaaaaeeeeiiiioooouuuunncc",
       mapping = {};
  

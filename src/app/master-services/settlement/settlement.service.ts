@@ -212,7 +212,7 @@ resolve(error);
 
 updateSettlementDetailWorkforce(settlement_detail_id: number, code: string, service: string,
   quantity: number, hour_value: number, subtotal: number, delivery: number, total: string,
-  status: number, type_service: number,  subcenter_id: number, discount: number, fullCode:string) {
+  status: number, type_service: number,  subcenter_id: number, discount: number, fullCode:string,estimate_detail_id:any) {
   console.log('info de detalle');
 return new Promise(resolve => {
 const headers = new HttpHeaders();
@@ -238,6 +238,7 @@ type_service:type_service,
 subcost_center_id: subcenter_id,
 discount: discount,
 full_code:fullCode,
+estimate_detail_id:estimate_detail_id,
 };
 this.http.patch(this.apiEndPoint+'api/update_settlement_details/'+settlement_detail_id, postParams, httpOptions)
 .map(res => res).subscribe(data => {
@@ -964,7 +965,7 @@ createScheduleSettlement(params: string) {
     updateSettlementDetails(settlement_id: number, code: string, description: string,
       quantity: number, unit_cost: number, price_list: number, price_suggest: number, weight: number,
       price: number, subtotal: number, delivery: number, total: string,
-      status: number, type_service: number, weight_type: number, subcenter_id: number, discount: number, fullCode:string) {
+      status: number, type_service: number, weight_type: number, subcenter_id: number, discount: number, fullCode:string, estimate_detail_id:any) {
       console.log('info de detalle');
   
   return new Promise(resolve => {
@@ -996,7 +997,10 @@ createScheduleSettlement(params: string) {
   subcost_center_id: subcenter_id,
   discount: discount,
   full_code:fullCode,
+  estimate_detail_id:estimate_detail_id,
   };
+  console.log(settlement_id);
+  console.log(patchParams);
   this.http.patch(this.apiEndPoint+'api/update_settlement_details/'+settlement_id, patchParams, httpOptions)
   .map(res => res).subscribe(data => {
   console.log('respuesta');
@@ -1267,6 +1271,7 @@ createScheduleSettlement(params: string) {
       const postParams = {
         settlement_id: settlement_id,
       };
+      console.log(settlement_id);
       this.http.get(this.apiEndPoint+'api/total_comparison?settlement_id='+settlement_id, httpOptions)
         .map(res => res).subscribe(data => {
           console.log(data);

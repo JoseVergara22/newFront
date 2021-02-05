@@ -1,7 +1,7 @@
-import { Component, OnInit, Injectable, Input  } from '@angular/core';
-import {FormControl, FormGroup, Validators} from '@angular/forms';
-import {NgbCalendar, NgbDateParserFormatter,NgbDatepickerI18n, NgbDateStruct} from '@ng-bootstrap/ng-bootstrap';
-import {ColorPickerService} from 'ngx-color-picker';
+import { Component, OnInit, Injectable, Input } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { NgbCalendar, NgbDateParserFormatter, NgbDatepickerI18n, NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
+import { ColorPickerService } from 'ngx-color-picker';
 import { RestService } from '../../master-services/Rest/rest.service';
 import swal from 'sweetalert2';
 import { Router } from '@angular/router';
@@ -53,64 +53,64 @@ const after = (one: NgbDateStruct, two: NgbDateStruct) =>
   !one || !two ? false : one.year === two.year ? one.month === two.month ? one.day === two.day
     ? false : one.day > two.day : one.month > two.month : one.year > two.year;
 
-    const now = new Date();
+const now = new Date();
 
-    export class Cmyk {
-      constructor(public c: number, public m: number, public y: number, public k: number) { }
-    }
+export class Cmyk {
+  constructor(public c: number, public m: number, public y: number, public k: number) { }
+}
 
 @Component({
   selector: 'app-master-forklift',
   templateUrl: './master-forklift.component.html',
   styleUrls: ['./master-forklift.component.scss',
-  '../../../assets/icon/icofont/css/icofont.scss'],
-  providers: [I18n, {provide: NgbDatepickerI18n, useClass: MasterForkliftComponent}]
+    '../../../assets/icon/icofont/css/icofont.scss'],
+  providers: [I18n, { provide: NgbDatepickerI18n, useClass: MasterForkliftComponent }]
 })
 export class MasterForkliftComponent extends NgbDatepickerI18n {
- // @Input() currentDateRoutines: Array <currentDateInterface> = [];
+  // @Input() currentDateRoutines: Array <currentDateInterface> = [];
 
   test: string;
-  datesSelected:NgbDateStruct[]=[]; 
-  currentDateRoutines: Array <currentDateInterface> = [];
+  datesSelected: NgbDateStruct[] = [];
+  currentDateRoutines: Array<currentDateInterface> = [];
   nothingToshowText: any = 'Nothing to show'; // "By default" => There are no events scheduled that day. 
-   colors: any = {
-      red: {
-        primary: '#ad2121',
-        secondary: '#FAE3E3'
-      },
-      yellow: {
-        primary: '#e3bc08',
-        secondary: '#FDF1BA'
-      }
-    };
-    actions: any[] = [
-      {
-        label: '<i class="fa fa-fw fa-times"></i>',
-        name: 'delete'
-      },
-      {
-        label: '<i class="fa fa-fw fa-pencil"></i>',
-        name: 'edit'
-      }
-    ];
-    events: any = [
-      {
-        start: new Date(),
-        end: new Date(),
-        title: 'title event 1',
-        color: this.colors.red,
-        actions: this.actions
-      },
-      {
-        start: new Date(),
-        end: new Date(),
-        title: 'title event 2',
-        color: this.colors.yellow,
-        actions: this.actions
-      }
-    ]
-    viewDate: Date = new Date();
-    themecolor: any = '#0a5ab3'
+  colors: any = {
+    red: {
+      primary: '#ad2121',
+      secondary: '#FAE3E3'
+    },
+    yellow: {
+      primary: '#e3bc08',
+      secondary: '#FDF1BA'
+    }
+  };
+  actions: any[] = [
+    {
+      label: '<i class="fa fa-fw fa-times"></i>',
+      name: 'delete'
+    },
+    {
+      label: '<i class="fa fa-fw fa-pencil"></i>',
+      name: 'edit'
+    }
+  ];
+  events: any = [
+    {
+      start: new Date(),
+      end: new Date(),
+      title: 'title event 1',
+      color: this.colors.red,
+      actions: this.actions
+    },
+    {
+      start: new Date(),
+      end: new Date(),
+      title: 'title event 2',
+      color: this.colors.yellow,
+      actions: this.actions
+    }
+  ]
+  viewDate: Date = new Date();
+  themecolor: any = '#0a5ab3'
   selectedOfficeId = 0;
   selectedBrandId = 0;
   selectedBusinessId = 0;
@@ -150,7 +150,7 @@ export class MasterForkliftComponent extends NgbDatepickerI18n {
   generateAlarms: true;
   active: true;
   myDate = new Date();
-  s3info:any;
+  s3info: any;
   // year=parseInt(this.datePipe.transform(this.myDate,'yyyy'))+1;
   // month=parseInt(this.datePipe.transform(this.myDate,'MM'));
   // day=parseInt(this.datePipe.transform(this.myDate,'dd'));
@@ -196,7 +196,7 @@ export class MasterForkliftComponent extends NgbDatepickerI18n {
   public selectedColor = 'color';
 
   modelPopup: NgbDateStruct;
-  public date: {year: number, month: number};
+  public date: { year: number, month: number };
 
   modelDisabled: NgbDateStruct = {
     year: now.getFullYear(), month: now.getMonth() + 1, day: now.getDate()
@@ -209,14 +209,14 @@ export class MasterForkliftComponent extends NgbDatepickerI18n {
     return d.getDay() === 0 || d.getDay() === 6;
   }
 
-  isDisabled(date: NgbDateStruct, current: {month: number}) {
+  isDisabled(date: NgbDateStruct, current: { month: number }) {
     return date.month !== current.month;
   }
 
   constructor(private _i18n: I18n, private restService: RestService, private router: Router, private uploadService: UploadService,
-    public parserFormatter: NgbDateParserFormatter, public calendar: NgbCalendar, public cpService: ColorPickerService, private workService:WorkService) {
+    public parserFormatter: NgbDateParserFormatter, public calendar: NgbCalendar, public cpService: ColorPickerService, private workService: WorkService) {
 
-      super();
+    super();
     this.loadingData();
 
     const customer = new FormControl('', Validators.required);
@@ -225,7 +225,7 @@ export class MasterForkliftComponent extends NgbDatepickerI18n {
     const description = new FormControl('', Validators.required);
     const brand = new FormControl('', Validators.required);
     const model = new FormControl('', Validators.required);
-    const machine = new FormControl('', Validators.required); 
+    const machine = new FormControl('', Validators.required);
     const fuel = new FormControl('', Validators.required);
     const tyre = new FormControl('', Validators.required);
     const tyreForward = new FormControl('');
@@ -259,9 +259,9 @@ export class MasterForkliftComponent extends NgbDatepickerI18n {
       observation: observation
     });
 
-   }
+  }
 
-   getWeekdayShortName(weekday: number): string {
+  getWeekdayShortName(weekday: number): string {
     return I18N_VALUES[this._i18n.language].weekdays[weekday - 1];
   }
   getMonthShortName(month: number): string {
@@ -275,36 +275,28 @@ export class MasterForkliftComponent extends NgbDatepickerI18n {
     return `${date.day}-${date.month}-${date.year}`;
   }
 
-   eventClicked(event) {
+  eventClicked(event) {
     console.log(event);
   }
-   actionClicked(event) {
-    console.log('action',event.action)
-    console.log('event',event.event)
+  actionClicked(event) {
+    console.log('action', event.action)
+    console.log('event', event.event)
   }
 
-   sendBrand() {
-      this.submitted = true;
-   }
-   toggleCalendar(){
-    if(this.selectedRoutineId.valueOf()==3){
-      this.tooglecalendar=true;
-      this.datesSelected=[];
-      this.currentDateRoutines=[];
-    }else{
-      this.tooglecalendar=false;
-    }
-   }
+  sendBrand() {
+    this.submitted = true;
+  }
 
-   onChangeGenerateAlarms(check: any) {
+
+  onChangeGenerateAlarms(check: any) {
     this.generateAlarms = check;
-     console.log(check);
-   }
+    console.log(check);
+  }
 
-   onChangeActive(check: any) {
+  onChangeActive(check: any) {
     this.active = check;
-     console.log(check);
-   }
+    console.log(check);
+  }
 
   loadingData() {
     swal({
@@ -359,12 +351,12 @@ export class MasterForkliftComponent extends NgbDatepickerI18n {
       console.log(error);
     });
 
-   }
+  }
 
 
-   getCustomerOffice() {
-     console.log(this.selectedBusinessId);
-    this.restService. getCustomerOffice(this.selectedBusinessId).then(data => {
+  getCustomerOffice() {
+    console.log(this.selectedBusinessId);
+    this.restService.getCustomerOffice(this.selectedBusinessId).then(data => {
       const resp: any = data;
       console.log('ole ole');
       console.log(resp);
@@ -374,29 +366,26 @@ export class MasterForkliftComponent extends NgbDatepickerI18n {
       console.log(error);
     });
 
-   }
-   change(value: NgbDateStruct[])
-   {
-     this.datesSelected = value;
-     console.log(this.datesSelected);
+  }
+  change(value: NgbDateStruct[]) {
+    this.datesSelected = value;
+    console.log(this.datesSelected);
 
-   }
-   change2(value: any)
-   {
-     this.test = value;
+  }
+  change2(value: any) {
+    this.test = value;
 
-     console.log(this.test);
+    console.log(this.test);
 
-   }
+  }
 
-   change3(value: any)
-   {
-     this.currentDateRoutines = value;
-     console.log(this.currentDateRoutines);
+  change3(value: any) {
+    this.currentDateRoutines = value;
+    console.log(this.currentDateRoutines);
 
-   }
+  }
 
-   getCustomerModel() {
+  getCustomerModel() {
     console.log(this.selectedBusinessId);
     this.restService.getBrandModels(this.selectedBrandId).then(data => {
       const resp: any = data;
@@ -406,10 +395,10 @@ export class MasterForkliftComponent extends NgbDatepickerI18n {
     }).catch(error => {
       console.log(error);
     });
-   }
+  }
 
 
-   preview(files) {
+  preview(files) {
     console.log(files);
     if (files.length === 0) {
       return console.log('jaja');
@@ -428,42 +417,42 @@ export class MasterForkliftComponent extends NgbDatepickerI18n {
     };
   }
 
-   /*upload() {
-    const file = this.selectedFiles.item(0);
-    const uuid = UUID.UUID();
-    console.log(uuid);
-    console.log(file.name + '' + file.type);
-    const extension = (file.name.substring(file.name.lastIndexOf('.'))).toLowerCase();
-    console.log(extension);
-    this.uploadService.uploadFile(file);
-   }*/
+  /*upload() {
+   const file = this.selectedFiles.item(0);
+   const uuid = UUID.UUID();
+   console.log(uuid);
+   console.log(file.name + '' + file.type);
+   const extension = (file.name.substring(file.name.lastIndexOf('.'))).toLowerCase();
+   console.log(extension);
+   this.uploadService.uploadFile(file);
+  }*/
 
 
-   selectFile(event) {
+  selectFile(event) {
     this.selectedFiles = event.target.files;
     console.log(this.selectedFiles);
-    }
+  }
 
 
-    sendForklift() {
+  sendForklift() {
+    console.log('Ole ole ole');
+
+
+    // "Cannot add or update a child row: a foreign key constraint fails 
+    // (`witupco_master`.`forklift`, CONSTRAINT `fk_fork_lift_model_id` FOREIGN KEY 
+    //  (`model_id`) REFERENCES `fuel` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION)"
+
+
+    console.log();
+
+    if (Number(this.selectedOfficeId) !== 0 && Number(this.selectedBrandId) !== 0
+      && Number(this.selectedBusinessId) !== 0 && Number(this.selectedMachineId) !== 0
+      && Number(this.selectedModelId) !== 0 && Number(this.selectedModelId) !== 0
+      && Number(this.selectedFuelId) !== 0 && Number(this.selectedtyreId) !== 0) {
       console.log('Ole ole ole');
-    
-
-      // "Cannot add or update a child row: a foreign key constraint fails 
-      // (`witupco_master`.`forklift`, CONSTRAINT `fk_fork_lift_model_id` FOREIGN KEY 
-      //  (`model_id`) REFERENCES `fuel` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION)"
-
-
-      console.log();
-
-      if (   Number(this.selectedOfficeId) !== 0  &&  Number(this.selectedBrandId) !== 0
-         && Number(this.selectedBusinessId) !== 0  && Number(this.selectedMachineId) !== 0
-         && Number(this.selectedModelId) !== 0  && Number(this.selectedModelId) !== 0
-      &&  Number(this.selectedFuelId) !== 0 && Number(this.selectedtyreId) !== 0) {
-        console.log('Ole ole ole');
-        this.submitted = true;
-        console.log(this.myForm.invalid);
-       if ( !this.myForm.invalid) {
+      this.submitted = true;
+      console.log(this.myForm.invalid);
+      if (!this.myForm.invalid) {
         swal({
           title: 'Validando información ...',
           allowOutsideClick: false
@@ -471,306 +460,201 @@ export class MasterForkliftComponent extends NgbDatepickerI18n {
         swal.showLoading();
 
         let generateAlarmTemp = 0;
-        console.log( this.switchUpdate);
-        if ( this.switchUpdate === true) {
+        console.log(this.switchUpdate);
+        if (this.switchUpdate === true) {
           generateAlarmTemp = 0;
         } else {
           generateAlarmTemp = 1;
         }
 
         let activeTemp = 0;
-        console.log( this.switchUpdate);
-        if ( this.switchUpdate === true) {
+        console.log(this.switchUpdate);
+        if (this.switchUpdate === true) {
           activeTemp = 0;
         } else {
           activeTemp = 1;
         }
 
-console.log(this.myForm.get('series').value +','+
-this.selectedBusinessId +','+ this. selectedOfficeId +','+ this.myForm.get('description').value.toUpperCase() +','+
-this.selectedBrandId +','+  0 +','+  this.selectedModelId +','+ this. selectedMachineId +','+ this.selectedtyreId +','+ 
-this.selectedFuelId);
+        console.log(this.myForm.get('series').value + ',' +
+          this.selectedBusinessId + ',' + this.selectedOfficeId + ',' + this.myForm.get('description').value.toUpperCase() + ',' +
+          this.selectedBrandId + ',' + 0 + ',' + this.selectedModelId + ',' + this.selectedMachineId + ',' + this.selectedtyreId + ',' +
+          this.selectedFuelId);
 
-/*serie: string,
-    customer_id: number,
-    branch_offices_id: number,
-    description: string,
-    status: number,
-    brand_id: number,
-    model_id: number,
-    machine_id: number,
-    tyre_id: number,
-    tyreForward: number,
-    tyreSBack: number,
-    fuel_id: number,
-    routine_id: number,
-    tonne: number,
-    mastil_izado: number,
-    mastil_contract: number,
-    h_initial: number,
-    h_current: number,
-    alarm: number,
-    observation: string*/
+        /*serie: string,
+            customer_id: number,
+            branch_offices_id: number,
+            description: string,
+            status: number,
+            brand_id: number,
+            model_id: number,
+            machine_id: number,
+            tyre_id: number,
+            tyreForward: number,
+            tyreSBack: number,
+            fuel_id: number,
+            routine_id: number,
+            tonne: number,
+            mastil_izado: number,
+            mastil_contract: number,
+            h_initial: number,
+            h_current: number,
+            alarm: number,
+            observation: string*/
 
-    let status=0;
-    let alarm=0;
+        let status = 0;
+        let alarm = 0;
 
-    if(this.switchAlarm===false){
-      alarm=1;
-    }
+        if (this.switchAlarm === false) {
+          alarm = 1;
+        }
 
-    if(this.switchStatus===false){
-      status=1;
-    }
+        if (this.switchStatus === false) {
+          status = 1;
+        }
 
         this.restService.createforklift(this.myForm.get('series').value,
-        this.selectedBusinessId, this.selectedOfficeId, this.myForm.get('description').value.toUpperCase(), status,
-        this.selectedBrandId, this.selectedModelId, this.selectedMachineId, this.selectedtyreId, this.myForm.get('tyreForward').value,
-        this.myForm.get('tyreSBack').value,this.selectedFuelId, this.selectedRoutineId, this.myForm.get('tonne').value, this.myForm.get('hoistedMast').value,
-        this.myForm.get('contractedMast').value, this.myForm.get('startTime').value, this.myForm.get('currentTime').value, alarm, this.myForm.get('observation').value)
-        .then(data => {
-          const resp: any = data;
-          console.log('Informacion de montacarga');
-          console.log(resp);
-     
-          if (resp.success === false) {
-            swal({
-              title: 'Este equipo ya se encuentra registrado',
-              text: 'La serie ya se encuentra registrada en otro equipo',
-              type: 'error'
-             });
-          } else {
-            console.log('id montacarga ' + resp.data.id);
-            // En este caso se manda guardar las imagenes y rutinas
-            if(this.tooglecalendar){
-              this.sendRoutinesForklift( resp.data.id);
+          this.selectedBusinessId, this.selectedOfficeId, this.myForm.get('description').value.toUpperCase(), status,
+          this.selectedBrandId, this.selectedModelId, this.selectedMachineId, this.selectedtyreId, this.myForm.get('tyreForward').value,
+          this.myForm.get('tyreSBack').value, this.selectedFuelId, this.selectedRoutineId, this.myForm.get('tonne').value, this.myForm.get('hoistedMast').value,
+          this.myForm.get('contractedMast').value, this.myForm.get('startTime').value, this.myForm.get('currentTime').value, alarm, this.myForm.get('observation').value)
+          .then(data => {
+            const resp: any = data;
+            console.log('Informacion de montacarga');
+            console.log(resp);
+
+            if (resp.success === false) {
+              swal({
+                title: 'Este equipo ya se encuentra registrado',
+                text: 'La serie ya se encuentra registrada en otro equipo',
+                type: 'error'
+              });
+            } else {
+              console.log('id montacarga ' + resp.data.id);
+              // En este caso se manda guardar las imagenes y rutinas
+
+
+              if (this.urls.length > 0) {
+                this.upload(resp.data.id);
+              }
+
+              swal({
+                title: 'Equipo agregado',
+                type: 'success'
+              });
+              this.router.navigateByUrl('/master/forkliftShow');
             }
-         
-            if(this.urls.length>0){
-              this.upload(resp.data.id);
+          }).catch(error => {
+            console.log(error);
+          });
+      }
+    } else {
+      console.log('Ole ole ole');
+      swal({
+        title: 'Debe seleccionar todos los campos obligatorios',
+        text: 'Debe seleccionar todos los campos obligatorios',
+        type: 'error'
+      });
+    }
+  }
+
+  onChangeAlarm(check: any) {
+    this.switchAlarm = check;
+    console.log(check);
+  }
+
+  onChangeStatus(check: any) {
+    this.switchStatus = check;
+    console.log(check);
+  }
+
+
+  onSelectFile(event) {
+    var filesAmount = event.target.files.length;
+
+    this.selectedFiles.push(event.target.files);
+    console.log(this.selectedFiles[0]);
+    var filename = event.target.files[event.target.files.length - 1].name;
+    var allowedExtensions = /(.jpg|.jpeg|.png|.gif)$/i;
+    console.log(allowedExtensions.exec(filename));
+    var extFilename = filename.split('.').pop();
+
+    if (extFilename === 'jpg' || extFilename === 'jpeg' || extFilename === 'png') {
+
+      console.log(filename);
+      console.log(this.urls);
+      console.log(filesAmount);
+      if (this.urls.length <= 2) {
+        if (event.target.files && event.target.files[0]) {
+          for (let i = 0; i < filesAmount; i++) {
+            var reader = new FileReader();
+            reader.onload = (event: any) => {
+              console.log(event.target.result);
+              this.urls.push(event.target.result);
+
             }
-         
-       swal({
-        title: 'Equipo agregado',
-        type: 'success'
-       });
-       this.router.navigateByUrl('/master/forkliftShow');
-        }
-        }).catch(error => {
-          console.log(error);
-        });
+            reader.readAsDataURL(event.target.files[i]);
+          }
         }
       } else {
-        console.log('Ole ole ole');
         swal({
-          title: 'Debe seleccionar todos los campos obligatorios',
-          text: 'Debe seleccionar todos los campos obligatorios',
+          title: 'El numero maximo de imagenes son 3',
+          text: 'No se pueden cargar mas de 3 imagenes',
           type: 'error'
-         });
+        });
       }
-    }
-
-
-    sendRoutinesForklift(idForlift: number){
-    console.log(this.currentDateRoutines);
-    console.log(this.datesSelected);
-    
-    for (let i = 0; i < this.currentDateRoutines.length ; i++) {
-      
-      // 2019-09-19 17:04:12
-      
-      
-      let day = this.datesSelected[i].day.toString();
-      let month = this.datesSelected[i].month.toString();
-      let year =  this.datesSelected[i].year.toString();
-      let preventive = this.currentDateRoutines[i].preventive;
-      let corrective = this.currentDateRoutines[i].corrective;
-      let checklist = this.currentDateRoutines[i].checklist;
-      let technician = this.currentDateRoutines[i].technician;
-      console.log(this.currentDateRoutines[i].dateText.split("-"));
-
-
-        if(day.toString().length < 2){
-          day = '0'+ day.toString();
-        }
-
-        if(month.toString().length < 2){
-          month = '0'+ month.toString();
-        }
-
-        let dateComplete = year.toString() +'-'+ month.toString() +'-'+day.toString()+' 00:00:00';
-      //  console.log('fecha organizada');
-      //  console.log(dateComplete);
-      if(preventive){
-
-        this.workService.storeWorkPreventive(preventive,idForlift,technician,dateComplete).then(data => {
-        const resp: any = data;
-        console.log(data);
-        // swal.close();
-        console.log(resp);
-      }).catch(error => {
-        console.log(error);
-      });
-      }
-
-      // if(corrective){
-      //   this.workService.storeWorkCorrective(corrective,idForlift,technician,dateComplete).then(data => {
-      //     const resp: any = data;
-      //     console.log(data);
-      //     // swal.close();
-      //     console.log(resp);
-      //   }).catch(error => {
-      //     console.log(error);
-      //   });
-      // }
-
-      // if(checklist){
-      //   this.workService.storeWorkCheclist(checklist,idForlift,technician,dateComplete).then(data => {
-      //     const resp: any = data;
-      //     console.log(data);
-      //     // swal.close();
-      //     console.log(resp);
-      //   }).catch(error => {
-      //     console.log(error);
-      //   });
-      // }
-
-    }
-  }
-
-
-    onChangeAlarm(check: any) {
-      this.switchAlarm = check;
-      console.log(check);
-    }
-
-    onChangeStatus(check: any) {
-      this.switchStatus = check;
-      console.log(check);
-    }
-
-
-    onSelectFile(event) {
-      var filesAmount = event.target.files.length;
-     
-      this.selectedFiles.push(event.target.files);
-      console.log(   this.selectedFiles[0]);
-      var filename = event.target.files[event.target.files.length-1].name;
-      var allowedExtensions = /(.jpg|.jpeg|.png|.gif)$/i;
-      console.log(allowedExtensions.exec(filename));
-      var extFilename = filename.split('.').pop();
-
-      if(extFilename==='jpg' || extFilename==='jpeg' || extFilename==='png'){
-
-       console.log(filename);
-       console.log(this.urls);
-       console.log(filesAmount);
-     if(this.urls.length<=2){
-      if (event.target.files && event.target.files[0]) {
-          for (let i = 0; i < filesAmount; i++) {
-                  var reader = new FileReader();
-                  reader.onload = (event:any) => {
-                    console.log(event.target.result);
-                     this.urls.push(event.target.result); 
-                    
-                  }
-                  reader.readAsDataURL(event.target.files[i]);
-          }
-      }
-    }else{
+    } else {
       swal({
-        title: 'El numero maximo de imagenes son 3',
-        text: 'No se pueden cargar mas de 3 imagenes',
+        title: 'El formato del archivo, no es correcto',
+        text: 'Se permiten solo estas extensiones jpg, jpeg, png',
         type: 'error'
-       });
+      });
     }
-  }else{
-    swal({
-      title: 'El formato del archivo, no es correcto',
-      text: 'Se permiten solo estas extensiones jpg, jpeg, png',
-      type: 'error'
-     });
+
+
   }
-
-
-    }
 
   ngOnInit() {
   }
-  selectToday() {
-    this.modelPopup = {year: now.getFullYear(), month: now.getMonth() + 1, day: now.getDate()};
-  }
 
-  onDateChange(date: NgbDateStruct) {
-    console.log(date);
-    if (!this.fromDate && !this.toDate) {
-      this.fromDate = date;
-    } else if (this.fromDate && !this.toDate && after(date, this.fromDate)) {
-      this.toDate = date;
-    } else {
-      this.toDate = null;
-      this.fromDate = date;
-    }
-  }
-
-  deleteImage(i: number){
-   this.urls.splice(i-1,1);
+  deleteImage(i: number) {
+    this.urls.splice(i - 1, 1);
   }
 
 
-  hasJobs(date: NgbDateStruct) {
-    for (let i = 0; i < this.customers.length; i++) {
-      const taskDate = new Date(this.customers[i].due_date);
-      const day: number = taskDate.getDate();
-      const month: number = taskDate.getMonth() + 1;
-      const year: number = taskDate.getFullYear();
-      console.log(this.customers[i].due_date);
-      if (day === date.day && month === date.month && year === date.year) {
-        return true;
-      }
-    }
-}
+  upload(idForklift: number) {
 
-  isHovered = date => this.fromDate && !this.toDate && this.hoveredDate && after(date, this.fromDate) && before(date, this.hoveredDate);
-  isInside = date => after(date, this.fromDate) && before(date, this.toDate);
-  isFrom = date => equals(date, this.fromDate);
-  isTo = date => equals(date, this.toDate);
-
-
-   upload(idForklift: number) {
-  
 
     for (let file of this.selectedFiles) {
-    const fileole = file[0];
-    console.log(fileole);
-    const uuid = UUID.UUID();
-    console.log(uuid);
-    console.log(fileole.name + '' + fileole.type);
-    const extension = (fileole.name.substring(fileole.name.lastIndexOf('.'))).toLowerCase();
-    console.log(extension);
-    this.uploadService.uploadFileForklift(fileole, idForklift).then(res=>{
-      console.log('s3info'+JSON.stringify(res));
-      this.s3info=res;
-      console.log(this.s3info);
-      //this.insertNew();
-    }).catch(error=> {
-      console.log(error);
-      swal({
-        type: 'error',
-        title: 'oops a currido un error',
-        text:'se ha presentado un error al subir la imagen',
-        allowOutsideClick: false
+      const fileole = file[0];
+      console.log(fileole);
+      const uuid = UUID.UUID();
+      console.log(uuid);
+      console.log(fileole.name + '' + fileole.type);
+      const extension = (fileole.name.substring(fileole.name.lastIndexOf('.'))).toLowerCase();
+      console.log(extension);
+      this.uploadService.uploadFileForklift(fileole, idForklift).then(res => {
+        console.log('s3info' + JSON.stringify(res));
+        this.s3info = res;
+        console.log(this.s3info);
+        //this.insertNew();
+      }).catch(error => {
+        console.log(error);
+        swal({
+          type: 'error',
+          title: 'oops a currido un error',
+          text: 'se ha presentado un error al subir la imagen',
+          allowOutsideClick: false
+        });
       });
-    });
+
+    }
 
   }
 
-    }
 
-
-  goAdminForklifts(){
-      this.router.navigateByUrl('master/forkliftShow');
-    }
+  goAdminForklifts() {
+    this.router.navigateByUrl('master/forkliftShow');
+  }
 
   onChangeColorHex8(color: string): string {
     return this.cpService.outputFormat(this.cpService.stringToHsva(color, true), 'rgba', null);

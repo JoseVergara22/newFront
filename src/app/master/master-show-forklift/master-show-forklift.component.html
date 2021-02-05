@@ -1,60 +1,3 @@
-<app-modal-basic #modalRegisterBrand [dialogClass]="'modal-lg'">
-    <div class="app-modal-header">
-
-        <h4 class="modal-title">Registrar E</h4>
-    </div>
-    <div class="app-modal-body">
-        <form [formGroup]="myForm" (ngSubmit)="sendBrand()">
-            <div class="form-group row">
-                <div class="col-sm-6">
-                    <h6>Descripción </h6>
-
-                    <input type="text" class="form-control" formControlName="description" [ngClass]="{ 'is-invalid': submitted && checkForm.description.errors }">
-
-                    <div *ngIf="submitted && checkForm.description.errors" class="invalid-feedback">
-                        <div class="messages text-danger" *ngIf="checkForm.description.errors.required">Este campo es requerido</div>
-                    </div>
-                </div>
-                <div class="col-sm-6">
-                    <h6>Activo</h6>
-                    <ui-switch class="js-single" color="#4680ff" switchColor="#fff" size="medium" (change)="onChangeCreate($event)" checked></ui-switch><br>
-                </div>
-            </div>
-            <div class="align-buttons">
-                <button type="button" class="btn btn-default waves-effect" id="createBrandHide" (click)="modalRegisterBrand.hide()">Cancelar</button>
-                <button type="submit " class="btn btn-primary m-b-0 ">Crear Equipo</button>
-
-            </div>
-        </form>
-    </div>
-</app-modal-basic>
-
-<app-modal-basic #modalUpdateBrand [dialogClass]="'modal-lg'">
-    <div class="app-modal-header">
-        <h4 class="modal-title">Actualizar Equipo</h4>
-    </div>
-    <div *ngIf="currentBrand" class="app-modal-body">
-        <form [formGroup]="myFormUpdate" (ngSubmit)="sendUpdateBrand()">
-            <div class="form-group row">
-                <div class="col-sm-6">
-                    <h6>Descripción </h6>
-                    <input type="text" class="form-control" formControlName="descriptionUpdate" value={{currentBrand.description}} [ngClass]="{ 'is-invalid': submitted && checkFormUpdate.descriptionUpdate.errors }">
-                    <div *ngIf="submitted && checkFormUpdate.descriptionUpdate.errors" class="invalid-feedback">
-                        <div class="messages text-danger" *ngIf="checkFormUpdate.descriptionUpdate.errors.required">Este campo es requerido</div>
-                    </div>
-                </div>
-                <div class="col-sm-6">
-                    <h6>Activo</h6>
-                    <ui-switch class="js-single" color="#4680ff" switchColor="#fff" size="medium" (change)="onChangeUpdate($event)" [checked]="enabledUpdated"></ui-switch><br>
-                </div>
-            </div>
-            <div class="align-buttons">
-                <button type="button" class="btn btn-default waves-effect" id="updateBrandHide" (click)="modalUpdateBrand.hide()">Cancelar</button>
-                <button type="submit " class="btn btn-primary m-b-0 ">Actualizar Equipo</button>
-            </div>
-        </form>
-    </div>
-</app-modal-basic>
 
 
 
@@ -108,7 +51,7 @@
                 </div>
                 <div class="col-sm-3">
                     <div class="align-buttons">
-                        <button type="button" style="display:none;" id="uploadBrand" class="btn btn-primary waves-effect" (click)="modalUpdateBrand.show()">Crear Equipo</button>
+                        <!-- <button type="button" style="display:none;" id="uploadBrand" class="btn btn-primary waves-effect" (click)="modalUpdateBrand.show()">Crear Equipo</button> -->
                          <button type="button" id="registerBrand" class="btn btn-primary waves-effect" (click)="sendForklift()">Crear equipo</button>
                     </div>
                 </div>
