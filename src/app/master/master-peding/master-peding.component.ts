@@ -106,7 +106,7 @@ export class MasterPedingComponent extends NgbDatepickerI18n {
     if(this.currentPending.status==2){
       this.status=3;
     }
-    this.observation = this.currentPending.observation;
+    this.observation = this.currentPending.management_observation;
     
     document.getElementById('showAssignInvoice').click();
    }
