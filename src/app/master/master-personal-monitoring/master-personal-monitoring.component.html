@@ -53,11 +53,14 @@
 
       <ngx-datatable #table class="data-table" [rows]="rowsClient"   [columnMode]="'flex'" [headerHeight]="50" [footerHeight]="50" [rowHeight]="'auto'" [limit]="20">
 
-        <ngx-datatable-column  [flexGrow]="2" [sortable]="false" [resizeable]="false"  name="Fecha de Inicio" [sortable]="false"  prop="start"></ngx-datatable-column>
+        
         <ngx-datatable-column  [flexGrow]="2" [sortable]="false" [resizeable]="false"  name="Descripción de Actividad" [sortable]="false" prop="personal_activitie.description"></ngx-datatable-column>
         <ngx-datatable-column  [flexGrow]="2" [sortable]="false" [resizeable]="false"  name="Cliente" [sortable]="false"  prop="customer_text"></ngx-datatable-column>
         <ngx-datatable-column  [flexGrow]="2" [sortable]="false" [resizeable]="false"  name="Control de Servicio" [sortable]="false"  prop="service_control"></ngx-datatable-column>
         <ngx-datatable-column  [flexGrow]="2" [sortable]="false" [resizeable]="false"  name="Nombre Técnico" [sortable]="false"  prop="users.name"></ngx-datatable-column>
+        <ngx-datatable-column  [flexGrow]="2" [sortable]="false" [resizeable]="false"  name="Fecha de Inicio" [sortable]="false"  prop="start"></ngx-datatable-column>
+        <ngx-datatable-column  [flexGrow]="2" [sortable]="false" [resizeable]="false"  name="Fecha de Finalización" [sortable]="false"  prop="finish"></ngx-datatable-column>
+        <ngx-datatable-column  [flexGrow]="2" [sortable]="false" [resizeable]="false"  name="Duración de la Actividad" [sortable]="false"  prop="duration_activity"></ngx-datatable-column>
     </ngx-datatable>
     </app-card>
   </div>

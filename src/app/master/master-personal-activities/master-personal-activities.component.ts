@@ -100,6 +100,7 @@ export class MasterPersonalActivitiesComponent implements OnInit {
         } else {
           this.idActivitiesCreate = resp.data.id;
           console.log('Cambio');
+          this.myForm.reset();
           document.getElementById('createRegionalHide').click();
           this.loadingData();
      swal({
