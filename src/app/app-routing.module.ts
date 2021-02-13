@@ -121,10 +121,16 @@ const routes: Routes = [
         path: 'master',
         loadChildren: './master/master.module#MasterModule'
       },{
+        path: 'erp',
+        loadChildren: './master/master.module#MasterModule'
+      },{
         path: 'maintenance',
         loadChildren: './master/master.module#MasterModule'
       },{
         path: 'configuracion',
+        loadChildren: './master/master.module#MasterModule'
+      },{
+        path: 'reports',
         loadChildren: './master/master.module#MasterModule'
       }
 

@@ -15,12 +15,12 @@ export class MasterChecklistsComponent implements OnInit {
   rowsWork: any;
   rowtodelete: any;
 
-  constructor(private workService: WorkService, private router: Router, private checkServices: ChecklistService) {
+  constructor(private workService: WorkService, private router: Router, private checklistService: ChecklistService) {
     this.getChecklist();
   }
 
   getChecklist() {
-    this.checkServices.showChecklist().then(data => {
+    this.checklistService.showChecklist().then(data => {
       const resp: any = data;
       if (resp.error) {
         swal({
@@ -64,7 +64,7 @@ export class MasterChecklistsComponent implements OnInit {
         this.loader();
         this.rowtodelete = workrow;
         console.log(this.rowtodelete);
-        this.workService.deleteWorkHeader(this.rowtodelete.id).then(data => {
+        this.checklistService.deleteChecklist(this.rowtodelete.id).then(data => {
           const resp: any = data;
           if (resp.success == false) {
             this.generalAlert('Error', 'ocurrio un error durante el procesado', "error");

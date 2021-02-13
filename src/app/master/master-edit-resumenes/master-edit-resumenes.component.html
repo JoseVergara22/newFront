@@ -131,7 +131,7 @@
       </div>
     </app-card>
        
-    <app-card *ngIf="currentPreventive!=0">
+    <app-card *ngIf="currentPreventive">
       <!-- <div class="align-buttons">
         <button type="button " style="display: none;" id="showPreventives" class="btn btn-primary m-b-0 " (click)="modalAssingPreventive.show()" >Crear</button>
     </div> -->
@@ -158,10 +158,18 @@
         
         </ng-template>
         </ngx-datatable-column>
+        <ngx-datatable-column  [flexGrow]="2" name="Ver" [sortable]="false"  sortable="false" prop="pending_signature">
+          <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+            <div *ngIf="value==''">
+              <label >Mantenimiento Pendiente de Firma</label>
+            </div>
+          
+          </ng-template>
+          </ngx-datatable-column>
       </ngx-datatable>
     </app-card>
      
-    <app-card *ngIf="rowsClient!=0">
+    <app-card *ngIf="rowsClient">
       <!-- <button type="button " style="display: none;" id="showCorrectives" class="btn btn-primary m-b-0 " (click)="modalAssingCorrective.show()" >Crear</button> -->
     
       <h5>Rutinas Correctivas</h5>
@@ -187,10 +195,18 @@
             
           </ng-template>
         </ngx-datatable-column>
+        <ngx-datatable-column  [flexGrow]="2" name="Ver" [sortable]="false"  sortable="false" prop="result.corrective.pending_signature">
+          <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+            <div *ngIf="value==''">
+              <label >Mantenimiento Pendiente de Firma</label>
+            </div>
+          
+          </ng-template>
+          </ngx-datatable-column>
       </ngx-datatable>
     </app-card>
 
-    <app-card *ngIf="currentChecklist!=0">
+    <app-card *ngIf="currentChecklist">
       <!-- <button type="button " style="display: none;" id="showChecklists" class="btn btn-primary m-b-0 " (click)="modalAssingChecklist.show()" >Crear</button> -->
     
       <h5>Checklist</h5>
@@ -216,10 +232,18 @@
          
         </ng-template>
         </ngx-datatable-column>
+        <ngx-datatable-column  [flexGrow]="2" name="Ver" [sortable]="false"  sortable="false" prop="pending_signature">
+          <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+            <div *ngIf="value==''">
+              <label >Mantenimiento Pendiente de Firma</label>
+            </div>
+          
+          </ng-template>
+          </ngx-datatable-column>
       </ngx-datatable>
     </app-card> 
 
-    <app-card *ngIf="rowPlatform!=0">
+    <app-card *ngIf="rowPlatform">
       <!-- <button type="button " style="display: none;" id="showChecklists" class="btn btn-primary m-b-0 " (click)="modalAssingChecklist.show()" >Crear</button> -->
     
       <h5>Plataforma</h5>
@@ -245,10 +269,18 @@
          
         </ng-template>
         </ngx-datatable-column>
+        <ngx-datatable-column  [flexGrow]="2" name="Ver" [sortable]="false"  sortable="false" prop="pending_signature">
+          <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+            <div *ngIf="value==''">
+              <label >Mantenimiento Pendiente de Firma</label>
+            </div>
+          
+          </ng-template>
+          </ngx-datatable-column>
       </ngx-datatable>
     </app-card>
 
-    <app-card *ngIf="rowStevedore!=0">
+    <app-card *ngIf="rowStevedore">
       <!-- <button type="button " style="display: none;" id="showChecklists" class="btn btn-primary m-b-0 " (click)="modalAssingChecklist.show()" >Crear</button> -->
     
       <h5>Estibadores</h5>
@@ -274,10 +306,57 @@
          
         </ng-template>
         </ngx-datatable-column>
+        <ngx-datatable-column  [flexGrow]="2" name="Ver" [sortable]="false"  sortable="false" prop="pending_signature">
+          <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+            <div *ngIf="value==''">
+              <label >Mantenimiento Pendiente de Firma</label>
+            </div>
+          
+          </ng-template>
+          </ngx-datatable-column>
       </ngx-datatable>
      
     </app-card> 
+ 
 
+    <app-card *ngIf="currentBattery">
+      <!-- <button type="button " style="display: none;" id="showChecklists" class="btn btn-primary m-b-0 " (click)="modalAssingChecklist.show()" >Crear</button> -->
+    
+      <h5>Batería</h5>
+      <ngx-datatable #table class="data-table" [rows]="rowStevedore"   [columnMode]="'flex'" [headerHeight]="50" [footerHeight]="50" [rowHeight]="'auto'" [limit]="20">
+
+        <ngx-datatable-column  [flexGrow]="2" name="Ver" [sortable]="false"  sortable="false" prop="result.battery.finish">
+          <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+            <div *ngIf="value!=''">
+              <label (click)="downloadBattery(row)" class="link">PDF</label>
+            </div>
+            <div *ngIf="value==''">
+              <label >No ha sido terminado el mantenimiento</label>
+            </div>
+          
+          </ng-template>
+          </ngx-datatable-column>
+        <ngx-datatable-column  [flexGrow]="2" [sortable]="false" [resizeable]="false"  name="Fecha/Hora" [sortable]="false"  prop="result.battery.date"></ngx-datatable-column>
+        <ngx-datatable-column  [flexGrow]="2" [sortable]="false" [resizeable]="false"  name="Descripción de rutina" [sortable]="false"  prop="result.battery.work"></ngx-datatable-column>
+        <ngx-datatable-column  [flexGrow]="2" name="Consecutivo" [sortable]="false"  sortable="false" prop="result.battery.battery_consecutive">
+        <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+
+          <label >{{value}}</label>
+         
+        </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column  [flexGrow]="2" name="Ver" [sortable]="false"  sortable="false" prop="result.battery.pending_signature">
+          <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+            <div *ngIf="value==''">
+              <label >Mantenimiento Pendiente de Firma</label>
+            </div>
+          
+          </ng-template>
+          </ngx-datatable-column>
+      </ngx-datatable>
+     
+    </app-card> 
+ 
     <app-card>
       <!-- <button type="button " style="display: none;" id="showCorrectives" class="btn btn-primary m-b-0 " (click)="modalAssingCorrective.show()" >Crear</button> -->
      <h5>Pendientes</h5>
@@ -298,7 +377,7 @@
       </ngx-datatable>
     </app-card>
 
-    <app-card *ngIf="rowReport!=0">
+    <app-card *ngIf="rowReport">
       <!-- <button type="button " style="display: none;" id="showChecklists" class="btn btn-primary m-b-0 " (click)="modalAssingChecklist.show()" >Crear</button> -->
     
       <h5>Informe Técnico</h5>
@@ -381,5 +460,7 @@
       </div>
   </div>
 
-  <div id="chartdiv" style="width: 100%; height: 500px"></div>
+  <div>
+
+  </div>
 </div>

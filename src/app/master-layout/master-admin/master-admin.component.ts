@@ -6,6 +6,7 @@ import { MenuItemsMasterService } from '../../master-shared/menu-master/menu-ite
 import { Router } from '@angular/router';
 import { ModulesService } from '../../master-services/modules/modules.service';
 import swal from 'sweetalert2';
+import { UserService } from '../../master-services/User/user.service';
 
 
 @Component({
@@ -114,6 +115,7 @@ export class MasterAdminComponent  implements OnInit {
   public subItemIcon: string;
 
   public profileUserCurrent:Number;
+  public userNameCurrent:string;
 
   public configOpenRightBar: string;
   public displayBoxLayout: string;
@@ -134,18 +136,62 @@ export class MasterAdminComponent  implements OnInit {
   constructor(public menuItems: MenuItemsMasterService, private router: Router,  private moduleServices: ModulesService) {
     console.log('ingreso al admin de la plataforma');
     this.profileUserCurrent=Number(localStorage.getItem('profile'));
-    this.getProfileFunciton(this.profileUserCurrent);
+    this.userNameCurrent=localStorage.getItem('name');
+    // this.moduleServices.getProfileMenu(this.profileUserCurrent).then(data => {
+    //   const resp: any = data;
+    //   if (resp.success == true) {
+    //     this.functionModule = resp.data;
+    //     console.log(this.functionModule)
+    //     console.log('entro entro entro');
+    //       let array= [];
+    //       for(let menu of this.functionModule ){
+    //         // console.log(menu);
+    //         let subMenu = [];
+    //         for (let menusito of menu.function){
+    //           let objMenusito = {
+    //             state: menusito.route,
+    //             name: menusito.description
+    //           };
+    //             subMenu.push(objMenusito);
+    //         }
+    //         let main = {
+    //           label: 'master',
+    //           main: [
+    //             {
+    //               state: menu.module.state,
+    //               short_label: menu.module.short_label,
+    //               name: menu.module.name,
+    //               type: menu.module.type,
+    //               icon: menu.module.icon,
+    //               children: subMenu
+    //             }
+    //           ]
+    //         };
+    //         array.push(main);
+    //       }
+    //       console.log(array);
+    //     this.itemsFinalMenu=array;
+    //   }
+    // }).catch(error => {
+    //   console.log(error);
+    //   swal({
+    //     title: 'Error',
+    //     text: 'Ha ocurrido un error al mostrar la informacion',
+    //     type: 'error'
+    //   });
+    // });
     if( this.profileUserCurrent==1){
-      this.profileText='Administrador';
+      this.profileText=this.userNameCurrent;
       this.itemsFinalMenu=menuItems.getAll();
+      console.log(this.itemsFinalMenu);
     }else if( this.profileUserCurrent==3){
-      this.profileText='Operación';
+      this.profileText=this.userNameCurrent;
       this.itemsFinalMenu=menuItems.getCreator();
     }else if( this.profileUserCurrent==2){
-      this.profileText='Comercial';
+      this.profileText=this.userNameCurrent;
       this.itemsFinalMenu=menuItems.getSeller();
     }else if( this.profileUserCurrent==5){
-      this.profileText='Financiera';
+      this.profileText=this.userNameCurrent;
       this.itemsFinalMenu=menuItems.getFinancial();
     }
 
@@ -214,24 +260,6 @@ export class MasterAdminComponent  implements OnInit {
 
   }
 
-  getProfileFunciton(id:any){
-    this.moduleServices.getProfileFunction(id).then(data => {
-      const resp: any = data;
-      if (resp.success == true) {
-        this.functionModule = resp.data;
-        console.log(this.functionModule)
-        console.log('entro entro entro');
-
-      }
-    }).catch(error => {
-      console.log(error);
-      swal({
-        title: 'Error',
-        text: 'Ha ocurrido un error al mostrar la informacion',
-        type: 'error'
-      });
-    });
-  }
 
   ngOnInit() {
     this.setBackgroundPattern('pattern1');

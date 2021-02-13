@@ -10,6 +10,11 @@ import { WorkService } from '../../master-services/Work/work.service';
 import { EstimateService } from '../../master-services/estimate/estimate.service';
 import { SettlementService } from '../../master-services/settlement/settlement.service';
 import { ResponseContentType } from '@angular/http';
+// import * as am4core from "@amcharts/amcharts4/core";
+// import * as am4charts from "@amcharts/amcharts4/charts";
+// import am4themes_animated from "@amcharts/amcharts4/themes/animated";
+
+// am4core.useTheme(am4themes_animated);
 
 declare var require: any
 const FileSaver = require('file-saver');
@@ -130,6 +135,7 @@ export class MasterEditResumenesComponent extends NgbDatepickerI18n {
   currentPlatform: any;
   currentStevedore: any;
   currentEstimate: any;
+  currentBattery: any;
   currentSettlement: any;
 
   selectedMinutChecklist: any= 0;
@@ -201,7 +207,7 @@ export class MasterEditResumenesComponent extends NgbDatepickerI18n {
   downloadPlatformPdf: any;
   downloadStevedorePdf: any;
   downloadBatteryPdf: any;
-
+  
   constructor(private restService: RestService, private resumenesService: ResumenesService, private router: Router, 
     private forkliftService: ForkliftService, private _i18n: I18n, private calendar: NgbCalendar, public formatter: NgbDateParserFormatter,
     private rutaActiva: ActivatedRoute, private checklistService: ChecklistService, private workService: WorkService,
@@ -260,6 +266,7 @@ export class MasterEditResumenesComponent extends NgbDatepickerI18n {
         this.getReportTechnicianLast();
         this.getEstimateLast();
         this.getSettlementLast();
+        this.getBatteryRoutinesLast();
         }).catch(error => {
           console.log(error);
         });
@@ -1036,6 +1043,7 @@ export class MasterEditResumenesComponent extends NgbDatepickerI18n {
      this.getForkliftChecklistFilterGeneral(from_date,to_date);
      this.getPlatformRoutinesFilter(from_date,to_date);
      this.getStevedoreRoutinesFilter(from_date,to_date);
+     this.getBatteryRoutinesFilter(from_date,to_date);
      this.getEstimateFilter(from_date,to_date);
      this.getSettlementFilter(from_date,to_date);
     //  this.getForkliftChecklistFilter(from_date,to_date);
@@ -1187,6 +1195,23 @@ export class MasterEditResumenesComponent extends NgbDatepickerI18n {
   
   }
 
+  getBatteryRoutinesLast(){
+    // Llenar información de cliente  
+    this.resumenesService.getWorkForkliftBatteryLast(this.forkliftId).then(data => {
+      const resp: any = data;
+      console.log(data);
+      swal.close();
+      this.currentBattery  = resp.data;
+      this.rowsClient  = this.currentBattery;
+      console.log(this.rowsClient);
+  
+
+    }).catch(error => {
+      console.log(error);
+    });
+  
+  }
+
   getReportTechnicianLast(){
     // Llenar información de cliente  
     this.resumenesService.getWorkForkliftReportLast(this.forkliftId).then(data => {
@@ -1308,16 +1333,24 @@ export class MasterEditResumenesComponent extends NgbDatepickerI18n {
       this.currentCorrective  = resp.data;
       this.rowsClient  = this.currentCorrective;
       console.log(this.rowsClient);
-      // for(let result of this.rowsClient){
-      //   console.log(result.result.corrective.id);
-        
-      //   this.getPendingCorrective(result.result.corrective.id);
-      // }
 
     }).catch(error => {
       console.log(error);
     });
-  
+  }
+  getBatteryRoutinesFilter(fromdate:string, to_date:string){
+    // Llenar información de cliente  
+    this.resumenesService.getWorkForkliftBatteryFilter(this.forkliftId,fromdate,to_date).then(data => {
+      const resp: any = data;
+      console.log(data);
+      swal.close();
+      this.currentBattery  = resp.data;
+      this.rowsClient  = this.currentBattery;
+      console.log(this.rowsClient);
+
+    }).catch(error => {
+      console.log(error);
+    });
   }
 
   getReportTechnicianFilter(fromdate:string, to_date:string){
@@ -2435,8 +2468,116 @@ loadPdfSendEmail(){
     this.router.navigateByUrl('maintenance/resumenes/'+this.regional_id+'/'+this.forklift.customer_id+'/'+this.forklift.branch_offices_id);
   }
 
-  ngOnInit() {
+  // public barChartOptions: ChartOptions = {
+  //   responsive: true,
+  //   // We use these empty structures as placeholders for dynamic theming.
+  //   scales: { xAxes: [{}], yAxes: [{}] },
+  //   plugins: {
+  //     datalabels: {
+  //       anchor: 'end',
+  //       align: 'end',
+  //     }
+  //   }
+  // };
+  // public barChartLabels: Label[] = ['2006', '2007', '2008', '2009', '2010', '2011', '2012'];
+  // public barChartType: ChartType = 'bar';
+  // public barChartLegend = true;
+  // // public barChartPlugins = [pluginDataLabels];
+
+  // public barChartData: ChartDataSets[] = [
+  //   { data: [65, 59, 80, 81, 56, 55, 40], label: 'Series A' },
+  //   { data: [28, 48, 40, 19, 86, 27, 90], label: 'Series B' }
+  // ];
+  // // events
+  // public chartClicked({ event, active }: { event: MouseEvent, active: {}[] }): void {
+  //   console.log(event, active);
+  // }
+
+  // public chartHovered({ event, active }: { event: MouseEvent, active: {}[] }): void {
+  //   console.log(event, active);
+  // }
+
+  // public randomize(): void {
+  //   // Only Change 3 values
+  //   this.barChartData[0].data = [
+  //     Math.round(Math.random() * 100),
+  //     59,
+  //     80,
+  //     (Math.random() * 100),
+  //     56,
+  //     (Math.random() * 100),
+  //     40 ];
+  // }
+
+  graficts(){
+//         let chart = am4core.create("chartdiv", am4charts.XYChart);
+
+// // Add data
+// chart.data = [{
+//   "country": "Lithuania",
+//   "litres": 501.9,
+//   "units": 250
+// }, {
+//   "country": "Czech Republic",
+//   "litres": 301.9,
+//   "units": 222
+// }, {
+//   "country": "Ireland",
+//   "litres": 201.1,
+//   "units": 170
+// }, {
+//   "country": "Germany",
+//   "litres": 165.8,
+//   "units": 122
+// }, {
+//   "country": "Australia",
+//   "litres": 139.9,
+//   "units": 99
+// }, {
+//   "country": "Austria",
+//   "litres": 128.3,
+//   "units": 85
+// }, {
+//   "country": "UK",
+//   "litres": 99,
+//   "units": 93
+// }, {
+//   "country": "Belgium",
+//   "litres": 60,
+//   "units": 50
+// }, {
+//   "country": "The Netherlands",
+//   "litres": 50,
+//   "units": 42
+// }];
+
+// // Create axes
+// let categoryAxis = chart.xAxes.push(new am4charts.CategoryAxis());
+// categoryAxis.dataFields.category = "country";
+// categoryAxis.title.text = "Countries";
+
+// let valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
+// valueAxis.title.text = "Litres sold (M)";
+
+// // Create series
+// let series = chart.series.push(new am4charts.ColumnSeries());
+// series.dataFields.valueY = "litres";
+// series.dataFields.categoryX = "country";
+// series.name = "Sales";
+// series.columns.template.tooltipText = "Series: {name}\nCategory: {categoryX}\nValue: {valueY}";
+// series.columns.template.fill = am4core.color("#104547"); // fill
+
+// var series2 = chart.series.push(new am4charts.LineSeries());
+// series2.name = "Units";
+// series2.stroke = am4core.color("#CDA2AB");
+// series2.strokeWidth = 3;
+// series2.dataFields.valueY = "units";
+// series2.dataFields.categoryX = "country";
   }
+
+  ngOnInit() {
+
+   }
 
   getWeekdayShortName(weekday: number): string {
     return I18N_VALUES[this._i18n.language].weekdays[weekday - 1];

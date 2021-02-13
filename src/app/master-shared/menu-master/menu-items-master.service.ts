@@ -301,7 +301,29 @@ const MENUITEMS = [
         ]
       }
     ]
-  }
+  },
+  // {
+  //   label: 'UI Element',
+  //   main: [
+  //     {
+  //       state: 'reports',
+  //       short_label: 'R',
+  //       name: 'Informes',
+  //       type: 'sub',
+  //       icon: 'ti-stats-up',
+  //       children: [
+  //         {
+  //           state: 'reportsDuration',
+  //           name: 'Duración de Mantenimientos'
+  //         },
+  //         {
+  //           state: 'reportsForkliftMaintenance',
+  //           name: 'Mantenimientos por Equipos'
+  //         },
+  //       ]
+  //     }
+  //   ]
+  // }
 ];
 
 const MENUFINANCIAL = [
@@ -574,7 +596,25 @@ const MENUCREATOR = [
         ]
       }
     ]
-  }
+  },
+  {
+    label: 'UI Element',
+    main: [
+      {
+        state: 'configuracion',
+        short_label: 'N',
+        name: 'Configuración',
+        type: 'sub',
+        icon: 'ti-panel',
+        children: [
+          {
+            state: 'register',
+            name: 'Administrar Usuarios'
+          }
+        ]
+      }
+    ]
+  },
 ];
 
 const MENUSELLER = [
@@ -647,24 +687,6 @@ export class MenuItemsMasterService {
   getFinancial(): Menu[] {
     return MENUFINANCIAL;
   }
-  constructor(private moduleServices: ModulesService) {this.getProfileFunciton()}
-  functionModule:any;
-  getProfileFunciton(){
-    this.moduleServices.getProfileFunction(Number(localStorage.getItem('profile'))).then(data => {
-      const resp: any = data;
-      if (resp.success == true) {
-        this.functionModule = resp.data;
-        console.log(this.functionModule)
-        console.log('entro entro entro');
+  constructor() {}
 
-      }
-    }).catch(error => {
-      console.log(error);
-      swal({
-        title: 'Error',
-        text: 'Ha ocurrido un error al mostrar la informacion',
-        type: 'error'
-      });
-    });
-  }
 }
