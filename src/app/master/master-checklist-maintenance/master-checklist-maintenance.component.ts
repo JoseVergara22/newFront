@@ -27,6 +27,12 @@ interface itemSelectInterface {// item para mostrar selccionados
   select?: boolean;
 }
 
+interface itemSelectMassiveInterface {// item para mostrar selccionados
+  date?: string;
+  technician?: Array<itemSelectInterface>;
+  routine?: Array<itemSelectInterface>;
+}
+
 @Component({
   selector: 'app-master-checklist-maintenance',
   templateUrl: './master-checklist-maintenance.component.html',
@@ -38,9 +44,17 @@ export class MasterChecklistMaintenanceComponent extends NgbDatepickerI18n {
 
   checklisSelecteds: Array<itemSelectInterface> = [];
   checklistSelected: itemSelectInterface;
+  routineMassiveSelecteds: Array<itemSelectInterface> = [];
+  routineMassiveSelected: itemSelectInterface;
 
   technicianSelecteds: Array<itemSelectInterface> = [];
   technicianSelected: itemSelectInterface;
+
+  technicianMassiveSelecteds: Array<itemSelectInterface> = [];
+  technicianMassiveSelected: itemSelectInterface;
+
+  dateMassiveSelecteds: Array<itemSelectMassiveInterface> = [];
+  dateMassiveSelected: itemSelectMassiveInterface;
 
   fromDate: NgbDateStruct;
   untilDate: NgbDateStruct;
@@ -389,43 +403,11 @@ export class MasterChecklistMaintenanceComponent extends NgbDatepickerI18n {
       allowOutsideClick: false
     });
     swal.showLoading();
-    for (let item of this.checklisSelecteds) {
-      console.log('entro');
-      if (item.select) {
-        console.log(item);
-        console.log('entro');
-        this.checkedList = this.checkedList + item.id + ',';
-      }
-    }
-    if (this.checkedList == '') {
-      swal({
-        title: 'Error',
-        text: 'Debes saleccionar al menos una rutina de checklist',
-        type: 'error'
-      });
-    } else {
 
-      console.log(this.technicianSelecteds);
-      for (let item of this.technicianSelecteds) {
-        console.log('entro');
-        if (item.select) {
-          console.log(item);
-          console.log('entro');
-          this.technicianList = this.technicianList + item.id + ',';
-        }
-      }
-      if (this.technicianList == '') {
-        swal({
-          title: 'Error',
-          text: 'Debes saleccionar al menos un tecnico',
-          type: 'error'
-        });
-
-      } else {
-        console.log(this.massiveDescrition);
-        if (this.massiveDescrition == '') {
+        if (this.dateMassiveSelecteds.length == 0) {
           swal({
-            title: 'Por favor colocar la descripción del checklist',
+            title: 'Error',
+            text: 'Debes realizar al menos una asignación',
             type: 'error'
           });
         } else {
@@ -441,9 +423,7 @@ export class MasterChecklistMaintenanceComponent extends NgbDatepickerI18n {
             });
             console.log(error);
           });
-        }
-      }
-    }
+        }   
   }
 
 
@@ -462,30 +442,8 @@ export class MasterChecklistMaintenanceComponent extends NgbDatepickerI18n {
     console.log(this.checklisSelecteds);
     console.log(this.consecutive);
 
-
-    console.log('entro');
-    console.log(this.checklisSelecteds);
-    for (let item of this.checklisSelecteds) {
-      console.log('entro');
-      if (item.select) {
-        console.log(item);
-        console.log('entro');
-        this.checkedList = this.checkedList + item.id + ',';
-      }
-    }
-
-    console.log(this.technicianSelecteds);
-    for (let item of this.technicianSelecteds) {
-      console.log('entro');
-      if (item.select) {
-        console.log(item);
-        console.log('entro');
-        this.technicianList = this.technicianList + item.id + ',';
-      }
-    }
-    console.log(this.forklift);
-    for (let item of this.dateSelecteds) {
-      this.resumenesService.storeChecklistMassive(massive, this.selectedForkliftId.id, this.selectedBusinessId.id, this.selectedBranchOfficeId.id, this.checkedList, this.technicianList, Number(this.consecutive), item).then(data => {
+    for (let item of this.dateMassiveSelecteds) {
+      this.resumenesService.storeChecklistMassive(massive, this.selectedForkliftId.id, this.selectedBusinessId.id, this.selectedBranchOfficeId.id, item.routine, item.technician, Number(this.consecutive), item.date).then(data => {
         const resp: any = data;
         console.log(data);
         if (resp.success == false) {
@@ -539,9 +497,9 @@ export class MasterChecklistMaintenanceComponent extends NgbDatepickerI18n {
     // this.cleanSelectTechnician();
     this.checklisSelecteds.length = 0;
     this.technicianSelecteds.length = 0;
-    this.checkedList = '';
-    this.technicianList = '';
-    this.dateSelecteds = [];
+    this.dateMassiveSelecteds = [];
+    this.technicianMassiveSelecteds = [];
+    this.routineMassiveSelecteds = [];
     console.log('llego hasta aqui');
 
     swal.close();
@@ -614,40 +572,43 @@ export class MasterChecklistMaintenanceComponent extends NgbDatepickerI18n {
   updateDateMassive(row: any) {
     // this.getTechnician(this.selectedRegionalId);
     console.log(row);
-    this.checklistUpdate = row.checklistRoutines;
-    this.technicianUpdate = row.technicians;
-    this.oldDate = row.date;
-    let swith = false;
 
-    for (let date of this.checklistUpdate) {
-      for (let value of this.dateSelecteds) {
-        if (date.date == value) {
-          console.log('cambio')
-          // this.massiveDate = true;
-          // this.dateSelecteds.push(date.date);
-          swith = true;
+
+    for(let item of row){
+      console.log(item);
+      for(let value of item.checklistRoutines){
+        for( let data of this.checklisSelecteds){
+          if (Number(data.id) === Number(value.checklists_id)) {
+            this.routineMassiveSelected = {
+              id: data.id,
+              item: data.item
+            };
+            this.routineMassiveSelecteds.push(this.routineMassiveSelected);
+          }
         }
       }
-      if (swith == false) {
 
-        this.dateSelecteds.push(date.date);
-        console.log(this.dateSelecteds);
-        swith = false;
+      for (let value of item.technicians) {
+        for(let data of this.technicianSelecteds){
+          if (data.id == value.user_id) {
+            this.technicianMassiveSelected = {
+            id: data.id,
+            item: data.item
+          };
+          this.technicianMassiveSelecteds.push(this.technicianMassiveSelected);
+          }
+        }
       }
-      swith = false;
+      this.dateMassiveSelected = {
+        date: item.date,
+        technician: this.technicianMassiveSelecteds,
+        routine: this.routineMassiveSelecteds
+      }
+      this.dateMassiveSelecteds.push(this.dateMassiveSelected)
+      console.log(this.dateMassiveSelecteds);
+      this.routineMassiveSelecteds = [];
+      this.technicianMassiveSelecteds = [];
     }
-
-
-    for (let elemento of this.checklistUpdate) {
-      console.log('ingreso a mirar rutinas');
-      this.SelectItemChecklist(elemento);
-    }
-
-    for (let elemento of this.technicianUpdate) {
-      console.log('ingreso a mirar tech');
-      this.SelectItemTechnician(elemento);
-    }
-
     document.getElementById('showUpdatePreventiveMassive').click();
   }
 
@@ -657,34 +618,10 @@ export class MasterChecklistMaintenanceComponent extends NgbDatepickerI18n {
       allowOutsideClick: false
     });
     swal.showLoading();
-    for (let item of this.checklisSelecteds) {
-      console.log('entro');
-      if (item.select) {
-        console.log(item);
-        console.log('entro');
-        this.checkedList = this.checkedList + item.id + ',';
-      }
-    }
-    if (this.checkedList == '') {
-      swal({
-        title: 'Error',
-        text: 'Debes saleccionar al menos una rutina de checklist',
-        type: 'error'
-      });
-    } else {
-      console.log(this.technicianSelecteds);
-      for (let item of this.technicianSelecteds) {
-        console.log('entro');
-        if (item.select) {
-          console.log(item);
-          console.log('entro');
-          this.technicianList = this.technicianList + item.id + ',';
-        }
-      }
-      if (this.technicianList == '') {
+      if (this.dateMassiveSelecteds.length == 0) {
         swal({
           title: 'Error',
-          text: 'Debes saleccionar al menos un tecnico',
+          text: 'Debes realizar al menos una asignación',
           type: 'error'
         });
       } else {
@@ -701,7 +638,7 @@ export class MasterChecklistMaintenanceComponent extends NgbDatepickerI18n {
           console.log(error);
         });
       }
-    }
+   
   }
 
 
@@ -733,15 +670,13 @@ export class MasterChecklistMaintenanceComponent extends NgbDatepickerI18n {
         console.log(result);
 
         console.log('entro');
-        console.log(this.checklisSelecteds);
+        // console.log(this.checklisSelecteds);
         console.log(this.consecutive);
-
-
-        console.log(this.checklisSelecteds);
+        console.log(this.dateMassiveSelecteds);
 
         console.log(this.forklift);
-        for (let item of this.dateSelecteds) {
-          this.resumenesService.storeChecklistMassive(row.id, this.selectedForkliftId.id, this.selectedBusinessId.id, this.selectedBranchOfficeId.id, this.checkedList, this.technicianList, Number(this.consecutive), item).then(data => {
+        for (let item of this.dateMassiveSelecteds) {
+          this.resumenesService.storeChecklistMassive(row.id, this.selectedForkliftId.id, this.selectedBusinessId.id, this.selectedBranchOfficeId.id, item.routine, item.technician, Number(this.consecutive), item.date).then(data => {
             const resp: any = data;
             console.log(data);
             if (resp.success == false) {
@@ -779,7 +714,7 @@ export class MasterChecklistMaintenanceComponent extends NgbDatepickerI18n {
           });
         }
         document.getElementById('assingUpdatePrevetiveHideMassive').click();
-
+        
         this.getForkliftChecklist();
         swal({
           title: 'Guardado con exito',
@@ -790,9 +725,9 @@ export class MasterChecklistMaintenanceComponent extends NgbDatepickerI18n {
         // this.cleanSelectTechnician();
         this.checklisSelecteds.length = 0;
         this.technicianSelecteds.length = 0;
-        this.checkedList = '';
-        this.technicianList = '';
-        this.dateSelecteds = [];
+        this.dateMassiveSelecteds = [];
+        this.technicianMassiveSelecteds = [];
+        this.routineMassiveSelecteds = [];
         console.log('llego hasta aqui');
 
         swal.close();
@@ -879,6 +814,7 @@ export class MasterChecklistMaintenanceComponent extends NgbDatepickerI18n {
       });
     }
 
+    let tec = []
     console.log(this.technicianSelecteds);
     for (let item of this.technicianSelecteds) {
       console.log('entro');
@@ -886,6 +822,7 @@ export class MasterChecklistMaintenanceComponent extends NgbDatepickerI18n {
         console.log(item);
         console.log('entro');
         this.technicianList = this.technicianList + item.id + ',';
+        tec.push(item.id);
       }
     }
     if (this.technicianList == '') {
@@ -918,6 +855,8 @@ export class MasterChecklistMaintenanceComponent extends NgbDatepickerI18n {
             type: 'success'
           });
           document.getElementById('assignChecklistHide').click();
+          let message = 'Se ha realizado una asignación de checklist  en: '+this.selectedBusinessId.business_name+' para el: ' + params;
+          // this.notificationTechnician(tec,message)
           this.getForkliftChecklist();
           this.cleanSelectChecklist();
           this.checkedList = '';
@@ -950,6 +889,30 @@ export class MasterChecklistMaintenanceComponent extends NgbDatepickerI18n {
       console.log(error);
     });
   }
+
+  
+  
+  // notificationTechnician(tec: any,message:string){
+ 
+  //   this.resumenesService.notificationTechnicians(message,tec).then(data => {
+  //     const resp: any = data;
+  //     console.log(data);
+    
+  //     swal({
+  //       title: 'Se ha enviado una notifiación al(los) técnico(s) encargado(s)',
+  //       type: 'success'
+  //     });
+      
+  //   }).catch(error => {
+  //     swal({
+  //       title: 'Se presento un problema, para realizar la notificación',
+  //       type: 'error'
+  //     });
+  //     console.log(error);
+  //   });
+  // }
+ 
+
 
   getForkliftChecklist() {
     // Llenar información de cliente  
@@ -1111,7 +1074,7 @@ export class MasterChecklistMaintenanceComponent extends NgbDatepickerI18n {
     console.log(minut);
 
 
-    var fromD = year + '-' + month + '-' + day + ' ' + hour + ':' + minut;
+    var fromD = year + '-' + month + '-' + day + ' ' + hour + ':' + minut+':00';
     console.log(fromD);
     //var fromD = this.fromDate.year+'-'+this.fromDate.month+'-'+this.fromDate.day; //31 de diciembre de 2015
     // var untilD = this.untilDate.year+'-'+this.untilDate.month+'-'+this.untilDate.day;
@@ -1135,7 +1098,8 @@ export class MasterChecklistMaintenanceComponent extends NgbDatepickerI18n {
         type: 'error'
       });
     }
-
+    
+    let tec = [];
     console.log(this.technicianSelecteds);
     for (let item of this.technicianSelecteds) {
       console.log('entro');
@@ -1143,6 +1107,7 @@ export class MasterChecklistMaintenanceComponent extends NgbDatepickerI18n {
         console.log(item);
         console.log('entro');
         this.technicianList = this.technicianList + item.id + ',';
+        tec.push(item.id);
       }
     }
     if (this.technicianList == '') {
@@ -1170,7 +1135,8 @@ export class MasterChecklistMaintenanceComponent extends NgbDatepickerI18n {
         this.resumenesService.updateConsecutiveChecklist().then(data => {
           const resp: any = data;
           console.log(data);
-
+          let message = 'Se ha realizado una asignación de checklist  en: '+this.selectedBusinessId.business_name+' para el: ' + params;
+          // this.notificationTechnician(tec,message)
           document.getElementById('assignUpdateChecklistHide').click();
 
           this.getForkliftChecklist();
@@ -1292,13 +1258,15 @@ export class MasterChecklistMaintenanceComponent extends NgbDatepickerI18n {
 
     console.log(hour);
     console.log(minut);
-
+    let rou = 0;
+    let tec = 0;
 
     var fromD = year + '-' + month + '-' + day + ' ' + hour + ':' + minut + ':00';
     console.log(fromD);
-    console.log(this.dateSelecteds)
-    for (let date of this.dateSelecteds) {
-      if (date == fromD) {
+    console.log(this.dateMassiveSelecteds)
+
+    for (let date of this.dateMassiveSelecteds) {
+      if (date.date == fromD) {
         console.log('cambio')
         this.massiveDate = true;
       }
@@ -1312,9 +1280,74 @@ export class MasterChecklistMaintenanceComponent extends NgbDatepickerI18n {
       });
       this.massiveDate = false;
     } else {
+      console.log(this.checklisSelecteds);
+      for (let item of this.checklisSelecteds) {
+        console.log('entro rutinas');
+        if (item.select) {
+          console.log(item);
+          console.log('entro select rutinas');
+          this.routineMassiveSelected = {
+            id: item.id,
+            item: item.item
+          };
+          this.routineMassiveSelecteds.push(this.routineMassiveSelected);
+          // console.log('entro');
+          rou = 1;
+        }
+      }
+      if (rou == 1) {
+        for (let item of this.technicianSelecteds) {
+          console.log('entro tecnicos');
+          if (item.select) {
+            console.log(item);
+            console.log('entro select tenicos');
+            this.technicianMassiveSelected = {
+              id: item.id,
+              item: item.item
+            };
+            this.technicianMassiveSelecteds.push(this.technicianMassiveSelected);
+            tec = 1;
+          }
+        }
+        if (tec == 1) {
+          this.dateMassiveSelected = {
+            date: fromD,
+            technician: this.technicianMassiveSelecteds,
+            routine: this.routineMassiveSelecteds
+          }
+          this.dateMassiveSelecteds.push(this.dateMassiveSelected)
+          console.log(this.dateMassiveSelecteds);
 
-      this.dateSelecteds.push(fromD);
-      console.log(this.dateSelecteds);
+          for (let item of this.checklisSelecteds) {
+            console.log('entro');
+            if (item.select) {
+              item.select = false;
+            }
+          }
+
+          for (let item of this.technicianSelecteds) {
+            console.log('entro');
+            if (item.select) {
+              item.select = false;
+            }
+          }
+          this.routineMassiveSelecteds = [];
+          this.technicianMassiveSelecteds = [];
+        } else {
+          swal({
+            title: 'Importante',
+            text: 'Seleccionar al menos un técnico.',
+            type: 'warning'
+          });
+        }
+
+      } else {
+        swal({
+          title: 'Importante',
+          text: 'Seleccionar al menos una rutina.',
+          type: 'warning'
+        });
+      }
     }
   }
 
@@ -1335,13 +1368,15 @@ export class MasterChecklistMaintenanceComponent extends NgbDatepickerI18n {
 
     console.log(hour);
     console.log(minut);
+    let rou = 0;
+    let tec = 0;
 
 
     var fromD = year + '-' + month + '-' + day + ' ' + hour + ':' + minut + ':00';
     console.log(fromD);
-    console.log(this.dateSelecteds)
-    for (let date of this.dateSelecteds) {
-      if (date == fromD) {
+    
+    for (let date of this.dateMassiveSelecteds) {
+      if (date.date == fromD) {
         console.log('cambio')
         this.massiveDate = true;
       }
@@ -1355,16 +1390,81 @@ export class MasterChecklistMaintenanceComponent extends NgbDatepickerI18n {
       });
       this.massiveDate = false;
     } else {
+      console.log(this.checklisSelecteds);
+      for (let item of this.checklisSelecteds) {
+        console.log('entro rutinas');
+        if (item.select) {
+          console.log(item);
+          console.log('entro select rutinas');
+          this.routineMassiveSelected = {
+            id: item.id,
+            item: item.item
+          };
+          this.routineMassiveSelecteds.push(this.routineMassiveSelected);
+          // console.log('entro');
+          rou = 1;
+        }
+      }
+      if (rou == 1) {
+        for (let item of this.technicianSelecteds) {
+          console.log('entro tecnicos');
+          if (item.select) {
+            console.log(item);
+            console.log('entro select tenicos');
+            this.technicianMassiveSelected = {
+              id: item.id,
+              item: item.item
+            };
+            this.technicianMassiveSelecteds.push(this.technicianMassiveSelected);
+            tec = 1;
+          }
+        }
+        if (tec == 1) {
+          this.dateMassiveSelected = {
+            date: fromD,
+            technician: this.technicianMassiveSelecteds,
+            routine: this.routineMassiveSelecteds
+          }
+          this.dateMassiveSelecteds.push(this.dateMassiveSelected)
+          console.log(this.dateMassiveSelecteds);
 
-      this.dateSelecteds.push(fromD);
-      console.log(this.dateSelecteds);
+          for (let item of this.checklisSelecteds) {
+            console.log('entro');
+            if (item.select) {
+              item.select = false;
+            }
+          }
+
+          for (let item of this.technicianSelecteds) {
+            console.log('entro');
+            if (item.select) {
+              item.select = false;
+            }
+          }
+          this.routineMassiveSelecteds = [];
+          this.technicianMassiveSelecteds = [];
+        } else {
+          swal({
+            title: 'Importante',
+            text: 'Seleccionar al menos un técnico.',
+            type: 'warning'
+          });
+        }
+
+      } else {
+        swal({
+          title: 'Importante',
+          text: 'Seleccionar al menos una rutina.',
+          type: 'warning'
+        });
+      }
     }
   }
 
   deleteMassive(item: any, index) {
     console.log(item);
     console.log(index);
-    this.dateSelecteds.splice(index, 1);
+    this.dateMassiveSelecteds.splice(index, 1);
   }
 
   onDateSelectionFromMassive(date: any) {
@@ -1515,7 +1615,9 @@ export class MasterChecklistMaintenanceComponent extends NgbDatepickerI18n {
     // this.cleanSelectTechnician();
     this.checklisSelecteds.length = 0;
     this.technicianSelecteds.length = 0;
-    this.dateSelecteds = [];
+    this.dateMassiveSelecteds = [];
+    this.technicianMassiveSelecteds = [];
+    this.routineMassiveSelecteds = [];
     this.selectedHourPreventiveMassive = 0;
     this.selectedMinutPreventiveMassive = 0;
     document.getElementById('assignPrevetiveHideMassive').click();
@@ -1532,7 +1634,9 @@ export class MasterChecklistMaintenanceComponent extends NgbDatepickerI18n {
     this.technicianSelecteds.length = 0;
     this.selectedHourUpdatePreventiveMassive = 0;
     this.selectedMinutUpdatePreventiveMassive = 0;
-    this.dateSelecteds = [];
+    this.dateMassiveSelecteds = [];
+    this.technicianMassiveSelecteds = [];
+    this.routineMassiveSelecteds = [];
     document.getElementById('assingUpdatePrevetiveHideMassive').click();
   }
 

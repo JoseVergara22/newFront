@@ -35,7 +35,7 @@
         <div class="form-group row">
           <div class="col-sm-4">
             <h6> Descripción <span style="color:red;">*</span></h6>
-            <input type="text" class="form-control" formControlName="series"
+            <input type="text" class="form-control" formControlName="description"
               [ngClass]="{ 'is-invalid': submitted && checkForm.series.errors }">
             <div *ngIf="submitted && checkForm.series.errors" class="invalid-feedback">
               <div class="messages text-danger" *ngIf="checkForm.series.errors.required">Este campo es requerido</div>
@@ -44,7 +44,7 @@
 
           <div class="col-sm-4">
             <h6> Serie <span style="color:red;">*</span></h6>
-            <input type="text" class="form-control" formControlName="description"
+            <input type="text" class="form-control" formControlName="series"
               [ngClass]="{ 'is-invalid': submitted && checkForm.description.errors }">
 
             <div *ngIf="submitted && checkForm.description.errors" class="invalid-feedback">

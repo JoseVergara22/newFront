@@ -4,7 +4,10 @@ import { RestService } from '../../master-services/Rest/rest.service';
 import { EstimateService } from '../../master-services/estimate/estimate.service';
 import swal from 'sweetalert2';
 import { Router } from '@angular/router';
+import TrmApi from 'trm-api';
 
+
+const trmapi = new TrmApi();
 
 
 @Component({
@@ -321,27 +324,35 @@ updateEstimateConfig(){
 }
 
 getTrmCurrent() {
-  console.log('oleole');
-  this.estimateService.showTrmCurrent().then(data => {
-    const resp: any = data;
-    console.log('---trm----');
+  trmapi.latest().then((data) =>{
     console.log(data);
-    let trm ;
-    try{
-      trm =resp.data.value
-    }catch(error){
-      trm =resp.result.value
-    }
-
-  //  let trm = resp.data.value;
-    console.log(trm);
-    trm = trm.toString().replace('.',',');
-    let trmSecondPart =trm.substring(1);
-    let trmFirtsPart = trm.substring(0, 1);
-    this.trmGeneral= trmFirtsPart+'.'+trmSecondPart;
-    swal.close();
-  }).catch(error => {
+    this.trmGeneral = data.valor;
+  })
+  .catch((error) => {
     console.log(error);
+  
+    console.log('oleole');
+    this.estimateService.showTrmCurrent().then(data => {
+      const resp: any = data;
+      console.log('---trm----');
+      console.log(data);
+      let trm ;
+      try{
+        trm =resp.data.value
+      }catch(error){
+        trm =resp.result.value
+      }
+  
+    //  let trm = resp.data.value;
+      console.log(trm);
+      trm = trm.toString().replace('.',',');
+      let trmSecondPart =trm.substring(1);
+      let trmFirtsPart = trm.substring(0, 1);
+      this.trmGeneral= trmFirtsPart+'.'+trmSecondPart;
+      swal.close();
+    }).catch(error => {
+      console.log(error);
+    });
   });
 }
 

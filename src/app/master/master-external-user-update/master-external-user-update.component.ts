@@ -449,6 +449,9 @@ export class MasterExternalUserUpdateComponent implements OnInit {
 
   
   getRegionals(){
+    if(this.regionals.length>=1){
+      return console.log(this.regionals);
+    }
     this.restService.getRegional().then(data => {
         const resp: any = data;
         console.log(resp);

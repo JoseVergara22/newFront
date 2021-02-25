@@ -73,6 +73,7 @@
         "screenfull": "^3.3.2",
         "slick-carousel": "^1.8.1",
         "sweetalert2": "^7.0.3",
+        "trm-api": "^1.4.6",
         "xlsx": "^0.15.3",
         "zone.js": "^0.8.19"
     },

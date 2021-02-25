@@ -596,7 +596,7 @@ console.log(data);
         })
       };
       const postParams = {
-        regional: details
+        description: details
       };
       this.http.post(this.apiEndPoint+'api/profiles', postParams, httpOptions)
         .map(res => res).subscribe(data => {

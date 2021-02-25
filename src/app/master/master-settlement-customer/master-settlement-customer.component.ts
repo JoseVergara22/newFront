@@ -15,7 +15,10 @@ import { UserOptions } from 'jspdf-autotable';
 
 import swal from 'sweetalert2';
 import { Router } from '@angular/router';
+import TrmApi from 'trm-api';
 
+
+const trmapi = new TrmApi();
 interface jsPDFWithPlugin extends jsPDF {
   autoTable: (options: UserOptions) => jsPDF;
 }
@@ -468,32 +471,39 @@ export class MasterSettlementCustomerComponent implements OnInit {
 
    getTrmCurrent() {
     console.log('oleole');
-    this.estimateService.showTrmCurrent().then(data => {
-      const resp: any = data;
-
-
-      let trm ;
-      try{
-        trm =resp.data.value
-      }catch(error){
-        trm =resp.result.value
-      }
-      console.log('---trm----');
+    let trm;
+    trmapi.latest().then((data) =>{
       console.log(data);
-      // let trm = resp.data.value;
-      console.log(trm);
-     
-
-
-      trm = trm.toString().replace('.',',');
-      let trmSecondPart =trm.substring(1);
-      let trmFirtsPart = trm.substring(0, 1);
-      this.trmGeneralUsa= trmFirtsPart+'.'+trmSecondPart;
-      swal.close();
-      
-      console.log( this.cities);
-    }).catch(error => {
+      trm = data.valor;
+      this.trmGeneralUsa = trm;
+    })
+    .catch((error) => {
       console.log(error);
+      this.estimateService.showTrmCurrent().then(data => {
+        const resp: any = data;
+
+        try{
+          trm =resp.data.value
+        }catch(error){
+          trm =resp.result.value
+        }
+        console.log('---trm----');
+        console.log(data);
+        // let trm = resp.data.value;
+        console.log(trm);
+      
+
+
+        trm = trm.toString().replace('.',',');
+        let trmSecondPart =trm.substring(1);
+        let trmFirtsPart = trm.substring(0, 1);
+        this.trmGeneralUsa= trmFirtsPart+'.'+trmSecondPart;
+        swal.close();
+        
+        console.log( this.cities);
+      }).catch(error => {
+        console.log(error);
+      });
     });
   }
 
@@ -1275,64 +1285,76 @@ console.log('Importante informacion: '+ this.conditionValidation);
   }
 
   getConfigTrmInitial(){
-    this.estimateService.getConfigTrm().then(data => {
-      const resp: any = data;
-      console.log('Este es la API DE CONFIGURACIÓN');
-      console.log(data);
-
-    this.conditionTrmUsa=resp.data[0]; // Configuración de TRM USA
-    this.conditionTrmEsp=resp.data[1]; // Configuración de TRM ESP
-
-    this.estimateService.showTrmCurrent().then(data => {
-      const resp: any = data;
-      let trm = resp.data.value;
-
-
-      if(this.conditionTrmUsa.id==1){
-        this.trmGeneralUsa=trm;
-      }
-
-      if(this.conditionTrmUsa.id==2){
-        this.trmGeneralUsa=(Number(this.conditionTrmUsa.constant)).toFixed(2);
-      }
-
-      if(this.conditionTrmUsa.id==3){
-
-        console.log(trm);
-        console.log(this.conditionTrmUsa.constant);
-        this.trmGeneralUsa= trm+(Math.trunc(this.conditionTrmUsa.constant));
-      }
-
-
-      this.trmGeneralEsp= ( this.trmGeneralUsa*this.conditionTrmEsp.constant).toFixed(2);
-
-
-
-
-      console.log('para ver el id');
-      console.log(this.conditionTrmUsa);
     
+      this.estimateService.getConfigTrm().then(data => {
+        const resp: any = data;
+        console.log('Este es la API DE CONFIGURACIÓN');
+        console.log(data);
 
-    //  trm = trm.toString().replace('.',',');
-    //   let trmSecondPart =trm.substring(1);
-    //  let trmFirtsPart = trm.substring(0, 1);
-    //  this.trmGeneral= trmFirtsPart+'.'+trmSecondPart;
-    //  swal.close();
-      
-      console.log( this.cities);
-    }).catch(error => {
-      console.log(error);
-    });
-    
+      this.conditionTrmUsa=resp.data[0]; // Configuración de TRM USA
+      this.conditionTrmEsp=resp.data[1]; // Configuración de TRM ESP
+
+      let trm;
+      trmapi.latest().then((data) =>{
+        console.log(data);
+        trm = data.valor;
+
+          if(this.conditionTrmUsa.id==1){
+            this.trmGeneralUsa=trm;
+          }
+
+          if(this.conditionTrmUsa.id==2){
+            this.trmGeneralUsa=(Number(this.conditionTrmUsa.constant)).toFixed(2);
+          }
+
+          if(this.conditionTrmUsa.id==3){
+
+            console.log(trm);
+            console.log(this.conditionTrmUsa.constant);
+            this.trmGeneralUsa= trm+(Math.trunc(this.conditionTrmUsa.constant));
+          }
 
 
-   
-    
-    this.configTrm=resp.data;
+          this.trmGeneralEsp= ( this.trmGeneralUsa*this.conditionTrmEsp.constant).toFixed(2);
+
+          console.log('para ver el id');
+          console.log(this.conditionTrmUsa);
+      })
+      .catch((error) => {
+        console.log(error);
+
+        this.estimateService.showTrmCurrent().then(data => {
+          const resp: any = data;
+          trm = resp.data.value;
 
 
+          if(this.conditionTrmUsa.id==1){
+            this.trmGeneralUsa=trm;
+          }
+
+          if(this.conditionTrmUsa.id==2){
+            this.trmGeneralUsa=(Number(this.conditionTrmUsa.constant)).toFixed(2);
+          }
+
+          if(this.conditionTrmUsa.id==3){
+
+            console.log(trm);
+            console.log(this.conditionTrmUsa.constant);
+            this.trmGeneralUsa= trm+(Math.trunc(this.conditionTrmUsa.constant));
+          }
 
 
+          this.trmGeneralEsp= ( this.trmGeneralUsa*this.conditionTrmEsp.constant).toFixed(2);
+
+          console.log('para ver el id');
+          console.log(this.conditionTrmUsa);
+          
+          console.log( this.cities);
+        }).catch(error => {
+          console.log(error);
+        });
+      });
+      this.configTrm=resp.data;
       swal.close();
     }).catch(error => {
       console.log(error);

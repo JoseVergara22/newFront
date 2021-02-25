@@ -17,6 +17,10 @@ import * as jsPDF from 'jspdf';
 import 'jspdf-autotable';
 import { UserOptions } from 'jspdf-autotable';
 import { ResumenesService } from '../../master-services/resumenes/resumenes.service';
+import TrmApi from 'trm-api';
+
+
+const trmapi = new TrmApi();
 
 
 
@@ -738,32 +742,46 @@ export class MasterUpdateEstimateCustomerComponent implements OnInit {
 
   getTrmCurrent() {
     console.log('oleole');
-    this.estimateService.showTrmCurrent().then(data => {
-      const resp: any = data;
-
-
-
-      console.log('---trm----');
+    let trm;
+    trmapi.latest().then((data) =>{
       console.log(data);
-      /// let trm = resp.data.value;
-
-      let trm;
-      try {
-        trm = resp.data.value
-      } catch (error) {
-        trm = resp.result.value
-      }
-
-
-      trm = trm.toString().replace('.', ',');
-      let trmSecondPart = trm.substring(1);
-      let trmFirtsPart = trm.substring(0, 1);
-      this.trmGeneralUsa = trmFirtsPart + '.' + trmSecondPart;
+      trm = data.valor;
+      this.trmGeneralUsa = trm
+      // trm = trm.toString().replace('.', ',');
+      // let trmSecondPart = trm.substring(1);
+      // let trmFirtsPart = trm.substring(0, 1);
+      // this.trmGeneralUsa = trmFirtsPart + '.' + trmSecondPart;
       swal.close();
 
-      console.log(this.cities);
-    }).catch(error => {
+    })
+    .catch((error) => {
       console.log(error);
+      this.estimateService.showTrmCurrent().then(data => {
+        const resp: any = data;
+
+
+
+        console.log('---trm----');
+        console.log(data);
+        /// let trm = resp.data.value;
+
+        try {
+          trm = resp.data.value
+        } catch (error) {
+          trm = resp.result.value
+        }
+
+
+        trm = trm.toString().replace('.', ',');
+        let trmSecondPart = trm.substring(1);
+        let trmFirtsPart = trm.substring(0, 1);
+        this.trmGeneralUsa = trmFirtsPart + '.' + trmSecondPart;
+        swal.close();
+
+        console.log(this.cities);
+      }).catch(error => {
+        console.log(error);
+      });
     });
   }
 
@@ -1606,48 +1624,73 @@ export class MasterUpdateEstimateCustomerComponent implements OnInit {
           console.log('este es la TRMESPAÑA ' + this.trmGeneralEsp);
         }
       } else {
-        this.estimateService.showTrmCurrent().then(data => {
-          const resp: any = data;
-          // let trm = resp.data.value;
-          let trm;
-          try {
-            trm = resp.data.value
-          } catch (error) {
-            trm = resp.result.value
-          }
-          console.log('TRM CURRENT ' + JSON.stringify(resp));
+        let trm;
+        trmapi.latest().then((data) =>{
+        console.log(data);
+        trm = data.valor;
+        if (this.conditionTrmUsa.id == 1) {
+          this.trmGeneralUsa = trm;
+        }
 
-          if (this.conditionTrmUsa.id == 1) {
-            this.trmGeneralUsa = trm;
-          }
+        if (this.conditionTrmUsa.id == 3) {
 
+          console.log(trm);
+          console.log(this.conditionTrmUsa.constant);
+          this.trmGeneralUsa = trm + (Math.trunc(this.conditionTrmUsa.constant));
+        }
 
-          if (this.conditionTrmUsa.id == 3) {
+        this.trmGeneralEsp = (this.trmGeneralUsa * this.conditionTrmEsp.constant).toFixed(2);
+        console.log('este es la TRMESPAÑA ' + this.trmGeneralEsp);
 
-            console.log(trm);
-            console.log(this.conditionTrmUsa.constant);
-            this.trmGeneralUsa = trm + (Math.trunc(this.conditionTrmUsa.constant));
-          }
+        console.log('para ver el id');
+        console.log(this.trmGeneralUsa);
+        console.log(this.conditionTrmUsa);
 
-
-          this.trmGeneralEsp = (this.trmGeneralUsa * this.conditionTrmEsp.constant).toFixed(2);
-          console.log('este es la TRMESPAÑA ' + this.trmGeneralEsp);
-
-
-
-          console.log('para ver el id');
-          console.log(this.conditionTrmUsa);
-
-
-          //  trm = trm.toString().replace('.',',');
-          //   let trmSecondPart =trm.substring(1);
-          //  let trmFirtsPart = trm.substring(0, 1);
-          //  this.trmGeneral= trmFirtsPart+'.'+trmSecondPart;
-          //  swal.close();
-
-          console.log(this.cities);
-        }).catch(error => {
+        })
+        .catch((error) => {
           console.log(error);
+          this.estimateService.showTrmCurrent().then(data => {
+            const resp: any = data;
+            // let trm = resp.data.value;
+            try {
+              trm = resp.data.value
+            } catch (error) {
+              trm = resp.result.value
+            }
+            console.log('TRM CURRENT ' + JSON.stringify(resp));
+
+            if (this.conditionTrmUsa.id == 1) {
+              this.trmGeneralUsa = trm;
+            }
+
+
+            if (this.conditionTrmUsa.id == 3) {
+
+              console.log(trm);
+              console.log(this.conditionTrmUsa.constant);
+              this.trmGeneralUsa = trm + (Math.trunc(this.conditionTrmUsa.constant));
+            }
+
+
+            this.trmGeneralEsp = (this.trmGeneralUsa * this.conditionTrmEsp.constant).toFixed(2);
+            console.log('este es la TRMESPAÑA ' + this.trmGeneralEsp);
+
+
+
+            console.log('para ver el id');
+            console.log(this.conditionTrmUsa);
+
+
+            //  trm = trm.toString().replace('.',',');
+            //   let trmSecondPart =trm.substring(1);
+            //  let trmFirtsPart = trm.substring(0, 1);
+            //  this.trmGeneral= trmFirtsPart+'.'+trmSecondPart;
+            //  swal.close();
+
+            console.log(this.cities);
+          }).catch(error => {
+            console.log(error);
+          });
         });
       }
       this.configTrm = resp.data;

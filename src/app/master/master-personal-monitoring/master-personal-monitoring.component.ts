@@ -23,11 +23,13 @@ const EXCEL_EXTENSION = '.xlsx';
 
 
 interface TableInterface {
-  Fecha?: string;
   Actividad?: string;
   Cliente?: string;
   Control?: string;
   Tecnico?:string;
+  Fecha_Inicio?: string;
+  Fecha_Final?: string;
+  Duracion?: string;
 }
 
 
@@ -233,11 +235,13 @@ console.log(this.selectedTechnician);
     for(let value of table){
       console.log(value.users.name)
       this.tableExcel = {
-        Fecha: value.start,
         Actividad: value.personal_activitie.description,
         Cliente: value.customer_text,
         Control: value.service_control,
         Tecnico: value.users.name,
+        Fecha_Inicio: value.start,
+        Fecha_Final: value.finish,
+        Duracion: value.duration_activity,
       }
       this.dataExcel.push(this.tableExcel);
       console.log(this.dataExcel);

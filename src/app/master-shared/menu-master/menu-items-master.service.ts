@@ -302,28 +302,28 @@ const MENUITEMS = [
       }
     ]
   },
-  // {
-  //   label: 'UI Element',
-  //   main: [
-  //     {
-  //       state: 'reports',
-  //       short_label: 'R',
-  //       name: 'Informes',
-  //       type: 'sub',
-  //       icon: 'ti-stats-up',
-  //       children: [
-  //         {
-  //           state: 'reportsDuration',
-  //           name: 'Duración de Mantenimientos'
-  //         },
+  {
+    label: 'UI Element',
+    main: [
+      {
+        state: 'reports',
+        short_label: 'R',
+        name: 'Informes',
+        type: 'sub',
+        icon: 'ti-stats-up',
+        children: [
+          {
+            state: 'reportsDuration',
+            name: 'Duración de Mantenimientos'
+          },
   //         {
   //           state: 'reportsForkliftMaintenance',
   //           name: 'Mantenimientos por Equipos'
   //         },
-  //       ]
-  //     }
-  //   ]
-  // }
+        ]
+      }
+    ]
+  }
 ];
 
 const MENUFINANCIAL = [
@@ -597,24 +597,24 @@ const MENUCREATOR = [
       }
     ]
   },
-  {
-    label: 'UI Element',
-    main: [
-      {
-        state: 'configuracion',
-        short_label: 'N',
-        name: 'Configuración',
-        type: 'sub',
-        icon: 'ti-panel',
-        children: [
-          {
-            state: 'register',
-            name: 'Administrar Usuarios'
-          }
-        ]
-      }
-    ]
-  },
+  // {
+  //   label: 'UI Element',
+  //   main: [
+  //     {
+  //       state: 'configuracion',
+  //       short_label: 'N',
+  //       name: 'Configuración',
+  //       type: 'sub',
+  //       icon: 'ti-panel',
+  //       children: [
+  //         {
+  //           state: 'register',
+  //           name: 'Administrar Usuarios'
+  //         }
+  //       ]
+  //     }
+  //   ]
+  // },
 ];
 
 const MENUSELLER = [

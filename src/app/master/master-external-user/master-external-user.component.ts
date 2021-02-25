@@ -6,6 +6,7 @@ import { RestService } from '../../master-services/Rest/rest.service';
 import swal from 'sweetalert2';
 import { UserInternalInterface } from '../../master-models/user-internal';
 import { Router } from '@angular/router';
+import { empty } from 'rxjs/Observer';
 
 // Esta interfaz es para listar las sedes
 interface UserOfficesInterface {
@@ -108,7 +109,7 @@ export class MasterExternalUserComponent implements OnInit {
     this.loading = true;
     this.loadingData();
     this.getUser();
-    this.getProfile();
+    // this.getProfile();
     const name = new FormControl('', Validators.required);
     const lastname = new FormControl('', Validators.required);
     const username = new FormControl('', Validators.required);
@@ -206,7 +207,7 @@ export class MasterExternalUserComponent implements OnInit {
         swal.close();
         this.rowsUser = resp.data;
         console.log(this.rowsUser);
-        this.getRegionals();
+        // this.getRegionals();
       }
     }).catch(error => {
       swal.close();
@@ -294,8 +295,10 @@ export class MasterExternalUserComponent implements OnInit {
               this.myUpdateForm.get('updatetelephone').setValue(this.myForm.get('telephone').value);
               this.myUpdateForm.get('updateemail').setValue(this.myForm.get('email').value);
               this.selectedProfileIdUpdate = Number(this.myForm.get('profile').value);
+              if(this.myForm.get('profile').value == 4){
 
-              this.getRegionals();
+                this.getRegionals();
+              }
             });
             // this.router.navigateByUrl('master');
           }
@@ -369,7 +372,9 @@ export class MasterExternalUserComponent implements OnInit {
               type: 'success'
             }).then(data => {
               this.getUser();
-              this.getRegionals();
+              if(this.myUpdateForm.get('updateprofile').value == 4){
+                this.getRegionals();
+              }          
             });
             // this.router.navigateByUrl('master');
           }
@@ -382,13 +387,25 @@ export class MasterExternalUserComponent implements OnInit {
   }
 
   getRegionals() {
+    if(this.regionals.length>=1){
+      return console.log(this.regionals);
+    }
     this.restService.getRegional().then(data => {
       const resp: any = data;
       console.log(resp);
       console.log('OEOEOEOEOEEO');
       console.log('---------------------------');
       this.rowsRegional = resp.data;
-
+      this.rowsRegional.forEach((item) => {
+        console.log(item);
+        this.itemRegional = {
+          id: item.id,
+          code: item.code,
+          description: item.description,
+          cheked: false
+        }
+        this.regionals.push(this.itemRegional);
+      });
       console.log('información de regional');
       console.log(this.rowsRegional);
       console.log(this.rowsRegional.length);
@@ -410,21 +427,8 @@ export class MasterExternalUserComponent implements OnInit {
       this.rowsRegionals = resp.data_userRegionals;
       this.regional = [];
 
-
-      console.log(this.rowsRegionals);
-      console.log(this.rowsRegional);
-      this.rowsRegional.forEach((item) => {
-        console.log(item);
-        this.itemRegional = {
-          id: item.id,
-          code: item.code,
-          description: item.description,
-          cheked: false
-        }
-        this.regionals.push(this.itemRegional);
-      });
-      // rowsRegionals  Son las regionales del customer
-      // rowsRegional  Son las regionales del creadas
+      // rowsRegionals  Son las regionales del user
+      // rowsRegional  Son las regionales todas
 
       this.rowsRegionals.forEach((value) => {
         console.log(value.regional_id);
@@ -528,6 +532,7 @@ export class MasterExternalUserComponent implements OnInit {
     console.log(event);
     console.log(item);
     console.log(item.id);
+    console.log(this.regionals);
 
     for (let i = 0; i < this.regionals.length; i++) {
       if (this.regionals[i].id == item.id) {

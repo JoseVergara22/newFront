@@ -1093,9 +1093,10 @@ SelectItemRegional(idItem: any){// Falta organizarlo
     console.log(dato);
     if(Number(dato.id) === Number(item)){
       dato.select = true;
+      console.log(dato);
       console.log('hacer cambio');
     }
-    
+    console.log(dato);
     return dato;
   });
 }

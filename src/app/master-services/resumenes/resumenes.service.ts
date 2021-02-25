@@ -118,7 +118,7 @@ export class ResumenesService {
     });
   }
 
-  storePreventiveMassive(massive:number,id_forklift:number,customer_id:number,brach_id:number,id_rutines:string,technician_id: any, consecutive:number, date:string){
+  storePreventiveMassive(massive:number,id_forklift:number,customer_id:number,brach_id:number,id_rutines:any,technician_id: any, consecutive:number, date:string){
     return new Promise(resolve => {
       const httpOptions = {
         headers: new HttpHeaders({
@@ -151,7 +151,34 @@ export class ResumenesService {
     });
   }
 
-  storeChecklistMassive(massive:number,id_forklift:number,customer_id:number,brach_id:number,id_rutines:string,technician_id: any, consecutive:number, date:string){
+  notificationTechnicians(message:string,technician_id: any, ){
+    return new Promise(resolve => {
+      const httpOptions = {
+        headers: new HttpHeaders({
+          'Content-Type':  'application/json',
+          'Authorization': 'Bearer ' + localStorage.getItem('token_user'),
+          'Accept': 'application/json'
+        })
+      };
+      const postParams = {
+        users: technician_id,
+        message: message,
+      };
+      console.log(postParams);
+      
+      this.http.post(this.apiEndPoint+'api/send_forklift_notifications', postParams, httpOptions)
+      .map(res => res).subscribe(data => {
+        console.log("a mostrar data");
+      console.log(data);
+      resolve(data);
+      }, error => {
+        console.log("error en servicio");
+                resolve(error);
+        });
+    });
+  }
+
+  storeChecklistMassive(massive:number,id_forklift:number,customer_id:number,brach_id:number,id_rutines:any,technician_id: any, consecutive:number, date:string){
     return new Promise(resolve => {
       const httpOptions = {
         headers: new HttpHeaders({
@@ -556,6 +583,31 @@ export class ResumenesService {
     });
   }
   
+
+  getWorkForkliftBatteryLast(id:number){
+    console.log(id);
+    return new Promise(resolve => {
+      const httpOptions = {
+        headers: new HttpHeaders({
+          'Content-Type':  'application/json',
+          'Authorization': 'Bearer ' + localStorage.getItem('token_user'),
+          'Accept': 'application/json'
+        })
+      };
+      
+      this.http.get(this.apiEndPoint+'api/show_battery_last/'+id, httpOptions)
+      .map(res => res).subscribe(data => {
+        console.log("a mostrar data");
+      console.log(data);
+      resolve(data);
+      }, error => {
+        console.log("error en servicio");
+        console.log(error);
+                resolve(error);
+        });
+    });
+  }
+  
   getWorkForkliftReportLast(id:number){
     console.log(id);
     return new Promise(resolve => {
@@ -640,6 +692,30 @@ export class ResumenesService {
       };
       
       this.http.get(this.apiEndPoint+'api/show_corrective_filter/'+id+'?from_date='+fromdate+'&to_date='+to_date, httpOptions)
+      .map(res => res).subscribe(data => {
+        console.log("a mostrar data");
+      console.log(data);
+      resolve(data);
+      }, error => {
+        console.log("error en servicio");
+        console.log(error);
+                resolve(error);
+        });
+    });
+  }
+
+  getWorkForkliftBatteryFilter(id:number,fromdate:string,to_date:string){
+    console.log(id);
+    return new Promise(resolve => {
+      const httpOptions = {
+        headers: new HttpHeaders({
+          'Content-Type':  'application/json',
+          'Authorization': 'Bearer ' + localStorage.getItem('token_user'),
+          'Accept': 'application/json'
+        })
+      };
+      
+      this.http.get(this.apiEndPoint+'api/show_battery_filter/'+id+'?from_date='+fromdate+'&to_date='+to_date, httpOptions)
       .map(res => res).subscribe(data => {
         console.log("a mostrar data");
       console.log(data);
@@ -2522,6 +2598,54 @@ export class ResumenesService {
       };
       console.log(params);
       this.http.get(this.apiEndPoint+'api/get_personal_monitoring?'+params, httpOptions)
+        .map(res => res).subscribe(data => {
+          console.log(data);
+          resolve(data);
+        }, error => {
+          resolve(error);
+        });
+    });
+  }
+
+  createNotificationDay(day:number){
+    return new Promise (resolve => {
+      const headers = new HttpHeaders();
+      headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user'))); // 'Bearer ' +
+      headers.append('Content-Type', 'application/json');
+      const httpOptions = {
+        headers: new HttpHeaders({
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + localStorage.getItem('token_user'),
+          'Accept': 'application/json'
+        })
+      };
+      const postParams = {
+        day:day
+      }
+      console.log(postParams);
+      this.http.post(this.apiEndPoint+'api/save_notification_day?',postParams, httpOptions)
+        .map(res => res).subscribe(data => {
+          console.log(data);
+          resolve(data);
+        }, error => {
+          resolve(error);
+        });
+    });
+  }
+
+  getNotificationDay(){
+    return new Promise (resolve => {
+      const headers = new HttpHeaders();
+      headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user'))); // 'Bearer ' +
+      headers.append('Content-Type', 'application/json');
+      const httpOptions = {
+        headers: new HttpHeaders({
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + localStorage.getItem('token_user'),
+          'Accept': 'application/json'
+        })
+      };
+      this.http.get(this.apiEndPoint+'api/get_notification_day', httpOptions)
         .map(res => res).subscribe(data => {
           console.log(data);
           resolve(data);

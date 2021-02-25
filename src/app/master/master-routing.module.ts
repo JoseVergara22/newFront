@@ -92,6 +92,10 @@ import { MasterPersonalMonitoringComponent } from './master-personal-monitoring/
 import { MasterBatteryMaintenanceComponent } from './master-battery-maintenance/master-battery-maintenance.component';
 import { MasterPedingComponent } from './master-peding/master-peding.component';
 import { MasterRoutesComponent } from './master-routes/master-routes.component';
+import { MasterMaintenanceNotificationComponent } from './master-maintenance-notification/master-maintenance-notification.component';
+import { MasterMaintenanceDurationComponent } from './master-maintenance-duration/master-maintenance-duration.component';
+import { MasterForkliftMaintenanceComponent } from './master-forklift-maintenance/master-forklift-maintenance.component';
+import { MasterMaintenanceSystemComponent } from './master-maintenance-system/master-maintenance-system.component';
 
 
 
@@ -321,7 +325,7 @@ const routes: Routes = [
     path:'resumenes/:regional/:customer/:branch',
     component: MasterResumenesComponent
   },{
-    path:'editResumenes/:id/:full_name/:regional',
+    path:'editResumenes/:id/:regional',
     component: MasterEditResumenesComponent
   },{
     path:'prevetiveMaintenance',
@@ -416,6 +420,18 @@ const routes: Routes = [
   },{
     path:'routes',
     component: MasterRoutesComponent
+  },{
+    path:'notificationDays',
+    component: MasterMaintenanceNotificationComponent
+  },{
+    path:'reportsDuration',
+    component: MasterMaintenanceDurationComponent
+  },{
+    path:'reportsForkliftMaintenance',
+    component: MasterForkliftMaintenanceComponent
+  },{
+    path:'maintenanceSystem',
+    component: MasterMaintenanceSystemComponent
   }
  
 ];

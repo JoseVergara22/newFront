@@ -11,17 +11,9 @@
                 <h6>Código </h6>
                 <input  type="text" class="form-control" (change)="onChangeCode(code)"  [(ngModel)]="code" list="browsers">
                 <datalist  id="browsers">
-                  <!--  <div  > -->
                       <option  *ngFor="let detailCode of detailCodes"   [ngValue]="detailCode"> {{detailCode.full_description}} </option>
-                        
-                   <!-- </div> --> 
-
-                 
                 </datalist>
-                
 
-                
-                 <!--<input type="text" [(ngModel)]="code" class="form-control">  --> 
               </div>
               <div class="col-sm-6">
                   <h6>Descripción </h6>

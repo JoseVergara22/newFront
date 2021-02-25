@@ -678,7 +678,7 @@ export class EstimateService {
           resolve(data);
         }, error => {
      
-          this.http.get('https://cors-anywhere.herokuapp.com/https://api.cambio.today/v1/quotes/USD/COP/json?quantity=1&key=4328|zZQ~p4JZcXA0MPPYJNAeqpJKD*7E5wcj')
+          this.http.get('https://api.cambio.today/v1/quotes/USD/COP/json?quantity=1&key=4328|zZQ~p4JZcXA0MPPYJNAeqpJKD*7E5wcj')
           .map(res => res).subscribe(data => {
             console.log('TRM TRM TRM');
             console.log(data);

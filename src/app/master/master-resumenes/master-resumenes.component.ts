@@ -86,6 +86,11 @@ export class MasterResumenesComponent implements OnInit {
       this.regional  = resp.data;
     }).catch(error => {
       console.log(error);
+      swal({
+        title:'Importante',
+        text: 'Ha ocurrido un error al cargar las Sucursales',
+        type: 'error'
+       });
     });
   }
 
@@ -102,10 +107,16 @@ export class MasterResumenesComponent implements OnInit {
     
     }).catch(error => {
       console.log(error);
+      swal({
+        title:'Importante',
+        text: 'Ha ocurrido un error al cargar a los clientes.',
+        type: 'error'
+       });
     });
    }
 
   getBranchOffices(id) {
+    console.log(this.selectedBusinessId)
     if(this.selectedBusinessId!=0){
     
     // Llenar información de cliente  
@@ -117,9 +128,12 @@ export class MasterResumenesComponent implements OnInit {
       this.branchOffices  = resp.data;
     }).catch(error => {
       console.log(error);
-    });
-  
-   
+      swal({
+        title:'Importante',
+        text: 'Ha ocurrido un error al cargar las sedes.',
+        type: 'error'
+       });
+    });   
     }else{
       this.selectedBranchOfficeId=0;
       this.selectedForkliftId=0;
@@ -127,6 +141,7 @@ export class MasterResumenesComponent implements OnInit {
   }
 
   getForklifs() {
+    console.log(this.selectedBranchOfficeId)
     if(this.selectedBranchOfficeId!=0){
     console.log('this.selectedBusinessId.id');
     console.log(this.selectedBranchOfficeId);
@@ -139,9 +154,12 @@ export class MasterResumenesComponent implements OnInit {
  
     }).catch(error => {
       console.log(error);
+      swal({
+        title:'Importante',
+        text: 'Ha ocurrido un error al cargar los equipos.',
+        type: 'error'
+       });
     });
-  }else{
-    
   }
 }
 
@@ -154,7 +172,7 @@ clearFilter(){
 
 getFilters() {
 
-  if( this.selectedBusinessId == 0 &&   this.selectedBranchOfficeId == 0 && this.forkliftText==''){
+  if( this.selectedBusinessId == 0 &&   this.selectedBranchOfficeId == 0 && this.selectedForkliftId==0){
       swal({
         title:'Importante',
         text: 'Debes seleccionar por lo menos uno de los filtros.',
@@ -229,7 +247,7 @@ getFilters() {
 
 editResumenes(row: any){
   console.log(row);
-  this.router.navigateByUrl('maintenance/editResumenes/'+row.id+'/'+row.full_name+'/'+this.selectedRegionalId);
+  this.router.navigateByUrl('maintenance/editResumenes/'+row.id+'/'+this.selectedRegionalId);
 }
 
 }

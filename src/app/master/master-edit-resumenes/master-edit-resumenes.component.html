@@ -243,9 +243,8 @@
       </ngx-datatable>
     </app-card> 
 
-    <app-card *ngIf="rowPlatform">
-      <!-- <button type="button " style="display: none;" id="showChecklists" class="btn btn-primary m-b-0 " (click)="modalAssingChecklist.show()" >Crear</button> -->
-    
+    <!-- <app-card *ngIf="rowPlatform">
+
       <h5>Plataforma</h5>
       <ngx-datatable #table class="data-table" [rows]="rowPlatform"   [columnMode]="'flex'" [headerHeight]="50" [footerHeight]="50" [rowHeight]="'auto'" [limit]="20">
 
@@ -278,11 +277,10 @@
           </ng-template>
           </ngx-datatable-column>
       </ngx-datatable>
-    </app-card>
+    </app-card> -->
 
-    <app-card *ngIf="rowStevedore">
-      <!-- <button type="button " style="display: none;" id="showChecklists" class="btn btn-primary m-b-0 " (click)="modalAssingChecklist.show()" >Crear</button> -->
-    
+    <!-- <app-card *ngIf="rowStevedore">
+
       <h5>Estibadores</h5>
       <ngx-datatable #table class="data-table" [rows]="rowStevedore"   [columnMode]="'flex'" [headerHeight]="50" [footerHeight]="50" [rowHeight]="'auto'" [limit]="20">
 
@@ -316,12 +314,11 @@
           </ngx-datatable-column>
       </ngx-datatable>
      
-    </app-card> 
+    </app-card>  -->
  
-
+<!-- 
     <app-card *ngIf="currentBattery">
-      <!-- <button type="button " style="display: none;" id="showChecklists" class="btn btn-primary m-b-0 " (click)="modalAssingChecklist.show()" >Crear</button> -->
-    
+
       <h5>Batería</h5>
       <ngx-datatable #table class="data-table" [rows]="rowStevedore"   [columnMode]="'flex'" [headerHeight]="50" [footerHeight]="50" [rowHeight]="'auto'" [limit]="20">
 
@@ -355,7 +352,7 @@
           </ngx-datatable-column>
       </ngx-datatable>
      
-    </app-card> 
+    </app-card>  -->
  
     <app-card>
       <!-- <button type="button " style="display: none;" id="showCorrectives" class="btn btn-primary m-b-0 " (click)="modalAssingCorrective.show()" >Crear</button> -->
@@ -363,14 +360,8 @@
     
       <ngx-datatable #table class="data-table" [rows]="pendingGeneral"   [columnMode]="'flex'" [headerHeight]="50" [footerHeight]="50" [rowHeight]="'auto'" [limit]="10">
 
-    <!--     <ngx-datatable-column  [flexGrow]="2" name="Consecutivo" [sortable]="false"  sortable="false" prop="consecutive">
-          <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
-            <label class="link" (click)="editResumenes(row)" >{{value}}</label>
-          </ng-template>
-        </ngx-datatable-column> --> 
         
         <ngx-datatable-column  [flexGrow]="2" [sortable]="false" [resizeable]="false"  name="Descripción Pendiente" [sortable]="false"  prop="description"></ngx-datatable-column>
-     <!--    <ngx-datatable-column  [flexGrow]="2" [sortable]="false" [resizeable]="false"  name="Descripción De rutina" [sortable]="false"  prop="type"></ngx-datatable-column> -->
         <ngx-datatable-column  [flexGrow]="2" [sortable]="false" [resizeable]="false"  name="Tipo" [sortable]="false"  prop="type"></ngx-datatable-column>
         <ngx-datatable-column  [flexGrow]="2" [sortable]="false" [resizeable]="false"  name="Consecutivo" [sortable]="false"  prop="consecutive"></ngx-datatable-column>
         

@@ -21,7 +21,10 @@ import { Router } from '@angular/router';
 import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 import { DomEventsPlugin } from '@angular/platform-browser/src/dom/events/dom_events';
 import { async } from '@angular/core/testing';
+import TrmApi from 'trm-api';
 
+
+const trmapi = new TrmApi();
 
 const I18N_VALUES = {
   'fr': {
@@ -4194,21 +4197,31 @@ updateForklift(forklift:any) {
     })
     .then((willDelete) => {
         if (willDelete.value) {
-          this.estimateService.showTrmCurrent().then(data => {
-            const resp: any = data;
-            //let trm = resp.data.value;
-          console.log('RESP ' +JSON.stringify(resp));
-            let trm ;
-            try{
-              trm =resp.data.value
-            }catch(error){
-              trm =resp.result.value
-            }
-            console.log('entro');
+          let trm ;
+          trmapi.latest().then((data) =>{
+            console.log(data);
+            trm = data.valor;
             this.copyEstimateProcess(row,trm);
-        
-          }).catch(error => {
+          })
+          .catch((error) => {
             console.log(error);
+          
+            this.estimateService.showTrmCurrent().then(data => {
+              const resp: any = data;
+              //let trm = resp.data.value;
+            console.log('RESP ' +JSON.stringify(resp));
+              
+              try{
+                trm =resp.data.value
+              }catch(error){
+                trm =resp.result.value
+              }
+              console.log('entro');
+              this.copyEstimateProcess(row,trm);
+          
+            }).catch(error => {
+              console.log(error);
+            });
           });
         } else {
          // swal('Fail');

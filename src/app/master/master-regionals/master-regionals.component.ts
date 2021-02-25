@@ -20,13 +20,13 @@ export class MasterRegionalsComponent implements OnInit {
   change = true;
 
   rowsClient: any;
-  myForm: FormGroup;
   submitted = false;
   enabledCreated= true;
   switchUpdate = true;
   showButtonUpdated = 0;
   enabledUpdated: any;
-
+  
+  myForm: FormGroup;
   myFormUpdate: FormGroup;
   submittedUpdated = false;
   enabledCreatedOfficeUpdate:boolean;

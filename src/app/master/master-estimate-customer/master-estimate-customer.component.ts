@@ -17,7 +17,10 @@ import { UserOptions } from 'jspdf-autotable';
 import swal from 'sweetalert2';
 import { Router } from '@angular/router';
 import { ResumenesService } from '../../master-services/resumenes/resumenes.service';
+import TrmApi from 'trm-api';
 
+
+const trmapi = new TrmApi();
 interface jsPDFWithPlugin extends jsPDF {
   autoTable: (options: UserOptions) => jsPDF;
 }
@@ -449,27 +452,36 @@ export class MasterEstimateCustomerComponent implements OnInit {
 
   getTrmCurrent() {
     console.log('oleole');
-    this.estimateService.showTrmCurrent().then(data => {
-      const resp: any = data;
-
-
-
-      console.log('---trm----');
+    let trm;
+    trmapi.latest().then((data) =>{
       console.log(data);
-      let trm;
-      try {
-        trm = resp.data.value
-      } catch (error) {
-        trm = resp.result.value
-      }
-
-
-      console.log(trm);
-
-
-      console.log(this.cities);
-    }).catch(error => {
+      trm = data.valor;
+    })
+    .catch((error) => {
       console.log(error);
+    
+      this.estimateService.showTrmCurrent().then(data => {
+        const resp: any = data;
+
+
+
+        console.log('---trm----');
+        console.log(data);
+        
+        try {
+          trm = resp.data.value
+        } catch (error) {
+          trm = resp.result.value
+        }
+
+
+        console.log(trm);
+
+
+        console.log(this.cities);
+      }).catch(error => {
+        console.log(error);
+      });
     });
   }
 
@@ -1239,20 +1251,10 @@ export class MasterEstimateCustomerComponent implements OnInit {
           console.log('este es la TRMESPAÑA ' + this.trmGeneralUsa);
         }
       } else {
-        this.estimateService.showTrmCurrent().then(data => {
-          const resp: any = data;
-          //let trm = resp.data.value;
-          console.log('RESP ' + JSON.stringify(resp));
-          let trm;
-          try {
-            trm = resp.data.value
-          } catch (error) {
-            trm = resp.result.value
-          }
-
-
-          console.log('TRM CURRENT 123' + JSON.stringify(resp));
-
+        let trm;
+        trmapi.latest().then((data) =>{
+          console.log(data);
+          trm = data.valor;
           if (this.conditionTrmUsa.id == 1) {
             this.trmGeneralUsa = trm;
           }
@@ -1273,17 +1275,55 @@ export class MasterEstimateCustomerComponent implements OnInit {
 
           console.log('para ver el id');
           console.log(this.conditionTrmUsa);
-
-
-          //  trm = trm.toString().replace('.',',');
-          //   let trmSecondPart =trm.substring(1);
-          //  let trmFirtsPart = trm.substring(0, 1);
-          //  this.trmGeneral= trmFirtsPart+'.'+trmSecondPart;
-          //  swal.close();
-
-          console.log(this.cities);
-        }).catch(error => {
+        })
+        .catch((error) => {
           console.log(error);
+          this.estimateService.showTrmCurrent().then(data => {
+            const resp: any = data;
+            //let trm = resp.data.value;
+            console.log('RESP ' + JSON.stringify(resp));
+            
+            try {
+              trm = resp.data.value
+            } catch (error) {
+              trm = resp.result.value
+            }
+
+
+            console.log('TRM CURRENT 123' + JSON.stringify(resp));
+
+            if (this.conditionTrmUsa.id == 1) {
+              this.trmGeneralUsa = trm;
+            }
+
+
+            if (this.conditionTrmUsa.id == 3) {
+
+              console.log(trm);
+              console.log(this.conditionTrmUsa.constant);
+              this.trmGeneralUsa = trm + (Math.trunc(this.conditionTrmUsa.constant));
+            }
+
+
+            this.trmGeneralEsp = (this.trmGeneralUsa * this.conditionTrmEsp.constant).toFixed(2);
+            console.log('este es la TRMESPAÑA ' + this.trmGeneralUsa);
+
+
+
+            console.log('para ver el id');
+            console.log(this.conditionTrmUsa);
+
+
+            //  trm = trm.toString().replace('.',',');
+            //   let trmSecondPart =trm.substring(1);
+            //  let trmFirtsPart = trm.substring(0, 1);
+            //  this.trmGeneral= trmFirtsPart+'.'+trmSecondPart;
+            //  swal.close();
+
+            console.log(this.cities);
+          }).catch(error => {
+            console.log(error);
+          });
         });
       }
       this.configTrm = resp.data;

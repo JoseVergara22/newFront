@@ -105,7 +105,10 @@ import { MasterPersonalMonitoringComponent } from './master-personal-monitoring/
 import { MasterBatteryMaintenanceComponent } from './master-battery-maintenance/master-battery-maintenance.component';
 import { MasterPedingComponent } from './master-peding/master-peding.component';
 import { MasterRoutesComponent } from './master-routes/master-routes.component';
-
+import { MasterMaintenanceNotificationComponent } from './master-maintenance-notification/master-maintenance-notification.component';
+import { MasterMaintenanceDurationComponent } from './master-maintenance-duration/master-maintenance-duration.component';
+import { MasterForkliftMaintenanceComponent } from './master-forklift-maintenance/master-forklift-maintenance.component';
+import { MasterMaintenanceSystemComponent } from './master-maintenance-system/master-maintenance-system.component';
 
 
 
@@ -143,6 +146,8 @@ import { StevedoreService } from '../master-services/stevedore/stevedore.service
 import { PersonalService } from '../master-services/personal/personal.service';
 import { BatteryService } from '../master-services/battery/battery.service';
 import { PendingService } from '../master-services/pending/pending.service';
+import { ReportsService } from '../master-services/reports/reports.service';
+import { SystemsService } from '../master-services/systems/systems.service';
 
 
 
@@ -263,7 +268,10 @@ import {AutocompleteLibModule} from 'angular-ng-autocomplete';
     MasterBatteryMaintenanceComponent,
     MasterPedingComponent,
     MasterRoutesComponent,
-
+    MasterMaintenanceNotificationComponent,
+    MasterMaintenanceDurationComponent,
+    MasterForkliftMaintenanceComponent,
+    MasterMaintenanceSystemComponent,
 
    // MasterAdminComponent
   ],
@@ -294,6 +302,8 @@ import {AutocompleteLibModule} from 'angular-ng-autocomplete';
     PersonalService,
     BatteryService,
     PendingService,
+    ReportsService,
+    SystemsService,
   ]
 })
 export class MasterModule { }
