@@ -227,15 +227,6 @@ export class MasterExternalUserUpdateComponent implements OnInit {
         }
         this.getRegionals();
 
-       /* this.userService.getUsersCustomerUpdate(id).then(data => {
-          const resp: any = data;
-          console.log('información de sedes y usuarios')
-          console.log(data);
-         // swal.close();
-          console.log(resp);
-        }).catch(error => {
-          console.log(error);
-        });*/
         console.log(id);
         this.restService.getRelationshipUserOffices(id).then(data => {
           const resp: any = data;
@@ -794,18 +785,6 @@ getRegionalId( id: number){
 
   relationshipUserOffice() {
     console.log(this.selectedBusinessId);
-   
-  /* 
-   this.restService.createRelationshipUserOffices(this.currentUser.data.id,   this.idBranchOffices, this.selectedBusinessId).then(data => {
-     const resp: any = data;
-     this.getRelationshipUserOffices();
-     console.log('ole ole');
-     console.log(resp);
-     // this.idBranchOffices
-     swal.close();
-   }).catch(error => {
-     console.log(error);
-   });*/
 
    this.idBranchOffices=[1];
    console.log(this.idBranchOffices);
@@ -850,20 +829,13 @@ getRegionalId( id: number){
 
 
   relationshipUserOfficeUpdate() {
+    swal({
+      title: 'Obteniendo información ...',
+      allowOutsideClick: false
+    });
+    swal.showLoading();
     console.log(this.selectedBusinessId);
    
-  /* 
-   this.restService.createRelationshipUserOffices(this.currentUser.data.id,   this.idBranchOffices, this.selectedBusinessId).then(data => {
-     const resp: any = data;
-     this.getRelationshipUserOffices();
-     console.log('ole ole');
-     console.log(resp);
-     // this.idBranchOffices
-     swal.close();
-   }).catch(error => {
-     console.log(error);
-   });*/
-
    this.idBranchOfficesUpdate=[1];
    console.log(this.idBranchOfficesUpdate);
 
@@ -877,7 +849,7 @@ getRegionalId( id: number){
   }
  
    this.idBranchOfficesUpdate.splice(0, 1);
- console.log('Oficinas definitivas');
+    console.log('Oficinas definitivas');
    console.log(this.idBranchOfficesUpdate);
 
    let itemsOffice =  this.idBranchOfficesUpdate.toString();
@@ -906,36 +878,6 @@ getRegionalId( id: number){
    console.log('definitivas '+ branchOfficesNumbeUpdate);
    this.deleteAllOfficesBranchUser(this.currentUserIdParam, this.currentCustomerUpdated, branchOfficesNumbeUpdate);
 
-  /*  if(branchOfficesNumbeUpdate.length>0){
-      this.restService.createRelationshipUserOffices(this.currentUser.data.id,  branchOfficesNumbeUpdate,  this.currentCustomerUpdated).then(data => {
-      const resp: any = data;
-      swal({
-        title: 'Sedes actualizadas',
-        type: 'success'
-       })
-     // this.getRelationshipUserOffices();
-      console.log('ole ole');
-      console.log(resp);
-      // this.idBranchOffices
-      swal.close();
-    }).catch(error => {
-      swal({
-        title: 'Error',
-        text: 'Alguna de las relaciones que quieres crear, ya esta creada',
-        type: 'error'
-       });
-
-      console.log(error);
-    });
-  }
-
-
-  document.getElementById( 'updateBranchHide').click();
-
-
-
-    this.selectedBusinessId=0;
-    this.idBranchOfficesUpdate = [];*/
   }
 
   getCustomerOffice() {
@@ -1035,9 +977,7 @@ updateCustomerOffices(customer) {
         const resp: any = data;
         if (resp.error) {
           swal({
-            title: 'Error',
-            text: 'Ha ocurrido un error',
-            type: 'error'
+            titleText: 'No se encontraron sedes asociadas.'
            });
         } else {
           console.log('info de userOffices');
@@ -1204,30 +1144,13 @@ updateCustomerOffices(customer) {
     this.userOfficeRelationShips= []; // Enfocado a las suscursales
     this.clientOfficeRelationShips=[]; 
 
-    /* 
-   this.restService.createRelationshipUserOffices(this.currentUser.data.id,   this.idBranchOffices, this.selectedBusinessId).then(data => {
-     const resp: any = data;
-     this.getRelationshipUserOffices();
-     console.log('ole ole');
-     console.log(resp);
-     // this.idBranchOffices
-     swal.close();
-   }).catch(error => {
-     console.log(error);
-   });*/
-
+  
   }
 
   showClient() {
-  /*if ( this.showButtonUpdated === 0) {
-    swal({
-      title: 'Error',
-      text: 'Debes crear un usuario',
-      type: 'error'
-     });
-  } else {*/
+
     document.getElementById( 'relationShipCustomer').click();
-  //}
+
 
   }
 
@@ -1244,7 +1167,7 @@ updateCustomerOffices(customer) {
               title: 'Sedes actualizadas',
               type: 'success'
              })
-           // this.getRelationshipUserOffices();
+           this.getRelationshipUserOffices();
             console.log('ole ole');
             console.log(resp);
             // this.idBranchOffices
@@ -1275,6 +1198,11 @@ updateCustomerOffices(customer) {
 
 
   deleteCustomerOffices(customer){
+    swal({
+      title: 'Obteniendo información ...',
+      allowOutsideClick: false
+    });
+    swal.showLoading();
    console.log(customer);
    this.userService.deleteOfficesBranchUser(this.currentUserIdParam,customer.id).then(data => {
     const resp: any = data;
@@ -1289,15 +1217,20 @@ updateCustomerOffices(customer) {
       console.log(resp);
       if (resp.error) {
         swal({
-          title: 'Error',
+          title:'Error',
           text: 'Ha ocurrido un error',
           type: 'error'
          });
       } else {
 
         console.log('info de userOffices para update');
-        console.log(resp.data.customers);
-        if(resp.data.customers){
+        if (resp.success == false) {
+          swal({
+            titleText: 'No se encontraron sedes asociadas.'
+          });
+          this.rowsClient = null;
+        } else {
+          console.log(resp.data.customers);
           this.rowsClient = resp.data.customers;
         }
         
