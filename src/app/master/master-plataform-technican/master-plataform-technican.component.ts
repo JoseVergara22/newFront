@@ -83,6 +83,10 @@ export class MasterPlataformTechnicanComponent extends NgbDatepickerI18n {
   oldDate:any;
 
   consecutive: any;
+  corrective: boolean = false;
+  preventive: boolean  = false;
+  correctiveUpdate: boolean = false;
+  preventiveUpda: boolean  = false;
 
   ngbDateStruct;
 
@@ -215,14 +219,14 @@ export class MasterPlataformTechnicanComponent extends NgbDatepickerI18n {
   }
 
   showAssing(){
-    if(this.selectedForkliftId==0 || this.selectedRegionalId==0 || this.selectedBusinessId==0 || this.selectedBranchOfficeId==0){
+    if(this.selectedRegionalId==0 || this.selectedBusinessId==0 || this.selectedBranchOfficeId==0){
      swal({
        title:'Importante',
        text: 'Debes seleccionar todos los filtros.',
        type: 'warning'
       });
     }else{
-      this.getTechnician(this.selectedRegionalId);
+      this.getTechnician(this.selectedRegionalId,this.selectedBusinessId);
       document.getElementById('showAssing').click();
     }
   }
@@ -258,7 +262,7 @@ export class MasterPlataformTechnicanComponent extends NgbDatepickerI18n {
    
   getPlataformRoutines(){
     // Llenar información de cliente  
-    if( this.selectedForkliftId==0 || this.selectedRegionalId==0 || this.selectedBusinessId==0 || this.selectedBranchOfficeId==0 ){
+    if(this.selectedRegionalId==0 || this.selectedBusinessId==0 || this.selectedBranchOfficeId==0 ){
       swal({
         title:'Importante',
         text: 'Debes seleccionar todos los filtros.',
@@ -271,7 +275,7 @@ export class MasterPlataformTechnicanComponent extends NgbDatepickerI18n {
       });
       swal.showLoading();
 
-    this.platformService.getPlatformsForklist(this.selectedForkliftId.id).then(data => {
+    this.platformService.getPlatformsForklist(this.selectedBranchOfficeId.id).then(data => {
       const resp: any = data;
       console.log(data);
       swal.close();
@@ -293,7 +297,7 @@ export class MasterPlataformTechnicanComponent extends NgbDatepickerI18n {
     });
     swal.showLoading();
     console.log(this.selectedRegionalId);
-    this.restService.getUserRegional(this.selectedRegionalId.id).then(data => {
+    this.restService.getUserRegional(this.selectedRegionalId.id,this.selectedBusinessId.id).then(data => {
       const resp: any = data;
       if (resp.error) {
         swal({
@@ -339,7 +343,12 @@ export class MasterPlataformTechnicanComponent extends NgbDatepickerI18n {
     this.preventiveUpdate = row.result.preventiveRoutines;
     this.technicianUpdate = row.result.technicians;
     this.oldDate = row.date;
-
+    if(this.preventiveUpdate[0].type_maintenance==0){
+      document.getElementById('preventiveUpdate').click();
+    }
+    if(this.preventiveUpdate[0].type_maintenance==1){
+      document.getElementById('correctiveUpdate').click();
+    }
 
     let date = row.date; 
     console.log(date)
@@ -464,7 +473,7 @@ export class MasterPlataformTechnicanComponent extends NgbDatepickerI18n {
      console.log( minut);
      
      
-     var fromD = year +'-'+ month+'-'+ day+' '+hour+':'+minut;
+     var fromD = year +'-'+ month+'-'+ day+' '+hour+':'+minut + ':00';
      console.log( fromD);
      //var fromD = this.fromDate.year+'-'+this.fromDate.month+'-'+this.fromDate.day; //31 de diciembre de 2015
      // var untilD = this.untilDate.year+'-'+this.untilDate.month+'-'+this.untilDate.day;
@@ -472,6 +481,23 @@ export class MasterPlataformTechnicanComponent extends NgbDatepickerI18n {
 
      console.log('entro');
       console.log(this.routineSelecteds);
+
+      
+      let type;
+      if((this.preventiveUpda== false) && (this.correctiveUpdate==false)){
+        swal({
+          title:'Error',
+          text: 'Debes saleccionar el tipo de mantenimiento',
+          type: 'error'
+        });
+      }else{
+        if(this.preventiveUpda){
+          type = 0;
+        }
+        if(this.correctiveUpdate){
+          type = 1;
+        }
+        console.log(type);
 
       for (let item of this.routineSelecteds) {
         // console.log('entro');
@@ -491,7 +517,7 @@ export class MasterPlataformTechnicanComponent extends NgbDatepickerI18n {
         });
       }else{
   
-
+      let tec =[];
       console.log(this.technicianSelecteds);
       for (let item of this.technicianSelecteds) {
         // console.log('entro');
@@ -499,6 +525,7 @@ export class MasterPlataformTechnicanComponent extends NgbDatepickerI18n {
           console.log(item);
           console.log('entro');
             this.technicianList = this.technicianList + item.id +',';
+            tec.push(item.id);
           }
         }
 
@@ -510,7 +537,7 @@ export class MasterPlataformTechnicanComponent extends NgbDatepickerI18n {
           });
         }else{
         console.log(this.forklift);
-        this.platformService.updatePlatform(this.selectedForkliftId.id,this.selectedBusinessId.id,this.selectedBranchOfficeId.id,this.preventiveList,this.technicianList,this.oldDate,params,this.consecutive).then(data => {
+        this.platformService.updatePlatform(this.selectedForkliftId.id,this.selectedBusinessId.id,this.selectedBranchOfficeId.id,this.preventiveList,this.technicianList,this.oldDate,params,this.consecutive,type).then(data => {
           const resp: any = data;
           console.log(data);
           if (resp.success == false) {
@@ -528,7 +555,8 @@ export class MasterPlataformTechnicanComponent extends NgbDatepickerI18n {
           this.platformService.updateConsecutivePlatform().then(data => {
             const resp: any = data;
             console.log(data);
-            
+            // let message = 'Se ha realizado una asignación de mantenimiento de plataforma  en: '+this.selectedBusinessId.business_name+' para el: ' + params;
+            // this.notificationTechnician(tec,message);
             document.getElementById('assingUpdatePrevetiveHide').click();
           
             this.getPlataformRoutines();
@@ -543,6 +571,12 @@ export class MasterPlataformTechnicanComponent extends NgbDatepickerI18n {
             this.preventiveList = '';
             this.technicianList = '';
             this.fromDate=this.ngbDateStruct;
+            if(this.preventiveUpda){
+              document.getElementById('preventiveUpdate').click();
+            }
+            if(this.correctiveUpdate){
+              document.getElementById('correctiveUpdate').click();
+            }
             // this.untilDate=ngbDateStruct;
              console.log('llego hasta aqui');
     
@@ -570,6 +604,7 @@ export class MasterPlataformTechnicanComponent extends NgbDatepickerI18n {
           });
         }
       }
+    }
   }
 
   cleanSelectRoutines(){
@@ -622,7 +657,9 @@ export class MasterPlataformTechnicanComponent extends NgbDatepickerI18n {
 
   addCancelDate(){
     //If exist, remove the date
-    
+    // let value = document.getElementsByName('typem').forEach(x => {
+    //   x.checked = false
+    // });
     
     this.cleanSelectRoutines();
               // this.cleanSelectTechnician();
@@ -631,7 +668,7 @@ export class MasterPlataformTechnicanComponent extends NgbDatepickerI18n {
 }
   addCancelUpdateDate(){
     //If exist, remove the date
-    
+
     
     this.cleanSelectRoutines();
     // this.cleanSelectTechnician();
@@ -654,14 +691,14 @@ export class MasterPlataformTechnicanComponent extends NgbDatepickerI18n {
   }
 
    
-  getTechnician(regional_id: any){
+  getTechnician(regional_id: any,customer:any){
     swal({
       title: 'Obteniendo información ...',
       allowOutsideClick: false
     });
     swal.showLoading();
     console.log(regional_id);
-    this.restService.getUserRegional(regional_id.id).then(data => {
+    this.restService.getUserRegional(regional_id.id,customer.id).then(data => {
       const resp: any = data;
       if (resp.error) {
         swal({
@@ -748,7 +785,7 @@ export class MasterPlataformTechnicanComponent extends NgbDatepickerI18n {
      console.log( minut);
      
      
-     var fromD = year +'-'+ month+'-'+ day+' '+hour+':'+minut;
+     var fromD = year +'-'+ month+'-'+ day+' '+hour+':'+minut+':00';
      console.log( fromD);
      //var fromD = this.fromDate.year+'-'+this.fromDate.month+'-'+this.fromDate.day; //31 de diciembre de 2015
      // var untilD = this.untilDate.year+'-'+this.untilDate.month+'-'+this.untilDate.day;
@@ -757,6 +794,21 @@ export class MasterPlataformTechnicanComponent extends NgbDatepickerI18n {
       console.log('entro');
       console.log(this.routineSelecteds);
       console.log(this.consecutive);
+      let type;
+    if((this.preventive== false) && (this.corrective==false)){
+        swal({
+          title:'Error',
+          text: 'Debes saleccionar el tipo de mantenimiento',
+          type: 'error'
+        });
+    }else{
+        if(this.preventive){
+          type = 0;
+        }
+        if(this.corrective){
+          type = 1;
+        }
+        console.log(type);
 
       for (let item of this.routineSelecteds) {
         // console.log('entro');
@@ -776,7 +828,7 @@ export class MasterPlataformTechnicanComponent extends NgbDatepickerI18n {
         });
       }else{
   
-
+      let tec = [];
       console.log(this.technicianSelecteds);
       for (let item of this.technicianSelecteds) {
         // console.log('entro');
@@ -784,6 +836,7 @@ export class MasterPlataformTechnicanComponent extends NgbDatepickerI18n {
           console.log(item);
           console.log('entro');
             this.technicianList = this.technicianList + item.id +',';
+            tec.push(item.id)
           }
         }
 
@@ -796,7 +849,7 @@ export class MasterPlataformTechnicanComponent extends NgbDatepickerI18n {
         }else{
     
         console.log(this.forklift);
-        this.platformService.storePlatform(this.selectedForkliftId.id,this.selectedBusinessId.id,this.selectedBranchOfficeId.id,this.preventiveList,this.technicianList, Number(this.consecutive),params).then(data => {
+        this.platformService.storePlatform(this.selectedBusinessId.id,this.selectedBranchOfficeId.id,this.preventiveList,this.technicianList, Number(this.consecutive),params,type).then(data => {
           const resp: any = data;
           console.log(data);
           if (resp.success == false) {
@@ -816,7 +869,8 @@ export class MasterPlataformTechnicanComponent extends NgbDatepickerI18n {
             console.log(data);
             
             document.getElementById('assignPrevetiveHide').click();
-          
+            // let message = 'Se ha realizado una asignación de mantenimiento de plataforma  en: '+this.selectedBusinessId.business_name+' para el: ' + params;
+            // this.notificationTechnician(tec,message);
             this.getPlataformRoutines();
             swal({
               title: 'Guardado con exito',
@@ -829,6 +883,9 @@ export class MasterPlataformTechnicanComponent extends NgbDatepickerI18n {
             this.preventiveList = '';
             this.technicianList = '';
             this.fromDate=this.ngbDateStruct;
+            // let value = document.getElementsByName('typem').forEach(x => {
+            //   x.checked = false
+            // });
             // this.untilDate=ngbDateStruct;
              console.log('llego hasta aqui');
     
@@ -854,9 +911,63 @@ export class MasterPlataformTechnicanComponent extends NgbDatepickerI18n {
             });
             console.log(error);
           });
+        }
       }
     }
   }
 
+  
+   
+  // notificationTechnician(tec: any,message:string){
+    
+  //   this.resumenesService.notificationTechnicians(message,tec).then(data => {
+  //     const resp: any = data;
+  //     console.log(data);
+    
+  //     swal({
+  //       title: 'Se ha enviado una notifiación al(los) técnico(s) encargado(s)',
+  //       type: 'success'
+  //     });
+      
+  //   }).catch(error => {
+  //     swal({
+  //       title: 'Se presento un problema, para realizar la notificación',
+  //       type: 'error'
+  //     });
+  //     console.log(error);
+  //   });
+  // }
+ 
+  
+  selectTypeMaintenancePre(){
+    this.preventive =  true;
+      if(this.corrective){
+        this.corrective =  false;  
+      }
+  }
+
+  selectTypeMaintenanceCo(){
+    this.corrective = true;
+      if(this.preventive){
+        this.preventive = false;
+      }
+    console.log(this.corrective);
+  }
+
+  selectTypeMaintenanceUpdatePre(){
+    this.preventiveUpda =  true;  
+      if(this.correctiveUpdate){       
+        this.correctiveUpdate = false;
+      }
+    console.log(this.preventiveUpda);
+  }
+
+  selectTypeMaintenanceUpdateCo(){
+    this.correctiveUpdate = true;
+      if(this.preventiveUpda){
+        this.preventiveUpda = false;  
+      }
+    console.log(this.correctiveUpdate);
+  }
 
 }
