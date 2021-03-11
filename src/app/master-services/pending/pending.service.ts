@@ -86,6 +86,7 @@ export class PendingService {
   }
  
   updateCorrectivePending(id: number,consecutive: any, observation:string, status:any) {
+    console.log(id)
     return new Promise(resolve => {
       const headers = new HttpHeaders();
       headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user'))); // 'Bearer ' +

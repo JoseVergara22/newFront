@@ -22,11 +22,11 @@ interface UserOfficesInterfaceUpdate {
   status: boolean;
 }
 
- this.officesTemp = {
-        id: 1,
-        officeName : 'Medellin',
-        status: true
-       };
+//  this.officesTemp = {
+//         id: 1,
+//         officeName : 'Medellin',
+//         status: true
+//        };
 
 
 // Esta interfaz es para llevar rastreo de relaciones
@@ -107,8 +107,11 @@ export class MasterExternalUserUpdateComponent implements OnInit {
   selectRegional:  Array <regionalSelectInterface> = [];
   valor: any;
   regionalCustomer = []; 
+  userProfile: any;
 
   constructor(private userService: UserService, private router: Router, private restService: RestService,  private rutaActiva: ActivatedRoute) {
+    this.userProfile = localStorage.getItem('profile');
+    
     this.loading = true;
     this.currentUserIdParam = this.rutaActiva.snapshot.params.id;
     this. loadingData();
@@ -786,45 +789,54 @@ getRegionalId( id: number){
   relationshipUserOffice() {
     console.log(this.selectedBusinessId);
 
+    console.log(this.idBranchOffices);
    this.idBranchOffices=[1];
    console.log(this.idBranchOffices);
 
 
-   for (let office of this.userOfficeRelationShips) {
+     for (let office of this.userOfficeRelationShips) {
     
-    if( office.status === true){
-    this.idBranchOffices.push(office.id);
-    }
-
-  }
-
-    for (let i = 0; i <  this.clientOfficeRelationShips.length; i++) {
-     
-      if(this.clientOfficeRelationShips[i].idClient===this.selectedBusinessId){
-           this.clientOfficeRelationShips.splice(i, 1);
+      if( office.status === true){
+        this.idBranchOffices.push(office.id);
       }
     }
+    console.log(this.idBranchOffices);
+    if(this.idBranchOffices.length == 1){
+      swal({
+        title:'Importante',
+        text: 'Debes seleccionar al menos una sede.',
+        type: 'warning'
+      });
+    }else{
+
+      for (let i = 0; i <  this.clientOfficeRelationShips.length; i++) {
+      
+        if(this.clientOfficeRelationShips[i].idClient===this.selectedBusinessId){
+            this.clientOfficeRelationShips.splice(i, 1);
+        }
+      }
 
 
- 
-   this.idBranchOffices.splice(0, 1);
- console.log('Oficinas definitivas');
-   console.log(this.idBranchOffices);
+  
+      this.idBranchOffices.splice(0, 1);
+      console.log('Oficinas definitivas');
+      console.log(this.idBranchOffices);
 
-   let itemsOffice =  this.idBranchOffices.toString();
+      let itemsOffice =  this.idBranchOffices.toString();
 
-   this.clientOfficeRelationShip = {
-    idClient : this.selectedBusinessId,
-    idBranchs : itemsOffice
-    }
+      this.clientOfficeRelationShip = {
+        idClient : this.selectedBusinessId,
+        idBranchs : itemsOffice
+      }
 
-   console.log('crear relaciones');
-    console.log(this.clientOfficeRelationShip);
-    this.clientOfficeRelationShips.push(this.clientOfficeRelationShip);
-    console.log(this.clientOfficeRelationShips);
+      console.log('crear relaciones');
+      console.log(this.clientOfficeRelationShip);
+      this.clientOfficeRelationShips.push(this.clientOfficeRelationShip);
+      console.log(this.clientOfficeRelationShips);
 
-    this.selectedBusinessId=0;
-    this.userOfficeRelationShips = [];
+      this.selectedBusinessId=0;
+      this.userOfficeRelationShips = [];
+      }
   }
 
 
@@ -846,20 +858,28 @@ getRegionalId( id: number){
     this.idBranchOfficesUpdate.push(office.id);
     }
 
-  }
+   }
+
+   if(this.idBranchOffices.length == 1){
+    swal({
+      title:'Importante',
+      text: 'Debes seleccionar al menos una sede.',
+      type: 'warning'
+    });
+   }else{
  
-   this.idBranchOfficesUpdate.splice(0, 1);
+    this.idBranchOfficesUpdate.splice(0, 1);
     console.log('Oficinas definitivas');
-   console.log(this.idBranchOfficesUpdate);
+    console.log(this.idBranchOfficesUpdate);
 
-   let itemsOffice =  this.idBranchOfficesUpdate.toString();
+    let itemsOffice =  this.idBranchOfficesUpdate.toString();
 
-   this.clientOfficeRelationShipUpdate = {
+    this.clientOfficeRelationShipUpdate = {
     idClient : this.currentCustomerUpdated,
     idBranchs : itemsOffice
     }
 
-   console.log('crear relaciones de actualizar');
+    console.log('crear relaciones de actualizar');
     console.log(this.clientOfficeRelationShipUpdate);
     // this.clientOfficeRelationShips.push(this.clientOfficeRelationShip);
     // console.log(this.clientOfficeRelationShips);
@@ -875,9 +895,9 @@ getRegionalId( id: number){
 
     branchOfficesNumbeUpdate.splice(0,1);
    //Borrar sedes y volver agregar
-   console.log('definitivas '+ branchOfficesNumbeUpdate);
-   this.deleteAllOfficesBranchUser(this.currentUserIdParam, this.currentCustomerUpdated, branchOfficesNumbeUpdate);
-
+    console.log('definitivas '+ branchOfficesNumbeUpdate);
+    this.deleteAllOfficesBranchUser(this.currentUserIdParam, this.currentCustomerUpdated, branchOfficesNumbeUpdate);
+   }
   }
 
   getCustomerOffice() {
@@ -1128,16 +1148,16 @@ updateCustomerOffices(customer) {
         console.log(resp);
         // this.idBranchOffices
        // swal.close();
-      }).catch(error => {
-        swal({
-          title: 'Error',
-          text: 'Alguna de las relaciones que quieres crear, ya esta creada',
-          type: 'error'
-         });
+        }).catch(error => {
+          swal({
+            title: 'Error',
+            text: 'Alguna de las relaciones que quieres crear, ya esta creada',
+            type: 'error'
+          });
 
-        console.log(error);
-      });
-    }
+          console.log(error);
+        });
+      }
     }
 
     this.officesUpdated = [];

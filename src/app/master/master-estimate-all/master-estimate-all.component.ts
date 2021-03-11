@@ -256,10 +256,10 @@ export class MasterEstimateAllComponent extends NgbDatepickerI18n {
                 this.getUser();
                 this.masterSelected = false;
                 this.checklist = [
-                  {id:1,value:'APROBADO',isSelected:false},
-                  {id:2,value:'ENVIADO',isSelected:false},
-                  {id:3,value:'GENERADO',isSelected:false},
-                  {id:4,value:'RECHAZADO',isSelected:false}
+                  {id:2,value:'APROBADO',isSelected:false},
+                  {id:1,value:'ENVIADO',isSelected:false},
+                  {id:0,value:'GENERADO',isSelected:false},
+                  {id:5,value:'RECHAZADO',isSelected:false}
                 ];
   /*  swal({
       title: 'Validando información ...',
@@ -319,33 +319,6 @@ export class MasterEstimateAllComponent extends NgbDatepickerI18n {
     });*/
    
   }
-   updateFilter(event) {
-    const val = event.target.value.toLowerCase();
-    // filter our data
-
-    if (val === '') {
-      console.log('vacio');
-      this.filterIndicatorText = false;
-      this.rowsTemp = this.rowStatic;
-    }
-
-    // this.filterIndicatorCheck = true;
-    if (this.inactive === true ||  this.active === true) {
-      this.rowsTemp = this.rowsTempCheck;
-    }
-    const temp = this.rowsTemp.filter(function(d) {
-      return d.brand_description.toLowerCase().indexOf(val) !== -1 || !val;
-    });
-
-    if (val !== '') {
-      this.filterIndicatorText = true;
-      this.rowsTempText = temp;
-    }
-
-    // update the rows
-    this.rowsClient = temp;
-
-  }
 
   getWeekdayShortName(weekday: number): string {
     return I18N_VALUES[this._i18n.language].weekdays[weekday - 1];
@@ -370,33 +343,6 @@ export class MasterEstimateAllComponent extends NgbDatepickerI18n {
   console.log(this.considerDate);
 
   }
-
-  updateFilterActiveInactive(active: string) {
-    const val = active;
-
-    // filter our data
-
-    if (this.filterIndicatorText === true) {
-      this.rowsTemp = this.rowsTempText;
-    } else {
-      console.log('vacio por este lado');
-      this.rowsTemp = this.rowStatic;
-    }
-
-    const temp = this.rowsTemp.filter(function(d) {
-      return d.status.toLowerCase().indexOf(val) !== -1 || !val;
-    });
-
-    // update the rows
-
-    if (this.inactive === true ||  this.active === true) {
-      this.rowsTempCheck = temp;
-      this.filterIndicatorCheck = true;
-    }
-
-    this.rowsClient = temp;
-  }
-
 
   downloadPdf(item: any, ind: number){
     swal.showLoading();
@@ -3822,9 +3768,9 @@ this.getImgFromUrl(logo_url, function (img) {
 
     if(this.listStatus.length>0){
       if(cont>0){
-      params=params+'&&status=['+this.listStatus+']';
+      params=params+'&&status='+this.listStatus;
       }else{
-        params=params+'status=['+this.listStatus+']';
+        params=params+'status='+this.listStatus;
         cont++;
       }
     }
@@ -4011,26 +3957,6 @@ this.getImgFromUrl(logo_url, function (img) {
     });
   }
 
-  onChangeActive(d) {
-    let indice;
-    if (this.active === false ) {
-      this.active = true;
-      if (this.inactive === true ) {
-        indice = '';
-      } else {
-        indice = '0';
-      }
-      this.updateFilterActiveInactive(indice);
-    } else {
-      this.active = false;
-      if (this.inactive === true ) {
-        indice = '1';
-      } else {
-        indice = '';
-      }
-      this.updateFilterActiveInactive(indice);
-    }
-  }
 
   updateEstimate(row:any){
     console.log(row);
@@ -4063,28 +3989,6 @@ this.getImgFromUrl(logo_url, function (img) {
   });
   }
 
-
-
-  onChangeInactive(d) {
-    let indice;
-    if (this.inactive === false ) {
-      this.inactive = true;
-      if (this.active === true ) {
-        indice = '';
-      } else {
-        indice = '1';
-      }
-      this.updateFilterActiveInactive(indice);
-    } else {
-      this.inactive = false;
-      if (this.active === true ) {
-        indice = '0';
-      } else {
-        indice = '';
-      }
-      this.updateFilterActiveInactive(indice);
-    }
-  }
 
 updateForklift(forklift:any) {
   console.log(forklift);

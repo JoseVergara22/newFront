@@ -212,7 +212,7 @@ export class MasterPreventiveMaintenanceComponent extends NgbDatepickerI18n {
     } else {
       this.fromDate = this.ngbDateStruct;
       this.getWorksFilters(this.selectedRegionalId, this.selectedBusinessId);
-      this.getTechnician(this.selectedRegionalId);
+      this.getTechnician(this.selectedRegionalId, this.selectedBusinessId);
       document.getElementById('showAssing').click();
     }
   }
@@ -226,7 +226,7 @@ export class MasterPreventiveMaintenanceComponent extends NgbDatepickerI18n {
     } else {
       this.massiveFromDate = this.ngbDateStruct;
       this.getWorksFilters(this.selectedRegionalId, this.selectedBusinessId);
-      this.getTechnician(this.selectedRegionalId);
+      this.getTechnician(this.selectedRegionalId, this.selectedBusinessId);
       document.getElementById('showAssingMassive').click();
     }
   }
@@ -571,14 +571,14 @@ export class MasterPreventiveMaintenanceComponent extends NgbDatepickerI18n {
     });
   }
 
-  getTechnician(regional_id: any) {
+  getTechnician(regional_id: any,customer:any) {
     swal({
       title: 'Obteniendo información ...',
       allowOutsideClick: false
     });
     swal.showLoading();
     console.log(regional_id);
-    this.restService.getUserRegional(regional_id.id).then(data => {
+    this.restService.getUserRegional(regional_id.id,customer.id).then(data => {
       const resp: any = data;
       if (resp.error) {
         swal({
@@ -897,7 +897,7 @@ export class MasterPreventiveMaintenanceComponent extends NgbDatepickerI18n {
       this.currentDetail = resp.data;
       this.massiveDescritionUpdate = item.description
       console.log(this.selectedRegionalId);
-      this.restService.getUserRegional(this.selectedRegionalId.id).then(data => {
+      this.restService.getUserRegional(this.selectedRegionalId.id,this.selectedBusinessId.id).then(data => {
         const resp: any = data;
         if (resp.error) {
           swal({
@@ -1089,7 +1089,7 @@ export class MasterPreventiveMaintenanceComponent extends NgbDatepickerI18n {
     });
     swal.showLoading();
     console.log(this.selectedRegionalId);
-    this.restService.getUserRegional(this.selectedRegionalId.id).then(data => {
+    this.restService.getUserRegional(this.selectedRegionalId.id,this.selectedBusinessId.id).then(data => {
       const resp: any = data;
       if (resp.error) {
         swal({

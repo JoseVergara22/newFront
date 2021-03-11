@@ -56,8 +56,8 @@ export class BatteryService {
     });
   }
 
-  storeBattery(regional:any, forklift_id:number,customer_id:number,brach_id:number,technician_id: any, consecutive:number, date:string,
-    observation:string){
+  storeBattery(regional:any,customer_id:number,brach_id:number,technician_id: any, consecutive:number, date:string,
+    observation:string,type:number){
     return new Promise(resolve => {
       const httpOptions = {
         headers: new HttpHeaders({
@@ -67,7 +67,7 @@ export class BatteryService {
         })
       };
       const postParams = {
-        forklift_id: forklift_id,
+        // forklift_id: forklift_id,
         customer_id: customer_id,
         branch_id: brach_id,
         // platforms: id_rutines,
@@ -75,7 +75,8 @@ export class BatteryService {
         technicians_id: technician_id,
         consecutive: consecutive,
         date: date,
-        observation:observation
+        observation:observation,
+        type:type
       };
       console.log(postParams);
       
@@ -91,7 +92,7 @@ export class BatteryService {
     });
   }
 
-  updateBattery(regional_id:number,forklift_id:number,customer_id:number,branch_id:number,consecutive:number,id_rutines:string,technician_id: any,date: string,newDate: string) {
+  updateBattery(regional_id:number,forklift_id:number,customer_id:number,branch_id:number,consecutive:number,id_rutines:string,technician_id: any,date: string,newDate: string,type:number) {
     return new Promise(resolve => {
       const headers = new HttpHeaders();
       headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user'))); // 'Bearer ' +
@@ -113,7 +114,8 @@ export class BatteryService {
         consecutive: consecutive,
         observation: id_rutines,
         date: date,
-        newDate: newDate
+        newDate: newDate,
+        type:type
     };
     console.log(patchParams);
     this.http.patch(this.apiEndPoint+'api/update_battery', patchParams, httpOptions)

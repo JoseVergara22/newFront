@@ -245,19 +245,19 @@ export class MasterCorrectiveMaintenanceComponent extends NgbDatepickerI18n {
       });
     } else {
       this.fromDate = this.ngbDateStruct;
-      this.getTechnician(this.selectedRegionalId);
+      this.getTechnician(this.selectedRegionalId,this.selectedBusinessId);
       document.getElementById('showAssing').click();
     }
   }
 
-  getTechnician(regional_id: any) {
+  getTechnician(regional_id: any,customer:any) {
     swal({
       title: 'Obteniendo información ...',
       allowOutsideClick: false
     });
     swal.showLoading();
     console.log(regional_id);
-    this.restService.getUserRegional(regional_id.id).then(data => {
+    this.restService.getUserRegional(regional_id.id,customer.id).then(data => {
       const resp: any = data;
       if (resp.error) {
         swal({
@@ -322,7 +322,7 @@ export class MasterCorrectiveMaintenanceComponent extends NgbDatepickerI18n {
       var fromD = yearUntil + '-' + monthUntil + '-' + dayUntil + ' ' + hour + ':' + minut + ':00';
       console.log('entro');
 
-
+      let tec=[]
       console.log(this.technicianSelecteds);
       for (let item of this.technicianSelecteds) {
         console.log('entro');
@@ -330,6 +330,7 @@ export class MasterCorrectiveMaintenanceComponent extends NgbDatepickerI18n {
           console.log(item);
           console.log('entro');
           this.technicianList = this.technicianList + item.id + ',';
+          tec.push(item.id);
         }
       }
 
@@ -358,6 +359,8 @@ export class MasterCorrectiveMaintenanceComponent extends NgbDatepickerI18n {
             this.resumenesService.updateConsecutiveCorrective().then(data => {
               const resp: any = data;
               console.log(data);
+              // let message = 'Se ha realizado una asignación de mantenimiento correctivo  en: '+this.selectedBusinessId.business_name+' para el: ' + fromD;
+              // this.notificationTechnician(tec,message)
               this.getCorrectiveRoutines();
               this.cleanSelectCorrective();
               //  this.cleanSelectTechnician();
@@ -412,7 +415,7 @@ export class MasterCorrectiveMaintenanceComponent extends NgbDatepickerI18n {
     });
     swal.showLoading();
     console.log(this.selectedRegionalId);
-    this.restService.getUserRegional(this.selectedRegionalId.id).then(data => {
+    this.restService.getUserRegional(this.selectedRegionalId.id,this.selectedBusinessId.id).then(data => {
       const resp: any = data;
       if (resp.error) {
         swal({
@@ -451,6 +454,28 @@ export class MasterCorrectiveMaintenanceComponent extends NgbDatepickerI18n {
     });
 
   }
+
+  
+  // notificationTechnician(tec: any,message:string){
+    
+  //   this.resumenesService.notificationTechnicians(message,tec).then(data => {
+  //     const resp: any = data;
+  //     console.log(data);
+    
+  //     swal({
+  //       title: 'Se ha enviado una notifiación al(los) técnico(s) encargado(s)',
+  //       type: 'success'
+  //     });
+      
+  //   }).catch(error => {
+  //     swal({
+  //       title: 'Se presento un problema, para realizar la notificación',
+  //       type: 'error'
+  //     });
+  //     console.log(error);
+  //   });
+  // }
+ 
 
 
   updateDate(row: any) {
@@ -515,7 +540,7 @@ export class MasterCorrectiveMaintenanceComponent extends NgbDatepickerI18n {
       console.log(minut);
 
 
-      var fromD = year + '-' + month + '-' + day + ' ' + hour + ':' + minut;
+      var fromD = year + '-' + month + '-' + day + ' ' + hour + ':' + minut+':00';
       console.log(fromD);
       //var fromD = this.fromDate.year+'-'+this.fromDate.month+'-'+this.fromDate.day; //31 de diciembre de 2015
       // var untilD = this.untilDate.year+'-'+this.untilDate.month+'-'+this.untilDate.day;
@@ -524,6 +549,7 @@ export class MasterCorrectiveMaintenanceComponent extends NgbDatepickerI18n {
       console.log('entro');
       console.log(this.checklisSelecteds);
 
+      let tec = [];
       console.log(this.technicianSelecteds);
       for (let item of this.technicianSelecteds) {
         console.log('entro');
@@ -531,6 +557,7 @@ export class MasterCorrectiveMaintenanceComponent extends NgbDatepickerI18n {
           console.log(item);
           console.log('entro');
           this.technicianList = this.technicianList + item.id + ',';
+          tec.push(item.id);
         }
       }
       if (this.technicianList == '') {
@@ -555,7 +582,8 @@ export class MasterCorrectiveMaintenanceComponent extends NgbDatepickerI18n {
 
             let result = resp.data;
             console.log(result);
-
+            // let message = 'Se ha realizado una asignación de mantenimiento correctivo  en: '+this.selectedBusinessId.business_name+' para el: ' + params;
+            // this.notificationTechnician(tec,message);
             document.getElementById('assignUpdateCorrectiveHide').click();
 
             this.getCorrectiveRoutines();

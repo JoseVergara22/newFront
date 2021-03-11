@@ -94,8 +94,11 @@ import { MasterPedingComponent } from './master-peding/master-peding.component';
 import { MasterRoutesComponent } from './master-routes/master-routes.component';
 // import { MasterMaintenanceNotificationComponent } from './master-maintenance-notification/master-maintenance-notification.component';
 import { MasterMaintenanceDurationComponent } from './master-maintenance-duration/master-maintenance-duration.component';
-// import { MasterForkliftMaintenanceComponent } from './master-forklift-maintenance/master-forklift-maintenance.component';
-// import { MasterMaintenanceSystemComponent } from './master-maintenance-system/master-maintenance-system.component';
+import { MasterForkliftMaintenanceComponent } from './master-forklift-maintenance/master-forklift-maintenance.component';
+import { MasterMaintenanceSystemComponent } from './master-maintenance-system/master-maintenance-system.component';
+import { MasterBrandContentsComponent } from './master-brand-contents/master-brand-contents.component';
+import { MasterRegisterBrandContentsComponent } from './master-register-brand-contents/master-register-brand-contents.component';
+import { MasterUpdateBrandContentsComponent } from './master-update-brand-contents/master-update-brand-contents.component'
 
 
 
@@ -429,13 +432,24 @@ const routes: Routes = [
     path:'reportsDuration',
     component: MasterMaintenanceDurationComponent
   },
-  // {
-  //   path:'reportsForkliftMaintenance',
-  //   component: MasterForkliftMaintenanceComponent
-  // },{
-  //   path:'maintenanceSystem',
-  //   component: MasterMaintenanceSystemComponent
-  // }
+  {
+    path:'reportsForkliftMaintenance',
+    component: MasterForkliftMaintenanceComponent
+  },
+  {
+    path:'maintenanceSystem',
+    component: MasterMaintenanceSystemComponent
+  },
+  {
+    path:'brandContents',
+    component: MasterBrandContentsComponent
+  },{
+    path:'registerBrandContent',
+    component: MasterRegisterBrandContentsComponent
+  },{
+    path:'updateBrandContent/:id',
+    component: MasterUpdateBrandContentsComponent
+  },
  
 ];
 

@@ -154,7 +154,6 @@ console.log(data);
       });
     }
 
-
     getUser(id:number) {
       return new Promise(resolve => {
         const headers = new HttpHeaders();

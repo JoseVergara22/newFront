@@ -31,23 +31,14 @@
           <div class="form-group row">
             <div class="col-sm-4">
               <h6>Sede  <span style="color:red;">*</span></h6>
-                <select class="form-control" (change)="getForklifs()" [(ngModel)]="selectedBranchOfficeId" > 
+                <select class="form-control" [(ngModel)]="selectedBranchOfficeId" > 
                             <option value="0" selected>Seleccionar sede </option>
                             <option   *ngFor="let branchOffice of branchOffices" [ngValue]="branchOffice"   > {{branchOffice.branch_name}}  </option>
                         <!--  <option value="0" selected>Seleccionar perfil</option> -->
                 </select>
               </div>
 
-            <div class="col-sm-4">
-              <h6>Equipo  <span style="color:red;">*</span></h6>
-
-              <select class="form-control"   [(ngModel)]="selectedForkliftId" > 
-                          <option value="0" selected>Seleccionar equipo </option>
-                          <option   *ngFor="let forklift of forklifts" [ngValue]="forklift"   > {{forklift.full_name}}  </option>
-                      <!--  <option value="0" selected>Seleccionar perfil</option> -->
-                     </select>
-            </div>
-            <div class=" align-buttons" >
+            <div class="col-sm-8 align-buttons" >
               <div >
               <button type="button" style="display:none;" id="showUpdatePreventive" (click)="modalUpdatePreventive.show()" class="btn btn-primary waves-effect">Checkear</button>
   
@@ -93,7 +84,7 @@
     
     <div class="form-group row">
 
-        <div class="col-4">
+        <div class="col-sm-4">
           <h6>Fecha de asignación</h6>
           <div class="input-group" dir="ltr">
             <input class="form-control" placeholder="dd-mm-yyyy"   [readonly]="true" 
@@ -101,11 +92,11 @@
               <button type="button"  class="btn btn-primary waves-effect"  (click)="dFrom.toggle()"><i class="icofont icofont-ui-calendar"></i></button>
           </div>
         </div>
-        <div class="col-8">
+        <div class="col-sm-8">
 
-          <h6>Horas de asignación</h6>
+          <h6>Hora de asignación</h6>
           <div class="row">
-            <div class="col-5">
+            <div class="col-sm-4">
               <select class="form-control"   [(ngModel)]="selectedHourPreventive">
                 <option value="0">00 </option>
                 <option value="1">01 </option>
@@ -135,7 +126,7 @@
               </select>
             </div>
             <div><strong>:</strong></div>
-            <div class="col-5">
+            <div class="col-sm-4">
               <select class="form-control"   [(ngModel)]="selectedMinutPreventive">
                 <option value="0">00</option>
               <option value="1">01</option>
@@ -206,10 +197,20 @@
           </div>
           
         </div>
+      </div>
         <!-- <br> -->
-          
-
-    </div>
+        <div class="form-group row">
+          <div class="col-sm-8">
+            <h6>Tipo de Asignación <span style="color: red;">*</span></h6>
+            <div class="row">
+              <div class="col-sm-6">
+                <input type="radio" id="preventive"  name="typem"  (change)="selectTypeMaintenancePre()"/>&nbsp;Preventivo  &nbsp;&nbsp;
+                <input type="radio" id="corrective"   name="typem"  (change)="selectTypeMaintenanceCo()"/>&nbsp;Correctivo
+              </div>
+            </div>
+          </div>
+        </div>
+    
 
           <div class="form-group row">
   
@@ -363,6 +364,17 @@
         </div>
       </div>
 
+    </div>
+    <div class="form-group row">
+      <div class="col-sm-8">
+        <h6>Tipo de Asignación <span style="color: red;">*</span></h6>
+        <div class="row">
+          <div class="col-sm-6">
+            <input type="radio" id="preventiveUpdate"    name="typemU"  (change)="selectTypeMaintenanceUpdatePre()"/>&nbsp;Preventivo  &nbsp;&nbsp;
+            <input type="radio" id="correctiveUpdate"    name="typemU"  (change)="selectTypeMaintenanceUpdateCo()"/>&nbsp;Correctivo
+          </div>
+        </div>
+      </div>
     </div>
 
           <div class="form-group row">

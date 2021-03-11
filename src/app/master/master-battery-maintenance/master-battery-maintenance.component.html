@@ -31,34 +31,19 @@
           <div class="form-group row">
             <div class="col-sm-4">
               <h6>Sede  <span style="color:red;">*</span></h6>
-                <select class="form-control" (change)="getForklifs()" [(ngModel)]="selectedBranchOfficeId" > 
+                <select class="form-control"  [(ngModel)]="selectedBranchOfficeId" > 
                             <option value="0" selected>Seleccionar sede </option>
                             <option   *ngFor="let branchOffice of branchOffices" [ngValue]="branchOffice"   > {{branchOffice.branch_name}}  </option>
                         <!--  <option value="0" selected>Seleccionar perfil</option> -->
                 </select>
               </div>
-
-            <div class="col-sm-4">
-              <h6>Equipo  <span style="color:red;">*</span></h6>
-
-              <select class="form-control"   [(ngModel)]="selectedForkliftId" > 
-                          <option value="0" selected>Seleccionar equipo </option>
-                          <option   *ngFor="let forklift of forklifts" [ngValue]="forklift"   > {{forklift.full_name}}  </option>
-                      <!--  <option value="0" selected>Seleccionar perfil</option> -->
-                     </select>
-            </div>
   
-            <div class="col-4" >
+            <div class="col-sm-4 align-buttons" >
               
               <button type="button" style="display:none;" id="showUpdatePreventive" (click)="modalUpdatePreventive.show()" class="btn btn-primary waves-effect">Checkear</button>
-           <br>
+              <br>
               <button class="btn btn-primary" (click)="getPreventiveRoutines()"><i class="icofont icofont-search" ></i>Buscar</button>
-            </div>&nbsp; 
-            <div></div>&nbsp; 
-            <div class="align-buttons" >
-                <br>
-                
-            </div>
+            </div>&nbsp;
           </div>
 
           <div class=" align-buttons" >
@@ -211,9 +196,20 @@
           
         </div>
         <!-- <br> -->
+      </div>
+      <div class="form-group row">
+        <div class="col-sm-8">
+          <h6>Tipo de Asignación <span style="color: red;">*</span></h6>
+          <div class="row">
+            <div class="col-sm-6">
+              <input type="radio" id="preventive"  name="typem"  (change)="selectTypeMaintenancePre()"/>&nbsp;Preventivo  &nbsp;&nbsp;
+              <input type="radio" id="corrective"   name="typem"  (change)="selectTypeMaintenanceCo()"/>&nbsp;Correctivo
+            </div>
+          </div>
+        </div>
+      </div>
           
 
-    </div>
     <div class="form-group row">
     
       <app-card style="width: 100%; height: 300px;">
@@ -363,7 +359,17 @@
           </div>
         </div>
       </div>
-
+    </div>
+    <div class="form-group row">
+      <div class="col-sm-8">
+        <h6>Tipo de Asignación <span style="color: red;">*</span></h6>
+        <div class="row">
+          <div class="col-sm-6">
+            <input type="radio" id="preventiveUpdate"   name="typemU"  (change)="selectTypeMaintenanceUpdatePre()"/>&nbsp;Preventivo  &nbsp;&nbsp;
+            <input type="radio" id="correctiveUpdate"   name="typemU"  (change)="selectTypeMaintenanceUpdateCo()"/>&nbsp;Correctivo
+          </div>
+        </div>
+      </div>
     </div>
 
     <div class="form-group row">

@@ -263,6 +263,10 @@ const MENUITEMS = [
           {
             state: 'registerMachine',
             name: 'Administrar Maquinas'
+          } , 
+          {
+            state: 'maintenanceSystem',
+            name: 'Administrar Sistemas'
           }  
         ]
       }
@@ -597,24 +601,24 @@ const MENUCREATOR = [
       }
     ]
   },
-  // {
-  //   label: 'UI Element',
-  //   main: [
-  //     {
-  //       state: 'configuracion',
-  //       short_label: 'N',
-  //       name: 'Configuración',
-  //       type: 'sub',
-  //       icon: 'ti-panel',
-  //       children: [
-  //         {
-  //           state: 'register',
-  //           name: 'Administrar Usuarios'
-  //         }
-  //       ]
-  //     }
-  //   ]
-  // },
+  {
+    label: 'UI Element',
+    main: [
+      {
+        state: 'configuracion',
+        short_label: 'N',
+        name: 'Configuración',
+        type: 'sub',
+        icon: 'ti-panel',
+        children: [
+          {
+            state: 'register',
+            name: 'Administrar Usuarios'
+          }
+        ]
+      }
+    ]
+  },
 ];
 
 const MENUSELLER = [

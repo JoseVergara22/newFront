@@ -84,6 +84,11 @@ export class MasterBatteryMaintenanceComponent extends NgbDatepickerI18n {
   observationCorrective: string='';
   observationUpdateCorrective: string='';
 
+  corrective: boolean = false;
+  preventive: boolean  = false;
+  correctiveUpdate: boolean = false;
+  preventiveUpda: boolean  = false;
+
   constructor(private restService: RestService, private resumenesService: ResumenesService,  private batteryService: BatteryService, 
     private forkliftService: ForkliftService, private _i18n: I18n) {
     super();
@@ -166,14 +171,14 @@ export class MasterBatteryMaintenanceComponent extends NgbDatepickerI18n {
 }
 
 showAssing(){
-  if(this.selectedForkliftId==0 || this.selectedRegionalId==0 || this.selectedBusinessId==0 || this.selectedBranchOfficeId==0){
+  if(this.selectedRegionalId==0 || this.selectedBusinessId==0 || this.selectedBranchOfficeId==0){
    swal({
      title:'Importante',
      text: 'Debes seleccionar todos los filtros.',
      type: 'warning'
     });
   }else{
-    this.getTechnician(this.selectedRegionalId);
+    this.getTechnician(this.selectedRegionalId,this.selectedBusinessId);
     document.getElementById('showAssing').click();
   }
 }
@@ -209,14 +214,14 @@ showAssing(){
    }
 
 
-getTechnician(regional_id: any){
+getTechnician(regional_id: any,customer:any){
   swal({
     title: 'Obteniendo información ...',
     allowOutsideClick: false
   });
   swal.showLoading();
   console.log(regional_id);
-  this.restService.getUserRegional(regional_id.id).then(data => {
+  this.restService.getUserRegional(regional_id.id,customer.id).then(data => {
     const resp: any = data;
     if (resp.error) {
       swal({
@@ -292,7 +297,25 @@ console.log(this.observationCorrective);
     console.log('entro');
     console.log(this.consecutive);
 
+    let type; 
 
+    if((this.preventive== false) && (this.corrective==false)){
+      swal({
+        title:'Error',
+        text: 'Debes saleccionar el tipo de mantenimiento',
+        type: 'error'
+      });
+    }else{
+      if(this.preventive){
+        type = 0;
+      }
+      if(this.corrective){
+        type = 1;
+      }
+      console.log(type);
+
+
+      let tec = [];
       console.log(this.technicianSelecteds);
       for (let item of this.technicianSelecteds) {
         console.log('entro');
@@ -300,6 +323,7 @@ console.log(this.observationCorrective);
           console.log(item);
           console.log('entro');
             this.technicianList = this.technicianList + item.id +',';
+            tec.push(item.id);
           }
         }
         if(this.technicianList==''){
@@ -310,7 +334,7 @@ console.log(this.observationCorrective);
           });
         }else{
           console.log(this.forklift);
-          this.batteryService.storeBattery(this.selectedRegionalId.id,this.selectedForkliftId.id,this.selectedBusinessId.id,this.selectedBranchOfficeId.id,this.technicianList, Number(this.consecutive),params,this.observationCorrective).then(data => {
+          this.batteryService.storeBattery(this.selectedRegionalId.id,this.selectedBusinessId.id,this.selectedBranchOfficeId.id,this.technicianList, Number(this.consecutive),params,this.observationCorrective,type).then(data => {
             const resp: any = data;
             console.log(data);
             if (resp.success == false) {
@@ -330,7 +354,8 @@ console.log(this.observationCorrective);
               console.log(data);
               
               document.getElementById('assignPrevetiveHide').click();
-            
+              let message = 'Se ha realizado una asignación de mantenimiento de bateria  en: '+this.selectedBusinessId.business_name+' para el: ' + fromD;
+              this.notificationTechnician(tec,message)
               this.getPreventiveRoutines();
               swal({
                 title: 'Guardado con exito',
@@ -369,6 +394,7 @@ console.log(this.observationCorrective);
             });
         // }
     }
+    }
   }else{
     swal({
       title:'Campo vacio',
@@ -378,10 +404,31 @@ console.log(this.observationCorrective);
   }
   }
 
+   
+  notificationTechnician(tec: any,message:string){
+    
+    this.resumenesService.notificationTechnicians(message,tec).then(data => {
+      const resp: any = data;
+      console.log(data);
+    
+      swal({
+        title: 'Se ha enviado una notifiación al(los) técnico(s) encargado(s)',
+        type: 'success'
+      });
+      
+    }).catch(error => {
+      swal({
+        title: 'Se presento un problema, para realizar la notificación',
+        type: 'error'
+      });
+      console.log(error);
+    });
+  }
+ 
   
   getPreventiveRoutines(){
     // Llenar información de cliente  
-    if( this.selectedForkliftId==0 || this.selectedRegionalId==0 || this.selectedBusinessId==0 || this.selectedBranchOfficeId==0 ){
+    if( this.selectedRegionalId==0 || this.selectedBusinessId==0 || this.selectedBranchOfficeId==0 ){
       swal({
         title:'Importante',
         text: 'Debes seleccionar todos los filtros.',
@@ -394,7 +441,7 @@ console.log(this.observationCorrective);
       });
       swal.showLoading();
 
-    this.batteryService.getBattery(this.selectedForkliftId.id).then(data => {
+    this.batteryService.getBattery(this.selectedBranchOfficeId.id).then(data => {
       const resp: any = data;
       console.log(data);
       swal.close();
@@ -427,7 +474,7 @@ console.log(this.observationCorrective);
     });
     swal.showLoading();
     console.log(this.selectedRegionalId);
-    this.restService.getUserRegional(this.selectedRegionalId.id).then(data => {
+    this.restService.getUserRegional(this.selectedRegionalId.id,this.selectedBusinessId.id).then(data => {
       const resp: any = data;
       if (resp.error) {
         swal({
@@ -474,6 +521,12 @@ console.log(this.observationCorrective);
     this.technicianUpdate = row.result.technicians;
     this.oldDate = row.result.battery.date;
 
+    if(row.result.battery.type_maintenance==0){
+      document.getElementById('preventiveUpdate').click();
+    }
+    if(row.result.battery.type_maintenance==1){
+      document.getElementById('correctiveUpdate').click();
+    }
 
     let date = row.result.battery.date; 
     console.log(date)
@@ -605,8 +658,24 @@ console.log(this.observationCorrective);
       // var untilD = this.untilDate.year+'-'+this.untilDate.month+'-'+this.untilDate.day;
       params=fromD;
 
-      console.log('entro');
+      
+      let type;
+      if((this.preventiveUpda== false) && (this.correctiveUpdate==false)){
+        swal({
+          title:'Error',
+          text: 'Debes saleccionar el tipo de mantenimiento',
+          type: 'error'
+        });
+      }else{
+        if(this.preventiveUpda){
+          type = 0;
+        }
+        if(this.correctiveUpdate){
+          type = 1;
+        }
+        console.log(type);
 
+        let tec = [];
         console.log(this.technicianSelecteds);
         for (let item of this.technicianSelecteds) {
           console.log('entro');
@@ -614,6 +683,7 @@ console.log(this.observationCorrective);
             console.log(item);
             console.log('entro');
               this.technicianList = this.technicianList + item.id +',';
+              tec.push(item.id);
             }
           }
           if(this.technicianList==''){
@@ -624,7 +694,7 @@ console.log(this.observationCorrective);
             });
           }else{
           console.log(this.forklift);
-          this.batteryService.updateBattery(this.selectedRegionalId.id,this.selectedForkliftId.id,this.selectedBusinessId.id,this.selectedBranchOfficeId.id, Number(this.consecutive),this.observationUpdateCorrective,this.technicianList,this.oldDate,params).then(data => {
+          this.batteryService.updateBattery(this.selectedRegionalId.id,this.selectedForkliftId.id,this.selectedBusinessId.id,this.selectedBranchOfficeId.id, Number(this.consecutive),this.observationUpdateCorrective,this.technicianList,this.oldDate,params,type).then(data => {
             const resp: any = data;
             console.log(data);
             if (resp.success == false) {
@@ -640,7 +710,8 @@ console.log(this.observationCorrective);
                 console.log(data);
                 
                 document.getElementById('assingUpdatePrevetiveHide').click();
-              
+                let message = 'Se ha realizado una asignación de mantenimiento de bateria  en: '+this.selectedBusinessId.business_name+' para el: ' + fromD;
+                this.notificationTechnician(tec,message)
                 this.getPreventiveRoutines();
                 swal({
                   title: 'Guardado con exito',
@@ -678,6 +749,7 @@ console.log(this.observationCorrective);
               console.log(error);
             });
         }
+      }
     }
   }
 
@@ -732,7 +804,8 @@ console.log(this.observationCorrective);
   addCancelDate(){
     //If exist, remove the date
     
-    
+    this.preventive = false;
+    this.corrective = false;
     this.cleanSelectRoutines();
               // this.cleanSelectTechnician();
               this.routineSelecteds.length=0;
@@ -743,7 +816,8 @@ console.log(this.observationCorrective);
 addCancelUpdateDate(){
   //If exist, remove the date
   
-  
+  this.preventive = false;
+  this.corrective = false;
   this.cleanSelectRoutines();
   // this.cleanSelectTechnician();
   this.routineSelecteds.length=0;
@@ -772,6 +846,38 @@ onDateSelectionFrom(date: any) {
       console.log('es mayor');
       this.fromDate=this.untilDate;
     }
+}
+
+selectTypeMaintenancePre(){
+  this.preventive =  true;
+    if(this.corrective){
+      this.corrective =  false;  
+    }
+}
+
+selectTypeMaintenanceCo(){
+  this.corrective = true;
+    if(this.preventive){
+      this.preventive = false;
+    }
+  console.log(this.corrective);
+}
+
+selectTypeMaintenanceUpdatePre(){
+  this.preventiveUpda =  true;  
+    if(this.correctiveUpdate){       
+      this.correctiveUpdate = false;
+    }
+
+  console.log(this.preventiveUpda);
+}
+
+selectTypeMaintenanceUpdateCo(){
+  this.correctiveUpdate = true;
+    if(this.preventiveUpda){
+      this.preventiveUpda = false;  
+    }
+  console.log(this.correctiveUpdate);
 }
 
 

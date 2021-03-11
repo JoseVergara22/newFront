@@ -54,6 +54,28 @@ export class ModulesService {
         });
     });
   }
+  getProfileMenu(id){
+    return new Promise(resolve => {
+      const headers = new HttpHeaders();
+      headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user'))); // 'Bearer ' +
+      headers.append('Content-Type', 'application/json');
+      const httpOptions = {
+        headers: new HttpHeaders({
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + localStorage.getItem('token_user'),
+          'Accept': 'application/json'
+        })
+      };
+      console.log(id);
+      this.http.get(this.apiEndPoint+'api/show_profile_menu/'+id, httpOptions)
+        .map(res => res).subscribe(data => {
+          console.log(data);
+          resolve(data);
+        }, error => {
+          resolve(error);
+        });
+    });
+  }
 
   getModuleFuntion(){
     return new Promise(resolve => {
@@ -123,7 +145,7 @@ export class ModulesService {
   }
  
 
-  getRoute() {
+  getRoute(state: string) {
     return new Promise(resolve => {
       const headers = new HttpHeaders();
       headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user'))); // 'Bearer ' +
@@ -135,7 +157,8 @@ export class ModulesService {
           'Accept': 'application/json'
         })
       };
-      this.http.get(this.apiEndPoint+'api/get_route', httpOptions)
+      console.log(state);
+      this.http.get(this.apiEndPoint+'api/get_route?state='+state, httpOptions)
         .map(res => res).subscribe(data => {
           console.log(data);
           resolve(data);

@@ -107,8 +107,12 @@ import { MasterPedingComponent } from './master-peding/master-peding.component';
 import { MasterRoutesComponent } from './master-routes/master-routes.component';
 // import { MasterMaintenanceNotificationComponent } from './master-maintenance-notification/master-maintenance-notification.component';
 import { MasterMaintenanceDurationComponent } from './master-maintenance-duration/master-maintenance-duration.component';
-// import { MasterForkliftMaintenanceComponent } from './master-forklift-maintenance/master-forklift-maintenance.component';
-// import { MasterMaintenanceSystemComponent } from './master-maintenance-system/master-maintenance-system.component';
+import { MasterForkliftMaintenanceComponent } from './master-forklift-maintenance/master-forklift-maintenance.component';
+import { MasterMaintenanceSystemComponent } from './master-maintenance-system/master-maintenance-system.component';
+import { MasterBrandContentsComponent } from './master-brand-contents/master-brand-contents.component';
+import { MasterRegisterBrandContentsComponent } from './master-register-brand-contents/master-register-brand-contents.component';
+import { MasterUpdateBrandContentsComponent } from './master-update-brand-contents/master-update-brand-contents.component'
+
 
 
 
@@ -148,12 +152,14 @@ import { BatteryService } from '../master-services/battery/battery.service';
 import { PendingService } from '../master-services/pending/pending.service';
 import { ReportsService } from '../master-services/reports/reports.service';
 import { SystemsService } from '../master-services/systems/systems.service';
+import { BrandService } from '../master-services/brand/brand.service';
 
 
 
 
 import {AutocompleteLibModule} from 'angular-ng-autocomplete';
-
+import {ChartComponent} from 'angular2-chartjs';
+import { MasterModelContentsComponent } from './master-model-contents/master-model-contents.component';
 
 
 @NgModule({
@@ -169,11 +175,13 @@ import {AutocompleteLibModule} from 'angular-ng-autocomplete';
     UiSwitchModule,
     NgxDatatableModule,
     NgbModule,
-    AutocompleteLibModule
+    AutocompleteLibModule,
+    // ChartComponent
   ],
   exports: [
   ],
   declarations: [
+    ChartComponent,
     MasterAuthComponent,
     MasterUserRegisterComponent,
     MasterNewsComponent,
@@ -270,8 +278,12 @@ import {AutocompleteLibModule} from 'angular-ng-autocomplete';
     MasterRoutesComponent,
     // MasterMaintenanceNotificationComponent,
     MasterMaintenanceDurationComponent,
-    // MasterForkliftMaintenanceComponent,
-    // MasterMaintenanceSystemComponent,
+    MasterBrandContentsComponent,
+    MasterRegisterBrandContentsComponent,
+    MasterUpdateBrandContentsComponent,
+    MasterForkliftMaintenanceComponent,
+    MasterMaintenanceSystemComponent,
+    MasterModelContentsComponent,
 
    // MasterAdminComponent
   ],
@@ -304,6 +316,7 @@ import {AutocompleteLibModule} from 'angular-ng-autocomplete';
     PendingService,
     ReportsService,
     SystemsService,
+    BrandService,
   ]
 })
 export class MasterModule { }

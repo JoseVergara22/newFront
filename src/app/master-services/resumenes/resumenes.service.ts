@@ -10,6 +10,54 @@ export class ResumenesService {
 
   constructor(private http: HttpClient, private router: Router) { }
 
+  
+  showPriceEstimate(id:number) { // Falta implementar desde el backend
+    return new Promise(resolve => {
+      const headers = new HttpHeaders();
+      headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user'))); // 'Bearer ' +
+      headers.append('Content-Type', 'application/json');
+      const httpOptions = {
+        headers: new HttpHeaders({
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + localStorage.getItem('token_user'),
+          'Accept': 'application/json'
+        })
+      }
+      this.http.get(this.apiEndPoint+'api/get_cost_estimate/'+id, httpOptions)
+        .map(res => res).subscribe(data => {
+          console.log(data);
+          resolve(data);
+        }, error => {
+          resolve(error);
+          console.log(error)
+        });
+    });
+  }
+  
+  showPriceSettlement(id:number) { // Falta implementar desde el backend
+    return new Promise(resolve => {
+      const headers = new HttpHeaders();
+      headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user'))); // 'Bearer ' +
+      headers.append('Content-Type', 'application/json');
+      const httpOptions = {
+        headers: new HttpHeaders({
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + localStorage.getItem('token_user'),
+          'Accept': 'application/json'
+        })
+      }
+      this.http.get(this.apiEndPoint+'api/get_settlement_price/'+id, httpOptions)
+        .map(res => res).subscribe(data => {
+          console.log(data);
+          resolve(data);
+        }, error => {
+          resolve(error);
+          console.log(error)
+        });
+    });
+  }
+
+
   showFilter(paramsFilter: string) { // Falta implementar desde el backend
     return new Promise(resolve => {
       const headers = new HttpHeaders();
@@ -486,6 +534,57 @@ export class ResumenesService {
         });
     });
   }
+
+  getEstimatePriceFilter(id:number,fromdate:string,to_date:string){
+    console.log(id);
+    return new Promise(resolve => {
+      const httpOptions = {
+        headers: new HttpHeaders({
+          'Content-Type':  'application/json',
+          'Authorization': 'Bearer ' + localStorage.getItem('token_user'),
+          'Accept': 'application/json'
+        })
+      };
+      console.log('from_date='+fromdate+'&to_date='+to_date);
+      this.http.get(this.apiEndPoint+'api/get_cost_estimate_filter/'+id+'?from_date='+fromdate+'&to_date='+to_date, httpOptions)
+      .map(res => res).subscribe(data => {
+        console.log("a mostrar data");
+      console.log(data);
+      resolve(data);
+      }, error => {
+        console.log("error en servicio");
+        console.log(error);
+                resolve(error);
+        });
+    });
+  }
+
+  
+
+  getSettlementPriceFilter(id:number,fromdate:string,to_date:string){
+    console.log(id);
+    return new Promise(resolve => {
+      const httpOptions = {
+        headers: new HttpHeaders({
+          'Content-Type':  'application/json',
+          'Authorization': 'Bearer ' + localStorage.getItem('token_user'),
+          'Accept': 'application/json'
+        })
+      };
+      console.log('from_date='+fromdate+'&to_date='+to_date);
+      this.http.get(this.apiEndPoint+'api/get_settlement_price_filter/'+id+'?from_date='+fromdate+'&to_date='+to_date, httpOptions)
+      .map(res => res).subscribe(data => {
+        console.log("a mostrar data");
+      console.log(data);
+      resolve(data);
+      }, error => {
+        console.log("error en servicio");
+        console.log(error);
+                resolve(error);
+        });
+    });
+  }
+
 
   getSettlementFilter(id:number,fromdate:string,to_date:string){
     console.log(id);

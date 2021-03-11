@@ -10,6 +10,8 @@ import { WorkService } from '../../master-services/Work/work.service';
 import { EstimateService } from '../../master-services/estimate/estimate.service';
 import { SettlementService } from '../../master-services/settlement/settlement.service';
 import { ResponseContentType } from '@angular/http';
+import {ChartModule} from 'angular2-chartjs';
+import { Chart } from "chart.js";
 // import * as am4core from "@amcharts/amcharts4/core";
 // import * as am4charts from "@amcharts/amcharts4/charts";
 // import am4themes_animated from "@amcharts/amcharts4/themes/animated";
@@ -62,7 +64,8 @@ interface fileImage {// item para mostrar selccionados
   providers: [I18n, {provide: NgbDatepickerI18n, useClass: MasterEditResumenesComponent}]
 })
 export class MasterEditResumenesComponent extends NgbDatepickerI18n {
-
+  chartEs = [];
+  chartSet = [];
   now:any;
 
   forkliftText = '';
@@ -207,6 +210,15 @@ export class MasterEditResumenesComponent extends NgbDatepickerI18n {
   downloadPlatformPdf: any;
   downloadStevedorePdf: any;
   downloadBatteryPdf: any;
+
+  priceEs: any;
+  priceSet: any;
+
+  options = {
+    responsive: true,
+    maintainAspectRatio: false,
+  };
+
   
   constructor(private restService: RestService, private resumenesService: ResumenesService, private router: Router, 
     private forkliftService: ForkliftService, private _i18n: I18n, private calendar: NgbCalendar, public formatter: NgbDateParserFormatter,
@@ -225,7 +237,7 @@ export class MasterEditResumenesComponent extends NgbDatepickerI18n {
       this.untilDate=ngbDateStruct;
       // this.getWorks();
       // this.getChecklist();
-      // this.getTechnician();
+      
      
      }
 
@@ -265,6 +277,7 @@ export class MasterEditResumenesComponent extends NgbDatepickerI18n {
         this.getReportTechnicianLast();
         this.getEstimateLast();
         this.getSettlementLast();
+        // this.priceEstimate();
         // this.getBatteryRoutinesLast();
         }).catch(error => {
           console.log(error);
@@ -673,12 +686,12 @@ export class MasterEditResumenesComponent extends NgbDatepickerI18n {
     //   }
     // }
 
-    showRoutineChecklist(item: any){
-      this.router.navigateByUrl('maintenance/viewChecklist/'+item.id);
-    }
-    showRoutineCorrective(row: any){
-      this.router.navigateByUrl('maintenance/viewCorrective/'+row.result.corrective.id);
-    }
+    // showRoutineChecklist(item: any){
+    //   this.router.navigateByUrl('maintenance/viewChecklist/'+item.id);
+    // }
+    // showRoutineCorrective(row: any){
+    //   this.router.navigateByUrl('maintenance/viewCorrective/'+row.result.corrective.id);
+    // }
     // showRoutinePlatform(item: any){
     //   this.router.navigateByUrl('maintenance/viewPlatform/'+item.id);
     // }
@@ -1012,7 +1025,7 @@ export class MasterEditResumenesComponent extends NgbDatepickerI18n {
   getRoutinesFromDate(){
     swal({
       title: 'Validando información ...',
-      allowOutsideClick: false
+      allowOutsideClick: true
     });
     let from_date='';
     let to_date='';
@@ -1044,6 +1057,7 @@ export class MasterEditResumenesComponent extends NgbDatepickerI18n {
     //  this.getStevedoreRoutinesFilter(from_date,to_date);
     //  this.getBatteryRoutinesFilter(from_date,to_date);
      this.getEstimateFilter(from_date,to_date);
+    //  this.getEstimatePrice(from_date,to_date);
      this.getSettlementFilter(from_date,to_date);
     //  this.getForkliftChecklistFilter(from_date,to_date);
   }
@@ -2383,116 +2397,393 @@ loadPdfSendEmail(){
     this.router.navigateByUrl('maintenance/resumenes/'+this.regional_id+'/'+this.forklift.customer_id+'/'+this.forklift.branch_offices_id);
   }
 
-  // public barChartOptions: ChartOptions = {
-  //   responsive: true,
-  //   // We use these empty structures as placeholders for dynamic theming.
-  //   scales: { xAxes: [{}], yAxes: [{}] },
-  //   plugins: {
-  //     datalabels: {
-  //       anchor: 'end',
-  //       align: 'end',
-  //     }
-  //   }
-  // };
-  // public barChartLabels: Label[] = ['2006', '2007', '2008', '2009', '2010', '2011', '2012'];
-  // public barChartType: ChartType = 'bar';
-  // public barChartLegend = true;
-  // // public barChartPlugins = [pluginDataLabels];
+  // getEstimatePrice(fromdate:string, to_date:string){
+  //   // Llenar información de cliente  
+  //   console.log('entro filtro')
+  //   this.resumenesService.getEstimatePriceFilter(this.forkliftId,fromdate,to_date).then(data => {
+  //     const resp: any = data;
+  //     console.log(data);
+  //     swal.close();
+  //     this.priceEs=resp.data;
+  //     const subHours = this.priceEs.map(res => res.subtotal_hours);
+  //     const subParts = this.priceEs.map(res => res.subtotal_parts);
 
-  // public barChartData: ChartDataSets[] = [
-  //   { data: [65, 59, 80, 81, 56, 55, 40], label: 'Series A' },
-  //   { data: [28, 48, 40, 19, 86, 27, 90], label: 'Series B' }
-  // ];
-  // // events
-  // public chartClicked({ event, active }: { event: MouseEvent, active: {}[] }): void {
-  //   console.log(event, active);
+  //     const dates = [];
+
+  //     this.priceEs.forEach(result => {
+  //       dates.push(result.create_at);
+
+  //       const colorsPart = [];
+  //       const colorsHours = [];
+  //       subHours.forEach(item => {
+  //         colorsPart.push("red");
+  //       });
+  //       subHours.forEach(item => {
+  //         colorsHours.push("#00ffff");
+  //       });
+  //       this.chartEs = new Chart("canvas", {
+  //         type: "bar",
+  //         data: {
+  //           labels: dates,
+  //           datasets: [
+  //             {
+  //               label: "Valor Repuestos",
+  //               data: subParts,
+  //               backgroundColor: [
+  //                 colorsPart
+  //               ],
+  //               fill: false
+  //             },
+  //             {
+  //               label: "Valor Horas",
+  //               data: subHours,
+  //               backgroundColor: [
+  //                 colorsHours
+  //               ],
+  //               fill: false
+  //             }
+  //           ]
+  //         },
+  //         options: {
+  //           legend: {
+  //             dispaly: false
+  //           },
+  //           scales: {
+  //             xAxes: [
+  //               {
+  //                 display: true
+  //               }
+  //             ],
+  //             yAxes: [
+  //               {
+  //                 display: true
+  //               }
+  //             ]
+  //           }
+  //         }
+  //       });
+  //     });
+  //     console.log(this.chartEs);
+  //   }).catch(error => {
+  //     console.log(error);
+  //     swal({
+  //       title:'Error',
+  //       text: 'Ha ocurrido un error al cargar la grafica de cotzaciones',
+  //       type: 'error'
+  //      });
+  //   });
   // }
 
-  // public chartHovered({ event, active }: { event: MouseEvent, active: {}[] }): void {
-  //   console.log(event, active);
+  // priceEstimate(){
+  //   console.log('entro parts');
+ 
+  //   this.resumenesService.showPriceEstimate(this.forkliftId).then(data => {
+  //     console.log('Datos de partes');
+  //     console.log(data);
+  //     const resp: any = data;
+  //     this.priceEs=resp.data;
+  //     const subHours = this.priceEs.map(res => res.subtotal_hours);
+  //     const subParts = this.priceEs.map(res => res.subtotal_parts);
+
+  //     const dates = [];
+
+      
+  //     this.priceEs.forEach(result => {
+  //       dates.push(result.create_at);
+
+  //       const colorsPart = [];
+  //       const colorsHours = [];
+  //       subHours.forEach(item => {
+  //         colorsPart.push("red");
+  //       });
+  //       subHours.forEach(item => {
+  //         colorsHours.push("#00ffff");
+  //       });
+  //       this.chartEs = new Chart("canvas", {
+  //         type: "bar",
+  //         data: {
+  //           labels: dates,
+  //           datasets: [
+  //             {
+  //               label: "Valor Repuestos",
+  //               data: subParts,
+  //               backgroundColor: [
+  //                 colorsPart,
+  //               ],
+  //               fill: false
+  //             },
+  //             {
+  //               label: "Valor Horas",
+  //               data: subHours,
+  //               backgroundColor: [
+  //                 colorsHours
+  //               ],
+  //               fill: false
+  //             }
+  //           ]
+  //         },
+  //         options: {
+  //           legend: {
+  //             dispaly: false
+  //           },
+  //           scales: {
+  //             xAxes: [
+  //               {
+  //                 display: true
+  //               }
+  //             ],
+  //             yAxes: [
+  //               {
+  //                 display: true
+  //               }
+  //             ]
+  //           }
+  //         }
+  //       });
+  //     });
+  //   }).catch(error => {
+  //     console.log(error);
+  //     swal({
+  //       title:'Error',
+  //       text: 'Ha ocurrido un error al cargar la grafica de cotizaciones',
+  //       type: 'error'
+  //      });
+  //   });
+  
+  // }
+  // getSettlementPrice(fromdate:string, to_date:string){
+  //   // Llenar información de cliente  
+  //   console.log('entro filtro')
+  //   this.resumenesService.getSettlementPriceFilter(this.forkliftId,fromdate,to_date).then(data => {
+  //     const resp: any = data;
+  //     console.log(data);
+  //     swal.close();
+  //     this.priceSet=resp.data;
+  //     const subHours = this.priceSet.map(res => res.subtotal_hours);
+  //     const subParts = this.priceSet.map(res => res.subtotal_parts);
+  //     console.log(subHours);
+  //     console.log(subParts);
+
+  //     const dates = [];
+
+  //     this.priceSet.forEach(result => {
+  //       dates.push(result.create_at);
+
+  //       const colorsPart = [];
+  //       const colorsHours = [];
+  //       subHours.forEach(item => {
+  //         colorsPart.push("red");
+  //       });
+  //       subHours.forEach(item => {
+  //         colorsHours.push("#00ffff");
+  //       });
+  //       this.chartSet = new Chart("canvas", {
+  //         type: "bar",
+  //         data: {
+  //           labels: dates,
+  //           datasets: [
+  //             {
+  //               label: "Valor Repuestos",
+  //               data: subParts,
+  //               backgroundColor: [
+  //                 colorsPart
+  //               ],
+  //               fill: false
+  //             },
+  //             {
+  //               label: "Valor Horas",
+  //               data: subHours,
+  //               backgroundColor: [
+  //                 colorsHours
+  //               ],
+  //               fill: false
+  //             }
+  //           ]
+  //         },
+  //         options: {
+  //           legend: {
+  //             dispaly: false
+  //           },
+  //           scales: {
+  //             xAxes: [
+  //               {
+  //                 display: true
+  //               }
+  //             ],
+  //             yAxes: [
+  //               {
+  //                 display: true
+  //               }
+  //             ]
+  //           }
+  //         }
+  //       });
+  //     });
+  //     console.log(this.chartSet);
+  //   }).catch(error => {
+  //     console.log(error);
+  //     swal({
+  //       title:'Error',
+  //       text: 'Ha ocurrido un error al cargar la grafica de liquidaciones',
+  //       type: 'error'
+  //      });
+  //   });
   // }
 
-  // public randomize(): void {
-  //   // Only Change 3 values
-  //   this.barChartData[0].data = [
-  //     Math.round(Math.random() * 100),
-  //     59,
-  //     80,
-  //     (Math.random() * 100),
-  //     56,
-  //     (Math.random() * 100),
-  //     40 ];
+  // priceSettlement(){
+  //   console.log('entro parts');
+ 
+  //   this.resumenesService.showPriceSettlement(this.forkliftId).then(data => {
+  //     console.log('Datos de partes');
+  //     console.log(data);
+  //     const resp: any = data;
+  //     this.priceSet=resp.data;
+  //     const subHours = this.priceSet.map(res => res.subtotal_hours);
+  //     const subParts = this.priceSet.map(res => res.subtotal_parts);
+
+  //     const dates = [];
+
+
+  //     this.priceSet.forEach(result => {
+  //       dates.push(result.create_at);
+
+  //       const colorsPart = [];
+  //       const colorsHours = [];
+  //       subHours.forEach(item => {
+  //         colorsPart.push("red");
+  //       });
+  //       subHours.forEach(item => {
+  //         colorsHours.push("#00ffff");
+  //       });
+  //       this.chartSet = new Chart("canvas", {
+  //         type: "bar",
+  //         data: {
+  //           labels: dates,
+  //           datasets: [
+  //             {
+  //               label: "Valor Repuestos",
+  //               data: subParts,
+  //               backgroundColor: [
+  //                 colorsPart
+  //               ],
+  //               fill: false
+  //             },
+  //             {
+  //               label: "Valor Horas",
+  //               data: subHours,
+  //               backgroundColor: [
+  //                 colorsHours
+  //               ],
+  //               fill: false
+  //             }
+  //           ]
+  //         },
+  //         options: {
+  //           legend: {
+  //             dispaly: false
+  //           },
+  //           scales: {
+  //             xAxes: [
+  //               {
+  //                 display: true
+  //               }
+  //             ],
+  //             yAxes: [
+  //               {
+  //                 display: true
+  //               }
+  //             ]
+  //           }
+  //         }
+  //       });
+  //     });
+  //   }).catch(error => {
+  //     console.log(error);
+  //     swal({
+  //       title:'Error',
+  //       text: 'Ha ocurrido un error al cargar la grafica de liquidaciones',
+  //       type: 'error'
+  //      });
+  //   });
+  
   // }
-
-  graficts(){
-//         let chart = am4core.create("chartdiv", am4charts.XYChart);
-
-// // Add data
-// chart.data = [{
-//   "country": "Lithuania",
-//   "litres": 501.9,
-//   "units": 250
-// }, {
-//   "country": "Czech Republic",
-//   "litres": 301.9,
-//   "units": 222
-// }, {
-//   "country": "Ireland",
-//   "litres": 201.1,
-//   "units": 170
-// }, {
-//   "country": "Germany",
-//   "litres": 165.8,
-//   "units": 122
-// }, {
-//   "country": "Australia",
-//   "litres": 139.9,
-//   "units": 99
-// }, {
-//   "country": "Austria",
-//   "litres": 128.3,
-//   "units": 85
-// }, {
-//   "country": "UK",
-//   "litres": 99,
-//   "units": 93
-// }, {
-//   "country": "Belgium",
-//   "litres": 60,
-//   "units": 50
-// }, {
-//   "country": "The Netherlands",
-//   "litres": 50,
-//   "units": 42
-// }];
-
-// // Create axes
-// let categoryAxis = chart.xAxes.push(new am4charts.CategoryAxis());
-// categoryAxis.dataFields.category = "country";
-// categoryAxis.title.text = "Countries";
-
-// let valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
-// valueAxis.title.text = "Litres sold (M)";
-
-// // Create series
-// let series = chart.series.push(new am4charts.ColumnSeries());
-// series.dataFields.valueY = "litres";
-// series.dataFields.categoryX = "country";
-// series.name = "Sales";
-// series.columns.template.tooltipText = "Series: {name}\nCategory: {categoryX}\nValue: {valueY}";
-// series.columns.template.fill = am4core.color("#104547"); // fill
-
-// var series2 = chart.series.push(new am4charts.LineSeries());
-// series2.name = "Units";
-// series2.stroke = am4core.color("#CDA2AB");
-// series2.strokeWidth = 3;
-// series2.dataFields.valueY = "units";
-// series2.dataFields.categoryX = "country";
-  }
 
   ngOnInit() {
+    // this.resumenesService.daysWeather().subscribe(res => {
 
-   }
+    //   console.log(res);
+    //   const temp_max = res["list"].map(res => res.main.temp_max);
+    //   const temp_min = res["list"].map(res => res.main.temp_min);
+    //   const allDays = res["list"].map(res => res.dt);
+    //   const weahterDays = [];
+      
+    //   allDays.forEach(result => {
+    //     let jsDate = new Date(result * 1000);
+    //     let options = {
+    //       weekday: "long",
+    //       month: "short",
+    //       day: "numeric"
+    //     };
+
+    //     weahterDays.push(jsDate.toLocaleTimeString("es", options));
+
+    //     this.chart = new Chart("canvas", {
+    //       type: "bar",
+    //       data: {
+    //         labels: weahterDays,
+    //         datasets: [
+    //           {
+    //             label: "Maxima",
+    //             data: temp_max,
+    //             backgroundColor: [
+    //               "red",
+    //               "red",
+    //               "red",
+    //               "red",
+    //               "red",
+    //               "red",
+    //               "red"
+    //             ],
+    //             fill: false
+    //           },
+    //           {
+    //             label: "Minima",
+    //             data: temp_min,
+    //             backgroundColor: [
+    //               "#00ffff",
+    //               "#00ffff",
+    //               "#00ffff",
+    //               "#00ffff",
+    //               "#00ffff",
+    //               "#00ffff",
+    //               "#00ffff"
+    //             ],
+    //             fill: false
+    //           }
+    //         ]
+    //       },
+    //       options: {
+    //         legend: {
+    //           dispaly: false
+    //         },
+    //         scales: {
+    //           xAxes: [
+    //             {
+    //               display: true
+    //             }
+    //           ],
+    //           yAxes: [
+    //             {
+    //               display: true
+    //             }
+    //           ]
+    //         }
+    //       }
+    //     });
+    //   });
+    //   console.log(this.chart);
+    // });
+  }
 
   getWeekdayShortName(weekday: number): string {
     return I18N_VALUES[this._i18n.language].weekdays[weekday - 1];

@@ -474,7 +474,7 @@ export class StevedoreService {
   }
 
   
-  storeStevedoreTechnician(forklift_id:number,customer_id:number,brach_id:number,id_rutines:string,technician_id: any, consecutive:number, date:string){
+  storeStevedoreTechnician(customer_id:number,brach_id:number,id_rutines:string,technician_id: any, consecutive:number, date:string, type:number){
     return new Promise(resolve => {
       const httpOptions = {
         headers: new HttpHeaders({
@@ -484,13 +484,13 @@ export class StevedoreService {
         })
       };
       const postParams = {
-        forklift_id: forklift_id,
         customer_id: customer_id,
         branch_id: brach_id,
         stevedores: id_rutines,
         technicians_id: technician_id,
         consecutive: consecutive,
-        date: date
+        date: date,
+        type: type
       };
       console.log(postParams);
       
@@ -506,7 +506,7 @@ export class StevedoreService {
     });
   }
 
-  updateStevedoreTechnician(forklift_id:number,customer_id:number,branch_id:number,id_rutines:string,technician_id: any,date: string,newDate: string,consecutive:number) {
+  updateStevedoreTechnician(customer_id:number,branch_id:number,id_rutines:string,technician_id: any,date: string,newDate: string,consecutive:number,type:number) {
     return new Promise(resolve => {
       const headers = new HttpHeaders();
       headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user'))); // 'Bearer ' +
@@ -520,14 +520,14 @@ export class StevedoreService {
     };
     console.log( localStorage.getItem('userid'));
     const patchParams = {
-      forklift_id: forklift_id,
         customer_id:customer_id,
         branch_offices_id:branch_id,
         stevedores: id_rutines,
         technicians_id: technician_id,
         date: date,
         newDate: newDate,
-        consecutive:consecutive
+        consecutive:consecutive,
+        type:type
     };
     console.log(patchParams);
     this.http.patch(this.apiEndPoint+'api/update_stevedore_techinician', patchParams, httpOptions)

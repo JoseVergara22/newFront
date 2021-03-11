@@ -5,6 +5,7 @@ import { UserService } from '../../master-services/User/user.service';
 import swal from 'sweetalert2';
 import { UserInternalInterface } from '../../master-models/user-internal';
 import { Router } from '@angular/router';
+import { RestService } from '../../master-services/Rest/rest.service';
 
 @Component({
   selector: 'app-master-user-register',
@@ -29,10 +30,16 @@ export class MasterUserRegisterComponent implements OnInit {
   currentUser:any;
   elementDelete:any;
   enabledUpdated =false;
+  userProfile: any;
 
-  constructor(private userService: UserService, private router: Router) {
+  constructor(private userService: UserService, private router: Router,private restService: RestService) {
+    this.userProfile = localStorage.getItem('profile');
     this.loading = true;
-    this.getUser();
+    if (this.userProfile == 3){
+      this.getUserTechnician();
+    }else{
+      this.getUser();
+    }
     //this.getUserCustomer();
     const name = new FormControl('', Validators.required);
     const lastname = new FormControl('', Validators.required);
@@ -106,6 +113,37 @@ export class MasterUserRegisterComponent implements OnInit {
     });
     swal.showLoading();
     this.userService.getUsers().then(data => {
+      const resp: any = data;
+      if (resp.error) {
+        swal({
+          title:'Error',
+          text: 'Ha ocurrido un error',
+          type: 'error'
+         });
+      } else {
+        console.log(data);
+        swal.close();
+        this.rowsUser = resp.data;
+        console.log( this.rowsUser);
+    }
+    }).catch(error => {
+      swal.close();
+      swal({
+        title:'Error',
+        text: 'Ha ocurrido un error',
+        type: 'error'
+       });
+      console.log(error);
+    });
+  }
+
+  getUserTechnician() {
+    swal({
+      title: 'Obteniendo información ...',
+      allowOutsideClick: false
+    });
+    swal.showLoading();
+    this.restService.getTechnician().then(data => {
       const resp: any = data;
       if (resp.error) {
         swal({

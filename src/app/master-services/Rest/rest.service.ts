@@ -2207,7 +2207,7 @@ export class RestService {
         });
     });
   }
-  getUserRegional(regional_id: number) {
+  getUserRegional(regional: number,customer:number) {
     return new Promise(resolve => {
       const headers = new HttpHeaders();
       headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user')));
@@ -2219,7 +2219,7 @@ export class RestService {
           'Accept': 'application/json'
         })
       };
-      this.http.get(this.apiEndPoint + 'api/show_user_technician_regional/' + regional_id, httpOptions)
+      this.http.get(this.apiEndPoint + 'api/show_user_technician_regional?regional=' + regional +'&customer='+customer, httpOptions)
         .map(res => res).subscribe(data => {
           console.log(data);
           resolve(data);

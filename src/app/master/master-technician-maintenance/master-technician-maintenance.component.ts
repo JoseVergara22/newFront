@@ -6,6 +6,8 @@ import { RestService } from '../../master-services/Rest/rest.service';
 import { ResumenesService } from '../../master-services/resumenes/resumenes.service';
 import { MasterSettlementAllComponent } from '../master-settlement-all/master-settlement-all.component';
 
+declare var require: any
+const FileSaver = require('file-saver');
 
 const I18N_VALUES = {
   'fr': {
@@ -49,6 +51,13 @@ export class MasterTechnicianMaintenanceComponent extends NgbDatepickerI18n {
 
   fromDate: NgbDateStruct;
   untilDate: NgbDateStruct;
+
+  downloadPreventivePdf: any;
+  downloadCorrectivePdf: any;
+  downloadChecklistPdf: any;
+  downloadPlatformPdf: any;
+  downloadStevedorePdf: any;
+  downloadBatteryPdf: any;
 
 
 
@@ -176,10 +185,10 @@ getFilters() {
      var from_date= fromD+' 00:00:00';
       var to_date=untilD+' 23:59:59';
       
-console.log(from_date);
-console.log(to_date);
-console.log(this.selectedTechnician);
-console.log(this.selectedBusinessId);
+    console.log(from_date);
+    console.log(to_date);
+    console.log(this.selectedTechnician);
+    console.log(this.selectedBusinessId);
 
       params='from_date='+from_date+'&to_date='+to_date;
      
@@ -258,25 +267,194 @@ console.log(this.selectedBusinessId);
 
   viewResumenes(row: any){
     if(row.type === "CORRECTIVO"){
-      this.router.navigateByUrl('maintenance/viewCorrective/'+row.id);
+      this.downloadCorrective(row);
+      // this.router.navigateByUrl('maintenance/viewCorrective/'+row.id);
     }
     if(row.type === "CHECKLIST"){
-      this.router.navigateByUrl('maintenance/viewChecklist/'+row.id);
+      this.downloadChecklist(row);
+      // this.router.navigateByUrl('maintenance/viewChecklist/'+row.id);
     }
     if(row.type === "PREVENTIVO"){
-      this.router.navigateByUrl('maintenance/viewPreventive/'+row.id);
+      this.downloadPreventive(row);
+      // this.router.navigateByUrl('maintenance/viewPreventive/'+row.id);
     }
     if(row.type === "PLATAFORMA"){
-      this.router.navigateByUrl('maintenance/viewPlatform/'+row.id);
+      this.downloadPlatform(row);
+      // this.router.navigateByUrl('maintenance/viewPlatform/'+row.id);
     }
     if(row.type === "ESTIBADORES"){
-      this.router.navigateByUrl('maintenance/viewStevedore/'+row.id);
+      this.downloadStevedore(row);
+      // this.router.navigateByUrl('maintenance/viewStevedore/'+row.id);
     }
     if(row.type === "REPORTE TÉCNICO"){
-      this.router.navigateByUrl('maintenance/updateForkliftReport/'+row.id);
+      this.downloadReport(row);
+      // this.router.navigateByUrl('maintenance/updateForkliftReport/'+row.id);
     }
 }
 
+ 
+downloadPreventive(row: any){
+  swal.showLoading();
+  console.log(row);
+  this.resumenesService.downloadPreventivePdf(row.id).then(data => {
+    const resp: any = data;
+    console.log(data);
+    this.downloadPreventivePdf  = resp.data; 
+    
+    const pdfUrl = this.downloadPreventivePdf.url;
+    const pdfName = 'Matenimiento_Preventivo_Nro_'+row.preventive_consecutive;
+    FileSaver.saveAs(pdfUrl, pdfName);
+    swal.close();
+
+  }).catch(error => {
+    console.log(error);
+    swal({
+      title:'Error',
+      text: 'Ha ocurrido un error',
+      type: 'error'
+     });
+  });
+}
+
+downloadCorrective(row: any){
+  swal.showLoading();
+  console.log(row);
+  this.resumenesService.downloadCorrectivePdf(row.result.corrective.id).then(data => {
+    const resp: any = data;
+    console.log(data);
+    this.downloadCorrectivePdf  = resp.data; 
+    
+    
+    const pdfUrl = this.downloadCorrectivePdf.url;
+    const pdfName = 'Matenimiento_Correctivo_Nro_'+row.result.corrective.corrective_consecutive;
+    FileSaver.saveAs(pdfUrl, pdfName);
+    swal.close();
+
+  }).catch(error => {
+    console.log(error);
+    swal({
+      title:'Error',
+      text: 'Ha ocurrido un error',
+      type: 'error'
+     });
+  });
+}
+
+downloadChecklist(row: any){
+  swal.showLoading();
+  console.log(row);
+  this.resumenesService.downloadChecklistPdf(row.id).then(data => {
+    const resp: any = data;
+    console.log(data);
+    this.downloadChecklistPdf  = resp.data; 
+    
+    
+    const pdfUrl = this.downloadChecklistPdf.url;
+    const pdfName = 'Checklist_Nro_'+row.checklists_consecutive;
+    FileSaver.saveAs(pdfUrl, pdfName);
+    swal.close();
+
+  }).catch(error => {
+    console.log(error);
+    swal({
+      title:'Error',
+      text: 'Ha ocurrido un error',
+      type: 'error'
+     });
+  });
+}
+
+downloadPlatform(row: any){
+  swal.showLoading();
+  console.log(row);
+  this.resumenesService.downloadPlatformPdf(row.id).then(data => {
+    const resp: any = data;
+    console.log(data);
+    this.downloadPlatformPdf  = resp.data;
+    
+    const pdfUrl = this.downloadPlatformPdf.url;
+    const pdfName = 'Matenimiento_Plataforma_Nro_'+row.platform_consecutive;
+    FileSaver.saveAs(pdfUrl, pdfName);
+    
+    swal.close();
+  }).catch(error => {
+    console.log(error);
+    swal({
+      title:'Error',
+      text: 'Ha ocurrido un error',
+      type: 'error'
+     });
+  });
+}
+
+downloadStevedore(row: any){
+  swal.showLoading();
+  console.log(row);
+  this.resumenesService.downloadStevedorePdf(row.id).then(data => {
+    const resp: any = data;
+    console.log(data);
+    this.downloadStevedorePdf  = resp.data; 
+    
+    const pdfUrl = this.downloadStevedorePdf.url;
+    const pdfName = 'Matenimiento_Estibador_Nro_'+row.stevedore_consecutive;
+    FileSaver.saveAs(pdfUrl, pdfName);
+    
+    swal.close();
+  }).catch(error => {
+    console.log(error);
+    swal({
+      title:'Error',
+      text: 'Ha ocurrido un error',
+      type: 'error'
+     });
+  });
+}
+
+downloadBattery(row: any){
+  swal.showLoading();
+  console.log(row);
+  this.resumenesService.downloadBatteryPdf(row.id).then(data => {
+    const resp: any = data;
+    console.log(data);
+    this.downloadBatteryPdf  = resp.data; 
+    
+    const pdfUrl = this.downloadBatteryPdf.url;
+    const pdfName = 'Matenimiento_Bateria_Nro_'+row.preventive_consecutive;
+    FileSaver.saveAs(pdfUrl, pdfName);
+    swal.close();
+
+  }).catch(error => {
+    console.log(error);
+    swal({
+      title:'Error',
+      text: 'Ha ocurrido un error',
+      type: 'error'
+     });
+  });
+}
+
+downloadReport(row: any){
+  swal.showLoading();
+  console.log(row);
+  this.resumenesService.downloadReportPdf(row.id).then(data => {
+    const resp: any = data;
+    console.log(data);
+    this.downloadBatteryPdf  = resp.data; 
+    
+    const pdfUrl = this.downloadBatteryPdf.url;
+    const pdfName = 'Repote_Técnico_Nro_'+row.technical_reports_consecutive;
+    FileSaver.saveAs(pdfUrl, pdfName);
+    swal.close();
+
+  }).catch(error => {
+    console.log(error);
+    swal({
+      title:'Error',
+      text: 'Ha ocurrido un error',
+      type: 'error'
+     });
+  });
+}
 
   getWeekdayShortName(weekday: number): string {
     return I18N_VALUES[this._i18n.language].weekdays[weekday - 1];

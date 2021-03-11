@@ -22,11 +22,11 @@ interface UserOfficesInterfaceUpdate {
   status: boolean;
 }
 
-this.officesTemp = {
-  id: 1,
-  officeName: 'Medellin',
-  status: true
-};
+// this.officesTemp = {
+//   id: 1,
+//   officeName: 'Medellin',
+//   status: true
+// };
 
 
 // Esta interfaz es para llevar rastreo de relaciones
@@ -104,8 +104,12 @@ export class MasterExternalUserComponent implements OnInit {
   valor: any;
   regionalCustomer = [];
   profiles: any;
+  userProfile: any;
 
   constructor(private userService: UserService, private router: Router, private restService: RestService) {
+
+    this.userProfile = localStorage.getItem('profile');
+    
     this.loading = true;
     this.loadingData();
     this.getUser();
@@ -740,147 +744,106 @@ export class MasterExternalUserComponent implements OnInit {
   relationshipUserOffice() {
     console.log(this.selectedBusinessId);
 
-    /* 
-     this.restService.createRelationshipUserOffices(this.currentUser.data.id,   this.idBranchOffices, this.selectedBusinessId).then(data => {
-       const resp: any = data;
-       this.getRelationshipUserOffices();
-       console.log('ole ole');
-       console.log(resp);
-       // this.idBranchOffices
-       swal.close();
-     }).catch(error => {
-       console.log(error);
-     });*/
-
     this.idBranchOffices = [1];
     console.log(this.idBranchOffices);
 
 
     for (let office of this.userOfficeRelationShips) {
-
       if (office.status === true) {
         this.idBranchOffices.push(office.id);
       }
-
     }
 
-    for (let i = 0; i < this.clientOfficeRelationShips.length; i++) {
+    
+   if(this.idBranchOffices.length == 1){
+    swal({
+      title:'Importante',
+      text: 'Debes seleccionar al menos una sede.',
+      type: 'warning'
+    });
+   }else{
 
-      if (this.clientOfficeRelationShips[i].idClient === this.selectedBusinessId) {
-        this.clientOfficeRelationShips.splice(i, 1);
+      for (let i = 0; i < this.clientOfficeRelationShips.length; i++) {
+
+        if (this.clientOfficeRelationShips[i].idClient === this.selectedBusinessId) {
+          this.clientOfficeRelationShips.splice(i, 1);
+        }
       }
+
+
+
+      this.idBranchOffices.splice(0, 1);
+      console.log('Oficinas definitivas');
+      console.log(this.idBranchOffices);
+
+      let itemsOffice = this.idBranchOffices.toString();
+
+      this.clientOfficeRelationShip = {
+        idClient: this.selectedBusinessId,
+        idBranchs: itemsOffice
+      }
+
+      console.log('crear relaciones');
+      console.log(this.clientOfficeRelationShip);
+      this.clientOfficeRelationShips.push(this.clientOfficeRelationShip);
+      console.log(this.clientOfficeRelationShips);
+
+      this.selectedBusinessId = 0;
+      this.userOfficeRelationShips = [];
     }
-
-
-
-    this.idBranchOffices.splice(0, 1);
-    console.log('Oficinas definitivas');
-    console.log(this.idBranchOffices);
-
-    let itemsOffice = this.idBranchOffices.toString();
-
-    this.clientOfficeRelationShip = {
-      idClient: this.selectedBusinessId,
-      idBranchs: itemsOffice
-    }
-
-    console.log('crear relaciones');
-    console.log(this.clientOfficeRelationShip);
-    this.clientOfficeRelationShips.push(this.clientOfficeRelationShip);
-    console.log(this.clientOfficeRelationShips);
-
-    this.selectedBusinessId = 0;
-    this.userOfficeRelationShips = [];
   }
 
 
   relationshipUserOfficeUpdate() {
     console.log(this.selectedBusinessId);
 
-    /* 
-     this.restService.createRelationshipUserOffices(this.currentUser.data.id,   this.idBranchOffices, this.selectedBusinessId).then(data => {
-       const resp: any = data;
-       this.getRelationshipUserOffices();
-       console.log('ole ole');
-       console.log(resp);
-       // this.idBranchOffices
-       swal.close();
-     }).catch(error => {
-       console.log(error);
-     });*/
-
     this.idBranchOfficesUpdate = [1];
     console.log(this.idBranchOfficesUpdate);
 
 
     for (let office of this.userOfficeRelationShipsUpdate) {
-
       if (office.status === true) {
         this.idBranchOfficesUpdate.push(office.id);
       }
-
     }
 
-    this.idBranchOfficesUpdate.splice(0, 1);
-    console.log('Oficinas definitivas');
-    console.log(this.idBranchOfficesUpdate);
+    
+   if(this.idBranchOffices.length == 1){
+    swal({
+      title:'Importante',
+      text: 'Debes seleccionar al menos una sede.',
+      type: 'warning'
+    });
+   }else{
 
-    let itemsOffice = this.idBranchOfficesUpdate.toString();
+      this.idBranchOfficesUpdate.splice(0, 1);
+      console.log('Oficinas definitivas');
+      console.log(this.idBranchOfficesUpdate);
 
-    this.clientOfficeRelationShipUpdate = {
-      idClient: this.currentCustomerUpdated,
-      idBranchs: itemsOffice
-    }
+      let itemsOffice = this.idBranchOfficesUpdate.toString();
 
-    console.log('crear relaciones de actualizar');
-    console.log(this.clientOfficeRelationShipUpdate);
-    // this.clientOfficeRelationShips.push(this.clientOfficeRelationShip);
-    // console.log(this.clientOfficeRelationShips);
-
-    let numOffices = this.clientOfficeRelationShipUpdate.idBranchs.split(',');
-    let branchOfficesNumbeUpdate = [1];
-
-    if (numOffices.length > 0) {
-      for (let branch of numOffices) {
-        branchOfficesNumbeUpdate.push(Number(branch));
+      this.clientOfficeRelationShipUpdate = {
+        idClient: this.currentCustomerUpdated,
+        idBranchs: itemsOffice
       }
-    }
 
-    branchOfficesNumbeUpdate.splice(0, 1);
-    //Borrar sedes y volver agregar
-    console.log('definitivas ' + branchOfficesNumbeUpdate);
-    this.deleteAllOfficesBranchUser(this.currentUser.data.id, this.currentCustomerUpdated, branchOfficesNumbeUpdate);
+      console.log('crear relaciones de actualizar');
+      console.log(this.clientOfficeRelationShipUpdate);
 
-    /*  if(branchOfficesNumbeUpdate.length>0){
-        this.restService.createRelationshipUserOffices(this.currentUser.data.id,  branchOfficesNumbeUpdate,  this.currentCustomerUpdated).then(data => {
-        const resp: any = data;
-        swal({
-          title: 'sedes actualizadas',
-          type: 'success'
-         })
-       // this.getRelationshipUserOffices();
-        console.log('ole ole');
-        console.log(resp);
-        // this.idBranchOffices
-        swal.close();
-      }).catch(error => {
-        swal({
-          title: 'Error',
-          text: 'Alguna de las relaciones que quieres crear, ya esta creada',
-          type: 'error'
-         });
-  
-        console.log(error);
-      });
+      let numOffices = this.clientOfficeRelationShipUpdate.idBranchs.split(',');
+      let branchOfficesNumbeUpdate = [1];
+
+      if (numOffices.length > 0) {
+        for (let branch of numOffices) {
+          branchOfficesNumbeUpdate.push(Number(branch));
+        }
+      }
+
+      branchOfficesNumbeUpdate.splice(0, 1);
+      //Borrar sedes y volver agregar
+      console.log('definitivas ' + branchOfficesNumbeUpdate);
+      this.deleteAllOfficesBranchUser(this.currentUser.data.id, this.currentCustomerUpdated, branchOfficesNumbeUpdate);
     }
-  
-  
-    document.getElementById( 'updateBranchHide').click();
-  
-  
-  
-      this.selectedBusinessId=0;
-      this.idBranchOfficesUpdate = [];*/
   }
 
   getCustomerOffice() {
