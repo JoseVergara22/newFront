@@ -354,8 +354,8 @@ console.log(this.observationCorrective);
               console.log(data);
               
               document.getElementById('assignPrevetiveHide').click();
-              let message = 'Se ha realizado una asignación de mantenimiento de bateria  en: '+this.selectedBusinessId.business_name+' para el: ' + fromD;
-              this.notificationTechnician(tec,message)
+              // let message = 'Se ha realizado una asignación de mantenimiento de bateria  en: '+this.selectedBusinessId.business_name+' para el: ' + fromD;
+              // this.notificationTechnician(tec,message)
               this.getPreventiveRoutines();
               swal({
                 title: 'Guardado con exito',
@@ -405,25 +405,25 @@ console.log(this.observationCorrective);
   }
 
    
-  notificationTechnician(tec: any,message:string){
+  // notificationTechnician(tec: any,message:string){
     
-    this.resumenesService.notificationTechnicians(message,tec).then(data => {
-      const resp: any = data;
-      console.log(data);
+  //   this.resumenesService.notificationTechnicians(message,tec).then(data => {
+  //     const resp: any = data;
+  //     console.log(data);
     
-      swal({
-        title: 'Se ha enviado una notifiación al(los) técnico(s) encargado(s)',
-        type: 'success'
-      });
+  //     swal({
+  //       title: 'Se ha enviado una notifiación al(los) técnico(s) encargado(s)',
+  //       type: 'success'
+  //     });
       
-    }).catch(error => {
-      swal({
-        title: 'Se presento un problema, para realizar la notificación',
-        type: 'error'
-      });
-      console.log(error);
-    });
-  }
+  //   }).catch(error => {
+  //     swal({
+  //       title: 'Se presento un problema, para realizar la notificación',
+  //       type: 'error'
+  //     });
+  //     console.log(error);
+  //   });
+  // }
  
   
   getPreventiveRoutines(){
@@ -710,8 +710,8 @@ console.log(this.observationCorrective);
                 console.log(data);
                 
                 document.getElementById('assingUpdatePrevetiveHide').click();
-                let message = 'Se ha realizado una asignación de mantenimiento de bateria  en: '+this.selectedBusinessId.business_name+' para el: ' + fromD;
-                this.notificationTechnician(tec,message)
+                // let message = 'Se ha realizado una asignación de mantenimiento de bateria  en: '+this.selectedBusinessId.business_name+' para el: ' + fromD;
+                // this.notificationTechnician(tec,message)
                 this.getPreventiveRoutines();
                 swal({
                   title: 'Guardado con exito',
