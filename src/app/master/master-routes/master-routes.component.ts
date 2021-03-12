@@ -26,7 +26,7 @@ export class MasterRoutesComponent implements OnInit {
           title: 'Validando información ...',
           allowOutsideClick: false
         });
-    this.moduleService.getRoute().then(data => {
+    this.moduleService.getRoute('j').then(data => {
       const resp: any = data;
       console.log(data);
       swal.close();
