@@ -250,8 +250,8 @@ export class MasterEstimateAllComponent extends NgbDatepickerI18n {
                 this.fromDate=ngbDateStruct;
                 this.untilDate=ngbDateStruct;
 
-                console.log(   this.fromDate);
-                console.log(   this.untilDate);
+                console.log(this.fromDate);
+                console.log(this.untilDate);
 
                 this.getUser();
                 this.masterSelected = false;
@@ -261,6 +261,7 @@ export class MasterEstimateAllComponent extends NgbDatepickerI18n {
                   {id:0,value:'GENERADO',isSelected:false},
                   {id:5,value:'RECHAZADO',isSelected:false}
                 ];
+
   /*  swal({
       title: 'Validando información ...',
       allowOutsideClick: false
