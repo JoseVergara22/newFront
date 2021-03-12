@@ -44,6 +44,9 @@ export class MasterUpdateModuleComponent implements OnInit {
   selectedRouteUpdate: any = 0;
 
   description: string = '';
+  descriptionSubModule: string = '';
+  currentModule: any;
+
 
   constructor(private moduleService: ModulesService, private router: Router, private rutaActiva: ActivatedRoute) {
 
@@ -77,18 +80,19 @@ export class MasterUpdateModuleComponent implements OnInit {
     });
   }
 
-  loadingData(Id) {
+  loadingData(id: any) {
     swal({
       title: 'Validando información ...',
       allowOutsideClick: false
     });
     swal.showLoading();
 
-    this.moduleService.getModuleById(Id).then(data => {
+    this.moduleService.getModuleById(id).then(data => {
       const resp: any = data;
       console.log(data);
-      this.description = resp.data[0].description
-      this.getSubModules(Id);
+      this.currentModule = resp.data;
+      this.description = this.currentModule.description
+      this.getSubModules(id);
       swal.close();
       this.getRoute();
       console.log(this.description);
@@ -119,7 +123,7 @@ export class MasterUpdateModuleComponent implements OnInit {
 
   getRoute() {
     // console.log(this.opcionSeleccionado);
-    this.moduleService.getRoute().then(data => {
+    this.moduleService.getRoute(this.currentModule.state).then(data => {
       console.log('que mas ps');
       const resp: any = data;
       console.log(resp);
@@ -135,13 +139,17 @@ export class MasterUpdateModuleComponent implements OnInit {
       console.log(error);
     });
   }
-
+goBack(){
+  this.router.navigateByUrl('maintenance/modules');
+}
   sendSubModule() {
 
     console.log('Ole ole ole');
 
     this.submitted = true;
-    if (this.description == '' || this.selectedRoute == 0) {
+    console.log(this.descriptionSubModule);
+    console.log(this.selectedRoute);
+    if (this.descriptionSubModule != '' && this.selectedRoute != 0) {
       swal({
         title: 'Validando información ...',
         allowOutsideClick: false
@@ -154,7 +162,7 @@ export class MasterUpdateModuleComponent implements OnInit {
       }
 
       this.moduleService.createSubModule(this.myFormSubModules.get('descriptionSub').value.toUpperCase(), this.selectedRoute.id,
-        this.selectedRoute.descriptionthis, this.currentModelId)
+        this.selectedRoute.description, this.currentModelId)
         .then(data => {
           const resp: any = data;
           console.log(resp);

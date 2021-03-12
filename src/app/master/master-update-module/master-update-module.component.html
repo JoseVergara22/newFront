@@ -8,7 +8,8 @@
       <div class="  row ">
         <div class="col-sm-5">
           <h6>Nombre <span style="color:red; ">*</span></h6>
-          <input type="text " class="form-control" formControlName="descriptionSub" [(ngModel)]="description" required>
+          <input type="text " class="form-control" formControlName="descriptionSub" [(ngModel)]="descriptionSubModule"
+            required>
 
         </div>
         <div class="col-sm-2"></div>
@@ -20,14 +21,15 @@
             <option *ngFor="let reg of route" [ngValue]="reg"> {{reg.description}} </option>
           </select>
         </div>
+        <br>
 
+      </div>
+      <br>
+      <div class="align-buttons">
+        <button type="button" class="btn btn-default waves-effect" id="updateBrandHide"
+          (click)="modalRegisterSubModule.hide()">Cancelar</button>
+        <button type="submit " class="btn btn-primary m-b-0 ">Crear SubModulo</button>
 
-        <div class="align-buttons">
-          <button type="button" class="btn btn-default waves-effect" id="updateBrandHide"
-            (click)="modalRegisterSubModule.hide()">Cancelar</button>
-          <button type="submit " class="btn btn-primary m-b-0 ">Crear SubModulo</button>
-
-        </div>
       </div>
     </form>
   </div>
@@ -88,25 +90,23 @@
       <form [formGroup]="myFormUpdate" (ngSubmit)="updatedCustomer()">
 
         <div class=" form-group row ">
-          <h6>Descripción <span style="color:red; ">*</span></h6>
-          <input type="text " class="form-control" value={{description}} formControlName="descriptionUpdate"
-            [ngClass]="{ 'is-invalid': submittedUpdated && checkFormUpdate.descriptionUpdate.errors } ">
-          <div *ngIf="submittedUpdated && checkFormUpdate.descriptionUpdate.errors " class="invalid-feedback ">
-            <div class="messages text-danger " *ngIf="checkFormUpdate.descriptionUpdate.errors.required ">Este campo es
-              requerido</div>
+          <div class="col-sm-4 ">
+            <h6>Descripción <span style="color:red; ">*</span></h6>
+            <input type="text " class="form-control" value={{description}} formControlName="descriptionUpdate" disabled>
+
           </div>
         </div>
 
-        <div class="form-group row ">
+        <!-- <div class="form-group row ">
           <div class="col-sm-4 ">
             <h6>Activo</h6>
             <ui-switch class="js-single" color="#4680ff" switchColor="#fff" size="medium"
               (change)="onChangeCreatedOfficeUpdate($event)" [checked]="enabledCreatedOfficeUpdate"></ui-switch><br>
           </div>
-        </div>
-        <div class="align-buttons">
+        </div> -->
+        <!-- <div class="align-buttons">
           <button type="submit " class="btn btn-primary m-b-0 ">Actualizar Modulo</button>
-        </div>
+        </div> -->
 
       </form>
 
@@ -155,5 +155,9 @@
       <br>
 
     </app-card>
+  </div>
+  <div class="align-buttons">
+    <button type="button" class="btn btn-default waves-effect" (click)="goBack()">Volver a Modulos</button>
+
   </div>
 </div>
