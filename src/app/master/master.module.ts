@@ -155,7 +155,7 @@ import { BrandService } from '../master-services/brand/brand.service';
 
 
 import {AutocompleteLibModule} from 'angular-ng-autocomplete';
-import {ChartComponent} from 'angular2-chartjs';
+// import {ChartComponent} from 'angular2-chartjs';
 
 
 
@@ -178,7 +178,7 @@ import {ChartComponent} from 'angular2-chartjs';
   exports: [
   ],
   declarations: [
-    ChartComponent,
+    // ChartComponent,
     MasterAuthComponent,
     MasterUserRegisterComponent,
     MasterNewsComponent,
