@@ -96,7 +96,7 @@ import { MasterRoutesComponent } from './master-routes/master-routes.component';
 import { MasterMaintenanceDurationComponent } from './master-maintenance-duration/master-maintenance-duration.component';
 import { MasterForkliftMaintenanceComponent } from './master-forklift-maintenance/master-forklift-maintenance.component';
 import { MasterMaintenanceSystemComponent } from './master-maintenance-system/master-maintenance-system.component';
-import { MasterBrandContentsComponent } from './master-brand-contents/master-brand-contents.component';
+// import { MasterBrandContentsComponent } from './master-brand-contents/master-brand-contents.component';
 
 
 
@@ -432,10 +432,11 @@ const routes: Routes = [
   },{
     path:'maintenanceSystem',
     component: MasterMaintenanceSystemComponent
-  },{
-    path:'brandContents',
-    component: MasterBrandContentsComponent
   },
+  // {
+  //   path:'brandContents',
+  //   component: MasterBrandContentsComponent
+  // },
  
 ];
 

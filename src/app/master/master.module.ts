@@ -108,7 +108,7 @@ import { MasterRoutesComponent } from './master-routes/master-routes.component';
 import { MasterMaintenanceDurationComponent } from './master-maintenance-duration/master-maintenance-duration.component';
 import { MasterForkliftMaintenanceComponent } from './master-forklift-maintenance/master-forklift-maintenance.component';
 import { MasterMaintenanceSystemComponent } from './master-maintenance-system/master-maintenance-system.component';
-import { MasterBrandContentsComponent } from './master-brand-contents/master-brand-contents.component';
+// import { MasterBrandContentsComponent } from './master-brand-contents/master-brand-contents.component';
 import { MasterModelContentsComponent } from './master-model-contents/master-model-contents.component';
 // import { MasterMaintenanceNotificationComponent } from './master-maintenance-notification/master-maintenance-notification.component';
 
@@ -275,7 +275,7 @@ import {ChartComponent} from 'angular2-chartjs';
     MasterRoutesComponent,
     // MasterMaintenanceNotificationComponent,
     MasterMaintenanceDurationComponent,
-    MasterBrandContentsComponent,
+    // MasterBrandContentsComponent,
     MasterForkliftMaintenanceComponent,
     MasterMaintenanceSystemComponent,
     MasterModelContentsComponent,
