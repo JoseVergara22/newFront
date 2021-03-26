@@ -97,7 +97,6 @@ import { MasterForkliftMaintenanceComponent } from './master-forklift-maintenanc
 import { MasterMaintenanceSystemComponent } from './master-maintenance-system/master-maintenance-system.component';
 import { MasterModelContentsComponent } from './master-model-contents/master-model-contents.component';
 import { MasterBrandContentsComponent } from './master-brand-contents/master-brand-contents.component';
-import { MasterBrandModelContentsComponent } from './master-brand-model-contents/master-brand-model-contents.component';
 import { MasterModelBrandContentsComponent } from './master-model-brand-contents/master-model-brand-contents.component';
 import { MasterViewPdfCatalogueComponent } from './master-view-pdf-catalogue/master-view-pdf-catalogue.component';
 import { MasterCreatePdfCatalogueComponent } from './master-create-pdf-catalogue/master-create-pdf-catalogue.component';
@@ -443,9 +442,6 @@ const routes: Routes = [
   },{
     path:'modelContents',
     component: MasterModelContentsComponent
-  },{
-    path:'modelBrandContents',
-    component: MasterBrandModelContentsComponent
   },{
     path:'brandModelContents',
     component: MasterModelBrandContentsComponent
