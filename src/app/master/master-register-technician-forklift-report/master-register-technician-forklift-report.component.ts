@@ -200,7 +200,7 @@ registerHeader(){
         // console.log( this.rowsClient);
       }).catch(error => {
         swal({
-          title: 'Se presento un problema, para guardar este encabezado de manteminiento preventivo',
+          title: 'Se presento un problema, para guardar la asignación del reporte',
           type: 'error'
          });
         console.log(error);

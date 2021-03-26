@@ -219,9 +219,9 @@ export class MasterShowForkliftComponent implements OnInit {
      console.log(resp);
      this.customerOffices = resp.data_branchoffices;
      swal.close();
-   }).catch(error => {
+    }).catch(error => {
      console.log(error);
-   });
+    });
 
   }
 

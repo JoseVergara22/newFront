@@ -52,6 +52,7 @@ export class MasterTechnicianForkliftReportComponent implements OnInit {
     console.log(row.id);
     this.router.navigateByUrl('maintenance/updateForkliftReport/'+row.id);
   }
+
   deleteWorkHeader(workrow:any){
     swal({
       title:"Confirmacion",
@@ -65,12 +66,12 @@ export class MasterTechnicianForkliftReportComponent implements OnInit {
         this.loader();
         this.rowtodelete=workrow;
         console.log(this.rowtodelete);
-        this.personalServices.deleteReportTechnician(this.rowtodelete.id).then(data=>{
+        this.personalServices.deleteForkliftReport(this.rowtodelete.id).then(data=>{
           const resp:any=data;
           if (resp.success==false){
             this.generalAlert('Error','ocurrio un error durante el procesado',"error");
           }else{
-            this.generalAlert('Rutina eliminada','Rutina eliminada correctamente','success');
+            this.generalAlert('Reporte eliminado','Reporte eliminado correctamente','success');
             this.getForkliftReport();
           }
         }).catch(err=>{

@@ -7,8 +7,8 @@
         <app-card>
             <h5>Registrar Equipo </h5>
             <br>
-                 <div class="form-group row">
-                <div class="col-sm-6">
+            <div class="form-group row">
+                    <div class="col-sm-6">
                     <h6>Cliente</h6>
 
                     <select class="form-control" (change)="getCustomerOffice()" [(ngModel)]="selectedBusinessId"> 
@@ -16,7 +16,7 @@
                             <option   *ngFor="let customer of customers" [ngValue]="customer.id"> {{customer.business_name}}  </option>
                             <!--  <option value="0" selected>Seleccionar perfil</option> -->
                            </select>
-                </div>
+                    </div>
 
                 <div class="col-sm-6">
                     <h6>Sede</h6>

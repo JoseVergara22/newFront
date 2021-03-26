@@ -117,7 +117,7 @@ export class MasterPedingComponent extends NgbDatepickerI18n {
     console.log('this.selectedBusinessId.id');
     console.log(this.selectedBranchOfficeId);
 
-  this.forkliftService.getForkliftBranchOfficesFull(this.selectedBranchOfficeId).then(data => {
+  this.forkliftService.getForkliftBranchOfficesFull(this.selectedBranchOfficeId.id).then(data => {
       const resp: any = data;
       console.log(data);
       swal.close();

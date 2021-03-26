@@ -108,10 +108,13 @@ import { MasterRoutesComponent } from './master-routes/master-routes.component';
 import { MasterMaintenanceDurationComponent } from './master-maintenance-duration/master-maintenance-duration.component';
 import { MasterForkliftMaintenanceComponent } from './master-forklift-maintenance/master-forklift-maintenance.component';
 import { MasterMaintenanceSystemComponent } from './master-maintenance-system/master-maintenance-system.component';
-// import { MasterBrandContentsComponent } from './master-brand-contents/master-brand-contents.component';
-// import { MasterModelContentsComponent } from './master-model-contents/master-model-contents.component';
+import { MasterBrandContentsComponent } from './master-brand-contents/master-brand-contents.component';
+import { MasterModelContentsComponent } from './master-model-contents/master-model-contents.component';
+import { MasterBrandModelContentsComponent } from './master-brand-model-contents/master-brand-model-contents.component';
+import { MasterModelBrandContentsComponent } from './master-model-brand-contents/master-model-brand-contents.component';
+import { MasterViewPdfCatalogueComponent } from './master-view-pdf-catalogue/master-view-pdf-catalogue.component';
+import { MasterCreatePdfCatalogueComponent } from './master-create-pdf-catalogue/master-create-pdf-catalogue.component';
 // import { MasterMaintenanceNotificationComponent } from './master-maintenance-notification/master-maintenance-notification.component';
-
 
 
 
@@ -151,10 +154,10 @@ import { ReportsService } from '../master-services/reports/reports.service';
 import { SystemsService } from '../master-services/systems/systems.service';
 import { BrandService } from '../master-services/brand/brand.service';
 
-
-
-
 import {AutocompleteLibModule} from 'angular-ng-autocomplete';
+
+
+
 // import {ChartComponent} from 'angular2-chartjs';
 
 
@@ -275,10 +278,14 @@ import {AutocompleteLibModule} from 'angular-ng-autocomplete';
     MasterRoutesComponent,
     // MasterMaintenanceNotificationComponent,
     MasterMaintenanceDurationComponent,
-    // MasterBrandContentsComponent,
+    MasterBrandContentsComponent,
     MasterForkliftMaintenanceComponent,
     MasterMaintenanceSystemComponent,
-    // MasterModelContentsComponent,
+    MasterModelContentsComponent,
+    MasterBrandModelContentsComponent,
+    MasterModelBrandContentsComponent,
+    MasterViewPdfCatalogueComponent,
+    MasterCreatePdfCatalogueComponent,
 
    // MasterAdminComponent
   ],

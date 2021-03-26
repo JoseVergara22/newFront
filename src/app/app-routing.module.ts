@@ -132,6 +132,9 @@ const routes: Routes = [
       },{
         path: 'reports',
         loadChildren: './master/master.module#MasterModule'
+      },{
+        path: 'catalogue',
+        loadChildren: './master/master.module#MasterModule'
       }
 
     ]
