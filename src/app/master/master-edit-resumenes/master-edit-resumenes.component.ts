@@ -11,7 +11,7 @@ import { EstimateService } from '../../master-services/estimate/estimate.service
 import { SettlementService } from '../../master-services/settlement/settlement.service';
 import { ResponseContentType } from '@angular/http';
 // import {ChartModule} from 'angular2-chartjs';
-// import { Chart } from "chart.js";
+import { Chart } from "chart.js";
 // import * as am4core from "@amcharts/amcharts4/core";
 // import * as am4charts from "@amcharts/amcharts4/charts";
 // import am4themes_animated from "@amcharts/amcharts4/themes/animated";
@@ -219,6 +219,8 @@ export class MasterEditResumenesComponent extends NgbDatepickerI18n {
     maintainAspectRatio: false,
   };
 
+  userCustomer: boolean = false;
+  partsInstall: any;
   
   constructor(private restService: RestService, private resumenesService: ResumenesService, private router: Router, 
     private forkliftService: ForkliftService, private _i18n: I18n, private calendar: NgbCalendar, public formatter: NgbDateParserFormatter,
@@ -226,9 +228,14 @@ export class MasterEditResumenesComponent extends NgbDatepickerI18n {
     private estimateService: EstimateService, private settlementeService: SettlementService) {
       super();
 
+      if(Number(localStorage.getItem('profile')) == 6){
+        this.userCustomer = true;
+      }
+
       this.forkliftId = this.rutaActiva.snapshot.params.id;
       console.log(this.rutaActiva.snapshot.params);
       this.getForklifs(this.forkliftId);
+      this.getPatrsInstall();
       this.regional_id = this.rutaActiva.snapshot.params.regional;
 
       var date = new Date();
@@ -267,18 +274,21 @@ export class MasterEditResumenesComponent extends NgbDatepickerI18n {
         this.tonne = this.forklift.tonne;
         this.tyre_description = this.forklift.tyre_description;
         this.forkliftText = this.brand +' '+ this.model + ' ' + this.serie;
-        // this.getPreventiveRoutinesLast();
         this.getPreventiveRoutinesLastGeneral();
-        // this.getPendingGeneral(id);
-        this.getImages(id);
+        this.getForkliftChecklistLastGeneral();
         this.getForkliftPendingGeneralMain();
+        this.getCorrectiveRoutinesLast();
+        this.getReportTechnicianLast();
+        this.getPatrCostSettlement();
+        this.getSettlementLast();
+        this.getEstimateLast();
+        this.getImages(id);
+        // this.getPreventiveRoutinesLast();
         // this.getStevedoreRoutinesLast();
         // this.getPlatformRoutinesLast();
-        this.getReportTechnicianLast();
-        this.getEstimateLast();
-        this.getSettlementLast();
-        // this.priceEstimate();
         // this.getBatteryRoutinesLast();
+        // this.getPendingGeneral(id);
+        // this.priceEstimate();
         }).catch(error => {
           console.log(error);
         });
@@ -1059,6 +1069,7 @@ export class MasterEditResumenesComponent extends NgbDatepickerI18n {
      this.getEstimateFilter(from_date,to_date);
     //  this.getEstimatePrice(from_date,to_date);
      this.getSettlementFilter(from_date,to_date);
+     this.getPatrsCostFilter(from_date,to_date);
     //  this.getForkliftChecklistFilter(from_date,to_date);
   }
 
@@ -1101,21 +1112,12 @@ export class MasterEditResumenesComponent extends NgbDatepickerI18n {
       console.log(data);
       swal.close();
       this.currentPreventive  = resp.data;
-      // this.currentPreventive = this.currentPreventive[0];
       console.log(this.currentPreventive);
       for (let value of  this.currentPreventive) {
-        //     
             for (let item of  value) {
-            // console.log(value);
             this.rowPreventive.push(item);
-            console.log(this.rowPreventive);
-    
-        //       this.getPendingGeneral(item.id);
             }
-          }
-        
-      this.getCorrectiveRoutinesLast();
-        
+      }        
     }).catch(error => {
       console.log(error);
     });
@@ -1152,17 +1154,6 @@ export class MasterEditResumenesComponent extends NgbDatepickerI18n {
       swal.close();
       this.currentPreventive  = resp.data;
       console.log(this.currentPreventive);
-    // for (let value of  this.currentPreventive) {
-    //      
-    //     for (let item of  value) {
-    //      console.log(value);
-    //     this.rowPreventive.push(item);
-    //     console.log(this.rowPreventive);
-
-    //       this.getPendingGeneral(item.id);
-    //     }
-    //   }
-
     }).catch(error => {
       console.log(error);
     });
@@ -1189,19 +1180,12 @@ export class MasterEditResumenesComponent extends NgbDatepickerI18n {
     // Llenar información de cliente  
     this.resumenesService.getWorkForkliftCorrectiveLast(this.forkliftId).then(data => {
       const resp: any = data;
+      console.log('correctivo')
       console.log(data);
       swal.close();
       this.currentCorrective  = resp.data;
       this.rowsClient  = this.currentCorrective;
       console.log(this.rowsClient);
-      // for(let result of this.rowsClient){
-      //   console.log(result.result.corrective.id);
-        
-      //   this.getPendingCorrective(result.result.corrective.id);
-      // }
-      this.getForkliftChecklistLastGeneral();
-      // this.getForkliftChecklistLast();
-
     }).catch(error => {
       console.log(error);
     });
@@ -1226,15 +1210,12 @@ export class MasterEditResumenesComponent extends NgbDatepickerI18n {
   // }
 
   getReportTechnicianLast(){
-    // Llenar información de cliente  
     this.resumenesService.getWorkForkliftReportLast(this.forkliftId).then(data => {
       const resp: any = data;
       console.log(data);
       swal.close();
       this.rowReport  = resp.data;
-      // this.rowPlatform  = this.currentPlatform;
       console.log(this.rowReport);
-
     }).catch(error => {
       console.log(error);
     });
@@ -1296,6 +1277,169 @@ export class MasterEditResumenesComponent extends NgbDatepickerI18n {
 
     }).catch(error => {
       console.log(error);
+    });
+  }
+
+  getPatrsInstall(){
+    // Llenar información de cliente  
+    this.resumenesService.getPartInstall(this.forkliftId).then(data => {
+      const resp: any = data;
+      console.log(data);
+      swal.close();
+      this.partsInstall  = resp.data;
+      console.log(this.partsInstall);
+    }).catch(error => {
+      console.log(error);
+    });
+  }
+  getPatrCostSettlement(){
+    // Llenar información de cliente  
+    this.resumenesService.getPartCostSettlement(this.forkliftId).then(data => {
+      console.log(data);
+      const resp: any = data;
+      this.priceSet=resp.data;
+      console.log(this.priceSet);
+      const subHours = this.priceSet.service.map(i => i.subtotal);
+      const subParts = this.priceSet.parts.map(res => res.subtotal);
+
+      const dates = [];
+
+
+      this.priceSet.parts.forEach(result => {
+        dates.push(result.create_at);
+
+        const colorsPart = [];
+        const colorsHours = [];
+        subHours.forEach(item => {
+          colorsPart.push("red");
+        });
+        subHours.forEach(item => {
+          colorsHours.push("#00ffff");
+        });
+        this.chartSet = new Chart("canvas", {
+          type: "bar",
+          data: {
+            labels: dates,
+            datasets: [
+              {
+                label: "Valor Repuestos",
+                data: subParts,
+                backgroundColor: [
+                  "red"
+                ],
+                fill: false
+              },
+              // {
+              //   label: "Valor Horas",
+              //   data: subHours,
+              //   backgroundColor: [
+              //     colorsHours
+              //   ],
+              //   fill: false
+              // }
+            ]
+          },
+          options: {
+            legend: {
+              dispaly: false
+            },
+            scales: {
+              xAxes: [
+                {
+                  display: true
+                }
+              ],
+              yAxes: [
+                {
+                  display: true
+                }
+              ]
+            }
+          }
+        });
+      });
+    }).catch(error => {
+      console.log(error);
+      swal({
+        title:'Error',
+        text: 'Ha ocurrido un error al cargar la grafica de liquidaciones',
+        type: 'error'
+       });
+    });
+  }
+  getPatrsCostFilter(fromdate:string, to_date:string){
+    // Llenar información de cliente  
+    this.resumenesService.getSettlementPartFilter(this.forkliftId,fromdate, to_date).then(data => {
+      console.log(data);
+      const resp: any = data;
+      this.priceSet=resp.data;
+      console.log(this.priceSet);
+      const subHours = this.priceSet.service.map(i => i.subtotal);
+      const subParts = this.priceSet.parts.map(res => res.subtotal);
+
+      const dates = [];
+
+
+      this.priceSet.parts.forEach(result => {
+        dates.push(result.create_at + result.code);
+
+        const colorsPart = [];
+        const colorsHours = [];
+        subHours.forEach(item => {
+          colorsPart.push("red");
+        });
+        subHours.forEach(item => {
+          colorsHours.push("#00ffff");
+        });
+        this.chartSet = new Chart("canvas", {
+          type: "bar",
+          data: {
+            labels: dates,
+            datasets: [
+              {
+                label: "Valor Repuestos",
+                data: subParts,
+                backgroundColor: [
+                  "red"
+                ],
+                fill: false
+              },
+              // {
+              //   label: "Valor Horas",
+              //   data: subHours,
+              //   backgroundColor: [
+              //     colorsHours
+              //   ],
+              //   fill: false
+              // }
+            ]
+          },
+          options: {
+            legend: {
+              dispaly: false
+            },
+            scales: {
+              xAxes: [
+                {
+                  display: true
+                }
+              ],
+              yAxes: [
+                {
+                  display: true
+                }
+              ]
+            }
+          }
+        });
+      });
+    }).catch(error => {
+      console.log(error);
+      swal({
+        title:'Error',
+        text: 'Ha ocurrido un error al cargar la grafica de liquidaciones',
+        type: 'error'
+       });
     });
   }
 
@@ -2709,80 +2853,6 @@ loadPdfSendEmail(){
   // }
 
   ngOnInit() {
-    // this.resumenesService.daysWeather().subscribe(res => {
-
-    //   console.log(res);
-    //   const temp_max = res["list"].map(res => res.main.temp_max);
-    //   const temp_min = res["list"].map(res => res.main.temp_min);
-    //   const allDays = res["list"].map(res => res.dt);
-    //   const weahterDays = [];
-      
-    //   allDays.forEach(result => {
-    //     let jsDate = new Date(result * 1000);
-    //     let options = {
-    //       weekday: "long",
-    //       month: "short",
-    //       day: "numeric"
-    //     };
-
-    //     weahterDays.push(jsDate.toLocaleTimeString("es", options));
-
-    //     this.chart = new Chart("canvas", {
-    //       type: "bar",
-    //       data: {
-    //         labels: weahterDays,
-    //         datasets: [
-    //           {
-    //             label: "Maxima",
-    //             data: temp_max,
-    //             backgroundColor: [
-    //               "red",
-    //               "red",
-    //               "red",
-    //               "red",
-    //               "red",
-    //               "red",
-    //               "red"
-    //             ],
-    //             fill: false
-    //           },
-    //           {
-    //             label: "Minima",
-    //             data: temp_min,
-    //             backgroundColor: [
-    //               "#00ffff",
-    //               "#00ffff",
-    //               "#00ffff",
-    //               "#00ffff",
-    //               "#00ffff",
-    //               "#00ffff",
-    //               "#00ffff"
-    //             ],
-    //             fill: false
-    //           }
-    //         ]
-    //       },
-    //       options: {
-    //         legend: {
-    //           dispaly: false
-    //         },
-    //         scales: {
-    //           xAxes: [
-    //             {
-    //               display: true
-    //             }
-    //           ],
-    //           yAxes: [
-    //             {
-    //               display: true
-    //             }
-    //           ]
-    //         }
-    //       }
-    //     });
-    //   });
-    //   console.log(this.chart);
-    // });
   }
 
   getWeekdayShortName(weekday: number): string {

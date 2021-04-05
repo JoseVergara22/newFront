@@ -429,7 +429,7 @@
         </canvas>
       </app-card>
     </div> -->
-    <app-card>
+    <app-card *ngIf="!userCustomer">
       <!-- <button type="button " style="display: none;" id="showChecklists" class="btn btn-primary m-b-0 " (click)="modalAssingChecklist.show()" >Crear</button> -->
       
       <h5>Liquidaciones</h5>
@@ -452,20 +452,14 @@
       </ngx-datatable>
      
     </app-card> 
-    <!-- <div class="col-md-12 col-lg-8" style="width: 80%; text-align: center;">
+    <div class="col-md-12 col-lg-8" style="width: 80%; text-align: center;">
       <app-card style="width: 80%;">
         <h5>Grafico Liquidaciones</h5>
         <canvas id="canvas">
           {{chartSet}}
         </canvas>
       </app-card>
-    </div> -->
-   <!-- <div class="col-md-12 col-lg-4">
-      <app-card [title]="'Bar chart'" [headerContent]="'Lorem ipsum dolor sit amet, consectetur adipisicing elit'">
-        <chart [type]="type1" [data]="data1" [options]="options" style="width: 100%; height: 470px;"></chart>
-      </app-card>
-    </div> 
-    -->
+    </div>
     <!-- <div class="col-md-12 col-lg-8" style="width: 80%; text-align: center;">
       <app-card style="width: 80%;">
         <h5>Grafico Cotizaciones</h5>
@@ -475,6 +469,14 @@
       </app-card>
     </div> -->
 
+    <app-card>
+      <h5>Repuestos Instalados</h5>
+      <ngx-datatable #table class="data-table" [rows]="partsInstall"   [columnMode]="'flex'" [headerHeight]="50" [footerHeight]="50" [rowHeight]="'auto'" [limit]="20">
+        <ngx-datatable-column  [flexGrow]="2" [sortable]="false" [resizeable]="false"  name="Descripción" [sortable]="false"  prop="description"></ngx-datatable-column>
+        <ngx-datatable-column  [flexGrow]="2" [sortable]="false" [resizeable]="false"  name="Cantidad" [sortable]="false"  prop="quantity"></ngx-datatable-column>
+        <ngx-datatable-column  [flexGrow]="2" [sortable]="false" [resizeable]="false"  name="Fecha de Creacción" [sortable]="false"  prop="create"></ngx-datatable-column>
+      </ngx-datatable>
+    </app-card>
 
     <div class="align-buttons">
  
