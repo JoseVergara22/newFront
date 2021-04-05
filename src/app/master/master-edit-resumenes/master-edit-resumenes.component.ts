@@ -1306,7 +1306,7 @@ export class MasterEditResumenesComponent extends NgbDatepickerI18n {
 
 
       this.priceSet.parts.forEach(result => {
-        dates.push(result.create_at);
+        dates.push(result.create_at + result.code);
 
         const colorsPart = [];
         const colorsHours = [];
