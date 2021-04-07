@@ -450,16 +450,30 @@
             </ng-template>     
         </ngx-datatable-column>
       </ngx-datatable>
-     
     </app-card> 
+
+    <div class="row">
+        <div class="col-md-6 col-lg-6" style="width: 80%; text-align: center;">
+        <app-card>
+          <h5>Concepto de Liquidaciones Por Repuestos</h5>
+          <canvas id="set" width="600" height="400">{{chartSet}}</canvas>
+        </app-card>
+        <!-- <app-card class="col-sm-6">
+          <h5>Concepto de Liquidaciones Por Mano de Obra</h5>
+          <canvas id="set" width="600" height="400">{{this.chartSet}}</canvas>
+        </app-card> -->
+      </div>
+    </div>
+
+
+    
     <div class="col-md-12 col-lg-8" style="width: 80%; text-align: center;">
       <app-card style="width: 80%;">
-        <h5>Grafico Liquidaciones</h5>
-        <canvas id="canvas">
-          {{chartSet}}
-        </canvas>
+        <h5>Historico de Liquidaciones</h5>
+        <canvas id="speedCanvas" width="600" height="400"></canvas>
       </app-card>
     </div>
+
     <!-- <div class="col-md-12 col-lg-8" style="width: 80%; text-align: center;">
       <app-card style="width: 80%;">
         <h5>Grafico Cotizaciones</h5>

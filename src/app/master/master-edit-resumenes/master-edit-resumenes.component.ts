@@ -213,6 +213,7 @@ export class MasterEditResumenesComponent extends NgbDatepickerI18n {
 
   priceEs: any;
   priceSet: any;
+  priceSetTem: any;
 
   options = {
     responsive: true,
@@ -221,6 +222,7 @@ export class MasterEditResumenesComponent extends NgbDatepickerI18n {
 
   userCustomer: boolean = false;
   partsInstall: any;
+  historyCost: any;
   
   constructor(private restService: RestService, private resumenesService: ResumenesService, private router: Router, 
     private forkliftService: ForkliftService, private _i18n: I18n, private calendar: NgbCalendar, public formatter: NgbDateParserFormatter,
@@ -279,15 +281,17 @@ export class MasterEditResumenesComponent extends NgbDatepickerI18n {
         this.getForkliftPendingGeneralMain();
         this.getCorrectiveRoutinesLast();
         this.getReportTechnicianLast();
-        this.getPatrCostSettlement();
+        this.getPartCostSettlement();
         this.getSettlementLast();
         this.getEstimateLast();
         this.getImages(id);
+        this.chartLine();
         // this.getPreventiveRoutinesLast();
         // this.getStevedoreRoutinesLast();
         // this.getPlatformRoutinesLast();
         // this.getBatteryRoutinesLast();
         // this.getPendingGeneral(id);
+        // this.priceSettlement();
         // this.priceEstimate();
         }).catch(error => {
           console.log(error);
@@ -1292,31 +1296,72 @@ export class MasterEditResumenesComponent extends NgbDatepickerI18n {
       console.log(error);
     });
   }
-  getPatrCostSettlement(){
+
+  chartLine(){
+    this.resumenesService.getSettlementHistoryCost(this.forkliftId).then(data => {
+      const resp: any = data;
+      console.log(data);
+      swal.close();
+      this.historyCost  = resp.data;
+      // console.log(this.historyCost);
+
+      const part = this.historyCost.map(i => i.parts);
+      const service = this.historyCost.map(i => i.service);
+      const label = this.historyCost.map(i => i.label)
+
+      // console.log(part);
+      // console.log(service);
+
+      var dataFirst = {
+      label: "Gastos por Repuestos",
+      data: part,
+      lineTension: 0,
+      fill: false,
+      borderColor: 'red'
+      // Set More Options
+      };
+
+      var dataSecond = {
+        label: "Gastos por Mano de Obra",
+        data: service,
+        // Set More Options
+        lineTension: 0,
+        fill: false,
+        borderColor: 'blue'
+      };
+       
+      var speedData = {
+        labels: label,
+        datasets: [dataFirst, dataSecond]
+      };
+      
+      var lineChart = new Chart("speedCanvas", {
+        type: 'line',
+        data: speedData,
+      });
+
+
+    }).catch(error => {
+      console.log(error);
+    });
+    
+  }
+
+  getPartCostSettlement(){
     // Llenar información de cliente  
     this.resumenesService.getPartCostSettlement(this.forkliftId).then(data => {
       console.log(data);
       const resp: any = data;
       this.priceSet=resp.data;
       console.log(this.priceSet);
-      const subHours = this.priceSet.service.map(i => i.subtotal);
-      const subParts = this.priceSet.parts.map(res => res.subtotal);
+      const subParts = this.priceSet.map(res => res.total);
 
       const dates = [];
+      let part = this.priceSet;
 
-
-      this.priceSet.parts.forEach(result => {
-        dates.push(result.create_at + result.code);
-
-        const colorsPart = [];
-        const colorsHours = [];
-        subHours.forEach(item => {
-          colorsPart.push("red");
-        });
-        subHours.forEach(item => {
-          colorsHours.push("#00ffff");
-        });
-        this.chartSet = new Chart("canvas", {
+      this.priceSet.forEach(result => {
+        dates.push(result.create_at + " " + result.code);
+        this.chartSet = new Chart("set", {
           type: "bar",
           data: {
             labels: dates,
@@ -1328,15 +1373,7 @@ export class MasterEditResumenesComponent extends NgbDatepickerI18n {
                   "red"
                 ],
                 fill: false
-              },
-              // {
-              //   label: "Valor Horas",
-              //   data: subHours,
-              //   backgroundColor: [
-              //     colorsHours
-              //   ],
-              //   fill: false
-              // }
+              }
             ]
           },
           options: {
@@ -1357,6 +1394,7 @@ export class MasterEditResumenesComponent extends NgbDatepickerI18n {
             }
           }
         });
+        console.log(this.chartSet)
       });
     }).catch(error => {
       console.log(error);
@@ -1381,17 +1419,9 @@ export class MasterEditResumenesComponent extends NgbDatepickerI18n {
 
 
       this.priceSet.parts.forEach(result => {
-        dates.push(result.create_at + result.code);
+        dates.push(result.create_at + "-" + result.code);
 
-        const colorsPart = [];
-        const colorsHours = [];
-        subHours.forEach(item => {
-          colorsPart.push("red");
-        });
-        subHours.forEach(item => {
-          colorsHours.push("#00ffff");
-        });
-        this.chartSet = new Chart("canvas", {
+        this.chartSet = new Chart("set", {
           type: "bar",
           data: {
             labels: dates,
@@ -2565,7 +2595,7 @@ loadPdfSendEmail(){
   //       subHours.forEach(item => {
   //         colorsHours.push("#00ffff");
   //       });
-  //       this.chartEs = new Chart("canvas", {
+  //       this.chartEs = new Chart("canvass", {
   //         type: "bar",
   //         data: {
   //           labels: dates,
@@ -2643,7 +2673,7 @@ loadPdfSendEmail(){
   //       subHours.forEach(item => {
   //         colorsHours.push("#00ffff");
   //       });
-  //       this.chartEs = new Chart("canvas", {
+  //       this.chartEs = new Chart("canvass", {
   //         type: "bar",
   //         data: {
   //           labels: dates,
@@ -2695,163 +2725,6 @@ loadPdfSendEmail(){
   //   });
   
   // }
-  // getSettlementPrice(fromdate:string, to_date:string){
-  //   // Llenar información de cliente  
-  //   console.log('entro filtro')
-  //   this.resumenesService.getSettlementPriceFilter(this.forkliftId,fromdate,to_date).then(data => {
-  //     const resp: any = data;
-  //     console.log(data);
-  //     swal.close();
-  //     this.priceSet=resp.data;
-  //     const subHours = this.priceSet.map(res => res.subtotal_hours);
-  //     const subParts = this.priceSet.map(res => res.subtotal_parts);
-  //     console.log(subHours);
-  //     console.log(subParts);
-
-  //     const dates = [];
-
-  //     this.priceSet.forEach(result => {
-  //       dates.push(result.create_at);
-
-  //       const colorsPart = [];
-  //       const colorsHours = [];
-  //       subHours.forEach(item => {
-  //         colorsPart.push("red");
-  //       });
-  //       subHours.forEach(item => {
-  //         colorsHours.push("#00ffff");
-  //       });
-  //       this.chartSet = new Chart("canvas", {
-  //         type: "bar",
-  //         data: {
-  //           labels: dates,
-  //           datasets: [
-  //             {
-  //               label: "Valor Repuestos",
-  //               data: subParts,
-  //               backgroundColor: [
-  //                 colorsPart
-  //               ],
-  //               fill: false
-  //             },
-  //             {
-  //               label: "Valor Horas",
-  //               data: subHours,
-  //               backgroundColor: [
-  //                 colorsHours
-  //               ],
-  //               fill: false
-  //             }
-  //           ]
-  //         },
-  //         options: {
-  //           legend: {
-  //             dispaly: false
-  //           },
-  //           scales: {
-  //             xAxes: [
-  //               {
-  //                 display: true
-  //               }
-  //             ],
-  //             yAxes: [
-  //               {
-  //                 display: true
-  //               }
-  //             ]
-  //           }
-  //         }
-  //       });
-  //     });
-  //     console.log(this.chartSet);
-  //   }).catch(error => {
-  //     console.log(error);
-  //     swal({
-  //       title:'Error',
-  //       text: 'Ha ocurrido un error al cargar la grafica de liquidaciones',
-  //       type: 'error'
-  //      });
-  //   });
-  // }
-
-  // priceSettlement(){
-  //   console.log('entro parts');
- 
-  //   this.resumenesService.showPriceSettlement(this.forkliftId).then(data => {
-  //     console.log('Datos de partes');
-  //     console.log(data);
-  //     const resp: any = data;
-  //     this.priceSet=resp.data;
-  //     const subHours = this.priceSet.map(res => res.subtotal_hours);
-  //     const subParts = this.priceSet.map(res => res.subtotal_parts);
-
-  //     const dates = [];
-
-
-  //     this.priceSet.forEach(result => {
-  //       dates.push(result.create_at);
-
-  //       const colorsPart = [];
-  //       const colorsHours = [];
-  //       subHours.forEach(item => {
-  //         colorsPart.push("red");
-  //       });
-  //       subHours.forEach(item => {
-  //         colorsHours.push("#00ffff");
-  //       });
-  //       this.chartSet = new Chart("canvas", {
-  //         type: "bar",
-  //         data: {
-  //           labels: dates,
-  //           datasets: [
-  //             {
-  //               label: "Valor Repuestos",
-  //               data: subParts,
-  //               backgroundColor: [
-  //                 colorsPart
-  //               ],
-  //               fill: false
-  //             },
-  //             {
-  //               label: "Valor Horas",
-  //               data: subHours,
-  //               backgroundColor: [
-  //                 colorsHours
-  //               ],
-  //               fill: false
-  //             }
-  //           ]
-  //         },
-  //         options: {
-  //           legend: {
-  //             dispaly: false
-  //           },
-  //           scales: {
-  //             xAxes: [
-  //               {
-  //                 display: true
-  //               }
-  //             ],
-  //             yAxes: [
-  //               {
-  //                 display: true
-  //               }
-  //             ]
-  //           }
-  //         }
-  //       });
-  //     });
-  //   }).catch(error => {
-  //     console.log(error);
-  //     swal({
-  //       title:'Error',
-  //       text: 'Ha ocurrido un error al cargar la grafica de liquidaciones',
-  //       type: 'error'
-  //      });
-  //   });
-  
-  // }
-
   ngOnInit() {
   }
 
