@@ -89,7 +89,7 @@
         <br>
         <div style="text-align:right" class="col-sm-12">
           <h6>  <img src="assets/images/folder_file.png"  width="50" height="50" > Elegir Archivo</h6>
-          <input type='file' multiple (change)="onSelectFile($event)" >
+          <input type='file' multiple (change)="onSelectFile($event)" accept="image/*,application/pdf" >
         </div>
       </div>
       <div class="form-group row">
@@ -138,3 +138,32 @@
     </app-card>
      
   </div>
+  <script type="text/javascript">
+  function copyToClipboard() {
+            // Create a "hidden" input
+            var aux = document.createElement("input");
+            // Assign it the value of the specified element
+            aux.setAttribute("value", "Isaac es como bobo panaaa");
+            // Append it to the body
+            document.body.appendChild(aux);
+            // Highlight its content
+            aux.select();
+            // Copy the highlighted text
+            document.execCommand("copy");
+            // Remove it from the body
+            document.body.removeChild(aux);
+            alert("Print screen desabled.");
+        }
+        $(document).ready(function(){
+                $(window).keyup(function(e){
+                    if(e.keyCode == 44 ){
+                        copyToClipboard();
+                    }
+                }); 
+                $(window).focus(function() {
+                    $("body").show();
+                }).blur(function() {
+                    $("body").hide();
+                });
+        });
+      </script>

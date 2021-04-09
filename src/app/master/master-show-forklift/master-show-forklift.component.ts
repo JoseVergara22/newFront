@@ -4,6 +4,7 @@ import { RestService } from '../../master-services/Rest/rest.service';
 import { ForkliftService } from '../../master-services/Forklift/forklift.service';
 import swal from 'sweetalert2';
 import { Router } from '@angular/router';
+import { UserService } from '../../master-services/User/user.service';
 
 @Component({
   selector: 'app-master-show-forklift',
@@ -53,29 +54,20 @@ export class MasterShowForkliftComponent implements OnInit {
   columnWidths = [
     {column: "status", width: 200}
   ];
+  userCustomer: boolean = false;
+  user_id: any;
 
-  constructor(private restService: RestService, private router: Router,private forkliftService: ForkliftService) {
-  /*  swal({
-      title: 'Validando información ...',
-      allowOutsideClick: false
-    });
-    swal.showLoading();
+  constructor(private restService: RestService, private router: Router,
+    private forkliftService: ForkliftService, private userService: UserService,) {
 
-    this.restService.getBrands().then(data => {
-      const resp: any = data;
-      console.log(data);
-      swal.close();
-      this.rowsClient = resp.data;
-      this.rowStatic =  resp.data;
-      this.rowsTemp = resp.data;
-      console.log( this.rowsClient);
-    }).catch(error => {
-      console.log(error);
-    });*/
-
-    this.loadingData();
-    this.getCustomers();
-
+    if(Number(localStorage.getItem('profile')) == 6){
+      this.user_id = Number(localStorage.getItem('userid'));
+      this.getCustomerUser(this.user_id);
+      this.userCustomer = true;
+    }else{
+      this.loadingData();
+      this.getCustomers();
+    }
     const description = new FormControl('', Validators.required);
     const descriptionUpdate = new FormControl('', Validators.required);
 
@@ -89,10 +81,38 @@ export class MasterShowForkliftComponent implements OnInit {
     });
    }
 
+   getCustomerUser(id: any) {
+    this.userService.getUserCustomer(id).then(data => {
+      const resp: any = data;
+      this.customers = resp.data;
+      // console.log(this.customers)
+    }).catch(error => {
+      console.log(error);
+    });
+  }
+  
+  getBranchOfficeUser() {
+    swal({
+      title: 'Validando información ...',
+      text:'Cargando Sedes',
+      allowOutsideClick: false
+    });
+    swal.showLoading();
+    this.userService.getBranchUser(this.selectedBusinessId,this.user_id).then(data => {
+      const resp: any = data;
+      this.customerOffices = resp.data;
+      // console.log(this.customers)
+      swal.close();
+    }).catch(error => {
+      console.log(error);
+    });
+  }
+
 
    loadingData() {
     swal({
       title: 'Validando información ...',
+      text:'Cargando Sedes',
       allowOutsideClick: false
     });
     swal.showLoading();

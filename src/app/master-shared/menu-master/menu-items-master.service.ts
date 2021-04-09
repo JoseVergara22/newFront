@@ -56,7 +56,7 @@ const MENUITEMS = [
     label: 'master',
     main: [
       {
-        state: 'master',
+        state: 'erp',
         short_label: 'E',
         name: 'ERP',
         type: 'sub',
@@ -355,6 +355,71 @@ const MENUITEMS = [
     ]
   }
 ];
+
+const MENUCUSTOMER = [
+  {
+    label: 'Inicio',
+    main: [
+      {
+        state: 'master',
+        short_label: 'I',
+        name: 'Inicio',
+        type: 'sub',
+        icon: 'ti-home',
+        children: [
+          {
+            state: 'master',
+            name: 'Inicio'
+          }
+        ]
+      }
+    ]
+  },
+  {
+    label: 'master',
+    main: [
+      {
+        state: 'master',
+        short_label: 'E',
+        name: 'ERP',
+        type: 'sub',
+        icon: 'ti-direction',
+        children: [     
+          {
+            state: 'estimateAll',
+            name:  'Cotizaciones'
+          },
+        ]
+      }
+    ],
+  },
+  {
+    label: 'master',
+    main: [
+      {
+        state: 'maintenance',
+        short_label: 'N',
+        name: 'Mantenimiento',
+        type: 'sub',
+        icon: 'ti-pulse',
+        children: [
+          {
+            state: 'forkliftShow',
+            name: 'Administrar Montacargas'
+          },
+          {
+            state:'horometro',
+            name:'Administrar Horometro'
+          }, 
+          {
+            state: 'resumenes',
+            name:  'Administrar Hojas de Vida'
+           },
+        ]
+      }
+    ]
+  },
+]
 
 const MENUFINANCIAL = [
   {
@@ -716,6 +781,9 @@ export class MenuItemsMasterService {
 
   getFinancial(): Menu[] {
     return MENUFINANCIAL;
+  }
+  getCustomer(): Menu[] {
+    return MENUCUSTOMER;
   }
   constructor() {}
 

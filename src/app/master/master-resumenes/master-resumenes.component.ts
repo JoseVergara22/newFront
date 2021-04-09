@@ -6,6 +6,7 @@ import { ForkliftService } from '../../master-services/Forklift/forklift.service
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgbCalendar, NgbDateParserFormatter } from '@ng-bootstrap/ng-bootstrap';
 import { ResumenesService } from '../../master-services/resumenes/resumenes.service';
+import { UserService } from '../../master-services/User/user.service';
 
 @Component({
   selector: 'app-master-resumenes',
@@ -37,46 +38,93 @@ export class MasterResumenesComponent implements OnInit {
   customer_id: any;
   branch_id: any;
 
+  userCustomer: boolean = false;
+  user_id: any;
 
   constructor(private restService: RestService, private resumenesService: ResumenesService, private router: Router, 
      private forkliftService: ForkliftService,    private calendar: NgbCalendar, public formatter: NgbDateParserFormatter,
-     private activatedRoute: ActivatedRoute,) { 
+     private activatedRoute: ActivatedRoute,private userService: UserService) { 
 
-      this.getRegional();
+      if(Number(localStorage.getItem('profile')) == 6){
+        this.user_id = Number(localStorage.getItem('userid'));
+        this.getCustomerUser(this.user_id);
+        this.userCustomer = true;
+        console.log('Entro');
+      }else{
+        console.log('regional');
+        this.getRegional();
+      }
 
-     
+      // this.getRegional();     
      }
 
      ngOnInit() {
       this.activatedRoute.paramMap.subscribe(data=>{
          //this.name=data.get('id');
          this.regional_id=Number(data.get('regional'));
-         if (this.regional_id) {
-            // this.showButtonUpdated=true;
-            // this.regional_id=Number(data.get('hours'));
-            this.selectedRegionalId = this.regional_id;
-            
-            this.customer_id=Number(data.get('customer'));
-            this.branch_id=Number(data.get('branch'));
-            this.selectedBusinessId = this.customer_id;
-            this.selectedBranchOfficeId = this.branch_id;
-            console.log(this.selectedRegionalId);
-            console.log(this.selectedBusinessId);
-            console.log(this.selectedBranchOfficeId);
-            this.getCustomerRegionals(this.regional_id);
-            this.getBranchOffices(this.customer_id);
-            console.log('paso');
-            this.getForklifs();
-            // this.getRegional();
-            // this.cusotmerSelecteds.length = 0;
-            // this.regionalSelecteds.length = 0;
-            // this.getCustomer();
-            // this.getRegionals();
-            
-           
-         }
+         if(Number(localStorage.getItem('profile')) == 6){
+              this.customer_id=Number(data.get('customer'));
+                this.branch_id=Number(data.get('branch'));
+                this.selectedBusinessId = this.customer_id;
+                this.selectedBranchOfficeId = this.branch_id;
+              this.getBranchOfficeUser();
+              this.userCustomer = true;
+              console.log('Entro 2');
+         
+            }else{
+              if (this.regional_id) {
+                // this.showButtonUpdated=true;
+                // this.regional_id=Number(data.get('hours'));
+                this.selectedRegionalId = this.regional_id;
+                console.log('rutas')
+                this.customer_id=Number(data.get('customer'));
+                this.branch_id=Number(data.get('branch'));
+                this.selectedBusinessId = this.customer_id;
+                this.selectedBranchOfficeId = this.branch_id;
+                console.log(this.selectedRegionalId);
+                console.log(this.selectedBusinessId);
+                console.log(this.selectedBranchOfficeId);
+                
+                
+              this.getRegional();
+              this.getCustomerRegionals(this.regional_id);
+              this.getBranchOffices(this.customer_id);
+              console.log('paso');
+            }
+          }
+          this.getForklifs();
+
+         
         });
       }
+
+      getCustomerUser(id: any) {
+        this.userService.getUserCustomer(id).then(data => {
+          const resp: any = data;
+          this.customers = resp.data;
+          // console.log(this.customers)
+        }).catch(error => {
+          console.log(error);
+        });
+      }
+      
+      getBranchOfficeUser() {
+        swal({
+          title: 'Validando información ...',
+          text:'Cargando Sedes',
+          allowOutsideClick: false
+        });
+        swal.showLoading();
+        this.userService.getBranchUser(this.selectedBusinessId,this.user_id).then(data => {
+          const resp: any = data;
+          this.branchOffices = resp.data;
+          // console.log(this.customers)
+          swal.close();
+        }).catch(error => {
+          console.log(error);
+        });
+      }
+    
 
   getRegional(){
     this.restService.getRegionalAll().then(data => {

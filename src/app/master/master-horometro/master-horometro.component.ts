@@ -6,6 +6,7 @@ import { ForkliftService } from '../../master-services/Forklift/forklift.service
 import swal from 'sweetalert2';
 import { Router } from '@angular/router';
 import { inputs } from '@syncfusion/ej2-angular-schedule/src/recurrence-editor/recurrenceeditor.component';
+import { UserService } from '../../master-services/User/user.service';
 
 
 @Component({
@@ -47,29 +48,22 @@ export class MasterHorometroComponent implements OnInit {
   selectedBusinessId: any = 0;
   selectedOfficeId: any = 0;
   customerOffices: any = 0;
+  userCustomer: boolean = false;
+  user_id: any;
   @Input()
   public  horometroCurrent=0;;
-  constructor(private restService: RestService, private router: Router,private forkliftService: ForkliftService, private horometroservice:HorometroService) {
-  /*  swal({
-      title: 'Validando información ...',
-      allowOutsideClick: false
-    });
-    swal.showLoading();
+  constructor(private restService: RestService, private router: Router,private forkliftService: ForkliftService,
+     private horometroservice:HorometroService, private userService: UserService) {
+ 
+    if(Number(localStorage.getItem('profile')) == 6){
+      this.user_id = Number(localStorage.getItem('userid'));
+      this.getCustomerUser(this.user_id);
+      this.userCustomer = true;
+    }else{
+      this.loadingData();
+      this.getCustomers();
+    }
 
-    this.restService.getBrands().then(data => {
-      const resp: any = data;
-      console.log(data);
-      swal.close();
-      this.rowsClient = resp.data;
-      this.rowStatic =  resp.data;
-      this.rowsTemp = resp.data;
-      console.log( this.rowsClient);
-    }).catch(error => {
-      console.log(error);
-    });*/
-
-    this.loadingData();
-    this.getCustomers();
 
     const horometroUpdate = new FormControl('', Validators.required);
 
@@ -78,6 +72,32 @@ export class MasterHorometroComponent implements OnInit {
       horometroUpdate: horometroUpdate
     });
    }
+   getCustomerUser(id: any) {
+    this.userService.getUserCustomer(id).then(data => {
+      const resp: any = data;
+      this.customers = resp.data;
+      // console.log(this.customers)
+    }).catch(error => {
+      console.log(error);
+    });
+  }
+  
+  getBranchOfficeUser() {
+    swal({
+      title: 'Validando información ...',
+      text:'Cargando Sedes',
+      allowOutsideClick: false
+    });
+    swal.showLoading();
+    this.userService.getBranchUser(this.selectedBusinessId,this.user_id).then(data => {
+      const resp: any = data;
+      this.customerOffices = resp.data;
+      // console.log(this.customers)
+      swal.close();
+    }).catch(error => {
+      console.log(error);
+    });
+  }
 
 
    loadingData() {

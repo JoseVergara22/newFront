@@ -56,6 +56,15 @@ export class MasterViewPdfCatalogueComponent implements OnInit {
     this.loadingCatalogueId(this.catalogueId);
   }
 
+  ngOnInit() {
+    
+    // window.addEventListener("keyup", function (event) {
+    //   console.log(event);
+    //   event.preventDefault();
+    //   return false;
+    // },false);
+  }
+
   loadingCatalogueId(id: number) {
     swal({
       title: 'Validando información ...',
@@ -251,7 +260,7 @@ export class MasterViewPdfCatalogueComponent implements OnInit {
             console.log(res);
             this.s3info = res;
             console.log(this.s3info);
-
+            this.loadingCatalogueId(this.catalogueId);
             swal({
               title: 'Archivos guardados',
               type: 'success'
@@ -436,7 +445,6 @@ export class MasterViewPdfCatalogueComponent implements OnInit {
 
   })();
 
-  ngOnInit() {
-  }
+ 
 
 }

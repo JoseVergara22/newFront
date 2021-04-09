@@ -2821,7 +2821,7 @@ export class ResumenesService {
   }
 
 
-    getSettlementHistoryCost(id:number){
+  getSettlementHistoryCost(id:number){
     console.log(id);
     return new Promise(resolve => {
       const httpOptions = {
@@ -2832,6 +2832,29 @@ export class ResumenesService {
         })
       };
       this.http.get(this.apiEndPoint+'api/history_settlement_forklift/'+id, httpOptions)
+      .map(res => res).subscribe(data => {
+        console.log("a mostrar data");
+      console.log(data);
+      resolve(data);
+      }, error => {
+        console.log("error en servicio");
+        console.log(error);
+                resolve(error);
+        });
+    });
+  }
+
+  getHistoryTotalCost(id:number){
+    console.log(id);
+    return new Promise(resolve => {
+      const httpOptions = {
+        headers: new HttpHeaders({
+          'Content-Type':  'application/json',
+          'Authorization': 'Bearer ' + localStorage.getItem('token_user'),
+          'Accept': 'application/json'
+        })
+      };
+      this.http.get(this.apiEndPoint+'api/history_cost_total_forklift/'+id, httpOptions)
       .map(res => res).subscribe(data => {
         console.log("a mostrar data");
       console.log(data);

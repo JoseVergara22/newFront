@@ -193,6 +193,10 @@ export class MasterAdminComponent  implements OnInit {
     }else if( this.profileUserCurrent==5){
       this.profileText=this.userNameCurrent;
       this.itemsFinalMenu=menuItems.getFinancial();
+    }else if (this.profileUserCurrent == 6){
+      this.profileText=this.userNameCurrent;
+      this.itemsFinalMenu=menuItems.getCustomer();
+
     }
 
     this.navType = 'st2';

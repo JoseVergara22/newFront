@@ -29,7 +29,7 @@
 
           <div class="form-group row">
 
-            <div class="col-sm-6">
+            <div class="col-sm-4">
               <h6>Sucursales  <span style="color:red;">*</span> </h6>
 
               <select class="form-control" (change)="getCustomerRegionals()"  [(ngModel)]="selectedRegionalId" > 
@@ -37,27 +37,29 @@
                            <option   *ngFor="let reg of regional" [ngValue]="reg"   > {{reg.description}}  </option>
                       <!--  <option value="0" selected>Seleccionar perfil</option> -->
                      </select>
-          </div>
+            </div>
 
-          <div class="col-sm-6">
-            <h6>Cliente  <span style="color:red;">*</span></h6>
-            <select class="form-control" (change)="getBranchOffices()" [(ngModel)]="selectedBusinessId"> 
+            <div class="col-sm-5">
+              <h6>Cliente  <span style="color:red;">*</span></h6>
+              <select class="form-control" (change)="getBranchOffices()" [(ngModel)]="selectedBusinessId"> 
                         <option value="0" selected>Seleccionar cliente </option>
                     <option   *ngFor="let customer of customers" [ngValue]="customer"> {{customer.business_name}}  </option>
                     <!--  <option value="0" selected>Seleccionar perfil</option> -->
-            </select>
-          </div>
-          </div>
-
-          <div class="form-group row">
-            <div class="col-sm-4">
+              </select>
+            </div>
+            <div class="col-sm-3">
               <h6>Sede  <span style="color:red;">*</span></h6>
                 <select class="form-control"  [(ngModel)]="selectedBranchOfficeId" > 
                             <option value="0" selected>Seleccionar sede </option>
                             <option   *ngFor="let branchOffice of branchOffices" [ngValue]="branchOffice"   > {{branchOffice.branch_name}}  </option>
                         <!--  <option value="0" selected>Seleccionar perfil</option> -->
                 </select>
-              </div>
+            </div>
+          
+          </div>
+
+          <div class="form-group row">
+            
             <div class="col-sm-4">
               <h6>Técnico  <span style="color:red;">*</span></h6>
 
@@ -66,6 +68,30 @@
                           <option   *ngFor="let tec of technician" [ngValue]="tec"   > {{tec.name}}  </option>
                       <!--  <option value="0" selected>Seleccionar perfil</option> -->
               </select>
+            </div>
+            <div class="col-sm-3">
+              <h6>Tipo Mantenimiento <span style="color:red;">*</span></h6>
+              <br>
+              <input type="checkbox" value="m1" [checked]="checkAllType" (change)="checkUncheckAllType($event)" />
+              <strong>Seleccionar todo</strong>
+              <br>
+              <br>
+              <div *ngFor="let item of selectsType">
+                <input type="checkbox" [(ngModel)]="item.select" data-md-icheck  />
+                {{item.name}}<br>
+              </div>
+            </div>
+            <div class="col-sm-3">
+              <h6>Estado Mantenimiento </h6>
+              <br>
+              <input type="checkbox" value="m1" [checked]="checkAllStatus" (change)="checkUncheckAllStatus($event)" />
+              <strong>Seleccionar todo</strong>
+              <br>
+              <br>
+              <div *ngFor="let item of selectsStatus">
+                <input type="checkbox" [(ngModel)]="item.select" data-md-icheck />
+                {{item.name}}<br>
+              </div>
             </div>
           </div>
 

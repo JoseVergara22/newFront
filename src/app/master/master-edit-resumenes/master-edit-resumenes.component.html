@@ -452,18 +452,18 @@
       </ngx-datatable>
     </app-card> 
 
-    <div class="row">
+    <!-- <div class="row">
         <div class="col-md-6 col-lg-6" style="width: 80%; text-align: center;">
         <app-card>
           <h5>Concepto de Liquidaciones Por Repuestos</h5>
           <canvas id="set" width="600" height="400">{{chartSet}}</canvas>
         </app-card>
-        <!-- <app-card class="col-sm-6">
+         <app-card class="col-sm-6">
           <h5>Concepto de Liquidaciones Por Mano de Obra</h5>
           <canvas id="set" width="600" height="400">{{this.chartSet}}</canvas>
-        </app-card> -->
+        </app-card> 
       </div>
-    </div>
+    </div> -->
 
 
     
@@ -471,6 +471,14 @@
       <app-card style="width: 80%;">
         <h5>Historico de Liquidaciones</h5>
         <canvas id="speedCanvas" width="600" height="400"></canvas>
+      </app-card>
+    </div>
+
+
+    <div class="col-md-12 col-lg-8" style="width: 80%; text-align: center;">
+      <app-card style="width: 80%;">
+        <h5>Historico de total de Cotizaciones y Liquidaciones</h5>
+        <canvas id="totalCost" width="600" height="400"></canvas>
       </app-card>
     </div>
 
@@ -486,9 +494,10 @@
     <app-card>
       <h5>Repuestos Instalados</h5>
       <ngx-datatable #table class="data-table" [rows]="partsInstall"   [columnMode]="'flex'" [headerHeight]="50" [footerHeight]="50" [rowHeight]="'auto'" [limit]="20">
-        <ngx-datatable-column  [flexGrow]="2" [sortable]="false" [resizeable]="false"  name="Descripción" [sortable]="false"  prop="description"></ngx-datatable-column>
+        <ngx-datatable-column  [flexGrow]="2" [sortable]="false" [resizeable]="false"  name="Repuestos" [sortable]="false"  prop="description"></ngx-datatable-column>
         <ngx-datatable-column  [flexGrow]="2" [sortable]="false" [resizeable]="false"  name="Cantidad" [sortable]="false"  prop="quantity"></ngx-datatable-column>
-        <ngx-datatable-column  [flexGrow]="2" [sortable]="false" [resizeable]="false"  name="Fecha de Creacción" [sortable]="false"  prop="create"></ngx-datatable-column>
+        <ngx-datatable-column  [flexGrow]="2" [sortable]="false" [resizeable]="false"  name="Total" [sortable]="false"  prop="total"></ngx-datatable-column>
+        <ngx-datatable-column  [flexGrow]="2" [sortable]="false" [resizeable]="false"  name="Fecha de Creación" [sortable]="false"  prop="create"></ngx-datatable-column>
       </ngx-datatable>
     </app-card>
 

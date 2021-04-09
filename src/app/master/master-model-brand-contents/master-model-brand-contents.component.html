@@ -6,19 +6,19 @@
           <br>
             <div class="form-group row">
                 <div class="col-sm-6">
-                <h6>Cliente</h6>
+                <h6>Marca</h6>
 
                 <select class="form-control" (change)="getCustomerOffice()" [(ngModel)]="selectedBusinessId"> 
-                            <option value="0" selected>Seleccionar cliente </option>
+                            <option value="0" selected>Seleccionar Marca </option>
                         <option   *ngFor="let customer of brands" [ngValue]="customer.id"> {{customer.description}}  </option>
                         <!--  <option value="0" selected>Seleccionar perfil</option> -->
                        </select>
                 </div>
 
             <div class="col-sm-6">
-                <h6>Sede</h6>
+                <h6>Modelo</h6>
                 <select class="form-control" [(ngModel)]="selectedOfficeId" (change)="getCustomersForklift(selectedBusinessId,selectedOfficeId)" > 
-                    <option value="0" selected>Seleccionar sede </option>
+                    <option value="0" selected>Seleccionar Modelo </option>
                 <option   *ngFor="let office of model" [ngValue]="office.id"> {{office.description}}  </option>
                 <!--  <option value="0" selected>Seleccionar perfil</option> -->
                </select>

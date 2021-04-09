@@ -218,11 +218,14 @@ export class MasterEstimateAllComponent extends NgbDatepickerI18n {
 
   emailCustomer: any = '';
   emailShow: any = '';
+  userCustomer: boolean = false;
+  user_id: any;
+
  
   constructor(private restService: RestService, private _i18n: I18n, private router: Router, private estimateService: EstimateService, private forkliftService: ForkliftService,
               private calendar: NgbCalendar, public formatter: NgbDateParserFormatter, private userService: UserService,  private uploadService: UploadService,   private formbuilder:FormBuilder) {
                 super();
-
+                
 
                 const subject = new FormControl('',Validators.required);
                 //const work = new FormControl('');
@@ -253,7 +256,6 @@ export class MasterEstimateAllComponent extends NgbDatepickerI18n {
                 console.log(this.fromDate);
                 console.log(this.untilDate);
 
-                this.getUser();
                 this.masterSelected = false;
                 this.checklist = [
                   {id:2,value:'APROBADO',isSelected:false},
@@ -261,29 +263,8 @@ export class MasterEstimateAllComponent extends NgbDatepickerI18n {
                   {id:0,value:'GENERADO',isSelected:false},
                   {id:5,value:'RECHAZADO',isSelected:false}
                 ];
-
-  /*  swal({
-      title: 'Validando información ...',
-      allowOutsideClick: false
-    });
-    swal.showLoading();
-
-    this.restService.getBrands().then(data => {
-      const resp: any = data;
-      console.log(data);
-      swal.close();
-      this.rowsClient = resp.data;
-      this.rowStatic =  resp.data;
-      this.rowsTemp = resp.data;
-      console.log( this.rowsClient);
-    }).catch(error => {
-      console.log(error);
-    });*/
+                
     
-  
-
-    this.loadingData();
-    this.getCustomers();
 
     const description = new FormControl('', Validators.required);
     const descriptionUpdate = new FormControl('', Validators.required);
@@ -296,6 +277,34 @@ export class MasterEstimateAllComponent extends NgbDatepickerI18n {
     this.myFormUpdate = new FormGroup({
       descriptionUpdate: descriptionUpdate
     });
+    if(Number(localStorage.getItem('profile')) == 6){
+      this.user_id = Number(localStorage.getItem('userid'));
+      this.getCustomerUser(this.user_id);
+      this.userCustomer = true;
+    }else{
+      this.getUser();
+      this.loadingData();
+      this.getCustomers();
+    }
+  }
+
+  getCustomerUser(id: any) {
+      this.userService.getUserCustomer(id).then(data => {
+        const resp: any = data;
+        this.customers = resp.data;
+        // console.log(this.customers)
+      }).catch(error => {
+        console.log(error);
+      });
+  }
+  getBranchOfficeUser(id: any) {
+      this.userService.getBranchUser(id,this.user_id).then(data => {
+        const resp: any = data;
+        this.branchOffices = resp.data;
+        // console.log(this.customers)
+      }).catch(error => {
+        console.log(error);
+      });
   }
 
 
@@ -412,8 +421,8 @@ export class MasterEstimateAllComponent extends NgbDatepickerI18n {
     }
    }
 
-   getEstimateWorkforce(ind: number) 
- {     console.log('Ingreso a la mano de obra');
+   getEstimateWorkforce(ind: number){     
+     console.log('Ingreso a la mano de obra');
     if(this.estimateId){
       this.estimateService.getEstimateDetailsWorkforce(this.estimateId).then(data => {
         const resp: any = data;
@@ -3659,6 +3668,139 @@ this.getImgFromUrl(logo_url, function (img) {
 
   
 
+   getEstimateFiltersUser() {
+
+    if(this.considerDate == false && this.selectedBusinessId == 0 &&  this.selectedBranchOfficeId == 0){
+        swal({
+          title:'Importante',
+          text: 'Debes seleccionar por lo menos un cliente y una sede.',
+          type: 'error'
+         });
+      }else{
+    swal({
+      title: 'Validando información ...',
+      allowOutsideClick: false
+    });
+    swal.showLoading();
+
+    let params='';
+    let cont=0;
+    if(this.considerDate){
+
+      // poner los 0
+      var day = (this.fromDate.day < 10 ? '0' : '') +this.fromDate.day;
+      // 01, 02, 03, ... 10, 11, 12
+      let month = ((this.fromDate.month) < 10 ? '0' : '') + (this.fromDate.month);
+      // 1970, 1971, ... 2015, 2016, ...
+      var year = this.fromDate.year;
+
+      // until poner los ceros
+      var dayUntil = (this.untilDate.day < 10 ? '0' : '') +this.untilDate.day;
+      // 01, 02, 03, ... 10, 11, 12
+      let monthUntil = ((this.untilDate.month) < 10 ? '0' : '') + (this.untilDate.month);
+      // 1970, 1971, ... 2015, 2016, ...
+      var yearUntil = this.untilDate.year;    
+
+      var fromD = year +'-'+ month+'-'+ day;
+      var untilD = yearUntil +'-'+ monthUntil+'-'+ dayUntil;
+      //var fromD = this.fromDate.year+'-'+this.fromDate.month+'-'+this.fromDate.day; //31 de diciembre de 2015
+      // var untilD = this.untilDate.year+'-'+this.untilDate.month+'-'+this.untilDate.day;
+      params='from_date='+ fromD+' 00:00:00'+'&&'+'to_date=' +untilD+' 23:59:59';
+    cont++;
+    }
+
+    if(this.selectedBusinessId!=0){
+      console.log('imprimir cont');
+      console.log(cont);
+      if(cont>0){
+        params=params+'&&customer_id='+this.selectedBusinessId;
+      }else{
+        params=params+'customer_id='+this.selectedBusinessId;
+        cont++;
+      }     
+    }
+
+    if(this.part!=''){
+      if(cont>0){
+        params=params+'&&description_query='+this.part;
+      }else{
+        params=params+'description_query='+this.part;
+        cont++;
+      }
+    }
+
+    if(this.codepart!=''){
+      if(cont>0){
+        params=params+'&&codepart_query='+this.codepart;
+      }else{
+        params=params+'codepart_query='+this.codepart;
+        cont++;
+      }
+    }
+
+    if(this.numberEstimate!=''){
+      if(cont>0){
+        params=params+'&&consecutive='+this.numberEstimate;
+      }else{
+        params=params+'consecutive='+this.numberEstimate;
+        cont++;
+      }
+    }
+
+    if(this.selectedForkliftId!=0){
+      if(cont>0){
+      params=params+'&&forklift_id='+this.selectedForkliftId;
+      }else{
+        params=params+'forklift_id='+this.selectedForkliftId;
+        cont++;
+      }
+    }
+
+    if(this.selectedBranchOfficeId!=0){
+      if(cont>0){
+      params=params+'&&branch_office_id='+this.selectedBranchOfficeId;
+      }else{
+        params=params+'branch_office_id='+this.selectedBranchOfficeId;
+        cont++;
+      }
+    }
+
+    if(this.listStatus.length>0){
+      if(cont>0){
+      params=params+'&&status='+this.listStatus;
+      }else{
+        params=params+'status='+this.listStatus;
+        cont++;
+      }
+    }
+
+    console.log('.---------->'+params);
+    this.estimateService.showEstimateFilter(params).then(data => {
+      const resp: any = data;
+      console.log('info de filter');
+      console.log(data);
+      // this.customers  = resp.data;
+      this.rowsClient = resp.data;
+      console.log(resp.data);
+      console.log(resp.error);
+      swal.close();
+      if(resp.error){
+        console.log('entro')
+        swal({
+          title:'Tiempo de busqueda excedido',
+          text: 'El rango de tiempo seleccionado para la busqueda es muy amplio, seleccione uno mejor para una consulta mas optima.',
+          type: 'warning'
+         });
+      }
+      // this.rowStatic =  resp.data;
+      // this.rowsTemp = resp.data;
+      // console.log( this.rowsClient);
+    }).catch(error => {
+
+      console.log(error);
+    });  
+  }
+}
    getEstimateFilters() {
 
     if(this.considerDate == false && this.selectedBusinessId == 0 &&  this.part == 0 &&

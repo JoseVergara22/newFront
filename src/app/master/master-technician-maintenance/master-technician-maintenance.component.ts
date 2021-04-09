@@ -2,6 +2,7 @@ import { Component, Injectable, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { NgbCalendar, NgbDateParserFormatter, NgbDatepickerI18n, NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
 import swal from 'sweetalert2';
+import { ReportsService } from '../../master-services/reports/reports.service';
 import { RestService } from '../../master-services/Rest/rest.service';
 import { ResumenesService } from '../../master-services/resumenes/resumenes.service';
 import { MasterSettlementAllComponent } from '../master-settlement-all/master-settlement-all.component';
@@ -17,6 +18,12 @@ const I18N_VALUES = {
   // other languages you would support
 };
 
+interface maintenanceInterface {// item para mostrar clientes
+  id?: number;
+  name?: string;
+  select?: boolean;
+}
+
 
 @Injectable()
 export class I18n {
@@ -31,6 +38,11 @@ export class I18n {
   providers: [I18n, {provide: NgbDatepickerI18n, useClass: MasterTechnicianMaintenanceComponent}]
 })
 export class MasterTechnicianMaintenanceComponent extends NgbDatepickerI18n {
+
+  selectsType :Array<maintenanceInterface> = [];
+  selectType :maintenanceInterface;
+  selectsStatus :Array<maintenanceInterface> = [];
+  selectStatus :maintenanceInterface;
 
   selectedRegionalId:any = 0;
   selectedTechnician: any = 0;
@@ -59,10 +71,14 @@ export class MasterTechnicianMaintenanceComponent extends NgbDatepickerI18n {
   downloadStevedorePdf: any;
   downloadBatteryPdf: any;
 
+  checkAllType: boolean;
+  checkAllStatus: boolean;
 
+  type: any;
+  status: any;
 
   constructor(private restService: RestService,private calendar: NgbCalendar, public formatter: NgbDateParserFormatter, 
-    private _i18n: I18n, private router: Router, private resumenesService: ResumenesService,) { 
+    private _i18n: I18n, private router: Router, private resumenesService: ResumenesService,private reportService: ReportsService) { 
     super();
 
     var date = new Date();
@@ -74,9 +90,11 @@ export class MasterTechnicianMaintenanceComponent extends NgbDatepickerI18n {
     console.log(   this.fromDate);
     console.log(   this.untilDate);
 
+    this.getStatusMaintenance();
+    this.getTyeMaintenance();
     this.getRegional();
     this.getUser();
-    this.getFilters();
+    // this.getFilters();
   }
 
   
@@ -153,9 +171,7 @@ export class MasterTechnicianMaintenanceComponent extends NgbDatepickerI18n {
   
 
   
-getFilters() {
-
-  
+  getFiltersInitial() {
       swal({
         title: 'Validando información ...',
         allowOutsideClick: false
@@ -191,54 +207,179 @@ getFilters() {
     console.log(this.selectedBusinessId);
 
       params='from_date='+from_date+'&to_date='+to_date;
-     
+      params = params +'&Preventivo=Preventivo';
+      params = params +'&Bateria=Bateria';
+      params = params +'&Checklist=Checklist';
+      params = params +'&Correctivo=Correctivo';
+      params = params +'&Plataforma=Plataforma';
+      params = params +'&Estibador=Estibador';
 
-      if(this.selectedTechnician!=0){
-        console.log('imprimir cont');
-        // console.log(cont);
-          params=params+'&&user_id='+this.selectedTechnician.id;
-        
-      }
-      if(this.selectedBusinessId!=0){
-        console.log('imprimir cont');
-        // console.log(cont);
-          params=params+'&&customer_id='+this.selectedBusinessId.id;
-        
-      }
-
-      if(this.selectedBranchOfficeId!=0){
-        console.log('imprimir cont');
-        // console.log(cont);
-
-          params=params+'&&branch_offices_id='+this.selectedBranchOfficeId.id;
-     
-      }
-
-
-      console.log('.---------->'+params);
-      this.resumenesService.getTechnicianRoutine(params).then(data => {
-        const resp: any = data;
-        console.log('info de filter');
-        console.log(data);
-      // this.customers  = resp.data;
-        this.rowsClient = resp.data;
-        console.log(resp.error);
-        swal.close();
-        if(resp.error){
-          console.log('entro')
-          swal({
-            title:'Oops',
-            text: 'Hubo un error en la consulta.',
-            type: 'error'
-            });
+        if(this.selectedTechnician!=0){
+          console.log('imprimir cont');
+          // console.log(cont);
+            params=params+'&&user_id='+this.selectedTechnician.id; 
         }
-        // this.rowStatic =  resp.data;
-        // this.rowsTemp = resp.data;
-        // console.log( this.rowsClient);
-      }).catch(error => {
-        console.log(error);
-      });  
+        if(this.selectedBusinessId!=0){
+          console.log('imprimir cont');
+          // console.log(cont);
+            params=params+'&&customer_id='+this.selectedBusinessId.id;  
+        }
+        if(this.selectedBranchOfficeId!=0){
+          console.log('imprimir cont');
+          // console.log(cont);
+            params=params+'&&branch_offices_id='+this.selectedBranchOfficeId.id;
+        } 
 
+        console.log('.---------->'+params);
+        this.resumenesService.getTechnicianRoutine(params).then(data => {
+          const resp: any = data;
+          console.log('info de filter');
+          console.log(data);
+        // this.customers  = resp.data;
+          this.rowsClient = resp.data;
+          console.log(resp.error);
+          swal.close();
+          if(resp.error){
+            console.log('entro')
+            swal({
+              title:'Oops',
+              text: 'Hubo un error en la consulta.',
+              type: 'error'
+              });
+          }
+          // this.rowStatic =  resp.data;
+          // this.rowsTemp = resp.data;
+          // console.log( this.rowsClient);
+        }).catch(error => {
+          console.log(error);
+        });  
+}
+  
+  getFilters() {
+
+      swal({
+        title: 'Validando información ...',
+        allowOutsideClick: false
+      });
+      swal.showLoading();
+      let params='';
+      let cont=0;
+
+      var day = (this.fromDate.day < 10 ? '0' : '') +this.fromDate.day;
+   // 01, 02, 03, ... 10, 11, 12
+   let month = ((this.fromDate.month) < 10 ? '0' : '') + (this.fromDate.month);
+   // 1970, 1971, ... 2015, 2016, ...
+   var year = this.fromDate.year;
+
+   // until poner los ceros
+   var dayUntil = (this.untilDate.day < 10 ? '0' : '') +this.untilDate.day;
+   // 01, 02, 03, ... 10, 11, 12
+   let monthUntil = ((this.untilDate.month) < 10 ? '0' : '') + (this.untilDate.month);
+   // 1970, 1971, ... 2015, 2016, ...
+   var yearUntil = this.untilDate.year;    
+
+   var fromD = year +'-'+ month+'-'+ day;
+   var untilD = yearUntil +'-'+ monthUntil+'-'+ dayUntil;
+
+   //  var fromD = this.fromDate.year+'-'+this.fromDate.month+'-'+this.fromDate.day; //31 de diciembre de 2015
+   //  var untilD = this.untilDate.year+'-'+this.untilDate.month+'-'+this.untilDate.day;
+     var from_date= fromD+' 00:00:00';
+      var to_date=untilD+' 23:59:59';
+      
+    console.log(from_date);
+    console.log(to_date);
+    console.log(this.selectedTechnician);
+    console.log(this.selectedBusinessId);
+
+      params='from_date='+from_date+'&to_date='+to_date;
+
+      if(this.selectsType[0].select){
+        params = params +'&Bateria=Bateria';
+        cont ++;
+      }
+      if(this.selectsType[1].select){
+        params = params +'&Checklist=Checklist';
+        cont ++;
+      }
+      if(this.selectsType[2].select){
+        params = params +'&Correctivo=Correctivo';
+        cont ++;
+      }
+      if(this.selectsType[3].select){
+        params = params +'&Plataforma=Plataforma';
+        cont ++;
+      }
+      if(this.selectsType[4].select){
+        params = params +'&Preventivo=Preventivo';
+        cont ++;
+      }
+      if(this.selectsType[5].select){
+        params = params +'&Estibador=Estibador';
+        cont ++;
+      }
+      if(cont>0){
+        if(this.selectsStatus[0].select){
+          params = params +'&Pendiente='+this.selectsStatus[0].name;
+          cont ++;
+        }
+        if(this.selectsStatus[1].select){
+          params = params +'&Iniciado='+this.selectsStatus[1].name;
+          cont ++;
+        }
+        if(this.selectsStatus[2].select){
+          params = params +'&Finalizado='+this.selectsStatus[2].name;
+          cont ++;
+        }
+        if(this.selectsStatus[3].select){
+          params = params +'&Firma='+this.selectsStatus[3].name;
+          cont ++;
+        }
+        if(this.selectedTechnician!=0){
+          console.log('imprimir cont');
+          // console.log(cont);
+            params=params+'&&user_id='+this.selectedTechnician.id; 
+        }
+        if(this.selectedBusinessId!=0){
+          console.log('imprimir cont');
+          // console.log(cont);
+            params=params+'&&customer_id='+this.selectedBusinessId.id;  
+        }
+        if(this.selectedBranchOfficeId!=0){
+          console.log('imprimir cont');
+          // console.log(cont);
+            params=params+'&&branch_offices_id='+this.selectedBranchOfficeId.id;
+        } 
+
+        console.log('.---------->'+params);
+        this.resumenesService.getTechnicianRoutine(params).then(data => {
+          const resp: any = data;
+          console.log('info de filter');
+          console.log(data);
+        // this.customers  = resp.data;
+          this.rowsClient = resp.data;
+          console.log(resp.error);
+          swal.close();
+          if(resp.error){
+            console.log('entro')
+            swal({
+              title:'Oops',
+              text: 'Hubo un error en la consulta.',
+              type: 'error'
+              });
+          }
+          // this.rowStatic =  resp.data;
+          // this.rowsTemp = resp.data;
+          // console.log( this.rowsClient);
+        }).catch(error => {
+          console.log(error);
+        });  
+      }else{
+        swal({
+          title:'Oops',
+          text: 'Debes seleccionar un tipo de mantenimiento.',
+          type: 'error'
+        });
+      }
 }
 
  
@@ -455,6 +596,73 @@ downloadReport(row: any){
      });
   });
 }
+
+getStatusMaintenance(){
+  this.reportService.getStatusMaintenance().then(data => {
+    const resp: any = data;
+    console.log(data);
+    swal.close();
+    this.status  = resp.data;
+    for(let item of this.status){
+      this.selectStatus = {
+        id:item.id,
+        name:item.description,
+        select:false,
+      }
+      this.selectsStatus.push(this.selectStatus);
+    }
+  }).catch(error => {
+    console.log(error);
+    swal({
+      title:'Error',
+      text: 'Ha ocurrido un error al cargar las Sucursales',
+      type: 'error'
+     });
+  });
+}
+
+getTyeMaintenance(){
+  this.reportService.getTyeMaintenance().then(data => {
+    const resp: any = data;
+    console.log(data);
+    swal.close();
+    this.type  = resp.data;
+    for(let item of this.type){
+      this.selectType = {
+        id:item.id,
+        name:item.description,
+        select:false,
+      }
+      this.selectsType.push(this.selectType);
+    }
+    this.getFiltersInitial();
+  }).catch(error => {
+    console.log(error);
+    swal({
+      title:'Error',
+      text: 'Ha ocurrido un error al cargar las Sucursales',
+      type: 'error'
+     });
+  });
+}
+
+
+checkUncheckAllType(event:any){
+  this.checkAllType=event.target.checked;    
+    for (let i = 0; i < this.selectsType.length; i++){
+      console.log('lo encontre'+i);
+        this.selectsType[i].select=event.target.checked;
+    }
+}
+
+checkUncheckAllStatus(event:any){
+  this.checkAllStatus=event.target.checked;    
+    for (let i = 0; i < this.selectsStatus.length; i++){
+      console.log('lo encontre'+i);
+        this.selectsStatus[i].select=event.target.checked;
+    }
+}
+
 
   getWeekdayShortName(weekday: number): string {
     return I18N_VALUES[this._i18n.language].weekdays[weekday - 1];
