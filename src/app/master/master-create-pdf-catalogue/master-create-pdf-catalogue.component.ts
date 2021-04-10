@@ -96,8 +96,48 @@ export class MasterCreatePdfCatalogueComponent implements OnInit {
     });
   }
 
-  uploadFiles() {
+  validateCreate(){
     if(this.selectedValue !== 0 && this.selectedModel != 0){
+      swal({
+        title: 'Validando información ...',
+        allowOutsideClick: false
+      });
+      swal.showLoading();
+
+      this.brandService.getValidateCatalogue(this.selectedModel.id).then(data => {
+        const resp: any = data;
+        console.log(data);
+        swal.close();
+
+        if(!resp.success){
+          swal({
+            title: 'No se puede guardar la información',
+            text: 'Ya existen archivos creados para este modelo, por favor entre por "actualizar" para continuar',
+            type: 'error'
+          });
+        }else{
+          this.uploadFiles();
+        }
+
+      }).catch(error => {
+        console.log(error);
+        swal({
+          title: 'Falla al cargar la información',
+          text: 'No se pudo cargar los modelos',
+          type: 'error'
+        });
+      });
+    }else{
+    swal({
+      type: 'error',
+      title: 'Falta información',
+      text: 'Por favor escoja cada una de las opciones.',
+    });
+  }
+  }
+
+  uploadFiles() {
+    
       if(this.urlsFiles.length > 0){
         swal({
           title: 'Validando información ...',
@@ -128,8 +168,6 @@ export class MasterCreatePdfCatalogueComponent implements OnInit {
               title: 'Archivos guardados',
               type: 'success'
              });
-
-             document.getElementById('createBrandHide').click();
             swal.close();
           }).catch(error => {
             console.log(error);
@@ -148,13 +186,6 @@ export class MasterCreatePdfCatalogueComponent implements OnInit {
           text: 'No se ha seleccionado ningun archivo para montar',
         });
       }
-    }else{
-      swal({
-        type: 'error',
-        title: 'Falta información',
-        text: 'Por favor escoja cada una de las opciones.',
-      });
-    }
   }
   
   deleteFile(index:number,item: any){

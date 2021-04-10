@@ -7,16 +7,7 @@ import { ForkliftService } from '../../master-services/Forklift/forklift.service
 import { RestService } from '../../master-services/Rest/rest.service';
 import { UploadService } from '../../master-services/services/upload.service';
 
- 
-interface FileCatalogueInterface {
-  id?: number;
-  url?: string;
-  name?: string;
-  save?: boolean;
-  part?: boolean;
-  service?: boolean;
-  file?:File;
-}
+
 
 @Component({
   selector: 'app-master-model-brand-contents',
@@ -26,50 +17,11 @@ interface FileCatalogueInterface {
 })
 export class MasterModelBrandContentsComponent implements OnInit {
 
-  fileCatalogue: FileCatalogueInterface;
-
-  selectedFiles: Array<File> = [];
-  urlsFiles = [];
-  
-  myForm: FormGroup;
-  myFormUpdate: FormGroup;
-  submitted = false;
-  rowsClient: any;
-  rowsTemp: any;
-  rowStatic: any;
-  rows: any;
   elementDelete: any;
-
-  change = true;
-  active = false;
-  inactive = false;
-  enabledUpdated = false;
-  enabledCreated = true;
-
-  filterIndicatorText = false;
-  filterIndicatorCheck = false;
-
-  rowsTempCheck: any;
-  rowsTempText: any;
-
-  currentFuel: any;
-
-  selectedValueUpdate: any = 0;
-  selectedValue: any = 0;
-  selectedModel: any = 0;
-  selectedModelUpdate: any = 0;
-  selectedUpdate: any = 0;
-  selectType: any = 0;
-  selectTypeUpdate: any = 0;
 
   brands: any;
   model: any;
-  type: any;
-  s3info: any;
   catalogue: any;
-
-  countFile = 0;
-  base64: any;
 
   customers: any;
   customerOffices: any = 0;
@@ -162,32 +114,6 @@ export class MasterModelBrandContentsComponent implements OnInit {
     });
   }
 
-
-  updateFilter(event) {
-    const val = event.target.value.toLowerCase();
-    // filter our data
-
-    if (val === '') {
-      console.log('vacio');
-      this.filterIndicatorText = false;
-      this.rowsTemp = this.rowStatic;
-    }
-
-    // this.filterIndicatorCheck = true;
-    if (this.inactive === true || this.active === true) {
-      this.rowsTemp = this.rowsTempCheck;
-    }
-    const temp = this.rowsTemp.filter(function (d) {
-      return d.description.toLowerCase().indexOf(val) !== -1 || !val;
-    });
-
-    if (val !== '') {
-      this.filterIndicatorText = true;
-      this.rowsTempText = temp;
-    }
-    this.rowsClient = temp;
-
-  }
 
   updateFuel(row) {
     console.log(row);

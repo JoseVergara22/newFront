@@ -100,6 +100,7 @@ import { MasterBrandContentsComponent } from './master-brand-contents/master-bra
 import { MasterModelBrandContentsComponent } from './master-model-brand-contents/master-model-brand-contents.component';
 import { MasterViewPdfCatalogueComponent } from './master-view-pdf-catalogue/master-view-pdf-catalogue.component';
 import { MasterCreatePdfCatalogueComponent } from './master-create-pdf-catalogue/master-create-pdf-catalogue.component';
+import { MasterViewPdfTechnicianComponent } from './master-view-pdf-technician/master-view-pdf-technician.component';
 // import { MasterMaintenanceNotificationComponent } from './master-maintenance-notification/master-maintenance-notification.component';
 
 
@@ -451,6 +452,9 @@ const routes: Routes = [
   },{
     path:'createCataloguePdf',
     component: MasterCreatePdfCatalogueComponent
+  },{
+    path:'viewPdfCatalogue',
+    component: MasterViewPdfTechnicianComponent
   },
  
 ];

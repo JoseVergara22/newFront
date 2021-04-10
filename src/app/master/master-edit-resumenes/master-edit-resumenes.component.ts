@@ -237,7 +237,7 @@ export class MasterEditResumenesComponent extends NgbDatepickerI18n {
       this.forkliftId = this.rutaActiva.snapshot.params.id;
       console.log(this.rutaActiva.snapshot.params);
       this.getForklifs(this.forkliftId);
-      this.getPatrsInstall();
+      
       this.regional_id = this.rutaActiva.snapshot.params.regional;
 
       var date = new Date();
@@ -285,6 +285,7 @@ export class MasterEditResumenesComponent extends NgbDatepickerI18n {
         this.getPartCostSettlement();
         this.chartLineSettlement();
         this.getSettlementLast();
+        this.getPatrsInstall();
         this.getEstimateLast();
         this.getImages(id);
         // this.getPreventiveRoutinesLast();
@@ -1064,17 +1065,18 @@ export class MasterEditResumenesComponent extends NgbDatepickerI18n {
      from_date=fromD+' 00:00:00';
      to_date=untilD+' 23:59:59';
     
-    //  this.getPreventiveRoutinesFilter(from_date,to_date);
      this.getPreventiveRoutinesFilterGeneral(from_date,to_date);
-     this.getCorrectiveRoutinesFilter(from_date,to_date);
      this.getForkliftChecklistFilterGeneral(from_date,to_date);
-    //  this.getPlatformRoutinesFilter(from_date,to_date);
-    //  this.getStevedoreRoutinesFilter(from_date,to_date);
-    //  this.getBatteryRoutinesFilter(from_date,to_date);
-     this.getEstimateFilter(from_date,to_date);
-    //  this.getEstimatePrice(from_date,to_date);
+     this.getCorrectiveRoutinesFilter(from_date,to_date);
+     this.getPatrsInstallFilter(from_date,to_date);
      this.getSettlementFilter(from_date,to_date);
      this.getPatrsCostFilter(from_date,to_date);
+     this.getEstimateFilter(from_date,to_date);
+     //  this.getEstimatePrice(from_date,to_date);
+     //  this.getPreventiveRoutinesFilter(from_date,to_date);
+     //  this.getPlatformRoutinesFilter(from_date,to_date);
+    //  this.getStevedoreRoutinesFilter(from_date,to_date);
+    //  this.getBatteryRoutinesFilter(from_date,to_date);
     //  this.getForkliftChecklistFilter(from_date,to_date);
   }
 
@@ -1288,6 +1290,19 @@ export class MasterEditResumenesComponent extends NgbDatepickerI18n {
   getPatrsInstall(){
     // Llenar información de cliente  
     this.resumenesService.getPartInstall(this.forkliftId).then(data => {
+      const resp: any = data;
+      console.log(data);
+      swal.close();
+      this.partsInstall  = resp.data;
+      console.log(this.partsInstall);
+    }).catch(error => {
+      console.log(error);
+    });
+  }
+
+  getPatrsInstallFilter(fromdate:string, to_date:string){
+    // Llenar información de cliente  
+    this.resumenesService.getPartInstallFilter(this.forkliftId,fromdate,to_date).then(data => {
       const resp: any = data;
       console.log(data);
       swal.close();

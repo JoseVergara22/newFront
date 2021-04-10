@@ -113,8 +113,8 @@ import { MasterModelContentsComponent } from './master-model-contents/master-mod
 import { MasterModelBrandContentsComponent } from './master-model-brand-contents/master-model-brand-contents.component';
 import { MasterViewPdfCatalogueComponent } from './master-view-pdf-catalogue/master-view-pdf-catalogue.component';
 import { MasterCreatePdfCatalogueComponent } from './master-create-pdf-catalogue/master-create-pdf-catalogue.component';
+import { MasterViewPdfTechnicianComponent } from './master-view-pdf-technician/master-view-pdf-technician.component';
 // import { MasterMaintenanceNotificationComponent } from './master-maintenance-notification/master-maintenance-notification.component';
-
 
 
 
@@ -284,6 +284,7 @@ import {AutocompleteLibModule} from 'angular-ng-autocomplete';
     MasterModelBrandContentsComponent,
     MasterViewPdfCatalogueComponent,
     MasterCreatePdfCatalogueComponent,
+    MasterViewPdfTechnicianComponent,
 
    // MasterAdminComponent
   ],

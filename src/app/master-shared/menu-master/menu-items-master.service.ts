@@ -349,7 +349,11 @@ const MENUITEMS = [
           {
             state: 'brandModelContents',
             name: 'Gestionar Archivos'
-          }
+          },
+          {
+            state: 'viewPdfCatalogue',
+            name: 'Ver Archivos'
+          },
         ]
       }
     ]
@@ -710,6 +714,36 @@ const MENUCREATOR = [
       }
     ]
   },
+  {
+    label: 'master',
+    main: [
+      {
+        state: 'catalogue',
+        short_label: 'C',
+        name: 'Catálogos Técnicos',
+        type: 'sub',
+        icon: 'ti-archive',
+        children: [
+          {
+            state: 'brandContents',
+            name: 'Administrar Marca'
+          },
+          {
+            state: 'modelContents',
+            name: 'Administrar Modelo'
+          },
+          {
+            state: 'brandModelContents',
+            name: 'Gestionar Archivos'
+          },
+          {
+            state: 'viewPdfCatalogue',
+            name: 'Ver Archivos'
+          },
+        ]
+      }
+    ]
+  }
 ];
 
 const MENUSELLER = [

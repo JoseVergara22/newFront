@@ -2775,6 +2775,30 @@ export class ResumenesService {
         });
     });
   }
+
+  getPartInstallFilter(id:number,fromdate:string,to_date:string){
+    return new Promise (resolve => {
+      const headers = new HttpHeaders();
+      headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user'))); // 'Bearer ' +
+      headers.append('Content-Type', 'application/json');
+      const httpOptions = {
+        headers: new HttpHeaders({
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + localStorage.getItem('token_user'),
+          'Accept': 'application/json'
+        })
+      };
+      console.log('from_date='+fromdate+'&to_date='+to_date);
+      this.http.get(this.apiEndPoint+'api/get_part_install_filter/'+id+'?from_date='+fromdate+'&to_date='+to_date, httpOptions)
+        .map(res => res).subscribe(data => {
+          console.log(data);
+          resolve(data);
+        }, error => {
+          resolve(error);
+        });
+    });
+  }
+  
   getPartCostSettlement(id:number){
     return new Promise (resolve => {
       const headers = new HttpHeaders();
