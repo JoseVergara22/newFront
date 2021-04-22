@@ -371,7 +371,7 @@
     <app-card *ngIf="rowReport">
       <!-- <button type="button " style="display: none;" id="showChecklists" class="btn btn-primary m-b-0 " (click)="modalAssingChecklist.show()" >Crear</button> -->
     
-      <h5>Informe Técnico</h5>
+      <h5>Reporte Técnico</h5>
       <ngx-datatable #table class="data-table" [rows]="rowReport"   [columnMode]="'flex'" [headerHeight]="50" [footerHeight]="50" [rowHeight]="'auto'" [limit]="20">
 
         <ngx-datatable-column  [flexGrow]="2" name="Ver" [sortable]="false"  sortable="false" prop="finish">
@@ -468,7 +468,7 @@
     <div class="row">
       <div class="col-md-12 col-lg-6" style="width: 80%; text-align: center;">
         <app-card style="width: 80%;">
-          <h5>Historico de Liquidaciones</h5>
+          <h5>Historico  de Gastos en Liquidaciones</h5>
           <canvas id="speedCanvas" width="600" height="400"></canvas>
         </app-card>
       </div>

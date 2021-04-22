@@ -69,22 +69,20 @@ interface tableInterface {
   Equipo?: string;
   Tipo?:string;
   Estado?:string;
-  Fecha_Asignado?:string;
-  Fecha_Inicio?:string;
-  Fecha_Fin?:string;
-  Duracion_Actividad?:string;
+  Fecha_Creación?:string;
   Trabajo_Realizado?:string;
 }
-
 @Component({
-  selector: 'app-master-maintenance-duration',
-  templateUrl: './master-maintenance-duration.component.html',
-  styleUrls: ['./master-maintenance-duration.component.scss',
+  selector: 'app-master-pending-report',
+  templateUrl: './master-pending-report.component.html',
+  styleUrls: ['./master-pending-report.component.scss',
   '../../../assets/icon/icofont/css/icofont.scss'],
-  providers: [I18n, {provide: NgbDatepickerI18n, useClass: MasterMaintenanceDurationComponent}]
+  providers: [I18n, {provide: NgbDatepickerI18n, useClass: MasterPendingReportComponent}]
 })
-export class MasterMaintenanceDurationComponent extends NgbDatepickerI18n {
 
+export class MasterPendingReportComponent extends NgbDatepickerI18n {
+
+ 
   selectsBusness :Array<bussnessInterface> = [];
   selectBusness :bussnessInterface; 
   selectsBusnessOffices :Array<busnessOfficeInterface> = [];
@@ -142,7 +140,7 @@ export class MasterMaintenanceDurationComponent extends NgbDatepickerI18n {
     swal.showLoading();
     this.getRegional();
     this.getTyeMaintenance();
-    this.getStatusMaintenance();
+    this.getStatusPending();
    }
 
    getRegional(){
@@ -161,8 +159,8 @@ export class MasterMaintenanceDurationComponent extends NgbDatepickerI18n {
     });
   }
 
-  getStatusMaintenance(){
-    this.reportService.getStatusMaintenance().then(data => {
+  getStatusPending(){
+    this.reportService.getStatusPending().then(data => {
       const resp: any = data;
       console.log(data);
       swal.close();
@@ -518,7 +516,7 @@ export class MasterMaintenanceDurationComponent extends NgbDatepickerI18n {
         }
         
       console.log('.---------->'+params);
-      this.reportService.showFilterDuration(params).then(data => {
+      this.reportService.showFilterPending(params).then(data => {
         const resp: any = data;
         console.log('info de filter');
         console.log(data);
@@ -528,16 +526,16 @@ export class MasterMaintenanceDurationComponent extends NgbDatepickerI18n {
         for(let data of resp.data){
           let status;
           if(data.status == 0){
-            status = 'Pendiente';
+            status = 'Sin gestionar';
           }
           if(data.status == 1){
-            status = 'Iniciado';
+            status = 'Cotizado';
           }
           if(data.status == 2){
-            status = 'Finalizado';
+            status = 'Solucionado';
           }
           if(data.status == 3){
-            status = 'Pendiente Por Firma';
+            status = 'En Mantenimiento';
           }
           this.dataExcel = {
             Consecutivo:data.consecutive,
@@ -546,15 +544,12 @@ export class MasterMaintenanceDurationComponent extends NgbDatepickerI18n {
             Equipo:data.full_name,
             Tipo:data.type,
             Estado:status,
-            Fecha_Asignado:data.date,
-            Fecha_Inicio:data.start,
-            Fecha_Fin:data.finish,
-            Duracion_Actividad:data.duration_activity,
+            Fecha_Creación:data.create_at,
             Trabajo_Realizado:data.work
           }
           this.dataExcels.push(this.dataExcel);
         }
-        this.exportAsExcelFile(this.dataExcels,'Informe de Duración de Mantenimientos');
+        this.exportAsExcelFile(this.dataExcels,'Informe de Pendientes de Equipos');
         swal.close();
         
         console.log(resp.error);
@@ -656,5 +651,4 @@ export class MasterMaintenanceDurationComponent extends NgbDatepickerI18n {
 
   ngOnInit() {
   }
-
 }

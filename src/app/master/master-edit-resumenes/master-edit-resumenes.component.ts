@@ -1354,7 +1354,7 @@ export class MasterEditResumenesComponent extends NgbDatepickerI18n {
       // console.log(service);
 
       var dataFirst = {
-      label: "Gastos por Repuestos",
+      label: "Repuestos",
       data: part,
       lineTension: 0,
       fill: false,
@@ -1363,7 +1363,7 @@ export class MasterEditResumenesComponent extends NgbDatepickerI18n {
       };
 
       var dataSecond = {
-        label: "Gastos por Mano de Obra",
+        label: "Mano de Obra",
         data: service,
         // Set More Options
         lineTension: 0,
@@ -1404,7 +1404,7 @@ export class MasterEditResumenesComponent extends NgbDatepickerI18n {
       console.log(service);
 
       var dataFirst = {
-      label: "Total por Liquidaciones",
+      label: "Liquidaciones",
       data: part,
       lineTension: 0.1,
       fill: false,
@@ -1434,7 +1434,7 @@ export class MasterEditResumenesComponent extends NgbDatepickerI18n {
       
 
       var dataSecond = {
-        label: "Total por Cotizaciones",
+        label: "Cotizaciones",
         data: service,
         // Set More Options
         lineTension: 0.1,

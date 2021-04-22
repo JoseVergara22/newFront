@@ -413,27 +413,27 @@ export class MasterForkliftMaintenanceComponent extends NgbDatepickerI18n {
 
 
       if(this.selectsType[0].select){
-        params = params +'&Bateria=Bateria';
+        params = params +'&battery=battery';
         cont ++;
       }
       if(this.selectsType[1].select){
-        params = params +'&Checklist=Checklist';
+        params = params +'&checklist=checklist';
         cont ++;
       }
       if(this.selectsType[2].select){
-        params = params +'&Correctivo=Correctivo';
+        params = params +'&corrective=corrective';
         cont ++;
       }
       if(this.selectsType[3].select){
-        params = params +'&Plataforma=Plataforma';
+        params = params +'&platform=platform';
         cont ++;
       }
       if(this.selectsType[4].select){
-        params = params +'&Preventivo=Preventivo';
+        params = params +'&preventive=preventive';
         cont ++;
       }
       if(this.selectsType[5].select){
-        params = params +'&Estibador=Estibador';
+        params = params +'&stivadore=stivadore';
         cont ++;
       }
 
@@ -444,19 +444,19 @@ export class MasterForkliftMaintenanceComponent extends NgbDatepickerI18n {
       let office = '';
 
       if(this.selectsStatus[0].select){
-        params = params +'&Pendiente='+this.selectsStatus[0].name;
+        params = params +'&pending='+this.selectsStatus[0].name;
         cont ++;
       }
       if(this.selectsStatus[1].select){
-        params = params +'&Iniciado='+this.selectsStatus[1].name;
+        params = params +'&start='+this.selectsStatus[1].name;
         cont ++;
       }
       if(this.selectsStatus[2].select){
-        params = params +'&Finalizado='+this.selectsStatus[2].name;
+        params = params +'&finish='+this.selectsStatus[2].name;
         cont ++;
       }
       if(this.selectsStatus[3].select){
-        params = params +'&Firma='+this.selectsStatus[3].name;
+        params = params +'&firm='+this.selectsStatus[3].name;
         cont ++;
       }
 

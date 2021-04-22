@@ -274,7 +274,8 @@ export class WorkService {
         })
       };
       
-      this.http.delete(this.apiEndPoint+'api/routines/'+id, httpOptions)
+      // this.http.delete(this.apiEndPoint+'api/routines/'+id, httpOptions)
+      this.http.delete(this.apiEndPoint+'api/delete_routine/'+id, httpOptions)
       .map(res => res).subscribe(data => {
         console.log("a mostrar data");
       console.log(data);

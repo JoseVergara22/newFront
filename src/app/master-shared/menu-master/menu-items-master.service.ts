@@ -320,10 +320,14 @@ const MENUITEMS = [
             state: 'reportsDuration',
             name: 'Duración de Mantenimientos'
           },
-  //         {
-  //           state: 'reportsForkliftMaintenance',
-  //           name: 'Mantenimientos por Equipos'
-  //         },
+          {
+            state: 'reportsForkliftMaintenance',
+            name: 'Mantenimientos por Equipos'
+          },
+          {
+            state: 'reportsForkliftMaintenance',
+            name: 'Reporte De Pendientes'
+          },
         ]
       }
     ]

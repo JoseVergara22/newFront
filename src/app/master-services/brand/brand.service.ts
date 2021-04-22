@@ -309,7 +309,7 @@ export class BrandService {
           'Accept': 'application/json'
         })
       };
-      // console.log(id);
+      console.log(id);
       this.http.get(this.apiEndPoint+'api/get_validate_catalogue_id/'+id, httpOptions)
       .map(res => res).subscribe(data => {
         console.log("a mostrar data");
