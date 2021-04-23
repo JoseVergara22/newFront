@@ -233,63 +233,79 @@ export class MasterViewPdfCatalogueComponent implements OnInit {
   }
 
   uploadFilesUpdate() {
-    if(this.selectedValueUpdate !== 0 && this.selectedModelUpdate != 0){
-      if(this.urlsFiles.length > 0){
-        swal({
-          title: 'Validando información ...',
-          allowOutsideClick: false
-        });
-        swal.showLoading();
-        for (let fileCurrent of this.urlsFiles) {
+    let count = 0;
+    for(let item of this.urlsFiles){
+      if(item.save){
+        count ++;
+      }
+    } 
 
-          const file = fileCurrent.name;
-          console.log(file);
-          let type;
-          if(fileCurrent.part){
-            type = 1;
-          }
-          if(fileCurrent.service){
-            type = 2;
-          }
-
-          let  nameTemp;
-          if(!fileCurrent.save){
-            nameTemp = this.removeAccents(this.normalizes(file.replace(/\s/g, "")));
-          }
-          this.uploadService.uploadFilesCatalogue(fileCurrent, this.selectedValueUpdate,this.selectedModelUpdate,type, nameTemp).then(res => {
-            console.log(res);
-            this.s3info = res;
-            console.log(this.s3info);
-            this.loadingCatalogueId(this.catalogueId);
-            swal({
-              title: 'Archivos guardados',
-              type: 'success'
-             });
-            swal.close();
-          }).catch(error => {
-            console.log(error);
-            swal({
-              type: 'error',
-              title: 'Oops a currido un error',
-              text: 'Se ha presentado un error al subir la imagen',
-              allowOutsideClick: false
+    if(count == this.urlsFiles.length){
+      swal({
+        type: 'error',
+        title: 'Sin Archivos',
+        text: 'No hay archivos nuevos por montar.',
+      });
+    }else{
+      if(this.selectedValueUpdate !== 0 && this.selectedModelUpdate != 0){
+        if(this.urlsFiles.length > 0){
+          swal({
+            title: 'Validando información ...',
+            allowOutsideClick: false
+          });
+          swal.showLoading();
+          for (let fileCurrent of this.urlsFiles) {
+  
+            const file = fileCurrent.name;
+            console.log(file);
+            let type;
+            if(fileCurrent.part){
+              type = 1;
+            }
+            if(fileCurrent.service){
+              type = 2;
+            }
+  
+            let  nameTemp;
+            if(!fileCurrent.save){
+              nameTemp = this.removeAccents(this.normalizes(file.replace(/\s/g, "")));
+            }
+            this.uploadService.uploadFilesCatalogue(fileCurrent, this.selectedValueUpdate,this.selectedModelUpdate,type, nameTemp).then(res => {
+              console.log(res);
+              this.s3info = res;
+              console.log(this.s3info);
+              this.loadingCatalogueId(this.catalogueId);
+              swal({
+                title: 'Archivos guardados',
+                type: 'success'
+               });
+              swal.close();
+            }).catch(error => {
+              console.log(error);
+              swal({
+                type: 'error',
+                title: 'Oops a currido un error',
+                text: 'Se ha presentado un error al subir la imagen',
+                allowOutsideClick: false
+              });
             });
+          }
+        }else{
+          swal({
+            type: 'error',
+            title: 'Sin arvhivos',
+            text: 'No se ha seleccionado ningun archivo para montar',
           });
         }
       }else{
         swal({
           type: 'error',
-          title: 'Sin arvhivos',
-          text: 'No se ha seleccionado ningun archivo para montar',
+          title: 'Falta información',
+          text: 'Por favor escoja cada una de las opciones.',
         });
       }
-    }else{
-      swal({
-        type: 'error',
-        title: 'Falta información',
-        text: 'Por favor escoja cada una de las opciones.',
-      });
     }
+    
   }
 
   uploadFiles() {
