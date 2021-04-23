@@ -101,7 +101,7 @@ export class MasterViewPdfTechnicianComponent implements OnInit {
   }
 
 
-  loadingCatalogueId(id: number) {
+  loadingCatalogueId() {
     swal({
       title: 'Validando información ...',
       allowOutsideClick: false

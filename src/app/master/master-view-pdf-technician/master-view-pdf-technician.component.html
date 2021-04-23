@@ -17,7 +17,7 @@
 
             <div class="col-sm-6">
                 <h6>Modelo</h6>
-                <select class="form-control" [(ngModel)]="selectedOfficeId" > 
+                <select class="form-control" [(ngModel)]="selectedOfficeId" (change)=loadingCatalogueId()> 
                     <option value="0" selected>Seleccionar Modelo </option>
                 <option   *ngFor="let office of model" [ngValue]="office.id"> {{office.description}}  </option>
                 <!--  <option value="0" selected>Seleccionar perfil</option> -->
