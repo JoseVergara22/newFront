@@ -96,6 +96,29 @@ export class MasterCreatePdfCatalogueComponent implements OnInit {
     });
   }
 
+  loadingCatalogueId() {
+    swal({
+      title: 'Validando información ...',
+      allowOutsideClick: false
+    });
+    swal.showLoading();
+    this.brandService.getCatalogueIdCount(this.selectedModel.id).then(data => {
+      const resp: any = data;
+      console.log(data);
+      swal.close();
+      if(resp.success){
+        this.router.navigateByUrl('master/cataloguePdfUpdate/'+this.selectedModel.id);
+      }
+    }).catch(error => {
+      console.log(error);
+      swal({
+        title: 'Falla al cargar la información',
+        text: 'No se pudo cargar las marcas',
+        type: 'error'
+      });
+    });
+  }
+
   validateCreate(){
     if(this.selectedValue !== 0 && this.selectedModel != 0){
       swal({
@@ -163,7 +186,7 @@ export class MasterCreatePdfCatalogueComponent implements OnInit {
             this.s3info = res;
             console.log(this.s3info);
             
-            this.router.navigateByUrl('master/cataloguePdfUpdate/'+this.selectedModel.id);
+            
             swal({
               title: 'Archivos guardados',
               type: 'success'

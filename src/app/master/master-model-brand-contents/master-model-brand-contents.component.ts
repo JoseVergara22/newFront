@@ -32,7 +32,7 @@ export class MasterModelBrandContentsComponent implements OnInit {
     private forkliftService: ForkliftService) {
 
 
-    this.getCatalogue();
+    // this.getCatalogue();
     this.loadingData();
 
   }

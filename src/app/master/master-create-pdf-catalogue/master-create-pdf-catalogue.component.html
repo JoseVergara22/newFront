@@ -15,7 +15,7 @@
               </div>
                 <div class="col-sm-6">
                     <h6>Modelo<span style="color:red;">*</span> </h6>
-                    <select class="form-control" [(ngModel)]="selectedModel" name="select" >
+                    <select class="form-control" [(ngModel)]="selectedModel" (change)="loadingCatalogueId()" name="select" >
                       <option value="0" selected>Seleccionar Modelo</option>
                       <option  *ngFor="let mo of model" [ngValue]="mo"> {{mo.description}} </option>
                     </select>
