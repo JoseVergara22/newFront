@@ -115,6 +115,9 @@ import { MasterViewPdfCatalogueComponent } from './master-view-pdf-catalogue/mas
 import { MasterCreatePdfCatalogueComponent } from './master-create-pdf-catalogue/master-create-pdf-catalogue.component';
 import { MasterViewPdfTechnicianComponent } from './master-view-pdf-technician/master-view-pdf-technician.component';
 import { MasterPendingReportComponent } from './master-pending-report/master-pending-report.component';
+import { MasterMaintenanceAsingFinishComponent } from './master-maintenance-asing-finish/master-maintenance-asing-finish.component';
+import { MasterMaintenanceSystemReportComponent } from './master-maintenance-system-report/master-maintenance-system-report.component';
+import { MasterEstimateSettlementReportComponent } from './master-estimate-settlement-report/master-estimate-settlement-report.component';
 // import { MasterMaintenanceNotificationComponent } from './master-maintenance-notification/master-maintenance-notification.component';
 
 
@@ -155,6 +158,7 @@ import { SystemsService } from '../master-services/systems/systems.service';
 import { BrandService } from '../master-services/brand/brand.service';
 
 import {AutocompleteLibModule} from 'angular-ng-autocomplete';
+
 
 
 
@@ -287,6 +291,9 @@ import {AutocompleteLibModule} from 'angular-ng-autocomplete';
     MasterCreatePdfCatalogueComponent,
     MasterViewPdfTechnicianComponent,
     MasterPendingReportComponent,
+    MasterMaintenanceAsingFinishComponent,
+    MasterMaintenanceSystemReportComponent,
+    MasterEstimateSettlementReportComponent,
 
    // MasterAdminComponent
   ],

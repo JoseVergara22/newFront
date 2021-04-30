@@ -3,7 +3,7 @@ import {FormControl, FormGroup, Validators} from '@angular/forms';
 import { RestService } from '../../master-services/Rest/rest.service';
 import { ForkliftService } from '../../master-services/Forklift/forklift.service';
 import swal from 'sweetalert2';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { UserService } from '../../master-services/User/user.service';
 
 @Component({
@@ -58,7 +58,7 @@ export class MasterShowForkliftComponent implements OnInit {
   user_id: any;
 
   constructor(private restService: RestService, private router: Router,
-    private forkliftService: ForkliftService, private userService: UserService,) {
+    private forkliftService: ForkliftService, private userService: UserService,private activatedRoute: ActivatedRoute) {
 
     if(Number(localStorage.getItem('profile')) == 6){
       this.user_id = Number(localStorage.getItem('userid'));
@@ -464,10 +464,16 @@ updateForklift(forklift:any) {
   }
   
   ngOnInit() {
-    this.columns.forEach((col: any) => {
-      const colWidth = this.columnWidths.find(colWidth => colWidth.column === col.prop);
-      if (colWidth) {
-        col.width = colWidth.width;
+    this.activatedRoute.paramMap.subscribe(data=>{
+      //this.name=data.get('id');
+      this.selectedBusinessId=Number(data.get('customer_id'));
+      // console.log(this.selectedBusinessId);
+      this.selectedOfficeId=Number(data.get('office_id'));
+      // console.log(this.selectedOfficeId);
+      if(Number(localStorage.getItem('profile')) == 6){
+        this.getBranchOfficeUser();
+        this.userCustomer = true;
+        this.getOfficeForklift();
       }
     });
   }

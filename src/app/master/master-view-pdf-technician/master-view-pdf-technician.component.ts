@@ -37,13 +37,13 @@ export class MasterViewPdfTechnicianComponent implements OnInit {
   brands: any;
   model: any;
 
-  base64: any;
+  base64: any = "";
 
   selectedBusinessId: any = 0;
   selectedOfficeId: any = 0;
 
   constructor(private restService: RestService,private brandService:BrandService, private router: Router, private uploadService: UploadService,
-    private forkliftService: ForkliftService) {
+    private forkliftService: ForkliftService, ) {
 
     this.loadingData();
 
@@ -147,10 +147,23 @@ export class MasterViewPdfTechnicianComponent implements OnInit {
 
   viewFile(row){
     console.log(row);
-    this.base64 = row.url+'#toolbar=0';
+    this.base64 = row.url+'#toolbar=0&navpanes=1&scrollbar=1';
     let div = document.getElementById('viewFiles');
-    div.innerHTML =("<embed width='100%' height='500px' src= '"+this.base64+"'>"); 
+    div.innerHTML =("<embed id='pdfEmbed' width='100%' height='800px' src= '"+this.base64+"'(contextmenu)='onRightClick()'>"); 
 
+  }
+
+  onRightClick(){
+    console.log('entro');
+    // function click(){
+    //   if(event.button==2){
+        return false;
+    //   }
+    // }
+    // document.onmousedown=click
+
+    // let div = document.getElementById('viewFiles');
+    // div.addEventListener('contextmenu', e => e.preventDefault())
   }
 
 

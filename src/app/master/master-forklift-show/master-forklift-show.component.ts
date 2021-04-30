@@ -774,7 +774,8 @@ export class MasterForkliftShowComponent extends NgbDatepickerI18n {
   }
 
   goAdminForklifts() {
-    this.router.navigateByUrl('master/forkliftShow');
+    this.router.navigateByUrl('maintenance/forkliftShow/'+ this.selectedBusinessId + '/' + this.selectedOfficeId);
+    // this.router.navigateByUrl('master/forkliftShow');
   }
 
 

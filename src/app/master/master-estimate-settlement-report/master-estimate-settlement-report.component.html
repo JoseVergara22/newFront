@@ -39,32 +39,14 @@
             <!--  <option value="0" selected>Seleccionar perfil</option> -->
           </select>
         </div>
-        <div class="col-sm-3">
-          <h6>Tipo Mantenimiento <span style="color:red;">*</span></h6>
-          <br>
-          <input type="checkbox" value="m1" [checked]="checkAllType" (change)="checkUncheckAllType($event)" />
-          <strong>Seleccionar todo</strong>
-          <br>
-          <br>
-          <div *ngFor="let item of selectsType">
-            <input type="checkbox" [(ngModel)]="item.select" data-md-icheck  />
-            {{item.name}}<br>
-          </div>
-        </div>
-        <div class="col-sm-3">
-          <h6>Estado Mantenimiento </h6>
-          <br>
-          <input type="checkbox" value="m1" [checked]="checkAllStatus" (change)="checkUncheckAllStatus($event)" />
-          <strong>Seleccionar todo</strong>
-          <br>
-          <br>
-          <div *ngFor="let item of selectsStatus">
-            <input type="checkbox" [(ngModel)]="item.select" data-md-icheck />
-            {{item.name}}<br>
-          </div>
-        </div>
+        <br>
+        <br>
+        <br>
       </div>
-
+      <br>
+      <br>
+      <br>
+      <br>
     </app-card>
   </div>
 </div>

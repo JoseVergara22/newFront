@@ -102,6 +102,9 @@ import { MasterViewPdfCatalogueComponent } from './master-view-pdf-catalogue/mas
 import { MasterCreatePdfCatalogueComponent } from './master-create-pdf-catalogue/master-create-pdf-catalogue.component';
 import { MasterViewPdfTechnicianComponent } from './master-view-pdf-technician/master-view-pdf-technician.component';
 import { MasterPendingReportComponent } from './master-pending-report/master-pending-report.component';
+import { MasterMaintenanceAsingFinishComponent } from './master-maintenance-asing-finish/master-maintenance-asing-finish.component';
+import { MasterMaintenanceSystemReportComponent } from './master-maintenance-system-report/master-maintenance-system-report.component';
+import { MasterEstimateSettlementReportComponent } from './master-estimate-settlement-report/master-estimate-settlement-report.component';
 // import { MasterMaintenanceNotificationComponent } from './master-maintenance-notification/master-maintenance-notification.component';
 
 
@@ -229,6 +232,9 @@ const routes: Routes = [
   },{
     path: 'forkliftShow/:id',
     component:  MasterForkliftShowComponent
+  },{
+    path: 'forkliftShow/:customer_id/:office_id',
+    component:  MasterShowForkliftComponent
   },{
     path: 'resetPasswordLogin',
     component:   MasterResetPasswordLoginComponent
@@ -459,6 +465,15 @@ const routes: Routes = [
   },{
     path:'pendingReport',
     component: MasterPendingReportComponent
+  },{
+    path:'reportAsingFinish',
+    component: MasterMaintenanceAsingFinishComponent
+  },{
+    path:'reportSystemMaintenance',
+    component: MasterMaintenanceSystemReportComponent
+  },{
+    path:'reportEstimateettlement',
+    component: MasterEstimateSettlementReportComponent
   },
  
 ];

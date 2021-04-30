@@ -63,27 +63,22 @@ interface forkliftInterface {// item para mostrar clientes
 }
 
 interface tableInterface {
-  Consecutivo?: string;
-  Cliente?: string;
-  Sede?: string;
-  Equipo?: string;
+  id_Sistema?:number;
+  Descripcion?:string;
+  Veces_Repetida?: number;
   Tipo?:string;
-  Estado?:string;
-  Fecha_Asignado?:string;
-  Fecha_Inicio?:string;
-  Fecha_Fin?:string;
-  Trabajo_Realizado?:string;
+  Equipo?: string;
 }
 
-
 @Component({
-  selector: 'app-master-forklift-maintenance',
-  templateUrl: './master-forklift-maintenance.component.html',
-  styleUrls: ['./master-forklift-maintenance.component.scss',
+  selector: 'app-master-estimate-settlement-report',
+  templateUrl: './master-estimate-settlement-report.component.html',
+  styleUrls: ['./master-estimate-settlement-report.component.scss',
   '../../../assets/icon/icofont/css/icofont.scss'],
-  providers: [I18n, {provide: NgbDatepickerI18n, useClass: MasterForkliftMaintenanceComponent}]
+  providers: [I18n, {provide: NgbDatepickerI18n, useClass: MasterEstimateSettlementReportComponent}]
 })
-export class MasterForkliftMaintenanceComponent extends NgbDatepickerI18n {
+export class MasterEstimateSettlementReportComponent extends NgbDatepickerI18n {
+  
   selectsBusness :Array<bussnessInterface> = [];
   selectBusness :bussnessInterface; 
   selectsBusnessOffices :Array<busnessOfficeInterface> = [];
@@ -94,10 +89,7 @@ export class MasterForkliftMaintenanceComponent extends NgbDatepickerI18n {
   selectOfficeForklift :OfficeForkliftInterface;
   selectsForklift :Array<forkliftInterface> = [];
   selectForklift :forkliftInterface;
-  selectsType :Array<typeMaintenanceInterface> = [];
-  selectType :typeMaintenanceInterface;
-  selectsStatus :Array<statusMaintenanceInterface> = [];
-  selectStatus :statusMaintenanceInterface;
+
   dataExcels :Array<tableInterface> = [];
   dataExcel :tableInterface;
 
@@ -140,8 +132,7 @@ export class MasterForkliftMaintenanceComponent extends NgbDatepickerI18n {
     });
     swal.showLoading();
     this.getRegional();
-    this.getTyeMaintenance();
-    this.getStatusMaintenance();
+
    }
 
    getRegional(){
@@ -160,83 +151,38 @@ export class MasterForkliftMaintenanceComponent extends NgbDatepickerI18n {
     });
   }
 
-  getStatusMaintenance(){
-    this.reportService.getStatusMaintenance().then(data => {
-      const resp: any = data;
-      console.log(data);
-      swal.close();
-      this.status  = resp.data;
-      for(let item of this.status){
-        this.selectStatus = {
-          id:item.id,
-          name:item.description,
-          select:false,
-        }
-        this.selectsStatus.push(this.selectStatus);
-      }
-    }).catch(error => {
-      console.log(error);
-      swal({
-        title:'Error',
-        text: 'Ha ocurrido un error al cargar las Sucursales',
-        type: 'error'
-       });
-    });
-  }
-
-  getTyeMaintenance(){
-    this.reportService.getTyeMaintenance().then(data => {
-      const resp: any = data;
-      console.log(data);
-      swal.close();
-      this.type  = resp.data;
-      for(let item of this.type){
-        this.selectType = {
-          id:item.id,
-          name:item.description,
-          select:false,
-        }
-        this.selectsType.push(this.selectType);
-      }
-    }).catch(error => {
-      console.log(error);
-      swal({
-        title:'Error',
-        text: 'Ha ocurrido un error al cargar las Sucursales',
-        type: 'error'
-       });
-    });
-  }
-
   getCustomerRegionals() {
-    console.log(this.selectedRegionalId.id);
-    this.selectsBusness = [];
     this.selectsBusness.length = 0;
-
-    this.restService.getRegionalCustomers(this.selectedRegionalId.id).then(data => {
-      const resp: any = data;
-      console.log(data);
-      swal.close();
-      this.customers  = resp.data;
-      for(let item of this.customers){
-        this.selectBusness ={
-          id:item.id,
-          name:item.business_name,
-          select:false
+    this.selectsBusness = [];
+    console.log(this.selectsBusness);
+    this.selectsBusnessOffices=[];
+    this.selectsOfficeForklift = [];
+    console.log(this.selectedRegionalId.id);
+    if(this.selectedRegionalId!=0){
+      this.restService.getRegionalCustomers(this.selectedRegionalId.id).then(data => {
+        const resp: any = data;
+        console.log(data);
+        swal.close();
+        this.customers  = resp.data;
+        for(let item of this.customers){
+          this.selectBusness ={
+            id:item.id,
+            name:item.business_name,
+            select:false
+          }
+          this.selectsBusness.push(this.selectBusness)
         }
-        this.selectsBusness.push(this.selectBusness)
-      }
-      
-      //asignar valores customer;
+      }).catch(error => {
+        console.log(error);
+        swal({
+          title:'Error',
+          text: 'Ha ocurrido un error al cargar a los clientes',
+          type: 'error'
+         });
+      });
+    }
     
-    }).catch(error => {
-      console.log(error);
-      swal({
-        title:'Error',
-        text: 'Ha ocurrido un error al cargar a los clientes',
-        type: 'error'
-       });
-    });
+    
    }
 
   getBranchOffices() {
@@ -252,16 +198,17 @@ export class MasterForkliftMaintenanceComponent extends NgbDatepickerI18n {
       console.log('paso');
       console.log(item.select);
       if(item.select){
-        swal({
-          title: 'Validando información ...',
-          allowOutsideClick: false
-        });
-        swal.showLoading();
         console.log(item);
-        console.log('true');
+      swal({
+        title: 'Validando información ...',
+        allowOutsideClick: false
+      });
+      swal.showLoading();
+
         this.restService.getOffice(item.id).then(data => {
           const resp: any = data;
           console.log(data);
+    
           if(resp.data.error){
             swal({
               title:'Error',
@@ -306,12 +253,13 @@ export class MasterForkliftMaintenanceComponent extends NgbDatepickerI18n {
     this.selectsOfficeForklift = [];
     console.log(this.selectsForklift);
     console.log(this.selectsOffices);
-     
+    console.log(this.selectsBusnessOffices);
+    
     for(let value of this.selectsBusnessOffices){
       console.log(value);
       for(let item of value.office){
         console.log(item);
-
+        
         if(item.select){
           swal({
             title: 'Validando información ...',
@@ -321,6 +269,7 @@ export class MasterForkliftMaintenanceComponent extends NgbDatepickerI18n {
           this.forkliftService.getForkliftBranchOfficesFull(item.id).then(data => {
             const resp: any = data;
             console.log(data);
+            
           
             this.forklifts  = resp.data;
             for(let item of this.forklifts){
@@ -349,26 +298,8 @@ export class MasterForkliftMaintenanceComponent extends NgbDatepickerI18n {
           });
         }
       }
-
     }
-    
-  }
-
-   
-  checkUncheckAllType(event:any){
-    this.checkAllType=event.target.checked;    
-      for (let i = 0; i < this.selectsType.length; i++){
-        console.log('lo encontre'+i);
-          this.selectsType[i].select=event.target.checked;
-      }
-  }
-
-  checkUncheckAllStatus(event:any){
-    this.checkAllStatus=event.target.checked;    
-      for (let i = 0; i < this.selectsStatus.length; i++){
-        console.log('lo encontre'+i);
-          this.selectsStatus[i].select=event.target.checked;
-      }
+    // swal.close();
   }
 
     getFilters() {
@@ -383,7 +314,7 @@ export class MasterForkliftMaintenanceComponent extends NgbDatepickerI18n {
 
         swal({
           title:'Importante',
-          text: 'Debes seleccionar por lo menos una Sucuarsal.',
+          text: 'Debes seleccionar una Sucuarsal.',
           type: 'error'
          });
       }else{
@@ -414,56 +345,11 @@ export class MasterForkliftMaintenanceComponent extends NgbDatepickerI18n {
       var untilD = yearUntil +'-'+ monthUntil+'-'+ dayUntil;
       //var fromD = this.fromDate.year+'-'+this.fromDate.month+'-'+this.fromDate.day; //31 de diciembre de 2015
       // var untilD = this.untilDate.year+'-'+this.untilDate.month+'-'+this.untilDate.day;
-      params='from_date='+ fromD+' 00:00:00'+'&to_date=' +untilD+' 23:59:59';
-
-
-      if(this.selectsType[0].select){
-        params = params +'&battery=battery';
-        cont ++;
-      }
-      if(this.selectsType[1].select){
-        params = params +'&checklist=checklist';
-        cont ++;
-      }
-      if(this.selectsType[2].select){
-        params = params +'&corrective=corrective';
-        cont ++;
-      }
-      if(this.selectsType[3].select){
-        params = params +'&platform=platform';
-        cont ++;
-      }
-      if(this.selectsType[4].select){
-        params = params +'&preventive=preventive';
-        cont ++;
-      }
-      if(this.selectsType[5].select){
-        params = params +'&stivadore=stivadore';
-        cont ++;
-      }
-
-    if(cont >=1){      
+      params='from_date='+ fromD+' 00:00:00'+'&to_date=' +untilD+' 23:59:59';    
 
       let busness = '';
       let forklift = '';
       let office = '';
-
-      if(this.selectsStatus[0].select){
-        params = params +'&pending='+this.selectsStatus[0].name;
-        cont ++;
-      }
-      if(this.selectsStatus[1].select){
-        params = params +'&start='+this.selectsStatus[1].name;
-        cont ++;
-      }
-      if(this.selectsStatus[2].select){
-        params = params +'&finish='+this.selectsStatus[2].name;
-        cont ++;
-      }
-      if(this.selectsStatus[3].select){
-        params = params +'&firm='+this.selectsStatus[3].name;
-        cont ++;
-      }
 
       for (let item of this.selectsBusness) {
         console.log('entro');
@@ -510,7 +396,7 @@ export class MasterForkliftMaintenanceComponent extends NgbDatepickerI18n {
         }
         
       console.log('.---------->'+params);
-      this.reportService.showFilterMaintenance(params).then(data => {
+      this.reportService.showEstimateSettelements(params).then(data => {
         const resp: any = data;
         console.log('info de filter');
         console.log(data);
@@ -518,41 +404,32 @@ export class MasterForkliftMaintenanceComponent extends NgbDatepickerI18n {
         console.log(this.rowsClient);
         this.rowsClient = resp.data;
         for(let data of resp.data){
-          let status;
-          if(data.status == 0){
-            status = 'Pendiente';
-          }
-          if(data.status == 1){
-            status = 'Iniciado';
-          }
-          if(data.status == 2){
-            status = 'Finalizado';
-          }
-          if(data.status == 3){
-            status = 'Pendiente Por Firma';
-          }
+          
           this.dataExcel = {
-            Consecutivo:data.consecutive,
-            Cliente:data.customer,
-            Sede:data.office,
+            id_Sistema:data.id,
+            Descripcion:data.system_description,
+            Veces_Repetida:data.count_system,
             Equipo:data.full_name,
             Tipo:data.type,
-            Estado:status,
-            Fecha_Asignado:data.date,
-            Fecha_Inicio:data.start,
-            Fecha_Fin:data.finish,
-            Trabajo_Realizado:data.work
           }
           this.dataExcels.push(this.dataExcel);
         }
-        this.exportAsExcelFile(this.dataExcels,'Informe de Realización de Mantenimientos');
-        console.log(resp.error);
+        this.exportAsExcelFile(this.dataExcels,'Informe de Costos Por Cotizacione');
         swal.close();
+        
+        console.log(resp.error);
         if(resp.error){
           console.log('entro')
           swal({
             title:'Oops',
             text: 'Hubo un error en la consulta.',
+            type: 'error'
+            });
+        }
+        if(this.rowsClient.length ==0){
+          swal({
+            title:'Oops',
+            text: 'No hay resultado en la consulta.',
             type: 'error'
             });
         }
@@ -567,14 +444,7 @@ export class MasterForkliftMaintenanceComponent extends NgbDatepickerI18n {
           type: 'error'
           });
       });  
-    }else{
-      swal({
-        title:'Error',
-        text: 'Debe seleccionar al menos un tipo de manteminiento.',
-        type: 'error'
-        });
     }
-  }
   }
 
     public exportAsExcelFile(rows: any[], excelFileName: string): void {

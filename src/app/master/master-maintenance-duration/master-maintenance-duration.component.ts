@@ -212,6 +212,7 @@ export class MasterMaintenanceDurationComponent extends NgbDatepickerI18n {
   getCustomerRegionals() {
     this.selectsBusness.length = 0;
     this.selectsBusness = [];
+    console.log(this.selectsBusness);
     this.selectsBusnessOffices=[];
     this.selectsOfficeForklift = [];
     console.log(this.selectedRegionalId.id);

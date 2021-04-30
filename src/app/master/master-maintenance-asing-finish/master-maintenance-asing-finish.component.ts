@@ -72,18 +72,22 @@ interface tableInterface {
   Fecha_Asignado?:string;
   Fecha_Inicio?:string;
   Fecha_Fin?:string;
+  Duracion_Actividad?:string;
   Trabajo_Realizado?:string;
+  Estado_Final?:string;
 }
 
 
 @Component({
-  selector: 'app-master-forklift-maintenance',
-  templateUrl: './master-forklift-maintenance.component.html',
-  styleUrls: ['./master-forklift-maintenance.component.scss',
+  selector: 'app-master-maintenance-asing-finish',
+  templateUrl: './master-maintenance-asing-finish.component.html',
+  styleUrls: ['./master-maintenance-asing-finish.component.scss',
   '../../../assets/icon/icofont/css/icofont.scss'],
-  providers: [I18n, {provide: NgbDatepickerI18n, useClass: MasterForkliftMaintenanceComponent}]
+  providers: [I18n, {provide: NgbDatepickerI18n, useClass: MasterMaintenanceAsingFinishComponent}]
 })
-export class MasterForkliftMaintenanceComponent extends NgbDatepickerI18n {
+export class MasterMaintenanceAsingFinishComponent extends NgbDatepickerI18n {
+
+  
   selectsBusness :Array<bussnessInterface> = [];
   selectBusness :bussnessInterface; 
   selectsBusnessOffices :Array<busnessOfficeInterface> = [];
@@ -142,6 +146,7 @@ export class MasterForkliftMaintenanceComponent extends NgbDatepickerI18n {
     this.getRegional();
     this.getTyeMaintenance();
     this.getStatusMaintenance();
+
    }
 
    getRegional(){
@@ -209,34 +214,40 @@ export class MasterForkliftMaintenanceComponent extends NgbDatepickerI18n {
   }
 
   getCustomerRegionals() {
-    console.log(this.selectedRegionalId.id);
-    this.selectsBusness = [];
     this.selectsBusness.length = 0;
-
-    this.restService.getRegionalCustomers(this.selectedRegionalId.id).then(data => {
-      const resp: any = data;
-      console.log(data);
-      swal.close();
-      this.customers  = resp.data;
-      for(let item of this.customers){
-        this.selectBusness ={
-          id:item.id,
-          name:item.business_name,
-          select:false
+    this.selectsBusness = [];
+    console.log(this.selectsBusness);
+    this.selectsBusnessOffices=[];
+    this.selectsOfficeForklift = [];
+    console.log(this.selectedRegionalId.id);
+    if(this.selectedRegionalId!=0){
+      this.restService.getRegionalCustomers(this.selectedRegionalId.id).then(data => {
+        const resp: any = data;
+        console.log(data);
+        swal.close();
+        this.customers  = resp.data;
+        for(let item of this.customers){
+          this.selectBusness ={
+            id:item.id,
+            name:item.business_name,
+            select:false
+          }
+          this.selectsBusness.push(this.selectBusness)
         }
-        this.selectsBusness.push(this.selectBusness)
-      }
+        
+        //asignar valores customer;
       
-      //asignar valores customer;
+      }).catch(error => {
+        console.log(error);
+        swal({
+          title:'Error',
+          text: 'Ha ocurrido un error al cargar a los clientes',
+          type: 'error'
+         });
+      });
+    }
     
-    }).catch(error => {
-      console.log(error);
-      swal({
-        title:'Error',
-        text: 'Ha ocurrido un error al cargar a los clientes',
-        type: 'error'
-       });
-    });
+    
    }
 
   getBranchOffices() {
@@ -252,16 +263,17 @@ export class MasterForkliftMaintenanceComponent extends NgbDatepickerI18n {
       console.log('paso');
       console.log(item.select);
       if(item.select){
-        swal({
-          title: 'Validando información ...',
-          allowOutsideClick: false
-        });
-        swal.showLoading();
         console.log(item);
-        console.log('true');
+      swal({
+        title: 'Validando información ...',
+        allowOutsideClick: false
+      });
+      swal.showLoading();
+
         this.restService.getOffice(item.id).then(data => {
           const resp: any = data;
           console.log(data);
+    
           if(resp.data.error){
             swal({
               title:'Error',
@@ -306,12 +318,13 @@ export class MasterForkliftMaintenanceComponent extends NgbDatepickerI18n {
     this.selectsOfficeForklift = [];
     console.log(this.selectsForklift);
     console.log(this.selectsOffices);
-     
+    console.log(this.selectsBusnessOffices);
+    
     for(let value of this.selectsBusnessOffices){
       console.log(value);
       for(let item of value.office){
         console.log(item);
-
+        
         if(item.select){
           swal({
             title: 'Validando información ...',
@@ -321,6 +334,7 @@ export class MasterForkliftMaintenanceComponent extends NgbDatepickerI18n {
           this.forkliftService.getForkliftBranchOfficesFull(item.id).then(data => {
             const resp: any = data;
             console.log(data);
+            
           
             this.forklifts  = resp.data;
             for(let item of this.forklifts){
@@ -349,9 +363,8 @@ export class MasterForkliftMaintenanceComponent extends NgbDatepickerI18n {
           });
         }
       }
-
     }
-    
+    // swal.close();
   }
 
    
@@ -510,7 +523,7 @@ export class MasterForkliftMaintenanceComponent extends NgbDatepickerI18n {
         }
         
       console.log('.---------->'+params);
-      this.reportService.showFilterMaintenance(params).then(data => {
+      this.reportService.showFilterDuration(params).then(data => {
         const resp: any = data;
         console.log('info de filter');
         console.log(data);
@@ -519,18 +532,24 @@ export class MasterForkliftMaintenanceComponent extends NgbDatepickerI18n {
         this.rowsClient = resp.data;
         for(let data of resp.data){
           let status;
+          let newStatus;
           if(data.status == 0){
             status = 'Pendiente';
+            newStatus = 'Sin Realizar'
           }
           if(data.status == 1){
             status = 'Iniciado';
+            newStatus = 'En Proceso'
           }
           if(data.status == 2){
             status = 'Finalizado';
+            newStatus = 'Realizado'
           }
           if(data.status == 3){
             status = 'Pendiente Por Firma';
+            newStatus = 'Realizado'
           }
+          
           this.dataExcel = {
             Consecutivo:data.consecutive,
             Cliente:data.customer,
@@ -541,18 +560,28 @@ export class MasterForkliftMaintenanceComponent extends NgbDatepickerI18n {
             Fecha_Asignado:data.date,
             Fecha_Inicio:data.start,
             Fecha_Fin:data.finish,
-            Trabajo_Realizado:data.work
+            Duracion_Actividad:data.duration_activity,
+            Trabajo_Realizado:data.work,
+            Estado_Final:newStatus
           }
           this.dataExcels.push(this.dataExcel);
         }
-        this.exportAsExcelFile(this.dataExcels,'Informe de Realización de Mantenimientos');
-        console.log(resp.error);
+        this.exportAsExcelFile(this.dataExcels,'Mantenimientos Asignados Vs Realizados');
         swal.close();
+        
+        console.log(resp.error);
         if(resp.error){
           console.log('entro')
           swal({
             title:'Oops',
             text: 'Hubo un error en la consulta.',
+            type: 'error'
+            });
+        }
+        if(this.rowsClient.length ==0){
+          swal({
+            title:'Oops',
+            text: 'No hay resultado en la consulta.',
             type: 'error'
             });
         }

@@ -325,9 +325,17 @@ const MENUITEMS = [
             name: 'Mantenimientos por Equipos'
           },
           {
-            state: 'reportsForkliftMaintenance',
-            name: 'Reporte De Pendientes'
+            state: 'reportAsingFinish',
+            name: 'Runitas Asignadas Vs Realizadas'
           },
+          {
+            state: 'reportSystemMaintenance',
+            name: 'Reporte De Sistemas Mas Usados'
+          },
+          // {
+          //   state: 'reportEstimateettlement',
+          //   name: 'Reporte De Costos Por Cotizaciones'
+          // },
         ]
       }
     ]
@@ -735,10 +743,6 @@ const MENUCREATOR = [
           {
             state: 'modelContents',
             name: 'Administrar Modelo'
-          },
-          {
-            state: 'brandModelContents',
-            name: 'Gestionar Archivos'
           },
           {
             state: 'viewPdfCatalogue',
