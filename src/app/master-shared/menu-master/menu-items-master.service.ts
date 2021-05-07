@@ -332,10 +332,18 @@ const MENUITEMS = [
             state: 'reportSystemMaintenance',
             name: 'Reporte De Sistemas Mas Usados'
           },
-          // {
-          //   state: 'reportEstimateettlement',
-          //   name: 'Reporte De Costos Por Cotizaciones'
-          // },
+          {
+            state: 'pendingReport',
+            name: 'Pendientes de los Equipos'
+          },
+          {
+            state: 'reportEstimateSettlement',
+            name: 'Reporte De Costos Por Cotizaciones'
+          },
+          {
+            state: 'reportIndicatorMaintenance',
+            name: 'Reporte De Cumplimiento de Mantenimiento'
+          },
         ]
       }
     ]

@@ -397,8 +397,8 @@ export class MasterViewPdfCatalogueComponent implements OnInit {
   
               if (resp.success === false) {
                 swal({
-                  title: 'Este modelo presenta problemas',
-                  text: 'Este modelo no se puede eliminar',
+                  title: 'Este archivo presenta problemas',
+                  text: 'Este archivo no se puede eliminar',
                   type: 'error'
                 });
               } else {
@@ -406,7 +406,7 @@ export class MasterViewPdfCatalogueComponent implements OnInit {
                 this.urlsFiles.splice(index, 1);
 
                 swal({
-                  title: 'Modelo eliminado',
+                  title: 'Archivo eliminado',
                   type: 'success'
                 });
               }
@@ -431,7 +431,7 @@ export class MasterViewPdfCatalogueComponent implements OnInit {
     console.log(row);
     this.base64 = row.url+'#toolbar=0';
     let div = document.getElementById('viewFiles');
-    div.innerHTML =("<embed width='100%' height='500px' src= '"+this.base64+"'>"); 
+    div.innerHTML =("<embed width='100%' height='800px' src= '"+this.base64+"'>"); 
 
   }
 

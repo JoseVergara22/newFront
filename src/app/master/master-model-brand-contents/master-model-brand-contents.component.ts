@@ -145,15 +145,15 @@ export class MasterModelBrandContentsComponent implements OnInit {
 
               if (resp.success === false) {
                 swal({
-                  title: 'Este modelo presenta problemas',
-                  text: 'Este modelo no se puede eliminar',
+                  title: 'Se presento un problema',
+                  text: 'Estos archivos no se pueden eliminar',
                   type: 'error'
                 });
               } else {
                 // this.router.navigateByUrl('master/registerBrand');
                 this.getCatalogue();
                 swal({
-                  title: 'Modelo eliminado',
+                  title: 'Archivos eliminados',
                   type: 'success'
                 });
               }

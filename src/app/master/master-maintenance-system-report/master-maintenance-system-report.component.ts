@@ -377,7 +377,7 @@ export class MasterMaintenanceSystemReportComponent extends NgbDatepickerI18n {
       var untilD = yearUntil +'-'+ monthUntil+'-'+ dayUntil;
       //var fromD = this.fromDate.year+'-'+this.fromDate.month+'-'+this.fromDate.day; //31 de diciembre de 2015
       // var untilD = this.untilDate.year+'-'+this.untilDate.month+'-'+this.untilDate.day;
-      params='from_date='+ fromD+' 00:00:00'+'&to_date=' +untilD+' 23:59:59';
+      params='from_date='+ fromD+' 00:00:00'+'&to_date=' +untilD+' 23:59:59&regional=' + this.selectedRegionalId.id;
 
       if(this.selectsType[0].select){
         params = params +'&corrective=corrective';
@@ -458,7 +458,7 @@ export class MasterMaintenanceSystemReportComponent extends NgbDatepickerI18n {
           }
           this.dataExcels.push(this.dataExcel);
         }
-        this.exportAsExcelFile(this.dataExcels,'Informe de Sistemas Intervenidos');
+        this.exportAsExcelFile(this.dataExcels,'Informe de Sistemas Intervenidos '+ fromD + ' - ' + untilD);
         swal.close();
         
         console.log(resp.error);
@@ -501,7 +501,7 @@ export class MasterMaintenanceSystemReportComponent extends NgbDatepickerI18n {
     public exportAsExcelFile(rows: any[], excelFileName: string): void {
       if (rows.length > 0) {
         const worksheet: XLSX.WorkSheet = XLSX.utils.json_to_sheet(rows);
-        const workbook: XLSX.WorkBook = {Sheets: {'Compte-rendu': worksheet}, SheetNames: ['Compte-rendu']};
+        const workbook: XLSX.WorkBook = {Sheets: {'Info-Sis-Intervenidos': worksheet}, SheetNames: ['Info-Sis-Intervenidos']};
         console.log(workbook.Sheets);
         console.log(workbook.SheetNames);
         const excelBuffer: any = XLSX.write(workbook, {bookType: 'xlsx', type: 'array'});

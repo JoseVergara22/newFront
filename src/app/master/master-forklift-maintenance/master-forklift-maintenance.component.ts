@@ -134,13 +134,28 @@ export class MasterForkliftMaintenanceComponent extends NgbDatepickerI18n {
 
     console.log(   this.fromDate);
     console.log(   this.untilDate);
+    this.selectsType.push(this.selectType = {
+      id:1,
+      name:'Correctivo',
+      select:false
+    });
+    this.selectsType.push(this.selectType = {
+      id:1,
+      name:'Preventivo',
+      select:false
+    });
+    this.selectsType.push(this.selectType = {
+      id:1,
+      name:'Preventivo',
+      select:false
+    });
     swal({
       title: 'Validando información ...',
       allowOutsideClick: false
     });
     swal.showLoading();
     this.getRegional();
-    this.getTyeMaintenance();
+    // this.getTyeMaintenance();
     this.getStatusMaintenance();
    }
 
@@ -414,31 +429,18 @@ export class MasterForkliftMaintenanceComponent extends NgbDatepickerI18n {
       var untilD = yearUntil +'-'+ monthUntil+'-'+ dayUntil;
       //var fromD = this.fromDate.year+'-'+this.fromDate.month+'-'+this.fromDate.day; //31 de diciembre de 2015
       // var untilD = this.untilDate.year+'-'+this.untilDate.month+'-'+this.untilDate.day;
-      params='from_date='+ fromD+' 00:00:00'+'&to_date=' +untilD+' 23:59:59';
-
+      params='from_date='+ fromD+' 00:00:00'+'&to_date=' +untilD+' 23:59:59&regional=' + this.selectedRegionalId.id;
 
       if(this.selectsType[0].select){
-        params = params +'&battery=battery';
-        cont ++;
-      }
-      if(this.selectsType[1].select){
         params = params +'&checklist=checklist';
         cont ++;
       }
-      if(this.selectsType[2].select){
+      if(this.selectsType[1].select){
         params = params +'&corrective=corrective';
         cont ++;
       }
-      if(this.selectsType[3].select){
-        params = params +'&platform=platform';
-        cont ++;
-      }
-      if(this.selectsType[4].select){
+      if(this.selectsType[2].select){
         params = params +'&preventive=preventive';
-        cont ++;
-      }
-      if(this.selectsType[5].select){
-        params = params +'&stivadore=stivadore';
         cont ++;
       }
 
@@ -545,7 +547,7 @@ export class MasterForkliftMaintenanceComponent extends NgbDatepickerI18n {
           }
           this.dataExcels.push(this.dataExcel);
         }
-        this.exportAsExcelFile(this.dataExcels,'Informe de Realización de Mantenimientos');
+        this.exportAsExcelFile(this.dataExcels,'Informe de Realización de Mantenimientos Por Equipos ' +fromD + '-' +untilD);
         console.log(resp.error);
         swal.close();
         if(resp.error){
@@ -580,7 +582,7 @@ export class MasterForkliftMaintenanceComponent extends NgbDatepickerI18n {
     public exportAsExcelFile(rows: any[], excelFileName: string): void {
       if (rows.length > 0) {
         const worksheet: XLSX.WorkSheet = XLSX.utils.json_to_sheet(rows);
-        const workbook: XLSX.WorkBook = {Sheets: {'Compte-rendu': worksheet}, SheetNames: ['Compte-rendu']};
+        const workbook: XLSX.WorkBook = {Sheets: {'Hoja Info-Mantenimientos': worksheet}, SheetNames: ['Info-Mantenimientos']};
         console.log(workbook.Sheets);
         console.log(workbook.SheetNames);
         const excelBuffer: any = XLSX.write(workbook, {bookType: 'xlsx', type: 'array'});

@@ -50,8 +50,8 @@
                     <tbody>
                         <tr *ngFor="let item of urlsFiles; let i=index">
                             <td > <label style="max-width: 90px;">{{item.name}}</label> </td>
-                            <td style="text-align: center"><input type="checkbox"  [(ngModel)]="item.part" data-md-icheck >&nbsp;</td>
-                            <td style="text-align: center"><input type="checkbox"  [(ngModel)]="item.service" data-md-icheck >&nbsp;</td>
+                            <td style="text-align: center"><input type="checkbox"  [(ngModel)]="item.part" data-md-icheck disabled>&nbsp;</td>
+                            <td style="text-align: center"><input type="checkbox"  [(ngModel)]="item.service" data-md-icheck disabled>&nbsp;</td>
                             <td style="text-align: center"> 
                                 <label *ngIf="item.id!=0" class="link btn btn-primary btn-icon" id="viewFile" (click)="viewFile(item)"><i class="icofont icofont-eye-alt"></i></label>
                             </td>

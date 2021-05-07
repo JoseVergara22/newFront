@@ -167,6 +167,8 @@ export class MasterCreatePdfCatalogueComponent implements OnInit {
           allowOutsideClick: false
         });
         swal.showLoading();
+        let save = true;
+        let count = 1;
         for (let fileCurrent of this.urlsFiles) {
           const file = fileCurrent;
           console.log(file);
@@ -184,16 +186,22 @@ export class MasterCreatePdfCatalogueComponent implements OnInit {
           this.uploadService.uploadFilesCatalogue(fileCurrent, this.selectedValue.id,this.selectedModel.id,type, nameTemp).then(res => {
             console.log(res);
             this.s3info = res;
-            console.log(this.s3info);
-            
-            
+            console.log(this.s3info); 
             swal({
               title: 'Archivos guardados',
               type: 'success'
              });
             swal.close();
+            console.log(count);
+            console.log(this.urlsFiles.length);
+            if(count == this.urlsFiles.length){
+              console.log('Entro url');
+              this.router.navigateByUrl('master/cataloguePdfUpdate/'+this.selectedModel.id);
+            }
+            count ++;
           }).catch(error => {
             console.log(error);
+            save = false;
             swal({
               type: 'error',
               title: 'Oops a currido un error',

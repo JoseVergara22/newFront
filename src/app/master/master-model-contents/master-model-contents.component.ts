@@ -196,8 +196,8 @@ export class MasterModelContentsComponent implements OnInit {
             console.log(resp);
             if (resp.success === false) {
               swal({
-                title: 'Esta modelo ya esta registrada',
-                text: 'Esta modelo no se puede registrar',
+                title: 'Este modelo no se puede registrar.',
+                text: 'Este modelo ya se encuentra registrado con esta marca.',
                 type: 'error'
               });
             } else {
@@ -333,9 +333,6 @@ export class MasterModelContentsComponent implements OnInit {
         }
         console.log(willDelete);
       });
-
-
-
   }
 
   ngOnInit() {

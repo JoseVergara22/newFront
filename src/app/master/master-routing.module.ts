@@ -105,6 +105,7 @@ import { MasterPendingReportComponent } from './master-pending-report/master-pen
 import { MasterMaintenanceAsingFinishComponent } from './master-maintenance-asing-finish/master-maintenance-asing-finish.component';
 import { MasterMaintenanceSystemReportComponent } from './master-maintenance-system-report/master-maintenance-system-report.component';
 import { MasterEstimateSettlementReportComponent } from './master-estimate-settlement-report/master-estimate-settlement-report.component';
+import { MasterComplianceIndicatorMaintenanceComponent } from './master-compliance-indicator-maintenance/master-compliance-indicator-maintenance.component';
 // import { MasterMaintenanceNotificationComponent } from './master-maintenance-notification/master-maintenance-notification.component';
 
 
@@ -472,8 +473,11 @@ const routes: Routes = [
     path:'reportSystemMaintenance',
     component: MasterMaintenanceSystemReportComponent
   },{
-    path:'reportEstimateettlement',
+    path:'reportEstimateSettlement',
     component: MasterEstimateSettlementReportComponent
+  },{
+    path:'reportIndicatorMaintenance',
+    component: MasterComplianceIndicatorMaintenanceComponent
   },
  
 ];

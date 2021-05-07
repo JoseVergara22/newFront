@@ -63,24 +63,23 @@ interface forkliftInterface {// item para mostrar clientes
 }
 
 interface tableInterface {
-  Cliente?:string;
-  Items_Cotizacion?: number;
-  Total_Cotizacion?: string;
-  Items_Liquidacion?: number;
-  Total_Liquidacion?: string;
-  Porcentaje_Items?: string;
-  Porcentaje_Totales?: string;
+  Cliente?: string;
+  Tipo?:string,
+  Total_Asignados?:number,
+  Total_Finalizados?:number,
+  Indicador_Cumplimiento?: string
 }
 
 @Component({
-  selector: 'app-master-estimate-settlement-report',
-  templateUrl: './master-estimate-settlement-report.component.html',
-  styleUrls: ['./master-estimate-settlement-report.component.scss',
+  selector: 'app-master-compliance-indicator-maintenance',
+  templateUrl: './master-compliance-indicator-maintenance.component.html',
+  styleUrls: ['./master-compliance-indicator-maintenance.component.scss',
   '../../../assets/icon/icofont/css/icofont.scss'],
-  providers: [I18n, {provide: NgbDatepickerI18n, useClass: MasterEstimateSettlementReportComponent}]
+  providers: [I18n, {provide: NgbDatepickerI18n, useClass: MasterComplianceIndicatorMaintenanceComponent}]
 })
-export class MasterEstimateSettlementReportComponent extends NgbDatepickerI18n {
-  
+export class MasterComplianceIndicatorMaintenanceComponent extends NgbDatepickerI18n {
+
+   
   selectsBusness :Array<bussnessInterface> = [];
   selectBusness :bussnessInterface; 
   selectsBusnessOffices :Array<busnessOfficeInterface> = [];
@@ -91,6 +90,8 @@ export class MasterEstimateSettlementReportComponent extends NgbDatepickerI18n {
   selectOfficeForklift :OfficeForkliftInterface;
   selectsForklift :Array<forkliftInterface> = [];
   selectForklift :forkliftInterface;
+  selectsType :Array<typeMaintenanceInterface> = [];
+  selectType :typeMaintenanceInterface;
 
   dataExcels :Array<tableInterface> = [];
   dataExcel :tableInterface;
@@ -115,6 +116,9 @@ export class MasterEstimateSettlementReportComponent extends NgbDatepickerI18n {
   fromDate: NgbDateStruct;
   untilDate: NgbDateStruct;
 
+  buttonRadio: any = 0;
+  forkView : boolean = false;
+
   constructor(private restService: RestService, public formatter: NgbDateParserFormatter, 
     private _i18n: I18n,private forkliftService: ForkliftService, private reportService: ReportsService) {
 
@@ -134,8 +138,33 @@ export class MasterEstimateSettlementReportComponent extends NgbDatepickerI18n {
     });
     swal.showLoading();
     this.getRegional();
+    // this.getTyeMaintenance();
 
    }
+
+   getTyeMaintenance(){
+    this.reportService.getTyeMaintenance().then(data => {
+      const resp: any = data;
+      console.log(data);
+      swal.close();
+      this.type  = resp.data;
+      for(let item of this.type){
+        this.selectType = {
+          id:item.id,
+          name:item.description,
+          select:false,
+        }
+        this.selectsType.push(this.selectType);
+      }
+    }).catch(error => {
+      console.log(error);
+      swal({
+        title:'Error',
+        text: 'Ha ocurrido un error al cargar las Sucursales',
+        type: 'error'
+       });
+    });
+  }
 
    getRegional(){
     this.restService.getRegionalAll().then(data => {
@@ -352,6 +381,31 @@ export class MasterEstimateSettlementReportComponent extends NgbDatepickerI18n {
       let busness = '';
       let forklift = '';
       let office = '';
+      if(this.buttonRadio > 0){    
+        if(this.buttonRadio == 1){
+          params = params +'&preventive=preventive';
+          cont ++;
+        }
+        if(this.buttonRadio == 2){
+          params = params +'&checklist=checklist';
+          cont ++;
+        }
+        if(this.buttonRadio == 3){
+          params = params +'&corrective=corrective';
+          cont ++;
+        }
+        if(this.buttonRadio == 4){
+          params = params +'&battery=battery';
+          cont ++;
+        }
+        if(this.buttonRadio == 5){
+          params = params +'&platform=platform';
+          cont ++;
+        }
+        if(this.buttonRadio == 6){
+          params = params +'&stevedore=stevedore';
+          cont ++;
+        }
 
       for (let item of this.selectsBusness) {
         console.log('entro');
@@ -381,24 +435,26 @@ export class MasterEstimateSettlementReportComponent extends NgbDatepickerI18n {
               console.log(params);
               params = params + '&office='+office;
               console.log(params);
-              for (let value of this.selectsOfficeForklift) {
-                for (let item of value.forklift) {
-                  console.log('entro');
-                  if(item.select){
-                    console.log(item);
+              if(this.buttonRadio==1 || this.buttonRadio == 2 || this.buttonRadio == 3){
+                for (let value of this.selectsOfficeForklift) {
+                  for (let item of value.forklift) {
                     console.log('entro');
-                    forklift = forklift + item.id +',';
+                    if(item.select){
+                      console.log(item);
+                      console.log('entro');
+                      forklift = forklift + item.id +',';
+                      }
+                  }
+                    if(forklift != ''){
+                      params = params + '&forklift='+forklift;
                     }
                 }
-                  if(forklift != ''){
-                    params = params + '&forklift='+forklift;
-                  }
               }
             }
         }
         
       console.log('.---------->'+params);
-      this.reportService.showEstimateSettelements(params).then(data => {
+      this.reportService.showMintenanceIndicator(params).then(data => {
         const resp: any = data;
         console.log('info de filter');
         console.log(data);
@@ -406,35 +462,16 @@ export class MasterEstimateSettlementReportComponent extends NgbDatepickerI18n {
         console.log(this.rowsClient);
         this.rowsClient = resp.data;
         for(let data of resp.data){
-          if(data.settlement.length > 0){
-            for(let item of data.settlement){
               this.dataExcel = {
-                Cliente: data.customer,
-                Items_Cotizacion:data.quantity_estimate,
-                Total_Cotizacion:'$'+data.total_estimate,
-                Items_Liquidacion: item.quantity_settlement,
-                Total_Liquidacion:'$'+item.total_settlement,
-                Porcentaje_Items:Number((Number(item.quantity_settlement)*100)/Number(data.quantity_estimate)).toFixed(1)+'%',
-                Porcentaje_Totales:Number((Number(item.total_settlement)*100)/Number(data.total_estimate)).toFixed(1)+'%'
+                Cliente:data.customer,
+                Tipo: data.type,
+                Total_Asignados:data.total,
+                Total_Finalizados:data.finish,
+                Indicador_Cumplimiento:data.compliance+'%',
               }
-              this.dataExcels.push(this.dataExcel);
-              console.log(Number(item.total_settlement));
-              console.log(item.total_settlement.replace('.',''));
-              console.log(item.total_settlement.replace('.',''));
-              console.log(item.total_settlement.replace('.',''));
-              console.log('entro correcto');
-            }
-          }else{
-            this.dataExcel = {
-              Cliente: data.customer,
-              Items_Cotizacion:data.quantity_estimate,
-              Total_Cotizacion:'$'+data.total_estimate,
-            }
-            this.dataExcels.push(this.dataExcel);
-          }
-          
+              this.dataExcels.push(this.dataExcel);      
         }
-        this.exportAsExcelFile(this.dataExcels,'Informe de Costos Por Cotizaciones '+ fromD + ' - ' + untilD);
+        this.exportAsExcelFile(this.dataExcels,'Informe De Cumplimiento De Los Mantenimientos '+fromD+'-'+untilD);
         swal.close();
         
         console.log(resp.error);
@@ -464,13 +501,38 @@ export class MasterEstimateSettlementReportComponent extends NgbDatepickerI18n {
           type: 'error'
           });
       });  
+    
+  }else{
+    swal({
+      title:'Error',
+      text: 'Debe seleccionar al menos un tipo de manteminiento.',
+      type: 'error'
+      });
+  }
+  }
+  }
+
+  changeButtonRadio(value:number){
+    if(value == 1 || value == 2 || value == 3){
+      this.forkView = true; //Vista de card de equipos
+    }else{
+      this.forkView = false; // Ocultamiento de card de equipos
     }
+    this.buttonRadio = value;
+  }
+     
+  checkUncheckAllType(event:any){
+    this.checkAllType=event.target.checked;    
+      for (let i = 0; i < this.selectsType.length; i++){
+        console.log('lo encontre'+i);
+          this.selectsType[i].select=event.target.checked;
+      }
   }
 
     public exportAsExcelFile(rows: any[], excelFileName: string): void {
       if (rows.length > 0) {
         const worksheet: XLSX.WorkSheet = XLSX.utils.json_to_sheet(rows);
-        const workbook: XLSX.WorkBook = {Sheets: {'Info-Cotizaiones': worksheet}, SheetNames: ['Info-Cotizaiones']};
+        const workbook: XLSX.WorkBook = {Sheets: {'Info Cumplimiento': worksheet}, SheetNames: ['Info Cumplimiento']};
         console.log(workbook.Sheets);
         console.log(workbook.SheetNames);
         const excelBuffer: any = XLSX.write(workbook, {bookType: 'xlsx', type: 'array'});

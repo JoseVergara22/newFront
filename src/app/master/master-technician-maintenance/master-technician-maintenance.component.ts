@@ -76,6 +76,7 @@ export class MasterTechnicianMaintenanceComponent extends NgbDatepickerI18n {
 
   type: any;
   status: any;
+  elementDelete: any;
 
   constructor(private restService: RestService,private calendar: NgbCalendar, public formatter: NgbDateParserFormatter, 
     private _i18n: I18n, private router: Router, private resumenesService: ResumenesService,private reportService: ReportsService) { 
@@ -294,27 +295,27 @@ export class MasterTechnicianMaintenanceComponent extends NgbDatepickerI18n {
       params='from_date='+from_date+'&to_date='+to_date;
 
       if(this.selectsType[0].select){
-        params = params +'&Bateria=Bateria';
+        params = params +'&battery=Bateria';
         cont ++;
       }
       if(this.selectsType[1].select){
-        params = params +'&Checklist=Checklist';
+        params = params +'&checklist=Checklist';
         cont ++;
       }
       if(this.selectsType[2].select){
-        params = params +'&Correctivo=Correctivo';
+        params = params +'&corrective=Correctivo';
         cont ++;
       }
       if(this.selectsType[3].select){
-        params = params +'&Plataforma=Plataforma';
+        params = params +'&platform=Plataforma';
         cont ++;
       }
       if(this.selectsType[4].select){
-        params = params +'&Preventivo=Preventivo';
+        params = params +'&preventive=Preventivo';
         cont ++;
       }
       if(this.selectsType[5].select){
-        params = params +'&Estibador=Estibador';
+        params = params +'&stevedore=Estibador';
         cont ++;
       }
       if(cont>0){
@@ -662,6 +663,353 @@ checkUncheckAllStatus(event:any){
         this.selectsStatus[i].select=event.target.checked;
     }
 }
+
+deleteRoutine(item: any){
+  swal.showLoading();
+  console.log(item);
+  if(item.type == 'CHECKLIST'){
+    this.deleteChecklist(item.id);
+  }
+  if(item.type == 'PREVENTIVO'){
+    this.deletePreventive(item.id);
+  }
+  if(item.type == 'CORRECTIVO'){
+    this.deleteCorrective(item.id);
+  }
+  if(item.type == 'PLATAFORMA'){
+    this.deletePlatform(item.id);
+  }
+  if(item.type == 'ESTIBADOR'){
+    this.deleteStevedore(item.id);
+  }
+  if(item.type == 'BATERIA'){
+    this.deleteBattery(item.id);
+  }
+}
+
+deleteChecklist(id: number){
+  swal({
+    title: 'Estás seguro de eliminar este elemento?',
+    // text: 'Once deleted, you will not be able to recover this imaginary file!',
+    type: 'warning',
+    showCancelButton: true,
+    showConfirmButton: true,
+    cancelButtonText: 'No',
+    confirmButtonText: 'Si'
+
+  })
+    .then((willDelete) => {
+      if (willDelete.value) {
+        this.elementDelete = id;
+        console.log(id);
+        console.log(this.elementDelete);
+        this.resumenesService.deleteChecklistMaintenance(this.elementDelete)
+          .then(data => {
+            swal.showLoading();
+            const resp: any = data;
+            console.log(resp);
+
+            if (resp.success === false) {
+              swal({
+                title: 'Esta rutina presenta problemas',
+                text: 'Esta rutina no se puede eliminar',
+                type: 'error'
+              });
+            } else {
+              // this.router.navigateByUrl('master/registerBrand');
+              swal({
+                title: 'Elemento eliminado',
+                type: 'success'
+              });
+              this.getFilters();
+            }
+          }).catch(error => {
+            console.log(error);
+            swal({
+              title: 'Esta rutina presenta problemas',
+              text: 'Esta rutina no se puede eliminar',
+              type: 'error'
+            });
+          });
+        console.log(this.elementDelete);
+      } else {
+        // swal('Fail');
+      }
+      console.log(willDelete);
+    });
+}
+
+deleteCorrective(id: number){
+  swal({
+    title: 'Estás seguro de eliminar este elemento?',
+    // text: 'Once deleted, you will not be able to recover this imaginary file!',
+    type: 'warning',
+    showCancelButton: true,
+    showConfirmButton: true,
+    cancelButtonText: 'No',
+    confirmButtonText: 'Si'
+
+  })
+    .then((willDelete) => {
+      if (willDelete.value) {
+        this.elementDelete = id;
+        console.log(id);
+        console.log(this.elementDelete);
+
+        this.resumenesService.deleteCorrectiveMaintenance(this.elementDelete)
+          .then(data => {
+            swal.showLoading();
+            const resp: any = data;
+            console.log(resp);
+
+            if (resp.success === false) {
+              swal({
+                title: 'Esta rutina presenta problemas',
+                text: 'Esta rutina no se puede eliminar',
+                type: 'error'
+              });
+            } else {
+              // this.router.navigateByUrl('master/registerBrand');
+              swal({
+                title: 'Elemento eliminado',
+                type: 'success'
+              });
+
+              this.getFilters();
+            }
+          }).catch(error => {
+            console.log(error);
+            swal({
+              title: 'Esta rutina presenta problemas',
+              text: 'Esta rutina no se puede eliminar',
+              type: 'error'
+            });
+          });
+        console.log(this.elementDelete);
+      } else {
+        // swal('Fail');
+      }
+      console.log(willDelete);
+    });
+}
+
+deletePreventive(id: number){
+  swal({
+    title: 'Estás seguro de eliminar este elemento?',
+    // text: 'Once deleted, you will not be able to recover this imaginary file!',
+    type: 'warning',
+    showCancelButton: true,
+    showConfirmButton: true,
+    cancelButtonText: 'No',
+    confirmButtonText: 'Si'
+
+  })
+    .then((willDelete) => {
+      if (willDelete.value) {
+        this.elementDelete = id;
+        console.log(id);
+        console.log(this.elementDelete);
+
+        this.resumenesService.deletePreventiveMaintenance(this.elementDelete)
+          .then(data => {
+            swal.showLoading();
+            const resp: any = data;
+            console.log(resp);
+
+            if (resp.success === false) {
+              swal({
+                title: 'Esta rutina presenta problemas',
+                text: 'Esta rutina no se puede eliminar',
+                type: 'error'
+              });
+            } else {
+              // this.router.navigateByUrl('master/registerBrand');
+              swal({
+                title: 'Elemento eliminado',
+                type: 'success'
+              });
+
+              this.getFilters();
+            }
+          }).catch(error => {
+            console.log(error);
+            swal({
+                title: 'Esta rutina presenta problemas',
+                text: 'Esta rutina no se puede eliminar',
+                type: 'error'
+              });
+          });
+        console.log(this.elementDelete);
+      } else {
+        // swal('Fail');
+      }
+      console.log(willDelete);
+    });
+}
+
+deleteBattery(id: number){
+  swal({
+    title: 'Estás seguro de eliminar este elemento?',
+    // text: 'Once deleted, you will not be able to recover this imaginary file!',
+    type: 'warning',
+    showCancelButton: true,
+    showConfirmButton: true,
+    cancelButtonText: 'No',
+    confirmButtonText: 'Si'
+
+  })
+    .then((willDelete) => {
+      if (willDelete.value) {
+        this.elementDelete = id;
+        console.log(id);
+        console.log(this.elementDelete);
+
+        this.resumenesService.deleteBatteryMaintenance(this.elementDelete)
+          .then(data => {
+            swal.showLoading();
+            const resp: any = data;
+            console.log(resp);
+
+            if (resp.success === false) {
+              swal({
+                title: 'Esta rutina presenta problemas',
+                text: 'Esta rutina no se puede eliminar',
+                type: 'error'
+              });
+            } else {
+              // this.router.navigateByUrl('master/registerBrand');
+              swal({
+                title: 'Elemento eliminado',
+                type: 'success'
+              });
+
+              this.getFilters();
+            }
+          }).catch(error => {
+            console.log(error);
+            swal({
+                title: 'Esta rutina presenta problemas',
+                text: 'Esta rutina no se puede eliminar',
+                type: 'error'
+              });
+          });
+        console.log(this.elementDelete);
+      } else {
+        // swal('Fail');
+      }
+      console.log(willDelete);
+    });
+}
+
+deletePlatform(id: number){
+  swal({
+    title: 'Estás seguro de eliminar este elemento?',
+    // text: 'Once deleted, you will not be able to recover this imaginary file!',
+    type: 'warning',
+    showCancelButton: true,
+    showConfirmButton: true,
+    cancelButtonText: 'No',
+    confirmButtonText: 'Si'
+
+  })
+    .then((willDelete) => {
+      if (willDelete.value) {
+        this.elementDelete = id;
+        console.log(id);
+        console.log(this.elementDelete);
+
+        this.resumenesService.deletePlatformMaintenance(this.elementDelete)
+          .then(data => {
+            swal.showLoading();
+            const resp: any = data;
+            console.log(resp);
+
+            if (resp.success === false) {
+              swal({
+                title: 'Esta rutina presenta problemas',
+                text: 'Esta rutina no se puede eliminar',
+                type: 'error'
+              });
+            } else {
+              // this.router.navigateByUrl('master/registerBrand');
+              swal({
+                title: 'Elemento eliminado',
+                type: 'success'
+              });
+
+              this.getFilters();
+            }
+          }).catch(error => {
+            console.log(error);
+            swal({
+                title: 'Esta rutina presenta problemas',
+                text: 'Esta rutina no se puede eliminar',
+                type: 'error'
+              });
+          });
+        console.log(this.elementDelete);
+      } else {
+        // swal('Fail');
+      }
+      console.log(willDelete);
+    });
+}
+
+deleteStevedore(id: number){
+  swal({
+    title: 'Estás seguro de eliminar este elemento?',
+    // text: 'Once deleted, you will not be able to recover this imaginary file!',
+    type: 'warning',
+    showCancelButton: true,
+    showConfirmButton: true,
+    cancelButtonText: 'No',
+    confirmButtonText: 'Si'
+
+  })
+    .then((willDelete) => {
+      if (willDelete.value) {
+        this.elementDelete = id;
+        console.log(id);
+        console.log(this.elementDelete);
+
+        this.resumenesService.deleteStevedoreMaintenance(this.elementDelete)
+          .then(data => {
+            swal.showLoading();
+            const resp: any = data;
+            console.log(resp);
+
+            if (resp.success === false) {
+              swal({
+                title: 'Esta rutina presenta problemas',
+                text: 'Esta rutina no se puede eliminar',
+                type: 'error'
+              });
+            } else {
+              // this.router.navigateByUrl('master/registerBrand');
+              swal({
+                title: 'Elemento eliminado',
+                type: 'success'
+              });
+
+              this.getFilters();
+            }
+          }).catch(error => {
+            console.log(error);
+            swal({
+                title: 'Esta rutina presenta problemas',
+                text: 'Esta rutina no se puede eliminar',
+                type: 'error'
+              });
+          });
+        console.log(this.elementDelete);
+      } else {
+        // swal('Fail');
+      }
+      console.log(willDelete);
+    });
+}
+
+
 
 
   getWeekdayShortName(weekday: number): string {
