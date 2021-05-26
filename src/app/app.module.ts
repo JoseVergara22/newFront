@@ -15,7 +15,7 @@ import { MasterSharedModule } from './master-shared/master-shared.module';
 import {MenuItems} from './shared/menu-items/menu-items';
 import { MenuItemsMasterService } from './master-shared/menu-master/menu-items-master.service';
 import {AutocompleteLibModule} from 'angular-ng-autocomplete';
-
+//import { PdfViewerModule } from 'ng2-pdf-viewer';
 
 
 
@@ -40,7 +40,8 @@ import {AutocompleteLibModule} from 'angular-ng-autocomplete';
     SharedModule,
     MasterModule,
     MasterSharedModule,
-    AutocompleteLibModule
+    AutocompleteLibModule,
+  //  PdfViewerModule
   ],
   providers: [MenuItems, MenuItemsMasterService],
   bootstrap: [AppComponent]

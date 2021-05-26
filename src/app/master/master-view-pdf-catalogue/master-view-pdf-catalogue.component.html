@@ -131,11 +131,15 @@
               <br>
       </div>
 
-      <div  class="form-group row">
+      <div  class="form-group row" oncontextmenu='return false'>
         <br>
-        <div class="pdf-container col-sm-12" id="viewFiles">
+        <div class="pdf-container col-sm-12" oncontextmenu='return false' id="viewFiles">
         </div>
       </div>
+      <div [style.top]='topCssText' style="background-color: blue;  position:absolute;left:0px;bottom:2%;right:4%;" oncontextmenu="return false;"></div>
+     
+
+
     </app-card>
      
   </div>
