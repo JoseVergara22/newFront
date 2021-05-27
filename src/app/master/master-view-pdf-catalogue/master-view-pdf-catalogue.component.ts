@@ -23,7 +23,7 @@ interface FileCatalogueInterface {
 export class MasterViewPdfCatalogueComponent implements OnInit {
 
   fileCatalogue: FileCatalogueInterface;
-
+  pdfUrl = "https://masterforklift.s3.amazonaws.com/catalogue/VISORMONTACARGASMASTER.pdf";
   selectedFiles: Array<File> = [];
   urlsFiles = [];
   
@@ -32,6 +32,9 @@ export class MasterViewPdfCatalogueComponent implements OnInit {
   elementDelete: any;
 
   currentFuel: any;
+
+  topCss:number=29;
+  topCssText:string='29%';
 
   selectedValueUpdate: any = 0;
   selectedValue: any = 0;
@@ -51,13 +54,17 @@ export class MasterViewPdfCatalogueComponent implements OnInit {
 
   constructor(private brandService:BrandService, private router: Router, private uploadService: UploadService,
     private rutaActiva: ActivatedRoute) { 
+
+
     this.catalogueId = this.rutaActiva.snapshot.params.id;
     this.loadingData();
     this.loadingCatalogueId(this.catalogueId);
+   
   }
 
   ngOnInit() {
-    
+   
+    this.viewFileBegin();
     // window.addEventListener("keyup", function (event) {
     //   console.log(event);
     //   event.preventDefault();
@@ -78,6 +85,8 @@ export class MasterViewPdfCatalogueComponent implements OnInit {
       this.rowsClient = resp.data;
       console.log(this.rowsClient);
       this.urlsFiles = [];
+      this.topCss =29;  
+      this.topCssText='29%';
       this.selectedValueUpdate = this.rowsClient.modelBrand.brand_contents_id;
       for(let item of this.rowsClient.data){
           let rep = false;
@@ -98,6 +107,8 @@ export class MasterViewPdfCatalogueComponent implements OnInit {
           };
       
         this.urlsFiles.push(this.fileCatalogue); 
+        this.topCss = this.topCss+4;  
+        this.topCssText= this.topCss.toString()+'%';
       }
       this.loadingModelUpdate();
     }).catch(error => {
@@ -188,7 +199,9 @@ export class MasterViewPdfCatalogueComponent implements OnInit {
       };
   
     this.urlsFiles.push(this.fileCatalogue); 
-    }
+    this.topCss = this.topCss+4; 
+    this.topCssText= this.topCss.toString()+'%'; 
+  }
 
     this.loadingModelUpdate();
     document.getElementById('uploadBrand').click();
@@ -228,6 +241,8 @@ export class MasterViewPdfCatalogueComponent implements OnInit {
         };
     
       this.urlsFiles.push(this.fileCatalogue); 
+      this.topCss = this.topCss+4;  
+      this.topCssText= this.topCss.toString()+'%';
       // this.selectedFiles.push(['files'=>item,]);
     }
   }
@@ -404,6 +419,8 @@ export class MasterViewPdfCatalogueComponent implements OnInit {
               } else {
                 // this.router.navigateByUrl('master/registerBrand');
                 this.urlsFiles.splice(index, 1);
+                this.topCss = this.topCss-4;  
+                this.topCssText= this.topCss.toString()+'%';
 
                 swal({
                   title: 'Archivo eliminado',
@@ -416,6 +433,9 @@ export class MasterViewPdfCatalogueComponent implements OnInit {
           console.log(this.elementDelete.id);
         }else{
           this.urlsFiles.splice(index, 1);
+          this.topCss = this.topCss-4; 
+          this.topCssText= this.topCss.toString()+'%';
+
         }
       
         
@@ -427,12 +447,18 @@ export class MasterViewPdfCatalogueComponent implements OnInit {
   }
 
 
+  viewFileBegin(){
+   
+    this.base64 =this.pdfUrl+'#toolbar=0';
+    let div = document.getElementById('viewFiles');
+    div.innerHTML =("<embed   width='100%' height='800px' oncontextmenu='return false'  onselectstart='return false' ondragstart='return false'   src= '"+this.base64+"'>"); 
+  }
+
   viewFile(row){
     console.log(row);
     this.base64 = row.url+'#toolbar=0';
     let div = document.getElementById('viewFiles');
-    div.innerHTML =("<embed width='100%' height='800px' src= '"+this.base64+"'>"); 
-
+    div.innerHTML =("  <embed   width='100%' height='800px' oncontextmenu='return false'  onselectstart='return false' ondragstart='return false'   src= '"+this.base64+"'>   "); 
   }
 
   removeAccents(str) {

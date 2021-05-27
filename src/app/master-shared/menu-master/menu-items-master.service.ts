@@ -830,14 +830,6 @@ const MENUCREATOR = [
         icon: 'ti-archive',
         children: [
           {
-            state: 'brandContents',
-            name: 'Administrar Marca'
-          },
-          {
-            state: 'modelContents',
-            name: 'Administrar Modelo'
-          },
-          {
             state: 'viewPdfCatalogue',
             name: 'Ver Archivos'
           },
