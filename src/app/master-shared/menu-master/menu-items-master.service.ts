@@ -147,16 +147,20 @@ const MENUITEMS = [
           {
             state: 'resumenes',
             name:  'Administrar Hojas de Vida'
-           },
-           {
+          },
+          {
             state: 'controlTechnician',
             name: 'Gestión de Mantenimientos'
-           },
-           {
+          },
+          // {
+          //   state: 'controlMaintenanceForklift',
+          //   name: 'Gestión de Mantenimientos Por Equipos'
+          // },
+          {
             state: 'pending',
             name: 'Gestión de Pendientes'
-           },
-           {
+          },
+          {
             state: 'prevetiveMaintenance',
             name:  'Asignar Mantenimiento Preventivo'
           },  
@@ -267,7 +271,11 @@ const MENUITEMS = [
           {
             state: 'maintenanceSystem',
             name: 'Administrar Sistemas'
-          }  
+          },
+          // {
+          //   state:'statusForklift',
+          //   name:'Estado de Equipos'
+          // }
         ]
       }
     ]
@@ -344,6 +352,10 @@ const MENUITEMS = [
             state: 'reportIndicatorMaintenance',
             name: 'Reporte De Cumplimiento de Mantenimiento'
           },
+          // {
+          //   state: 'reportsDurationTimesMaintenance',
+          //   name: 'Reporte De Diferencia de Tiempo en el Mantenimiento Correctivo'
+          // },
         ]
       }
     ]
@@ -444,6 +456,75 @@ const MENUCUSTOMER = [
     ]
   },
 ]
+
+// const MENUASSIGN = [
+//   {
+//     label: 'Inicio',
+//     main: [
+//       {
+//         state: 'master',
+//         short_label: 'I',
+//         name: 'Inicio',
+//         type: 'sub',
+//         icon: 'ti-home',
+//         children: [
+//           {
+//             state: 'master',
+//             name: 'Inicio'
+//           }
+//         ]
+//       }
+//     ]
+//   },
+//   {
+//     label: 'master',
+//     main: [
+//       {
+//         state: 'master',
+//         short_label: 'E',
+//         name: 'ERP',
+//         type: 'sub',
+//         icon: 'ti-direction',
+//         children: [     
+//           {
+//             state: 'estimateAll',
+//             name:  'Cotizaciones'
+//           },
+//         ]
+//       }
+//     ],
+//   },
+//   {
+//     label: 'master',
+//     main: [
+//       {
+//         state: 'maintenance',
+//         short_label: 'N',
+//         name: 'Mantenimiento',
+//         type: 'sub',
+//         icon: 'ti-pulse',
+//         children: [
+//           {
+//             state: 'forkliftShow',
+//             name: 'Administrar Montacargas'
+//           },
+//           {
+//             state:'horometro',
+//             name:'Administrar Horometro'
+//           }, 
+//           {
+//             state: 'resumenes',
+//             name:  'Administrar Hojas de Vida'
+//           },
+//           {
+//             state: 'correctiveMaintenance',
+//             name:  'Asignar Mantenimiento Correctivo'
+//           },
+//         ]
+//       }
+//     ]
+//   },
+// ]
 
 const MENUFINANCIAL = [
   {
@@ -617,11 +698,15 @@ const MENUCREATOR = [
           {
             state: 'resumenes',
             name:  'Administrar Hojas de Vida'
-           },          
-           {
+          },
+          {
             state: 'controlTechnician',
             name: 'Gestión de Mantenimientos'
           },
+          // {
+          //   state: 'controlMaintenanceForklift',
+          //   name: 'Gestión de Mantenimientos Por Equipos'
+          // },
           {
             state: 'pending',
             name: 'Gestión de Pendientes'
@@ -832,9 +917,14 @@ export class MenuItemsMasterService {
   getFinancial(): Menu[] {
     return MENUFINANCIAL;
   }
+
   getCustomer(): Menu[] {
     return MENUCUSTOMER;
   }
+
+  // getAssign():Menu[]{
+  //   return MENUASSIGN;
+  // }
   constructor() {}
 
 }
