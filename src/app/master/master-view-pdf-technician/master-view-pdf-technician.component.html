@@ -63,14 +63,20 @@
           <br>
           <br>
           <br>
-        <div  class="form-group row" id="pdfView" (contextmenu)="onRightClick()">
+          <div  class="form-group row" oncontextmenu='return false'>
             <br>
-              <div class="pdf-container col-sm-12" id="viewFiles">
-                <!-- <embed src="{{base64}}"id='pdfEmbed' width='100%' height='800px' (contextmenu)="onRightClick()"> -->
+            <div class="pdf-container col-sm-12" oncontextmenu='return false' id="viewFiles">
             </div>
           </div>
+          <div [style.top]='topCssText' style="position:absolute;left:0px;bottom:2%;right:4%;" oncontextmenu="return false;"></div>
+         
           
       </app-card>
+
+      <div class="align-buttons">
+ 
+        <button type="submit " class="btn btn-primary m-b-0" (click)="toBack()">Volver al inicio</button>
+      </div>
   </div>
 </div>
 <script language="JavaScript" type="text/javascript">

@@ -119,6 +119,10 @@ import { MasterMaintenanceAsingFinishComponent } from './master-maintenance-asin
 import { MasterMaintenanceSystemReportComponent } from './master-maintenance-system-report/master-maintenance-system-report.component';
 import { MasterEstimateSettlementReportComponent } from './master-estimate-settlement-report/master-estimate-settlement-report.component';
 import { MasterComplianceIndicatorMaintenanceComponent } from './master-compliance-indicator-maintenance/master-compliance-indicator-maintenance.component';
+import { MasterDifferentTimesAssignationComponent } from './master-diferent-times-assignation/master-different-times-assignation.component';
+import { MasterMaintenanceForkliftComponent } from './master-maintenance-forklift/master-maintenance-forklift.component';
+import { MasterStatusForkliftComponent } from './master-status-forklift/master-status-forklift.component';
+
 // import { MasterMaintenanceNotificationComponent } from './master-maintenance-notification/master-maintenance-notification.component';
 
 
@@ -159,6 +163,8 @@ import { SystemsService } from '../master-services/systems/systems.service';
 import { BrandService } from '../master-services/brand/brand.service';
 
 import {AutocompleteLibModule} from 'angular-ng-autocomplete';
+
+
 
 
 
@@ -296,6 +302,9 @@ import {AutocompleteLibModule} from 'angular-ng-autocomplete';
     MasterMaintenanceSystemReportComponent,
     MasterEstimateSettlementReportComponent,
     MasterComplianceIndicatorMaintenanceComponent,
+    MasterDifferentTimesAssignationComponent,
+    MasterMaintenanceForkliftComponent,
+    MasterStatusForkliftComponent,
 
    // MasterAdminComponent
   ],

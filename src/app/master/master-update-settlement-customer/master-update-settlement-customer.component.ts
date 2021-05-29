@@ -525,7 +525,7 @@ export class MasterUpdateSettlementCustomerComponent extends NgbDatepickerI18n  
       console.log('es mayor');
       this.fromDateCustomer=this.untilDateCustomer;
     }
-}
+  }
 
 onDateSelectionFrom(date: any) {
 

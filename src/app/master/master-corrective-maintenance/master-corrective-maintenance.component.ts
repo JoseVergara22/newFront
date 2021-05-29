@@ -5,6 +5,7 @@ import { ForkliftService } from '../../master-services/Forklift/forklift.service
 import { ResumenesService } from '../../master-services/resumenes/resumenes.service';
 import { Router } from '@angular/router';
 import swal from 'sweetalert2';
+import { UserService } from '../../master-services/User/user.service';
 
 const I18N_VALUES = {
   'fr': {
@@ -90,8 +91,11 @@ export class MasterCorrectiveMaintenanceComponent extends NgbDatepickerI18n {
   consecutive: any;
   ngbDateStruct;
 
+  profileAssign:boolean = true;
+  user_id: any;
   constructor(private restService: RestService, private resumenesService: ResumenesService, private router: Router,
-    private forkliftService: ForkliftService, private _i18n: I18n, private calendar: NgbCalendar, public formatter: NgbDateParserFormatter) {
+    private forkliftService: ForkliftService, private _i18n: I18n, private calendar: NgbCalendar,
+     public formatter: NgbDateParserFormatter, private userService: UserService) {
     super();
 
     var date = new Date();
@@ -103,12 +107,88 @@ export class MasterCorrectiveMaintenanceComponent extends NgbDatepickerI18n {
     this.fromDate = this.ngbDateStruct;
     // var news: NgbDateStruct = { year: year, month: 7, day: 14 };
     this.untilDate = this.ngbDateStruct;
-
-
-    this.getRegional();
+    this.user_id = Number(localStorage.getItem('userid'));
+      if(Number(localStorage.getItem('profile')) != 7){
+        this.getRegional();
+        this.profileAssign = false;
+      }else{
+        this.getCustomerUser(this.user_id);
+      }
+    // this.getRegional();
 
     // this.getTechnician();
 
+  }
+  getCustomerUser(id: any) {
+    this.userService.getUserCustomer(id).then(data => {
+      const resp: any = data;
+      this.customers = resp.data;
+      // console.log(this.customers)
+    }).catch(error => {
+      console.log(error);
+    });
+  }
+  getBranchOfficeUser() {
+    swal({
+      title: 'Validando información ...',
+      text:'Cargando Sedes',
+      allowOutsideClick: false
+    });
+    swal.showLoading();
+    this.userService.getBranchUser(this.selectedBusinessId.id,this.user_id).then(data => {
+      const resp: any = data;
+      this.branchOffices = resp.data;
+      // console.log(this.customers)
+      swal.close();
+    }).catch(error => {
+      console.log(error);
+    });
+  }
+
+  getOfficeForklift() {
+    this.getBranchOfficeForklift(this.selectedBranchOfficeId.id);
+   }
+
+   getBranchOfficeForklift(idBranch:number) {
+    this.forkliftService.getForkliftsBranch(idBranch).then(data => {
+      const resp: any = data;
+      console.log('forklifts branch');
+      console.log(data);
+     swal.close();
+      this.forklifts = resp.data;
+      console.log( this.forklifts);
+    }).catch(error => {
+      console.log(error);
+    });
+   }
+
+  getCorrectiveRoutinesUser() {
+    // Llenar información de cliente  
+    if (this.selectedForkliftId == 0  || this.selectedBusinessId == 0 || this.selectedBranchOfficeId == 0) {
+      swal({
+        title: 'Importante',
+        text: 'Debes seleccionar todos los filtros.',
+        type: 'warning'
+      });
+    } else {
+      swal({
+        title: 'Validando información ...',
+        allowOutsideClick: false
+      });
+      swal.showLoading();
+
+      this.resumenesService.getWorkForkliftCorrective(this.selectedForkliftId.id).then(data => {
+        const resp: any = data;
+        console.log(data);
+        swal.close();
+        this.currentCorrective = resp.data;
+        this.row = this.currentCorrective;
+
+
+      }).catch(error => {
+        console.log(error);
+      });
+    }
   }
 
   getCorrectiveRoutines() {
@@ -249,6 +329,19 @@ export class MasterCorrectiveMaintenanceComponent extends NgbDatepickerI18n {
       document.getElementById('showAssing').click();
     }
   }
+  showAssingProfile() {
+    if (this.selectedForkliftId == 0 || this.selectedBusinessId == 0 || this.selectedBranchOfficeId == 0) {
+      swal({
+        title: 'Importante',
+        text: 'Debes seleccionar todos los filtros.',
+        type: 'warning'
+      });
+    } else {
+      this.fromDate = this.ngbDateStruct;
+      this.getTechnician(this.selectedRegionalId,this.selectedBusinessId);
+      document.getElementById('showAssing').click();
+    }
+  }
 
   getTechnician(regional_id: any,customer:any) {
     swal({
@@ -361,7 +454,11 @@ export class MasterCorrectiveMaintenanceComponent extends NgbDatepickerI18n {
               console.log(data);
               // let message = 'Se ha realizado una asignación de mantenimiento correctivo  en: '+this.selectedBusinessId.business_name+' para el: ' + fromD;
               // this.notificationTechnician(tec,message)
-              this.getCorrectiveRoutines();
+              if(Number(localStorage.getItem('profile')) != 7){
+                this.getCorrectiveRoutines();
+              }else{
+                this.getCorrectiveRoutinesUser();
+              }
               this.cleanSelectCorrective();
               //  this.cleanSelectTechnician();
               this.technicianSelecteds.length = 0;
@@ -586,7 +683,11 @@ export class MasterCorrectiveMaintenanceComponent extends NgbDatepickerI18n {
             // this.notificationTechnician(tec,message);
             document.getElementById('assignUpdateCorrectiveHide').click();
 
-            this.getCorrectiveRoutines();
+            if(Number(localStorage.getItem('profile')) != 7){
+              this.getCorrectiveRoutines();
+            }else{
+              this.getCorrectiveRoutinesUser();
+            }
             this.cleanSelectCorrective();
             //  this.cleanSelectTechnician();
             this.technicianSelecteds.length = 0;

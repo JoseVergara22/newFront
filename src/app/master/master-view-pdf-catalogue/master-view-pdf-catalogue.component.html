@@ -71,14 +71,14 @@
       <div class="form-group row">
         <div class="col-sm-6">
           <h6>Marca<span style="color:red;">*</span></h6>
-          <select class="form-control" (change)="loadingModelUpdate()" [(ngModel)]="selectedValueUpdate" name="select">
+          <select class="form-control" (change)="loadingModelUpdateChange()" [(ngModel)]="selectedValueUpdate" name="select">
               <option value="0" selected>Seleccionar Marca</option>
                     <option  *ngFor="let brand of brands" [ngValue]="brand.id"> {{brand.description}} </option>
                  </select>
         </div>
           <div class="col-sm-6">
               <h6>Modelo<span style="color:red;">*</span> </h6>
-              <select class="form-control" [(ngModel)]="selectedModelUpdate" name="select" >
+              <select class="form-control" [(ngModel)]="selectedModelUpdate" (change)="loadingCatalogueIdChange()" name="select" >
                 <option value="0" selected>Seleccionar Modelo</option>
                 <option  *ngFor="let mo of model" [ngValue]="mo.id"> {{mo.description}} </option>
               </select>
@@ -138,12 +138,15 @@
         <div class="pdf-container col-sm-12" oncontextmenu='return false' id="viewFiles">
         </div>
       </div>
-      <div [style.top]='topCssText' style="background-color: blue;  position:absolute;left:0px;bottom:2%;right:4%;" oncontextmenu="return false;"></div>
+      <div [style.top]='topCssText' style=" position:absolute;left:0px;bottom:2%;right:4%;" oncontextmenu="return false;"></div>
      
 
 
     </app-card>
-     
+    <div class="align-buttons">
+ 
+      <button type="submit " class="btn btn-primary m-b-0" (click)="toBack()">Volver al inicio</button>
+    </div>
   </div>
   <script type="text/javascript">
   function copyToClipboard() {

@@ -230,7 +230,7 @@ export class MasterEditResumenesComponent extends NgbDatepickerI18n {
     private estimateService: EstimateService, private settlementeService: SettlementService) {
       super();
 
-      if(Number(localStorage.getItem('profile')) == 6){
+      if(Number(localStorage.getItem('profile')) == 6 || Number(localStorage.getItem('profile')) == 7){
         this.userCustomer = true;
       }
 

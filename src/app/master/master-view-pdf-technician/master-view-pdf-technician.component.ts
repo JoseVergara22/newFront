@@ -28,7 +28,7 @@ export class MasterViewPdfTechnicianComponent implements OnInit {
   fileCatalogue: FileCatalogueInterface;
 
   urlsFiles = [];
-  
+  pdfUrl = "https://masterforklift.s3.amazonaws.com/catalogue/VISORMONTACARGASMASTER.pdf";  
   rowsClient: any;
 
 
@@ -42,10 +42,14 @@ export class MasterViewPdfTechnicianComponent implements OnInit {
   selectedBusinessId: any = 0;
   selectedOfficeId: any = 0;
 
+  topCss:number=25;
+  topCssText:string='25%';
+
   constructor(private restService: RestService,private brandService:BrandService, private router: Router, private uploadService: UploadService,
     private forkliftService: ForkliftService, ) {
 
     this.loadingData();
+    // this.viewFileBegin();
 
   }
 
@@ -81,7 +85,8 @@ export class MasterViewPdfTechnicianComponent implements OnInit {
       allowOutsideClick: false
     });
     swal.showLoading();
-
+    this.urlsFiles = [];
+    this.viewFileBegin();
     this.brandService.getModel(this.selectedBusinessId).then(data => {
       const resp: any = data;
       console.log('modelos');
@@ -113,6 +118,8 @@ export class MasterViewPdfTechnicianComponent implements OnInit {
       swal.close();
       this.rowsClient = resp.data;
       console.log(this.rowsClient);
+      this.topCss =25;  
+      this.topCssText='25%';
       this.urlsFiles = [];
       this.selectedValueUpdate = this.rowsClient.modelBrand.brand_contents_id;
       for(let item of this.rowsClient.data){
@@ -134,23 +141,31 @@ export class MasterViewPdfTechnicianComponent implements OnInit {
           };
       
         this.urlsFiles.push(this.fileCatalogue); 
+        this.topCss = this.topCss+4;  
+        this.topCssText= this.topCss.toString()+'%';
       }
     }).catch(error => {
       console.log(error);
       swal({
         title: 'Falla al cargar la información',
-        text: 'No se pudo cargar las marcas',
+        text: 'No se pudo cargar los archivos',
         type: 'error'
       });
     });
   }
 
+  viewFileBegin(){
+    console.log('entro');
+    this.base64 =this.pdfUrl+'#toolbar=0';
+    let div = document.getElementById('viewFiles');
+    div.innerHTML =("<embed   width='100%' height='800px' oncontextmenu='return false'  onselectstart='return false' ondragstart='return false'   src= '"+this.base64+"'>"); 
+  }
+
   viewFile(row){
     console.log(row);
-    this.base64 = row.url+'#toolbar=0&navpanes=1&scrollbar=1';
+    this.base64 = row.url+'#toolbar=0';
     let div = document.getElementById('viewFiles');
-    div.innerHTML =("<embed id='pdfEmbed' width='100%' height='800px' src= '"+this.base64+"'(contextmenu)='onRightClick()'>"); 
-
+    div.innerHTML =("  <embed   width='100%' height='800px' oncontextmenu='return false'  onselectstart='return false' ondragstart='return false'   src= '"+this.base64+"'>   "); 
   }
 
   onRightClick(){
@@ -167,8 +182,11 @@ export class MasterViewPdfTechnicianComponent implements OnInit {
   }
 
 
-
+  toBack(){
+    this.router.navigateByUrl('maintenance/brandModelContents');
+  }
   ngOnInit() {
+    this.viewFileBegin();
   }
 
 }

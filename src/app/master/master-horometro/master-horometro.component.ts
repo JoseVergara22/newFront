@@ -55,7 +55,7 @@ export class MasterHorometroComponent implements OnInit {
   constructor(private restService: RestService, private router: Router,private forkliftService: ForkliftService,
      private horometroservice:HorometroService, private userService: UserService) {
  
-    if(Number(localStorage.getItem('profile')) == 6){
+    if(Number(localStorage.getItem('profile')) == 6 || Number(localStorage.getItem('profile')) == 7){
       this.user_id = Number(localStorage.getItem('userid'));
       this.getCustomerUser(this.user_id);
       this.userCustomer = true;

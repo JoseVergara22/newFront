@@ -185,6 +185,50 @@ getForkliftImage(id: number){
     });
   }
 
+getLogForklift(params: string){
+  console.log(params);
+    return new Promise(resolve => {
+      const httpOptions = {
+        headers: new HttpHeaders({
+          'Content-Type':  'application/json',
+          'Authorization': 'Bearer ' + localStorage.getItem('token_user'),
+          'Accept': 'application/json'
+        })
+      };
+      this.http.get(this.apiEndPoint+'api/get_log_forklift?'+params, httpOptions)
+      .map(res => res).subscribe(data => {
+      console.log("a mostrar data");
+      console.log(data);
+      resolve(data);
+      }, error => {
+        console.log("error en servicio");
+                resolve(error);
+        });
+    });
+}
+
+getPendingForklift(params: string){
+  console.log(params);
+    return new Promise(resolve => {
+      const httpOptions = {
+        headers: new HttpHeaders({
+          'Content-Type':  'application/json',
+          'Authorization': 'Bearer ' + localStorage.getItem('token_user'),
+          'Accept': 'application/json'
+        })
+      };
+      this.http.get(this.apiEndPoint+'api/get_pending_forklift?'+params, httpOptions)
+      .map(res => res).subscribe(data => {
+      console.log("a mostrar data");
+      console.log(data);
+      resolve(data);
+      }, error => {
+        console.log("error en servicio");
+                resolve(error);
+        });
+    });
+}
+
   deleteImagesForklift(forklift_id:number){
     console.log("data to send");
     return new Promise(resolve => {
@@ -227,6 +271,29 @@ getForkliftImage(id: number){
         console.log("error en servicio");
         console.log(error)
                 resolve(error);
+        });
+    });
+  }
+
+  sasveStatusForklift(params:string){
+    console.log("data to send");
+    return new Promise(resolve => {
+      const httpOptions = {
+        headers: new HttpHeaders({
+          'Content-Type':  'application/json',
+          'Authorization': 'Bearer ' + localStorage.getItem('token_user'),
+          'Accept': 'application/json'
+        })
+      };
+      this.http.post(this.apiEndPoint+'api/save_status_forklift?'+params,httpOptions)
+      .map(res => res).subscribe(data => {
+        
+        console.log(data);
+        resolve(data);
+      }, error => {
+        
+        console.log(error)
+        resolve(error);
         });
     });
   }

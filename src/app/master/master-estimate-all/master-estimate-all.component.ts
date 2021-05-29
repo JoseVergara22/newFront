@@ -277,7 +277,7 @@ export class MasterEstimateAllComponent extends NgbDatepickerI18n {
     this.myFormUpdate = new FormGroup({
       descriptionUpdate: descriptionUpdate
     });
-    if(Number(localStorage.getItem('profile')) == 6){
+    if(Number(localStorage.getItem('profile')) == 6 || Number(localStorage.getItem('profile')) == 7){
       this.user_id = Number(localStorage.getItem('userid'));
       this.getCustomerUser(this.user_id);
       this.userCustomer = true;

@@ -2,11 +2,10 @@ import { Component, Injectable, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { NgbCalendar, NgbDateParserFormatter, NgbDatepickerI18n, NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
 import swal from 'sweetalert2';
+import { ForkliftService } from '../../master-services/Forklift/forklift.service';
 import { ReportsService } from '../../master-services/reports/reports.service';
 import { RestService } from '../../master-services/Rest/rest.service';
 import { ResumenesService } from '../../master-services/resumenes/resumenes.service';
-import { MasterSettlementAllComponent } from '../master-settlement-all/master-settlement-all.component';
-
 declare var require: any
 const FileSaver = require('file-saver');
 
@@ -31,14 +30,15 @@ export class I18n {
 }
 
 @Component({
-  selector: 'app-master-technician-maintenance',
-  templateUrl: './master-technician-maintenance.component.html',
-  styleUrls: ['./master-technician-maintenance.component.scss',
+  selector: 'app-master-maintenance-forklift',
+  templateUrl: './master-maintenance-forklift.component.html',
+  styleUrls: ['./master-maintenance-forklift.component.scss',
   '../../../assets/icon/icofont/css/icofont.scss'],
-  providers: [I18n, {provide: NgbDatepickerI18n, useClass: MasterTechnicianMaintenanceComponent}]
+  providers: [I18n, {provide: NgbDatepickerI18n, useClass: MasterMaintenanceForkliftComponent}]
 })
-export class MasterTechnicianMaintenanceComponent extends NgbDatepickerI18n {
+export class MasterMaintenanceForkliftComponent extends NgbDatepickerI18n {
 
+  
   selectsType :Array<maintenanceInterface> = [];
   selectType :maintenanceInterface;
   selectsStatus :Array<maintenanceInterface> = [];
@@ -48,9 +48,11 @@ export class MasterTechnicianMaintenanceComponent extends NgbDatepickerI18n {
   selectedTechnician: any = 0;
   selectedBusinessId: any = 0;
   selectedBranchOfficeId: any = 0;
+  selectedForkliftId: any = 0;
   customers: any;
   now:any;
   regional:any;
+  forklifts:any;
 
   branchOffices: any;
 
@@ -70,7 +72,6 @@ export class MasterTechnicianMaintenanceComponent extends NgbDatepickerI18n {
   downloadPlatformPdf: any;
   downloadStevedorePdf: any;
   downloadBatteryPdf: any;
-  downloadReportPdf: any;
 
   checkAllType: boolean;
   checkAllStatus: boolean;
@@ -80,7 +81,8 @@ export class MasterTechnicianMaintenanceComponent extends NgbDatepickerI18n {
   elementDelete: any;
 
   constructor(private restService: RestService,private calendar: NgbCalendar, public formatter: NgbDateParserFormatter, 
-    private _i18n: I18n, private router: Router, private resumenesService: ResumenesService,private reportService: ReportsService) { 
+    private _i18n: I18n, private router: Router, private resumenesService: ResumenesService,private reportService: ReportsService,
+    private forkliftService: ForkliftService) { 
     super();
 
     var date = new Date();
@@ -95,7 +97,6 @@ export class MasterTechnicianMaintenanceComponent extends NgbDatepickerI18n {
     this.getStatusMaintenance();
     this.getTyeMaintenance();
     this.getRegional();
-    this.getUser();
     // this.getFilters();
   }
 
@@ -111,31 +112,6 @@ export class MasterTechnicianMaintenanceComponent extends NgbDatepickerI18n {
       console.log(error);
     });
   }
-
-  getUser(){
-    swal({
-      title: 'Obteniendo información ...',
-      allowOutsideClick: false
-    });
-    swal.showLoading();
-    console.log(this.selectedRegionalId);
-    this.restService.getTechnician().then(data => {
-      const resp: any = data;
-      console.log(data);
-
-      this.technician = resp.data
-      swal.close();
-    }).catch(error => {
-      swal.close();
-      swal({
-        title:'Error',
-        text: 'Ha ocurrido un error',
-        type: 'error'
-       });
-      console.log(error);
-    });
-  }
-
   
   getCustomerRegionals() {
     this.restService.getRegionalCustomers(this.selectedRegionalId.id).then(data => {
@@ -171,6 +147,25 @@ export class MasterTechnicianMaintenanceComponent extends NgbDatepickerI18n {
     }
   }
   
+  
+getForklifs() {
+  if (this.selectedBranchOfficeId != 0) {
+    console.log('this.selectedBusinessId.id');
+    console.log(this.selectedBranchOfficeId.id);
+
+    this.forkliftService.getForkliftBranchOfficesFull(this.selectedBranchOfficeId.id).then(data => {
+      const resp: any = data;
+      console.log(data);
+      swal.close();
+      this.forklifts = resp.data;
+
+    }).catch(error => {
+      console.log(error);
+    });
+  } else {
+
+  }
+}
 
   
   getFiltersInitial() {
@@ -258,7 +253,6 @@ export class MasterTechnicianMaintenanceComponent extends NgbDatepickerI18n {
 }
   
 getFilters() {
-//Poner validacion de la regional
   if(this.selectedRegionalId != 0){
       swal({
         title: 'Validando información ...',
@@ -337,10 +331,10 @@ getFilters() {
           params = params +'&Firma='+this.selectsStatus[3].name;
           cont ++;
         }
-        if(this.selectedTechnician!=0){
+        if(this.selectedForkliftId!=0){
           console.log('imprimir cont');
           // console.log(cont);
-            params=params+'&&user_id='+this.selectedTechnician.id; 
+            params=params+'&&forklift_id='+this.selectedForkliftId.id; 
         }
         if(this.selectedBusinessId!=0){
           console.log('imprimir cont');
@@ -354,7 +348,7 @@ getFilters() {
         } 
 
         console.log('.---------->'+params);
-        this.resumenesService.getTechnicianRoutine(params).then(data => {
+        this.resumenesService.getForkliftRoutine(params).then(data => {
           const resp: any = data;
           console.log('info de filter');
           console.log(data);
@@ -383,13 +377,14 @@ getFilters() {
           type: 'error'
         });
       }
-  }else{
-    swal({
-      title:'Oops',
-      text: 'Debes seleccionar al menos una sucursal.',
-      type: 'error'
-    });
-  }
+    }else{
+      swal({
+        title:'Oops',
+        text: 'Debes seleccionar una Sucuarsal.',
+        type: 'error'
+      });
+    }
+      
 }
 
  
@@ -423,56 +418,47 @@ getFilters() {
         text: 'No se puede descargar el archivo por lo que no se ha finalizado el mantenimiento no se ha finalizado',
         type: 'error'
        });
-    }else{
-      if(row.type === "CORRECTIVO"){
-        this.downloadCorrective(row);
-        // this.router.navigateByUrl('maintenance/viewCorrective/'+row.id);
+      }else{
+        if(row.type === "CORRECTIVO"){
+          this.downloadCorrective(row);
+          // this.router.navigateByUrl('maintenance/viewCorrective/'+row.id);
+        }
+        if(row.type === "CHECKLIST"){
+          this.downloadChecklist(row);
+          // this.router.navigateByUrl('maintenance/viewChecklist/'+row.id);
+        }
+        if(row.type === "PREVENTIVO"){
+          this.downloadPreventive(row);
+          // this.router.navigateByUrl('maintenance/viewPreventive/'+row.id);
+        }
+        if(row.type === "PLATAFORMA"){
+          this.downloadPlatform(row);
+          // this.router.navigateByUrl('maintenance/viewPlatform/'+row.id);
+        }
+        if(row.type === "ESTIBADORES"){
+          this.downloadStevedore(row);
+          // this.router.navigateByUrl('maintenance/viewStevedore/'+row.id);
+        }
+        if(row.type === "REPORTE TÉCNICO"){
+          this.downloadReport(row);
+          // this.router.navigateByUrl('maintenance/updateForkliftReport/'+row.id);
+        }
       }
-      if(row.type === "CHECKLIST"){
-        this.downloadChecklist(row);
-        // this.router.navigateByUrl('maintenance/viewChecklist/'+row.id);
-      }
-      if(row.type === "PREVENTIVO"){
-        this.downloadPreventive(row);
-        // this.router.navigateByUrl('maintenance/viewPreventive/'+row.id);
-      }
-      if(row.type === "PLATAFORMA"){
-        this.downloadPlatform(row);
-        // this.router.navigateByUrl('maintenance/viewPlatform/'+row.id);
-      }
-      if(row.type === "ESTIBADORES"){
-        this.downloadStevedore(row);
-        // this.router.navigateByUrl('maintenance/viewStevedore/'+row.id);
-      }
-      if(row.type === "REPORTE TÉCNICO"){
-        this.downloadReport(row);
-        // this.router.navigateByUrl('maintenance/updateForkliftReport/'+row.id);
-      }
-    }
-    
 }
 
  
 downloadPreventive(row: any){
   swal.showLoading();
-  // console.log(row);
+  console.log(row);
   this.resumenesService.downloadPreventivePdf(row.id).then(data => {
     const resp: any = data;
-    // console.log(data);
+    console.log(data);
     this.downloadPreventivePdf  = resp.data; 
-    if(this.downloadPreventivePdf == null){
-      swal({
-        title:'Error',
-        text: 'No se ha encontrado el archivo del mantenimiento',
-        type: 'error'
-       });
-    }else{
-      const pdfUrl = this.downloadPreventivePdf.url;
-      const pdfName = 'Matenimiento_Preventivo_Nro_'+row.preventive_consecutive;
-      FileSaver.saveAs(pdfUrl, pdfName);
-      swal.close();
-    }
     
+    const pdfUrl = this.downloadPreventivePdf.url;
+    const pdfName = 'Matenimiento_Preventivo_Nro_'+row.preventive_consecutive;
+    FileSaver.saveAs(pdfUrl, pdfName);
+    swal.close();
 
   }).catch(error => {
     console.log(error);
@@ -486,24 +472,18 @@ downloadPreventive(row: any){
 
 downloadCorrective(row: any){
   swal.showLoading();
-  // console.log(row);
+  console.log(row);
   this.resumenesService.downloadCorrectivePdf(row.id).then(data => {
     const resp: any = data;
-    // console.log(data);
+    console.log(data);
     this.downloadCorrectivePdf  = resp.data; 
-    if(this.downloadCorrectivePdf == null){
-      swal({
-        title:'Error',
-        text: 'No se ha encontrado el archivo del mantenimiento',
-        type: 'error'
-       });
-    }else{
     
-      const pdfUrl = this.downloadCorrectivePdf.url;
-      const pdfName = 'Matenimiento_Correctivo_Nro_'+row.corrective_consecutive;
-      FileSaver.saveAs(pdfUrl, pdfName);
-      swal.close();
-    }
+    
+    const pdfUrl = this.downloadCorrectivePdf.url;
+    const pdfName = 'Matenimiento_Correctivo_Nro_'+row.corrective_consecutive;
+    FileSaver.saveAs(pdfUrl, pdfName);
+    swal.close();
+
   }).catch(error => {
     console.log(error);
     swal({
@@ -516,25 +496,18 @@ downloadCorrective(row: any){
 
 downloadChecklist(row: any){
   swal.showLoading();
-  // console.log(row);
+  console.log(row);
   this.resumenesService.downloadChecklistPdf(row.id).then(data => {
     const resp: any = data;
-    // console.log(data);
+    console.log(data);
     this.downloadChecklistPdf  = resp.data; 
     
-    if(this.downloadChecklistPdf == null){
-      swal({
-        title:'Error',
-        text: 'No se ha encontrado el archivo del mantenimiento',
-        type: 'error'
-       });
-    }else{
     
-      const pdfUrl = this.downloadChecklistPdf.url;
-      const pdfName = 'Checklist_Nro_'+row.checklists_consecutive;
-      FileSaver.saveAs(pdfUrl, pdfName);
-      swal.close();
-    }
+    const pdfUrl = this.downloadChecklistPdf.url;
+    const pdfName = 'Checklist_Nro_'+row.checklists_consecutive;
+    FileSaver.saveAs(pdfUrl, pdfName);
+    swal.close();
+
   }).catch(error => {
     console.log(error);
     swal({
@@ -547,23 +520,16 @@ downloadChecklist(row: any){
 
 downloadPlatform(row: any){
   swal.showLoading();
-  // console.log(row);
+  console.log(row);
   this.resumenesService.downloadPlatformPdf(row.id).then(data => {
     const resp: any = data;
-    // console.log(data);
+    console.log(data);
     this.downloadPlatformPdf  = resp.data;
-    if(this.downloadPlatformPdf == null){
-      swal({
-        title:'Error',
-        text: 'No se ha encontrado el archivo del mantenimiento',
-        type: 'error'
-       });
-    }else{
-      
-      const pdfUrl = this.downloadPlatformPdf.url;
-      const pdfName = 'Matenimiento_Plataforma_Nro_'+row.platform_consecutive;
-      FileSaver.saveAs(pdfUrl, pdfName);
-    }
+    
+    const pdfUrl = this.downloadPlatformPdf.url;
+    const pdfName = 'Matenimiento_Plataforma_Nro_'+row.platform_consecutive;
+    FileSaver.saveAs(pdfUrl, pdfName);
+    
     swal.close();
   }).catch(error => {
     console.log(error);
@@ -577,25 +543,17 @@ downloadPlatform(row: any){
 
 downloadStevedore(row: any){
   swal.showLoading();
-  // console.log(row);
+  console.log(row);
   this.resumenesService.downloadStevedorePdf(row.id).then(data => {
     const resp: any = data;
-    // console.log(data);
+    console.log(data);
     this.downloadStevedorePdf  = resp.data; 
-    if(this.downloadStevedorePdf == null){
-      swal({
-        title:'Error',
-        text: 'No se ha encontrado el archivo del mantenimiento',
-        type: 'error'
-       });
-    }else{
-      
-      const pdfUrl = this.downloadStevedorePdf.url;
-      const pdfName = 'Matenimiento_Estibador_Nro_'+row.stevedore_consecutive;
-      FileSaver.saveAs(pdfUrl, pdfName);
-      
-      swal.close();
-    }
+    
+    const pdfUrl = this.downloadStevedorePdf.url;
+    const pdfName = 'Matenimiento_Estibador_Nro_'+row.stevedore_consecutive;
+    FileSaver.saveAs(pdfUrl, pdfName);
+    
+    swal.close();
   }).catch(error => {
     console.log(error);
     swal({
@@ -608,23 +566,17 @@ downloadStevedore(row: any){
 
 downloadBattery(row: any){
   swal.showLoading();
-  // console.log(row);
+  console.log(row);
   this.resumenesService.downloadBatteryPdf(row.id).then(data => {
     const resp: any = data;
-    // console.log(data);
+    console.log(data);
     this.downloadBatteryPdf  = resp.data; 
-    if(this.downloadBatteryPdf == null){
-      swal({
-        title:'Error',
-        text: 'No se ha encontrado el archivo del mantenimiento',
-        type: 'error'
-       });
-    }else{
-      const pdfUrl = this.downloadBatteryPdf.url;
-      const pdfName = 'Matenimiento_Bateria_Nro_'+row.preventive_consecutive;
-      FileSaver.saveAs(pdfUrl, pdfName);
-      swal.close();
-    }
+    
+    const pdfUrl = this.downloadBatteryPdf.url;
+    const pdfName = 'Matenimiento_Bateria_Nro_'+row.preventive_consecutive;
+    FileSaver.saveAs(pdfUrl, pdfName);
+    swal.close();
+
   }).catch(error => {
     console.log(error);
     swal({
@@ -637,23 +589,16 @@ downloadBattery(row: any){
 
 downloadReport(row: any){
   swal.showLoading();
-  // console.log(row);
+  console.log(row);
   this.resumenesService.downloadReportPdf(row.id).then(data => {
     const resp: any = data;
-    // console.log(data);
-    this.downloadReportPdf  = resp.data; 
-    if(this.downloadReportPdf == null){
-      swal({
-        title:'Error',
-        text: 'No se ha encontrado el archivo del reporte',
-        type: 'error'
-       });
-    }else{
-      const pdfUrl = this.downloadReportPdf.url;
-      const pdfName = 'Repote_Técnico_Nro_'+row.technical_reports_consecutive;
-      FileSaver.saveAs(pdfUrl, pdfName);
-      swal.close();
-    }
+    console.log(data);
+    this.downloadBatteryPdf  = resp.data; 
+    
+    const pdfUrl = this.downloadBatteryPdf.url;
+    const pdfName = 'Repote_Técnico_Nro_'+row.technical_reports_consecutive;
+    FileSaver.saveAs(pdfUrl, pdfName);
+    swal.close();
 
   }).catch(error => {
     console.log(error);
@@ -668,7 +613,7 @@ downloadReport(row: any){
 getStatusMaintenance(){
   this.reportService.getStatusMaintenance().then(data => {
     const resp: any = data;
-    // console.log(data);
+    console.log(data);
     swal.close();
     this.status  = resp.data;
     for(let item of this.status){
@@ -1091,4 +1036,5 @@ deleteStevedore(id: number){
 
   ngOnInit() {
   }
+
 }

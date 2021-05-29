@@ -45,7 +45,7 @@ export class MasterResumenesComponent implements OnInit {
      private forkliftService: ForkliftService,    private calendar: NgbCalendar, public formatter: NgbDateParserFormatter,
      private activatedRoute: ActivatedRoute,private userService: UserService) { 
 
-      if(Number(localStorage.getItem('profile')) == 6){
+      if(Number(localStorage.getItem('profile')) == 6 || Number(localStorage.getItem('profile')) == 7){
         this.user_id = Number(localStorage.getItem('userid'));
         this.getCustomerUser(this.user_id);
         this.userCustomer = true;
@@ -62,7 +62,7 @@ export class MasterResumenesComponent implements OnInit {
       this.activatedRoute.paramMap.subscribe(data=>{
          //this.name=data.get('id');
          this.regional_id=Number(data.get('regional'));
-         if(Number(localStorage.getItem('profile')) == 6){
+         if(Number(localStorage.getItem('profile')) == 6 || Number(localStorage.getItem('profile')) == 7){
               this.customer_id=Number(data.get('customer'));
                 this.branch_id=Number(data.get('branch'));
                 this.selectedBusinessId = this.customer_id;

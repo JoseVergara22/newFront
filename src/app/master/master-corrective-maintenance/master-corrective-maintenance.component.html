@@ -1,4 +1,90 @@
-<div class="row">
+<!-- Perfil Usuario Asignador -->
+<div *ngIf="profileAssign" class="row">
+
+  <div class="col-sm-12">
+    <app-card>
+      <h5>Administración de Mantenimiento Correctivo</h5>
+      <br>
+
+      <div class="form-group row">
+
+        <div class="col-sm-6">
+          <h6>Cliente <span style="color:red;">*</span></h6>
+          <select class="form-control" (change)="getBranchOfficeUser()" [(ngModel)]="selectedBusinessId">
+            <option value="0" selected>Seleccionar cliente </option>
+            <option *ngFor="let customer of customers" [ngValue]="customer"> {{customer.business_name}} </option>
+            <!--  <option value="0" selected>Seleccionar perfil</option> -->
+          </select>
+        </div>
+
+        <div class="col-sm-4">
+          <h6>Sede <span style="color:red;">*</span></h6>
+          <select class="form-control" (change)="getForklifs()" [(ngModel)]="selectedBranchOfficeId">
+            <option value="0" selected>Seleccionar sede </option>
+            <option *ngFor="let branchOffice of branchOffices" [ngValue]="branchOffice"> {{branchOffice.branch_name}}
+            </option>
+            <!--  <option value="0" selected>Seleccionar perfil</option> -->
+          </select>
+        </div>
+      </div>
+
+      <div class="form-group row">
+        
+        <div class="col-sm-4">
+          <h6>Equipo <span style="color:red;">*</span></h6>
+
+          <select class="form-control" [(ngModel)]="selectedForkliftId">
+            <option value="0" selected>Seleccionar equipo </option>
+            <option *ngFor="let forklift of forklifts" [ngValue]="forklift"> {{forklift.full_name}} </option>
+            <!--  <option value="0" selected>Seleccionar perfil</option> -->
+          </select>
+        </div>
+
+        <div class=" align-buttons">
+          <button type="button" style="display:none;" id="showUpdateCorrective" (click)="modalUpdateCorrective.show()"
+            class="btn btn-primary waves-effect">Checkear</button>
+          <br>
+          <button class="btn btn-primary" (click)="getCorrectiveRoutinesUser()"><i
+              class="icofont icofont-search"></i>Buscar</button>
+        </div>
+      </div>
+
+
+      <br>
+      <div class=" align-buttons">
+        <div>
+
+          <button class="btn btn-primary" (click)="showAssingProfile()">Crear</button>
+          <button style="display: none;" id="showAssing" class="btn btn-primary" (click)="modalAssingCorrective.show()"
+            (click)="getConsecutive()">Crear</button>
+        </div>
+      </div>
+
+      <ngx-datatable #table class="data-table" [rows]="row" [columnMode]="'flex'" [headerHeight]="50"
+        [footerHeight]="50" [rowHeight]="'auto'" [limit]="20">
+
+        <ngx-datatable-column [flexGrow]="2" [sortable]="false" [resizeable]="false" name="Obervación"
+          [sortable]="false" prop="result.corrective.description"></ngx-datatable-column>
+        <ngx-datatable-column [flexGrow]="2" [sortable]="false" [resizeable]="false" name="Fecha" [sortable]="false"
+          prop="result.corrective.date"></ngx-datatable-column>
+        <ngx-datatable-column [flexGrow]="2" name="Ver" [sortable]="false" sortable="false" prop="status">
+          <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+
+            <button (click)="update(row)" (click)="getConsecutive()" class="btn btn-primary btn-icon"><i
+                class="icofont icofont-pencil-alt-5"></i></button>
+            <button (click)="deleteEstimateDetail(row)" class="btn btn-danger btn-icon"><i
+                class="icofont icofont-ui-delete"></i></button>
+
+          </ng-template>
+        </ngx-datatable-column>
+      </ngx-datatable>
+
+    </app-card>
+  </div>
+</div>
+
+<!-- Perfil Normal -->
+<div *ngIf="!profileAssign" class="row">
 
   <div class="col-sm-12">
     <app-card>

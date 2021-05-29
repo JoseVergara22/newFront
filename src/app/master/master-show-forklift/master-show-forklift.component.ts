@@ -60,7 +60,7 @@ export class MasterShowForkliftComponent implements OnInit {
   constructor(private restService: RestService, private router: Router,
     private forkliftService: ForkliftService, private userService: UserService,private activatedRoute: ActivatedRoute) {
 
-    if(Number(localStorage.getItem('profile')) == 6){
+    if(Number(localStorage.getItem('profile')) == 6 || Number(localStorage.getItem('profile')) == 7){
       this.user_id = Number(localStorage.getItem('userid'));
       this.getCustomerUser(this.user_id);
       this.userCustomer = true;
@@ -470,7 +470,7 @@ updateForklift(forklift:any) {
       // console.log(this.selectedBusinessId);
       this.selectedOfficeId=Number(data.get('office_id'));
       // console.log(this.selectedOfficeId);
-      if(Number(localStorage.getItem('profile')) == 6){
+      if(Number(localStorage.getItem('profile')) == 6 || Number(localStorage.getItem('profile')) == 7){
         this.getBranchOfficeUser();
         this.userCustomer = true;
         this.getOfficeForklift();

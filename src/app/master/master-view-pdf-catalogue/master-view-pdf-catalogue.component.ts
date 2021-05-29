@@ -121,13 +121,62 @@ export class MasterViewPdfCatalogueComponent implements OnInit {
     });
   }
 
+  loadingCatalogueIdChange() {
+    swal({
+      title: 'Validando información ...',
+      allowOutsideClick: false
+    });
+    swal.showLoading();
+    this.brandService.getCatalogueId(this.selectedModelUpdate).then(data => {
+      const resp: any = data;
+      console.log(data);
+      swal.close();
+      this.rowsClient = resp.data;
+      console.log(this.rowsClient);
+      this.urlsFiles = [];
+      this.viewFileBegin();
+      this.topCss =29;  
+      this.topCssText='29%';
+      this.selectedValueUpdate = this.rowsClient.modelBrand.brand_contents_id;
+      for(let item of this.rowsClient.data){
+          let rep = false;
+          let ser = false;
+          if(item.type_catalogue_id==1){
+            rep= true;
+          }
+          if(item.type_catalogue_id==2){
+            ser= true;
+          }
+          this.fileCatalogue = {
+            id:item.id,
+            url: item.url,
+            name: item.name_file,
+            part:rep, 
+            service:ser,  
+            save:true  
+          };
+      
+        this.urlsFiles.push(this.fileCatalogue); 
+        this.topCss = this.topCss+4;  
+        this.topCssText= this.topCss.toString()+'%';
+      }
+    }).catch(error => {
+      console.log(error);
+      swal({
+        title: 'Falla al cargar la información',
+        text: 'No se pudo cargar las marcas',
+        type: 'error'
+      });
+    });
+  }
+
   loadingData() {
     swal({
       title: 'Validando información ...',
       allowOutsideClick: false
     });
     swal.showLoading();
-
+    // this.viewFileBegin();
     this.brandService.getBrandAll().then(data => {
       const resp: any = data;
       console.log('marcas');
@@ -162,6 +211,32 @@ export class MasterViewPdfCatalogueComponent implements OnInit {
       console.log(data);
       this.model = resp.data_models
       this.selectedModelUpdate = this.rowsClient.modelBrand.model_contents_id
+      swal.close();
+
+      // console.log(this.rowsClient);
+    }).catch(error => {
+      console.log(error);
+      swal({
+        title: 'Falla al cargar la información',
+        text: 'No se pudo cargar los modelos',
+        type: 'error'
+      });
+    });
+  }
+  loadingModelUpdateChange() {
+    swal({
+      title: 'Validando información ...',
+      allowOutsideClick: false
+    });
+    swal.showLoading();
+    this.urlsFiles = [];
+    this.viewFileBegin();
+    this.brandService.getModel(this.selectedValueUpdate).then(data => {
+      const resp: any = data;
+      console.log('modelos');
+      console.log(data);
+      this.model = resp.data_models
+
       swal.close();
 
       // console.log(this.rowsClient);
@@ -487,6 +562,9 @@ export class MasterViewPdfCatalogueComponent implements OnInit {
 
   })();
 
+  toBack(){
+    this.router.navigateByUrl('maintenance/brandModelContents');
+  }
  
 
 }
