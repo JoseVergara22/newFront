@@ -59,7 +59,7 @@ export class MasterViewPdfCatalogueComponent implements OnInit {
     this.catalogueId = this.rutaActiva.snapshot.params.id;
     this.loadingData();
     this.loadingCatalogueId(this.catalogueId);
-   
+    console.log('importante el cambio de Issac');
   }
 
   ngOnInit() {
