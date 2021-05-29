@@ -99,7 +99,7 @@
                 <thead class="higher">
                     <tr>
                         <td>
-                            Nombre del archivo
+                            Nombre del archivo (es un cambio importante)
                         </td>
                         <td>
                             Tipo Partes
@@ -114,7 +114,9 @@
                 </thead>
                 <tbody>
                     <tr *ngFor="let item of urlsFiles; let i=index">
-                        <td > <label style="max-width: 90px;">{{item.name}}</label> </td>
+                        <td style="max-width: 90px;  overflow-wrap: break-word;
+                        word-wrap: break-word;
+                        hyphens: auto;"> <label >{{item.name}}</label> </td>
                         <td style="text-align: center"><input type="checkbox"  [(ngModel)]="item.part" data-md-icheck (click)="onChangeType(i,1,$event)">&nbsp;</td>
                         <td style="text-align: center"><input type="checkbox"  [(ngModel)]="item.service" data-md-icheck (click)="onChangeType(i,2,$event)">&nbsp;</td>
                         <td style="text-align: center"> 
