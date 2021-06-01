@@ -400,29 +400,30 @@ export class MasterEstimateSettlementReportComponent extends NgbDatepickerI18n {
       console.log('.---------->'+params);
       this.reportService.showEstimateSettelements(params).then(data => {
         const resp: any = data;
-        console.log('info de filter');
-        console.log(data);
         console.log(resp);
-        console.log(this.rowsClient);
         this.rowsClient = resp.data;
         for(let data of resp.data){
           if(data.settlement.length > 0){
             for(let item of data.settlement){
+              let value = Number(item.total_settlement).toFixed(0);
+              let value2 = Number(data.total_estimate).toFixed(0);
+              let val = Number(value.replace('.',''));
+              let val2 = Number(value2.replace('.',''));
+              console.log(val);
+              console.log(val2);
+              console.log('entro correcto');
               this.dataExcel = {
                 Cliente: data.customer,
                 Items_Cotizacion:data.quantity_estimate,
-                Total_Cotizacion:'$'+data.total_estimate,
+                Total_Cotizacion:'$'+data.total_est,
                 Items_Liquidacion: item.quantity_settlement,
-                Total_Liquidacion:'$'+item.total_settlement,
+                Total_Liquidacion:'$'+item.total_set,
                 Porcentaje_Items:Number((Number(item.quantity_settlement)*100)/Number(data.quantity_estimate)).toFixed(1)+'%',
-                Porcentaje_Totales:Number((Number(item.total_settlement)*100)/Number(data.total_estimate)).toFixed(1)+'%'
+                Porcentaje_Totales:Number(Number(val *100)/val2).toFixed(1)+'%'
               }
               this.dataExcels.push(this.dataExcel);
-              console.log(Number(item.total_settlement));
-              console.log(item.total_settlement.replace('.',''));
-              console.log(item.total_settlement.replace('.',''));
-              console.log(item.total_settlement.replace('.',''));
-              console.log('entro correcto');
+
+
             }
           }else{
             this.dataExcel = {
