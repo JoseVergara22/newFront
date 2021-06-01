@@ -136,12 +136,12 @@ export class MasterForkliftMaintenanceComponent extends NgbDatepickerI18n {
     console.log(   this.untilDate);
     this.selectsType.push(this.selectType = {
       id:1,
-      name:'Correctivo',
+      name:'Checklist',
       select:false
     });
     this.selectsType.push(this.selectType = {
       id:1,
-      name:'Preventivo',
+      name:'Correctivo',
       select:false
     });
     this.selectsType.push(this.selectType = {

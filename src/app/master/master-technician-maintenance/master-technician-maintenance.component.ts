@@ -468,7 +468,7 @@ downloadPreventive(row: any){
        });
     }else{
       const pdfUrl = this.downloadPreventivePdf.url;
-      const pdfName = 'Matenimiento_Preventivo_Nro_'+row.preventive_consecutive;
+      const pdfName = 'Matenimiento_Preventivo_Nro_'+row.consecutive;
       FileSaver.saveAs(pdfUrl, pdfName);
       swal.close();
     }
@@ -500,7 +500,7 @@ downloadCorrective(row: any){
     }else{
     
       const pdfUrl = this.downloadCorrectivePdf.url;
-      const pdfName = 'Matenimiento_Correctivo_Nro_'+row.corrective_consecutive;
+      const pdfName = 'Matenimiento_Correctivo_Nro_'+row.consecutive;
       FileSaver.saveAs(pdfUrl, pdfName);
       swal.close();
     }
@@ -531,7 +531,7 @@ downloadChecklist(row: any){
     }else{
     
       const pdfUrl = this.downloadChecklistPdf.url;
-      const pdfName = 'Checklist_Nro_'+row.checklists_consecutive;
+      const pdfName = 'Checklist_Nro_'+row.consecutive;
       FileSaver.saveAs(pdfUrl, pdfName);
       swal.close();
     }
@@ -561,7 +561,7 @@ downloadPlatform(row: any){
     }else{
       
       const pdfUrl = this.downloadPlatformPdf.url;
-      const pdfName = 'Matenimiento_Plataforma_Nro_'+row.platform_consecutive;
+      const pdfName = 'Matenimiento_Plataforma_Nro_'+row.consecutive;
       FileSaver.saveAs(pdfUrl, pdfName);
     }
     swal.close();
@@ -591,7 +591,7 @@ downloadStevedore(row: any){
     }else{
       
       const pdfUrl = this.downloadStevedorePdf.url;
-      const pdfName = 'Matenimiento_Estibador_Nro_'+row.stevedore_consecutive;
+      const pdfName = 'Matenimiento_Estibador_Nro_'+row.consecutive;
       FileSaver.saveAs(pdfUrl, pdfName);
       
       swal.close();
@@ -621,7 +621,7 @@ downloadBattery(row: any){
        });
     }else{
       const pdfUrl = this.downloadBatteryPdf.url;
-      const pdfName = 'Matenimiento_Bateria_Nro_'+row.preventive_consecutive;
+      const pdfName = 'Matenimiento_Bateria_Nro_'+row.consecutive;
       FileSaver.saveAs(pdfUrl, pdfName);
       swal.close();
     }
@@ -650,7 +650,7 @@ downloadReport(row: any){
        });
     }else{
       const pdfUrl = this.downloadReportPdf.url;
-      const pdfName = 'Repote_Técnico_Nro_'+row.technical_reports_consecutive;
+      const pdfName = 'Repote_Técnico_Nro_'+row.consecutive;
       FileSaver.saveAs(pdfUrl, pdfName);
       swal.close();
     }
