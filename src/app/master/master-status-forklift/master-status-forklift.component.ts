@@ -4,6 +4,7 @@ import swal from 'sweetalert2';
 import { ForkliftService } from '../../master-services/Forklift/forklift.service';
 import { RestService } from '../../master-services/Rest/rest.service';
 import { ResumenesService } from '../../master-services/resumenes/resumenes.service';
+import { UserService } from '../../master-services/User/user.service';
 
 const I18N_VALUES = {
   'fr': {
@@ -68,10 +69,12 @@ export class MasterStatusForkliftComponent extends NgbDatepickerI18n {
   limitPageLog;
   left: boolean = true;
   right: boolean = false;
+  userCustomer: boolean = false;
+  user_id: any;
 
 
   constructor(private calendar: NgbCalendar, public formatter: NgbDateParserFormatter, private resumenesService: ResumenesService,
-    private _i18n: I18n, private forkliftService: ForkliftService, private restService: RestService) { 
+    private _i18n: I18n, private forkliftService: ForkliftService, private restService: RestService,private userService: UserService) { 
     super();
 
     var date = new Date();
@@ -86,10 +89,42 @@ export class MasterStatusForkliftComponent extends NgbDatepickerI18n {
     console.log(   this.fromDatePending);
     console.log(   this.fromDatePending);
 
+    if(Number(localStorage.getItem('profile')) == 6 || Number(localStorage.getItem('profile')) == 7){
+      this.user_id = Number(localStorage.getItem('userid'));
+      this.getCustomerUser(this.user_id);
+      this.userCustomer = true;
+    }else{
     this.getRegional();
+    }
     // this.getFilters();
   }
+  getCustomerUser(id: any) {
+    this.userService.getUserCustomer(id).then(data => {
+      const resp: any = data;
+      this.customers = resp.data;
+      // console.log(this.customers)
+    }).catch(error => {
+      console.log(error);
+    });
+  }
   
+  getBranchOfficeUser() {
+    swal({
+      title: 'Validando información ...',
+      text:'Cargando Sedes',
+      allowOutsideClick: false
+    });
+    swal.showLoading();
+    this.userService.getBranchUser(this.selectedBusinessId,this.user_id).then(data => {
+      const resp: any = data;
+      this.branchOffices = resp.data;
+      // console.log(this.customers)
+      swal.close();
+    }).catch(error => {
+      console.log(error);
+    });
+  }
+
   getRegional(){
     this.restService.getRegionalAll().then(data => {
       const resp: any = data;
