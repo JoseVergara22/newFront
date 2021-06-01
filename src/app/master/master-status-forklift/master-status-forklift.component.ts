@@ -66,6 +66,8 @@ export class MasterStatusForkliftComponent extends NgbDatepickerI18n {
   numberPageLog=1;
   limitPage;
   limitPageLog;
+  left: boolean = true;
+  right: boolean = false;
 
 
   constructor(private calendar: NgbCalendar, public formatter: NgbDateParserFormatter, private resumenesService: ResumenesService,
