@@ -275,7 +275,7 @@ getPendingForklift(params: string){
     });
   }
 
-  sasveStatusForklift(params:string){
+  saveStatusForklift(params:string){
     console.log("data to send");
     return new Promise(resolve => {
       const httpOptions = {
@@ -286,6 +286,29 @@ getPendingForklift(params: string){
         })
       };
       this.http.post(this.apiEndPoint+'api/save_status_forklift?'+params,httpOptions)
+      .map(res => res).subscribe(data => {
+        
+        console.log(data);
+        resolve(data);
+      }, error => {
+        
+        console.log(error)
+        resolve(error);
+        });
+    });
+  }
+
+  saveStatusForkliftTime(params:string){
+    console.log("data to send");
+    return new Promise(resolve => {
+      const httpOptions = {
+        headers: new HttpHeaders({
+          'Content-Type':  'application/json',
+          'Authorization': 'Bearer ' + localStorage.getItem('token_user'),
+          'Accept': 'application/json'
+        })
+      };
+      this.http.post(this.apiEndPoint+'api/change_status_maintenance_forklift?'+params,httpOptions)
       .map(res => res).subscribe(data => {
         
         console.log(data);

@@ -33,9 +33,6 @@ export class MasterRegisterProfileComponent implements OnInit {
  sendWarehouses() {
   console.log('Ole ole ole');
 
-  console.log(this.description);
-
-
     this.submitted = true;
    if ( !this.myForm.invalid) {
     swal({
@@ -43,8 +40,7 @@ export class MasterRegisterProfileComponent implements OnInit {
       allowOutsideClick: false
     });
     swal.showLoading();
-    this.userService.createProfile(this.myForm.get('description').value(),
-     )
+    this.userService.createProfile(this.myForm.get('description').value)
     .then(data => {
       const resp: any = data;
       console.log(resp);

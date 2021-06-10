@@ -74,7 +74,7 @@ apiEndPoint = environment.apiBaseUrl;
     });
   }
 
-  updateHorometer(id:number,h_current){
+  updateHorometer(id:number,h_current,user_id:any){
     return new Promise(resolve => {
       const httpOptions = {
         headers: new HttpHeaders({
@@ -84,7 +84,8 @@ apiEndPoint = environment.apiBaseUrl;
         })
       };
       const patchParams={
-        h_current:h_current
+        h_current:h_current,
+        user_id:user_id
       }
       this.http.patch(this.apiEndPoint+'api/updateHorometer/'+id, patchParams,httpOptions)
       .map(res => res).subscribe(data => {

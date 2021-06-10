@@ -397,7 +397,8 @@ export class RestService {
     h_initial: number,
     h_current: number,
     alarm: number,
-    observation: string
+    observation: string,
+    user_id:any
   ) {
     return new Promise(resolve => {
       const headers = new HttpHeaders();
@@ -441,7 +442,8 @@ export class RestService {
         h_initial: h_initial,
         h_current: h_current,
         alarm: alarm,
-        observation: observation
+        observation: observation,
+        user_id:user_id
       };
       console.log('tonne-----------' + tonne);
       this.http.post(this.apiEndPoint + 'api/forklifts', postParams, httpOptions)
@@ -473,7 +475,8 @@ export class RestService {
     h_initial: number,
     h_current: number,
     alarm: number,
-    observation: string
+    observation: string,
+    user_id:any
   ) {
     return new Promise(resolve => {
       const headers = new HttpHeaders();
@@ -517,7 +520,8 @@ export class RestService {
         h_initial: h_initial,
         h_current: h_current,
         alarm: alarm,
-        observation: observation
+        observation: observation,
+        user_id:user_id
       };
       this.http.patch(this.apiEndPoint + 'api/forklifts/' + idForlift, postParams, httpOptions)
         .map(res => res).subscribe(data => {

@@ -122,6 +122,8 @@ import { MasterComplianceIndicatorMaintenanceComponent } from './master-complian
 import { MasterDifferentTimesAssignationComponent } from './master-diferent-times-assignation/master-different-times-assignation.component';
 import { MasterMaintenanceForkliftComponent } from './master-maintenance-forklift/master-maintenance-forklift.component';
 import { MasterStatusForkliftComponent } from './master-status-forklift/master-status-forklift.component';
+import { MasterReportHorometerComponent } from './master-report-horometer/master-report-horometer.component';
+import { MasterTimeOutForkliftComponent } from './master-time-out-forklift/master-time-out-forklift.component';
 
 // import { MasterMaintenanceNotificationComponent } from './master-maintenance-notification/master-maintenance-notification.component';
 
@@ -163,6 +165,7 @@ import { SystemsService } from '../master-services/systems/systems.service';
 import { BrandService } from '../master-services/brand/brand.service';
 
 import {AutocompleteLibModule} from 'angular-ng-autocomplete';
+
 
 
 
@@ -305,6 +308,8 @@ import {AutocompleteLibModule} from 'angular-ng-autocomplete';
     MasterDifferentTimesAssignationComponent,
     MasterMaintenanceForkliftComponent,
     MasterStatusForkliftComponent,
+    MasterReportHorometerComponent,
+    MasterTimeOutForkliftComponent,
 
    // MasterAdminComponent
   ],

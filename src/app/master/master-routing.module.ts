@@ -109,6 +109,8 @@ import { MasterComplianceIndicatorMaintenanceComponent } from './master-complian
 import { MasterDifferentTimesAssignationComponent } from './master-diferent-times-assignation/master-different-times-assignation.component';
 import { MasterMaintenanceForkliftComponent } from './master-maintenance-forklift/master-maintenance-forklift.component';
 import { MasterStatusForkliftComponent } from './master-status-forklift/master-status-forklift.component';
+import { MasterReportHorometerComponent } from './master-report-horometer/master-report-horometer.component';
+import { MasterTimeOutForkliftComponent } from './master-time-out-forklift/master-time-out-forklift.component';
 
 // import { MasterMaintenanceNotificationComponent } from './master-maintenance-notification/master-maintenance-notification.component';
 
@@ -491,6 +493,12 @@ const routes: Routes = [
   },{
     path:'statusForklift',
     component: MasterStatusForkliftComponent
+  },{
+    path:'horometerForklift',
+    component: MasterReportHorometerComponent
+  },{
+    path:'timeOutForklift',
+    component: MasterTimeOutForkliftComponent
   },
  
 ];

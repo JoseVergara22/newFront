@@ -42,6 +42,7 @@ export class MasterUpdateProfileComponent implements OnInit {
   selectedModule: any;
   modules: any;
   functionModule: any;
+  checkAllPart= false;
 
   constructor(private userService: UserService, private router: Router, private activatedRoute: ActivatedRoute,
     private moduleServices: ModulesService) {
@@ -148,10 +149,7 @@ export class MasterUpdateProfileComponent implements OnInit {
   }
 
   saveFunction() {
-    swal({
-      title: 'Obteniendo información ...',
-      allowOutsideClick: true
-    });
+    swal.showLoading();
     let parts = [];
     for (let item of this.itemsModule) {
       for (let value of item.part) {
@@ -177,6 +175,10 @@ export class MasterUpdateProfileComponent implements OnInit {
         } else {
           this.modules = resp.data;
           console.log(this.modules)
+          swal({
+            title: 'Configuración realizada.',
+            type: 'success'
+          });
         }
       }).catch(error => {
         console.log(error);
@@ -187,32 +189,45 @@ export class MasterUpdateProfileComponent implements OnInit {
     }
   }
 
-  partChangeActive(event: any, item: any) {
+  // partChangeActive(event: any, item: any) {
 
-    console.log('valor para editar');
+  //   console.log('valor para editar');
+  //   console.log(event.target.checked);
+  //   console.log(item);
+  //   console.log(item.id);
+
+  //   if (event.target.checked) {
+  //     this.itemPart = {
+  //       funtion: item.id,
+  //       description: item.description,
+  //       module: item.module_id,
+  //     }
+  //     this.itemsPart.push(this.itemPart);
+  //   } else {
+  //     for (let i = 0; i < this.itemsPart.length; i++) {
+  //       if (this.itemsPart[i].funtion == item.id) {
+  //         console.log(item);
+  //         console.log('lo encontre' + i);
+  //         this.itemsPart.splice(i, 1);
+  //         console.log(this.itemsPart);
+  //       }
+  //     }
+  //   }
+
+  // }
+
+  checkUncheckAllPart(event: any,part:any,){
+    
+    console.log(event.target);
     console.log(event.target.checked);
-    console.log(item);
-    console.log(item.id);
-
-    if (event.target.checked) {
-      this.itemPart = {
-        funtion: item.id,
-        description: item.description,
-        module: item.module_id,
-      }
-      this.itemsPart.push(this.itemPart);
-    } else {
-      for (let i = 0; i < this.itemsPart.length; i++) {
-        if (this.itemsPart[i].funtion == item.id) {
-          console.log(item);
-          console.log('lo encontre' + i);
-          this.itemsPart.splice(i, 1);
-          console.log(this.itemsPart);
-        }
+    for (let item of part) {
+        console.log('lo encontre'+item);
+        item.active=event.target.checked;
+        console.log(item)
       }
     }
 
-  }
+  
 
   updateComponent(components: any) {
     this.currentProfile = components;

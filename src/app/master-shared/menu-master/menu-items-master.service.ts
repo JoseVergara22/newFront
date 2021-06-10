@@ -334,7 +334,7 @@ const MENUITEMS = [
           },
           {
             state: 'reportAsingFinish',
-            name: 'Runitas Asignadas Vs Realizadas'
+            name: 'Rutinas Asignadas Vs Realizadas'
           },
           {
             state: 'reportSystemMaintenance',
@@ -355,6 +355,14 @@ const MENUITEMS = [
           {
             state: 'reportsDurationTimesMaintenance',
             name: 'Reporte De Diferencia de Tiempo en el Mantenimiento Correctivo'
+          },
+          {
+            state: 'horometerForklift',
+            name: 'Reporte De Horometro De Equipos'
+          },
+          {
+            state: 'timeOutForklift',
+            name: 'Reporte De Tiempo Muerto De Equipos'
           },
         ]
       }

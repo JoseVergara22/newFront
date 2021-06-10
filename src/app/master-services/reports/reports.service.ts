@@ -106,6 +106,54 @@ export class ReportsService {
     });
   }
 
+  showHorometerForklift(params: string){
+    return new Promise(resolve => {
+      const headers = new HttpHeaders();
+      headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user'))); // 'Bearer ' +
+      headers.append('Content-Type', 'application/json');
+      const httpOptions = {
+        headers: new HttpHeaders({
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + localStorage.getItem('token_user'),
+          'Accept': 'application/json'
+        })
+      };
+      console.log(params);
+      this.http.get(this.apiEndPoint+'api/get_horometer_forklift?'+params , httpOptions)
+        .map(res => res).subscribe(data => {
+          console.log(data);
+          resolve(data);
+        }, error => {
+          resolve(error);
+          console.log(error)
+        });
+    });
+  }
+
+  showTimeOutForklift(params: string){
+    return new Promise(resolve => {
+      const headers = new HttpHeaders();
+      headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user'))); // 'Bearer ' +
+      headers.append('Content-Type', 'application/json');
+      const httpOptions = {
+        headers: new HttpHeaders({
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + localStorage.getItem('token_user'),
+          'Accept': 'application/json'
+        })
+      };
+      console.log(params);
+      this.http.get(this.apiEndPoint+'api/get_time_out_forklift?'+params , httpOptions)
+        .map(res => res).subscribe(data => {
+          console.log(data);
+          resolve(data);
+        }, error => {
+          resolve(error);
+          console.log(error)
+        });
+    });
+  }
+
   showSystemMauntenanceMa(params: string){
     return new Promise(resolve => {
       const headers = new HttpHeaders();

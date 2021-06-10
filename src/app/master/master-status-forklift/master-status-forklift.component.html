@@ -170,6 +170,9 @@
                   <div *ngIf="value==4">  
                     CORRECTIVO
                   </div>
+                  <div *ngIf="value==4">  
+                    ANORMALIDAD
+                  </div>
                                   
                 </ng-template>
               </ngx-datatable-column>
@@ -177,8 +180,8 @@
                 <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
                   <div class="statusLabel" *ngIf="value==0">
                     <button (click)="showModalRegister(row)" class="btn btn-primary btn-icon"><i class="icofont icofont-pencil-alt-5"></i></button>
-                    <button (click)="pendingForklift(row)" class="btn btn-secondary btn-icon"><i class="icofont icofont-checked"></i></button>
-                    <button (click)="logForklift(row)" class="btn btn-info btn-icon"><i class="icofont icofont-notepad"></i></button>
+                    <button (click)="pendingForklift(row)" class="btn btn-primary btn-icon"><i class="icofont icofont-checked"></i></button>
+                    <button (click)="logForklift(row)" class="btn btn-primary btn-icon"><i class="icofont icofont-notepad"></i></button>
                   </div>          
               </ng-template>
               </ngx-datatable-column>
@@ -207,6 +210,7 @@
           <option value="2" selected>Averia</option>
           <option value="3" selected>Preventivo</option>
           <option value="4" selected>Correctivo</option>
+          <option value="5" selected>Anormalidad</option>
           <!-- <option   *ngFor="let branchOffice of branchOffices" [ngValue]="branchOffice"   > {{branchOffice.branch_name}}  </option> -->
         </select>
       </div>
@@ -434,13 +438,14 @@
                         <label *ngIf="item.status_forklift == 2">Averia</label>
                         <label *ngIf="item.status_forklift == 3">Preventivo</label>
                         <label *ngIf="item.status_forklift == 4">Correctivo</label>
+                        <label *ngIf="item.status_forklift == 5">Anormalidad</label>
                       </h2>
                       <p>{{item.description_forklift}}</p>
                     </div>
                   </div>
                 </article>
   
-                <!-- <article class="timeline-entry">
+                 <article style="visibility: hidden;" class="timeline-entry" >
                   
                   <div class="timeline-entry-inner">
                     <time class="timeline-time" datetime="2014-01-10T03:45"><span>03:45 AM</span> <span>Today</span></time>
@@ -455,7 +460,7 @@
                     </div>
                   </div>
                   
-                </article>-->
+                </article>
                       
                  <!-- <article class="timeline-entry left-aligned">
                   

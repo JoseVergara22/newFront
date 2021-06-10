@@ -21,7 +21,11 @@
         <ngb-accordion *ngFor="let val of itemsModule" [closeOthers]="false" #acc="ngbAccordion" class="ngb-accordion">
           <ngb-panel id="ngb-close-p1" title="{{val.module}}">
             <ng-template ngbPanelContent>
+              <input type="checkbox" value="m1" (change)="checkUncheckAllPart($event,val.part)" />
+              <strong>Seleccionar todo</strong>
+              <br>
               <div class="modules form-group row">
+                
                 <table>
                   <tr *ngFor="let item of val.part">
                     <td scope="row">

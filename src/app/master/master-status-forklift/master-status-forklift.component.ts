@@ -276,6 +276,14 @@ getForklifs() {
     });
   }
 
+  registerStatusType(){
+    if(this.currentForklift.status_active == 1 || this.currentForklift.status_active == 5){
+      this.registerStatus();//Registro Normal
+    }else{
+      this.registerStatusTime(); //Registro Time Out
+    }
+  }
+
   registerStatus(){
     swal({
       title: 'Validando información ...',
@@ -306,8 +314,67 @@ getForklifs() {
           params=params+'description='+this.descriptionForklift;
           cont++;
         }
+        params=params+'&user_id='+localStorage.getItem('userid');
+        
 
-        this.forkliftService.sasveStatusForklift(params).then(data => {
+        this.forkliftService.saveStatusForklift(params).then(data => {
+          const resp: any = data;
+          console.log(resp);
+          this.rowsClient = resp.data;
+          swal.close();
+          this.getFilters();
+          document.getElementById('assignUpdateCorrectiveHide').click();
+          if(resp.error){
+            console.log('entro')
+            swal({
+              title:'Oops',
+              text: 'Hubo un error en la consulta.',
+              type: 'error'
+              });
+          }
+        }).catch(error => {
+          console.log(error);
+        });
+    }else{
+      swal({
+        title:'Oops',
+        text: 'Debes seleccionar un estado.',
+        type: 'error'
+        });
+    }
+  }
+  registerStatusTime(){
+    swal({
+      title: 'Validando información ...',
+      allowOutsideClick: false
+    });
+    swal.showLoading();
+    let params='';
+    let cont=0;
+
+    if(this.selectedStatusForklift != 0){
+        if(cont>0){
+          params=params+'&forklift_id='+this.currentForklift.id;
+        }else{
+          params=params+'forklift_id='+this.currentForklift.id;
+          cont++;
+        }
+
+      console.log(cont);
+        if(cont>0){
+        params=params+'&status='+this.selectedStatusForklift;
+        }else{
+          params=params+'status='+this.selectedStatusForklift;
+          cont++;
+        }
+        if(cont>0){
+        params=params+'&description='+this.descriptionForklift;
+        }else{
+          params=params+'description='+this.descriptionForklift;
+          cont++;
+        }
+
+        this.forkliftService.saveStatusForkliftTime(params).then(data => {
           const resp: any = data;
           console.log(resp);
           this.rowsClient = resp.data;

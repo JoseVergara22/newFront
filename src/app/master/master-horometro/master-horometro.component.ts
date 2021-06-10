@@ -54,9 +54,9 @@ export class MasterHorometroComponent implements OnInit {
   public  horometroCurrent=0;;
   constructor(private restService: RestService, private router: Router,private forkliftService: ForkliftService,
      private horometroservice:HorometroService, private userService: UserService) {
- 
-    if(Number(localStorage.getItem('profile')) == 6 || Number(localStorage.getItem('profile')) == 7){
       this.user_id = Number(localStorage.getItem('userid'));
+    if(Number(localStorage.getItem('profile')) == 6 || Number(localStorage.getItem('profile')) == 7){
+      
       this.getCustomerUser(this.user_id);
       this.userCustomer = true;
     }else{
@@ -332,7 +332,7 @@ updateForklift(forklift:any) {
     });
     swal.showLoading();
 
-    this.horometroservice.updateHorometer(this.currentrow.id, this.myFormUpdate.get('horometroUpdate').value)
+    this.horometroservice.updateHorometer(this.currentrow.id, this.myFormUpdate.get('horometroUpdate').value,this.user_id)
     .then(data => {
       const resp: any = data;
       console.log(resp);

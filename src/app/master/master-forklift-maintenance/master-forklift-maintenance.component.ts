@@ -510,6 +510,7 @@ export class MasterForkliftMaintenanceComponent extends NgbDatepickerI18n {
               }
             }
         }
+        params=params+'&user_id='+localStorage.getItem('userid');
         
       console.log('.---------->'+params);
       this.reportService.showFilterMaintenance(params).then(data => {
