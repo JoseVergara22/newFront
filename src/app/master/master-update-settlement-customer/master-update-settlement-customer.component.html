@@ -626,7 +626,7 @@
           <div class="row">
               <div class="col-sm-6">
                 <h6>Código </h6>
-                <input  type="text" class="form-control" (change)="onChangeworkforceCode(workforceCodeUpdate)"  [(ngModel)]="workforceCodeUpdate" list="browsers">
+                <input  type="text" class="form-control" (change)="onChangeworkforceCodeUpdate(workforceCodeUpdate)"  [(ngModel)]="workforceCodeUpdate" list="browsers">
                 <datalist  id="browsers">
                   <!--  <div  > -->
                       <option  *ngFor="let detailCode of detailCodes"   [ngValue]="detailCode"> {{detailCode.full_description}} </option>
@@ -723,7 +723,7 @@
           <div class="row">
               <div class="col-sm-6">
                 <h6>Código </h6>
-                <input  type="text" class="form-control" (change)="onChangeCodeUpdate(code)"  [(ngModel)]="codeUpdate" list="codeUpdateList">
+                <input  type="text" class="form-control" (change)="onChangeCodeUpdate(codeUpdate)"  [(ngModel)]="codeUpdate" list="codeUpdateList">
                 <datalist  id="codeUpdateList">
                   <!--  <div  > -->
                       <option  *ngFor="let detailCode of detailCodes"   [ngValue]="detailCode"> {{detailCode.full_description}} </option>  

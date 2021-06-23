@@ -179,9 +179,9 @@
               <ngx-datatable-column  [flexGrow]="2" [sortable]="false" [resizeable]="false"  name="Acciones" [sortable]="false"  prop="status">
                 <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
                   <div class="statusLabel" *ngIf="value==0">
-                    <button (click)="showModalRegister(row)" class="btn btn-primary btn-icon"><i class="icofont icofont-pencil-alt-5"></i></button>
-                    <button (click)="pendingForklift(row)" class="btn btn-primary btn-icon"><i class="icofont icofont-checked"></i></button>
-                    <button (click)="logForklift(row)" class="btn btn-primary btn-icon"><i class="icofont icofont-notepad"></i></button>
+                    <button (click)="showModalRegister(row)" class="btn btn-primary "><i class="icofont icofont-pencil-alt-5"></i></button>
+                    <button (click)="pendingForklift(row)" class="btn btn-primary"><i class="icofont icofont-checked"></i></button>
+                    <button (click)="logForklift(row)" class="btn btn-primary "><i class="icofont icofont-notepad"></i></button>
                   </div>          
               </ng-template>
               </ngx-datatable-column>
@@ -218,7 +218,7 @@
     <br>
     <div class="form-group row">
       <div class="col-sm-12" >
-        <h6>Ingrese una description</h6>
+        <h6>Ingrese una descripción</h6>
         <textarea name="descriptionForklift" id="descriptionForklift" [(ngModel)]="descriptionForklift" cols="60" rows="10" placeholder="Descripción del estado del Equipo"></textarea>
       </div>
     </div>

@@ -1390,9 +1390,7 @@ getWarehouses() {
       }else{
        codeTemp= this.workforceCodeUpdate;
       }
-
      let fullCodeTemp = this.workforceCodeUpdate;
-
     
      let settlementIdDetailTemp= this.workforceDetailIdUpdate;
      let serviceTemp= this.workforceServiceUpdate;
@@ -1586,6 +1584,12 @@ getWarehouses() {
       }
 
      let fullCodeTemp = this.codeUpdate;
+
+     console.log(this.fullCodeUpdate);
+     console.log(this.codeUpdate);
+     console.log(fullCodeTemp);
+     console.log(codeTemp);
+
      let settlementIdDetailTemp= this.idDetail;//this.settlementId;
     
      let descriptionTemp= this.descriptionUpdate;
@@ -1786,7 +1790,7 @@ getWarehouses() {
     console.log('-----------------------');
     console.log(item);
     if(item.estimate_id != null){
-      this.onChangeCodeUpdate(item.full_code);
+      // this.onChangeCodeUpdate(item.full_code);
       this.idDetail = item.id;
       this.codeUpdate= item.full_code;
       this.descriptionUpdate= item.description;
@@ -1806,11 +1810,11 @@ getWarehouses() {
       this.discountPartUpdate= item.discount;
       this.estimateDetailId = item.estimate_detail_id;
       this.totalPriceUpdate= this.finalFormatStandard(Number(item.subtotal).toFixed(0));
-      console.log(item);
+      // console.log(item);
       document.getElementById( 'uploadItemCopy').click();
     }else{
 
-      this.onChangeCodeUpdate(item.full_code);
+      // this.onChangeCodeUpdate(item.full_code);
       this.idDetail = item.id;
       this.codeUpdate= item.full_code;
       this.descriptionUpdate= item.description;
@@ -1828,7 +1832,7 @@ getWarehouses() {
       this.selectedSubcostCenterUpdateId = item.subcost_center_id;
       this.discountPartUpdate= item.discount;
       this.totalPriceUpdate= this.finalFormatStandard(Number(item.subtotal).toFixed(0));
-      console.log(item);
+      // console.log(item);
       document.getElementById('uploadItem').click();
       
     }
@@ -1836,7 +1840,7 @@ getWarehouses() {
 
 
   updateWorkForceItems(item:any) {
-    this.onChangeworkforceCodeUpdate(item.full_code);
+    // this.onChangeworkforceCodeUpdate(item.full_code);
     this.workforceDetailIdUpdate = item.id;
     this.workforceCodeUpdate = item.full_code;
     this.workforceServiceUpdate = item.service;
@@ -1848,13 +1852,13 @@ getWarehouses() {
     this.discountWorkforceUpdate= item.discount;
     this.totalPriceWorkforceUpdate= this.finalFormatStandard( Number(item.subtotal).toFixed(0));
     this.estimateDetailId = item.estimate_detail_id;
-        console.log(item);
+        // console.log(item);
         document.getElementById( 'uploadWorkforceItem').click();
-      }
+  }
 
     updateCustomerItems(item:any) {
 
-        this.onChangeCustomerCodeUpdate(item.full_code);
+        // this.onChangeCustomerCodeUpdate(item.full_code);
         this.customerDetailIdUpdate = item.id;
         this.customerCodeUpdate = item.full_code;
         this.customerServiceUpdate = item.description;
@@ -1866,9 +1870,9 @@ getWarehouses() {
         this.discountCustomerUpdate= item.discount;
         this.totalPriceCustomerUpdate= this.finalFormatStandard( Number(item.subtotal).toFixed(0));
         
-            console.log(item);
-            document.getElementById('uploadCustomerItem').click();
-          }
+        // console.log(item);
+        document.getElementById('uploadCustomerItem').click();
+    }
 
 
   deletePriceCountry(item: any) {
@@ -2445,9 +2449,6 @@ console.log('Importante informacion: '+ this.conditionValidation);
   }
 
   onChangeCodeUpdate(detailCode:any){
-    console.log(detailCode);
-
-    console.log();
 
     for (let i = 0; i < this.detailCodes.length; i++) {
       if(this.detailCodes[i].full_description==detailCode){
@@ -2470,7 +2471,6 @@ console.log('Importante informacion: '+ this.conditionValidation);
 
 
   onChangeCustomerCodeUpdate(detailCode:any){
-    console.log(detailCode);
 
     for (let i = 0; i < this.detailCodes.length; i++) {
       if(this.detailCodes[i].full_description==detailCode){
@@ -4624,7 +4624,6 @@ console.log('acaaaaaaaaaaaaa');
 
 
    onChangeworkforceCode(detailCode:any){
-    console.log(detailCode);
 
     for (let i = 0; i < this.detailCodes.length; i++) {
       if(this.detailCodes[i].full_description==detailCode){
