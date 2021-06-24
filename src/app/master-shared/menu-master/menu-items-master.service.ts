@@ -359,11 +359,11 @@ const MENUITEMS = [
           },
           {
             state: 'horometerForklift',
-            name: 'Reporte De Horometro De Equipos'
+            name: 'Reporte Horometro De Equipos'
           },
           {
             state: 'timeOutForklift',
-            name: 'Reporte De Tiempo Muerto De Equipos'
+            name: 'Reporte Tiempo Muerto De Equipos'
           },
         ]
       }
