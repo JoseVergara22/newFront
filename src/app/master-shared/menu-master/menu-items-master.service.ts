@@ -136,6 +136,10 @@ const MENUITEMS = [
             state: 'forkliftShow',
             name: 'Administrar Montacargas'
           },
+          {
+            state:'statusForklift',
+            name:'Estado de Equipos'
+          },
            {
              state: 'forkliftReport',
             name: 'Reporte de Técnico'
@@ -272,10 +276,7 @@ const MENUITEMS = [
             state: 'maintenanceSystem',
             name: 'Administrar Sistemas'
           },
-          {
-            state:'statusForklift',
-            name:'Estado de Equipos'
-          }
+
         ]
       }
     ]
@@ -452,6 +453,10 @@ const MENUCUSTOMER = [
             name: 'Administrar Montacargas'
           },
           {
+            state:'statusForklift',
+            name:'Estado de Equipos'
+          },
+          {
             state:'horometro',
             name:'Administrar Horometro'
           }, 
@@ -459,10 +464,7 @@ const MENUCUSTOMER = [
             state: 'resumenes',
             name:  'Administrar Hojas de Vida'
           },
-          {
-            state:'statusForklift',
-            name:'Estado de Equipos'
-          }
+          
         ]
       }
     ]
@@ -521,6 +523,10 @@ const MENUASSIGN = [
             name: 'Administrar Montacargas'
           },
           {
+            state:'statusForklift',
+            name:'Estado de Equipos'
+          },
+          {
             state:'horometro',
             name:'Administrar Horometro'
           }, 
@@ -532,10 +538,7 @@ const MENUASSIGN = [
             state: 'correctiveMaintenance',
             name:  'Asignar Mantenimiento Correctivo'
           },
-          {
-            state:'statusForklift',
-            name:'Estado de Equipos'
-          }
+         
         ]
       }
     ]
@@ -708,6 +711,10 @@ const MENUCREATOR = [
             name: 'Administrar Montacargas'
           },
           {
+            state:'statusForklift',
+            name:'Estado de Equipos'
+          },
+          {
             state:'horometro',
             name:'Administrar Horometro'
           },
@@ -813,10 +820,6 @@ const MENUCREATOR = [
             state: 'registerMachine',
             name: 'Administrar Maquinas'
           },
-          {
-            state:'statusForklift',
-            name:'Estado de Equipos'
-          }
         ]
       }
     ]
