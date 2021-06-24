@@ -458,7 +458,11 @@ const MENUCUSTOMER = [
           {
             state: 'resumenes',
             name:  'Administrar Hojas de Vida'
-           },
+          },
+          {
+            state:'statusForklift',
+            name:'Estado de Equipos'
+          }
         ]
       }
     ]
@@ -528,6 +532,10 @@ const MENUASSIGN = [
             state: 'correctiveMaintenance',
             name:  'Asignar Mantenimiento Correctivo'
           },
+          {
+            state:'statusForklift',
+            name:'Estado de Equipos'
+          }
         ]
       }
     ]
@@ -804,6 +812,10 @@ const MENUCREATOR = [
           {
             state: 'registerMachine',
             name: 'Administrar Maquinas'
+          },
+          {
+            state:'statusForklift',
+            name:'Estado de Equipos'
           }
         ]
       }
