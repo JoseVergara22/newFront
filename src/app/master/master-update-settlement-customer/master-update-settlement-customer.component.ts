@@ -1503,7 +1503,7 @@ getWarehouses() {
      let discountTemp= this.discountCustomerUpdate;
 
      this.settlementService.updateSettlementDetailCustomer(settlementIdDetailTemp,codeTemp,serviceTemp,
-      quantityTemp,  hourValueTemp, subtotalTemp, deliveryTemp, subtotalTemp,statusTemp, typeServiceTemp, subCenterCostIdWorkforce, discountTemp, fullCodeTemp ).then(data => {
+      quantityTemp, hourValueTemp, deliveryTemp, subtotalTemp, subtotalTemp,statusTemp, subCenterCostIdWorkforce, discountTemp, fullCodeTemp ).then(data => {
        const resp: any = data;
        swal({
         title: 'Item actualizado',
@@ -1857,7 +1857,7 @@ getWarehouses() {
   }
 
     updateCustomerItems(item:any) {
-
+        console.log(item);
         // this.onChangeCustomerCodeUpdate(item.full_code);
         this.customerDetailIdUpdate = item.id;
         this.customerCodeUpdate = item.full_code;
@@ -4845,7 +4845,7 @@ deleteEmail(id:number){
 
 
        this.settlementService.createSettlementDetailsCustomer(settlementIdTemp,codeTemp,serviceTemp,
-        quantityTemp, priceTemp, subtotalTemp, subtotalTemp, deliveryTemp, subtotalTemp,statusTemp, 
+        quantityTemp, priceTemp, priceTemp, subtotalTemp, deliveryTemp, subtotalTemp,statusTemp, 
         subcenterId,discountTemp,fullCodeTemp).then(data => {
          const resp: any = data;
          swal({

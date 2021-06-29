@@ -251,8 +251,8 @@ resolve(error);
 
 
 updateSettlementDetailCustomer(settlement_detail_customer_id: number, code: string, service: string,
-      quantity: number, hour_value: number, subtotal: number, delivery: number, total: string,
-      status: number, type_service: number,  subcenter_id: number, discount: number, fullCode:string) {
+      quantity: number, hour_value: number, delivery: number, subtotal: number, total: string,
+      status: number, subcenter_id: number, discount: number, fullCode:string) {
       console.log('info de detalle');
     return new Promise(resolve => {
     const headers = new HttpHeaders();
@@ -269,6 +269,7 @@ updateSettlementDetailCustomer(settlement_detail_customer_id: number, code: stri
     code: code,
     quantity: quantity,
     service:service,
+    unit_cost:hour_value,
     price: hour_value,
     subtotal: subtotal,
     delivery: delivery,
@@ -278,7 +279,7 @@ updateSettlementDetailCustomer(settlement_detail_customer_id: number, code: stri
     discount: discount,
     full_code:fullCode,
     };
-    console.log('este es el id '+settlement_detail_customer_id);
+    console.log(postParams);
     this.http.patch(this.apiEndPoint+'api/update_settlement_details_customer/'+settlement_detail_customer_id, postParams, httpOptions)
     .map(res => res).subscribe(data => {
     resolve(data);
