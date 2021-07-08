@@ -448,6 +448,10 @@ getFilters() {
         this.downloadReport(row);
         // this.router.navigateByUrl('maintenance/updateForkliftReport/'+row.id);
       }
+      if(row.type === "BATERIA"){
+        this.downloadBattery(row);
+        // this.router.navigateByUrl('maintenance/updateForkliftReport/'+row.id);
+      }
     }
     
 }
