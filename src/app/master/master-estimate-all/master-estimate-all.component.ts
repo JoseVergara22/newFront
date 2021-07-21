@@ -3510,9 +3510,9 @@ this.getImgFromUrl(logo_url, function (img) {
    }
 
    getForklifs() {
-   
+   console.log(this.selectedBranchOfficeId)
     if(this.selectedBranchOfficeId!=0){
-      this.forkliftService.getForkliftBranchOfficesFull(this.selectedBranchOfficeId.id).then(data => {
+      this.forkliftService.getForkliftBranchOfficesFull(this.selectedBranchOfficeId).then(data => {
       const resp: any = data;
       console.log(data);
       swal.close();
