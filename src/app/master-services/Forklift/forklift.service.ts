@@ -251,6 +251,29 @@ getPendingForklift(params: string){
         });
     });
   }
+
+  deleteForklift(forklift_id:number){
+    console.log("data to send");
+    return new Promise(resolve => {
+      const httpOptions = {
+        headers: new HttpHeaders({
+          'Content-Type':  'application/json',
+          'Authorization': 'Bearer ' + localStorage.getItem('token_user'),
+          'Accept': 'application/json'
+        })
+      };
+      this.http.delete(this.apiEndPoint+'api/forklifts/'+forklift_id,httpOptions)
+      .map(res => res).subscribe(data => {
+        console.log("a mostrar data");
+        console.log(data);
+        resolve(data);
+      }, error => {
+        console.log("error en servicio");
+        console.log(error)
+                resolve(error);
+        });
+    });
+  }
  
   deleteRoutinesForklift(forklift_id:number){
     console.log("data to send");

@@ -419,7 +419,7 @@ updateForklift(forklift:any) {
           console.log(brand);
           console.log(    this.elementDelete);
           swal.showLoading();
-          this.restService.deleteBrand(Number(this.elementDelete.id))
+          this.forkliftService.deleteForklift(Number(this.elementDelete.id))
           .then(data => {
             swal.showLoading();
             const resp: any = data;
