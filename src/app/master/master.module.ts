@@ -124,8 +124,10 @@ import { MasterMaintenanceForkliftComponent } from './master-maintenance-forklif
 import { MasterStatusForkliftComponent } from './master-status-forklift/master-status-forklift.component';
 import { MasterReportHorometerComponent } from './master-report-horometer/master-report-horometer.component';
 import { MasterTimeOutForkliftComponent } from './master-time-out-forklift/master-time-out-forklift.component';
-
-// import { MasterMaintenanceNotificationComponent } from './master-maintenance-notification/master-maintenance-notification.component';
+import { MasterSupportViewComponent } from './master-support-view/master-support-view.component';
+import { MasterSupportMainComponent } from './master-support-main/master-support-main.component';
+import { MasterSupportRegisterComponent } from './master-support-register/master-support-register.component';
+import { MasterMaintenanceNotificationComponent } from './master-maintenance-notification/master-maintenance-notification.component';
 
 
 
@@ -163,8 +165,10 @@ import { PendingService } from '../master-services/pending/pending.service';
 import { ReportsService } from '../master-services/reports/reports.service';
 import { SystemsService } from '../master-services/systems/systems.service';
 import { BrandService } from '../master-services/brand/brand.service';
+import { SupportService } from '../master-services/support/support.service';
 
 import {AutocompleteLibModule} from 'angular-ng-autocomplete';
+
 
 
 
@@ -290,7 +294,7 @@ import {AutocompleteLibModule} from 'angular-ng-autocomplete';
     MasterBatteryMaintenanceComponent,
     MasterPedingComponent,
     MasterRoutesComponent,
-    // MasterMaintenanceNotificationComponent,
+    MasterMaintenanceNotificationComponent,
     MasterMaintenanceDurationComponent,
     MasterBrandContentsComponent,
     MasterForkliftMaintenanceComponent,
@@ -310,6 +314,9 @@ import {AutocompleteLibModule} from 'angular-ng-autocomplete';
     MasterStatusForkliftComponent,
     MasterReportHorometerComponent,
     MasterTimeOutForkliftComponent,
+    MasterSupportViewComponent,
+    MasterSupportMainComponent,
+    MasterSupportRegisterComponent,
 
    // MasterAdminComponent
   ],
@@ -343,6 +350,7 @@ import {AutocompleteLibModule} from 'angular-ng-autocomplete';
     ReportsService,
     SystemsService,
     BrandService,
+    SupportService,
   ]
 })
 export class MasterModule { }

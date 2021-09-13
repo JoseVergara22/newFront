@@ -135,6 +135,9 @@ const routes: Routes = [
       },{
         path: 'catalogue',
         loadChildren: './master/master.module#MasterModule'
+      },{
+        path: 'support',
+        loadChildren: './master/master.module#MasterModule'
       }
 
     ]
