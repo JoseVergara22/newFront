@@ -7,6 +7,7 @@ import { Router } from '@angular/router';
 import { ModulesService } from '../../master-services/modules/modules.service';
 import swal from 'sweetalert2';
 import { UserService } from '../../master-services/User/user.service';
+import { SupportService } from '../../master-services/support/support.service';
 
 
 @Component({
@@ -132,11 +133,19 @@ export class MasterAdminComponent  implements OnInit {
   public itemsFinalMenu: any; 
   public functionModule: any; 
   public profileText: string;
+  public countResponseTicket: number = 0;
 
-  constructor(public menuItems: MenuItemsMasterService, private router: Router,  private moduleServices: ModulesService) {
+  constructor(public menuItems: MenuItemsMasterService, private router: Router,  private moduleServices: ModulesService, private supportService: SupportService) {
     console.log('ingreso al admin de la plataforma');
     this.profileUserCurrent=Number(localStorage.getItem('profile'));
     this.userNameCurrent=localStorage.getItem('name');
+    this.supportService.getCountResponseTicket(localStorage.getItem('userid')).then(data=>{
+      const resp:any=data;
+      console.log(resp);
+      this.countResponseTicket = resp.data;
+    }).catch(err=>{
+      console.log(err);
+    });
     // this.moduleServices.getProfileMenu(this.profileUserCurrent).then(data => {
     //   const resp: any = data;
     //   if (resp.success == true) {
@@ -250,6 +259,7 @@ export class MasterAdminComponent  implements OnInit {
 
     this.setMenuAttributes(this.windowWidth);
     this.setHeaderAttributes(this.windowWidth);
+    // this.getCountResponseTicket();
 
     // side-bar image
     /*this.setLayoutType('img');*/
@@ -267,8 +277,22 @@ export class MasterAdminComponent  implements OnInit {
   }
 
 
+  getCountResponseTicket(){
+    console.log('consulta count'),
+    console.log(localStorage.getItem('userid'));
+    this.supportService.getCountResponseTicket(localStorage.getItem('userid')).then(data=>{
+      const resp:any=data;
+      console.log(resp);
+      this.countResponseTicket = resp.data;
+    }).catch(err=>{
+      console.log(err);
+    });
+  }
+
+
   ngOnInit() {
     this.setBackgroundPattern('pattern1');
+    // this.supportService.getCountResponseTicket(localStorage.getItem('userid'))
     /*document.querySelector('body').classList.remove('dark');*/
   }
 

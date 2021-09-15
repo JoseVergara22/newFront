@@ -21,6 +21,7 @@ export class MasterSupportRegisterComponent implements OnInit {
   subject: any = '';
   description: any = '';
   s3info: any;
+  cellphone:any;
 
   constructor(private supportService: SupportService, private router:Router) { }
 
@@ -68,9 +69,34 @@ export class MasterSupportRegisterComponent implements OnInit {
       });
   }
 
+  registerHeaderSupport(url: any){
+    console.log(this.description);
+      swal({
+        title: 'Obteniendo información ...',
+        allowOutsideClick: false
+      });
+      swal.showLoading();
+      const params = 'description='+this.description+'&subject='+this.subject+'&name='+localStorage.getItem('name')+'&email='+localStorage.getItem('email')+'&username='+localStorage.getItem('username');
+      this.supportService.storeTicketSupport(this.description, this.subject, localStorage.getItem('name'), localStorage.getItem('email'), localStorage.getItem('username'),localStorage.getItem('userid'), url, this.cellphone).then(data=>{
+        const resp:any=data;
+        
+        if(resp.status){
+          this.goAdminRoutines();
+        }else{
+          this.generalAlert("Error","Ha ocurrido un error","error");
+        }
+      }).catch(err=>{
+
+        console.log(err);
+        this.generalAlert("Ha ocurrido un error","Ocurrio un error durante la ejecución","error");
+      });
+  }
+
   uploadFilesImages(ticket) {
     let count = 1;
     console.log(this.selectedFilesImages);
+
+    let location = [];
     for (let fileCurrent of this.selectedFilesImages) {
       const file = fileCurrent[0];
       console.log(file);
@@ -90,11 +116,14 @@ export class MasterSupportRegisterComponent implements OnInit {
         console.log('s3info' + JSON.stringify(res));
         this.s3info = res;
         console.log(this.s3info);
+        location.push(this.s3info.Location);
         console.log(count);
         console.log(this.selectedFilesImages.length);
         if(count == this.selectedFilesImages.length){
+          console.log(location);
           swal.close();
-          this.goAdminRoutines();
+          // this.goAdminRoutines();
+          this.registerHeaderSupport(location)
         }
         count ++;
         

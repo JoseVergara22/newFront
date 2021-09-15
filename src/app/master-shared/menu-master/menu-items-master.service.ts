@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { type } from 'os';
 import swal from 'sweetalert2';
 import { ModulesService } from '../../master-services/modules/modules.service';
 
@@ -395,6 +396,24 @@ const MENUITEMS = [
             state: 'viewPdfCatalogue',
             name: 'Ver Archivos'
           },
+        ]
+      }
+    ]
+  },
+  {
+    label: 'UI Element',
+    main: [
+      {
+        state: 'support',
+        short_label: 'S',
+        name: 'Soporte',
+        type: 'sub',
+        icon: 'ti-support',
+        children: [
+          {
+            state: 'supportMain',
+            name: 'Generación Tickets'
+          }
         ]
       }
     ]

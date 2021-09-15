@@ -21,6 +21,11 @@
                 </ng-template>
             </ngx-datatable-column>
             <ngx-datatable-column [resizeable]="false" name="Fecha Creación" [sortable]="false" [draggable]="false" prop="create_at"></ngx-datatable-column>
+            <ngx-datatable-column [resizeable]="false" name="Revisión" [sortable]="false" [draggable]="false"  prop="status_response">
+                <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+                    <label  *ngIf="value == 1" class="link"  (click)="redirectToView(row)">Revisar Ticket</label>
+                </ng-template>
+            </ngx-datatable-column>
             <ngx-datatable-column [resizeable]="false" name="Acciones" [sortable]="false" [draggable]="false" sortable="false" prop="id">
                 <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
                     <button class="btn btn-primary btn-icon" (click)="redirectToView(row)"><i class="icofont icofont-eye-alt  "></i></button>

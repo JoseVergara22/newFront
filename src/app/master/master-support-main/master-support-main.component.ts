@@ -20,7 +20,7 @@ export class MasterSupportMainComponent implements OnInit {
 
   
   getSupport() {
-    this.supportService.getTicketsAll().then(data => {
+    this.supportService.getTicketsByUser(localStorage.getItem('userid')).then(data => {
       const resp: any = data;
       if (resp.error) {
         swal({

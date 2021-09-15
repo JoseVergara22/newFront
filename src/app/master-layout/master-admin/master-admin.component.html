@@ -39,13 +39,13 @@
                         </li>-->
                     </ul>
                     <ul [@mobileHeaderNavRight]="navRight" [ngClass]="navRight" class="nav-right">
-                        <!--  <li (clickOutside)="notificationOutsideClick('live')" class="header-notification" [ngClass]="liveNotificationClass" (click)="toggleLiveNotification()">
-                            <a href="javascript:">
-                                <i class="ti-bell"></i>
-                                <span class="badge bg-c-pink"></span>
+                        <li (clickOutside)="notificationOutsideClick('live')" class="header-notification" [ngClass]="liveNotificationClass" (click)="toggleLiveNotification()">
+                            <a [routerLink]="['/support/supportMain']">
+                                <i class="ti-comments"></i>
+                                <span *ngIf="countResponseTicket>0" class="badge bg-c-pink">{{countResponseTicket}}</span>
                             </a>
                             <ul [@notificationBottom]="liveNotification" class="show-notification">
-                                <li>
+                                <!-- <li>
                                     <h6>Notifications</h6>
                                     <label class="label label-danger">New</label>
                                 </li>
@@ -78,15 +78,15 @@
                                             <span class="notification-time">30 minutes ago</span>
                                         </div>
                                     </div>
-                                </li>
+                                </li> -->
                             </ul>
                         </li>
-                        <li class="">
+                        <!-- <li class="">
                             <a href="javascript:" (click)="toggleChat()">
                                 <i class="ti-comments"></i>
                                 <span class="badge bg-c-green"></span>
                             </a>
-                        </li>-->
+                        </li> -->
                         <li (clickOutside)="notificationOutsideClick('profile')" class="user-profile header-notification" [ngClass]="profileNotificationClass" (click)="toggleProfileNotification()">
                             <a href="javascript:">
                                 <img src="assets/images/profile.png" class="img-radius" alt="User-Profile-Image">

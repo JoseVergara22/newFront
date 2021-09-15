@@ -111,9 +111,9 @@ import { MasterMaintenanceForkliftComponent } from './master-maintenance-forklif
 import { MasterStatusForkliftComponent } from './master-status-forklift/master-status-forklift.component';
 import { MasterReportHorometerComponent } from './master-report-horometer/master-report-horometer.component';
 import { MasterTimeOutForkliftComponent } from './master-time-out-forklift/master-time-out-forklift.component';
-// import { MasterSupportViewComponent } from './master-support-view/master-support-view.component';
-// import { MasterSupportMainComponent } from './master-support-main/master-support-main.component';
-// import { MasterSupportRegisterComponent } from './master-support-register/master-support-register.component';
+import { MasterSupportViewComponent } from './master-support-view/master-support-view.component';
+import { MasterSupportMainComponent } from './master-support-main/master-support-main.component';
+import { MasterSupportRegisterComponent } from './master-support-register/master-support-register.component';
 
 // import { MasterMaintenanceNotificationComponent } from './master-maintenance-notification/master-maintenance-notification.component';
 
@@ -502,17 +502,16 @@ const routes: Routes = [
   },{
     path:'timeOutForklift',
     component: MasterTimeOutForkliftComponent
+  },{
+    path:'supportMain',
+    component: MasterSupportMainComponent
+  },{
+    path:'supportViewTicket/:id',
+    component: MasterSupportViewComponent
+  },{
+    path:'supportTicketRegister',
+    component: MasterSupportRegisterComponent
   },
-  // {
-  //   path:'supportMain',
-  //   component: MasterSupportMainComponent
-  // },{
-  //   path:'supportViewTicket/:id',
-  //   component: MasterSupportViewComponent
-  // },{
-  //   path:'supportTicketRegister',
-  //   component: MasterSupportRegisterComponent
-  // },
  
 ];
 
