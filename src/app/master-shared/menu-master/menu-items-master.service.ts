@@ -408,7 +408,7 @@ const MENUITEMS = [
         short_label: 'S',
         name: 'Soporte',
         type: 'sub',
-        icon: 'ti-support',
+        icon: 'ti-headphone-alt',
         children: [
           {
             state: 'supportMain',
@@ -488,6 +488,24 @@ const MENUCUSTOMER = [
       }
     ]
   },
+  {
+    label: 'UI Element',
+    main: [
+      {
+        state: 'support',
+        short_label: 'S',
+        name: 'Soporte',
+        type: 'sub',
+        icon: 'ti-headphone-alt',
+        children: [
+          {
+            state: 'supportMain',
+            name: 'Generación Tickets'
+          }
+        ]
+      }
+    ]
+  }
 ]
 
 const MENUASSIGN = [
@@ -562,6 +580,24 @@ const MENUASSIGN = [
       }
     ]
   },
+  {
+    label: 'UI Element',
+    main: [
+      {
+        state: 'support',
+        short_label: 'S',
+        name: 'Soporte',
+        type: 'sub',
+        icon: 'ti-headphone-alt',
+        children: [
+          {
+            state: 'supportMain',
+            name: 'Generación Tickets'
+          }
+        ]
+      }
+    ]
+  }
 ]
 
 const MENUFINANCIAL = [
@@ -657,6 +693,24 @@ const MENUFINANCIAL = [
         ]
       }
     ],
+  },
+  {
+    label: 'UI Element',
+    main: [
+      {
+        state: 'support',
+        short_label: 'S',
+        name: 'Soporte',
+        type: 'sub',
+        icon: 'ti-headphone-alt',
+        children: [
+          {
+            state: 'supportMain',
+            name: 'Generación Tickets'
+          }
+        ]
+      }
+    ]
   }
 ];
 
@@ -763,7 +817,7 @@ const MENUCREATOR = [
           },          
           {
             state: 'checklistMaintenance',
-            name:  'Asignar Asignación Checklist'
+            name:  'Asignar Checklist'
           },
           {
             state: 'registerForkliftReport',
@@ -878,6 +932,24 @@ const MENUCREATOR = [
         ]
       }
     ]
+  },
+  {
+    label: 'UI Element',
+    main: [
+      {
+        state: 'support',
+        short_label: 'S',
+        name: 'Soporte',
+        type: 'sub',
+        icon: 'ti-headphone-alt',
+        children: [
+          {
+            state: 'supportMain',
+            name: 'Generación Tickets'
+          }
+        ]
+      }
+    ]
   }
 ];
 
@@ -929,6 +1001,24 @@ const MENUSELLER = [
         ]
       }
     ],
+  },
+  {
+    label: 'UI Element',
+    main: [
+      {
+        state: 'support',
+        short_label: 'S',
+        name: 'Soporte',
+        type: 'sub',
+        icon: 'ti-headphone-alt',
+        children: [
+          {
+            state: 'supportMain',
+            name: 'Generación Tickets'
+          }
+        ]
+      }
+    ]
   }
 ];
 

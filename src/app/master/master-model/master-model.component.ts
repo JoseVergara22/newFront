@@ -120,7 +120,7 @@ export class MasterModelComponent implements OnInit {
       this.rowsTemp = this.rowsTempCheck;
     }
     const temp = this.rowsTemp.filter(function(d) {
-      return d.description.toLowerCase().indexOf(val) !== -1 || !val;
+      return d.model.toLowerCase().indexOf(val) !== -1 || !val;
     });
 
     if (val !== '') {

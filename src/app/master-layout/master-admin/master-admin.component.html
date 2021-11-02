@@ -39,46 +39,12 @@
                         </li>-->
                     </ul>
                     <ul [@mobileHeaderNavRight]="navRight" [ngClass]="navRight" class="nav-right">
-                        <li (clickOutside)="notificationOutsideClick('live')" class="header-notification" [ngClass]="liveNotificationClass" (click)="toggleLiveNotification()">
+                         <li (clickOutside)="notificationOutsideClick('live')" class="header-notification" [ngClass]="liveNotificationClass" (click)="toggleLiveNotification()">
                             <a [routerLink]="['/support/supportMain']">
                                 <i class="ti-comments"></i>
                                 <span *ngIf="countResponseTicket>0" class="badge bg-c-pink">{{countResponseTicket}}</span>
                             </a>
                             <ul [@notificationBottom]="liveNotification" class="show-notification">
-                                <!-- <li>
-                                    <h6>Notifications</h6>
-                                    <label class="label label-danger">New</label>
-                                </li>
-                                <li>
-                                    <div class="media">
-                                        <img class="d-flex align-self-center img-radius" src="assets/images/avatar-2.jpg" alt="Generic placeholder image">
-                                        <div class="media-body">
-                                            <h5 class="notification-user">John Doe</h5>
-                                            <p class="notification-msg">Lorem ipsum dolor sit amet, consectetuer elit.</p>
-                                            <span class="notification-time">30 minutes ago</span>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li>
-                                    <div class="media">
-                                        <img class="d-flex align-self-center img-radius" src="assets/images/avatar-4.jpg" alt="Generic placeholder image">
-                                        <div class="media-body">
-                                            <h5 class="notification-user">Joseph William</h5>
-                                            <p class="notification-msg">Lorem ipsum dolor sit amet, consectetuer elit.</p>
-                                            <span class="notification-time">30 minutes ago</span>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li>
-                                    <div class="media">
-                                        <img class="d-flex align-self-center img-radius" src="assets/images/avatar-3.jpg" alt="Generic placeholder image">
-                                        <div class="media-body">
-                                            <h5 class="notification-user">Sara Soudein</h5>
-                                            <p class="notification-msg">Lorem ipsum dolor sit amet, consectetuer elit.</p>
-                                            <span class="notification-time">30 minutes ago</span>
-                                        </div>
-                                    </div>
-                                </li> -->
                             </ul>
                         </li>
                         <!-- <li class="">
@@ -91,7 +57,7 @@
                             <a href="javascript:">
                                 <img src="assets/images/profile.png" class="img-radius" alt="User-Profile-Image">
                                 <span>{{profileText}}</span>
-                                <i class="ti-angle-down"></i>
+                               <!-- <i class="ti-angle-down"></i>-->
                             </a>
                             <ul [@notificationBottom]="profileNotification" class="show-notification profile-notification">
                                 <!-- <li>

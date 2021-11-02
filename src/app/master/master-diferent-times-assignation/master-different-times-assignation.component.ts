@@ -575,6 +575,7 @@ export class MasterDifferentTimesAssignationComponent extends NgbDatepickerI18n 
   }
 
     public exportAsExcelFile(rows: any[], excelFileName: string): void {
+  
       if (rows.length > 0) {
         const worksheet: XLSX.WorkSheet = XLSX.utils.json_to_sheet(rows);
         const workbook: XLSX.WorkBook = {Sheets: {'Info-Dif-Tiempos': worksheet}, SheetNames: ['Info-Dif-Tiempos']};

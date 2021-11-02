@@ -6,6 +6,7 @@ import { ReportsService } from '../../master-services/reports/reports.service';
 import { RestService } from '../../master-services/Rest/rest.service';
 import * as FileSaver from 'file-saver';
 import * as XLSX from 'xlsx';
+import { ClassGetter } from '@angular/compiler/src/output/output_ast';
 const EXCEL_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
 const EXCEL_EXTENSION = '.xlsx';
 
@@ -432,11 +433,14 @@ export class MasterEstimateSettlementReportComponent extends NgbDatepickerI18n {
               Total_Cotizacion:'$'+data.total_estimate,
             }
             this.dataExcels.push(this.dataExcel);
+            console.log('ole');
           }
           
         }
         this.exportAsExcelFile(this.dataExcels,'Informe de Costos Por Cotizaciones '+ fromD + ' - ' + untilD);
         swal.close();
+        console.log('ole2');
+
         
         console.log(resp.error);
         if(resp.error){
@@ -469,9 +473,12 @@ export class MasterEstimateSettlementReportComponent extends NgbDatepickerI18n {
   }
 
     public exportAsExcelFile(rows: any[], excelFileName: string): void {
+      console.log('si hay reegistros: :' + rows.length);
+      console.log('que paso ps');
+      console.log(JSON.stringify(rows));
       if (rows.length > 0) {
         const worksheet: XLSX.WorkSheet = XLSX.utils.json_to_sheet(rows);
-        const workbook: XLSX.WorkBook = {Sheets: {'Info-Cotizaciones': worksheet}, SheetNames: ['Info-Cotizaiones']};
+        const workbook: XLSX.WorkBook = {Sheets: {'Info-Cotizaciones': worksheet}, SheetNames: ['Info-Cotizaciones']};
         console.log(workbook.Sheets);
         console.log(workbook.SheetNames);
         const excelBuffer: any = XLSX.write(workbook, {bookType: 'xlsx', type: 'array'});
@@ -489,6 +496,7 @@ export class MasterEstimateSettlementReportComponent extends NgbDatepickerI18n {
       FileSaver.saveAs(data, baseFileName +EXCEL_EXTENSION);
       swal.close();
       this.dataExcels.length=0;
+      console.log('final');
     }
   
 

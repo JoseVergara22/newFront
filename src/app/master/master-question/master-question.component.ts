@@ -93,6 +93,8 @@ export class MasterQuestionComponent implements OnInit {
       console.log(data);
       swal.close();
       this.rowsClient = resp.data;
+      this.rowStatic =  resp.data;
+      this.rowsTemp = resp.data;
       console.log( this.rowsClient);
     }).catch(error => {
       console.log(error);
