@@ -184,8 +184,8 @@ export class MasterEstimateAllComponent extends NgbDatepickerI18n {
   s3info:any;
   detailform: FormGroup;
 
-  masterEmail: any;
-  masterName: any;
+  masterEmail: any='';
+  masterName: any='';
 
   rowsItemsWorkforceApproval: any;
   rowsItemsPartsApproval: any;
@@ -519,6 +519,7 @@ export class MasterEstimateAllComponent extends NgbDatepickerI18n {
    sendEmailEstimateAmazon(){
      console.log('IMPORTANTE INGRESO');
     let nameFileEstimate ='Cotizacion_No_'+this.estimateCurrent.estimate_consecutive+'.pdf';
+    console.log(this.estimateCurrent.id+','+3+' ,'+nameFileEstimate);
     this.uploadService.uploadFilesAllEstimate(this.blobGlobal, this.estimateCurrent.id,3,nameFileEstimate).then(res=>{
     console.log('s3info'+JSON.stringify(res));
     this.s3info=res;
@@ -527,10 +528,10 @@ export class MasterEstimateAllComponent extends NgbDatepickerI18n {
     //Aqui va el codigo para enviar correo
     this.sendEmailFinal();
     
-    swal({
+    /*swal({
       title: 'cotización almacenada',
       type: 'success'
-     });
+     });*/
    
     //this.insertNew();
   }).catch(error=> {
@@ -598,7 +599,7 @@ console.log('este es el e:'+ +JSON.stringify(e));
       this.nameCustomer = row.customer.business_name;
       this.contact = row.contact;
       this.cellphone =   row.telephone;
-     
+      this.creationDate = row.create_at_date;
       if( row.forklift_text){
         console.log("entro if");
       this.forkliftText = row.forklift_text;
@@ -700,13 +701,13 @@ console.log('este es el e:'+ +JSON.stringify(e));
       //this.download3(1);
       console.log('este debe pasar este lado ps');
 
-      if( this.estimateCurrent.status === 0){
+     // if( this.estimateCurrent.status === 0){
         this.sendEmail();
         console.log('Ingreso para armar el correo');
-      }else{
+     /* }else{
         this.sendEmailFinal();
         console.log('Solo para enviar el correo');
-      }
+      }*/
 
         console.log('este debe pasar este lado ps sssssssssssssss');
      }
@@ -731,18 +732,22 @@ console.log('este es el e:'+ +JSON.stringify(e));
         emailsName=emailsName+this.emailsSend[i].email+'|'+this.emailsSend[i].contact;
      }
 
-     if( this.masterEmail != '' &&  this.masterName != '' ){
+     console.log('vamos a salir de dudas '+  this.masterEmail+ '--' + this.masterName );
+     if( this.masterEmail != '' ||  this.masterName != '' ){
 
       emailsName= this.masterEmail+'|'+ this.masterName+'|'+ emailsName;
     }
 
      console.log('------------------');
+     console.log('estos son los correos');
      console.log(emailsName);
+     console.log(this.emailsSend.length);
      console.log('---------------------');
 
-      if(this.emailsSend.length>0){
+      if(this.emailsSend.length>0 ){
       
-
+      console.log('ingreso a la función YCV');
+      
       this.estimateService.sendEstimateEmailAmazon(//sendEstimateEmailAmazon
         this.estimateCurrent.elaborate_user_id, this.estimateCurrent.customer_id, this.estimateCurrent.id,
         emailsName.trim(),this.comment,subjectTemp).then(data => {
@@ -786,8 +791,9 @@ console.log('este es el e:'+ +JSON.stringify(e));
       }).catch(error => {
         console.log(error);
       });
-    }else if( this.masterEmail != '' &&  this.masterName != '' ){
+    }else if( this.masterEmail != '' ||  this.masterName != ''){
 
+      console.log('Ingreso donde se debe validar');
       this.estimateService.sendEstimateEmailAmazon(//sendEstimateEmailAmazon
         this.estimateCurrent.elaborate_user_id, this.estimateCurrent.customer_id, this.estimateCurrent.id,
         emailsName.trim(),this.comment,subjectTemp).then(data => {
@@ -797,7 +803,6 @@ console.log('este es el e:'+ +JSON.stringify(e));
      
          
         if(resp.status == 200){
-
           console.log('no error');
           console.log('Entro a cambiar estatus');
           this.estimateService.updateEstimateStatus(
@@ -828,8 +833,14 @@ console.log('este es el e:'+ +JSON.stringify(e));
          type: 'error'
         });
        }
+
+       
       }).catch(error => {
         console.log(error);
+        swal({
+          text:'Debe ingresar por lo menos un correo electrónico valido',
+          type: 'error'
+         });
       });
     }else{
       swal({

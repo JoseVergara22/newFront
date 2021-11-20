@@ -43,7 +43,7 @@ export class PendingService {
           'Accept': 'application/json'
         })
       };
-      console.log(params);
+      console.log('datos->'+params);
       this.http.get(this.apiEndPoint+'api/get_pending_general?'+params, httpOptions)
         .map(res => res).subscribe(data => {
           console.log(data);

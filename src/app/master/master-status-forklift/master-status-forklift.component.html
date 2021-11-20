@@ -80,6 +80,9 @@
                   <div *ngIf="value==4">  
                     CORRECTIVO
                   </div>
+                  <div *ngIf="value==5">  
+                    ANORMALIDAD
+                  </div>
                                   
                 </ng-template>
               </ngx-datatable-column>
@@ -170,7 +173,7 @@
                   <div *ngIf="value==4">  
                     CORRECTIVO
                   </div>
-                  <div *ngIf="value==4">  
+                  <div *ngIf="value==5">  
                     ANORMALIDAD
                   </div>
                                   
@@ -229,7 +232,8 @@
       <button type="button" style="display: none;" class="btn btn-default waves-effect" id="assignUpdateCorrectiveHide"
         (click)="modalRegisterStatus.hide()">Cancelar
       </button>
-      <button type="submit " class="btn btn-primary m-b-0 " (click)="registerStatus()">Guardar</button>
+      <button type="submit " class="btn btn-primary m-b-0 " (click)="registerStatusType()">Guardar</button>
+      <!--  registerStatus() -->
     </div>
 </div>
 </app-modal-basic>

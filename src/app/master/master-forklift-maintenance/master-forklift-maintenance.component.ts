@@ -9,6 +9,8 @@ import * as XLSX from 'xlsx';
 const EXCEL_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
 const EXCEL_EXTENSION = '.xlsx';
 
+
+
 const I18N_VALUES = {
   'fr': {
     weekdays: ['Lun', 'Mar', 'Mié', 'Juv', 'Vie', 'Sáb', 'Dom'],
@@ -546,11 +548,12 @@ export class MasterForkliftMaintenanceComponent extends NgbDatepickerI18n {
             Fecha_Fin:data.finish,
             Trabajo_Realizado:data.work
           }
+         
           this.dataExcels.push(this.dataExcel);
         }
         this.exportAsExcelFile(this.dataExcels,'Informe de Realización de Mantenimientos Por Equipos ' +fromD + '-' +untilD);
-        console.log(resp.error);
-        swal.close();
+        // console.log(resp.error);
+        //swal.close();
         if(resp.error){
           console.log('entro')
           swal({
@@ -573,7 +576,7 @@ export class MasterForkliftMaintenanceComponent extends NgbDatepickerI18n {
     }else{
       swal({
         title:'Error',
-        text: 'Debe seleccionar al menos un tipo de manteminiento.',
+        text: 'Debe seleccionar al menos un tipo de mantenimiento.',
         type: 'error'
         });
     }
@@ -583,16 +586,17 @@ export class MasterForkliftMaintenanceComponent extends NgbDatepickerI18n {
     public exportAsExcelFile(rows: any[], excelFileName: string): void {
       if (rows.length > 0) {
         const worksheet: XLSX.WorkSheet = XLSX.utils.json_to_sheet(rows);
-        const workbook: XLSX.WorkBook = {Sheets: {'Hoja Info-Mantenimientos': worksheet}, SheetNames: ['Info-Mantenimientos']};
+        const workbook: XLSX.WorkBook = {Sheets: {'info-mantenimientos': worksheet}, SheetNames: ['info-mantenimientos']};
         console.log(workbook.Sheets);
         console.log(workbook.SheetNames);
         const excelBuffer: any = XLSX.write(workbook, {bookType: 'xlsx', type: 'array'});
         this.saveAsExcelFile(excelBuffer, excelFileName);
       }else{
+        console.log('ingreso');
         swal({
-          title:'Error',
-          text: 'Ha ocurrido un error',
-          type: 'error'
+          title:'',
+          text: 'No se encuentran registros',
+          type: 'warning'
         });
       }
     }

@@ -1,3 +1,4 @@
+import { ClassGetter } from '@angular/compiler/src/output/output_ast';
 import { Component, Injectable, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { NgbDateParserFormatter, NgbDatepickerI18n, NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
@@ -301,6 +302,8 @@ getFilters() {
 downloadPreventive(row: any){
   swal.showLoading();
   console.log(row);
+  console.log('data importante');
+  console.log(JSON.stringify(row));
   this.resumenesService.downloadPreventivePdf(row.id).then(data => {
     const resp: any = data;
     console.log(data);
@@ -323,7 +326,7 @@ downloadPreventive(row: any){
 
 downloadCorrective(row: any){
   swal.showLoading();
-  console.log(row);
+  console.log(row.result.corrective.id);
   this.resumenesService.downloadCorrectivePdf(row.result.corrective.id).then(data => {
     const resp: any = data;
     console.log(data);

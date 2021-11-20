@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import swal from 'sweetalert2';
 import { SupportService } from '../../master-services/support/support.service';
 import { UUID } from 'angular2-uuid';
+import { stringify } from 'querystring';
 
 @Component({
   selector: 'app-master-support-register',
@@ -39,26 +40,33 @@ export class MasterSupportRegisterComponent implements OnInit {
       this.generalAlert("Ha ocurrido un error","Complete todos los campos obligatorios","error");
     }
 
-    swal({
-      title: 'Archivos guardados',
-      type: 'success'
-    });
-
   }
 
   registerheader(){
     console.log(this.description);
-      swal({
+     /* swal({
         title: 'Obteniendo información ...',
         allowOutsideClick: false
       });
-      swal.showLoading();
+      swal.showLoading();*/
       const params = 'description='+this.description+'&subject='+this.subject+'&name='+localStorage.getItem('name')+'&email='+localStorage.getItem('email')+'&username='+localStorage.getItem('username');
-      this.supportService.storeTicket(this.description, this.subject, localStorage.getItem('name'), localStorage.getItem('email'), localStorage.getItem('username'),localStorage.getItem('userid')).then(data=>{
+      this.supportService.storeTicket(this.description, this.subject, localStorage.getItem('name'), localStorage.getItem('email'), localStorage.getItem('username'),localStorage.getItem('userid'), this.cellphone).then(data=>{
         const resp:any=data;
         
         if(resp.success){
-          this.uploadFilesImages(resp.data.id);  
+          console.log('ingreso en la parte de las imagenes');
+         // if(this.selectedFilesImages.length>0){
+            this.uploadFilesImages(resp.data.id);  
+          /*}else{
+      
+            swal({
+              title: 'Ticket registrado',
+              type: 'success'
+            });
+        
+              this.goAdminRoutines();
+          }*/
+         
         }else{
           this.generalAlert("Error","Ha ocurrido un error","error");
         }
@@ -79,9 +87,14 @@ export class MasterSupportRegisterComponent implements OnInit {
       const params = 'description='+this.description+'&subject='+this.subject+'&name='+localStorage.getItem('name')+'&email='+localStorage.getItem('email')+'&username='+localStorage.getItem('username');
       this.supportService.storeTicketSupport(this.description, this.subject, localStorage.getItem('name'), localStorage.getItem('email'), localStorage.getItem('username'),localStorage.getItem('userid'), url, this.cellphone).then(data=>{
         const resp:any=data;
+        console.log(JSON.stringify(resp));
         
         if(resp.status){
-          this.goAdminRoutines();
+          swal({
+            title: 'Ticket registrado',
+            type: 'success'
+          });
+            this.goAdminRoutines();
         }else{
           this.generalAlert("Error","Ha ocurrido un error","error");
         }
@@ -95,6 +108,8 @@ export class MasterSupportRegisterComponent implements OnInit {
   uploadFilesImages(ticket) {
     let count = 1;
     console.log(this.selectedFilesImages);
+
+    if(this.selectedFilesImages.length>0){
 
     let location = [];
     for (let fileCurrent of this.selectedFilesImages) {
@@ -137,7 +152,16 @@ export class MasterSupportRegisterComponent implements OnInit {
         });
       });
       
+    /*swal({
+      title: 'Ticket registrado',
+      type: 'success'
+    });
+
+      this.goAdminRoutines();*/
     }
+  }else{
+    this.registerHeaderSupport(location);
+  }
     
   }
 
@@ -237,6 +261,7 @@ export class MasterSupportRegisterComponent implements OnInit {
   }
 
   goAdminRoutines(){
+  
     this.router.navigateByUrl('support/supportMain');
   }
 

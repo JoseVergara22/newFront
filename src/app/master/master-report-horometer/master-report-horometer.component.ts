@@ -315,7 +315,7 @@ export class MasterReportHorometerComponent extends NgbDatepickerI18n {
 
       swal({
         title:'Importante',
-        text: 'Debes seleccionar una Sucuarsal.',
+        text: 'Debes seleccionar una Sucursal.',
         type: 'error'
        });
     }else{
@@ -427,7 +427,7 @@ export class MasterReportHorometerComponent extends NgbDatepickerI18n {
       }
       if(this.rowsClient.length ==0){
         swal({
-          title:'Oops',
+          title:'Importante',
           text: 'No hay resultado en la consulta.',
           type: 'error'
           });

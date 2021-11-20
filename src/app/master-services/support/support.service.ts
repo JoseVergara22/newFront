@@ -138,7 +138,7 @@ export class SupportService {
     });
   }
   
-  storeTicket(description: string, subject: string, name:string, email: string, username:string, user_id:string ){
+  storeTicket(description: string, subject: string, name:string, email: string, username:string, user_id:string, cellphone: string){
     return new Promise(resolve => {
       const httpOptions = {
         headers: new HttpHeaders({
@@ -153,7 +153,8 @@ export class SupportService {
         name: name,
         email: email,
         username: username,
-        user_id: user_id
+        user_id: user_id,
+        cellphone: cellphone
       }
       this.http.post(this.apiEndPoint+'api/create_tickets', postParams,httpOptions)
       .map(res => res).subscribe(data => {

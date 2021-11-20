@@ -335,7 +335,8 @@ updateForklift(forklift:any) {
     this.horometroservice.updateHorometer(this.currentrow.id, this.myFormUpdate.get('horometroUpdate').value,this.user_id)
     .then(data => {
       const resp: any = data;
-      console.log(resp);
+      console.log(this.currentrow.id+','+ this.myFormUpdate.get('horometroUpdate').value+','+this.user_id);
+      console.log(JSON.stringify(resp));
       if (resp.success === false) {
         swal({
           title: 'Error',

@@ -601,6 +601,7 @@ uploadFilesAllSettlement(file:any, settlementId:number, type: number, fileName:s
     return new Promise(resolve =>{
 
       // Cambio YCV
+      console.log('ingreso de YCV 161121')
       let bucketF='masterforklift/estimate_files';
       let url='https://masterforklift.s3.amazonaws.com/estimate_files/'+fileName;
       let typeF=type;

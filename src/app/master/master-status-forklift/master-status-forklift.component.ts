@@ -257,7 +257,12 @@ getForklifs() {
 
   showModalRegister(row: any){
     this.currentForklift = row;
-    this.selectedStatusForklift = row.status_active;
+    if(row.status_active){
+      this.selectedStatusForklift = row.status_active;
+    }else{
+      this.selectedStatusForklift =0;
+    }
+  
     this.fullName = row.full_name;
     this.descriptionForklift = row.description_status;
     document.getElementById('showAssignInvoice').click();
@@ -277,9 +282,15 @@ getForklifs() {
   }
 
   registerStatusType(){
+
+    console.log('esta es la data de forklift');
+    console.log(JSON.stringify(this.currentForklift));
+
     if(this.currentForklift.status_active == 1 || this.currentForklift.status_active == 5){
+      console.log('ingreso a la condición');
       this.registerStatus();//Registro Normal
     }else{
+      console.log('ingreso a la condición 2');
       this.registerStatusTime(); //Registro Time Out
     }
   }
@@ -407,7 +418,8 @@ getForklifs() {
       allowOutsideClick: false
     });
     swal.showLoading();
-     this.selectedStatusForklift = this.currentForklift.status_active;
+    this.selectedStatusForklift = this.currentForklift.status_active;
+    console.log('Este es el estado'+this.currentForklift.status_active);
     this.fullName = this.currentForklift.full_name;
     this.descriptionForklift = this.currentForklift.description_status;
     let params='';
@@ -430,12 +442,13 @@ getForklifs() {
      var fromD = year +'-'+ month+'-'+ day;
      var untilD = yearUntil +'-'+ monthUntil+'-'+ dayUntil;
   
-     from_date=fromD+' 00:00:00';
-     to_date=untilD+' 23:59:59';
-    params = params + 'from_date='+fromD + '&to_date='+untilD;
+     //from_date=fromD+' 00:00:00';
+     //to_date=untilD+' 23:59:59';
+    params = params + 'from_date='+ fromD + ' 00:00:00'+ '&to_date='+untilD+ ' 23:59:59';
     params=params+'&forklift_id='+this.currentForklift.id;
     params=params+'&page='+this.numberPageLog;
-
+    console.log('esta es la data de bitacora');
+    console.log(params);
         this.forkliftService.getLogForklift(params).then(data => {
           const resp: any = data;
           console.log(resp);

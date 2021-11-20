@@ -90,11 +90,11 @@ apiEndPoint = environment.apiBaseUrl;
       this.http.patch(this.apiEndPoint+'api/updateHorometer/'+id, patchParams,httpOptions)
       .map(res => res).subscribe(data => {
         console.log("a mostrar data");
-      console.log(data);
+      console.log(JSON.stringify(data));
       resolve(data);
       }, error => {
         console.log("error en servicio");
-        console.log(error);
+        console.log(JSON.stringify(error));
                 resolve(error);
         });
     });

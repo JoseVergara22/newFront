@@ -331,7 +331,7 @@ getPendingForklift(params: string){
           'Accept': 'application/json'
         })
       };
-      this.http.post(this.apiEndPoint+'api/change_status_maintenance_forklift?'+params,httpOptions)
+      this.http.get(this.apiEndPoint+'api/change_status_maintenance_forklift?'+params,httpOptions)
       .map(res => res).subscribe(data => {
         
         console.log(data);
