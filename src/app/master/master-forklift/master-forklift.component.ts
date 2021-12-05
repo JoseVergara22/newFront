@@ -123,6 +123,7 @@ export class MasterForkliftComponent extends NgbDatepickerI18n {
   filesImageForlift;
   switchAlarm = true;
   switchStatus = true;
+  own = false;
 
   // public setView: View = 'Month';
   // public eventSettings: EventSettingsModel={
@@ -503,6 +504,7 @@ export class MasterForkliftComponent extends NgbDatepickerI18n {
 
         let status = 0;
         let alarm = 0;
+        let statusOwn = 0; // 0 = no es propio, 1 = es propio 
 
         if (this.switchAlarm === false) {
           alarm = 1;
@@ -512,16 +514,24 @@ export class MasterForkliftComponent extends NgbDatepickerI18n {
           status = 1;
         }
 
+        if (this.own === true) {
+          statusOwn = 1;
+        }
+
+        console.log('este es el resultado, si es propio');
+        console.log(statusOwn);
+
         this.restService.createforklift(this.myForm.get('series').value,
           this.selectedBusinessId, this.selectedOfficeId, this.myForm.get('description').value.toUpperCase(), status,
           this.selectedBrandId, this.selectedModelId, this.selectedMachineId, this.selectedtyreId, this.myForm.get('tyreForward').value,
           this.myForm.get('tyreSBack').value, this.selectedFuelId, this.selectedRoutineId, this.myForm.get('tonne').value, this.myForm.get('hoistedMast').value,
-          this.myForm.get('contractedMast').value, this.myForm.get('startTime').value, this.myForm.get('currentTime').value, alarm, this.myForm.get('observation').value,localStorage.getItem('userid'))
+          this.myForm.get('contractedMast').value, this.myForm.get('startTime').value, this.myForm.get('currentTime').value, alarm, this.myForm.get('observation').value,localStorage.getItem('userid'), statusOwn)
           .then(data => {
             const resp: any = data;
             console.log('Informacion de montacarga');
-            console.log(resp);
+            console.log(JSON.stringify(resp));
 
+            
             if (resp.success === false) {
               swal({
                 title: 'Este equipo ya se encuentra registrado',
@@ -529,7 +539,8 @@ export class MasterForkliftComponent extends NgbDatepickerI18n {
                 type: 'error'
               });
             } else {
-              console.log('id montacarga ' + resp.data.id);
+              console.log(JSON.stringify(resp));
+              //console.log('id montacarga ' + resp.data.id);
               // En este caso se manda guardar las imagenes y rutinas
 
 
@@ -564,6 +575,12 @@ export class MasterForkliftComponent extends NgbDatepickerI18n {
 
   onChangeStatus(check: any) {
     this.switchStatus = check;
+    console.log(check);
+  }
+
+  onChangeOwn(check: any) {
+    this.own = check;
+    console.log('este es el resultado propio');
     console.log(check);
   }
 

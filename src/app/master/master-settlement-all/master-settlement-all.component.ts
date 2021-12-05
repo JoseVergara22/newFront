@@ -1298,7 +1298,7 @@ console.log('este es el e:'+ +JSON.stringify(e));
       7: {halign: 'center', fontSize:9, cellWidth:55}
       },
       margin: { left: 15},
-      body: [['','DESCRIPCIÓN','SUB. CCOST','CANT.','VLR. UNIT.','DESC%','TOTAL']]
+      body: [['','REFERENCIA','DESCRIPCIÓN','SUB. CCOST','CANT.','VLR. UNIT.','DESC%','TOTAL']]
     });
    }else{
     doc.autoTable({
@@ -1337,9 +1337,9 @@ console.log('este es el e:'+ +JSON.stringify(e));
      console.log('total'); 
      console.log(this.rowsItemsparts[i].subtotal_decimal); 
      if(this.rowsItemsparts[i].sub_cost_center == null){
-       body_table = [i+1, this.rowsItemsparts[i].description, '', this.rowsItemsparts[i].quantity, '$'+this.rowsItemsparts[i].price_decimal, this.rowsItemsparts[i].discount,   '$'+this.rowsItemsparts[i].subtotal_decimal];
+       body_table = [i+1, this.rowsItemsparts[i].code, this.rowsItemsparts[i].description, '', this.rowsItemsparts[i].quantity, '$'+this.rowsItemsparts[i].price_decimal, this.rowsItemsparts[i].discount,   '$'+this.rowsItemsparts[i].subtotal_decimal];
      }else{
-       body_table = [i+1, this.rowsItemsparts[i].description, this.rowsItemsparts[i].sub_cost_center.code+'-'+this.rowsItemsparts[i].sub_cost_center.description, this.rowsItemsparts[i].quantity, '$'+this.rowsItemsparts[i].price_decimal, this.rowsItemsparts[i].discount,   '$'+this.rowsItemsparts[i].subtotal_decimal];
+       body_table = [i+1, this.rowsItemsparts[i].code, this.rowsItemsparts[i].description, this.rowsItemsparts[i].sub_cost_center.code+'-'+this.rowsItemsparts[i].sub_cost_center.description, this.rowsItemsparts[i].quantity, '$'+this.rowsItemsparts[i].price_decimal, this.rowsItemsparts[i].discount,   '$'+this.rowsItemsparts[i].subtotal_decimal];
      }
      console.log(this.totalCost); 
      
@@ -1351,12 +1351,13 @@ console.log('este es el e:'+ +JSON.stringify(e));
         styles: {fillColor: null,lineColor:[4,1,0],lineWidth:0.2},
         columnStyles: {
          0: {halign: 'center', fontSize:9, cellWidth:20},
-         1: {fontSize:9, cellWidth:150},
-         2: {halign: 'center', fontSize:9, cellWidth:70},
-         3: {halign: 'center', fontSize:9, cellWidth:26},
-         4: {halign: 'center', fontSize:9, cellWidth:50},
-         5: {halign: 'center', fontSize:9, cellWidth:39},
-         6: {halign: 'center', fontSize:9, cellWidth:55}
+         1: {halign: 'center', fontSize:9, cellWidth:50},
+         2: {fontSize:9, cellWidth:120},
+         3: {halign: 'center', fontSize:9, cellWidth:50},
+         4: {halign: 'center', fontSize:9, cellWidth:26},
+         5: {halign: 'center', fontSize:9, cellWidth:50},
+         6: {halign: 'center', fontSize:9, cellWidth:39},
+         7: {halign: 'center', fontSize:9, cellWidth:55}
          },
         margin: { left: 15},
         body: [ body_table ]
@@ -1519,7 +1520,61 @@ let value=  Number(this.rowsItemsWorkforce[i].total);
     margin: {top: 60, right: 15, bottom: 0, left: 15},
     body: [['Factura Cliente']]
   });
-
+  if(this.checkHideCode){
+    doc.autoTable({
+      startY: doc.autoTable.previous.finalY,
+      theme:'grid',
+      styles: {fillColor: [215,215,215],lineColor:[4,1,0],lineWidth:0.2},
+      columnStyles: {
+      0: {halign: 'center', fontSize:9, cellWidth:20},
+      1: {halign: 'center', fontSize:9, cellWidth:150},
+      2: {halign: 'center', fontSize:9, cellWidth:70},
+      3: {halign: 'center', fontSize:9, cellWidth:26},
+      4: {halign: 'center', fontSize:9, cellWidth:50},
+      5: {halign: 'center', fontSize:9, cellWidth:39},
+      6: {halign: 'center', fontSize:9, cellWidth:55}
+      },
+      margin: { left: 15},
+      body: [['','DESCRIPCIÓN','SUB. CCOST','CANT.','VLR. UNIT.','DESC%','TOTAL']]
+    });
+    
+   
+  
+    if(this.rowsItemsCustomer.length>0){
+      for (let i = 0; i < this.rowsItemsCustomer.length; i++) {
+    //Este total se debe remplazar por el subtotal_parts que se encuentra en la tabla de settlement
+    let value=  Number(this.rowsItemsCustomer[i].subtotal);
+        this.totalCost = Number(this.totalCost + value); 
+     
+        console.log('total'); 
+        console.log(this.rowsItemsCustomer[i].subtotal_decimal); 
+        if(this.rowsItemsCustomer[i].sub_cost_center == null){
+          body_table = [i+1, this.rowsItemsCustomer[i].description,'', this.rowsItemsCustomer[i].quantity, '$'+this.rowsItemsCustomer[i].price_decimal, this.rowsItemsCustomer[i].discount,   '$'+this.rowsItemsCustomer[i].subtotal_decimal];
+        }else{
+          body_table = [i+1, this.rowsItemsCustomer[i].description, this.rowsItemsCustomer[i].sub_cost_center.code+'-'+this.rowsItemsCustomer[i].sub_cost_center.description, this.rowsItemsCustomer[i].quantity, '$'+this.rowsItemsCustomer[i].price_decimal, this.rowsItemsCustomer[i].discount,   '$'+this.rowsItemsCustomer[i].subtotal_decimal];
+        }
+        console.log(this.totalCost); 
+  
+       
+     doc.autoTable({
+       startY: doc.autoTable.previous.finalY,
+       theme:'grid',
+       styles: {fillColor: null,lineColor:[4,1,0],lineWidth:0.2},
+       columnStyles: {
+        0: {halign: 'center', fontSize:9, cellWidth:20},
+        1: {fontSize:9, cellWidth:150},
+        2: {halign: 'center', fontSize:9, cellWidth:70},
+        3: {halign: 'center', fontSize:9, cellWidth:26},
+        4: {halign: 'center', fontSize:9, cellWidth:50},
+        5: {halign: 'center', fontSize:9, cellWidth:39},
+        6: {halign: 'center', fontSize:9, cellWidth:55}
+        },
+       margin: { left: 15},
+       body: [ body_table ]
+     });
+    }
+  }
+  }else{
   doc.autoTable({
     startY: doc.autoTable.previous.finalY,
     theme:'grid',
@@ -1575,6 +1630,8 @@ let value=  Number(this.rowsItemsWorkforce[i].total);
    });
   }
 }
+}
+
   // y=y+15;
 let totalCus = this.finalFormatPrice(this.totalCost);
   console.log('total');
@@ -2543,7 +2600,7 @@ let value=  Number(this.rowsItemsparts[i].subtotal);
            styles: {fillColor: null,lineColor:[4,1,0],lineWidth:0.2},
            columnStyles: {
             0: {halign: 'center', fontSize:9, cellWidth:20},
-            1: {fontSize:9, cellWidth:130},
+            1: {fontSize:9, cellWidth:150},
             2: {halign: 'center', fontSize:9, cellWidth:70},
             3: {halign: 'center', fontSize:9, cellWidth:26},
             4: {halign: 'center', fontSize:9, cellWidth:50},

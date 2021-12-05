@@ -134,6 +134,7 @@ export class MasterForkliftUpdateComponent extends NgbDatepickerI18n {
   filesImageForlift;
   switchAlarm = true;
   switchStatus = true;
+  own = false;
   currentForkId;
   forkliftImages: any;
 
@@ -422,6 +423,9 @@ export class MasterForkliftUpdateComponent extends NgbDatepickerI18n {
       this.switchAlarm = false;
     }
 
+    if (Number(this.forkliftCurrent.status_own) == 1) {
+      this.own = true;
+    }
 
     this.forkliftService.getForkliftImage(Number(this.currentForkId)).then(data => {
       const resp: any = data;
@@ -540,6 +544,7 @@ export class MasterForkliftUpdateComponent extends NgbDatepickerI18n {
         swal.showLoading();
 
         let generateAlarmTemp = 0;
+
         console.log(this.switchUpdate);
         if (this.switchUpdate === true) {
           generateAlarmTemp = 0;
@@ -592,11 +597,22 @@ export class MasterForkliftUpdateComponent extends NgbDatepickerI18n {
           status = 1;
         }
 
+        let statusOwn = 0; // 0 = no es propio, 1 = es propio 
+        console.log('No ingreso a la pagina');
+        if (this.own === true) {
+          console.log('ingreso a la pagina');
+          statusOwn = 1;
+        }
+
+        console.log('valor status own');
+        console.log(statusOwn);
+
+
         this.restService.updateforklift(this.currentForkId, this.myForm.get('series').value,
           this.selectedBusinessId, this.selectedOfficeId, this.myForm.get('description').value.toUpperCase(), status,
           this.selectedBrandId, this.selectedModelId, this.selectedMachineId, this.selectedtyreId, this.myForm.get('tyreForward').value,
           this.myForm.get('tyreSBack').value, this.selectedFuelId, this.selectedRoutineId, this.myForm.get('tonne').value, this.myForm.get('hoistedMast').value,
-          this.myForm.get('contractedMast').value, this.myForm.get('startTime').value, this.myForm.get('currentTime').value, alarm, this.myForm.get('observation').value,localStorage.getItem('userid'))
+          this.myForm.get('contractedMast').value, this.myForm.get('startTime').value, this.myForm.get('currentTime').value, alarm, this.myForm.get('observation').value,localStorage.getItem('userid'), statusOwn)
           .then(data => {
             const resp: any = data;
             console.log('Informacion de montacarga');
@@ -624,7 +640,8 @@ export class MasterForkliftUpdateComponent extends NgbDatepickerI18n {
                 title: 'Equipo actualizado',
                 type: 'success'
               });
-              // this.router.navigateByUrl('/master/forkliftShow');
+              this.router.navigateByUrl('/master/forkliftShow');
+              //YCV 29-11-21
             }
           }).catch(error => {
             console.log(error);
@@ -649,6 +666,14 @@ export class MasterForkliftUpdateComponent extends NgbDatepickerI18n {
     this.switchStatus = check;
     console.log(check);
   }
+
+  onChangeOwn(check: any) {
+    this.own = check;
+    console.log('este es el resultado propio');
+    console.log(check);
+  }
+
+
 
 
   onSelectFile(event) {

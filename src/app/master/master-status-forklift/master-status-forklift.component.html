@@ -48,6 +48,22 @@
                 <!--  <option value="0" selected>Seleccionar perfil</option> -->
               </select>
             </div>
+            <div class="col-sm-4">
+              <h6>Estado Equipo</h6>
+              <br>
+              <input type="checkbox" value="m1" [(ngModel)]="checkAllType" (change)="checkUncheckAllType($event)" checked />
+              <strong>Seleccionar todo</strong>
+              <br> <br>
+              
+              <div *ngFor="let item of selectsStatus">
+                <input type="checkbox" name="list_name" value="{{item.id}}" (change)="checkChangeActive($event,item)" [checked]="item.select" data-md-icheck />
+                {{item.name}}<br>
+              </div>
+            </div>
+
+
+
+
           </div>
 
           <div class="align-buttons">

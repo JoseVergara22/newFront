@@ -1,6 +1,7 @@
 import { Component, Injectable, OnInit } from '@angular/core';
 import { NgbCalendar, NgbDateParserFormatter, NgbDatepickerI18n, NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
 import swal from 'sweetalert2';
+import { isContext } from 'vm';
 import { ForkliftService } from '../../master-services/Forklift/forklift.service';
 import { RestService } from '../../master-services/Rest/rest.service';
 import { ResumenesService } from '../../master-services/resumenes/resumenes.service';
@@ -18,6 +19,12 @@ const I18N_VALUES = {
 @Injectable()
 export class I18n {
   language = 'fr';
+}
+
+interface statusForkliftInterface {// item para mostrar clientes
+  id?: number;
+  name?: string;
+  select?: boolean;
 }
 
 @Component({
@@ -53,7 +60,7 @@ export class MasterStatusForkliftComponent extends NgbDatepickerI18n {
   fromDateLog: NgbDateStruct;
   untilDateLog: NgbDateStruct;
 
-  checkAllType: boolean;
+  checkAllType: boolean = false;
   checkAllStatus: boolean;
 
   type: any;
@@ -71,7 +78,13 @@ export class MasterStatusForkliftComponent extends NgbDatepickerI18n {
   right: boolean = false;
   userCustomer: boolean = false;
   user_id: any;
+  forkliftStatus: any;
+  statusForkliftStatus=[];
+  selectedItemsDetail=[];
+  itemsSelect=[];
 
+  selectsStatus :Array<statusForkliftInterface> = [];
+  selectStatus :statusForkliftInterface;
 
   constructor(private calendar: NgbCalendar, public formatter: NgbDateParserFormatter, private resumenesService: ResumenesService,
     private _i18n: I18n, private forkliftService: ForkliftService, private restService: RestService,private userService: UserService) { 
@@ -96,6 +109,8 @@ export class MasterStatusForkliftComponent extends NgbDatepickerI18n {
     }else{
     this.getRegional();
     }
+
+    this.getStatusForklift();
     // this.getFilters();
   }
   getCustomerUser(id: any) {
@@ -107,6 +122,111 @@ export class MasterStatusForkliftComponent extends NgbDatepickerI18n {
       console.log(error);
     });
   }
+
+  /*getForkliftStatus () {
+    this.forkliftService.getForkliftStatus().then(data => {
+      const resp: any = data;
+      this.forkliftStatus = resp.data;
+      // console.log(this.customers)
+    }).catch(error => {
+      console.log(error);
+    });
+  }*/
+
+  checkChangeActive(event:any, item:any){
+   
+    
+    console.log('valor para editar');
+    console.log(event);
+    console.log(item);
+    console.log(item.id);
+    console.log(this.checkAllType);
+    this.checkAllType=false;
+    for (let j = 0; j < this.selectsStatus.length; j++){
+      console.log(this.selectsStatus.length);
+      if (this.selectsStatus[j].id == item.id){
+       this.selectsStatus[j].select=event.target.checked;
+       if(event.target.checked==true){
+         let id = item.id
+        this.selectedItemsDetail.push(id);
+       }else{
+        var index = this.selectedItemsDetail.indexOf(item.id);
+        if (index !== -1) {
+            this.selectedItemsDetail.splice(index, 1);
+        }
+       }
+     }
+    }
+   console.log('Consolidado: '+this.selectedItemsDetail);
+   if( this.selectedRegionalId !=0 && this.selectedBusinessId!=0 ){
+   this.getFilters();
+   }else {
+    swal({
+      title:'Error',
+      text: 'Debe seleccionar una sucursal y un cliente',
+      type: 'warning'
+     });
+   }
+
+  }
+  
+
+
+  checkUncheckAllType(event:any){  
+    this.selectedItemsDetail=[];
+      for (let j = 0; j < this.selectsStatus.length; j++){
+        if(event.target.checked){
+          this.selectsStatus[j].select=event.target.checked;
+          this.selectedItemsDetail.push(this.selectsStatus[j].id);
+        }else{
+          this.selectsStatus[j].select=false;
+          var index = this.selectedItemsDetail.indexOf(this.selectsStatus[j].id);
+          if (index !== -1) {
+              this.selectedItemsDetail.splice(index, 1);
+          }
+       }
+      }
+      
+      let dataArr = new Set(this.selectedItemsDetail);
+   console.log('Consolidado: '+this.selectedItemsDetail);
+
+   if( this.selectedRegionalId !=0 && this.selectedBusinessId!=0 ){
+   this.getFilters();
+   }else {
+    swal({
+      title:'Error',
+      text: 'Debe seleccionar una sucursal y un cliente',
+      type: 'warning'
+     });
+   }
+  }
+  
+   getStatusForklift(){
+    this.forkliftService.getForkliftStatus().then(data => {
+      console.log('esta es la data de estados');
+      console.log(JSON.stringify(data));
+      const resp: any = data;
+      console.log(data);
+      swal.close();
+      this.type  = resp.data;
+      for(let item of this.type){
+        this.selectStatus = {
+          id:item.id,
+          name:item.description,
+          select:false,
+        }
+        this.selectsStatus.push(this.selectStatus);
+      }
+    }).catch(error => {
+      console.log(error);
+      swal({
+        title:'Error',
+        text: 'Ha ocurrido un error al cargar las Sucursales',
+        type: 'error'
+       });
+    });
+  }
+
   
   getBranchOfficeUser() {
     swal({
@@ -203,6 +323,8 @@ getForklifs() {
       let params='';
       let cont=0;
 
+
+
       if(this.selectedBusinessId!=0){
       console.log('imprimir cont');
         console.log(cont);
@@ -232,6 +354,16 @@ getForklifs() {
           cont++;
         }
       }
+
+      if(this.selectedItemsDetail.length>0){
+        console.log(cont);
+          if(cont>0){
+          params=params+'&&forklift_status='+this.selectedItemsDetail.toString();
+          }else{
+            params=params+'forklift_estatus='+this.selectedItemsDetail.toString();
+            cont++;
+          }
+        }
 
       console.log('.---------->'+params);
       this.resumenesService.showFilter(params).then(data => {

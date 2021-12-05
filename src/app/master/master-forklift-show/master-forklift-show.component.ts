@@ -183,6 +183,7 @@ export class MasterForkliftShowComponent extends NgbDatepickerI18n {
   toDate: NgbDateStruct;
 
   disabled = true;
+  own = false;
   forkliftCurrent: any;
 
 
@@ -417,6 +418,9 @@ export class MasterForkliftShowComponent extends NgbDatepickerI18n {
       this.switchAlarm = false;
     }
 
+    if (Number(this.forkliftCurrent.status_own) == 1) {
+      this.own = true;
+    }
 
     this.forkliftService.getForkliftImage(Number(this.currentForkId)).then(data => {
       const resp: any = data;
@@ -579,11 +583,16 @@ export class MasterForkliftShowComponent extends NgbDatepickerI18n {
           status = 1;
         }
 
+        let statusOwn = 0; // 0 = no es propio, 1 = es propio 
+        if (this.own === true) {
+          statusOwn = 1;
+        }
+
         this.restService.updateforklift(this.currentForkId, this.myForm.get('series').value,
           this.selectedBusinessId, this.selectedOfficeId, this.myForm.get('description').value.toUpperCase(), status,
           this.selectedBrandId, this.selectedModelId, this.selectedMachineId, this.selectedtyreId, this.myForm.get('tyreForward').value,
           this.myForm.get('tyreSBack').value, this.selectedFuelId, this.selectedRoutineId, this.myForm.get('tonne').value, this.myForm.get('hoistedMast').value,
-          this.myForm.get('contractedMast').value, this.myForm.get('startTime').value, this.myForm.get('currentTime').value, alarm, this.myForm.get('observation').value,localStorage.getItem('userid'))
+          this.myForm.get('contractedMast').value, this.myForm.get('startTime').value, this.myForm.get('currentTime').value, alarm, this.myForm.get('observation').value,localStorage.getItem('userid'),statusOwn)
           .then(data => {
             const resp: any = data;
             console.log('Informacion de montacarga');
@@ -636,6 +645,11 @@ export class MasterForkliftShowComponent extends NgbDatepickerI18n {
     console.log(check);
   }
 
+  onChangeOwn(check: any) {
+    this.own = check;
+    console.log('este es el resultado propio');
+    console.log(check);
+  }
 
   onSelectFile(event) {
     var filesAmount = event.target.files.length;

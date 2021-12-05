@@ -194,6 +194,11 @@
 
         <div class="form-group row">
           <div class="col-sm-4">
+            <h6>Equipo propio</h6>
+            <ui-switch class="js-single" color="#4680ff" switchColor="#fff" size="medium" [checked]="own"
+              (change)="onChangeOwn($event)"></ui-switch><br>
+          </div>
+          <div class="col-sm-4">
             <h6>Generar alarmas</h6>
             <ui-switch class="js-single" color="#4680ff" switchColor="#fff" size="medium" [checked]="switchAlarm"
               (change)="onChangeAlarm($event)"></ui-switch><br>

@@ -69,7 +69,8 @@ export class MasterSupportMainComponent implements OnInit {
           if (resp.success==false){
             this.generalAlert('Error','ocurrio un error durante el procesado',"error");
           }else{
-              this.generalAlert('Error','A ocurrido un error durante el procesado',"error");
+              this.generalAlert('','ticket eliminado',"success");
+              this.getSupport();
           }
         }).catch(err=>{
           console.log(err);
