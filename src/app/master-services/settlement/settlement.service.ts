@@ -212,7 +212,9 @@ resolve(error);
 
 updateSettlementDetailWorkforce(settlement_detail_id: number, code: string, service: string,
   quantity: number, hour_value: number, subtotal: number, delivery: number, total: string,
-  status: number, type_service: number,  subcenter_id: number, discount: number, fullCode:string,estimate_detail_id:any) {
+  status: number, type_service: number,  subcenter_id: number, discount: number, fullCode:string,
+  estimate_detail_id:any, 
+  branch_office_id: any,forklift_id:any) {
   console.log('info de detalle');
 return new Promise(resolve => {
 const headers = new HttpHeaders();
@@ -239,6 +241,8 @@ subcost_center_id: subcenter_id,
 discount: discount,
 full_code:fullCode,
 estimate_detail_id:estimate_detail_id,
+branch_office_id:branch_office_id,
+forklift_id:forklift_id
 };
 this.http.patch(this.apiEndPoint+'api/update_settlement_details/'+settlement_detail_id, postParams, httpOptions)
 .map(res => res).subscribe(data => {
@@ -252,7 +256,8 @@ resolve(error);
 
 updateSettlementDetailCustomer(settlement_detail_customer_id: number, code: string, service: string,
       quantity: number, hour_value: number, delivery: number, subtotal: number, total: string,
-      status: number, subcenter_id: number, discount: number, fullCode:string) {
+      status: number, subcenter_id: number, discount: number, fullCode:string,branch_office_id:any,
+      forklift_id:any) {
       console.log('info de detalle');
     return new Promise(resolve => {
     const headers = new HttpHeaders();
@@ -278,6 +283,8 @@ updateSettlementDetailCustomer(settlement_detail_customer_id: number, code: stri
     subcost_center_id: subcenter_id,
     discount: discount,
     full_code:fullCode,
+    branch_office_id:branch_office_id,
+    forklift_id:forklift_id
     };
     console.log(postParams);
     this.http.patch(this.apiEndPoint+'api/update_settlement_details_customer/'+settlement_detail_customer_id, postParams, httpOptions)
@@ -839,7 +846,8 @@ createScheduleSettlement(params: string) {
       createSettlementDetails(settlement_id: number, code: string, description: string,
         quantity: number, unit_cost: number, price_list: number, price_suggest: number, weight: number,
         price: number, subtotal: number, delivery: number, total: string,
-        status: number, type_service: number, weight_type: number, subcenter_id: number, discount: number, fullCode:string) {
+        status: number, type_service: number, weight_type: number, subcenter_id: number, 
+        discount: number, fullCode:string,branch_office_id:any,forklift_id:any) {
         console.log('info de detalle');
         console.log(settlement_id+'-'+ code+'-'+ description+'-'+
           quantity+'-'+ unit_cost+'-'+ price_list+'-'+ price_suggest+'-'+
@@ -874,7 +882,9 @@ createScheduleSettlement(params: string) {
     total: total,
     status:status,
     type_service:type_service,
-    weight_type:weight_type
+    weight_type:weight_type,
+    branch_office_id:branch_office_id,
+  forklift_id:forklift_id
     };
     this.http.post(this.apiEndPoint+'api/create_settlement_detail', postParams, httpOptions)
     .map(res => res).subscribe(data => {
@@ -887,7 +897,8 @@ createScheduleSettlement(params: string) {
 
     createSettlementDetailWorkforce(settlement_id: number, code: string, description: string,
       quantity: number, hour_value: number, subtotal: number, delivery: number, total: string,
-      status: number, type_service: number, subcenter_id: number, discount: number, fullCode:string) {
+      status: number, type_service: number, subcenter_id: number, discount: number, fullCode:string,
+      branch_office_id:any,forklift_id:any) {
   return new Promise(resolve => {
   const headers = new HttpHeaders();
   headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user'))); // 'Bearer ' +
@@ -913,6 +924,8 @@ createScheduleSettlement(params: string) {
   total: total,
   status:status,
   type_service:type_service,
+  branch_office_id:branch_office_id,
+  forklift_id:forklift_id
   };
   this.http.post(this.apiEndPoint+'api/create_settlement_detail', postParams, httpOptions)
   .map(res => res).subscribe(data => {
@@ -925,7 +938,8 @@ createScheduleSettlement(params: string) {
 
   createSettlementDetailsCustomer(settlement_id: number, code: string, description: string,
       quantity: number, unit_cost: number, price: number, subtotal: number, delivery: number, total: string,
-      status: number, subcenter_id: number, discount: number, fullCode:string) {
+      status: number, subcenter_id: number, discount: number, fullCode:string,branch_office_id:any,
+      forklift_id:any) {
   return new Promise(resolve => {
   const headers = new HttpHeaders();
   headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user'))); // 'Bearer ' +
@@ -951,6 +965,8 @@ createScheduleSettlement(params: string) {
   delivery: delivery,
   total: total,
   status:status,
+  branch_office_id:branch_office_id,
+  forklift_id:forklift_id
   };
   this.http.post(this.apiEndPoint+'api/create_settlement_detail_customer', postParams, httpOptions)
   .map(res => res).subscribe(data => {
@@ -966,7 +982,8 @@ createScheduleSettlement(params: string) {
     updateSettlementDetails(settlement_id: number, code: string, description: string,
       quantity: number, unit_cost: number, price_list: number, price_suggest: number, weight: number,
       price: number, subtotal: number, delivery: number, total: string,
-      status: number, type_service: number, weight_type: number, subcenter_id: number, discount: number, fullCode:string, estimate_detail_id:any) {
+      status: number, type_service: number, weight_type: number, subcenter_id: number, discount: number, fullCode:string, estimate_detail_id:any,
+      branch_office_id:any,forklift_id:any) {
       console.log('info de detalle');
   
   return new Promise(resolve => {
@@ -999,6 +1016,8 @@ createScheduleSettlement(params: string) {
   discount: discount,
   full_code:fullCode,
   estimate_detail_id:estimate_detail_id,
+  branch_office_id:branch_office_id,
+  forklift_id:forklift_id
   };
   console.log(settlement_id);
   console.log(patchParams);
@@ -1306,7 +1325,7 @@ createScheduleSettlement(params: string) {
     });
   }
 
-  getMaintenanceFilter(branch_office:number, maintenance:any, page:any) {
+  getMaintenanceFilter(branch_office:number, maintenance:any, customer_id:any) {
   return new Promise(resolve => {
     const headers = new HttpHeaders();
     headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user'))); // 'Bearer ' +
@@ -1321,10 +1340,10 @@ createScheduleSettlement(params: string) {
     const params = {
       maintenance:maintenance,
       branch_office:branch_office,
-      page:page
+      customer_id:customer_id
     }
     console.log(params);
-    this.http.get(this.apiEndPoint+'api/get_maintenances?'+'maintenance='+maintenance+'&branch_office='+branch_office, httpOptions)
+    this.http.get(this.apiEndPoint+'api/get_maintenances?'+'maintenance='+maintenance+'&branch_office='+branch_office+'&customer_id='+customer_id, httpOptions)
       .map(res => res).subscribe(data => {
         console.log(data);
         resolve(data);

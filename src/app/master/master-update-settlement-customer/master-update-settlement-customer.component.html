@@ -141,6 +141,26 @@
                 </div>
               
             </div>
+
+            <div class="col-sm-4">
+                <h6>Sede</h6>
+
+                <select class="form-control" (change)="getForklifs()"  [(ngModel)]="selectBranchPart" > 
+                            <option value="0" selected>Seleccionar sede </option>
+                            <option   *ngFor="let branchOffice of branchOffices" [ngValue]="branchOffice.id"   > {{branchOffice.branch_name}}  </option>
+                        <!--  <option value="0" selected>Seleccionar perfil</option> -->
+                    </select>
+            </div>
+
+            <div class="col-sm-4">
+                <h6>Equipo</h6>
+
+                <select class="form-control" (change)="getForkliftText()"  [(ngModel)]="selectedForkliftPart" > 
+                            <option value="0" selected>Seleccionar equipo </option>
+                            <option   *ngFor="let forklift of forklifts" [ngValue]="forklift.id"   > {{forklift.full_name}}  </option>
+                        <!--  <option value="0" selected>Seleccionar perfil</option> -->
+                    </select>
+            </div>
           </div>
 
           <br>
@@ -344,6 +364,25 @@
                     </div><h6>Días</h6> 
                 </div>     
          </div>
+         <div class="col-sm-4">
+                <h6>Sede</h6>
+
+                <select class="form-control" (change)="getForklifs()"  [(ngModel)]="selectedBranchWorkforce" > 
+                            <option value="0" selected>Seleccionar sede </option>
+                            <option   *ngFor="let branchOffice of branchOffices" [ngValue]="branchOffice.id"   > {{branchOffice.branch_name}}  </option>
+                        <!--  <option value="0" selected>Seleccionar perfil</option> -->
+                    </select>
+            </div>
+
+            <div class="col-sm-4">
+                <h6>Equipo</h6>
+
+                <select class="form-control" (change)="getForkliftText()"  [(ngModel)]="selectedForkliftWorkforce" > 
+                            <option value="0" selected>Seleccionar equipo </option>
+                            <option   *ngFor="let forklift of forklifts" [ngValue]="forklift.id"   > {{forklift.full_name}}  </option>
+                        <!--  <option value="0" selected>Seleccionar perfil</option> -->
+                    </select>
+            </div>
         </div>
         <br>
           <div class="align-buttons">
@@ -442,7 +481,27 @@
                           <input type="number"   [(ngModel)]="customerDelivery" class="form-control">
                       </div><h6>Días</h6> 
                   </div>     
-           </div>
+               </div>
+               <div class="col-sm-4">
+                <h6>Sede</h6>
+
+                <select class="form-control" (change)="getForklifs()"  [(ngModel)]="selectedBranchCustomer" > 
+                            <option value="0" selected>Seleccionar sede </option>
+                            <option   *ngFor="let branchOffice of branchOffices" [ngValue]="branchOffice.id"   > {{branchOffice.branch_name}}  </option>
+                        <!--  <option value="0" selected>Seleccionar perfil</option> -->
+                    </select>
+            </div>
+
+            <div class="col-sm-4">
+                <h6>Equipo</h6>
+
+                <select class="form-control" (change)="getForkliftText()"  [(ngModel)]="selectedForkliftCustomer" > 
+                            <option value="0" selected>Seleccionar equipo </option>
+                            <option   *ngFor="let forklift of forklifts" [ngValue]="forklift.id"   > {{forklift.full_name}}  </option>
+                        <!--  <option value="0" selected>Seleccionar perfil</option> -->
+                    </select>
+            </div>
+           
           </div>
           <br>
             <div class="align-buttons">
@@ -536,6 +595,25 @@
                         </div><h6>Días</h6> 
                     </div>     
                 </div>
+                <div class="col-sm-4">
+                <h6>Sede</h6>
+
+                <select class="form-control" (change)="getForklifs()"  [(ngModel)]="selectedBranchCustomer" > 
+                            <option value="0" selected>Seleccionar sede </option>
+                            <option   *ngFor="let branchOffice of branchOffices" [ngValue]="branchOffice.id"   > {{branchOffice.branch_name}}  </option>
+                        <!--  <option value="0" selected>Seleccionar perfil</option> -->
+                    </select>
+            </div>
+
+            <div class="col-sm-4">
+                <h6>Equipo</h6>
+
+                <select class="form-control" (change)="getForkliftText()"  [(ngModel)]="selectedForkliftCustomer" > 
+                            <option value="0" selected>Seleccionar equipo </option>
+                            <option   *ngFor="let forklift of forklifts" [ngValue]="forklift.id"   > {{forklift.full_name}}  </option>
+                        <!--  <option value="0" selected>Seleccionar perfil</option> -->
+                    </select>
+            </div>
   
             </div>
             <br>
@@ -667,6 +745,25 @@
                       </div><h6>Días</h6> 
                   </div>     
               </div>
+              <div class="col-sm-4">
+                <h6>Sede</h6>
+
+                <select class="form-control" (change)="getForklifs()"  [(ngModel)]="selectedBranchWorkforce" > 
+                            <option value="0" selected>Seleccionar sede </option>
+                            <option   *ngFor="let branchOffice of branchOffices" [ngValue]="branchOffice.id"   > {{branchOffice.branch_name}}  </option>
+                        <!--  <option value="0" selected>Seleccionar perfil</option> -->
+                    </select>
+            </div>
+
+            <div class="col-sm-4">
+                <h6>Equipo</h6>
+
+                <select class="form-control" (change)="getForkliftText()"  [(ngModel)]="selectedForkliftWorkforce" > 
+                            <option value="0" selected>Seleccionar equipo </option>
+                            <option   *ngFor="let forklift of forklifts" [ngValue]="forklift.id"   > {{forklift.full_name}}  </option>
+                        <!--  <option value="0" selected>Seleccionar perfil</option> -->
+                    </select>
+            </div>
 
           </div>
           <br>
@@ -825,19 +922,25 @@
                   </div>     
               </div>
 
-               <div class="col-sm-4">
-                 
-              </div>
+              <div class="col-sm-4">
+                <h6>Sede</h6>
 
-               <div class="col-sm-4">
-                <!--   <h6 *ngIf="salePrice">COSTO DE TOTAL:  {{costTotalGlobalUpdate}} usd </h6>
-                  <br>
-                  <h6 *ngIf="salePrice">COSTO DE PESOS:  {{costPesosGlobalUpdate}} </h6>
-                  <br>
-                  <h6 *ngIf="salePrice">PRECIO DE VENTA:  {{salePriceUpdate}} </h6>
-                  <br>-->
+                <select class="form-control" (change)="getForklifs()"  [(ngModel)]="selectedBranchCustomer" > 
+                            <option value="0" selected>Seleccionar sede </option>
+                            <option   *ngFor="let branchOffice of branchOffices" [ngValue]="branchOffice.id"   > {{branchOffice.branch_name}}  </option>
+                        <!--  <option value="0" selected>Seleccionar perfil</option> -->
+                    </select>
+            </div>
 
-              </div>
+            <div class="col-sm-4">
+                <h6>Equipo</h6>
+
+                <select class="form-control" (change)="getForkliftText()"  [(ngModel)]="selectedForkliftCustomer" > 
+                            <option value="0" selected>Seleccionar equipo </option>
+                            <option   *ngFor="let forklift of forklifts" [ngValue]="forklift.id"   > {{forklift.full_name}}  </option>
+                        <!--  <option value="0" selected>Seleccionar perfil</option> -->
+                    </select>
+            </div>
           </div>
           <br>
           <div class="align-buttons">
@@ -984,14 +1087,25 @@
                   </div>     
               </div>
 
-               <div class="col-sm-4">
-                 
-              </div>
+              <div class="col-sm-4">
+                <h6>Sede</h6>
 
-               <div class="col-sm-4">
-         
+                <select class="form-control" (change)="getForklifs()"  [(ngModel)]="selectedBranchOfficeId" > 
+                            <option value="0" selected>Seleccionar sede </option>
+                            <option   *ngFor="let branchOffice of branchOffices" [ngValue]="branchOffice.id"   > {{branchOffice.branch_name}}  </option>
+                        <!--  <option value="0" selected>Seleccionar perfil</option> -->
+                    </select>
+            </div>
 
-              </div>
+            <div class="col-sm-4">
+                <h6>Equipo</h6>
+
+                <select class="form-control" (change)="getForkliftText()"  [(ngModel)]="selectedForkliftId" > 
+                            <option value="0" selected>Seleccionar equipo </option>
+                            <option   *ngFor="let forklift of forklifts" [ngValue]="forklift.id"   > {{forklift.full_name}}  </option>
+                        <!--  <option value="0" selected>Seleccionar perfil</option> -->
+                    </select>
+            </div>
           </div>
           <br>
           <div class="align-buttons">
@@ -1209,7 +1323,7 @@
         <app-card  [blockClass]="'accordion-block'" [cardOptionBlock]="true">
             <div class="form-group row">
                 <div class="col-sm-6">
-                    <h6>Sede<span style="color:red;">*</span></h6>
+                    <h6>Sede</h6>
     
                     <select class="form-control" [(ngModel)]="selectedBranchOfficeMaintenanceId" (change)="showFilterMaintenance()" > 
                                 <option value="0" selected>Seleccionar sede </option>
@@ -1253,8 +1367,8 @@
                                               <tr>
                                                 <!-- <th style="width: 5%"> </th> -->
                                                 <th style="width: 10%;">Tipo</th>
-                                                <!-- <th style="width: 10%">Equipo</th> -->
-                                                <th style="width: 70%">Descripción</th>
+                                                <th style="width: 10%">Consecutivo</th>
+                                                <th style="width: 50%">Descripción</th>
                                                 <th style="width: 10%;">Repuestos</th>
                                                 <th style="width: 10%;">Mano de Obra</th>
                                               </tr>
@@ -1266,8 +1380,8 @@
                                                    <input type="checkbox"  name="list_name" value="{{item.id}}" [checked]="item.active"/> 
                                                 </td> -->
                                                 <td>{{item.type}}</td>
-                                                <!-- <td>{{item.full_name}}</td> -->
-                                                <td>{{item.description}}</td>
+                                                <td>{{item.consecutive}}</td>
+                                                <td><label>{{item.description}}</label></td>
                                                 <td scope="row">
                                                     <input type="checkbox"  name="list_name" (change)="cambiocheck(item, 0)"  [checked]="item.part"/> 
                                                  </td>
@@ -1290,8 +1404,8 @@
               
                 </div>
                 <div class="col-sm-4">
-                    <button class="btn btn-primary btn-round" *ngIf="numberPageMaintenance>1" (click)="backPageMaintenance()" >Atras</button> 
-                    <button (click)="nextPageMaintenance()" class="btn btn-primary btn-round" *ngIf="numberPageMaintenance<limitPageMaintenance">Siguiente</button>
+                    <!-- <button class="btn btn-primary btn-round" *ngIf="numberPageMaintenance>1" (click)="backPageMaintenance()" >Atras</button>  -->
+                    <!-- <button (click)="nextPageMaintenance()" class="btn btn-primary btn-round" *ngIf="numberPageMaintenance<limitPageMaintenance">Siguiente</button> -->
                    <!--  <button class="btn btn-info btn-round">Atras</button>   <button class="btn btn-info btn-round">Siguiente</button> -->
                 </div>
              </div>       
