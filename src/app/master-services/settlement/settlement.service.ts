@@ -1305,5 +1305,63 @@ createScheduleSettlement(params: string) {
         });
     });
   }
+
+  getMaintenanceFilter(branch_office:number, maintenance:any, page:any) {
+  return new Promise(resolve => {
+    const headers = new HttpHeaders();
+    headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user'))); // 'Bearer ' +
+    headers.append('Content-Type', 'application/json');
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + localStorage.getItem('token_user'),
+        'Accept': 'application/json'
+      })
+    };
+    const params = {
+      maintenance:maintenance,
+      branch_office:branch_office,
+      page:page
+    }
+    console.log(params);
+    this.http.get(this.apiEndPoint+'api/get_maintenances?'+'maintenance='+maintenance+'&branch_office='+branch_office, httpOptions)
+      .map(res => res).subscribe(data => {
+        console.log(data);
+        resolve(data);
+      }, error => {
+        resolve(error);
+      });
+  });
+}
+
+    storeSettlementMaintenance(settlement_id: number, maintenance: any) {
+      return new Promise(resolve => {
+        const headers = new HttpHeaders();
+        headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user'))); // 'Bearer ' +
+        headers.append('Content-Type', 'application/json');
+        const httpOptions = {
+          headers: new HttpHeaders({
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + localStorage.getItem('token_user'),
+            'Accept': 'application/json'
+          })
+        };
+        const postParams = {
+          settlement_id: settlement_id,
+          maintenance: maintenance,
+        };
+        console.log(postParams)
+  
+       this.http.post(this.apiEndPoint+'api/store_maintenance_settlement',postParams,httpOptions)
+       .map(res => res).subscribe(data => {
+            console.log(data);
+            resolve(data);
+          }, error => {
+            console.log(error);
+            console.log(JSON.stringify(error));
+            resolve(error);
+          });
+      });
+    }
   
 }

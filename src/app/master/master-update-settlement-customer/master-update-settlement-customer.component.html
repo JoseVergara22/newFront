@@ -551,34 +551,6 @@
     </div>
   </app-modal-basic>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 <!-- 
 <app-modal-basic #modalSendEmail [dialogClass]="'modal-lg'">
   <div class="app-modal-header">
@@ -709,8 +681,6 @@
       </div>
   </div>
 </app-modal-basic>
-
-
 
 <!-- modal para actulizar -->
 <app-modal-basic #modalUpdateItem [dialogClass]="'modal-lg'">
@@ -894,6 +864,7 @@
       </div>
   </div>
 </app-modal-basic>
+
 <app-modal-basic #modalUpdateItemCopy [dialogClass]="'modal-lg'">
   <div class="app-modal-header">
 
@@ -1033,9 +1004,6 @@
       </div>
   </div>
 </app-modal-basic>
-
-
-
 <!-- fin -->
 <!-- Modal Programación de liquidación-->
 <!-- <button type="button" class="btn btn-default waves-effect" (click)="modalDefault.show()">Static</button>-->
@@ -1228,6 +1196,111 @@
             <div class="align-buttons">
                 <button type="button" class="btn btn-default waves-effect" id="storageDetailHide" (click)="deleteItemsSelect()">Cancelar</button>
                 <button type="submit " class="btn btn-primary m-b-0 "   (click)="createDetailsEstimateSettlement()">Copiar</button>
+            </div>
+    </div>
+</app-modal-basic>
+
+<!-- Modal Cotizaciones por empresa-->
+<app-modal-basic #modalMaintenance [dialogClass]="'modal-lg'">
+    <div class="app-modal-header">
+        <h4 class="modal-title">Copiar Mantenimientos </h4>
+    </div>
+    <div class="app-modal-body">
+        <app-card  [blockClass]="'accordion-block'" [cardOptionBlock]="true">
+            <div class="form-group row">
+                <div class="col-sm-6">
+                    <h6>Sede<span style="color:red;">*</span></h6>
+    
+                    <select class="form-control" [(ngModel)]="selectedBranchOfficeMaintenanceId" (change)="showFilterMaintenance()" > 
+                                <option value="0" selected>Seleccionar sede </option>
+                                <option   *ngFor="let branchOffice of branchOffices" [ngValue]="branchOffice.id"   > {{branchOffice.branch_name}}  </option>
+                            <!--  <option value="0" selected>Seleccionar perfil</option> -->
+                        </select>
+                </div>
+                <div class="col-2"></div>
+                <div class="col-4">
+                    <h6>Mantenimiento<span style="color:red;">*</span></h6>
+                    <select class="form-control" [(ngModel)]="selectedMaintenanceId" (change)="showFilterMaintenance()" > 
+                                <option   *ngFor="let item of typeMaintenance" [ngValue]="item.description"   > {{item.description}}  </option>
+                            <!--  <option value="0" selected>Seleccionar perfil</option> -->
+                        </select>
+                </div>
+                   
+            </div>
+                    <div class="form-group row">
+                        <div class="col-sm-12">
+                            <div class="row" >
+                                <label  class="col-sm-6">
+                                    <!-- <input type="checkbox"  value="m1" [checked]="checkAll"  (change)="checkCheckAll($event)"/> 
+                                    <strong>Seleccionar todo</strong> -->
+                                </label>
+                                <label class="col-sm-2"></label>
+                                <label  class="col-sm-2">
+                                    <input type="checkbox"  value="m1" [checked]="checkAllPart"  (change)="checkCheckAllPart($event)"/> 
+                                    <strong>Seleccionar todo</strong> 
+                                </label>  
+                                     
+                                <label  class="col-sm-2">
+                                    <input type="checkbox"  value="m1" [checked]="checkAllWorkforce"  (change)="checkCheckAllWorkforce($event)"/> 
+                                    <strong>Seleccionar todo</strong>  
+                                </label>
+                                 
+                            </div>
+                                          <div class="table-responsive">
+                                            <div class="table-scroll"> 
+                                            <table class="table table-framed">
+                                              <thead>
+                                              <tr>
+                                                <!-- <th style="width: 5%"> </th> -->
+                                                <th style="width: 10%;">Tipo</th>
+                                                <!-- <th style="width: 10%">Equipo</th> -->
+                                                <th style="width: 70%">Descripción</th>
+                                                <th style="width: 10%;">Repuestos</th>
+                                                <th style="width: 10%;">Mano de Obra</th>
+                                              </tr>
+                                              </thead>
+                                              <tbody>
+                                        <!--  value="{{item.id}}" (change)="partChangeActive($event,item)"[checked]="item.active" -->   
+                                             <tr *ngFor="let item of dataMaintenances;let pointIdex=index">   
+                                                <!-- <td scope="row">
+                                                   <input type="checkbox"  name="list_name" value="{{item.id}}" [checked]="item.active"/> 
+                                                </td> -->
+                                                <td>{{item.type}}</td>
+                                                <!-- <td>{{item.full_name}}</td> -->
+                                                <td>{{item.description}}</td>
+                                                <td scope="row">
+                                                    <input type="checkbox"  name="list_name" (change)="cambiocheck(item, 0)"  [checked]="item.part"/> 
+                                                 </td>
+                                                 <td scope="row">
+                                                    <input type="checkbox"  name="list_name" (change)="cambiocheck(item, 1)" [checked]="item.workforce"/> 
+                                                 </td>
+                                               </tr> 
+                                              </tbody>
+                                            </table>
+                                          </div>
+                                        </div>
+                        </div>
+                    </div>
+
+            <div class="form-group row">
+                <div class="col-sm-4">
+              
+                </div>
+                <div class="col-sm-4">
+              
+                </div>
+                <div class="col-sm-4">
+                    <button class="btn btn-primary btn-round" *ngIf="numberPageMaintenance>1" (click)="backPageMaintenance()" >Atras</button> 
+                    <button (click)="nextPageMaintenance()" class="btn btn-primary btn-round" *ngIf="numberPageMaintenance<limitPageMaintenance">Siguiente</button>
+                   <!--  <button class="btn btn-info btn-round">Atras</button>   <button class="btn btn-info btn-round">Siguiente</button> -->
+                </div>
+             </div>       
+           
+          </app-card>
+
+            <div class="align-buttons">
+                <button type="button" class="btn btn-default waves-effect" id="storageDetailMaintenanceHide" (click)="cancelSelect()" (click)="modalMaintenance.hide()">Cancelar</button>
+                <button type="submit " class="btn btn-primary m-b-0 "   (click)="storeMaintenance()">Copiar</button>
             </div>
     </div>
 </app-modal-basic>
@@ -1746,6 +1819,8 @@
                       <button type="button" style="display:none;" id="modalCopyCustomerFormHide" class="btn btn-primary waves-effect" (click)="modalCopyCustomer.hide()">Actualizar item</button>
 
                       <button type="button" style="display:none;" id="modalEmailSettlementHide" class="btn btn-primary waves-effect" (click)="modalEmailsSettlement.hide()">Actualizar item</button>
+                      <button type="button" style="display:none;" id="modalMaintenanceShow" class="btn btn-primary waves-effect" (click)="modalMaintenance.show()">Actualizar item</button>
+                      <button type="button" style="display:none;" id="modalMaintenanceHide" class="btn btn-primary waves-effect" (click)="modalMaintenance.hide()">Actualizar item</button>
                       
                     <!-- <button type="button" style="display:none;" id="modalProgrammingHide" class="btn btn-primary waves-effect" (click)="showModalCopyForklift.hide()">Actualizar item</button>-->
                       
@@ -1770,6 +1845,9 @@
 
                     <div class="col-sm-1">
                         <button  class="btn btn-primary btn-icon"  (click)="showSettlementEmails()"   placement="top" ngbTooltip="Agregar correos">  <img src="assets/images/envelope.png"  width="50" height="50" > </button>
+                    </div> 
+                    <div class="col-sm-1">
+                        <button  class="btn btn-primary btn-icon"  (click)="showMaintenance()"   placement="top" ngbTooltip="Ver Mantenimientos">  <img src="assets/images/list.png"  width="50" height="50" > </button>
                     </div> 
                   <div class="col-sm-6">
                    
