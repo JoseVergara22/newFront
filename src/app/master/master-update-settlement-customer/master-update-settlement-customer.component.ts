@@ -4440,7 +4440,7 @@ showFilterMaintenance(){
     if(this.selectedMaintenanceId != ''){
       this.settlementService.getMaintenanceFilter(this.selectedBranchOfficeMaintenanceId, this.selectedMaintenanceId,this.numberPageMaintenance).then(data => {
         const resp: any = data;
-        console.log(data);
+        // console.log(data);
         this.limitPageMaintenance =resp.data.last_page;
         this.listMaintenance = resp.data.data;
 
@@ -4457,7 +4457,7 @@ showFilterMaintenance(){
           this.dataMaintenances.push(this.dataMaintenance)
 
         })
-        console.log(this.dataMaintenances);
+        // console.log(this.dataMaintenances);
         swal.close();
       }).catch(error => {
         swal({
@@ -4488,15 +4488,15 @@ storeMaintenance(){
   for(let data of this.dataMaintenances){
     // console.log(data);
     if(data.part || data.workforce){
-      console.log('data');
-      console.log(data);
+      // console.log('data');
+      // console.log(data);
       maintenance.push(data);
     }
   }
 
     this.settlementService.storeSettlementMaintenance(this.settlementId,maintenance).then(data => {
       const resp: any = data;
-      console.log(data);
+      // console.log(data);
       this.getSettlementParts();
       this.getSettlementWorkforce();
       swal.close();
