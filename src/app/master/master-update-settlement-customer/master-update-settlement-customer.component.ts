@@ -625,6 +625,8 @@ onDateSelectionFromForklift(date: any) {
 
   hideFiled(regional: any){
     console.log(regional);
+    this.selectedCostCenterId = 0;
+    this.selectedWarehouseId = 0;
     for (let reg of  regional) {
       console.log('entro for');
       if(reg.id == this.selectedRegionalId){
@@ -706,6 +708,11 @@ onDateSelectionFromForklift(date: any) {
    getSettlementWorkforce() {
    
     if(this.settlementId){
+      swal({
+        title: 'Validando información ...',
+        allowOutsideClick: false
+      });
+      swal.showLoading();
       this.settlementService.getSettlementDetailsWorkforce(this.settlementId).then(data => {
         const resp: any = data;
         this.rowsItemsWorkforce=resp.data;
@@ -718,9 +725,10 @@ onDateSelectionFromForklift(date: any) {
         console.log('Importante');
         console.log(this.itemEnd.toString());
         console.log('------------'+ this.itemEnd[0]);
-      
+        swal.close();
         console.log(data);
       }).catch(error => {
+        swal.close();
         console.log(error);
       });
   
@@ -732,6 +740,11 @@ onDateSelectionFromForklift(date: any) {
    getSettlementParts() {
    
     if(this.settlementId){
+          swal({
+            title: 'Validando información ...',
+            allowOutsideClick: false
+          });
+          swal.showLoading();
       this.settlementService.getSettlementDetailsParts(this.settlementId).then(data => {
         const resp: any = data;
         console.log('Partes '+JSON.stringify(data));
@@ -747,8 +760,10 @@ onDateSelectionFromForklift(date: any) {
         console.log('------------'+ this.itemEnd[0]);
       
         console.log(data);
+        swal.close();
         // this.assingTotal();
       }).catch(error => {
+        swal.close()
         console.log(error);
       });
     }
@@ -1156,14 +1171,14 @@ this.trmGeneralUsa= inputTrm.value.replace(/[^\d\.]*/g,'');
 
 getCenterCost() {
   this.getCustomerRegionals();
-  this.getWarehouses();
+  
   //selectedCostCenterId
   this.restService.getCostCenterSettlement(this.selectedRegionalId).then(data => {
     const resp: any = data;
+    console.log('centro de costo');
     console.log(data);
     swal.close();
-    this.selectedCostCenterId = 0;
-    this.selectedWarehouseId = 0;
+    
     this.costCenters  = resp.data_costcenters;
   }).catch(error => {
     console.log(error);
@@ -3398,6 +3413,7 @@ getSettlementSpecific(id:number) {
     this.getCities();
     // this.getTrmCurrent();
     this.getCenterCost();
+    this.getWarehouses();
     this.getSettlementSubCenterCost();
     this.selectedCityId = this.currentSettlement.city_id;
    
@@ -4523,6 +4539,7 @@ storeMaintenance(){
       this.getSettlementParts();
       this.getSettlementWorkforce();
       swal.close();
+      this.selectedMaintenanceId = '';
       document.getElementById('modalMaintenanceHide').click();
       
     }).catch(error => {
@@ -4602,6 +4619,7 @@ storeMaintenance(){
     this.checkUncheckAll();
     this.checkUncheckAllPart();
     this.checkUncheckAllWorkforce();
+    this.selectedMaintenanceId = '';
   }
 
 createDetailsEstimateSettlement(){
