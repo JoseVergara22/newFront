@@ -145,7 +145,7 @@
             <div class="col-sm-4">
                 <h6>Sede</h6>
 
-                <select class="form-control" (change)="getForklifs()"  [(ngModel)]="selectBranchPart" > 
+                <select class="form-control" (change)="getForklifs()"  [(ngModel)]="selectedBranchPart" > 
                             <option value="0" selected>Seleccionar sede </option>
                             <option   *ngFor="let branchOffice of branchOffices" [ngValue]="branchOffice.id"   > {{branchOffice.branch_name}}  </option>
                         <!--  <option value="0" selected>Seleccionar perfil</option> -->
