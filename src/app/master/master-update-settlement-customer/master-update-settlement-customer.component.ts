@@ -5714,6 +5714,8 @@ console.log('Solo se permiten numeros');
           this.selectedSubcostCenterId=0;
           this.fullCode=null;
           this.discountPart=0;
+          this.selectedBranchPart = 0;
+          this.selectedForkliftPart = 0;
         }
 
         clearFormDetailUpdate(){
@@ -5728,6 +5730,8 @@ console.log('Solo se permiten numeros');
           this.priceUpdate=0;
           this.subtotalUpdate=0;
           this. deliveryPartUpdate=0;
+          this.selectedBranchPart = 0;
+          this.selectedForkliftPart = 0;
         }
 
         clearFormDetailWork(){
@@ -5739,6 +5743,8 @@ console.log('Solo se permiten numeros');
           this.workforceDelivery=0;
           this.selectedSubcostCenterWorkforceId=0;
           this.discountWorkforce=0;
+          this.selectedBranchWorkforce = 0;
+          this.selectedForkliftWorkforce = 0;
         }
 
 
@@ -5751,6 +5757,8 @@ console.log('Solo se permiten numeros');
           this.customerDelivery=0;
           this.selectedSubcostCenterCustomerId=0;
           this.discountCustomer=0;
+          this.selectedBranchCustomer = 0;
+          this.selectedForkliftCustomer = 0;
         }
 
         clearFormDetailCustomerUpdate(){
@@ -5762,6 +5770,8 @@ console.log('Solo se permiten numeros');
           this.customerDeliveryUpdate=0;
           this.selectedSubcostCenterCustomerUpdateId=0;
           this.discountCustomerUpdate=0;
+          this.selectedBranchCustomer = 0;
+          this.selectedForkliftCustomer = 0;
         }
 
         clearFormDetailWorkUpdate(){
@@ -5773,6 +5783,8 @@ console.log('Solo se permiten numeros');
           this.workforceDeliveryUpdate=0;
           this.selectedSubcostCenterWorkforceUpdateId=0;
           this.discountWorkforceUpdate=0;
+          this.selectedBranchWorkforce = 0;
+          this.selectedForkliftWorkforce = 0;
         }
   
         cancelFormDetail(){
