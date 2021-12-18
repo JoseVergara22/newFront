@@ -145,7 +145,7 @@
             <div class="col-sm-4">
                 <h6>Sede</h6>
 
-                <select class="form-control" (change)="getForklifs()"  [(ngModel)]="selectedBranchPart" > 
+                <select class="form-control"  [(ngModel)]="selectedBranchPart" (change)="getForklifsDetails(selectedBranchPart)" > 
                             <option value="0" selected>Seleccionar sede </option>
                             <option   *ngFor="let branchOffice of branchOffices" [ngValue]="branchOffice.id"   > {{branchOffice.branch_name}}  </option>
                         <!--  <option value="0" selected>Seleccionar perfil</option> -->
@@ -155,9 +155,9 @@
             <div class="col-sm-4">
                 <h6>Equipo</h6>
 
-                <select class="form-control" (change)="getForkliftText()"  [(ngModel)]="selectedForkliftPart" > 
+                <select class="form-control" [(ngModel)]="selectedForkliftPart" > 
                             <option value="0" selected>Seleccionar equipo </option>
-                            <option   *ngFor="let forklift of forklifts" [ngValue]="forklift.id"   > {{forklift.full_name}}  </option>
+                            <option   *ngFor="let forklift of forkliftsDetails" [ngValue]="forklift.id"   > {{forklift.full_name}}  </option>
                         <!--  <option value="0" selected>Seleccionar perfil</option> -->
                     </select>
             </div>
@@ -175,228 +175,422 @@
   </div>
 </app-modal-basic>
 
-<!--  -->
-
-<app-modal-basic #modalEmailsSettlement [dialogClass]="'modal-lg'">
+<app-modal-basic #modalUpdateItem [dialogClass]="'modal-lg'">
     <div class="app-modal-header">
-        <h4 class="modal-title">Agregar Correos Electrónico</h4>
+  
+        <h4 class="modal-title">Actualizar Item</h4>
     </div>
     <div class="app-modal-body">
-            <div class="form-group row">
-                <div class="col-sm-12">
-                    <h6>Asunto</h6>
-                    <input type="text" class="form-control" [(ngModel)]="settlementSubject" >
+        <div>
+            <div class="row">
+                <div class="col-sm-6">
+                  <h6>Código </h6>
+                  <input  type="text" class="form-control" (change)="onChangeCodeUpdate(codeUpdate)"  [(ngModel)]="codeUpdate" list="codeUpdateList">
+                  <datalist  id="codeUpdateList">
+                    <!--  <div  > -->
+                        <option  *ngFor="let detailCode of detailCodes"   [ngValue]="detailCode"> {{detailCode.full_description}} </option>  
+                     <!-- </div> -->                  
+                  </datalist>
+                   <!-- <input type="text" [(ngModel)]="codeUpdate" class="form-control">  -->
+                </div>
+                <div class="col-sm-6">
+                    <h6>Descripción </h6>
+                    <input type="text" [(ngModel)]="descriptionUpdate" class="form-control">
+                </div>
+  
+            </div>
+            <br>
+  
+            <div class="row">
+                <div class="col-sm-3">
+                    <h6>Cantidad</h6>
+                    <input type="number" [(ngModel)]="quantityUpdate"  (blur)="calculateFreightValuesUpdate()"  class="form-control">
+                </div>
+                <div class="col-sm-3">
+                    <h6>Costo Unitario </h6>
+                    <input type="number" [(ngModel)]="unitCostUpdate"  (blur)="calculateFreightValuesUpdate()"  class="form-control">
+                </div>
+                <div class="col-sm-3">
+                    <h6>Lista de precios </h6>
+                    <select class="form-control" [(ngModel)]="priceListUpdate"  (blur)="calculateFreightValuesUpdate()" >
+                            <option value="0" selected>Seleccionar país</option>
+                            <option value="2">USA </option>
+                            <option value="3">ESPAÑA </option>
+                            <option value="4">BELGICA </option>
+                            <option value="5">SERVICIO TERCERO </option>
+                            <option value="6">REPUESTO NACIONAL </option>
+                            <option value="7">SIN PV </option>
+                          </select>
+  
+                </div>
+                <div class="col-sm-3">
+                    <h6>Peso</h6>
+                    <input type="number" [(ngModel)]="weightUpdate"  (blur)="calculateFreightValuesUpdate()" [disabled]="priceListUpdate == 5 || priceListUpdate == 6 || priceListUpdate== 7" class="form-control">
+                </div>
+                <!--<div class="col-sm-3">
+                    <h6>Lista Tipo Peso </h6>
+                    <select class="form-control" [(ngModel)]="weightTypeListUpdate"  (blur)="calculateFreightValuesUpdate()" [disabled]="priceList == 5 || priceList == 6">
+                                <option value="0" selected>Seleccionar peso</option>
+                                <option value="1">LB </option>
+                                <option value="2">KL </option>
+                              </select>
+  
+                </div> -->
+            </div>
+  
+            <br>
+            <div class="row">
+                <div class="col-sm-3">
+                    <h6>Lista Tipo Peso </h6>
+                    <select class="form-control" [(ngModel)]="weightTypeListUpdate"  (blur)="calculateFreightValuesUpdate()" [disabled]="priceListUpdate == 5 || priceListUpdate == 6 || priceListUpdate== 7">
+                                <option value="0" selected>Seleccionar peso</option>
+                                <option value="1">LB </option>
+                                <option value="2">KL </option>
+                              </select>
+  
+                </div>
+                <!--<div class="col-sm-3">
+                    <h6>Lista de precios </h6>
+                    <select class="form-control" [(ngModel)]="priceListUpdate"  (blur)="calculateFreightValuesUpdate()" >
+                            <option value="0" selected>Seleccionar país</option>
+                            <option value="2">USA </option>
+                            <option value="3">ESPAÑA </option>
+                            <option value="4">BELGICA </option>
+                            <option value="5">SERVICIO TERCERO </option>
+                            <option value="6">REPUESTO NACIONAL </option>
+                          </select>
+  
+                </div>-->
+                <div class="col-sm-3">
+                    <h6>Precio sugerido </h6>
+                    <input type="text" [(ngModel)]="suggestedPriceUpdate" class="form-control" disabled>
+                </div>
+                <div class="col-sm-3">
+                    <h6>Precio </h6>
+                    <input type="text" [(ngModel)]="priceUpdate"  (blur)="calculateSubtotalUpdate()"  (keyup)="finalFormatPriceUpdate()"class="form-control">
+                </div>
+                <div class="col-sm-3">
+                    <h6>Subtotal </h6>
+                    <input type="text" [(ngModel)]="subtotalUpdate" class="form-control" disabled>
                 </div>
             </div>
-            <div class="form-group row">
-                <div class="col-sm-12">
-                    <div class="row">
-                        <div class="col-sm-12 col-xs-12 col-md-12  col-lg-11">
-                            <h6>Agregar Correo Electrónico</h6>
-                        </div>
-                    </div>
-                    <br>
-                    <div class="row">
-                        <div class="col-sm-6 col-xs-6 col-md-6  col-lg-5" >
-                            <h6> Correo  </h6>
-                        </div>
-                        <div class="col-sm-6 col-xs-6 col-md-6  col-lg-5">
-                           <h6> Nombre  </h6> 
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-sm-6 col-xs-6 col-md-6  col-lg-5">
-                        
-
-                          <input  type="text" class="form-control"   [(ngModel)]="masterEmail" >
-                         <!-- <datalist  id="browsers">
-                             <div  *ngFor="let customerEmail of emailCustomer">
-                                <option    value={{customerEmail.email}}>
-                             </div> 
-                           
-                          </datalist> -->
-
-
-                        </div>
-                        <div class="col-sm-6 col-xs-6 col-md-6  col-lg-5">
-                            <input type="text" class="form-control" [(ngModel)]="masterName">
-                        
-                          
-                        
-                        </div>
-                        <div class="col-sm-1" style="margin-top: 0.5%">
-                            <button class="btn btn-warning btn-icon" (click)="addEmail()"><i class="icofont icofont-ui-add"></i></button>
-                        </div>
-                    </div>
-                    <br>
-                    <br>
-                    <div>
-                        <h6>Lista Correos Electrónicos</h6>
-            
-                        <br>
-                        <div  *ngIf="emailsCurrentSettlement">
-                       
-                        
-                        <div  *ngFor="let email of emailsCurrentSettlement;let pointIdex=index">
-                            <div class="row">
-                                <div class="col-sm-6 col-xs-6 col-md-6  col-lg-5">
-                                    <input type="text" class="form-control"  value='{{email.email}}'  disabled>
-                                </div>
-                                <div class="col-sm-6 col-xs-6 col-md-6  col-lg-5">
-                                    <input type="text" class="form-control"  value='{{email.contact}}' disabled>
-                                </div>
-                                <div class="col-sm-1" style="margin-top: 0.5%">
-                                    <button class="btn btn-default btn-icon" (click)="deleteEmail(email.id)"><i class="icofont icofont-ui-remove"></i></button>
-                                </div>
-                            </div>
-                            <br>
-                            <!-- <div *ngIf="submitted && detailform.part.errors" class="invalid-feedback">
-                                        <div class="messages text-danger" *ngIf="detailform.part.errors.required">Este campo es requerido</div>
-                                    </div> -->
-                        </div>
-                    </div>
-                    </div>
+  
+            <br>
+            <div class="row">
+  
+  
+  
+              <div class="col-sm-4">
+                  <h6>Subcentro </h6>
+        <!--          <select class="form-control">
+                          <option value="0" selected>Seleccionar Subcentro</option>
+                          <option value="2">Centro1 </option>
+                          <option value="3">Centro2 </option>
+                        </select>--> 
+  
+                        <select class="form-control" class="form-control" name="select"  [(ngModel)]="selectedSubcostCenterUpdateId">
+                          <option value="0" selected>Seleccionar Subcentro</option>
+                      <option  *ngFor="let subcenterCost of subcentersCost " [ngValue]="subcenterCost.id"> {{subcenterCost.description}} </option>
+                     </select>
+  
+  
+              </div>
+              <div class="col-sm-4">
+                  <h6>Descuento% </h6>
+                  <input type="number" [(ngModel)]="discountPartUpdate"  (blur)="calculateSubtotalUpdate()" class="form-control">
+              </div>
+  
+                <div class="col-sm-4">
+                  <h6>Total </h6>
+                  <input  [(ngModel)]="totalPriceUpdate" class="form-control" disabled>
                 </div>
             </div>
-            <div class="form-group row">
-                <div class="col-sm-12">
-                    <h6>Mensaje</h6>
-                    <textarea type="text" rows="5" class="form-control" id="comment"  [(ngModel)]="settlementComment"></textarea>
+            <br>
+  
+            <div class="row">
+                <div class="col-sm-4">
+                    <h6>Entrega </h6>
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <input type="number"   [(ngModel)]="deliveryPartUpdate" class="form-control">
+                        </div><h6>Días</h6> 
+                    </div>     
                 </div>
+  
+                <div class="col-sm-4">
+                  <h6>Sede</h6>
+  
+                  <select class="form-control"[(ngModel)]="selectedBranchPart" (change)="getForklifsDetails(selectedBranchPart)"> 
+                              <option value="0" selected>Seleccionar sede </option>
+                              <option   *ngFor="let branchOffice of branchOffices" [ngValue]="branchOffice.id"   > {{branchOffice.branch_name}}  </option>
+                          <!--  <option value="0" selected>Seleccionar perfil</option> -->
+                      </select>
+              </div>
+  
+              <div class="col-sm-4">
+                  <h6>Equipo</h6>
+  
+                  <select class="form-control"  [(ngModel)]="selectedForkliftPart" > 
+                              <option value="0" selected>Seleccionar equipo </option>
+                              <option   *ngFor="let forklift of forkliftsDetails" [ngValue]="forklift.id"   > {{forklift.full_name}}  </option>
+                          <!--  <option value="0" selected>Seleccionar perfil</option> -->
+                      </select>
+              </div>
             </div>
-            <div class="col-sm-12">
-                <input type="checkbox" name="Ocultar codigo de repuesto"  [(ngModel)]="settlementCheckHideCode" (change)="onChangeCodeEmails($event)"  />
-                <label>Ocultar codigo de repuesto</label>
-            </div>
-
+            <br>
             <div class="align-buttons">
-                <button type="button" class="btn btn-default waves-effect" id="emailDetailHide" (click)="modalEmailsSettlement.hide()">Cancelar</button>
-                <button type="submit " class="btn btn-primary m-b-0 " (click)="saveEmailSettlement()">Guardar Email</button>
-
-            </div>
-       
-    </div>
-
-</app-modal-basic>
-
-<!-- -->
-<app-modal-basic #modalRegisterItemWorkforce [dialogClass]="'modal-lg'">
-  <div class="app-modal-header">
-      <h4 class="modal-title">Registrar Item</h4>
-  </div>
-  <div class="app-modal-body">
-      <div>
-          <div class="row">
-              <div class="col-sm-6">
-
-                <h6>Código </h6>
-                <input  type="text" class="form-control" (change)="onChangeworkforceCode(workforceCode)"  [(ngModel)]="workforceCode" list="browsers">
-                <datalist  id="browsers">
-                  <!--  <div  > -->
-                      <option  *ngFor="let detailCode of detailCodes"   [ngValue]="detailCode"> {{detailCode.full_description}} </option>
-                        
-                   <!-- </div> --> 
-
-                 
-                </datalist>
-
-                <!-- <h6>Código </h6>
-                  <input type="text" [(ngModel)]="workforceCode" class="form-control"> --> 
-              </div>
-              <div class="col-sm-6">
-                  <h6>Servicio </h6>
-                  <input type="text" [(ngModel)]="workforceService" class="form-control">
-              </div>
-          </div>
-          <br>
-          <div class="row">
-              <div class="col-sm-4">
-                  <h6>Cantidad</h6>
-                  <input type="number" [(ngModel)]="workforcequantity" class="form-control"  (blur)="calculateSubtotalWork()">
-              </div>
-              <div class="col-sm-4">
-                  <h6>Valor hora</h6>
-                  <input type="text" [(ngModel)]="workforceHourValue"    (blur)="calculateSubtotalWork()"  (keyup)="finalFormaHourValue()"  class="form-control">
-              </div>
-              <div class="col-sm-4">
-                  <h6>Subtotal </h6>
-                  <input type="text" [(ngModel)]="workforceSubtotal" class="form-control" disabled >
-              </div>
-          </div>
-
-          <br>
-          <div class="row">
-            <div class="col-sm-4">
-                <h6>Subcentro </h6>
-      <!--          <select class="form-control">
-                        <option value="0" selected>Seleccionar Subcentro</option>
-                        <option value="2">Centro1 </option>
-                        <option value="3">Centro2 </option>
-                      </select>--> 
-
-                      <select class="form-control" class="form-control" name="select"  [(ngModel)]="selectedSubcostCenterWorkforceId">
-                        <option value="0" selected>Seleccionar Subcentro</option>
-                    <option  *ngFor="let subcenterCost of subcentersCost " [ngValue]="subcenterCost.id"> {{subcenterCost.description}} </option>
-                   </select>
-
-
-            </div>
-            <div class="col-sm-4">
-                <h6>Descuento% </h6>
-                <input type="number" [(ngModel)]="discountWorkforce"  (blur)="calculateSubtotalWork()" class="form-control">
-            </div>
-
-            <div class="col-sm-4">
-                <h6>Total </h6>
-                <input  [(ngModel)]="totalPriceWorkforce" class="form-control" disabled>
-              </div>
-
-
-        
-          </div>
-          <br>
-          <div class="row">
-            <div class="col-sm-4">
-                <h6>Entrega </h6>
-                <div class="row">
-                    <div class="col-sm-4">
-                        <input type="number"   [(ngModel)]="workforceDelivery" class="form-control">
-                    </div><h6>Días</h6> 
-                </div>     
-         </div>
-         <div class="col-sm-4">
-                <h6>Sede</h6>
-
-                <select class="form-control" (change)="getForklifs()"  [(ngModel)]="selectedBranchWorkforce" > 
-                            <option value="0" selected>Seleccionar sede </option>
-                            <option   *ngFor="let branchOffice of branchOffices" [ngValue]="branchOffice.id"   > {{branchOffice.branch_name}}  </option>
-                        <!--  <option value="0" selected>Seleccionar perfil</option> -->
-                    </select>
-            </div>
-
-            <div class="col-sm-4">
-                <h6>Equipo</h6>
-
-                <select class="form-control" (change)="getForkliftText()"  [(ngModel)]="selectedForkliftWorkforce" > 
-                            <option value="0" selected>Seleccionar equipo </option>
-                            <option   *ngFor="let forklift of forklifts" [ngValue]="forklift.id"   > {{forklift.full_name}}  </option>
-                        <!--  <option value="0" selected>Seleccionar perfil</option> -->
-                    </select>
+               <!-- <button type="button" class="btn btn-default waves-effect" id="createItemHide" (click)="modalRegisterItem.hide()">Cancelar</button> -->
+  
+               <button type="button" style="display:none;" class="btn btn-default waves-effect" id="updateItemHide" (click)="modalUpdateItem.hide()">Cancelar</button>
+               <button type="button" class="btn btn-default waves-effect" id="updateDetailItemHide" (click)="cancelFormDetailUpdate()">Cancelar</button>
+              
+             <!--   <button type="button" style="display:none;" class="btn btn-default waves-effect" id="showModalApproval" (click)="modalApprovalItems.show()">Mostrar cotizaciones</button> -->
+               <button type="button" style="display:none;" class="btn btn-default waves-effect" id="showModalProgramming" (click)="modalProgramming.show()">Mostrar Programación</button>
+               <button type="button" style="display:none;" class="btn btn-default waves-effect" id="hideModalProgramming" (click)="modalProgramming.hide()">Mostrar Programación</button>
+               <button type="button" style="display:none;" class="btn btn-default waves-effect" id="checkEstimateCustomers" (click)="modalEstimateCustomers.show()">Cancelar</button>
+               <button type="button" style="display:none;" class="btn btn-default waves-effect" id="hideEstimateCustomers" (click)="modalEstimateCustomers.hide()">Cancelar</button>
+  
+               <button type="button" style="display:none;" class="btn btn-default waves-effect" id="checkEstimateForklift" (click)="modalEstimateForklifts.show()">Cancelar</button>
+               <button type="button" style="display:none;" class="btn btn-default waves-effect" id="hideEstimateForklift" (click)="modalEstimateForklifts.hide()">Cancelar</button>
+  
+               <button type="button" style="display:none;" class="btn btn-default waves-effect" id="showModalEmailsSettlement" (click)="modalEmailsSettlement.show()">Cancelar</button>
+              
+               <!--  <button type="button" class="btn btn-default waves-effect" id="updateItemHide" (click)="modalUpdateItem.hide()">Cancelar</button>-->
+                <button type="submit " class="btn btn-primary m-b-0 "  (click)="updateSettlementDetail()">Actualizar Item</button>
+               
             </div>
         </div>
-        <br>
-          <div class="align-buttons">
-
-              <button type="button" style="display:none;" class="btn btn-default waves-effect" id="createHideWorkforce" (click)="modalRegisterItemWorkforce.hide()">Cancelar</button>
-              <button type="button" class="btn btn-default waves-effect" id="createItemHideDetailWorkforce" (click)="cancelFormWorkCreate()">Cancelar</button>
-              
-             <!-- <button type="button" class="btn btn-default waves-effect" id="createItemHideDetailWorkforce" (click)="modalRegisterItemWorkforce.hide()">Cancelar</button> -->
-              <button type="submit " class="btn btn-primary m-b-0 "  (click)="createSettlementDetailWorkforce()">Crear Item</button>
+    </div>
+  </app-modal-basic>
+<!-- -->
+<app-modal-basic #modalRegisterItemWorkforce [dialogClass]="'modal-lg'">
+    <div class="app-modal-header">
+        <h4 class="modal-title">Registrar Item</h4>
+    </div>
+    <div class="app-modal-body">
+        <div>
+            <div class="row">
+                <div class="col-sm-6">
+  
+                  <h6>Código </h6>
+                  <input  type="text" class="form-control" (change)="onChangeworkforceCode(workforceCode)"  [(ngModel)]="workforceCode" list="browsers">
+                  <datalist  id="browsers">
+                    <!--  <div  > -->
+                        <option  *ngFor="let detailCode of detailCodes"   [ngValue]="detailCode"> {{detailCode.full_description}} </option>
+                          
+                     <!-- </div> --> 
+  
+                   
+                  </datalist>
+  
+                  <!-- <h6>Código </h6>
+                    <input type="text" [(ngModel)]="workforceCode" class="form-control"> --> 
+                </div>
+                <div class="col-sm-6">
+                    <h6>Servicio </h6>
+                    <input type="text" [(ngModel)]="workforceService" class="form-control">
+                </div>
+            </div>
+            <br>
+            <div class="row">
+                <div class="col-sm-4">
+                    <h6>Cantidad</h6>
+                    <input type="number" [(ngModel)]="workforcequantity" class="form-control"  (blur)="calculateSubtotalWork()">
+                </div>
+                <div class="col-sm-4">
+                    <h6>Valor hora</h6>
+                    <input type="text" [(ngModel)]="workforceHourValue"    (blur)="calculateSubtotalWork()"  (keyup)="finalFormaHourValue()"  class="form-control">
+                </div>
+                <div class="col-sm-4">
+                    <h6>Subtotal </h6>
+                    <input type="text" [(ngModel)]="workforceSubtotal" class="form-control" disabled >
+                </div>
+            </div>
+  
+            <br>
+            <div class="row">
+              <div class="col-sm-4">
+                  <h6>Subcentro </h6>
+        <!--          <select class="form-control">
+                          <option value="0" selected>Seleccionar Subcentro</option>
+                          <option value="2">Centro1 </option>
+                          <option value="3">Centro2 </option>
+                        </select>--> 
+  
+                        <select class="form-control" class="form-control" name="select"  [(ngModel)]="selectedSubcostCenterWorkforceId">
+                          <option value="0" selected>Seleccionar Subcentro</option>
+                      <option  *ngFor="let subcenterCost of subcentersCost " [ngValue]="subcenterCost.id"> {{subcenterCost.description}} </option>
+                     </select>
+  
+  
+              </div>
+              <div class="col-sm-4">
+                  <h6>Descuento% </h6>
+                  <input type="number" [(ngModel)]="discountWorkforce"  (blur)="calculateSubtotalWork()" class="form-control">
+              </div>
+  
+              <div class="col-sm-4">
+                  <h6>Total </h6>
+                  <input  [(ngModel)]="totalPriceWorkforce" class="form-control" disabled>
+                </div>
+  
+  
+          
+            </div>
+            <br>
+            <div class="row">
+              <div class="col-sm-4">
+                  <h6>Entrega </h6>
+                  <div class="row">
+                      <div class="col-sm-4">
+                          <input type="number"   [(ngModel)]="workforceDelivery" class="form-control">
+                      </div><h6>Días</h6> 
+                  </div>     
+           </div>
+           <div class="col-sm-4">
+                  <h6>Sede</h6>
+  
+                  <select class="form-control" [(ngModel)]="selectedBranchWorkforce" (change)="getForklifsDetails(selectedBranchWorkforce)"> 
+                              <option value="0" selected>Seleccionar sede </option>
+                              <option   *ngFor="let branchOffice of branchOffices" [ngValue]="branchOffice.id"   > {{branchOffice.branch_name}}  </option>
+                          <!--  <option value="0" selected>Seleccionar perfil</option> -->
+                      </select>
+              </div>
+  
+              <div class="col-sm-4">
+                  <h6>Equipo</h6>
+  
+                  <select class="form-control"  [(ngModel)]="selectedForkliftWorkforce" > 
+                              <option value="0" selected>Seleccionar equipo </option>
+                              <option   *ngFor="let forklift of forkliftsDetails" [ngValue]="forklift.id"   > {{forklift.full_name}}  </option>
+                          <!--  <option value="0" selected>Seleccionar perfil</option> -->
+                      </select>
+              </div>
           </div>
-      </div>
-  </div>
+          <br>
+            <div class="align-buttons">
+  
+                <button type="button" style="display:none;" class="btn btn-default waves-effect" id="createHideWorkforce" (click)="modalRegisterItemWorkforce.hide()">Cancelar</button>
+                <button type="button" class="btn btn-default waves-effect" id="createItemHideDetailWorkforce" (click)="cancelFormWorkCreate()">Cancelar</button>
+                
+               <!-- <button type="button" class="btn btn-default waves-effect" id="createItemHideDetailWorkforce" (click)="modalRegisterItemWorkforce.hide()">Cancelar</button> -->
+                <button type="submit " class="btn btn-primary m-b-0 "  (click)="createSettlementDetailWorkforce()">Crear Item</button>
+            </div>
+        </div>
+    </div>
 </app-modal-basic>
 
+<app-modal-basic #modalUpdateItemWorkforce [dialogClass]="'modal-lg'">
+    <div class="app-modal-header">
+        <h4 class="modal-title">Actualizar Item </h4>
+    </div>
+    <div class="app-modal-body">
+        <div>
+            <div class="row">
+                <div class="col-sm-6">
+                  <h6>Código </h6>
+                  <input  type="text" class="form-control" (change)="onChangeworkforceCodeUpdate(workforceCodeUpdate)"  [(ngModel)]="workforceCodeUpdate" list="browsers">
+                  <datalist  id="browsers">
+                    <!--  <div  > -->
+                        <option  *ngFor="let detailCode of detailCodes"   [ngValue]="detailCode"> {{detailCode.full_description}} </option>
+                     <!-- </div> -->                  
+                  </datalist>
+                </div>
+                <div class="col-sm-6">
+                    <h6>Servicio </h6>
+                    <input type="text" [(ngModel)]="workforceServiceUpdate" class="form-control">
+                </div>
+            </div>
+            <br>
+            <div class="row">
+                <div class="col-sm-4">
+                    <h6>Cantidad</h6>
+                    <input type="number" [(ngModel)]="workforcequantityUpdate" class="form-control"  (blur)="calculateSubtotalWorkUpdate()">
+                </div>
+                <div class="col-sm-4">
+                    <h6>Valor hora</h6>
+                    <input type="text" [(ngModel)]="workforceHourValueUpdate"   (keyup)="finalFormaHourValueUpdate()"   (blur)="calculateSubtotalWorkUpdate()" class="form-control">
+                </div>
+                <div class="col-sm-4">
+                    <h6>Subtotal </h6>
+                    <input type="text" [(ngModel)]="workforceSubtotalUpdate" class="form-control">
+                </div>
+            </div>
+  
+            <br>
+            <div class="row">
+              <div class="col-sm-4">
+                  <h6>Subcentro </h6>
+        <!--          <select class="form-control">
+                          <option value="0" selected>Seleccionar Subcentro</option>
+                          <option value="2">Centro1 </option>
+                          <option value="3">Centro2 </option>
+                        </select>--> 
+  
+                        <select class="form-control" class="form-control" name="select"  [(ngModel)]="selectedSubcostCenterWorkforceUpdateId">
+                          <option value="0" selected>Seleccionar Subcentro</option>
+                      <option  *ngFor="let subcenterCost of subcentersCost " [ngValue]="subcenterCost.id"> {{subcenterCost.description}} </option>
+                     </select>
+  
+  
+              </div>
+              <div class="col-sm-4">
+                  <h6>Descuento% </h6>
+                  <input type="number" [(ngModel)]="discountWorkforceUpdate"  (blur)="calculateSubtotalWorkUpdate()" class="form-control">
+              </div>
+  
+              <div class="col-sm-4">
+                  <h6>Total </h6>
+                  <input  [(ngModel)]="totalPriceWorkforceUpdate" class="form-control" disabled>
+                </div>        
+            </div>
+  
+  
+            <br>
+  
+  
+            <div class="row">
+                <div class="col-sm-4">
+                    <h6>Entrega </h6>
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <input type="number"   [(ngModel)]="workforceDeliveryUpdate" class="form-control">
+                        </div><h6>Días</h6> 
+                    </div>     
+                </div>
+                <div class="col-sm-4">
+                  <h6>Sede</h6>
+  
+                  <select class="form-control" [(ngModel)]="selectedBranchWorkforce" (change)="getForklifsDetails(selectedBranchWorkforce,null)"> 
+                              <option value="0" selected>Seleccionar sede </option>
+                              <option   *ngFor="let branchOffice of branchOffices" [ngValue]="branchOffice.id"   > {{branchOffice.branch_name}}  </option>
+                          <!--  <option value="0" selected>Seleccionar perfil</option> -->
+                      </select>
+              </div>
+  
+              <div class="col-sm-4">
+                  <h6>Equipo</h6>
+  
+                  <select class="form-control"  [(ngModel)]="selectedForkliftWorkforce" > 
+                              <option value="0" selected>Seleccionar equipo </option>
+                              <option   *ngFor="let forklift of forkliftsDetails" [ngValue]="forklift.id"   > {{forklift.full_name}}  </option>
+                          <!--  <option value="0" selected>Seleccionar perfil</option> -->
+                      </select>
+              </div>
+  
+            </div>
+            <br>
+            <div class="align-buttons">
+      
+                <button type="button" style="display:none;" class="btn btn-default waves-effect" id="updateHideWorkforce" (click)="modalUpdateItemWorkforce.hide()">Cancelar</button>
+                <button type="button" class="btn btn-default waves-effect" id="updateItemHideDetailWorkforce" (click)="cancelFormDetailWorkforceUpdate()">Cancelar</button>
+          <!-- <button type="button" class="btn btn-default waves-effect" id="updateItemHideDetaiCustomer" (click)="cancelFormCustomerUpdate()">Cancelar</button> -->
+                <button type="submit " class="btn btn-primary m-b-0 "  (click)="updateSettlementDetailWorkforce()">Actualizar Item</button>
+             
+            </div>
+        </div>
+    </div>
+</app-modal-basic>
 
 <app-modal-basic #modalRegisterItemCustomer [dialogClass]="'modal-lg'">
     <div class="app-modal-header">
@@ -485,7 +679,7 @@
                <div class="col-sm-4">
                 <h6>Sede</h6>
 
-                <select class="form-control" (change)="getForklifs()"  [(ngModel)]="selectedBranchCustomer" > 
+                <select class="form-control"  [(ngModel)]="selectedBranchCustomer" (change)="getForklifsDetails(selectedBranchCustomer)"> 
                             <option value="0" selected>Seleccionar sede </option>
                             <option   *ngFor="let branchOffice of branchOffices" [ngValue]="branchOffice.id"   > {{branchOffice.branch_name}}  </option>
                         <!--  <option value="0" selected>Seleccionar perfil</option> -->
@@ -495,9 +689,9 @@
             <div class="col-sm-4">
                 <h6>Equipo</h6>
 
-                <select class="form-control" (change)="getForkliftText()"  [(ngModel)]="selectedForkliftCustomer" > 
+                <select class="form-control"  [(ngModel)]="selectedForkliftCustomer" > 
                             <option value="0" selected>Seleccionar equipo </option>
-                            <option   *ngFor="let forklift of forklifts" [ngValue]="forklift.id"   > {{forklift.full_name}}  </option>
+                            <option   *ngFor="let forklift of forkliftsDetails" [ngValue]="forklift.id"   > {{forklift.full_name}}  </option>
                         <!--  <option value="0" selected>Seleccionar perfil</option> -->
                     </select>
             </div>
@@ -514,10 +708,9 @@
             </div>
         </div>
     </div>
-  </app-modal-basic>
+</app-modal-basic>
 
-
-  <app-modal-basic #modalUpdateItemCustomer [dialogClass]="'modal-lg'">
+<app-modal-basic #modalUpdateItemCustomer [dialogClass]="'modal-lg'">
     <div class="app-modal-header">
         <h4 class="modal-title">Actualizar Item </h4>
     </div>
@@ -598,7 +791,7 @@
                 <div class="col-sm-4">
                 <h6>Sede</h6>
 
-                <select class="form-control" (change)="getForklifs()"  [(ngModel)]="selectedBranchCustomer" > 
+                <select class="form-control"  [(ngModel)]="selectedBranchCustomer" (change)="getForklifsDetails(selectedBranchCustomer)"> 
                             <option value="0" selected>Seleccionar sede </option>
                             <option   *ngFor="let branchOffice of branchOffices" [ngValue]="branchOffice.id"   > {{branchOffice.branch_name}}  </option>
                         <!--  <option value="0" selected>Seleccionar perfil</option> -->
@@ -608,9 +801,9 @@
             <div class="col-sm-4">
                 <h6>Equipo</h6>
 
-                <select class="form-control" (change)="getForkliftText()"  [(ngModel)]="selectedForkliftCustomer" > 
+                <select class="form-control"  [(ngModel)]="selectedForkliftCustomer" > 
                             <option value="0" selected>Seleccionar equipo </option>
-                            <option   *ngFor="let forklift of forklifts" [ngValue]="forklift.id"   > {{forklift.full_name}}  </option>
+                            <option   *ngFor="let forklift of forkliftsDetails" [ngValue]="forklift.id"   > {{forklift.full_name}}  </option>
                         <!--  <option value="0" selected>Seleccionar perfil</option> -->
                     </select>
             </div>
@@ -627,347 +820,9 @@
             </div>
         </div>
     </div>
-  </app-modal-basic>
-
-<!-- 
-<app-modal-basic #modalSendEmail [dialogClass]="'modal-lg'">
-  <div class="app-modal-header">
-
-      <h4 class="modal-title">Enviar cotización</h4>
-  </div>
-  <div class="app-modal-body">
-      <div>
-
-          <div class="row">
-  
-              <div class="col-sm-6">
-                  <h6>Asunto</h6>
-                 
-              </div>
-              <div class="col-sm-6">
-                  <h6>Mensaje </h6>
-                
-              </div>
-          </div>
-              <div class="row">
-                  <br>
-              <div class="col-sm-12">
-                  <h6>emails</h6>
-                
-              </div>
-          </div>
-          <br>
-          <br>
-          <div class="align-buttons">
-              <button type="button" class="btn btn-default waves-effect" id="sendEmail" (click)="modalSendEmail.hide()">Cancelar</button>
-              <button type="submit " class="btn btn-primary m-b-0 "  (click)="sendEmailEstimate()">Enviar Correo</button>
-
-          </div>
-      </div>
-  </div>
-</app-modal-basic>-->
-
-<app-modal-basic #modalUpdateItemWorkforce [dialogClass]="'modal-lg'">
-  <div class="app-modal-header">
-      <h4 class="modal-title">Actualizar Item </h4>
-  </div>
-  <div class="app-modal-body">
-      <div>
-          <div class="row">
-              <div class="col-sm-6">
-                <h6>Código </h6>
-                <input  type="text" class="form-control" (change)="onChangeworkforceCodeUpdate(workforceCodeUpdate)"  [(ngModel)]="workforceCodeUpdate" list="browsers">
-                <datalist  id="browsers">
-                  <!--  <div  > -->
-                      <option  *ngFor="let detailCode of detailCodes"   [ngValue]="detailCode"> {{detailCode.full_description}} </option>
-                   <!-- </div> -->                  
-                </datalist>
-              </div>
-              <div class="col-sm-6">
-                  <h6>Servicio </h6>
-                  <input type="text" [(ngModel)]="workforceServiceUpdate" class="form-control">
-              </div>
-          </div>
-          <br>
-          <div class="row">
-              <div class="col-sm-4">
-                  <h6>Cantidad</h6>
-                  <input type="number" [(ngModel)]="workforcequantityUpdate" class="form-control"  (blur)="calculateSubtotalWorkUpdate()">
-              </div>
-              <div class="col-sm-4">
-                  <h6>Valor hora</h6>
-                  <input type="text" [(ngModel)]="workforceHourValueUpdate"   (keyup)="finalFormaHourValueUpdate()"   (blur)="calculateSubtotalWorkUpdate()" class="form-control">
-              </div>
-              <div class="col-sm-4">
-                  <h6>Subtotal </h6>
-                  <input type="text" [(ngModel)]="workforceSubtotalUpdate" class="form-control">
-              </div>
-          </div>
-
-          <br>
-          <div class="row">
-            <div class="col-sm-4">
-                <h6>Subcentro </h6>
-      <!--          <select class="form-control">
-                        <option value="0" selected>Seleccionar Subcentro</option>
-                        <option value="2">Centro1 </option>
-                        <option value="3">Centro2 </option>
-                      </select>--> 
-
-                      <select class="form-control" class="form-control" name="select"  [(ngModel)]="selectedSubcostCenterWorkforceUpdateId">
-                        <option value="0" selected>Seleccionar Subcentro</option>
-                    <option  *ngFor="let subcenterCost of subcentersCost " [ngValue]="subcenterCost.id"> {{subcenterCost.description}} </option>
-                   </select>
-
-
-            </div>
-            <div class="col-sm-4">
-                <h6>Descuento% </h6>
-                <input type="number" [(ngModel)]="discountWorkforceUpdate"  (blur)="calculateSubtotalWorkUpdate()" class="form-control">
-            </div>
-
-            <div class="col-sm-4">
-                <h6>Total </h6>
-                <input  [(ngModel)]="totalPriceWorkforceUpdate" class="form-control" disabled>
-              </div>        
-          </div>
-
-
-          <br>
-
-
-          <div class="row">
-              <div class="col-sm-4">
-                  <h6>Entrega </h6>
-                  <div class="row">
-                      <div class="col-sm-4">
-                          <input type="number"   [(ngModel)]="workforceDeliveryUpdate" class="form-control">
-                      </div><h6>Días</h6> 
-                  </div>     
-              </div>
-              <div class="col-sm-4">
-                <h6>Sede</h6>
-
-                <select class="form-control" (change)="getForklifs()"  [(ngModel)]="selectedBranchWorkforce" > 
-                            <option value="0" selected>Seleccionar sede </option>
-                            <option   *ngFor="let branchOffice of branchOffices" [ngValue]="branchOffice.id"   > {{branchOffice.branch_name}}  </option>
-                        <!--  <option value="0" selected>Seleccionar perfil</option> -->
-                    </select>
-            </div>
-
-            <div class="col-sm-4">
-                <h6>Equipo</h6>
-
-                <select class="form-control" (change)="getForkliftText()"  [(ngModel)]="selectedForkliftWorkforce" > 
-                            <option value="0" selected>Seleccionar equipo </option>
-                            <option   *ngFor="let forklift of forklifts" [ngValue]="forklift.id"   > {{forklift.full_name}}  </option>
-                        <!--  <option value="0" selected>Seleccionar perfil</option> -->
-                    </select>
-            </div>
-
-          </div>
-          <br>
-          <div class="align-buttons">
-    
-              <button type="button" style="display:none;" class="btn btn-default waves-effect" id="updateHideWorkforce" (click)="modalUpdateItemWorkforce.hide()">Cancelar</button>
-              <button type="button" class="btn btn-default waves-effect" id="updateItemHideDetailWorkforce" (click)="cancelFormDetailWorkforceUpdate()">Cancelar</button>
-        <!-- <button type="button" class="btn btn-default waves-effect" id="updateItemHideDetaiCustomer" (click)="cancelFormCustomerUpdate()">Cancelar</button> -->
-              <button type="submit " class="btn btn-primary m-b-0 "  (click)="updateSettlementDetailWorkforce()">Actualizar Item</button>
-           
-          </div>
-      </div>
-  </div>
 </app-modal-basic>
 
 <!-- modal para actulizar -->
-<app-modal-basic #modalUpdateItem [dialogClass]="'modal-lg'">
-  <div class="app-modal-header">
-
-      <h4 class="modal-title">Actualizar Item</h4>
-  </div>
-  <div class="app-modal-body">
-      <div>
-          <div class="row">
-              <div class="col-sm-6">
-                <h6>Código </h6>
-                <input  type="text" class="form-control" (change)="onChangeCodeUpdate(codeUpdate)"  [(ngModel)]="codeUpdate" list="codeUpdateList">
-                <datalist  id="codeUpdateList">
-                  <!--  <div  > -->
-                      <option  *ngFor="let detailCode of detailCodes"   [ngValue]="detailCode"> {{detailCode.full_description}} </option>  
-                   <!-- </div> -->                  
-                </datalist>
-                 <!-- <input type="text" [(ngModel)]="codeUpdate" class="form-control">  -->
-              </div>
-              <div class="col-sm-6">
-                  <h6>Descripción </h6>
-                  <input type="text" [(ngModel)]="descriptionUpdate" class="form-control">
-              </div>
-
-          </div>
-          <br>
-
-          <div class="row">
-              <div class="col-sm-3">
-                  <h6>Cantidad</h6>
-                  <input type="number" [(ngModel)]="quantityUpdate"  (blur)="calculateFreightValuesUpdate()"  class="form-control">
-              </div>
-              <div class="col-sm-3">
-                  <h6>Costo Unitario </h6>
-                  <input type="number" [(ngModel)]="unitCostUpdate"  (blur)="calculateFreightValuesUpdate()"  class="form-control">
-              </div>
-              <div class="col-sm-3">
-                  <h6>Lista de precios </h6>
-                  <select class="form-control" [(ngModel)]="priceListUpdate"  (blur)="calculateFreightValuesUpdate()" >
-                          <option value="0" selected>Seleccionar país</option>
-                          <option value="2">USA </option>
-                          <option value="3">ESPAÑA </option>
-                          <option value="4">BELGICA </option>
-                          <option value="5">SERVICIO TERCERO </option>
-                          <option value="6">REPUESTO NACIONAL </option>
-                          <option value="7">SIN PV </option>
-                        </select>
-
-              </div>
-              <div class="col-sm-3">
-                  <h6>Peso</h6>
-                  <input type="number" [(ngModel)]="weightUpdate"  (blur)="calculateFreightValuesUpdate()" [disabled]="priceListUpdate == 5 || priceListUpdate == 6 || priceListUpdate== 7" class="form-control">
-              </div>
-              <!--<div class="col-sm-3">
-                  <h6>Lista Tipo Peso </h6>
-                  <select class="form-control" [(ngModel)]="weightTypeListUpdate"  (blur)="calculateFreightValuesUpdate()" [disabled]="priceList == 5 || priceList == 6">
-                              <option value="0" selected>Seleccionar peso</option>
-                              <option value="1">LB </option>
-                              <option value="2">KL </option>
-                            </select>
-
-              </div> -->
-          </div>
-
-          <br>
-          <div class="row">
-              <div class="col-sm-3">
-                  <h6>Lista Tipo Peso </h6>
-                  <select class="form-control" [(ngModel)]="weightTypeListUpdate"  (blur)="calculateFreightValuesUpdate()" [disabled]="priceListUpdate == 5 || priceListUpdate == 6 || priceListUpdate== 7">
-                              <option value="0" selected>Seleccionar peso</option>
-                              <option value="1">LB </option>
-                              <option value="2">KL </option>
-                            </select>
-
-              </div>
-              <!--<div class="col-sm-3">
-                  <h6>Lista de precios </h6>
-                  <select class="form-control" [(ngModel)]="priceListUpdate"  (blur)="calculateFreightValuesUpdate()" >
-                          <option value="0" selected>Seleccionar país</option>
-                          <option value="2">USA </option>
-                          <option value="3">ESPAÑA </option>
-                          <option value="4">BELGICA </option>
-                          <option value="5">SERVICIO TERCERO </option>
-                          <option value="6">REPUESTO NACIONAL </option>
-                        </select>
-
-              </div>-->
-              <div class="col-sm-3">
-                  <h6>Precio sugerido </h6>
-                  <input type="text" [(ngModel)]="suggestedPriceUpdate" class="form-control" disabled>
-              </div>
-              <div class="col-sm-3">
-                  <h6>Precio </h6>
-                  <input type="text" [(ngModel)]="priceUpdate"  (blur)="calculateSubtotalUpdate()"  (keyup)="finalFormatPriceUpdate()"class="form-control">
-              </div>
-              <div class="col-sm-3">
-                  <h6>Subtotal </h6>
-                  <input type="text" [(ngModel)]="subtotalUpdate" class="form-control" disabled>
-              </div>
-          </div>
-
-          <br>
-          <div class="row">
-
-
-
-            <div class="col-sm-4">
-                <h6>Subcentro </h6>
-      <!--          <select class="form-control">
-                        <option value="0" selected>Seleccionar Subcentro</option>
-                        <option value="2">Centro1 </option>
-                        <option value="3">Centro2 </option>
-                      </select>--> 
-
-                      <select class="form-control" class="form-control" name="select"  [(ngModel)]="selectedSubcostCenterUpdateId">
-                        <option value="0" selected>Seleccionar Subcentro</option>
-                    <option  *ngFor="let subcenterCost of subcentersCost " [ngValue]="subcenterCost.id"> {{subcenterCost.description}} </option>
-                   </select>
-
-
-            </div>
-            <div class="col-sm-4">
-                <h6>Descuento% </h6>
-                <input type="number" [(ngModel)]="discountPartUpdate"  (blur)="calculateSubtotalUpdate()" class="form-control">
-            </div>
-
-              <div class="col-sm-4">
-                <h6>Total </h6>
-                <input  [(ngModel)]="totalPriceUpdate" class="form-control" disabled>
-              </div>
-          </div>
-          <br>
-
-          <div class="row">
-              <div class="col-sm-4">
-                  <h6>Entrega </h6>
-                  <div class="row">
-                      <div class="col-sm-4">
-                          <input type="number"   [(ngModel)]="deliveryPartUpdate" class="form-control">
-                      </div><h6>Días</h6> 
-                  </div>     
-              </div>
-
-              <div class="col-sm-4">
-                <h6>Sede</h6>
-
-                <select class="form-control" (change)="getForklifs()"  [(ngModel)]="selectedBranchCustomer" > 
-                            <option value="0" selected>Seleccionar sede </option>
-                            <option   *ngFor="let branchOffice of branchOffices" [ngValue]="branchOffice.id"   > {{branchOffice.branch_name}}  </option>
-                        <!--  <option value="0" selected>Seleccionar perfil</option> -->
-                    </select>
-            </div>
-
-            <div class="col-sm-4">
-                <h6>Equipo</h6>
-
-                <select class="form-control" (change)="getForkliftText()"  [(ngModel)]="selectedForkliftCustomer" > 
-                            <option value="0" selected>Seleccionar equipo </option>
-                            <option   *ngFor="let forklift of forklifts" [ngValue]="forklift.id"   > {{forklift.full_name}}  </option>
-                        <!--  <option value="0" selected>Seleccionar perfil</option> -->
-                    </select>
-            </div>
-          </div>
-          <br>
-          <div class="align-buttons">
-             <!-- <button type="button" class="btn btn-default waves-effect" id="createItemHide" (click)="modalRegisterItem.hide()">Cancelar</button> -->
-
-             <button type="button" style="display:none;" class="btn btn-default waves-effect" id="updateItemHide" (click)="modalUpdateItem.hide()">Cancelar</button>
-             <button type="button" class="btn btn-default waves-effect" id="updateDetailItemHide" (click)="cancelFormDetailUpdate()">Cancelar</button>
-            
-           <!--   <button type="button" style="display:none;" class="btn btn-default waves-effect" id="showModalApproval" (click)="modalApprovalItems.show()">Mostrar cotizaciones</button> -->
-             <button type="button" style="display:none;" class="btn btn-default waves-effect" id="showModalProgramming" (click)="modalProgramming.show()">Mostrar Programación</button>
-             <button type="button" style="display:none;" class="btn btn-default waves-effect" id="hideModalProgramming" (click)="modalProgramming.hide()">Mostrar Programación</button>
-             <button type="button" style="display:none;" class="btn btn-default waves-effect" id="checkEstimateCustomers" (click)="modalEstimateCustomers.show()">Cancelar</button>
-             <button type="button" style="display:none;" class="btn btn-default waves-effect" id="hideEstimateCustomers" (click)="modalEstimateCustomers.hide()">Cancelar</button>
-
-             <button type="button" style="display:none;" class="btn btn-default waves-effect" id="checkEstimateForklift" (click)="modalEstimateForklifts.show()">Cancelar</button>
-             <button type="button" style="display:none;" class="btn btn-default waves-effect" id="hideEstimateForklift" (click)="modalEstimateForklifts.hide()">Cancelar</button>
-
-             <button type="button" style="display:none;" class="btn btn-default waves-effect" id="showModalEmailsSettlement" (click)="modalEmailsSettlement.show()">Cancelar</button>
-            
-             <!--  <button type="button" class="btn btn-default waves-effect" id="updateItemHide" (click)="modalUpdateItem.hide()">Cancelar</button>-->
-              <button type="submit " class="btn btn-primary m-b-0 "  (click)="updateSettlementDetail()">Actualizar Item</button>
-             
-          </div>
-      </div>
-  </div>
-</app-modal-basic>
-
 <app-modal-basic #modalUpdateItemCopy [dialogClass]="'modal-lg'">
   <div class="app-modal-header">
 
@@ -1090,7 +945,7 @@
               <div class="col-sm-4">
                 <h6>Sede</h6>
 
-                <select class="form-control" (change)="getForklifs()"  [(ngModel)]="selectedBranchOfficeId" > 
+                <select class="form-control" [(ngModel)]="selectedBranchPart" (change)="getForklifsDetails(selectedBranchPart)"> 
                             <option value="0" selected>Seleccionar sede </option>
                             <option   *ngFor="let branchOffice of branchOffices" [ngValue]="branchOffice.id"   > {{branchOffice.branch_name}}  </option>
                         <!--  <option value="0" selected>Seleccionar perfil</option> -->
@@ -1100,9 +955,9 @@
             <div class="col-sm-4">
                 <h6>Equipo</h6>
 
-                <select class="form-control" (change)="getForkliftText()"  [(ngModel)]="selectedForkliftId" > 
+                <select class="form-control"  [(ngModel)]="selectedForkliftPart" > 
                             <option value="0" selected>Seleccionar equipo </option>
-                            <option   *ngFor="let forklift of forklifts" [ngValue]="forklift.id"   > {{forklift.full_name}}  </option>
+                            <option   *ngFor="let forklift of forkliftsDetails" [ngValue]="forklift.id"   > {{forklift.full_name}}  </option>
                         <!--  <option value="0" selected>Seleccionar perfil</option> -->
                     </select>
             </div>
@@ -1119,6 +974,147 @@
   </div>
 </app-modal-basic>
 <!-- fin -->
+
+<app-modal-basic #modalEmailsSettlement [dialogClass]="'modal-lg'">
+    <div class="app-modal-header">
+        <h4 class="modal-title">Agregar Correos Electrónico</h4>
+    </div>
+    <div class="app-modal-body">
+            <div class="form-group row">
+                <div class="col-sm-12">
+                    <h6>Asunto</h6>
+                    <input type="text" class="form-control" [(ngModel)]="settlementSubject" >
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-sm-12">
+                    <div class="row">
+                        <div class="col-sm-12 col-xs-12 col-md-12  col-lg-11">
+                            <h6>Agregar Correo Electrónico</h6>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="row">
+                        <div class="col-sm-6 col-xs-6 col-md-6  col-lg-5" >
+                            <h6> Correo  </h6>
+                        </div>
+                        <div class="col-sm-6 col-xs-6 col-md-6  col-lg-5">
+                           <h6> Nombre  </h6> 
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6 col-xs-6 col-md-6  col-lg-5">
+                        
+
+                          <input  type="text" class="form-control"   [(ngModel)]="masterEmail" >
+                         <!-- <datalist  id="browsers">
+                             <div  *ngFor="let customerEmail of emailCustomer">
+                                <option    value={{customerEmail.email}}>
+                             </div> 
+                           
+                          </datalist> -->
+
+
+                        </div>
+                        <div class="col-sm-6 col-xs-6 col-md-6  col-lg-5">
+                            <input type="text" class="form-control" [(ngModel)]="masterName">
+                        
+                          
+                        
+                        </div>
+                        <div class="col-sm-1" style="margin-top: 0.5%">
+                            <button class="btn btn-warning btn-icon" (click)="addEmail()"><i class="icofont icofont-ui-add"></i></button>
+                        </div>
+                    </div>
+                    <br>
+                    <br>
+                    <div>
+                        <h6>Lista Correos Electrónicos</h6>
+            
+                        <br>
+                        <div  *ngIf="emailsCurrentSettlement">
+                       
+                        
+                        <div  *ngFor="let email of emailsCurrentSettlement;let pointIdex=index">
+                            <div class="row">
+                                <div class="col-sm-6 col-xs-6 col-md-6  col-lg-5">
+                                    <input type="text" class="form-control"  value='{{email.email}}'  disabled>
+                                </div>
+                                <div class="col-sm-6 col-xs-6 col-md-6  col-lg-5">
+                                    <input type="text" class="form-control"  value='{{email.contact}}' disabled>
+                                </div>
+                                <div class="col-sm-1" style="margin-top: 0.5%">
+                                    <button class="btn btn-default btn-icon" (click)="deleteEmail(email.id)"><i class="icofont icofont-ui-remove"></i></button>
+                                </div>
+                            </div>
+                            <br>
+                            <!-- <div *ngIf="submitted && detailform.part.errors" class="invalid-feedback">
+                                        <div class="messages text-danger" *ngIf="detailform.part.errors.required">Este campo es requerido</div>
+                                    </div> -->
+                        </div>
+                    </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-sm-12">
+                    <h6>Mensaje</h6>
+                    <textarea type="text" rows="5" class="form-control" id="comment"  [(ngModel)]="settlementComment"></textarea>
+                </div>
+            </div>
+            <div class="col-sm-12">
+                <input type="checkbox" name="Ocultar codigo de repuesto"  [(ngModel)]="settlementCheckHideCode" (change)="onChangeCodeEmails($event)"  />
+                <label>Ocultar codigo de repuesto</label>
+            </div>
+
+            <div class="align-buttons">
+                <button type="button" class="btn btn-default waves-effect" id="emailDetailHide" (click)="modalEmailsSettlement.hide()">Cancelar</button>
+                <button type="submit " class="btn btn-primary m-b-0 " (click)="saveEmailSettlement()">Guardar Email</button>
+
+            </div>
+       
+    </div>
+
+</app-modal-basic>
+
+<!-- 
+<app-modal-basic #modalSendEmail [dialogClass]="'modal-lg'">
+  <div class="app-modal-header">
+
+      <h4 class="modal-title">Enviar cotización</h4>
+  </div>
+  <div class="app-modal-body">
+      <div>
+
+          <div class="row">
+  
+              <div class="col-sm-6">
+                  <h6>Asunto</h6>
+                 
+              </div>
+              <div class="col-sm-6">
+                  <h6>Mensaje </h6>
+                
+              </div>
+          </div>
+              <div class="row">
+                  <br>
+              <div class="col-sm-12">
+                  <h6>emails</h6>
+                
+              </div>
+          </div>
+          <br>
+          <br>
+          <div class="align-buttons">
+              <button type="button" class="btn btn-default waves-effect" id="sendEmail" (click)="modalSendEmail.hide()">Cancelar</button>
+              <button type="submit " class="btn btn-primary m-b-0 "  (click)="sendEmailEstimate()">Enviar Correo</button>
+
+          </div>
+      </div>
+  </div>
+</app-modal-basic>-->
+
 <!-- Modal Programación de liquidación-->
 <!-- <button type="button" class="btn btn-default waves-effect" (click)="modalDefault.show()">Static</button>-->
           <app-modal-basic #modalProgramming>
@@ -1314,7 +1310,7 @@
     </div>
 </app-modal-basic>
 
-<!-- Modal Cotizaciones por empresa-->
+<!-- Modal Mantenimientos empresa-->
 <app-modal-basic #modalMaintenance [dialogClass]="'modal-lg'">
     <div class="app-modal-header">
         <h4 class="modal-title">Copiar Mantenimientos </h4>
@@ -1420,7 +1416,6 @@
 </app-modal-basic>
 
                     <!-- Cotizaciones por maquinas-->
-<!-- Modal Cotizaciones por empresa-->
 <app-modal-basic #modalEstimateForklifts [dialogClass]="'modal-lg'">
     <div class="app-modal-header">
         <h4 class="modal-title">Copiar cotizaciones por equipos</h4>
@@ -1512,9 +1507,6 @@
     </div>
 </app-modal-basic>
 
-
-
-
 <app-modal-basic #modalCopyCustomer [dialogClass]="'modal-lg'">
     <div class="app-modal-header">
         <h4 class="modal-title">Copiar detalles a factura</h4>
@@ -1582,8 +1574,6 @@
     </div>
 </app-modal-basic>
 
-
-<!-- Modal Cotizaciones por empresa-->
 <app-modal-basic #modalEstimateCustomersTest [dialogClass]="'modal-lg'">
     <div class="app-modal-header">
         <h4 class="modal-title">Copiar cotizaciones por equipos</h4>
