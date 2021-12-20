@@ -4621,11 +4621,12 @@ storeMaintenance(){
   }
 
   cancelSelect(){
+    this.typeMaintenance = null
     this.selectedMaintenanceId = '';
-      this.dataMaintenances.length = 0;
-      this.checkAllPart = false;
-      this.checkAllWorkforce = false;
-      this.selectedBranchOfficeMaintenanceId = 0;
+    this.dataMaintenances.length = 0;
+    this.checkAllPart = false;
+    this.checkAllWorkforce = false;
+    this.selectedBranchOfficeMaintenanceId = 0;
   }
 
 createDetailsEstimateSettlement(){
