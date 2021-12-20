@@ -1329,10 +1329,10 @@
                 </div>
                 <div class="col-2"></div>
                 <div class="col-4">
-                    <h6>Mantenimiento<span style="color:red;">*</span></h6>
+                    <h6>Tipo mantenimiento<span style="color:red;">*</span></h6>
                     <select class="form-control" [(ngModel)]="selectedMaintenanceId" (change)="showFilterMaintenance()" >
                                 <option   *ngFor="let item of typeMaintenance" [ngValue]="item.description"   > {{item.description}}  </option>
-                            <!--  <option value="0" selected>Seleccionar perfil</option> -->
+                              <option value="" selected>Seleccionar tipo</option>
                         </select>
                 </div>
 
