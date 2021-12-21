@@ -560,8 +560,8 @@
                 </div>
                 <div class="col-sm-4">
                   <h6>Sede</h6>
-
-                  <select class="form-control" [(ngModel)]="selectedBranchWorkforce" (change)="getForklifsDetails(selectedBranchWorkforce,null)">
+                 <!--- YCV Se comenta 201221 solo debe recibir un parametro -->
+                  <select class="form-control" [(ngModel)]="selectedBranchWorkforce" (change)="getForklifsDetails(selectedBranchWorkforce)">
                               <option value="0" selected>Seleccionar sede </option>
                               <option   *ngFor="let branchOffice of branchOffices" [ngValue]="branchOffice.id"   > {{branchOffice.branch_name}}  </option>
                           <!--  <option value="0" selected>Seleccionar perfil</option> -->
