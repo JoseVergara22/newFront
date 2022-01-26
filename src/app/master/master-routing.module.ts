@@ -114,6 +114,7 @@ import { MasterTimeOutForkliftComponent } from './master-time-out-forklift/maste
 import { MasterSupportViewComponent } from './master-support-view/master-support-view.component';
 import { MasterSupportMainComponent } from './master-support-main/master-support-main.component';
 import { MasterSupportRegisterComponent } from './master-support-register/master-support-register.component';
+import { MasterReportMaintenanceSettlementComponent } from './master-report-maintenance-settlement/master-report-maintenance-settlement.component';
 
 // import { MasterMaintenanceNotificationComponent } from './master-maintenance-notification/master-maintenance-notification.component';
 
@@ -511,6 +512,9 @@ const routes: Routes = [
   },{
     path:'supportTicketRegister',
     component: MasterSupportRegisterComponent
+  },{
+    path:'maintenanceSettlement',
+    component: MasterReportMaintenanceSettlementComponent
   },
  
 ];

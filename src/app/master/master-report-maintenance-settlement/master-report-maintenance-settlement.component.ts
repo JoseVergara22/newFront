@@ -28,13 +28,13 @@ interface bussnessInterface {// item para mostrar clientes
   select?: boolean;
 }
 
-interface typeMaintenanceInterface {// item para mostrar clientes
+interface typeMaintenanceInterface {// item para mostrar tipo mantenimiento
   id?: number;
   name?: string;
   select?: boolean;
 }
 
-interface statusMaintenanceInterface {// item para mostrar clientes
+interface statusMaintenanceInterface {// item para mostrar estado
   id?: number;
   name?: string;
   select?: boolean;
@@ -45,49 +45,42 @@ interface busnessOfficeInterface {// item para mostrar clientes
   office?: Array<officeInterface>;
 }
 
-interface officeInterface {// item para mostrar clientes
+interface officeInterface {// item para mostrar sedes
   id?: number;
   name?: string;
   select?: boolean;
 }
 
-interface OfficeForkliftInterface {// item para mostrar clientes
+interface OfficeForkliftInterface {// item para mostrar equipos sede
   office?: string;
   forklift?: Array<forkliftInterface>;
 }
 
-interface forkliftInterface {// item para mostrar clientes
+interface forkliftInterface {// item para mostrar equipos
   id?: number;
   name?: string;
   select?: boolean;
 }
 
 interface tableInterface {
-  Consecutivo?: string;
-  Cliente?: string;
-  Sede?: string;
-  Equipo?: string;
+  Cliente?:string;
+  Sede?:string;
   Tipo?:string;
-  Estado?:string;
-  Fecha_Asignado?:string;
-  Fecha_Inicio?:string;
-  Fecha_Fin?:string;
-  Duracion_Actividad?:string;
-  Trabajo_Realizado?:string;
-  Estado_Final?:string;
+  Equipo?: string;
+  Consecutivo_Mantenimiento?:string;
+  Consecutivo_Liquidacion?:string;
 }
 
 
 @Component({
-  selector: 'app-master-maintenance-asing-finish',
-  templateUrl: './master-maintenance-asing-finish.component.html',
-  styleUrls: ['./master-maintenance-asing-finish.component.scss',
+  selector: 'app-master-report-maintenance-settlement',
+  templateUrl: './master-report-maintenance-settlement.component.html',
+  styleUrls: ['./master-report-maintenance-settlement.component.scss',
   '../../../assets/icon/icofont/css/icofont.scss'],
-  providers: [I18n, {provide: NgbDatepickerI18n, useClass: MasterMaintenanceAsingFinishComponent}]
+  providers: [I18n, {provide: NgbDatepickerI18n, useClass: MasterReportMaintenanceSettlementComponent}]
 })
-export class MasterMaintenanceAsingFinishComponent extends NgbDatepickerI18n {
+export class MasterReportMaintenanceSettlementComponent extends NgbDatepickerI18n {
 
-  
   selectsBusness :Array<bussnessInterface> = [];
   selectBusness :bussnessInterface; 
   selectsBusnessOffices :Array<busnessOfficeInterface> = [];
@@ -144,52 +137,20 @@ export class MasterMaintenanceAsingFinishComponent extends NgbDatepickerI18n {
     });
     swal.showLoading();
     this.getRegional();
-    this.getTyeMaintenance();
-    this.getStatusMaintenance();
 
+    this.selectsStatus.push(this.selectStatus = {
+      id:0,
+      name:'Liquidado',
+      select:false
+    });
+    this.selectsStatus.push(this.selectStatus = {
+      id:1,
+      name:'No Liquidado',
+      select:false
+    });
    }
 
-   getRegional(){
-    this.restService.getRegionalAll().then(data => {
-      const resp: any = data;
-      console.log(data);
-      swal.close();
-      this.regional  = resp.data;
-    }).catch(error => {
-      console.log(error);
-      swal({
-        title:'Error',
-        text: 'Ha ocurrido un error al cargar las Sucursales',
-        type: 'error'
-       });
-    });
-  }
-
-  getStatusMaintenance(){
-    this.reportService.getStatusMaintenance().then(data => {
-      const resp: any = data;
-      console.log(data);
-      swal.close();
-      this.status  = resp.data;
-      for(let item of this.status){
-        this.selectStatus = {
-          id:item.id,
-          name:item.description,
-          select:false,
-        }
-        this.selectsStatus.push(this.selectStatus);
-      }
-    }).catch(error => {
-      console.log(error);
-      swal({
-        title:'Error',
-        text: 'Ha ocurrido un error al cargar las Sucursales',
-        type: 'error'
-       });
-    });
-  }
-
-  getTyeMaintenance(){
+   getTyeMaintenance(){
     this.reportService.getTyeMaintenance().then(data => {
       const resp: any = data;
       console.log(data);
@@ -203,6 +164,22 @@ export class MasterMaintenanceAsingFinishComponent extends NgbDatepickerI18n {
         }
         this.selectsType.push(this.selectType);
       }
+    }).catch(error => {
+      console.log(error);
+      swal({
+        title:'Error',
+        text: 'Ha ocurrido un error al cargar las Sucursales',
+        type: 'error'
+       });
+    });
+  }
+
+   getRegional(){
+    this.restService.getRegionalAll().then(data => {
+      const resp: any = data;
+      console.log(data);
+      swal.close();
+      this.regional  = resp.data;
     }).catch(error => {
       console.log(error);
       swal({
@@ -234,9 +211,6 @@ export class MasterMaintenanceAsingFinishComponent extends NgbDatepickerI18n {
           }
           this.selectsBusness.push(this.selectBusness)
         }
-        
-        //asignar valores customer;
-      
       }).catch(error => {
         console.log(error);
         swal({
@@ -376,14 +350,6 @@ export class MasterMaintenanceAsingFinishComponent extends NgbDatepickerI18n {
       }
   }
 
-  checkUncheckAllStatus(event:any){
-    this.checkAllStatus=event.target.checked;    
-      for (let i = 0; i < this.selectsStatus.length; i++){
-        console.log('lo encontre'+i);
-          this.selectsStatus[i].select=event.target.checked;
-      }
-  }
-
     getFilters() {
 
       swal({
@@ -429,7 +395,7 @@ export class MasterMaintenanceAsingFinishComponent extends NgbDatepickerI18n {
       // var untilD = this.untilDate.year+'-'+this.untilDate.month+'-'+this.untilDate.day;
       params='from_date='+ fromD+' 00:00:00'+'&to_date=' +untilD+' 23:59:59&regional=' + this.selectedRegionalId.id;
 
-
+      //Se hace validacion de el check tipo de mantenimineto
       if(this.selectsType[0].select){
         params = params +'&battery=battery';
         cont ++;
@@ -454,29 +420,28 @@ export class MasterMaintenanceAsingFinishComponent extends NgbDatepickerI18n {
         params = params +'&stevedore=stevedore';
         cont ++;
       }
+      if(this.selectsType[5].select){
+        params = params +'&stevedore=stevedore';
+        cont ++;
+      }
+      //Se hace validacion de sellecion de check estado
+      if(this.selectsStatus[0].select){
+        params = params +'&settlement=settlement';
+        cont ++;
+      }
+      if(this.selectsStatus[1].select){
+        params = params +'&no_settlement=no_settlement';
+        cont ++;
+      }
+
+
+
 
     if(cont >=1){      
 
       let busness = '';
       let forklift = '';
       let office = '';
-
-      if(this.selectsStatus[0].select){
-        params = params +'&pending='+this.selectsStatus[0].name;
-        cont ++;
-      }
-      if(this.selectsStatus[1].select){
-        params = params +'&start='+this.selectsStatus[1].name;
-        cont ++;
-      }
-      if(this.selectsStatus[2].select){
-        params = params +'&finish='+this.selectsStatus[2].name;
-        cont ++;
-      }
-      if(this.selectsStatus[3].select){
-        params = params +'&firm='+this.selectsStatus[3].name;
-        cont ++;
-      }
 
       for (let item of this.selectsBusness) {
         console.log('entro');
@@ -523,7 +488,7 @@ export class MasterMaintenanceAsingFinishComponent extends NgbDatepickerI18n {
         }
         
       console.log('.---------->'+params);
-      this.reportService.showFilterDuration(params).then(data => {
+      this.reportService.showSystemMauntenanceMa(params).then(data => {
         const resp: any = data;
         console.log('info de filter');
         console.log(data);
@@ -531,42 +496,18 @@ export class MasterMaintenanceAsingFinishComponent extends NgbDatepickerI18n {
         console.log(this.rowsClient);
         this.rowsClient = resp.data;
         for(let data of resp.data){
-          let status;
-          let newStatus;
-          if(data.status == 0){
-            status = 'Pendiente';
-            newStatus = 'Sin Realizar'
-          }
-          if(data.status == 1){
-            status = 'Iniciado';
-            newStatus = 'En Proceso'
-          }
-          if(data.status == 2){
-            status = 'Finalizado';
-            newStatus = 'Realizado'
-          }
-          if(data.status == 3){
-            status = 'Pendiente Por Firma';
-            newStatus = 'Realizado'
-          }
           
           this.dataExcel = {
-            Consecutivo:data.consecutive,
             Cliente:data.customer,
             Sede:data.office,
-            Equipo:data.full_name,
             Tipo:data.type,
-            Estado:status,
-            Fecha_Asignado:data.date,
-            Fecha_Inicio:data.start,
-            Fecha_Fin:data.finish,
-            Duracion_Actividad:data.duration_activity,
-            Trabajo_Realizado:data.work,
-            Estado_Final:newStatus
+            Equipo:data.full_name,
+            Consecutivo_Mantenimiento:data.consecutive,
+            Consecutivo_Liquidacion:data.settlement_consecutive
           }
           this.dataExcels.push(this.dataExcel);
         }
-        this.exportAsExcelFile(this.dataExcels,'Mantenimientos Asignados Vs Realizados '+ fromD + ' - ' + untilD);
+        this.exportAsExcelFile(this.dataExcels,'Informe de Sistemas Intervenidos '+ fromD + ' - ' + untilD);
         swal.close();
         
         console.log(resp.error);
@@ -609,7 +550,7 @@ export class MasterMaintenanceAsingFinishComponent extends NgbDatepickerI18n {
     public exportAsExcelFile(rows: any[], excelFileName: string): void {
       if (rows.length > 0) {
         const worksheet: XLSX.WorkSheet = XLSX.utils.json_to_sheet(rows);
-        const workbook: XLSX.WorkBook = {Sheets: {'Info-Asig-Vs-Realizados': worksheet}, SheetNames: ['Info-Asig-Vs-Realizados']};
+        const workbook: XLSX.WorkBook = {Sheets: {'Info-Sis-Intervenidos': worksheet}, SheetNames: ['Info-Sis-Intervenidos']};
         console.log(workbook.Sheets);
         console.log(workbook.SheetNames);
         const excelBuffer: any = XLSX.write(workbook, {bookType: 'xlsx', type: 'array'});
@@ -668,5 +609,6 @@ export class MasterMaintenanceAsingFinishComponent extends NgbDatepickerI18n {
 
   ngOnInit() {
   }
+
 
 }

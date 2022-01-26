@@ -128,6 +128,7 @@ import { MasterSupportViewComponent } from './master-support-view/master-support
 import { MasterSupportMainComponent } from './master-support-main/master-support-main.component';
 import { MasterSupportRegisterComponent } from './master-support-register/master-support-register.component';
 import { MasterMaintenanceNotificationComponent } from './master-maintenance-notification/master-maintenance-notification.component';
+import { MasterReportMaintenanceSettlementComponent } from './master-report-maintenance-settlement/master-report-maintenance-settlement.component';
 
 
 
@@ -168,6 +169,7 @@ import { BrandService } from '../master-services/brand/brand.service';
 import { SupportService } from '../master-services/support/support.service';
 
 import {AutocompleteLibModule} from 'angular-ng-autocomplete';
+
 
 
 
@@ -317,6 +319,7 @@ import {AutocompleteLibModule} from 'angular-ng-autocomplete';
     MasterSupportViewComponent,
     MasterSupportMainComponent,
     MasterSupportRegisterComponent,
+    MasterReportMaintenanceSettlementComponent,
 
    // MasterAdminComponent
   ],

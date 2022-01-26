@@ -447,7 +447,7 @@ export class MasterMaintenanceDurationComponent extends NgbDatepickerI18n {
         cont ++;
       }
       if(this.selectsType[5].select){
-        params = params +'&stivadore=stivadore';
+        params = params +'&stevedore=stevedore';
         cont ++;
       }
 

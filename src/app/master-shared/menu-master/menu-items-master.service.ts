@@ -366,6 +366,10 @@ const MENUITEMS = [
             state: 'timeOutForklift',
             name: 'Reporte Tiempo Muerto De Equipos'
           },
+          {
+            state: 'maintenanceSettlement',
+            name: 'Reporte Mantenimientos Liquidados'
+          },
         ]
       }
     ]
