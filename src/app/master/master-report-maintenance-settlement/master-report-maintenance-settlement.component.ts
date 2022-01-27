@@ -550,7 +550,7 @@ export class MasterReportMaintenanceSettlementComponent extends NgbDatepickerI18
     public exportAsExcelFile(rows: any[], excelFileName: string): void {
       if (rows.length > 0) {
         const worksheet: XLSX.WorkSheet = XLSX.utils.json_to_sheet(rows);
-        const workbook: XLSX.WorkBook = {Sheets: {'Info-Sis-Intervenidos': worksheet}, SheetNames: ['Info-Sis-Intervenidos']};
+        const workbook: XLSX.WorkBook = {Sheets: {'Info-Controles-Liquidados': worksheet}, SheetNames: ['Info-Controles-Liquidados']};
         console.log(workbook.Sheets);
         console.log(workbook.SheetNames);
         const excelBuffer: any = XLSX.write(workbook, {bookType: 'xlsx', type: 'array'});
