@@ -137,6 +137,7 @@ export class MasterReportMaintenanceSettlementComponent extends NgbDatepickerI18
     });
     swal.showLoading();
     this.getRegional();
+    this.getTyeMaintenance();
 
     this.selectsStatus.push(this.selectStatus = {
       id:0,
@@ -488,7 +489,7 @@ export class MasterReportMaintenanceSettlementComponent extends NgbDatepickerI18
         }
         
       console.log('.---------->'+params);
-      this.reportService.showSystemMauntenanceMa(params).then(data => {
+      this.reportService.getMaintenanceSettlement(params).then(data => {
         const resp: any = data;
         console.log('info de filter');
         console.log(data);
@@ -507,7 +508,7 @@ export class MasterReportMaintenanceSettlementComponent extends NgbDatepickerI18
           }
           this.dataExcels.push(this.dataExcel);
         }
-        this.exportAsExcelFile(this.dataExcels,'Informe de Sistemas Intervenidos '+ fromD + ' - ' + untilD);
+        this.exportAsExcelFile(this.dataExcels,'Informe Controles Liquidados '+ fromD + ' - ' + untilD);
         swal.close();
         
         console.log(resp.error);
