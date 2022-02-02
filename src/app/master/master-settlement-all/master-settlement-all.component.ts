@@ -1172,8 +1172,8 @@ console.log('este es el e:'+ +JSON.stringify(e));
   
    let months = new Array ("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
    let days = new Array("Domingo","Lunes","Martes","Miércoles","Jueves","Viernes","Sábado");
-   let currentDate = new Date(this.creationDate);
-   let currentDateFormat = days[currentDate.getDay()+1] + ", " + (currentDate.getDate()+1) + " de " + months[currentDate.getMonth()] + " de " + currentDate.getFullYear();
+   let currentDate = new Date(this.creationDate.replace('-','/'));
+   let currentDateFormat = days[currentDate.getDay()] + ", " + (currentDate.getDate()) + " de " + months[currentDate.getMonth()] + " de " + currentDate.getFullYear();
    var body_table = [];
 
 
@@ -1851,8 +1851,8 @@ img.onload = function() {
  
      let months = new Array ("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
      let days = new Array("Domingo","Lunes","Martes","Miércoles","Jueves","Viernes","Sábado");
-     let currentDate = new Date(this.creationDate);
-     let currentDateFormat = days[currentDate.getDay()+1] + ", " + (currentDate.getDate()+1) + " de " + months[currentDate.getMonth()] + " de " + currentDate.getFullYear();
+     let currentDate = new Date(this.creationDate.replace('-','/'));
+     let currentDateFormat = days[currentDate.getDay()] + ", " + (currentDate.getDate()) + " de " + months[currentDate.getMonth()] + " de " + currentDate.getFullYear();
      var body_table = [];
  
  
@@ -2358,8 +2358,8 @@ img.onload = function() {
   
    let months = new Array ("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
    let days = new Array("Domingo","Lunes","Martes","Miércoles","Jueves","Viernes","Sábado");
-   let currentDate = new Date(this.creationDate);
-   let currentDateFormat = days[currentDate.getDay()+1] + ", " + (currentDate.getDate()+1) + " de " + months[currentDate.getMonth()] + " de " + currentDate.getFullYear();
+   let currentDate = new Date(this.creationDate.replace('-','/'));
+   let currentDateFormat = days[currentDate.getDay()] + ", " + (currentDate.getDate()) + " de " + months[currentDate.getMonth()] + " de " + currentDate.getFullYear();
    var body_table = [];
 
 
@@ -2840,8 +2840,8 @@ let value=  Number(this.rowsItemsWorkforce[i].total);
 
    let months = new Array ("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
    let days = new Array("Domingo","Lunes","Martes","Miércoles","Jueves","Viernes","Sábado");
-   let currentDate = new Date(this.creationDate);
-   let currentDateFormat = days[currentDate.getDay()+1] + ", " + (currentDate.getDate()+1) + " de " + months[currentDate.getMonth()] + " de " + currentDate.getFullYear();
+   let currentDate = new Date(this.creationDate.replace('-','/'));
+   let currentDateFormat = days[currentDate.getDay()] + ", " + (currentDate.getDate()) + " de " + months[currentDate.getMonth()] + " de " + currentDate.getFullYear();
    var body_table = [];
 
 
@@ -3414,8 +3414,8 @@ downloadSend2(ind: number){
  
  let months = new Array ("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
  let days = new Array("Domingo","Lunes","Martes","Miércoles","Jueves","Viernes","Sábado");
- let currentDate = new Date(this.creationDate);
- let currentDateFormat = days[currentDate.getDay()+1] + ", " + (currentDate.getDate()+1) + " de " + months[currentDate.getMonth()] + " de " + currentDate.getFullYear();
+ let currentDate = new Date(this.creationDate.replace('-','/'));
+ let currentDateFormat = days[currentDate.getDay()] + ", " + (currentDate.getDate()) + " de " + months[currentDate.getMonth()] + " de " + currentDate.getFullYear();
  var body_table = [];
 
 
