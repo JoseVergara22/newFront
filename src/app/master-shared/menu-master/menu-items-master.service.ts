@@ -62,11 +62,11 @@ const MENUITEMS = [
         name: 'ERP',
         type: 'sub',
         icon: 'ti-direction',
-        children: [     
+        children: [
           {
             state: 'customers',
             name: 'Administrar Clientes'
-          },     
+          },
           {
             state: 'regionalsAll',
             name: 'Administrar Sucursales'
@@ -168,11 +168,11 @@ const MENUITEMS = [
           {
             state: 'prevetiveMaintenance',
             name:  'Asignar Mantenimiento Preventivo'
-          },  
+          },
           {
             state: 'correctiveMaintenance',
             name:  'Asignar Mantenimiento Correctivo'
-          },  
+          },
           {
             state: 'checklistMaintenance',
             name:  ' Asignar Checklist'
@@ -188,11 +188,11 @@ const MENUITEMS = [
           {
           state:'platformTechinician',
           name:'Asignar Mantenimieto Plataforma'
-          },  
+          },
           {
           state:'stevedoreTechinician',
           name:'Asignar Mantenimieto Estibadores'
-          },  
+          },
           {
             state: 'personalMonitoring',
             name: 'Seguimiento Personal'
@@ -200,15 +200,15 @@ const MENUITEMS = [
           {
             state:'work_dashboard',
             name:'Administrar Rutinas Preventivas'
-          }, 
+          },
           {
             state:'checklists',
             name: 'Administrar Mantenimiento Checklist'
-          }, 
+          },
           {
             state: 'technicianReport',
             name: 'Administrar Reporte Técnico'
-          }, 
+          },
           {
             state:'platforms',
             name: 'Administrar Mantenimiento Plataformas'
@@ -217,7 +217,7 @@ const MENUITEMS = [
             state:'stevedores',
             name: 'Administrar Mantenimiento Estibadores'
           },
-       
+
           {
             state:'question',
             name: 'Administrar Encuesta de Mantenimiento'
@@ -235,19 +235,19 @@ const MENUITEMS = [
             state: 'modules',
             name:  'Administrar Modulos'
           },*/
-         
-        
-         
-        
+
+
+
+
           /*
          {
             state: 'task',
             name: 'Administrar tareas'
           },*/
-        
-        
-         
-         
+
+
+
+
          /*
          {
             state: 'techniciansAll',
@@ -272,7 +272,7 @@ const MENUITEMS = [
           {
             state: 'registerMachine',
             name: 'Administrar Maquinas'
-          } , 
+          } ,
           {
             state: 'maintenanceSystem',
             name: 'Administrar Sistemas'
@@ -452,7 +452,7 @@ const MENUCUSTOMER = [
         name: 'ERP',
         type: 'sub',
         icon: 'ti-direction',
-        children: [     
+        children: [
           {
             state: 'estimateAll',
             name:  'Cotizaciones'
@@ -482,12 +482,12 @@ const MENUCUSTOMER = [
           {
             state:'horometro',
             name:'Administrar Horometro'
-          }, 
+          },
           {
             state: 'resumenes',
             name:  'Administrar Hojas de Vida'
           },
-          
+
         ]
       }
     ]
@@ -540,7 +540,7 @@ const MENUASSIGN = [
         name: 'ERP',
         type: 'sub',
         icon: 'ti-direction',
-        children: [     
+        children: [
           {
             state: 'estimateAll',
             name:  'Cotizaciones'
@@ -570,7 +570,7 @@ const MENUASSIGN = [
           {
             state:'horometro',
             name:'Administrar Horometro'
-          }, 
+          },
           {
             state: 'resumenes',
             name:  'Administrar Hojas de Vida'
@@ -579,7 +579,7 @@ const MENUASSIGN = [
             state: 'correctiveMaintenance',
             name:  'Asignar Mantenimiento Correctivo'
           },
-         
+
         ]
       }
     ]
@@ -814,11 +814,11 @@ const MENUCREATOR = [
           {
             state: 'prevetiveMaintenance',
             name:  'Asignar Mantenimiento Preventivo'
-          },  
+          },
           {
             state: 'correctiveMaintenance',
             name:  'Asignar Mantenimiento Correctivo'
-          },          
+          },
           {
             state: 'checklistMaintenance',
             name:  'Asignar Checklist'
@@ -830,11 +830,11 @@ const MENUCREATOR = [
           {
             state:'platformTechinician',
             name:'Asignar Mantenimieto Plataforma'
-          },  
+          },
           {
             state:'stevedoreTechinician',
             name:'Asignar Mantenimieto Estibadores'
-          },  
+          },
           {
               state: 'personalMonitoring',
               name: 'Seguimiento Personal'
@@ -842,7 +842,7 @@ const MENUCREATOR = [
           {
             state:'work_dashboard',
             name:'Administrar Rutinas Preventivas'
-          },  
+          },
           {
             state:'checklists',
             name: 'Administrar Mantenimientos Checklist'
@@ -850,7 +850,7 @@ const MENUCREATOR = [
           {
             state: 'technicianReport',
             name: 'Administrar Reporte Técnico'
-          }, 
+          },
           {
             state:'platforms',
             name: 'Administrar Mantenimientos Plataformas'
@@ -871,12 +871,12 @@ const MENUCREATOR = [
             state: 'personalActivities',
             name: 'Administrar Actividades del Personal'
           },
-         
+
          /* {
             state:'work_dashboard',
             name:'Administrar rutinas'
           },*/
-           
+
           {
             state: 'registerBrand',
             name: 'Administrar Marcas'
@@ -915,6 +915,64 @@ const MENUCREATOR = [
             state: 'register',
             name: 'Administrar Usuarios'
           }
+        ]
+      }
+    ]
+  },
+  {
+    label: 'UI Element',
+    main: [
+      {
+        state: 'reports',
+        short_label: 'R',
+        name: 'Informes',
+        type: 'sub',
+        icon: 'ti-stats-up',
+        children: [
+          {
+            state: 'reportsDuration',
+            name: 'Duración de Mantenimientos'
+          },
+          {
+            state: 'reportsForkliftMaintenance',
+            name: 'Mantenimientos por Equipos'
+          },
+          {
+            state: 'reportAsingFinish',
+            name: 'Rutinas Asignadas Vs Realizadas'
+          },
+          {
+            state: 'reportSystemMaintenance',
+            name: 'Reporte De Sistemas Mas Usados'
+          },
+          {
+            state: 'pendingReport',
+            name: 'Pendientes de los Equipos'
+          },
+          {
+            state: 'reportEstimateSettlement',
+            name: 'Reporte De Costos Por Cotizaciones'
+          },
+          {
+            state: 'reportIndicatorMaintenance',
+            name: 'Reporte De Cumplimiento de Mantenimiento'
+          },
+          {
+            state: 'reportsDurationTimesMaintenance',
+            name: 'Reporte De Diferencia de Tiempo en el Mantenimiento Correctivo'
+          },
+          {
+            state: 'horometerForklift',
+            name: 'Reporte Horometro De Equipos'
+          },
+          {
+            state: 'timeOutForklift',
+            name: 'Reporte Tiempo Muerto De Equipos'
+          },
+          {
+            state: 'maintenanceSettlement',
+            name: 'Reporte Mantenimientos Liquidados'
+          },
         ]
       }
     ]
