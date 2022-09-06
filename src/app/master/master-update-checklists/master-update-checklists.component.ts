@@ -59,7 +59,7 @@ export class MasterUpdateChecklistsComponent implements OnInit {
   componentChecklist: any;
   componentSystem: any;
   partSystem: any;
-  
+
   currentSystem: any;
   currentComponent: any;
   currentPart: any;
@@ -87,7 +87,7 @@ export class MasterUpdateChecklistsComponent implements OnInit {
   currentType: any;
   updateCustomer: any;
   updateRegional: any;
-  
+
 
   customerList = '';
   regionalList = '';
@@ -100,13 +100,13 @@ export class MasterUpdateChecklistsComponent implements OnInit {
 
     this.getCustomer();
     this.getRegionals();
-    
+
     //this.getChecklistDetails();
    // this.getSecurity(this.checklistId);
 
     //system
     const security = new FormControl('',Validators.required);
-   
+
     this.securityForm= new FormGroup({
       security:security
     });
@@ -118,7 +118,7 @@ export class MasterUpdateChecklistsComponent implements OnInit {
     });
 
     const system = new FormControl('',Validators.required);
-   
+
     this.detailForm= new FormGroup({
       system:system
     });
@@ -131,7 +131,7 @@ export class MasterUpdateChecklistsComponent implements OnInit {
 
     //component
     const component = new FormControl('',Validators.required);
-   
+
     this.componentForm= new FormGroup({
       component:component
     });
@@ -141,7 +141,7 @@ export class MasterUpdateChecklistsComponent implements OnInit {
     this.updateComponentForm= new FormGroup({
       updateComponent: updateComponent
     });
- 
+
     //part
     const partDescription = new FormControl('',Validators.required);
 
@@ -156,7 +156,7 @@ export class MasterUpdateChecklistsComponent implements OnInit {
       partDescriptionUpdate:partDescriptionUpdate,
 
     });
- 
+
 
   }
 
@@ -169,7 +169,7 @@ export class MasterUpdateChecklistsComponent implements OnInit {
           this.routineHourUpdate=Number(data.get('hours'));
           this.routineDescriptionUpdate=data.get('description');
           this.routineObservationUpdate=data.get('observation');
-         
+
           this.getChecklistDetails();
        }
 
@@ -213,7 +213,7 @@ export class MasterUpdateChecklistsComponent implements OnInit {
         if(this.currentCheck.checklists.type ==2){
           value = 2;
           console.log('entro regionales');
-          this.updateRegional = this.currentCheck.type; 
+          this.updateRegional = this.currentCheck.type;
           this.getRegionalUpdate(this.updateRegional);
           document.getElementById( 'regional').click();
         }
@@ -250,13 +250,13 @@ export class MasterUpdateChecklistsComponent implements OnInit {
       console.log(1+','+this.routineDescription+','+this.routineHour+','+this.routineObservation);
       this.workService.storeWorkHeader(1,this.routineDescription,this.routineHour,this.routineObservation,'o','0',3).then(data=>{
         const resp:any=data;
-       
+
         if(resp.success){
           this.headerInfo=resp.data;
           console.log("header information");
           console.log(this.headerInfo)
           swal.close();
-  
+
           this.headerId=this.headerInfo.id;
           this.showButtonUpdated=true;
           this.routineHourUpdate=this.headerInfo.hours;
@@ -284,13 +284,13 @@ export class MasterUpdateChecklistsComponent implements OnInit {
       allowOutsideClick: false
     });
     swal.showLoading();
-    
+
     console.log(formValue);
     console.log(formValue.value.security);
 
     const description=formValue.value.security;
-  
-  
+
+
     if((description!=null)&&(description!="")){
     this.checkServices.createSecutity(this.checklistId,description).then(data=>{
       const resp:any=data;
@@ -340,8 +340,8 @@ export class MasterUpdateChecklistsComponent implements OnInit {
   }
 
 
- 
- 
+
+
   deleteComponent(item: any) {
     swal({
       title: 'Estás seguro de eliminar este elemento?',
@@ -385,7 +385,7 @@ export class MasterUpdateChecklistsComponent implements OnInit {
                });
             }
            // this.router.navigateByUrl('master/registerBrand');
-          
+
           }
           }).catch(error => {
             console.log(error);
@@ -397,8 +397,8 @@ export class MasterUpdateChecklistsComponent implements OnInit {
       console.log(willDelete);
     });
   }
- 
- 
+
+
   deletePart(item: any) {
     swal({
       title: 'Estás seguro de eliminar este elemento?',
@@ -445,7 +445,7 @@ export class MasterUpdateChecklistsComponent implements OnInit {
       console.log(willDelete);
     });
   }
- 
+
   deleteSecurity(item: any) {
     swal({
       title: 'Estás seguro de eliminar este elemento?',
@@ -492,7 +492,7 @@ export class MasterUpdateChecklistsComponent implements OnInit {
       console.log(willDelete);
     });
   }
- 
+
 
   updateComponent(components: any){
     this.currentComponent = components;
@@ -529,7 +529,7 @@ export class MasterUpdateChecklistsComponent implements OnInit {
 
 
   updateParts(row: any){
-    
+
     this.currentPart = row;
     console.log( this.currentPart );
     this.updatePartForm.get('partDescriptionUpdate').setValue(this.currentPart.description);
@@ -546,7 +546,7 @@ export class MasterUpdateChecklistsComponent implements OnInit {
     console.log(this.currentPart);
     console.log(updatePartForm);
     console.log(updatePartForm.partDescriptionUpdate);
-   
+
     const description=updatePartForm.partDescriptionUpdate;
     if((description!=null)&&(description!="")){
       swal({
@@ -568,7 +568,7 @@ export class MasterUpdateChecklistsComponent implements OnInit {
   }
 
   updateSecuritys(row: any){
-    
+
     this.componentChecklist = row;
     console.log( this.componentChecklist );
     this.updateSecurityForm.get('updateSecurity').setValue(this.componentChecklist.description);
@@ -584,7 +584,7 @@ export class MasterUpdateChecklistsComponent implements OnInit {
     });
     console.log(updatePartForm);
     console.log(updatePartForm.updateSecurity);
-   
+
     const description=updatePartForm.updateSecurity;
     if((description!=null)&&(description!="")){
       swal({
@@ -604,7 +604,7 @@ export class MasterUpdateChecklistsComponent implements OnInit {
       this.generalAlert("ha ocurrido un herror","complete todos los campos obligatorios","error");
     }
   }
-  
+
   updateheader(){
     console.log(this.routineDescriptionUpdate);
     if ((this.routineDescriptionUpdate!=null) || (this.routineDescriptionUpdate!="") || (this.routineHourUpdate==null)) {
@@ -708,7 +708,7 @@ export class MasterUpdateChecklistsComponent implements OnInit {
     console.log(formValue);
     console.log(formValue.system);
     const system=formValue.system;
-  
+
     if((system!=null)&&(system!="")){
     this.workService.storeSystem( this.headerInfo,this.detailForm.get('system').value).then(data=>{
       const resp:any=data;
@@ -746,8 +746,8 @@ export class MasterUpdateChecklistsComponent implements OnInit {
     this.componentForPart = idComponent.id
     // document.getElementById('storageDetailHide').click();
   }
-  
- 
+
+
   storageComponent(formValue:any){
     swal({
       title: 'Obteniendo información ...',
@@ -757,7 +757,7 @@ export class MasterUpdateChecklistsComponent implements OnInit {
     console.log(formValue);
     console.log(formValue.component);
     const system=formValue.component;
-  
+
     if((system!=null)&&(system!="")){
     this.checkServices.createComponent(this.checklistId,this.componentForm.get('component').value).then(data=>{
       const resp:any=data;
@@ -788,13 +788,13 @@ export class MasterUpdateChecklistsComponent implements OnInit {
       allowOutsideClick: false
     });
     swal.showLoading();
-    
+
     console.log(formValue.value);
     console.log(formValue.value.partDescription);
 
     const description=formValue.value.partDescription;
-  
-  
+
+
     if((description!=null)&&(description!="")){
     this.checkServices.createPart(this.componentForPart,description).then(data=>{
       const resp:any=data;
@@ -925,7 +925,7 @@ export class MasterUpdateChecklistsComponent implements OnInit {
       this.generalAlert('No se puede guardar','Debe Completar todos los campos obligatorios','error')
     }
   }
-  
+
   valueSelectType(value:number){
     if(value != 0){
       this.regionalList ='';
@@ -968,12 +968,12 @@ getWorkDetailsType(){
         console.log(this.currentType)
         console.log('antes de todo cargar type')
         // this.cusotmerSelecteds.length = 0;
-       
+
         let value;
         if(this.currentType.routine.type ==2){
           value = 2;
           console.log('entro regionales');
-          this.updateRegional = this.currentType.type; 
+          this.updateRegional = this.currentType.type;
           this.getRegionalUpdate(this.updateRegional);
           document.getElementById( 'regional').click();
         }
@@ -1045,7 +1045,7 @@ saveCustomer(){
   }else{
     document.getElementById('assignPrevetiveHide').click();
     }
-  
+
 }
 saveRegional(){
   for (let item of this.regionalSelecteds) {
@@ -1067,40 +1067,26 @@ console.log(this.regionalList);
   }else{
     document.getElementById('assignRegionalHide').click();
     }
-  
+
 }
 
-SelectItemCustomer(idItem: any){// Falta organizarlo
+SelectItemCustomer(idItem: any){
   var item = idItem.customer_id;
-  this.cusotmerSelecteds.map(function(dato){
-
-    console.log(idItem);
-    console.log(dato);
+  for (let dato of this.cusotmerSelecteds) {
     if(Number(dato.id) === Number(item)){
       dato.select = true;
-      console.log('hacer cambio');
     }
-    
-    return dato;
-  });
+  }
 }
 
-SelectItemRegional(idItem: any){// Falta organizarlo
+SelectItemRegional(idItem: any){
   var item = idItem.regional_id;
-  this.regionalSelecteds.map(function(dato){
-
-    console.log(idItem);
-    console.log(dato);
+  for (let dato of this.regionalSelecteds) {
     if(Number(dato.id) === Number(item)){
       dato.select = true;
-      console.log(dato);
-      console.log('hacer cambio');
     }
-    console.log(dato);
-    return dato;
-  });
+  }
 }
-
 
 getRegionals() {
   swal({
@@ -1148,7 +1134,7 @@ getRegionals() {
         select: false
       }
       this.cusotmerSelecteds.push(this.cusotmerSelected);
-    
+
 }
     this.rowStatic = this.cusotmerSelecteds;
     this.rowsTemp = this.cusotmerSelecteds;
@@ -1192,8 +1178,8 @@ validateSelecteType(){
 
 addCancelDate(){
   //If exist, remove the date
-  
-  
+
+
   this.cleanSelectRoutines();
             // this.cleanSelectTechnician();
             // this.cusotmerSelecteds.length=0;
@@ -1216,7 +1202,7 @@ cleanSelectRoutines(){
     //if(dato.Modelo == modelo){
       dato.select = false;
     //}
-    
+
     return dato;
   });
 }
@@ -1225,7 +1211,7 @@ cleanSelectRegional(){
     //if(dato.Modelo == modelo){
       dato.select = false;
     //}
-    
+
     return dato;
   });
 }
