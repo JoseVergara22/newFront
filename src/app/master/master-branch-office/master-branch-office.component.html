@@ -17,6 +17,14 @@
             </div>
           </div>
         </div>
+        <div class="col-sm-5">
+
+          <h6>Sucursal<span style="color:red;">*</span></h6>
+          <select class="form-control" (change)="getCustomerRegionals()" [(ngModel)]="selectedRegionalId">
+            <option value="0" selected>Seleccionar sucursal </option>
+            <option *ngFor="let reg of regional" [ngValue]="reg.id"> {{reg.description}} </option>
+          </select>
+        </div>
       </div>
 
       <div class="align-buttons">
@@ -47,6 +55,14 @@
               requerido</div>
           </div>
         </div>
+        <div class="col-sm-5">
+
+          <h6>Sucursal<span style="color:red;">*</span></h6>
+          <select class="form-control" (change)="getCustomerRegionals()" [(ngModel)]="selectedRegionalUpdate">
+            <option value="0" selected>Seleccionar sucursal </option>
+            <option *ngFor="let reg of regional" [ngValue]="reg.id"> {{reg.description}} </option>
+          </select>
+        </div>
       </div>
 
       <div class="align-buttons">
@@ -66,7 +82,7 @@
       <div class="form-group row">
         <div class="col-sm-5">
           <h6 class="regional">Selecciona el cliente<span style="color: red;">*</span></h6>
-          <select class="form-control" name="select" [(ngModel)]="selectedRegional" (change)="getOffices()">
+          <select class="form-control" name="select" [(ngModel)]="selectedCustomer" (change)="getOffices()">
             <option value="0" selected>Seleccionar cliente</option>
             <option *ngFor="let reg of rowsClient" [ngValue]="reg.id"> {{reg.business_name}} </option>
           </select>

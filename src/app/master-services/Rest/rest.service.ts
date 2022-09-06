@@ -2174,6 +2174,29 @@ export class RestService {
     });
   }
 
+  getOfficeWithRegional(idCustomer: number, regional_id:number) {
+    console.log(idCustomer);
+    return new Promise(resolve => {
+      const headers = new HttpHeaders();
+      headers.append('Authorization', 'Bearer ' + (localStorage.getItem('token_user'))); // 'Bearer ' +
+      headers.append('Content-Type', 'application/json');
+      const httpOptions = {
+        headers: new HttpHeaders({
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + localStorage.getItem('token_user'),
+          'Accept': 'application/json'
+        })
+      };
+      this.http.get(this.apiEndPoint + 'api/get_branch_office_regional?cutomer_id=' + idCustomer + '&regional_id=' + regional_id, httpOptions)
+        .map(res => res).subscribe(data => {
+          console.log(data);
+          resolve(data);
+        }, error => {
+          resolve(error);
+        });
+    });
+  }
+
   getForkLift(idOffice: number) {
     console.log(idOffice)
     return new Promise(resolve => {
@@ -2638,7 +2661,7 @@ export class RestService {
     });
   }
 
-  createOffice(customer_id: number, branch_name: string) {
+  createOffice(customer_id: number, branch_name: string, regional_id:number) {
 
     return new Promise(resolve => {
       const headers = new HttpHeaders();
@@ -2653,7 +2676,8 @@ export class RestService {
       };
       const postParams = {
         customer_id: customer_id,
-        branch_name: branch_name
+        branch_name: branch_name,
+        regional_id:regional_id
       };
       this.http.post(this.apiEndPoint + 'api/branch_offices ', postParams, httpOptions)
         .map(res => res).subscribe(data => {
@@ -2667,6 +2691,7 @@ export class RestService {
   updateOffice(id: number,
     customer_id: number,
     branch_name: string,
+    regional_id: number
 
   ) {
     console.log("en servicio");
@@ -2685,7 +2710,8 @@ export class RestService {
       };
       const postParams = {
         customer_id: customer_id,
-        branch_name: branch_name
+        branch_name: branch_name,
+        regional_id:regional_id
       };
       this.http.patch(this.apiEndPoint + 'api/branch_offices/' + id, postParams, httpOptions)
         .map(res => res).subscribe(data => {
