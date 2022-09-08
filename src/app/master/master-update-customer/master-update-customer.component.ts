@@ -97,7 +97,7 @@ rowsRegionals: any;
 rowsRegional: any;
 selectRegional:  Array <regionalSelectInterface> = [];
 valor: any;
-regionalCustomer = []; 
+regionalCustomer = [];
 
   constructor(private restService: RestService, private router: Router, private uploadService: UploadService,
               private rutaActiva: ActivatedRoute) {
@@ -153,7 +153,7 @@ this.myFormCreateOffice = new FormGroup({
   departmentOffice: departmentOffice,
   citytOffice: citytOffice,
   addressOffice: addressOffice
-  
+
 });
 
 this.myFormUpdateOffice = new FormGroup({
@@ -217,7 +217,7 @@ getRegionalId( id: number){
     this.rowsRegionals = resp.data_customerRegionals;
     this.regional=[];
 
-    
+
     console.log(this.rowsRegionals);
     console.log(this.rowsRegional);
     this.rowsRegional.forEach((item)=>{
@@ -232,7 +232,7 @@ getRegionalId( id: number){
     });
 // rowsRegionals  Son las regionales del customer
 // rowsRegional  Son las regionales del creadas
-    
+
     this.rowsRegionals.forEach((value)=>{
       console.log(value.regional_id);
       let index = this.regionals.indexOf(this.regionals.find(x => x.id == value.regional_id));
@@ -257,7 +257,7 @@ getRegionalId( id: number){
 
 checkUncheckAllPart(event:any){
 
-  this.checkAllRegional=event.target.checked;    
+  this.checkAllRegional=event.target.checked;
     for (let i = 0; i < this.regionals.length; i++){
       console.log('lo encontre'+i);
         this.regionals[i].cheked=event.target.checked;
@@ -265,7 +265,7 @@ checkUncheckAllPart(event:any){
   }
 
   partChangeActive(event:any, item:any){
-    
+
     console.log('valor para editar');
     console.log(event);
     console.log(item);
@@ -294,20 +294,20 @@ checkUncheckAllPart(event:any){
      regionalSelec = this.currentCustomerId;
      console.log(regionalSelec);
      console.log(this.currentCustomerId);
-  
+
     for (let i = 0; i < this.selectRegional.length; i++){
-      regionalSelec=regionalSelec + '@' + this.selectRegional[i].id; 
+      regionalSelec=regionalSelec + '@' + this.selectRegional[i].id;
     }
     console.log(this.selectRegional);
     console.log(regionalSelec);
-  
+
     if(regionalSelec != ''){
     swal({
       title: 'Validando información ...',
       allowOutsideClick: false
     });
     swal.showLoading();
-   
+
     this.restService.customerRegionalSelect(regionalSelec
       ).then(data => {
       const resp: any = data;
@@ -329,7 +329,7 @@ checkUncheckAllPart(event:any){
         console.log(error);
         swal.close();
       });
-        
+
   }else{
        swal({
           title: 'Se presentó un problema',
@@ -337,7 +337,7 @@ checkUncheckAllPart(event:any){
           type: 'error',
         });
       }
-  
+
   }
 
   ngOnInit() {
@@ -756,162 +756,118 @@ preview(files) {
 }
 
 
-updatedOffice() {
-  console.log("datos a actualizar");
-  console.log(this.currentOffice.id);
-  console.log(this.currentCustomerId);
-  console.log(this.myFormUpdateOffice.get('nameOfficeUpdate').value);
-  console.log(this.myFormUpdateOffice.get('telephoneOfficeUpdate').value);
-  console.log(this.myFormUpdateOffice.get('addressOfficeUpdate').value);
-  console.log(this.selectedDepartmentOfficeIdUpdate);
-  console.log(this.selectedCityOfficeIdUpdate);
+// updatedOffice() {
+//   console.log("datos a actualizar");
+//   console.log(this.currentOffice);
 
-     try {
-    if ( Number(this.selectedDepartmentOfficeIdUpdate) !== 0 && Number(this.selectedCityOfficeIdUpdate) !== 0) {
-      this.submittedOffice = true;
-      console.log(this.myFormCreateOffice.errors);
-     if ( !this.myFormUpdateOffice.invalid) {
-      swal({
-        title: 'Validando información ...',
-        allowOutsideClick: false
-      });
-      swal.showLoading();
-      let statusTemp = 0;
-      console.log( this.switchUpdate);
-      if ( this.enabledCreatedOfficeUpdate === false) {
-        statusTemp = 1;
-      }
-  console.log('llego');
-      this.restService.updateOffice(this.currentOffice.id,this.currentCustomerId, this.myFormUpdateOffice.get('nameOfficeUpdate').value.toUpperCase())
-      .then(data => {
-        const resp: any = data;
-        console.log(resp);
-        if (resp.success === false) {
-          swal({
-            title: 'Esta sede ya esta registrada',
-            text: 'Esta sede no se puede registrar',
-            type: 'error'
-           });
-        } else {
-     this.myFormCreateOffice.reset();
-     document.getElementById( 'createBrandHide').click();
-     this.getOffices(this.currentCustomerId);
-     document.getElementById('updateBrandHide').click();
-     swal({
-      title: 'Sede Actualizada',
-      type: 'success'
-     });
-      }
-      }).catch(error => {
-        console.log(error);
-      });
-      }
-    } else {
-      console.log('llegod');
-      swal({
-        title: 'Debe seleccionar todos los campos obligatorios',
-        text: 'Debe seleccionar todos los campos obligatorios',
-        type: 'error'
-       });
-    }
-  } catch (error) {
-  console.log(error);
-  }
-}
+//   try {
+//     if ( Number(this.selectedDepartmentOfficeIdUpdate) !== 0 && Number(this.selectedCityOfficeIdUpdate) !== 0) {
+//       this.submittedOffice = true;
+//       console.log(this.myFormCreateOffice.errors);
+//      if ( !this.myFormUpdateOffice.invalid) {
+//       swal({
+//         title: 'Validando información ...',
+//         allowOutsideClick: false
+//       });
+//       swal.showLoading();
+//       let statusTemp = 0;
+//       console.log( this.switchUpdate);
+//       if ( this.enabledCreatedOfficeUpdate === false) {
+//         statusTemp = 1;
+//       }
+//       this.restService.updateOffice(this.currentOffice.id,this.currentCustomerId, this.myFormUpdateOffice.get('nameOfficeUpdate').value.toUpperCase())
+//       .then(data => {
+//         const resp: any = data;
+//         console.log(resp);
+//         if (resp.success === false) {
+//           swal({
+//             title: 'Esta sede ya esta registrada',
+//             text: 'Esta sede no se puede registrar',
+//             type: 'error'
+//            });
+//         } else {
+//      this.myFormCreateOffice.reset();
+//      document.getElementById( 'createBrandHide').click();
+//      this.getOffices(this.currentCustomerId);
+//      document.getElementById('updateBrandHide').click();
+//      swal({
+//       title: 'Sede Actualizada',
+//       type: 'success'
+//      });
+//       }
+//       }).catch(error => {
+//         console.log(error);
+//       });
+//       }
+//     } else {
+//       console.log('llegod');
+//       swal({
+//         title: 'Debe seleccionar todos los campos obligatorios',
+//         text: 'Debe seleccionar todos los campos obligatorios',
+//         type: 'error'
+//        });
+//     }
+//   } catch (error) {
+//   console.log(error);
+//   }
+// }
 
-sendOffice() {
+// sendOffice() {
+//   try {
+//   console.log('Ole ole ole');
+//   console.log(this.selectedDepartmentOfficeId);
+//   console.log(this.selectedCityOfficeId);
+//   if ( Number(this.selectedDepartmentOfficeId) !== 0 && Number(this.selectedCityOfficeId) !== 0) {
+//     this.submittedOffice = true;
+//     console.log('---------------');
 
+//    if ( !this.myFormCreateOffice.invalid) {
+//     swal({
+//       title: 'Validando información ...',
+//       allowOutsideClick: false
+//     });
+//     swal.showLoading();
 
-  try {
-  console.log('Ole ole ole');
-  console.log('Como fue');
-  console.log(this.selectedDepartmentOfficeId.id + ',' + this.selectedCityOfficeId.id);
-  console.log(this.myFormCreateOffice.get('nameOffice').hasError('required'));
-  console.log(this.myFormCreateOffice.get('telephoneOffice').hasError('required'));
-  console.log(this.myFormCreateOffice.get('departmentOffice').hasError('required'));
-  console.log(this.myFormCreateOffice.get('citytOffice').hasError('required'));
-  console.log(this.myFormCreateOffice.get('addressOffice').hasError('required'));
-  console.log(this.myFormCreateOffice.get('addressOffice').errors);
-
-
-  console.log(this.selectedDepartmentOfficeId);
-  console.log(this.selectedCityOfficeId);
-
-  if ( Number(this.selectedDepartmentOfficeId) !== 0 && Number(this.selectedCityOfficeId) !== 0) {
-    console.log('Paso a donde no debia');
-    console.log('Paso a donde no debia');
-    console.log('Paso a donde no debia');
-    console.log('Paso a donde no debia');
-    console.log('Paso a donde no debia');
-    this.submittedOffice = true;
-    console.log(this.myFormCreateOffice.errors);
-    console.log(this.myFormCreateOffice.invalid);
-    console.log('---------------');
-
-   if ( !this.myFormCreateOffice.invalid) {
-    swal({
-      title: 'Validando información ...',
-      allowOutsideClick: false
-    });
-    swal.showLoading();
-
-    let statusTemp = 0;
-    console.log( this.enabledCreatedOffice);
-    if ( this.enabledCreatedOffice === false) {
-      statusTemp = 1;
-    }
-
-console.log('llego');
-
-
-    this.restService.createOffice(this.currentCustomerId, this.myFormCreateOffice.get('nameOffice').value.toUpperCase())
-    .then(data => {
-      const resp: any = data;
-      console.log(resp);
-      if (resp.success === false) {
-        swal({
-          title: 'Esta sede ya esta registrada',
-          text: 'Esta sede no se puede registrar',
-          type: 'error'
-         });
-      } else {
-
-       // this.getMasters(1);
-      //  this.getOffices();
-
-
-     /*swal({
-      title: 'sede agregada',
-      type: 'success'
-     });*/
-   //   this.router.navigateByUrl('master/registerBrand');
-
-   // document.getElementById( 'createBrandHide').click();
-   // this.loadingData();
-   this.myFormCreateOffice.reset();
-   document.getElementById( 'createBrandHide').click();
-   this.getOffices(this.currentCustomerId);
-   swal({
-    title: 'Sede agregada',
-    type: 'success'
-   });
-    }
-    }).catch(error => {
-      console.log(error);
-    });
-    }
-  } else {
-    console.log('llegod');
-    swal({
-      title: 'Debe seleccionar todos los campos obligatorios',
-      text: 'Debe seleccionar todos los campos obligatorios',
-      type: 'error'
-     });
-  }
-} catch (error) {
-console.log(error);
-}
-}
+//     let statusTemp = 0;
+//     console.log( this.enabledCreatedOffice);
+//     if ( this.enabledCreatedOffice === false) {
+//       statusTemp = 1;
+//     }
+//     this.restService.createOffice(this.currentCustomerId, this.myFormCreateOffice.get('nameOffice').value.toUpperCase())
+//     .then(data => {
+//       const resp: any = data;
+//       console.log(resp);
+//       if (resp.success === false) {
+//         swal({
+//           title: 'Esta sede ya esta registrada',
+//           text: 'Esta sede no se puede registrar',
+//           type: 'error'
+//          });
+//       } else {
+//         this.myFormCreateOffice.reset();
+//         document.getElementById( 'createBrandHide').click();
+//         this.getOffices(this.currentCustomerId);
+//         swal({
+//           title: 'Sede agregada',
+//           type: 'success'
+//         });
+//       }
+//     }).catch(error => {
+//       console.log(error);
+//     });
+//     }
+//   } else {
+//     console.log('llegod');
+//     swal({
+//       title: 'Debe seleccionar todos los campos obligatorios',
+//       text: 'Debe seleccionar todos los campos obligatorios',
+//       type: 'error'
+//      });
+//   }
+// } catch (error) {
+// console.log(error);
+// }
+// }
 
 goAdminCustomer(){
   this.router.navigateByUrl('master/customers');

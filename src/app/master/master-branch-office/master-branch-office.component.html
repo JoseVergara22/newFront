@@ -20,7 +20,7 @@
         <div class="col-sm-5">
 
           <h6>Sucursal<span style="color:red;">*</span></h6>
-          <select class="form-control" (change)="getCustomerRegionals()" [(ngModel)]="selectedRegionalId">
+          <select class="form-control" [(ngModel)]="selectedRegionalId">
             <option value="0" selected>Seleccionar sucursal </option>
             <option *ngFor="let reg of regional" [ngValue]="reg.id"> {{reg.description}} </option>
           </select>
