@@ -4,7 +4,8 @@
         <h4 class="modal-title">Registrar sede</h4>
     </div>
     <div class="app-modal-body">
-        <form [formGroup]="myFormCreateOffice" (ngSubmit)="sendOffice()">
+        <!-- <form [formGroup]="myFormCreateOffice" (ngSubmit)="sendOffice()"> -->
+        <form [formGroup]="myFormCreateOffice" >
             <div class="form-group row">
                 <div class="col-sm-4">
                     <h6>Nombre de sede <span style="color:red;">*</span></h6>
@@ -78,7 +79,8 @@
         <h4 class="modal-title">Actualizar sede</h4>
     </div>
     <div class="app-modal-body">
-        <form [formGroup]="myFormUpdateOffice" (ngSubmit)="updatedOffice()">
+        <!-- <form [formGroup]="myFormUpdateOffice" (ngSubmit)="updatedOffice()"> -->
+        <form [formGroup]="myFormUpdateOffice" >
             <div class="form-group row">
                 <div class="col-sm-4">
                     <h6>Nombre de sede <span style="color:red;">*</span></h6>
@@ -391,7 +393,7 @@
             </div>
             <br>
             <input type="checkbox"  value="m1" [checked]="checkAllRegional"  (change)="checkUncheckAllPart($event)"/> <strong>Seleccionar todo</strong>
-            <br>    
+            <br>
             <div class="table-responsive">
                 <div class="table-scroll">
                  <table class="table table-framed">
@@ -416,7 +418,7 @@
                 <button class="btn btn-primary m-b-0 " (click)="goAdminCustomer()">Volver Administración Clientes</button>
             </div>
         </div>
-        
+
     </div>
 </app-card>
 
