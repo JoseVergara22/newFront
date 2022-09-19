@@ -62,15 +62,19 @@ export class MasterBranchOfficeComponent implements OnInit {
     this.getMasters();
 
     const description = new FormControl("", Validators.required);
+    const regionalId = new FormControl("", Validators.required);
 
     const descriptionUpdate = new FormControl("", Validators.required);
+    const regionalIdUpdate = new FormControl("", Validators.required);
 
     this.myForm = new FormGroup({
       description: description,
+      regionalId: regionalId,
     });
 
     this.myFormUpdate = new FormGroup({
       descriptionUpdate: descriptionUpdate,
+      regionalIdUpdate: regionalIdUpdate,
     });
     this.getRegional();
   }
@@ -147,11 +151,11 @@ export class MasterBranchOfficeComponent implements OnInit {
               .createOffice(
                 this.selectedCustomer,
                 this.myForm.get("description").value.toUpperCase(),
-                this.selectedRegionalId
-              )
+                this.myForm.get("regionalId").value,
+                )
               .then((data) => {
                 const resp: any = data;
-                // console.log(resp);
+                console.log(resp);
                 if (resp.success === false) {
                   swal({
                     title: "Esta sede ya esta registrada",
@@ -228,7 +232,6 @@ export class MasterBranchOfficeComponent implements OnInit {
   updatedOffice() {
     console.log("datos a actualizar");
     // console.log(this.currentOffice.id);
-
     try {
       if (Number(this.selectedCustomer) !== 0) {
         this.submittedOffice = true;
@@ -246,7 +249,7 @@ export class MasterBranchOfficeComponent implements OnInit {
               this.currentOffice.id,
               this.selectedCustomer,
               this.myFormUpdate.get("descriptionUpdate").value.toUpperCase(),
-              this.selectedRegionalUpdate
+              this.myFormUpdate.get("regionalIdUpdate").value,
             )
             .then((data) => {
               const resp: any = data;

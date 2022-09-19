@@ -20,10 +20,13 @@
         <div class="col-sm-5">
 
           <h6>Sucursal<span style="color:red;">*</span></h6>
-          <select class="form-control" [(ngModel)]="selectedRegionalId">
+          <select class="form-control" [(ngModel)]="selectedRegionalId" formControlName="regionalId">
             <option value="0" selected>Seleccionar sucursal </option>
             <option *ngFor="let reg of regional" [ngValue]="reg.id"> {{reg.description}} </option>
           </select>
+          <div *ngIf="submittedOffice && checkForm.regionalId.errors" class="invalid-feedback">
+            <div class="messages text-danger" *ngIf="checkForm.regionalId.errors.required">Este campo es requerido</div>
+          </div>
         </div>
       </div>
 
@@ -58,10 +61,13 @@
         <div class="col-sm-5">
 
           <h6>Sucursal<span style="color:red;">*</span></h6>
-          <select class="form-control" (change)="getCustomerRegionals()" [(ngModel)]="selectedRegionalUpdate">
+          <select class="form-control" [(ngModel)]="selectedRegionalUpdate" formControlName="regionalIdUpdate">
             <option value="0" selected>Seleccionar sucursal </option>
             <option *ngFor="let reg of regional" [ngValue]="reg.id"> {{reg.description}} </option>
           </select>
+          <div *ngIf="submittedOffice && checkFormUpdate.regionalIdUpdate.errors" class="invalid-feedback">
+            <div class="messages text-danger" *ngIf="checkFormUpdate.regionalIdUpdate.errors.required">Este campo es requerido</div>
+          </div>
         </div>
       </div>
 
