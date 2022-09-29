@@ -2187,7 +2187,7 @@ export class RestService {
           'Accept': 'application/json'
         })
       };
-      this.http.get(this.apiEndPoint + 'api/get_branch_office_regional?cutomer_id=' + idCustomer + '&regional_id=' + regional_id, httpOptions)
+      this.http.get(this.apiEndPoint + 'api/get_branch_office_regional?customer_id=' + idCustomer + '&regional_id=' + regional_id, httpOptions)
         .map(res => res).subscribe(data => {
           console.log(data);
           resolve(data);
