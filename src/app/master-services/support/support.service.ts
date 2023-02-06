@@ -22,7 +22,7 @@ export class SupportService {
           'Accept': 'application/json'
         })
       };
-      
+
       this.http.get(this.apiEndPoint+'api/show_tickets_user/'+id, httpOptions)
       .map(res => res).subscribe(data => {
         console.log("a mostrar data");
@@ -44,7 +44,7 @@ export class SupportService {
           'Accept': 'application/json'
         })
       };
-      
+
       this.http.get(this.apiEndPoint+'api/show_tickets_all', httpOptions)
       .map(res => res).subscribe(data => {
         console.log("a mostrar data");
@@ -67,7 +67,7 @@ export class SupportService {
           'Accept': 'application/json'
         })
       };
-      
+
       this.http.get(this.apiEndPoint+'api/show_tickets/'+id, httpOptions)
       .map(res => res).subscribe(data => {
         console.log("a mostrar data");
@@ -90,7 +90,7 @@ export class SupportService {
           'Accept': 'application/json'
         })
       };
-      
+
       this.http.get(this.apiEndPoint+'api/count_message_support/'+id, httpOptions)
       .map(res => res).subscribe(data => {
         console.log("a mostrar data");
@@ -122,11 +122,11 @@ export class SupportService {
         username: username,
         user_id: user_id,
         cellphone: cellphone,
-        status: 2, 
+        status: 2,
         code: '493521',
         media_tickets:media_tickets
       }
-      this.http.post('https://maswitback.co/api/1.0/ticket', postParams,httpOptions)
+      this.http.post('https://montacargasmasterbackdev.co/api/1.0/ticket', postParams,httpOptions)
       .map(res => res).subscribe(data => {
         console.log("a mostrar data");
       console.log(data);
@@ -137,7 +137,7 @@ export class SupportService {
         });
     });
   }
-  
+
   storeTicket(description: string, subject: string, name:string, email: string, username:string, user_id:string, cellphone: string){
     return new Promise(resolve => {
       const httpOptions = {
@@ -202,7 +202,7 @@ export class SupportService {
           'Accept': 'application/json'
         })
       };
-      
+
       this.http.delete(this.apiEndPoint+'api/delete_tickets/'+id, httpOptions)
       .map(res => res).subscribe(data => {
         console.log("a mostrar data");
@@ -224,7 +224,7 @@ export class SupportService {
           'Accept': 'application/json'
         })
       };
-      
+
       this.http.patch(this.apiEndPoint+'api/update_status_response_tickets/'+id, httpOptions)
       .map(res => res).subscribe(data => {
         console.log("a mostrar data");
@@ -239,9 +239,9 @@ export class SupportService {
 
   uploadFilesAll(file:any, fileName:string, tickets:string) {
     return new Promise(resolve =>{
-  
+
       const contentType = file.type;
-      
+
       console.log('tipo de archivo '+contentType);
       let ext = fileName.split('.').pop();
       let nameTemp = fileName.split('.');
@@ -253,7 +253,7 @@ export class SupportService {
             }
         );
         const uuid = UUID.UUID();
-      
+
         const extension = ext ;
         console.log(extension);
         let nameFile =nameTemp[0]+'.'+ extension;
@@ -265,13 +265,13 @@ export class SupportService {
             ACL: 'public-read',
             ContentType: contentType
         };
-  
+
         bucket.upload(params).promise().then(resp=>{
             console.log(resp);
           resolve(resp);
           // let nameFileFinal='https://masterforklift.s3.amazonaws.com/'+nameFile;
-        
-          let url='https://masterforklift.s3.amazonaws.com/media-tickets/'+nameFile;          
+
+          let url='https://masterforklift.s3.amazonaws.com/media-tickets/'+nameFile;
           this.storeTicketImage(url,tickets).then(data => {
             const resp: any = data;
             console.log(data);
@@ -281,7 +281,7 @@ export class SupportService {
         }).catch(error => {
           console.log(error);
         });
-  
-    })   
+
+    })
   }
 }
