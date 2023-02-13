@@ -57,6 +57,13 @@
         <h5>CLIENTE</h5>
       </div>
       <br>
+      <div>
+        <div class="checkAllBusiness" style="margin-bottom: 10px;">
+          <input type="checkbox" id="checkAllBusiness" data-md-icheck (change)="checkAllBusiness()">
+          <label style="font-weight: bold;" for="checkAllBusiness">Seleccionar todos los clientes</label>
+        </div>
+      </div>
+      <br>
       <div style="overflow-y: scroll; height: 300px">
         <div *ngFor="let item of selectsBusness">
           <input type="checkbox" [(ngModel)]="item.select" data-md-icheck (change)="getBranchOffices()" />

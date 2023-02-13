@@ -11,6 +11,7 @@ import { RestService } from "../../master-services/Rest/rest.service";
 import * as FileSaver from "file-saver";
 import * as XLSX from "xlsx";
 import { ClassGetter } from "@angular/compiler/src/output/output_ast";
+import { BotList } from "aws-sdk/clients/chime";
 const EXCEL_TYPE =
   "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8";
 const EXCEL_EXTENSION = ".xlsx";
@@ -144,6 +145,7 @@ export class MasterEstimateSettlementReportComponent extends NgbDatepickerI18n {
   status: any;
   checkAllType: boolean;
   checkAllStatus: boolean;
+  checkAllBussines: boolean = false;
 
   fromDate: NgbDateStruct;
   untilDate: NgbDateStruct;
@@ -229,6 +231,14 @@ export class MasterEstimateSettlementReportComponent extends NgbDatepickerI18n {
           });
         });
     }
+  }
+
+  checkAllBusiness(){
+    for (let item of this.selectsBusness) {
+      item.select = !this.checkAllBussines;
+    }
+    this.checkAllBussines = !this.checkAllBussines;
+    this.getBranchOffices();
   }
 
   getBranchOffices() {
