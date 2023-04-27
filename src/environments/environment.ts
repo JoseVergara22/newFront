@@ -8,12 +8,17 @@
 export const environment = {
   production: false,
   name:"(DEV)",
-  apiBaseUrl:"https://montacargasmasterbackdev.co/",
-  // apiBaseUrl:"http://127.0.0.1:8000/",
-  //clientId: '1',
-  //clientSecret: 'TyG8pFzcGI7nTIt31FzFCwnvF0E8t70OSAIyrwWT',
-   clientId: '2',
-   clientSecret: 'VMupmAH7uwqeJs5M69l1QqKCesTZN34VEsAQrnCb',
+  //apiBaseUrl:"https://montacargasmasterbackdev.co/",
+  apiBaseUrl:"http://127.0.0.1:8000/",
+  // clientId: '1',
+  // clientSecret: 'TyG8pFzcGI7nTIt31FzFCwnvF0E8t70OSAIyrwWT',
+  //  clientId: '2',
+  //  clientSecret: 'VMupmAH7uwqeJs5M69l1QqKCesTZN34VEsAQrnCb',
   // clientId: '29',
   // clientSecret: 'jkZgpebbT5CJq8RENS6pk0voSzihTsSQ8CR1wJDg'
+   clientId: '6',
+   clientSecret: 'iozd3QytDCB2hy9MBte1YQIPZ9YEnpEHSoBw0d1N'
+
+
+
 };

@@ -1302,6 +1302,9 @@ export class RestService {
         scope: '*'
       };
       //  alert (postParams.toString());
+
+      
+
       this.http.post(this.apiEndPoint + 'oauth/token', postParams)
         .map(res => res)
         .subscribe(data => {

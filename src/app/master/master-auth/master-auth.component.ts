@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {FormControl, FormGroup, Validators} from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import swal from 'sweetalert2';
 import { Router } from '@angular/router';
 import { UserService } from '../../master-services/User/user.service';
@@ -38,86 +38,99 @@ export class MasterAuthComponent implements OnInit {
   get checkForm() { return this.myForm.controls; }
 
 
-
+  //Inicio de sesión
   doLogin() {
     console.log('ole ole');
     this.submitted = true;
-    if ( !this.myForm.invalid) {
-     swal({
-       title: 'Validando información ...',
-       allowOutsideClick: false
-     });
-     swal.showLoading();
-     this.userService.generateToken(this.myForm.get('email').value,
-      this.myForm.get('password').value).then(data => {
-       const resp: any = data;
+    if (!this.myForm.invalid) {
+      swal({
+        title: 'Validando información ...',
+        allowOutsideClick: false
+      });
+      swal.showLoading();
 
-       console.log(resp);
-       if (resp.error) {
-        let msg  = '';
-      if ( resp.error === 'The user credentials were incorrect.') {
-       msg = 'Usuario/Correo electrónico o Contraseña incorrecta';
-      }
-        swal({
-          title: msg,
-          text: 'Oops problemas para ingresar',
-          type: 'error'
-         });
-      } else {
-     console.log('ole ole ole ');
-     console.log(resp);
-     localStorage.setItem('token_user', resp.access_token);
-    // localStorage.setItem('email', this.myForm.get('email').value);
-     swal.close();
-    // console.log('Miralo ps' + localStorage.getItem('token'));
-     
-    
-    this.userService.getUserInformation(this.myForm.get('email').value)
-    .then(data => {
-      const resp: any = data;
-      //console.log('data user: '+ JSON.stringify(resp.data[0].profile_id));
-      localStorage.setItem('profile', resp.data[0].profile_id);
-      localStorage.setItem('email', resp.data[0].email);
-      localStorage.setItem('username', resp.data[0].username);
-      localStorage.setItem('userid', resp.data[0].id);
-      localStorage.setItem('name', resp.data[0].name);
-      localStorage.setItem('user', resp.data[0]);
-      console.log('------------------');
-      console.log(resp.data[0].status);
-      console.log('------------------');
-      if(Number(resp.data[0].profile_id)===4){
-        swal({
-          title:'Importante',
-          text: 'Usted tiene perfil de técnico, no tiene permiso para entrar a la plataforma web, solo a la aplicación.',
-          type: 'warning'
-        });
-      }else{
-        if(Number(resp.data[0].status)===0){
-          this.router.navigateByUrl('resetPasswordLogin'); // es poner la pagina para cambiar la contraseña
-        
-          }else{
-            this.router.navigateByUrl('master');
+
+
+      // this.userService.login(this.myForm.get('email').value, this.myForm.get('password').value).then()
+
+
+
+
+
+      this.userService.generateToken(this.myForm.get('email').value,
+        this.myForm.get('password').value).then(data => {
+
+
+
+          const resp: any = data;
+
+          console.log(resp);
+          if (resp.error) {
+            let msg = '';
+            if (resp.error === 'The user credentials were incorrect.') {
+              msg = 'Usuario/Correo electrónico o Contraseña incorrecta';
+            }
+            swal({
+              title: msg,
+              text: 'Oops problemas para ingresar',
+              type: 'error'
+            });
+          } else {
+            console.log(' ');
+            console.log(resp);
+            localStorage.setItem('token_user', resp.access_token);
+            // localStorage.setItem('email', this.myForm.get('email').value);
+            swal.close();
+            // console.log('Miralo ps' + localStorage.getItem('token'));
+
+
+            this.userService.getUserInformation(this.myForm.get('email').value)
+              .then(data => {
+                const resp: any = data;
+                //console.log('data user: '+ JSON.stringify(resp.data[0].profile_id));
+                localStorage.setItem('profile', resp.data[0].profile_id);
+                localStorage.setItem('email', resp.data[0].email);
+                localStorage.setItem('username', resp.data[0].username);
+                localStorage.setItem('userid', resp.data[0].id);
+                localStorage.setItem('name', resp.data[0].name);
+                localStorage.setItem('user', resp.data[0]);
+                localStorage.setItem('idel', resp.data[0].idel);
+
+                console.log('------------------');
+                console.log(resp.data[0].idel);
+                console.log('------------------');
+                if (Number(resp.data[0].profile_id) === 4) {
+                  swal({
+                    title: 'Importante',
+                    text: 'Usted tiene perfil de técnico, no tiene permiso para entrar a la plataforma web, solo a la aplicación.',
+                    type: 'warning'
+                  });
+                } else if (Number(resp.data[0].idel) == 1) {
+                  swal({
+                    title: 'Importante',
+                    text: ' no tiene permiso para entrar a la plataforma web, solo a la aplicación.',
+                    type: 'warning'
+                  });
+                } else {
+                  if (Number(resp.data[0].status) === 0) {
+                    this.router.navigateByUrl('resetPasswordLogin'); // es poner la pagina para cambiar la contraseña
+
+                  } else {
+                    this.router.navigateByUrl('master');
+                  }
+                }
+
+              }).catch(error => {
+                console.log(error);
+              });
           }
-      }
-   
-    }).catch(error => {
-      console.log(error);
-    });
-
-    
-   
-
-
-
-
+        }).catch(error => {
+          console.log(error);
+        });
+    } else {
+      console.log('error');
     }
-     }).catch(error => {
-       console.log(error);
-     });
-     } else {
-       console.log('error');
-     }
-   }
+  }
 
   doLogin2() {
     this.router.navigateByUrl('master');
