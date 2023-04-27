@@ -2153,7 +2153,7 @@ export class RestService {
         });
     });
   }
-
+    // Llenar información de cliente  
   getOffice(idCustomer: number) {
     console.log(idCustomer);
     return new Promise(resolve => {

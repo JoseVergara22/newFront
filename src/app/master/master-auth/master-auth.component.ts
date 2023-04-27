@@ -108,7 +108,7 @@ export class MasterAuthComponent implements OnInit {
                 } else if (Number(resp.data[0].idel) == 1) {
                   swal({
                     title: 'Importante',
-                    text: ' no tiene permiso para entrar a la plataforma web, solo a la aplicación.',
+                    text: 'No tiene permiso para entrar a la plataforma web',
                     type: 'warning'
                   });
                 } else {
